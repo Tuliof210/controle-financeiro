@@ -1,0 +1,208 @@
+// ============================================================================
+// Design tokens — the single source of truth for color, type, space, shape,
+// elevation, motion, and z-index. Authored as CSS custom properties (not
+// Sass variables) so theme switching works at runtime: `:root` holds the
+// light (default) values, `[data-theme="dark"]` overrides them explicitly,
+// and the `prefers-color-scheme` block covers the no-explicit-choice case.
+// ============================================================================
+
+// ---- Color primitives (theme-independent) ---------------------------------
+:root {
+  --violet-300: #b5a3ff;
+  --violet-400: #8b6bff;
+  --violet-500: #6c4cf1;
+  --violet-600: #5433d6;
+  --lime-300: #c6ff57;
+  --lime-400: #b4e86d;
+  --lime-500: #a3e635;
+  --green-400: #3be38a;
+  --green-500: #1fb86a;
+  --red-400: #ff5a52;
+  --red-500: #f0453d;
+  --amber-400: #ffb84d;
+  --amber-500: #f5a524;
+  --cyan-400: #4fd0ff;
+  --cyan-500: #2ab6e6;
+  --magenta-400: #ff5cbe;
+  --magenta-500: #f03da6;
+  --ink-900: #0e0f14;
+  --ink-800: #181a22;
+  --ink-700: #242733;
+  --ink-600: #3a3e4d;
+  --ink-500: #6b7180;
+  --ink-400: #9aa0ae;
+  --ink-300: #c7cbd4;
+  --ink-200: #e4e6ec;
+  --ink-100: #f0f1f4;
+  --ink-050: #ededf2;
+  --paper: #f5f3ec;
+  --white: #ffffff;
+}
+
+// ---- Semantic color — light (default) --------------------------------------
+:root {
+  --color-bg: var(--paper);
+  --color-surface: var(--white);
+  --color-surface-raised: var(--white);
+  --color-text: var(--ink-900);
+  --color-text-muted: var(--ink-500);
+  --color-border: var(--ink-900);
+  --color-border-subtle: var(--ink-200);
+  --color-brand: var(--violet-500);
+  --color-accent: var(--lime-400);
+  --color-positive: var(--green-500);
+  --color-negative: var(--red-500);
+  --color-caution: var(--amber-500);
+  --color-info: var(--cyan-500);
+  --color-focus: var(--violet-500);
+
+  // Gradients compose already-themed color tokens, so they never need a
+  // separate dark declaration — they flip automatically with the colors.
+  --gradient-sunset: linear-gradient(
+    100deg,
+    var(--color-brand),
+    var(--magenta-500) 55%,
+    var(--color-caution)
+  );
+  --gradient-toxic: linear-gradient(100deg, var(--color-accent), var(--color-brand));
+}
+
+// ---- Semantic color — dark (explicit opt-in via [data-theme]) -------------
+[data-theme="dark"] {
+  --color-bg: var(--ink-900);
+  --color-surface: var(--ink-800);
+  --color-surface-raised: var(--ink-700);
+  --color-text: var(--ink-050);
+  --color-text-muted: var(--ink-400);
+  --color-border: var(--ink-600);
+  --color-border-subtle: var(--ink-700);
+  --color-brand: var(--violet-400);
+  --color-accent: var(--lime-300);
+  --color-positive: var(--green-400);
+  --color-negative: var(--red-400);
+  --color-caution: var(--amber-400);
+  --color-info: var(--cyan-400);
+  --color-focus: var(--violet-400);
+
+  --elevation-overlay: 0 8px 24px -8px rgba(0, 0, 0, 0.6);
+}
+
+// ---- Semantic color — dark (OS preference, no explicit override) ---------
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --color-bg: var(--ink-900);
+    --color-surface: var(--ink-800);
+    --color-surface-raised: var(--ink-700);
+    --color-text: var(--ink-050);
+    --color-text-muted: var(--ink-400);
+    --color-border: var(--ink-600);
+    --color-border-subtle: var(--ink-700);
+    --color-brand: var(--violet-400);
+    --color-accent: var(--lime-300);
+    --color-positive: var(--green-400);
+    --color-negative: var(--red-400);
+    --color-caution: var(--amber-400);
+    --color-info: var(--cyan-400);
+    --color-focus: var(--violet-400);
+
+    --elevation-overlay: 0 8px 24px -8px rgba(0, 0, 0, 0.6);
+  }
+}
+
+// ---- Typography -------------------------------------------------------------
+:root {
+  // --font-display / --font-mono are supplied by next/font (variable classes
+  // applied to <html> in src/app/layout.tsx) — next/font guarantees a safe
+  // fallback chain on its own, nothing to declare here.
+
+  --text-2xs: 0.625rem;
+  --text-xs: 0.75rem;
+  --text-sm: 0.8125rem;
+  --text-base: 0.875rem;
+  --text-md: 1rem;
+  --text-lg: 1.25rem;
+  --text-xl: 1.5rem;
+  --text-2xl: 2rem;
+  --text-3xl: 2.75rem;
+  --text-display: 4rem;
+
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-bold: 700;
+
+  --leading-tight: 1.1;
+  --leading-snug: 1.3;
+  --leading-normal: 1.5;
+
+  --tracking-display: 0.06em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.08em;
+}
+
+// ---- Spacing — closed 4px grid (no ad-hoc values) --------------------------
+:root {
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
+  --space-24: 96px;
+}
+
+// ---- Radius — capped at 6px -------------------------------------------------
+:root {
+  --radius-0: 0;
+  --radius-sm: 2px;
+  --radius-md: 4px;
+  --radius-lg: 6px;
+  // Documented exception: avatars / status dots ONLY. Never for cards,
+  // buttons, inputs, or any other rectangular surface.
+  --radius-full: 9999px;
+}
+
+// ---- Border widths ----------------------------------------------------------
+:root {
+  --border-1: 1px;
+  --border-2: 2px;
+  --border-3: 3px;
+}
+
+// ---- Elevation — border-first; blur only on floating layers ---------------
+:root {
+  --elevation-flat: none;
+  --elevation-raised: 0 1px 0 var(--color-border-subtle);
+  --elevation-overlay: 0 8px 24px -8px rgba(14, 15, 20, 0.25);
+}
+
+// ---- Motion — collapses under prefers-reduced-motion -----------------------
+:root {
+  --duration-fast: 80ms;
+  --duration-base: 140ms;
+  --duration-slow: 240ms;
+  --ease-snappy: cubic-bezier(0.2, 0, 0, 1);
+  --ease-step: steps(4, end);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --duration-fast: 0ms;
+    --duration-base: 0ms;
+    --duration-slow: 0ms;
+  }
+}
+
+// ---- Z-index scale -----------------------------------------------------------
+:root {
+  --z-base: 0;
+  --z-dropdown: 1000;
+  --z-sticky: 1100;
+  --z-overlay: 1200;
+  --z-modal: 1300;
+  --z-toast: 1400;
+}
