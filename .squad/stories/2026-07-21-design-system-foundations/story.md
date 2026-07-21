@@ -107,6 +107,6 @@ existing pages beyond wiring global styles/fonts. Storybook contains
       token layer + per-theme values + SCSS helper mixins + `next/font`
       wiring + base/reset + the DS constitution doc + a light/dark parity
       test. No Storybook.
-- [ ] tasks/02-storybook-foundations-docs.md — Install & configure Storybook
+- [x] tasks/02-storybook-foundations-docs.md — Install & configure Storybook
       10.5.3 (`@storybook/nextjs-vite`) with the theme toggle and author the
       Foundations MDX docs that render the Task 01 tokens. Depends on Task 01.

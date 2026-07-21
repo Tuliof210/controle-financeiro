@@ -1,0 +1,24 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+<Meta title="Foundations/Elevation" />
+
+# Elevation
+
+Border-first, not shadow-first. A surface tier (`--color-surface`,
+`--color-surface-raised`) plus a border is the default way to lift an
+element. Blur-shadow (`--elevation-overlay`) is reserved for floating layers
+only — menu, popover, modal, toast. **No hard offset shadows anywhere.**
+
+<div style={{ display: "flex", gap: "var(--space-6)", flexWrap: "wrap" }}>
+  <div style={{ width: "160px", height: "100px", background: "var(--color-surface)", border: "var(--border-1) solid var(--color-border)", boxShadow: "var(--elevation-flat)", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--font-mono)", fontSize: "var(--text-xs)" }}>
+    --elevation-flat
+  </div>
+  <div style={{ width: "160px", height: "100px", background: "var(--color-surface-raised)", border: "var(--border-1) solid var(--color-border)", boxShadow: "var(--elevation-raised)", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--font-mono)", fontSize: "var(--text-xs)" }}>
+    --elevation-raised
+  </div>
+  <div style={{ width: "160px", height: "100px", background: "var(--color-surface-raised)", border: "var(--border-1) solid var(--color-border)", boxShadow: "var(--elevation-overlay)", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--font-mono)", fontSize: "var(--text-xs)" }}>
+    --elevation-overlay
+    <br />
+    (floating layers only)
+  </div>
+</div>

@@ -1,0 +1,70 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+<Meta title="Foundations/Colors" />
+
+export const primitives = [
+  "violet-300", "violet-400", "violet-500", "violet-600",
+  "lime-300", "lime-400", "lime-500",
+  "green-400", "green-500",
+  "red-400", "red-500",
+  "amber-400", "amber-500",
+  "cyan-400", "cyan-500",
+  "magenta-400", "magenta-500",
+  "ink-900", "ink-800", "ink-700", "ink-600", "ink-500", "ink-400", "ink-300",
+  "ink-200", "ink-100", "ink-050",
+  "paper", "white",
+];
+
+export const semantics = [
+  "color-bg", "color-surface", "color-surface-raised", "color-text",
+  "color-text-muted", "color-border", "color-border-subtle", "color-brand",
+  "color-accent", "color-positive", "color-negative", "color-caution",
+  "color-info", "color-focus",
+];
+
+export const Swatch = ({ name }) => (
+  <div style={{ border: "var(--border-1) solid var(--color-border-subtle)" }}>
+    <div style={{ height: "56px", background: `var(--${name})` }} />
+    <div style={{ padding: "var(--space-2)", fontSize: "var(--text-xs)" }}>
+      --{name}
+    </div>
+  </div>
+);
+
+# Colors
+
+A few very saturated hues over an extreme-neutral ramp. Semantic tokens are
+the ones components consume — never reach for a primitive directly.
+
+## Primitives (theme-independent)
+
+<div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(110px, 1fr))", gap: "var(--space-3)" }}>
+  {primitives.map((name) => <Swatch key={name} name={name} />)}
+</div>
+
+## Semantic (theme-aware — toggle light/dark in the toolbar)
+
+<div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(140px, 1fr))", gap: "var(--space-3)", margin: "var(--space-4) 0" }}>
+  {semantics.map((name) => <Swatch key={name} name={name} />)}
+</div>
+
+## Gradients
+
+<div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "var(--space-3)" }}>
+  <div style={{ height: "72px", background: "var(--gradient-sunset)", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--white)", fontFamily: "var(--font-mono)" }}>
+    --gradient-sunset
+  </div>
+  <div style={{ height: "72px", background: "var(--gradient-toxic)", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--ink-900)", fontFamily: "var(--font-mono)" }}>
+    --gradient-toxic
+  </div>
+</div>
+
+## Money example
+
+Meaning is never color-only — a sign and a glyph always pair with the color.
+
+<div style={{ display: "flex", gap: "var(--space-6)", fontFamily: "var(--font-mono)", fontVariantNumeric: "tabular-nums", fontSize: "var(--text-lg)", margin: "var(--space-4) 0" }}>
+  <span style={{ color: "var(--color-positive)" }}>▲ +R$ 1.120,00</span>
+  <span style={{ color: "var(--color-negative)" }}>▼ −R$ 640,00</span>
+  <span style={{ color: "var(--color-caution)" }}>⚠ estouro previsto</span>
+</div>
