@@ -39,7 +39,7 @@ one placeholder page, any Prisma models or migrations.
 - [x] tasks/01-scaffold-nextjs-app.md — Bootstrap Next.js (Biome, no
       Tailwind/ESLint, `@/` alias) + Vitest + the unstyled hello-world home
       page.
-- [ ] tasks/02-health-check-endpoint.md — Add `GET /api/health` (route +
+- [x] tasks/02-health-check-endpoint.md — Add `GET /api/health` (route +
       service + test).
 - [ ] tasks/03-prisma-sqlite-config.md — Wire Prisma to local SQLite,
       datasource only, zero models.
