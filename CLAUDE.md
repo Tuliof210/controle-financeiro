@@ -6,7 +6,8 @@
 - SQLite — local, file-based database (no server process)
 - Sass Modules — component styling (`.module.scss`)
 - Design System foundations — tokens + rules in `src/styles/` (see
-  `src/styles/README.md`); Storybook docs land in a later story
+  `src/styles/README.md`); documented as Storybook Foundations MDX docs
+  (`.storybook/`, `src/styles/docs/`) — no components yet
 - Biome — lint & format (gates review, see .squad/ARCHITECTURE.md)
 - Vitest — testing
 - Zod — request validation
@@ -17,6 +18,8 @@
 - `npm run build` — production build
 - `npm run lint` — Biome check (lint + format, gates review)
 - `npm run test` — Vitest (single run)
+- `npm run storybook` — Storybook dev server (Foundations MDX docs, :6006)
+- `npm run build-storybook` — static Storybook build
 
 ## Do-not-touch
 None yet.

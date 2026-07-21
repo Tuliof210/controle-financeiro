@@ -55,6 +55,11 @@ variables. `.module.scss` files consume them via `@use "theme" as t;`
 `var(--token-name)` — never hardcode a color/space/radius/shadow/duration
 value. The full non-negotiable ruleset lives in `src/styles/README.md`.
 
+The tokens are documented as Storybook **Foundations** MDX docs (`npm run
+storybook`) — `.storybook/` holds the config, `src/styles/docs/*.mdx` the
+pages. Foundations-only for now: the stories glob is `*.mdx`, so no DS
+component or `*.stories.tsx` can land until a later story adds one.
+
 ### Backend — Route Handler structure
 Same split, mirrored:
 - `route.ts` (Next.js-mandated name) — thin controller: parse the request,
