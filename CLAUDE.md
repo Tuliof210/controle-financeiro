@@ -5,6 +5,8 @@
   (Route Handlers), TypeScript
 - SQLite — local, file-based database (no server process)
 - Sass Modules — component styling (`.module.scss`)
+- Design System foundations — tokens + rules in `src/styles/` (see
+  `src/styles/README.md`); Storybook docs land in a later story
 - Biome — lint & format (gates review, see .squad/ARCHITECTURE.md)
 - Vitest — testing
 - Zod — request validation

@@ -44,6 +44,17 @@ become `index.tsx`. Keep them to a couple of lines that just render a real
 component living in a sibling `components/` (or route-local `_components/`)
 folder, which does follow the standard structure.
 
+### Design System — styling tokens
+Tokens live in `src/styles/*.scss` (`_tokens.scss`, `_theme.scss`,
+`_base.scss`, aggregated by `globals.scss`) as CSS custom properties — the
+single source of truth, runtime-themeable via `[data-theme="dark"]` (default
+follows `prefers-color-scheme`). Sass `$variables` are compile-time and can't
+switch themes at runtime, which is why tokens are custom properties, not Sass
+variables. `.module.scss` files consume them via `@use "theme" as t;`
+(resolved through the `src/styles` Sass load path in `next.config.ts`) plus
+`var(--token-name)` — never hardcode a color/space/radius/shadow/duration
+value. The full non-negotiable ruleset lives in `src/styles/README.md`.
+
 ### Backend — Route Handler structure
 Same split, mirrored:
 - `route.ts` (Next.js-mandated name) — thin controller: parse the request,
