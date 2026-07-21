@@ -41,5 +41,5 @@ one placeholder page, any Prisma models or migrations.
       page.
 - [ ] tasks/02-health-check-endpoint.md — Add `GET /api/health` (route +
       service + test).
-- [ ] tasks/03-prisma-sqlite-config.md — Wire Prisma to local SQLite,
+- [x] tasks/03-prisma-sqlite-config.md — Wire Prisma to local SQLite,
       datasource only, zero models.
