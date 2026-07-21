@@ -103,7 +103,7 @@ existing pages beyond wiring global styles/fonts. Storybook contains
 
 ## Tasks
 
-- [ ] tasks/01-design-tokens-theming.md — Author the CSS-custom-property
+- [x] tasks/01-design-tokens-theming.md — Author the CSS-custom-property
       token layer + per-theme values + SCSS helper mixins + `next/font`
       wiring + base/reset + the DS constitution doc + a light/dark parity
       test. No Storybook.
