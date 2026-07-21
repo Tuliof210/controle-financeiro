@@ -10,12 +10,11 @@
 - Zod — request validation
 - Runs entirely on the user's local machine (not deployed)
 
-*Not yet scaffolded — no package.json exists yet. Update this section (and
-Commands below) once the project is initialized.*
-
 ## Commands
-TBD — no code scaffolded yet. Fill in with verbatim scripts once
-package.json exists (expect at least `dev`, `build`, `lint`).
+- `npm run dev` — start the local dev server
+- `npm run build` — production build
+- `npm run lint` — Biome check (lint + format, gates review)
+- `npm run test` — Vitest (single run)
 
 ## Do-not-touch
 None yet.

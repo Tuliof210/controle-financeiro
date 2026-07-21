@@ -36,7 +36,7 @@ one placeholder page, any Prisma models or migrations.
       (no more "TBD — not yet scaffolded").
 
 ## Tasks
-- [ ] tasks/01-scaffold-nextjs-app.md — Bootstrap Next.js (Biome, no
+- [x] tasks/01-scaffold-nextjs-app.md — Bootstrap Next.js (Biome, no
       Tailwind/ESLint, `@/` alias) + Vitest + the unstyled hello-world home
       page.
 - [ ] tasks/02-health-check-endpoint.md — Add `GET /api/health` (route +
