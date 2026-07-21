@@ -1,0 +1,43 @@
+// ============================================================================
+// Thin SCSS helper layer over the token custom properties in `_tokens.scss`.
+// Definitions only — `@use`-ing this file emits no CSS on its own. Components
+// consume it via `@use "theme" as t;` (resolved through the `src/styles`
+// Sass load path configured in next.config.ts).
+// ============================================================================
+
+@use "sass:map";
+
+// Compile-time only (CSS custom properties can't hold media-query lengths).
+$breakpoints: (
+  "sm": 480px,
+  "md": 768px,
+  "lg": 1024px,
+  "xl": 1280px,
+);
+
+@mixin bp($name) {
+  @media (min-width: map.get($breakpoints, $name)) {
+    @content;
+  }
+}
+
+@mixin focus-ring {
+  outline: var(--border-2) solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+@mixin elevation($level) {
+  @if $level == flat {
+    box-shadow: var(--elevation-flat);
+  } @else if $level == raised {
+    box-shadow: var(--elevation-raised);
+  } @else if $level == overlay {
+    box-shadow: var(--elevation-overlay);
+  } @else {
+    @error "Unknown elevation level: #{$level}. Use flat, raised, or overlay.";
+  }
+}
+
+@function token($name) {
+  @return var(--#{$name});
+}

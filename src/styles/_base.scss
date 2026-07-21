@@ -1,0 +1,25 @@
+// Reset + base element styles. Folds in the pre-DS `* { box-sizing:
+// border-box }` that used to live in src/app/globals.css.
+* {
+  box-sizing: border-box;
+}
+
+html {
+  color-scheme: light dark;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-mono, ui-monospace, monospace);
+  transition:
+    background-color var(--duration-base) var(--ease-snappy),
+    color var(--duration-base) var(--ease-snappy);
+}
+
+body {
+  margin: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    transition: none;
+  }
+}

@@ -1,0 +1,5 @@
+// Single global stylesheet entry — imported once from src/app/layout.tsx.
+// The helper layer (_theme.scss) is NOT included here: it only exposes
+// mixins/functions and is @use'd directly by component .module.scss files.
+@use "tokens";
+@use "base";
