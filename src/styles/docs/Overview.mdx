@@ -1,0 +1,62 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+<Meta title="Foundations/Overview" />
+
+# Design System — Foundations
+
+This Storybook documents the DS **constitution only** — the non-negotiable
+tokens and rules every future component must follow. There are no components
+here yet; use the toolbar's theme toggle to flip every page below between
+light and dark.
+
+## The four pillars
+
+<div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "var(--space-4)", margin: "var(--space-6) 0" }}>
+  <div style={{ border: "var(--border-2) solid var(--color-border)", background: "var(--color-surface)", padding: "var(--space-4)" }}>
+    <strong style={{ color: "var(--color-brand)" }}>Angular, contained</strong>
+    <p style={{ margin: "var(--space-2) 0 0", color: "var(--color-text-muted)" }}>
+      Sharp/near-square corners, borders as structure, elevation via surface
+      tiers — not heavy offset shadows.
+    </p>
+  </div>
+  <div style={{ border: "var(--border-2) solid var(--color-border)", background: "var(--color-surface)", padding: "var(--space-4)" }}>
+    <strong style={{ color: "var(--color-brand)" }}>Retro / pixel</strong>
+    <p style={{ margin: "var(--space-2) 0 0", color: "var(--color-text-muted)" }}>
+      A pixel display face for short titles/eyebrows, a mono face for
+      everything else, including every number.
+    </p>
+  </div>
+  <div style={{ border: "var(--border-2) solid var(--color-border)", background: "var(--color-surface)", padding: "var(--space-4)" }}>
+    <strong style={{ color: "var(--color-brand)" }}>Vivid on extreme neutrals</strong>
+    <p style={{ margin: "var(--space-2) 0 0", color: "var(--color-text-muted)" }}>
+      A few very saturated hues (violet, lime, magenta) over a near-black ↔
+      warm off-white ramp.
+    </p>
+  </div>
+  <div style={{ border: "var(--border-2) solid var(--color-border)", background: "var(--color-surface)", padding: "var(--space-4)" }}>
+    <strong style={{ color: "var(--color-brand)" }}>Disciplined, not messy</strong>
+    <p style={{ margin: "var(--space-2) 0 0", color: "var(--color-text-muted)" }}>
+      A closed 4px spacing grid and a fixed breakpoint set keep "vivid" from
+      becoming "cluttered."
+    </p>
+  </div>
+</div>
+
+## Non-negotiable rules
+
+1. **Never hardcode** a color, spacing, radius, shadow, or duration value —
+   always a token.
+2. **Radius never exceeds `--radius-lg` (6px).** `--radius-full` is avatars
+   and status dots only.
+3. **Elevation is border-first.** Blur-shadow (`--elevation-overlay`) is
+   reserved for floating layers only — menu, popover, modal, toast.
+4. **One display face, one workhorse face.** `--font-display` (Press Start
+   2P) is short display/eyebrow text only; everything else, including every
+   number, is `--font-mono` (JetBrains Mono).
+5. **Spacing comes only from the 4px scale.**
+6. **Every semantic token exists in both themes** — enforced by
+   `src/styles/tokens.test.ts`.
+7. **Accessibility is non-negotiable**: visible focus rings, ≥4.5:1 text
+   contrast, meaning never color-only, `prefers-reduced-motion` respected.
+
+See `src/styles/README.md` for the full constitution.

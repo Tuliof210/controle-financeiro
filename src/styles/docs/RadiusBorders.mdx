@@ -1,0 +1,45 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+<Meta title="Foundations/Radius & Borders" />
+
+export const radii = ["radius-0", "radius-sm", "radius-md", "radius-lg"];
+export const borders = ["border-1", "border-2", "border-3"];
+
+# Radius & Borders
+
+Radius is capped at 6px — sharp, near-square corners are the signature.
+`--radius-full` exists only for avatars and status dots, never for cards,
+buttons, inputs, or any other rectangular surface.
+
+## Radius steps (0 → 6px, then stop)
+
+<div style={{ display: "flex", gap: "var(--space-4)", alignItems: "center" }}>
+  {radii.map((name) => (
+    <div key={name} style={{ textAlign: "center", fontFamily: "var(--font-mono)", fontSize: "var(--text-xs)" }}>
+      <div style={{ width: "56px", height: "56px", background: "var(--color-brand)", borderRadius: `var(--${name})`, marginBottom: "var(--space-2)" }} />
+      --{name}
+    </div>
+  ))}
+  <div style={{ textAlign: "center", fontFamily: "var(--font-mono)", fontSize: "var(--text-xs)", color: "var(--color-text-muted)" }}>
+    <div style={{ width: "56px", height: "56px", background: "var(--color-accent)", borderRadius: "var(--radius-full)", marginBottom: "var(--space-2)" }} />
+    --radius-full (avatars/dots only)
+  </div>
+</div>
+
+## Border widths
+
+<div style={{ display: "flex", gap: "var(--space-6)", alignItems: "flex-end", margin: "var(--space-6) 0" }}>
+  {borders.map((name) => (
+    <div key={name} style={{ textAlign: "center", fontFamily: "var(--font-mono)", fontSize: "var(--text-xs)" }}>
+      <div style={{ width: "72px", height: "48px", border: `var(--${name}) solid var(--color-border)`, marginBottom: "var(--space-2)" }} />
+      --{name}
+    </div>
+  ))}
+</div>
+
+## Corner-tick accent (optional decorative motif, not a core rule)
+
+<div style={{ position: "relative", width: "160px", height: "90px", border: "var(--border-1) solid var(--color-border-subtle)" }}>
+  <div style={{ position: "absolute", top: -2, left: -2, width: "12px", height: "12px", borderTop: "var(--border-2) solid var(--color-brand)", borderLeft: "var(--border-2) solid var(--color-brand)" }} />
+  <div style={{ position: "absolute", bottom: -2, right: -2, width: "12px", height: "12px", borderBottom: "var(--border-2) solid var(--color-brand)", borderRight: "var(--border-2) solid var(--color-brand)" }} />
+</div>

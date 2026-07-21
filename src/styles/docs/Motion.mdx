@@ -1,0 +1,41 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+<Meta title="Foundations/Motion" />
+
+export const durations = ["duration-fast", "duration-base", "duration-slow"];
+
+# Motion
+
+Short, snappy durations with an optional 8-bit `steps()` easing for specific
+micro-interactions. Every duration token collapses to `0ms` under
+`prefers-reduced-motion: reduce` — motion is opt-out by the OS, not by each
+component.
+
+<style>{`
+  .motion-demo {
+    transition-property: background-color;
+    transition-duration: var(--duration-base);
+    transition-timing-function: var(--ease-snappy);
+  }
+  .motion-demo:hover {
+    background-color: var(--color-accent);
+  }
+`}</style>
+
+## Hover to see `--duration-base` + `--ease-snappy`
+
+<div className="motion-demo" style={{ width: "160px", height: "80px", background: "var(--color-brand)", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--white)", fontFamily: "var(--font-mono)", fontSize: "var(--text-xs)" }}>
+  hover me
+</div>
+
+## Duration scale
+
+<div style={{ display: "flex", gap: "var(--space-6)", fontFamily: "var(--font-mono)", fontSize: "var(--text-xs)", margin: "var(--space-4) 0" }}>
+  {durations.map((name) => <span key={name}>--{name}</span>)}
+</div>
+
+## Easings
+
+`--ease-snappy: cubic-bezier(0.2, 0, 0, 1)` — the default for UI transitions.
+`--ease-step: steps(4, end)` — optional 8-bit flavor for specific
+micro-interactions only, not the default.
