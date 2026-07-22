@@ -4,6 +4,9 @@ import { apiGet, apiPut } from "@/lib/api";
 
 export function useMonthlyGoalSection() {
   const [monthlyGoalCents, setMonthlyGoalCentsValue] = useState(0);
+  // Blocks Salvar until the initial GET resolves -- otherwise a click
+  // before it lands PUTs the still-0 default over whatever was saved.
+  const [loaded, setLoaded] = useState(false);
   const [saved, setSaved] = useState(false);
   const [error, setError] = useState<string>();
 
@@ -12,6 +15,7 @@ export function useMonthlyGoalSection() {
       if (data?.monthlyGoalCents != null) {
         setMonthlyGoalCentsValue(data.monthlyGoalCents);
       }
+      setLoaded(true);
     });
   }, []);
 
@@ -26,5 +30,12 @@ export function useMonthlyGoalSection() {
     setSaved(!result.error);
   };
 
-  return { monthlyGoalCents, setMonthlyGoalCents, saved, error, onSave };
+  return {
+    monthlyGoalCents,
+    setMonthlyGoalCents,
+    loaded,
+    saved,
+    error,
+    onSave,
+  };
 }
