@@ -9,7 +9,7 @@ Border-first, not shadow-first. A surface tier (`--color-surface`,
 element. Blur-shadow (`--elevation-overlay`) is reserved for floating layers
 only — menu, popover, modal, toast. **No hard offset shadows anywhere.**
 
-<div style={{ display: "flex", gap: "var(--space-6)", flexWrap: "wrap" }}>
+<div style={{ display: "flex", gap: "var(--space-6)", flexWrap: "wrap", background: "var(--color-bg)", padding: "var(--space-6)" }}>
   <div style={{ width: "160px", height: "100px", background: "var(--color-surface)", border: "var(--border-1) solid var(--color-border)", boxShadow: "var(--elevation-flat)", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--font-mono)", fontSize: "var(--text-xs)" }}>
     {"--elevation-flat"}
   </div>
