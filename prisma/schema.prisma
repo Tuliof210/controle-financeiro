@@ -11,3 +11,24 @@ generator client {
 datasource db {
   provider = "sqlite"
 }
+
+model Person {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  color     String
+  createdAt DateTime @default(now())
+}
+
+model Goal {
+  id          String   @id @default(cuid())
+  name        String
+  targetCents Int
+  createdAt   DateTime @default(now())
+}
+
+model Settings {
+  id               Int  @id @default(1)
+  rangeStart       Int?
+  rangeEnd         Int?
+  monthlyGoalCents Int?
+}
