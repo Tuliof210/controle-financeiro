@@ -53,7 +53,11 @@ export function GoalsSection() {
           onChange={setTargetCents}
           ariaLabel="Valor alvo"
         />
-        {error ? <p className={styles.error}>▲ {error}</p> : null}
+        {error ? (
+          <p className={styles.error}>
+            <span aria-hidden>▲</span> {error}
+          </p>
+        ) : null}
         <Button onClick={onAdd}>Adicionar</Button>
       </div>
     </SectionCard>

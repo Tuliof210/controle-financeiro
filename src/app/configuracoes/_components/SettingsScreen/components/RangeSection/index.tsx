@@ -41,7 +41,11 @@ export function RangeSection() {
           onChange={setRangeEnd}
         />
       </div>
-      {error ? <p className={styles.error}>▲ {error}</p> : null}
+      {error ? (
+        <p className={styles.error}>
+          <span aria-hidden>▲</span> {error}
+        </p>
+      ) : null}
       {saved ? <p className={styles.saved}>Salvo</p> : null}
       <Button onClick={onSave} disabled={!touched}>
         Salvar

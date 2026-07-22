@@ -18,7 +18,11 @@ export function MonthlyGoalSection() {
         onChange={setMonthlyGoalCents}
         ariaLabel="Meta mensal"
       />
-      {error ? <p className={styles.error}>▲ {error}</p> : null}
+      {error ? (
+        <p className={styles.error}>
+          <span aria-hidden>▲</span> {error}
+        </p>
+      ) : null}
       {saved ? <p className={styles.saved}>Salvo</p> : null}
       <Button onClick={onSave}>Salvar</Button>
     </SectionCard>
