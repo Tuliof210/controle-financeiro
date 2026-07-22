@@ -16,6 +16,7 @@ export function Aside({ open }: AsideProps) {
       aria-label="Navegação principal"
       hidden={!open}
     >
+      <div className={styles.brand}>CF</div>
       <nav className={styles.nav}>
         <ul className={styles.top}>
           {topItems.map((item) => (
