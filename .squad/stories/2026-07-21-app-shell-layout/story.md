@@ -49,7 +49,7 @@ Decisions taken during refinement (owner-confirmed):
 - [ ] The unused `src/components/HomePage/` folder is deleted.
 
 ## Tasks
-- [ ] tasks/01-route-stubs.md — Create the four route pages (Dashboard at `/`,
+- [x] tasks/01-route-stubs.md — Create the four route pages (Dashboard at `/`,
       plus `/movimentacoes`, `/recorrencias`, `/configuracoes`), each rendering
       only its `<h1>`; remove the obsolete HomePage.
 - [ ] tasks/02-app-shell.md — Build `AppShell` (header + collapsible aside +
