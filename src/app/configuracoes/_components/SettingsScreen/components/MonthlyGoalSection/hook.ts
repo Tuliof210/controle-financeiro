@@ -5,6 +5,7 @@ import { apiGet, apiPut } from "@/lib/api";
 export function useMonthlyGoalSection() {
   const [monthlyGoalCents, setMonthlyGoalCentsValue] = useState(0);
   const [saved, setSaved] = useState(false);
+  const [error, setError] = useState<string>();
 
   useEffect(() => {
     apiGet<Settings>("/api/settings").then(({ data }) => {
@@ -20,9 +21,10 @@ export function useMonthlyGoalSection() {
   };
 
   const onSave = async () => {
-    await apiPut("/api/settings", { monthlyGoalCents });
-    setSaved(true);
+    const result = await apiPut("/api/settings", { monthlyGoalCents });
+    setError(result.error);
+    setSaved(!result.error);
   };
 
-  return { monthlyGoalCents, setMonthlyGoalCents, saved, onSave };
+  return { monthlyGoalCents, setMonthlyGoalCents, saved, error, onSave };
 }
