@@ -1,0 +1,51 @@
+@use "theme" as t;
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: var(--space-2) var(--space-4);
+  border: var(--border-2) solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-family: var(--font-mono);
+  font-size: var(--text-base);
+  cursor: pointer;
+  transition: background var(--duration-fast) var(--ease-snappy);
+
+  &:focus-visible {
+    @include t.focus-ring;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+}
+
+.primary {
+  background: var(--color-brand);
+  color: var(--white);
+
+  &:hover:not(:disabled) {
+    opacity: 0.85;
+  }
+}
+
+.danger {
+  background: var(--color-negative);
+  color: var(--white);
+
+  &:hover:not(:disabled) {
+    opacity: 0.85;
+  }
+}
+
+.ghost {
+  background: transparent;
+  color: var(--color-text);
+
+  &:hover:not(:disabled) {
+    background: var(--color-surface-raised);
+  }
+}

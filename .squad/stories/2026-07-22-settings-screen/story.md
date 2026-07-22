@@ -65,5 +65,5 @@ money field).
 - [x] tasks/01-persistence-spine.md — Prisma models + migration + client singleton + core entities/repositories + infra Prisma impls + Zod dep
 - [ ] tasks/02-settings-api.md — Route Handlers + services + Zod + tests for people, goals, settings (shared HTTP envelope helper)
 - [x] tasks/03-money-input.md — shared `MoneyInput` cents-masked component (digits-only, `,` mask, zero-pad) + helper test
-- [ ] tasks/04-form-primitives.md — shared DS primitives: `Button`, `TextField`, `MonthPicker` (mês+ano), `ColorPicker`
+- [x] tasks/04-form-primitives.md — shared DS primitives: `Button`, `TextField`, `MonthPicker` (mês+ano), `ColorPicker`
 - [ ] tasks/05-settings-screen.md — the `/configuracoes` page + four sections wired to the APIs, composing the primitives
