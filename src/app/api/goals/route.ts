@@ -1,6 +1,7 @@
 import type { NextRequest } from "next/server";
 import { z } from "zod";
-import { fail, ok } from "@/lib/http";
+import { Prisma } from "@/generated/prisma/client";
+import { fail, ok, safeJson } from "@/lib/http";
 import { createGoal, deleteGoal, listGoals } from "./service";
 
 const createSchema = z.object({
@@ -13,7 +14,7 @@ export async function GET() {
 }
 
 export async function POST(request: NextRequest) {
-  const parsed = createSchema.safeParse(await request.json());
+  const parsed = createSchema.safeParse(await safeJson(request));
   if (!parsed.success) {
     return fail("Dados inválidos", "validation", 422);
   }
@@ -27,6 +28,16 @@ export async function DELETE(request: NextRequest) {
     return fail("Parâmetro id é obrigatório", "validation", 422);
   }
 
-  await deleteGoal(id);
-  return ok({ id });
+  try {
+    await deleteGoal(id);
+    return ok({ id });
+  } catch (error) {
+    if (
+      error instanceof Prisma.PrismaClientKnownRequestError &&
+      error.code === "P2025"
+    ) {
+      return fail("Objetivo não encontrado", "not_found", 404);
+    }
+    throw error;
+  }
 }

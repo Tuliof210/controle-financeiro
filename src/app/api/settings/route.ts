@@ -1,6 +1,6 @@
 import type { NextRequest } from "next/server";
 import { z } from "zod";
-import { fail, ok } from "@/lib/http";
+import { fail, ok, safeJson } from "@/lib/http";
 import { getSettings, saveSettings } from "./service";
 
 const yyyymm = z.number().int().min(190001).max(999912);
@@ -25,7 +25,7 @@ export async function GET() {
 }
 
 export async function PUT(request: NextRequest) {
-  const parsed = putSchema.safeParse(await request.json());
+  const parsed = putSchema.safeParse(await safeJson(request));
   if (!parsed.success) {
     const message = parsed.error.issues[0]?.message ?? "Dados inválidos";
     return fail(message, "validation", 422);

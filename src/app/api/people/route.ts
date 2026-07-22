@@ -1,7 +1,7 @@
 import type { NextRequest } from "next/server";
 import { z } from "zod";
 import { Prisma } from "@/generated/prisma/client";
-import { fail, ok } from "@/lib/http";
+import { fail, ok, safeJson } from "@/lib/http";
 import { PALETTE } from "@/lib/palette";
 import { createPerson, deletePerson, listPeople } from "./service";
 
@@ -15,7 +15,7 @@ export async function GET() {
 }
 
 export async function POST(request: NextRequest) {
-  const parsed = createSchema.safeParse(await request.json());
+  const parsed = createSchema.safeParse(await safeJson(request));
   if (!parsed.success) {
     return fail("Dados inválidos", "validation", 422);
   }
@@ -39,6 +39,16 @@ export async function DELETE(request: NextRequest) {
     return fail("Parâmetro id é obrigatório", "validation", 422);
   }
 
-  await deletePerson(id);
-  return ok({ id });
+  try {
+    await deletePerson(id);
+    return ok({ id });
+  } catch (error) {
+    if (
+      error instanceof Prisma.PrismaClientKnownRequestError &&
+      error.code === "P2025"
+    ) {
+      return fail("Pessoa não encontrada", "not_found", 404);
+    }
+    throw error;
+  }
 }
