@@ -1,7 +1,9 @@
 @use "theme" as t;
 
 .link {
-  display: block;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3); // internal icon↔label gap (not a between-links margin)
   padding: var(--space-3) var(--space-4);
   color: var(--color-text);
   font-family: var(--font-mono);
@@ -20,4 +22,8 @@
     background: var(--color-brand);
     color: var(--white);
   }
+}
+
+.icon {
+  flex-shrink: 0;
 }

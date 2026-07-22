@@ -67,5 +67,5 @@ Decisions taken during refinement (owner-confirmed):
 - [x] tasks/02-dark-mode-toggle.md — Install `lucide-react`; add a persistent,
       no-flash dark-mode toggle to the header (sun/moon), and swap the hamburger
       glyph for a lucide `Menu` icon.
-- [ ] tasks/03-nav-icons.md — Give each nav item a lucide icon left of its label,
+- [x] tasks/03-nav-icons.md — Give each nav item a lucide icon left of its label,
       colored via `currentColor`.
