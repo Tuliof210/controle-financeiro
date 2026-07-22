@@ -13,9 +13,9 @@ buttons, inputs, or any other rectangular surface.
 
 ## Radius steps (0 → 6px, then stop)
 
-<div style={{ display: "flex", gap: "var(--space-4)", alignItems: "center" }}>
+<div style={{ display: "flex", gap: "var(--space-4)", alignItems: "center", background: "var(--color-surface)", padding: "var(--space-4)" }}>
   {radii.map((name) => (
-    <div key={name} style={{ textAlign: "center", fontFamily: "var(--font-mono)", fontSize: "var(--text-xs)" }}>
+    <div key={name} style={{ textAlign: "center", fontFamily: "var(--font-mono)", fontSize: "var(--text-xs)", color: "var(--color-text)" }}>
       <div style={{ width: "56px", height: "56px", background: "var(--color-brand)", borderRadius: `var(--${name})`, marginBottom: "var(--space-2)" }} />
       --{name}
     </div>
@@ -28,9 +28,9 @@ buttons, inputs, or any other rectangular surface.
 
 ## Border widths
 
-<div style={{ display: "flex", gap: "var(--space-6)", alignItems: "flex-end", margin: "var(--space-6) 0" }}>
+<div style={{ display: "flex", gap: "var(--space-6)", alignItems: "flex-end", margin: "var(--space-6) 0", background: "var(--color-surface)", padding: "var(--space-4)" }}>
   {borders.map((name) => (
-    <div key={name} style={{ textAlign: "center", fontFamily: "var(--font-mono)", fontSize: "var(--text-xs)" }}>
+    <div key={name} style={{ textAlign: "center", fontFamily: "var(--font-mono)", fontSize: "var(--text-xs)", color: "var(--color-text)" }}>
       <div style={{ width: "72px", height: "48px", border: `var(--${name}) solid var(--color-border)`, marginBottom: "var(--space-2)" }} />
       --{name}
     </div>

@@ -25,7 +25,7 @@ export const semantics = [
 export const Swatch = ({ name }) => (
   <div style={{ border: "var(--border-1) solid var(--color-border-subtle)" }}>
     <div style={{ height: "56px", background: `var(--${name})` }} />
-    <div style={{ padding: "var(--space-2)", fontSize: "var(--text-xs)" }}>
+    <div style={{ padding: "var(--space-2)", fontSize: "var(--text-xs)", fontFamily: "var(--font-mono)", background: "var(--color-surface)", color: "var(--color-text)" }}>
       --{name}
     </div>
   </div>
@@ -52,10 +52,10 @@ the ones components consume — never reach for a primitive directly.
 
 <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "var(--space-3)" }}>
   <div style={{ height: "72px", background: "var(--gradient-sunset)", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--white)", fontFamily: "var(--font-mono)" }}>
-    --gradient-sunset
+    {"--gradient-sunset"}
   </div>
   <div style={{ height: "72px", background: "var(--gradient-toxic)", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--ink-900)", fontFamily: "var(--font-mono)" }}>
-    --gradient-toxic
+    {"--gradient-toxic"}
   </div>
 </div>
 
@@ -64,7 +64,7 @@ the ones components consume — never reach for a primitive directly.
 Meaning is never color-only — a sign and a glyph always pair with the color.
 
 <div style={{ display: "flex", gap: "var(--space-6)", fontFamily: "var(--font-mono)", fontVariantNumeric: "tabular-nums", fontSize: "var(--text-lg)", margin: "var(--space-4) 0" }}>
-  <span style={{ color: "var(--color-positive)" }}>▲ +R$ 1.120,00</span>
-  <span style={{ color: "var(--color-negative)" }}>▼ −R$ 640,00</span>
-  <span style={{ color: "var(--color-caution)" }}>⚠ estouro previsto</span>
+  <span style={{ color: "var(--color-positive)", fontFamily: "var(--font-mono)", fontVariantNumeric: "tabular-nums" }}>▲ +R$ 1.120,00</span>
+  <span style={{ color: "var(--color-negative)", fontFamily: "var(--font-mono)", fontVariantNumeric: "tabular-nums" }}>▼ −R$ 640,00</span>
+  <span style={{ color: "var(--color-caution)", fontFamily: "var(--font-mono)", fontVariantNumeric: "tabular-nums" }}>⚠ estouro previsto</span>
 </div>

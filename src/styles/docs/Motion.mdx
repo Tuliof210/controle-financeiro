@@ -25,13 +25,13 @@ component.
 ## Hover to see `--duration-base` + `--ease-snappy`
 
 <div className="motion-demo" style={{ width: "160px", height: "80px", background: "var(--color-brand)", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--white)", fontFamily: "var(--font-mono)", fontSize: "var(--text-xs)" }}>
-  hover me
+  {"hover me"}
 </div>
 
 ## Duration scale
 
-<div style={{ display: "flex", gap: "var(--space-6)", fontFamily: "var(--font-mono)", fontSize: "var(--text-xs)", margin: "var(--space-4) 0" }}>
-  {durations.map((name) => <span key={name}>--{name}</span>)}
+<div style={{ display: "flex", gap: "var(--space-6)", fontFamily: "var(--font-mono)", fontSize: "var(--text-xs)", margin: "var(--space-4) 0", background: "var(--color-surface)", padding: "var(--space-4)" }}>
+  {durations.map((name) => <span key={name} style={{ fontFamily: "var(--font-mono)", color: "var(--color-text)" }}>--{name}</span>)}
 </div>
 
 ## Easings
