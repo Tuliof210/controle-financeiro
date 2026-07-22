@@ -1,0 +1,16 @@
+// Named-area contract shared with Header (grid-area: header) and Aside
+// (grid-area: aside) — each claims its own area from this grid.
+.shell {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: auto 1fr;
+  grid-template-areas: "header header" "aside main";
+  min-height: 100vh;
+}
+
+.main {
+  grid-area: main;
+  min-width: 0;
+  padding: var(--space-6);
+  background: var(--color-bg);
+}

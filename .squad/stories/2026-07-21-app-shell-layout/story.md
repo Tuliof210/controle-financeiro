@@ -52,6 +52,6 @@ Decisions taken during refinement (owner-confirmed):
 - [x] tasks/01-route-stubs.md — Create the four route pages (Dashboard at `/`,
       plus `/movimentacoes`, `/recorrencias`, `/configuracoes`), each rendering
       only its `<h1>`; remove the obsolete HomePage.
-- [ ] tasks/02-app-shell.md — Build `AppShell` (header + collapsible aside +
+- [x] tasks/02-app-shell.md — Build `AppShell` (header + collapsible aside +
       main) with a time-based greeting helper + test, and wire it into the root
       layout.
