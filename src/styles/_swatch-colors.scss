@@ -1,0 +1,32 @@
+// Explicit color-key -> `-400` token map, shared by every component that
+// renders a PALETTE swatch (ColorPicker, PeopleSection's chip). Listed
+// individually rather than interpolated (`var(--#{$key}-400)`) so a
+// typo'd/missing token is caught by the class simply not existing, not
+// silently resolving to nothing.
+.violet {
+  background: var(--violet-400);
+}
+
+.lime {
+  background: var(--lime-400);
+}
+
+.magenta {
+  background: var(--magenta-400);
+}
+
+.green {
+  background: var(--green-400);
+}
+
+.red {
+  background: var(--red-400);
+}
+
+.amber {
+  background: var(--amber-400);
+}
+
+.cyan {
+  background: var(--cyan-400);
+}

@@ -34,7 +34,11 @@ export function useGoalsSection() {
   };
 
   const onDelete = async (id: string) => {
-    await apiDelete(`/api/goals?id=${id}`);
+    const result = await apiDelete(`/api/goals?id=${id}`);
+    if (result.error) {
+      setError(result.error);
+      return;
+    }
     refetch();
   };
 

@@ -32,7 +32,11 @@ export function usePeopleSection() {
   };
 
   const onDelete = async (id: string) => {
-    await apiDelete(`/api/people?id=${id}`);
+    const result = await apiDelete(`/api/people?id=${id}`);
+    if (result.error) {
+      setError(result.error);
+      return;
+    }
     refetch();
   };
 

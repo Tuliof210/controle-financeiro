@@ -1,3 +1,5 @@
+@use "swatch-colors";
+
 .empty {
   margin: 0;
   color: var(--color-text-muted);
@@ -25,34 +27,6 @@
   height: var(--space-4);
   flex-shrink: 0;
   border-radius: var(--radius-sm);
-}
-
-.violet {
-  background: var(--violet-400);
-}
-
-.lime {
-  background: var(--lime-400);
-}
-
-.magenta {
-  background: var(--magenta-400);
-}
-
-.green {
-  background: var(--green-400);
-}
-
-.red {
-  background: var(--red-400);
-}
-
-.amber {
-  background: var(--amber-400);
-}
-
-.cyan {
-  background: var(--cyan-400);
 }
 
 .name {
