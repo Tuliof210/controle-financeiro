@@ -11,7 +11,13 @@ export function usePeopleSection() {
 
   const refetch = useCallback(
     () =>
-      apiGet<Person[]>("/api/people").then(({ data }) => setPeople(data ?? [])),
+      apiGet<Person[]>("/api/people").then((result) => {
+        if (result.error) {
+          setError(result.error);
+          return;
+        }
+        setPeople(result.data ?? []);
+      }),
     [],
   );
 
@@ -37,6 +43,7 @@ export function usePeopleSection() {
       setError(result.error);
       return;
     }
+    setError(undefined);
     refetch();
   };
 

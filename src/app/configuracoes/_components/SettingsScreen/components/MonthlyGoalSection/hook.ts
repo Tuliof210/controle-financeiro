@@ -11,9 +11,13 @@ export function useMonthlyGoalSection() {
   const [error, setError] = useState<string>();
 
   useEffect(() => {
-    apiGet<Settings>("/api/settings").then(({ data }) => {
-      if (data?.monthlyGoalCents != null) {
-        setMonthlyGoalCentsValue(data.monthlyGoalCents);
+    apiGet<Settings>("/api/settings").then((result) => {
+      if (result.data?.monthlyGoalCents != null) {
+        setMonthlyGoalCentsValue(result.data.monthlyGoalCents);
+      }
+      if (result.error) {
+        setError(result.error);
+        return;
       }
       setLoaded(true);
     });

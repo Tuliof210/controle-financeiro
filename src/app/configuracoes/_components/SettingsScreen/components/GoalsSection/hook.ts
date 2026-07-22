@@ -9,7 +9,14 @@ export function useGoalsSection() {
   const [error, setError] = useState<string>();
 
   const refetch = useCallback(
-    () => apiGet<Goal[]>("/api/goals").then(({ data }) => setGoals(data ?? [])),
+    () =>
+      apiGet<Goal[]>("/api/goals").then((result) => {
+        if (result.error) {
+          setError(result.error);
+          return;
+        }
+        setGoals(result.data ?? []);
+      }),
     [],
   );
 
@@ -39,6 +46,7 @@ export function useGoalsSection() {
       setError(result.error);
       return;
     }
+    setError(undefined);
     refetch();
   };
 
