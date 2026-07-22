@@ -1,0 +1,7 @@
+import type { Person } from "@/core/entities/person.entity";
+
+export type PersonRepository = {
+  list(): Promise<Person[]>;
+  create(input: { name: string; color: string }): Promise<Person>;
+  delete(id: string): Promise<void>;
+};
