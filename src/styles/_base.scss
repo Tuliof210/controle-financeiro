@@ -18,6 +18,16 @@ body {
   margin: 0;
 }
 
+h1 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-regular);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-display);
+  color: var(--color-text);
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     transition: none;

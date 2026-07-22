@@ -60,7 +60,7 @@ Decisions taken during refinement (owner-confirmed):
       surfaces; display font in the wordmark and the page `<h1>`.
 
 ## Tasks
-- [ ] tasks/01-restructure-and-typography.md — Flip the grid (full-height aside;
+- [x] tasks/01-restructure-and-typography.md — Flip the grid (full-height aside;
       header+main in the right column), remove hover/active radius, make nav links
       padding-only/flush, and wire the display font into the aside wordmark and
       the page `<h1>`s.
