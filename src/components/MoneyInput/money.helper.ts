@@ -6,7 +6,7 @@ export const formatCents = (cents: number): string => {
 };
 
 // any string -> cents, keeping ONLY 0-9 (mask/comma/paste-junk stripped).
-const MAX_CENTS = 1_000_000_000_00; // R$ 1 trillion guard against overflow
+const MAX_CENTS = 1_000_000_000_00; // R$ 1 billion guard against overflow
 export const digitsToCents = (raw: string): number => {
   const digits = raw.replace(/\D/g, "").slice(0, 15);
   return Math.min(parseInt(digits || "0", 10), MAX_CENTS);
