@@ -26,4 +26,6 @@
 
 .icon {
   flex-shrink: 0;
+  // ponytail: icon pixel size has no token yet; promote to a --size-* token
+  // if a size scale appears
 }
