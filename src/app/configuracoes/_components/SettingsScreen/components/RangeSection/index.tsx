@@ -14,6 +14,8 @@ export function RangeSection() {
     setRangeStart,
     rangeEnd,
     setRangeEnd,
+    savedRangeStart,
+    savedRangeEnd,
     error,
     saved,
     onSave,
@@ -22,7 +24,7 @@ export function RangeSection() {
   return (
     <SectionCard title="Range" icon={CalendarRange}>
       <p className={styles.summary}>
-        {formatYyyymm(rangeStart)} → {formatYyyymm(rangeEnd)}
+        {formatYyyymm(savedRangeStart)} → {formatYyyymm(savedRangeEnd)}
       </p>
       <div className={styles.pickers}>
         <MonthPicker

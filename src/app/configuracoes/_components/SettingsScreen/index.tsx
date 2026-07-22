@@ -12,7 +12,7 @@ export function SettingsScreen() {
 
   return (
     <div className={styles.screen}>
-      <p className={styles.eyebrow}>{eyebrow}</p>
+      <h1 className={styles.eyebrow}>{eyebrow}</h1>
       <div className={styles.grid}>
         <PeopleSection />
         <RangeSection />

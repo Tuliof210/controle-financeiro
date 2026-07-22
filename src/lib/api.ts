@@ -7,10 +7,10 @@ async function request<T>(
   init?: RequestInit,
 ): Promise<ApiResult<T>> {
   const res = await fetch(input, init);
-  const body = await res.json();
+  const body = await res.json().catch(() => null);
   return res.ok
-    ? { data: body.data as T }
-    : { error: body.error.message as string };
+    ? { data: body?.data as T }
+    : { error: (body?.error?.message as string) ?? "Erro inesperado" };
 }
 
 export const apiGet = <T>(url: string) => request<T>(url);
