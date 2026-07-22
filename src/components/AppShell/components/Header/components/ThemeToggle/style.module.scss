@@ -1,0 +1,28 @@
+@use "theme" as t;
+
+.toggle {
+  margin-left: auto; // header-level positioning; the "no margin" rule is nav-link-scoped
+  display: flex;
+  align-items: center;
+  border: none;
+  background: transparent;
+  color: var(--color-text);
+  line-height: 1;
+  padding: var(--space-2);
+  cursor: pointer;
+
+  &:hover {
+    background: var(--color-surface-raised);
+  }
+
+  &:focus-visible {
+    @include t.focus-ring;
+  }
+}
+
+.slot {
+  display: block;
+  // ponytail: matches lucide size={20}; no size-scale token yet
+  width: 20px;
+  height: 20px;
+}

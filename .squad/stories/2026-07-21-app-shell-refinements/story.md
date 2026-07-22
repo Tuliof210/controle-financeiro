@@ -64,7 +64,7 @@ Decisions taken during refinement (owner-confirmed):
       header+main in the right column), remove hover/active radius, make nav links
       padding-only/flush, and wire the display font into the aside wordmark and
       the page `<h1>`s.
-- [ ] tasks/02-dark-mode-toggle.md — Install `lucide-react`; add a persistent,
+- [x] tasks/02-dark-mode-toggle.md — Install `lucide-react`; add a persistent,
       no-flash dark-mode toggle to the header (sun/moon), and swap the hamburger
       glyph for a lucide `Menu` icon.
 - [ ] tasks/03-nav-icons.md — Give each nav item a lucide icon left of its label,

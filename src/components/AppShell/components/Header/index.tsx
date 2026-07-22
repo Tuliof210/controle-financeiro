@@ -1,5 +1,7 @@
 "use client";
 
+import { Menu } from "lucide-react";
+import { ThemeToggle } from "./components/ThemeToggle";
 import { useHeader } from "./hook";
 import styles from "./style.module.scss";
 
@@ -21,9 +23,10 @@ export function Header(props: HeaderProps) {
         aria-controls="app-sidebar"
         onClick={onToggleSidebar}
       >
-        ☰
+        <Menu size={20} aria-hidden />
       </button>
       <p className={styles.greeting}>{greeting}</p>
+      <ThemeToggle />
     </header>
   );
 }
