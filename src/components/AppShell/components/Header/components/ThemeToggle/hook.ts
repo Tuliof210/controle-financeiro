@@ -1,22 +1,25 @@
 import { useEffect, useState } from "react";
+import { flipTheme, normalizeTheme, type Theme } from "./theme.helper";
 
 export function useThemeToggle() {
-  const [theme, setTheme] = useState<"light" | "dark" | null>(null);
+  const [theme, setTheme] = useState<Theme | null>(null);
 
   useEffect(() => {
-    const current = document.documentElement.getAttribute("data-theme");
-    setTheme(current === "dark" ? "dark" : "light");
+    setTheme(
+      normalizeTheme(document.documentElement.getAttribute("data-theme")),
+    );
   }, []);
 
   const toggle = () => {
-    setTheme((prev) => {
-      const next = prev === "dark" ? "light" : "dark";
-      document.documentElement.setAttribute("data-theme", next);
-      try {
-        localStorage.setItem("theme", next);
-      } catch {}
-      return next;
-    });
+    const current = normalizeTheme(
+      document.documentElement.getAttribute("data-theme"),
+    );
+    const next = flipTheme(current);
+    document.documentElement.setAttribute("data-theme", next);
+    try {
+      localStorage.setItem("theme", next);
+    } catch {}
+    setTheme(next);
   };
 
   return { theme, toggle };
