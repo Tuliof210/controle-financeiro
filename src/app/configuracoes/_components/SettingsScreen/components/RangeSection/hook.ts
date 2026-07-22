@@ -10,6 +10,11 @@ export function useRangeSection() {
   // summary must reflect "unset" until a real save, never that auto-seed.
   const [savedRangeStart, setSavedRangeStart] = useState<number | null>(null);
   const [savedRangeEnd, setSavedRangeEnd] = useState<number | null>(null);
+  // MonthPicker self-seeds to the current month the instant it sees a null
+  // value, indistinguishable from a real pick at the call-site — so Salvar
+  // must stay disabled until a pick happens while a value already exists
+  // (a self-seed only ever fires while the tracked value is still null).
+  const [touched, setTouched] = useState(false);
   const [error, setError] = useState<string>();
   const [saved, setSaved] = useState(false);
 
@@ -20,16 +25,19 @@ export function useRangeSection() {
         setRangeEndValue(data.rangeEnd);
         setSavedRangeStart(data.rangeStart);
         setSavedRangeEnd(data.rangeEnd);
+        setTouched(data.rangeStart !== null || data.rangeEnd !== null);
       }
     });
   }, []);
 
   const setRangeStart = (value: number) => {
+    if (rangeStart !== null) setTouched(true);
     setRangeStartValue(value);
     setSaved(false);
   };
 
   const setRangeEnd = (value: number) => {
+    if (rangeEnd !== null) setTouched(true);
     setRangeEndValue(value);
     setSaved(false);
   };
@@ -51,6 +59,7 @@ export function useRangeSection() {
     setRangeEnd,
     savedRangeStart,
     savedRangeEnd,
+    touched,
     error,
     saved,
     onSave,

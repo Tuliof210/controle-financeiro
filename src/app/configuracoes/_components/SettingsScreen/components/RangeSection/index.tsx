@@ -16,6 +16,7 @@ export function RangeSection() {
     setRangeEnd,
     savedRangeStart,
     savedRangeEnd,
+    touched,
     error,
     saved,
     onSave,
@@ -42,7 +43,9 @@ export function RangeSection() {
       </div>
       {error ? <p className={styles.error}>▲ {error}</p> : null}
       {saved ? <p className={styles.saved}>Salvo</p> : null}
-      <Button onClick={onSave}>Salvar</Button>
+      <Button onClick={onSave} disabled={!touched}>
+        Salvar
+      </Button>
     </SectionCard>
   );
 }
