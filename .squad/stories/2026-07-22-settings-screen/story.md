@@ -62,7 +62,7 @@ money field).
 - [ ] The screen wired end-to-end against the APIs, all files under the 100-line cap.
 
 ## Tasks
-- [ ] tasks/01-persistence-spine.md — Prisma models + migration + client singleton + core entities/repositories + infra Prisma impls + Zod dep
+- [x] tasks/01-persistence-spine.md — Prisma models + migration + client singleton + core entities/repositories + infra Prisma impls + Zod dep
 - [ ] tasks/02-settings-api.md — Route Handlers + services + Zod + tests for people, goals, settings (shared HTTP envelope helper)
 - [ ] tasks/03-money-input.md — shared `MoneyInput` cents-masked component (digits-only, `,` mask, zero-pad) + helper test
 - [ ] tasks/04-form-primitives.md — shared DS primitives: `Button`, `TextField`, `MonthPicker` (mês+ano), `ColorPicker`
