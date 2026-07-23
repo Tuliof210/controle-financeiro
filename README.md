@@ -2,7 +2,15 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## Getting Started
 
-First, run the development server:
+First install dependencies and set up the local SQLite database (creates the
+tables via the committed migrations — idempotent, safe to re-run):
+
+```bash
+npm install
+npm run db:setup
+```
+
+Then run the development server:
 
 ```bash
 npm run dev
