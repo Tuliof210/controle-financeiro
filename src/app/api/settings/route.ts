@@ -21,7 +21,11 @@ const putSchema = z
   );
 
 export async function GET() {
-  return ok(await getSettings());
+  try {
+    return ok(await getSettings());
+  } catch {
+    return fail("Erro ao carregar configurações", "internal", 500);
+  }
 }
 
 export async function PUT(request: NextRequest) {

@@ -10,7 +10,11 @@ const createSchema = z.object({
 });
 
 export async function GET() {
-  return ok(await listGoals());
+  try {
+    return ok(await listGoals());
+  } catch {
+    return fail("Erro ao carregar objetivos", "internal", 500);
+  }
 }
 
 export async function POST(request: NextRequest) {

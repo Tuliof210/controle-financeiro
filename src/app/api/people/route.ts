@@ -11,7 +11,11 @@ const createSchema = z.object({
 });
 
 export async function GET() {
-  return ok(await listPeople());
+  try {
+    return ok(await listPeople());
+  } catch {
+    return fail("Erro ao carregar pessoas", "internal", 500);
+  }
 }
 
 export async function POST(request: NextRequest) {
