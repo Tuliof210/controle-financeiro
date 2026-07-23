@@ -14,6 +14,8 @@
 - Runs entirely on the user's local machine (not deployed)
 
 ## Commands
+- `npm run db:setup` — apply migrations, creating the local SQLite tables
+  (idempotent; run once after `npm install` on a fresh checkout)
 - `npm run dev` — start the local dev server
 - `npm run build` — production build
 - `npm run lint` — Biome check (lint + format, gates review)
