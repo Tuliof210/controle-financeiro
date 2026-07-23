@@ -16,7 +16,7 @@ export function useRangeSection() {
   // (a self-seed only ever fires while the tracked value is still null).
   const [touched, setTouched] = useState(false);
   const [error, setError] = useState<string>();
-  const [saved, setSaved] = useState(false);
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     apiGet<Settings>("/api/settings").then(({ data }) => {
@@ -33,23 +33,26 @@ export function useRangeSection() {
   const setRangeStart = (value: number) => {
     if (rangeStart !== null) setTouched(true);
     setRangeStartValue(value);
-    setSaved(false);
   };
 
   const setRangeEnd = (value: number) => {
     if (rangeEnd !== null) setTouched(true);
     setRangeEndValue(value);
-    setSaved(false);
   };
 
   const onSave = async () => {
     const result = await apiPut("/api/settings", { rangeStart, rangeEnd });
     setError(result.error);
-    setSaved(!result.error);
     if (!result.error) {
       setSavedRangeStart(rangeStart);
       setSavedRangeEnd(rangeEnd);
+      setOpen(false);
     }
+  };
+
+  const openModal = () => {
+    setError(undefined);
+    setOpen(true);
   };
 
   return {
@@ -61,7 +64,9 @@ export function useRangeSection() {
     savedRangeEnd,
     touched,
     error,
-    saved,
+    open,
+    openModal,
+    closeModal: () => setOpen(false),
     onSave,
   };
 }
