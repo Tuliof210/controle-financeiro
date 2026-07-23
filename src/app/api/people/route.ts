@@ -75,11 +75,13 @@ export async function DELETE(request: NextRequest) {
     await deletePerson(id);
     return ok({ id });
   } catch (error) {
-    if (
-      error instanceof Prisma.PrismaClientKnownRequestError &&
-      error.code === "P2025"
-    ) {
-      return fail("Pessoa não encontrada", "not_found", 404);
+    if (error instanceof Prisma.PrismaClientKnownRequestError) {
+      if (error.code === "P2025") {
+        return fail("Pessoa não encontrada", "not_found", 404);
+      }
+      if (error.code === "P2003") {
+        return fail("Pessoa possui recorrências vinculadas", "conflict", 409);
+      }
     }
     throw error;
   }

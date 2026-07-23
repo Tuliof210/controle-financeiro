@@ -13,10 +13,11 @@ datasource db {
 }
 
 model Person {
-  id        String   @id @default(cuid())
-  name      String   @unique
-  color     String
-  createdAt DateTime @default(now())
+  id          String       @id @default(cuid())
+  name        String       @unique
+  color       String
+  createdAt   DateTime     @default(now())
+  recurrences Recurrence[]
 }
 
 model Goal {
@@ -24,6 +25,18 @@ model Goal {
   name        String
   targetCents Int
   createdAt   DateTime @default(now())
+}
+
+model Recurrence {
+  id         String   @id @default(cuid())
+  name       String
+  valueCents Int
+  type       String
+  owner      Person   @relation(fields: [ownerId], references: [id])
+  ownerId    String
+  rangeStart Int
+  rangeEnd   Int
+  createdAt  DateTime @default(now())
 }
 
 model Settings {
