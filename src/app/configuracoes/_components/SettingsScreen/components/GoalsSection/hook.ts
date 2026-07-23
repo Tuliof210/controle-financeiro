@@ -1,11 +1,17 @@
 import { useCallback, useEffect, useState } from "react";
 import type { Goal } from "@/core/entities/goal.entity";
-import { apiDelete, apiGet, apiPost } from "@/lib/api";
+import { apiDelete, apiGet, apiPost, apiPut } from "@/lib/api";
+import type { GoalFormValues } from "./components/GoalForm/hook";
+
+type ModalState =
+  | { type: "none" }
+  | { type: "add" }
+  | { type: "edit"; goal: Goal }
+  | { type: "delete"; goal: Goal };
 
 export function useGoalsSection() {
   const [goals, setGoals] = useState<Goal[] | null>(null);
-  const [name, setName] = useState("");
-  const [targetCents, setTargetCents] = useState(0);
+  const [modal, setModal] = useState<ModalState>({ type: "none" });
   const [error, setError] = useState<string>();
 
   const refetch = useCallback(
@@ -24,40 +30,52 @@ export function useGoalsSection() {
     refetch();
   }, [refetch]);
 
-  const onAdd = async () => {
-    if (targetCents < 1) {
-      setError("Informe um valor maior que zero");
-      return;
-    }
-    const result = await apiPost("/api/goals", { name, targetCents });
+  const close = () => {
+    setModal({ type: "none" });
+    setError(undefined);
+  };
+  const openAdd = () => {
+    setError(undefined);
+    setModal({ type: "add" });
+  };
+  const openEdit = (goal: Goal) => {
+    setError(undefined);
+    setModal({ type: "edit", goal });
+  };
+  const openDelete = (goal: Goal) => setModal({ type: "delete", goal });
+
+  const persist = async (result: Awaited<ReturnType<typeof apiPost>>) => {
     if (result.error) {
       setError(result.error);
       return;
     }
-    setName("");
-    setTargetCents(0);
-    setError(undefined);
+    close();
     refetch();
   };
 
-  const onDelete = async (id: string) => {
-    const result = await apiDelete(`/api/goals?id=${id}`);
-    if (result.error) {
-      setError(result.error);
-      return;
-    }
-    setError(undefined);
-    refetch();
+  const onAdd = (values: GoalFormValues) =>
+    apiPost("/api/goals", values).then(persist);
+
+  const onUpdate = (values: GoalFormValues) => {
+    if (modal.type !== "edit") return;
+    return apiPut("/api/goals", { id: modal.goal.id, ...values }).then(persist);
+  };
+
+  const onConfirmDelete = () => {
+    if (modal.type !== "delete") return;
+    return apiDelete(`/api/goals?id=${modal.goal.id}`).then(persist);
   };
 
   return {
     goals,
-    name,
-    setName,
-    targetCents,
-    setTargetCents,
+    modal,
     error,
+    openAdd,
+    openEdit,
+    openDelete,
+    close,
     onAdd,
-    onDelete,
+    onUpdate,
+    onConfirmDelete,
   };
 }

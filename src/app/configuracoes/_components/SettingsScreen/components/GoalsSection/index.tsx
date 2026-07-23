@@ -1,24 +1,28 @@
 "use client";
 
-import { Target } from "lucide-react";
+import { Pencil, Target, Trash2 } from "lucide-react";
 import { Button } from "@/components/Button";
-import { MoneyInput } from "@/components/MoneyInput";
+import { ConfirmDialog } from "@/components/ConfirmDialog";
+import { IconButton } from "@/components/IconButton";
+import { Modal } from "@/components/Modal";
 import { formatCents } from "@/components/MoneyInput/money.helper";
-import { TextField } from "@/components/TextField";
 import { SectionCard } from "../SectionCard";
+import { GoalForm } from "./components/GoalForm";
 import { useGoalsSection } from "./hook";
 import styles from "./style.module.scss";
 
 export function GoalsSection() {
   const {
     goals,
-    name,
-    setName,
-    targetCents,
-    setTargetCents,
+    modal,
     error,
+    openAdd,
+    openEdit,
+    openDelete,
+    close,
     onAdd,
-    onDelete,
+    onUpdate,
+    onConfirmDelete,
   } = useGoalsSection();
 
   return (
@@ -34,32 +38,64 @@ export function GoalsSection() {
                 R$ {formatCents(goal.targetCents)}
               </span>
               <span className={styles.placeholder}>— progresso em breve</span>
-              <Button variant="danger" onClick={() => onDelete(goal.id)}>
-                Remover
-              </Button>
+              <IconButton
+                aria-label={`Editar ${goal.name}`}
+                onClick={() => openEdit(goal)}
+              >
+                <Pencil size={16} />
+              </IconButton>
+              <IconButton
+                variant="danger"
+                aria-label={`Excluir ${goal.name}`}
+                onClick={() => openDelete(goal)}
+              >
+                <Trash2 size={16} />
+              </IconButton>
             </li>
           ))}
         </ul>
       )}
-      <div className={styles.form}>
-        <TextField
-          id="goal-name"
-          label="Nome"
-          value={name}
-          onChange={setName}
-        />
-        <MoneyInput
-          valueCents={targetCents}
-          onChange={setTargetCents}
-          ariaLabel="Valor alvo"
-        />
-        {error ? (
-          <p className={styles.error}>
-            <span aria-hidden>▲</span> {error}
-          </p>
-        ) : null}
-        <Button onClick={onAdd}>Adicionar</Button>
-      </div>
+      <Button onClick={openAdd}>Adicionar</Button>
+
+      <Modal
+        open={modal.type === "add"}
+        onClose={close}
+        title="Adicionar objetivo"
+      >
+        {modal.type === "add" && (
+          <GoalForm submitLabel="Adicionar" error={error} onSubmit={onAdd} />
+        )}
+      </Modal>
+
+      <Modal
+        open={modal.type === "edit"}
+        onClose={close}
+        title="Editar objetivo"
+      >
+        {modal.type === "edit" && (
+          <GoalForm
+            submitLabel="Salvar"
+            error={error}
+            initial={{
+              name: modal.goal.name,
+              targetCents: modal.goal.targetCents,
+            }}
+            onSubmit={onUpdate}
+          />
+        )}
+      </Modal>
+
+      <ConfirmDialog
+        open={modal.type === "delete"}
+        onClose={close}
+        onConfirm={onConfirmDelete}
+        title="Excluir objetivo"
+        message={
+          modal.type === "delete"
+            ? `Excluir o objetivo "${modal.goal.name}"?`
+            : ""
+        }
+      />
     </SectionCard>
   );
 }
