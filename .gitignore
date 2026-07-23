@@ -54,3 +54,5 @@ next-env.d.ts
 
 # pocket-squad task worktrees
 /.claude/worktrees/
+ds-bundle/
+.design-sync/.cache/
