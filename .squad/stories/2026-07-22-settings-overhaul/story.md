@@ -104,4 +104,4 @@ pattern.
 - [x] tasks/04-people-goals-update-endpoints.md — add `PUT` update endpoints + repo `update` methods for people and goals, with service tests
 - [ ] tasks/05-people-section-crud-modals.md — rework Pessoas into list + add-modal + per-row edit/delete-confirm modals
 - [x] tasks/06-goals-section-crud-modals.md — rework Objetivos into list + add-modal + per-row edit/delete-confirm modals
-- [ ] tasks/07-range-meta-summary-edit-modal.md — rework Range + Meta mensal into a summary row + Editar modal
+- [x] tasks/07-range-meta-summary-edit-modal.md — rework Range + Meta mensal into a summary row + Editar modal

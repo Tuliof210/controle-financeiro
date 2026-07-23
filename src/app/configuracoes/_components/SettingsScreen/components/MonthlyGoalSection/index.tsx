@@ -2,7 +2,9 @@
 
 import { PiggyBank } from "lucide-react";
 import { Button } from "@/components/Button";
+import { Modal } from "@/components/Modal";
 import { MoneyInput } from "@/components/MoneyInput";
+import { formatCents } from "@/components/MoneyInput/money.helper";
 import { SectionCard } from "../SectionCard";
 import { useMonthlyGoalSection } from "./hook";
 import styles from "./style.module.scss";
@@ -11,28 +13,46 @@ export function MonthlyGoalSection() {
   const {
     monthlyGoalCents,
     setMonthlyGoalCents,
+    savedGoalCents,
     loaded,
-    saved,
     error,
+    open,
+    openModal,
+    closeModal,
     onSave,
   } = useMonthlyGoalSection();
 
   return (
     <SectionCard title="Meta mensal" icon={PiggyBank}>
-      <MoneyInput
-        valueCents={monthlyGoalCents}
-        onChange={setMonthlyGoalCents}
-        ariaLabel="Meta mensal"
-      />
-      {error ? (
-        <p className={styles.error}>
-          <span aria-hidden>▲</span> {error}
+      <div className={styles.row}>
+        <p className={styles.summary}>
+          {savedGoalCents > 0 ? `R$ ${formatCents(savedGoalCents)}` : "—"}
         </p>
-      ) : null}
-      {saved ? <p className={styles.saved}>Salvo</p> : null}
-      <Button onClick={onSave} disabled={!loaded}>
-        Salvar
-      </Button>
+        <Button variant="ghost" onClick={openModal}>
+          Editar
+        </Button>
+      </div>
+      <Modal
+        open={open}
+        onClose={closeModal}
+        title="Editar meta mensal"
+        footer={
+          <Button onClick={onSave} disabled={!loaded}>
+            Salvar
+          </Button>
+        }
+      >
+        <MoneyInput
+          valueCents={monthlyGoalCents}
+          onChange={setMonthlyGoalCents}
+          ariaLabel="Meta mensal"
+        />
+        {error ? (
+          <p className={styles.error}>
+            <span aria-hidden>▲</span> {error}
+          </p>
+        ) : null}
+      </Modal>
     </SectionCard>
   );
 }
