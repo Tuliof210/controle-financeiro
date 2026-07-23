@@ -6,46 +6,71 @@
   justify-content: center;
   min-height: 44px;
   padding: var(--space-2) var(--space-4);
-  border: var(--border-2) solid var(--color-border);
-  border-radius: var(--radius-md);
+  border: var(--border-2) solid transparent;
+  border-radius: var(--radius-0);
   font-family: var(--font-mono);
   font-size: var(--text-base);
   cursor: pointer;
-  transition: background var(--duration-fast) var(--ease-snappy);
+  transition:
+    background var(--duration-fast) var(--ease-snappy),
+    filter var(--duration-fast) var(--ease-snappy);
 
   &:focus-visible {
     @include t.focus-ring;
   }
 
+  // Distinct disabled: muted fill + border, not just opacity.
   &:disabled {
     cursor: not-allowed;
-    opacity: 0.5;
+    background: var(--color-surface-raised);
+    border-color: var(--color-border-subtle);
+    color: var(--color-text-muted);
   }
 }
 
+// Filled variants: the border shares the fill hue so it reads as structure,
+// not a black outline. Hover/active darken the whole control (brightness),
+// preserving saturation instead of washing it out like opacity did.
 .primary {
   background: var(--color-brand);
+  border-color: var(--color-brand);
   color: var(--white);
 
   &:hover:not(:disabled) {
-    opacity: 0.85;
+    filter: brightness(0.92);
+  }
+
+  &:active:not(:disabled) {
+    filter: brightness(0.84);
   }
 }
 
 .danger {
   background: var(--color-negative);
+  border-color: var(--color-negative);
   color: var(--white);
 
   &:hover:not(:disabled) {
-    opacity: 0.85;
+    filter: brightness(0.92);
+  }
+
+  &:active:not(:disabled) {
+    filter: brightness(0.84);
   }
 }
 
+// Ghost: no solid border — a subtle structural edge at most.
 .ghost {
   background: transparent;
+  border-color: var(--color-border-subtle);
   color: var(--color-text);
 
   &:hover:not(:disabled) {
     background: var(--color-surface-raised);
+  }
+
+  &:active:not(:disabled) {
+    background: var(--color-surface-raised);
+    filter: brightness(0.96);
   }
 }
