@@ -2,6 +2,7 @@
 
 import { CalendarRange } from "lucide-react";
 import { Button } from "@/components/Button";
+import { Modal } from "@/components/Modal";
 import { MonthPicker } from "@/components/MonthPicker";
 import { SectionCard } from "../SectionCard";
 import { useRangeSection } from "./hook";
@@ -18,38 +19,56 @@ export function RangeSection() {
     savedRangeEnd,
     touched,
     error,
-    saved,
+    open,
+    openModal,
+    closeModal,
     onSave,
   } = useRangeSection();
 
+  const unset = savedRangeStart === null && savedRangeEnd === null;
+
   return (
     <SectionCard title="Range" icon={CalendarRange}>
-      <p className={styles.summary}>
-        {formatYyyymm(savedRangeStart)} → {formatYyyymm(savedRangeEnd)}
-      </p>
-      <div className={styles.pickers}>
-        <MonthPicker
-          id="range-start"
-          label="Início"
-          value={rangeStart}
-          onChange={setRangeStart}
-        />
-        <MonthPicker
-          id="range-end"
-          label="Fim"
-          value={rangeEnd}
-          onChange={setRangeEnd}
-        />
-      </div>
-      {error ? (
-        <p className={styles.error}>
-          <span aria-hidden>▲</span> {error}
+      <div className={styles.row}>
+        <p className={styles.summary}>
+          {unset
+            ? "Nenhum período definido"
+            : `${formatYyyymm(savedRangeStart)} → ${formatYyyymm(savedRangeEnd)}`}
         </p>
-      ) : null}
-      {saved ? <p className={styles.saved}>Salvo</p> : null}
-      <Button onClick={onSave} disabled={!touched}>
-        Salvar
-      </Button>
+        <Button variant="ghost" onClick={openModal}>
+          Editar
+        </Button>
+      </div>
+      <Modal
+        open={open}
+        onClose={closeModal}
+        title="Editar range"
+        footer={
+          <Button onClick={onSave} disabled={!touched}>
+            Salvar
+          </Button>
+        }
+      >
+        <div className={styles.pickers}>
+          <MonthPicker
+            id="range-start"
+            label="Início"
+            value={rangeStart}
+            onChange={setRangeStart}
+          />
+          <MonthPicker
+            id="range-end"
+            label="Fim"
+            value={rangeEnd}
+            onChange={setRangeEnd}
+          />
+        </div>
+        {error ? (
+          <p className={styles.error}>
+            <span aria-hidden>▲</span> {error}
+          </p>
+        ) : null}
+      </Modal>
     </SectionCard>
   );
 }
