@@ -2,15 +2,26 @@
 
 import { Users } from "lucide-react";
 import { Button } from "@/components/Button";
-import { ColorPicker } from "@/components/ColorPicker";
-import { TextField } from "@/components/TextField";
+import { ConfirmDialog } from "@/components/ConfirmDialog";
+import { Modal } from "@/components/Modal";
 import { SectionCard } from "../SectionCard";
+import { PersonForm } from "./components/PersonForm";
+import { PersonRow } from "./components/PersonRow";
 import { usePeopleSection } from "./hook";
 import styles from "./style.module.scss";
 
 export function PeopleSection() {
-  const { people, name, setName, color, setColor, error, onAdd, onDelete } =
-    usePeopleSection();
+  const {
+    people,
+    error,
+    modal,
+    target,
+    open,
+    close,
+    onAdd,
+    onUpdate,
+    onConfirmDelete,
+  } = usePeopleSection();
 
   return (
     <SectionCard title="Pessoas" icon={Users}>
@@ -19,30 +30,41 @@ export function PeopleSection() {
       ) : (
         <ul className={styles.list}>
           {people?.map((person) => (
-            <li key={person.id} className={styles.row}>
-              <span
-                className={`${styles.swatch} ${styles[person.color]}`}
-                aria-hidden
-              />
-              <span className={styles.name}>{person.name}</span>
-              <Button variant="danger" onClick={() => onDelete(person.id)}>
-                Remover
-              </Button>
-            </li>
+            <PersonRow
+              key={person.id}
+              person={person}
+              onEdit={() => open("edit", person)}
+              onDelete={() => open("delete", person)}
+            />
           ))}
         </ul>
       )}
-      <div className={styles.form}>
-        <TextField
-          id="person-name"
-          label="Nome"
-          value={name}
-          onChange={setName}
-          error={error}
-        />
-        <ColorPicker value={color} onChange={setColor} />
-        <Button onClick={onAdd}>Adicionar</Button>
-      </div>
+      <Button onClick={() => open("add")}>Adicionar</Button>
+
+      <Modal open={modal === "add"} onClose={close} title="Adicionar pessoa">
+        {modal === "add" && (
+          <PersonForm error={error} onSubmit={onAdd} submitLabel="Adicionar" />
+        )}
+      </Modal>
+
+      <Modal open={modal === "edit"} onClose={close} title="Editar pessoa">
+        {modal === "edit" && target && (
+          <PersonForm
+            initial={{ name: target.name, color: target.color }}
+            error={error}
+            onSubmit={onUpdate}
+            submitLabel="Salvar"
+          />
+        )}
+      </Modal>
+
+      <ConfirmDialog
+        open={modal === "delete"}
+        onClose={close}
+        onConfirm={onConfirmDelete}
+        title="Excluir pessoa"
+        message={`Excluir ${target?.name}? Esta ação não pode ser desfeita.`}
+      />
     </SectionCard>
   );
 }

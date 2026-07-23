@@ -1,13 +1,15 @@
 import { useCallback, useEffect, useState } from "react";
 import type { Person } from "@/core/entities/person.entity";
-import { apiDelete, apiGet, apiPost } from "@/lib/api";
-import { PALETTE } from "@/lib/palette";
+import { apiDelete, apiGet, apiPost, apiPut } from "@/lib/api";
+import type { PersonDraft } from "./components/PersonForm/hook";
+
+type ModalKind = "none" | "add" | "edit" | "delete";
 
 export function usePeopleSection() {
   const [people, setPeople] = useState<Person[] | null>(null);
-  const [name, setName] = useState("");
-  const [color, setColor] = useState<string>(PALETTE[0]);
   const [error, setError] = useState<string>();
+  const [modal, setModal] = useState<ModalKind>("none");
+  const [target, setTarget] = useState<Person>();
 
   const refetch = useCallback(
     () =>
@@ -25,27 +27,48 @@ export function usePeopleSection() {
     refetch();
   }, [refetch]);
 
-  const onAdd = async () => {
-    const result = await apiPost("/api/people", { name, color });
-    if (result.error) {
-      setError(result.error);
-      return;
-    }
-    setName("");
-    setColor(PALETTE[0]);
+  const open = (kind: ModalKind, person?: Person) => {
     setError(undefined);
+    setTarget(person);
+    setModal(kind);
+  };
+  const close = () => {
+    setModal("none");
+    setError(undefined);
+  };
+
+  const onAdd = async (draft: PersonDraft) => {
+    const result = await apiPost("/api/people", draft);
+    if (result.error) return setError(result.error);
+    close();
     refetch();
   };
 
-  const onDelete = async (id: string) => {
-    const result = await apiDelete(`/api/people?id=${id}`);
-    if (result.error) {
-      setError(result.error);
-      return;
-    }
-    setError(undefined);
+  const onUpdate = async (draft: PersonDraft) => {
+    if (!target) return;
+    const result = await apiPut("/api/people", { id: target.id, ...draft });
+    if (result.error) return setError(result.error);
+    close();
     refetch();
   };
 
-  return { people, name, setName, color, setColor, error, onAdd, onDelete };
+  const onConfirmDelete = async () => {
+    if (!target) return;
+    const result = await apiDelete(`/api/people?id=${target.id}`);
+    if (result.error) return setError(result.error);
+    close();
+    refetch();
+  };
+
+  return {
+    people,
+    error,
+    modal,
+    target,
+    open,
+    close,
+    onAdd,
+    onUpdate,
+    onConfirmDelete,
+  };
 }
