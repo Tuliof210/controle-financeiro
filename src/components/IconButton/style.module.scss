@@ -1,0 +1,58 @@
+@use "theme" as t;
+
+// Compact square button for a single lucide icon (row Editar/Excluir).
+// 44px square honors the minimum hit-target rule; border matches the reworked
+// Button (angular, subtle structural edge).
+.iconButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: var(--border-2) solid var(--color-border-subtle);
+  border-radius: var(--radius-0);
+  background: transparent;
+  cursor: pointer;
+  transition:
+    background var(--duration-fast) var(--ease-snappy),
+    filter var(--duration-fast) var(--ease-snappy);
+
+  &:focus-visible {
+    @include t.focus-ring;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    border-color: var(--color-border-subtle);
+    color: var(--color-text-muted);
+  }
+}
+
+.ghost {
+  color: var(--color-text);
+
+  &:hover:not(:disabled) {
+    background: var(--color-surface-raised);
+  }
+
+  &:active:not(:disabled) {
+    background: var(--color-surface-raised);
+    filter: brightness(0.96);
+  }
+}
+
+// Trash action: the icon carries the negative hue; the surface stays quiet so
+// a row full of controls doesn't scream red.
+.danger {
+  color: var(--color-negative);
+
+  &:hover:not(:disabled) {
+    background: var(--color-surface-raised);
+  }
+
+  &:active:not(:disabled) {
+    background: var(--color-surface-raised);
+    filter: brightness(0.96);
+  }
+}
