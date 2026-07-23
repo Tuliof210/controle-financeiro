@@ -1,6 +1,7 @@
 "use client";
 
 import { Menu } from "lucide-react";
+import { ProfileSelect } from "./components/ProfileSelect";
 import { ThemeToggle } from "./components/ThemeToggle";
 import { useHeader } from "./hook";
 import styles from "./style.module.scss";
@@ -26,6 +27,7 @@ export function Header(props: HeaderProps) {
         <Menu size={20} aria-hidden />
       </button>
       <p className={styles.greeting}>{greeting}</p>
+      <ProfileSelect />
       <ThemeToggle />
     </header>
   );

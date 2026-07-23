@@ -1,7 +1,8 @@
 @use "theme" as t;
 
 .toggle {
-  margin-left: auto; // header-level positioning; the "no margin" rule is nav-link-scoped
+  // header-level positioning: ProfileSelect (immediately before this button)
+  // carries margin-left: auto now, so the pair sits grouped at the right edge.
   display: flex;
   align-items: center;
   border: none;
