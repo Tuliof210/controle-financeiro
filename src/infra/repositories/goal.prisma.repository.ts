@@ -8,6 +8,9 @@ export const goalRepository: GoalRepository = {
   create(input) {
     return prisma.goal.create({ data: input });
   },
+  update(id, patch) {
+    return prisma.goal.update({ where: { id }, data: patch });
+  },
   async delete(id) {
     await prisma.goal.delete({ where: { id } });
   },

@@ -8,6 +8,9 @@ export const personRepository: PersonRepository = {
   create(input) {
     return prisma.person.create({ data: input });
   },
+  update(id, patch) {
+    return prisma.person.update({ where: { id }, data: patch });
+  },
   async delete(id) {
     await prisma.person.delete({ where: { id } });
   },

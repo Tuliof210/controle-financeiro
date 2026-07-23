@@ -101,7 +101,7 @@ pattern.
 - [x] tasks/01-fix-persistence-setup.md — fix the 500: config fallback, `db:setup` script, apply migration, harden GET error handling, document setup
 - [x] tasks/02-ds-angular-pass.md — flatten all primitives + SectionCard to `--radius-0`, rework Button borders/states, add `IconButton`
 - [x] tasks/03-modal-primitive.md — build `Modal` (native `<dialog>`) + `ConfirmDialog` shared components
-- [ ] tasks/04-people-goals-update-endpoints.md — add `PUT` update endpoints + repo `update` methods for people and goals, with service tests
+- [x] tasks/04-people-goals-update-endpoints.md — add `PUT` update endpoints + repo `update` methods for people and goals, with service tests
 - [ ] tasks/05-people-section-crud-modals.md — rework Pessoas into list + add-modal + per-row edit/delete-confirm modals
 - [ ] tasks/06-goals-section-crud-modals.md — rework Objetivos into list + add-modal + per-row edit/delete-confirm modals
 - [ ] tasks/07-range-meta-summary-edit-modal.md — rework Range + Meta mensal into a summary row + Editar modal
