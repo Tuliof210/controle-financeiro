@@ -57,5 +57,5 @@ and seeded from `localStorage` (mirroring how `ThemeToggle` persists).
 
 ## Tasks
 - [x] tasks/01-recurrence-data-layer-and-api.md — Prisma model + migration, entity, repository, `/api/recurrences` CRUD (backend only)
-- [ ] tasks/02-profile-context-and-header-selector.md — first Context provider in AppShell, header profile `<select>`, greeting adapts
+- [x] tasks/02-profile-context-and-header-selector.md — first Context provider in AppShell, header profile `<select>`, greeting adapts
 - [ ] tasks/03-recurrences-screen.md — `/recorrencias` two lists + CRUD modals + person select + month-range slider + profile filter (depends on 01 & 02)
