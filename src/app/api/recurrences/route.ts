@@ -15,8 +15,8 @@ const recurrenceShape = {
   valueCents: z.number().int().min(1),
   type: z.enum(RECURRENCE_TYPES),
   ownerId: z.string().min(1),
-  rangeStart: z.number().int(),
-  rangeEnd: z.number().int(),
+  rangeStart: z.number().int().min(190001).max(999912),
+  rangeEnd: z.number().int().min(190001).max(999912),
 };
 
 const validRange = (v: { rangeStart: number; rangeEnd: number }) =>
