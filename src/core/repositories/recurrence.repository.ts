@@ -1,9 +1,10 @@
 import type { Recurrence } from "@/core/entities/recurrence.entity";
+import type { EntryType } from "@/lib/entry-types";
 
 export type RecurrenceInput = {
   name: string;
   valueCents: number;
-  type: "income" | "expense";
+  type: EntryType;
   ownerId: string;
   months: number[]; // active YYYYMM months
 };
