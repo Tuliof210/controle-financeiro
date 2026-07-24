@@ -2,7 +2,8 @@ import { useState } from "react";
 import { useProfile } from "@/components/ProfileProvider/hook";
 import type { Person } from "@/core/entities/person.entity";
 import type { Recurrence } from "@/core/entities/recurrence.entity";
-import { buildMonths } from "./components/MonthRangeSlider/months.helper";
+import { buildMonths } from "@/lib/months";
+
 import { intervalsToMonths } from "./intervals.helper";
 import { useRecurrenceIntervals } from "./intervals.hook";
 

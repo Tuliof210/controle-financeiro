@@ -5,7 +5,7 @@ import {
   MONTH_LABELS,
   splitYYYYMM,
   yearOptions,
-} from "./month.helper";
+} from "@/lib/months";
 
 export type MonthPickerProps = {
   label: string;

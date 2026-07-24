@@ -1,12 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { formatMonths, formatYyyymm } from "./recurrence-range.helper";
-
-describe("formatYyyymm", () => {
-  it("formats a YYYYMM integer as Mon/YY", () => {
-    expect(formatYyyymm(202501)).toBe("Jan/25");
-    expect(formatYyyymm(202608)).toBe("Ago/26");
-  });
-});
+import { formatMonths } from "./recurrence-range.helper";
 
 describe("formatMonths", () => {
   it("renders a contiguous run as a single interval", () => {
