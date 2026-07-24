@@ -1,5 +1,12 @@
 import { describe, expect, it } from "vitest";
-import { intervalsToMonths, monthsToIntervals } from "./intervals.helper";
+import {
+  intervalBounds,
+  intervalsToMonths,
+  monthsToIntervals,
+} from "./intervals.helper";
+import { buildMonths } from "./months.helper";
+
+const YEAR = buildMonths(202601, 202612); // Jan..Dez/26
 
 describe("intervalsToMonths", () => {
   it("expands, dedupes, and sorts non-contiguous intervals", () => {
@@ -64,5 +71,30 @@ describe("monthsToIntervals", () => {
   it("round-trips a non-contiguous selection", () => {
     const months = [202601, 202602, 202607, 202608, 202609];
     expect(intervalsToMonths(monthsToIntervals(months))).toEqual(months);
+  });
+});
+
+describe("intervalBounds", () => {
+  it("lets a lone interval span the whole period", () => {
+    const only = [{ start: 202601, end: 202612 }];
+    const { startMonths, endMonths } = intervalBounds(YEAR, only, 0);
+    expect(startMonths).toEqual(YEAR);
+    expect(endMonths).toEqual(YEAR);
+  });
+  it("caps each interval against its neighbours (no overlap)", () => {
+    const two = [
+      { start: 202601, end: 202603 },
+      { start: 202607, end: 202612 },
+    ];
+    expect(intervalBounds(YEAR, two, 0)).toEqual({
+      startMonths: [202601, 202602, 202603],
+      endMonths: [202601, 202602, 202603, 202604, 202605, 202606],
+    });
+    expect(intervalBounds(YEAR, two, 1)).toEqual({
+      startMonths: [
+        202604, 202605, 202606, 202607, 202608, 202609, 202610, 202611, 202612,
+      ],
+      endMonths: [202607, 202608, 202609, 202610, 202611, 202612],
+    });
   });
 });

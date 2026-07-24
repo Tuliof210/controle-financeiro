@@ -2,7 +2,7 @@ import {
   composeYYYYMM,
   splitYYYYMM,
 } from "@/components/MonthPicker/month.helper";
-import { buildMonths } from "./components/MonthRangeSlider/months.helper";
+import { buildMonths } from "./months.helper";
 
 export type Interval = { start: number; end: number };
 
@@ -40,4 +40,26 @@ export function monthsToIntervals(months: number[]): Interval[] {
     }
   }
   return intervals;
+}
+
+// Valid start/end month options for interval `i`, walking the period axis by
+// index so the chain stays ordered and non-overlapping:
+//   start[i] in [ (prev end + 1 month) .. end[i] ]
+//   end[i]   in [ start[i] .. (next start - 1 month) ]
+// The current start/end are always inside their own ranges (invariant), so the
+// selects never show an out-of-range value.
+export function intervalBounds(
+  months: number[],
+  intervals: Interval[],
+  i: number,
+): { startMonths: number[]; endMonths: number[] } {
+  const idx = (m: number) => months.indexOf(m);
+  const prev = intervals[i - 1];
+  const next = intervals[i + 1];
+  const startLo = prev ? idx(prev.end) + 1 : 0;
+  const endHi = next ? idx(next.start) - 1 : months.length - 1;
+  return {
+    startMonths: months.slice(startLo, idx(intervals[i].end) + 1),
+    endMonths: months.slice(idx(intervals[i].start), endHi + 1),
+  };
 }

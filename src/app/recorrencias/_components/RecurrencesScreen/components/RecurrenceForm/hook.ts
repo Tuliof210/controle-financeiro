@@ -2,9 +2,9 @@ import { useState } from "react";
 import { useProfile } from "@/components/ProfileProvider/hook";
 import type { Person } from "@/core/entities/person.entity";
 import type { Recurrence } from "@/core/entities/recurrence.entity";
-import { buildMonths } from "./components/MonthRangeSlider/months.helper";
 import { intervalsToMonths } from "./intervals.helper";
 import { useRecurrenceIntervals } from "./intervals.hook";
+import { buildMonths } from "./months.helper";
 
 export type RecurrenceFormValues = {
   name: string;
@@ -40,11 +40,11 @@ export function useRecurrenceForm({
     initial?.type ?? "income",
   );
   const [ownerId, setOwnerId] = useState(initial?.ownerId ?? defaultOwnerId);
+  const months = period ? buildMonths(period.start, period.end) : [];
   const { intervals, updateInterval, addInterval, removeInterval } =
-    useRecurrenceIntervals(initial?.months, period);
+    useRecurrenceIntervals(initial?.months, months);
   const [localError, setLocalError] = useState<string>();
 
-  const months = period ? buildMonths(period.start, period.end) : [];
   const selectedMonths = intervalsToMonths(intervals);
 
   const canSubmit =

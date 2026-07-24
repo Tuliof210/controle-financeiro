@@ -1,4 +1,5 @@
-import type { Interval } from "../../intervals.helper";
+import { formatYyyymm } from "@/app/recorrencias/_components/RecurrencesScreen/recurrence-range.helper";
+import { type Interval, intervalBounds } from "../../intervals.helper";
 import type { KeyedInterval } from "../../intervals.hook";
 
 export type IntervalListProps = {
@@ -9,6 +10,9 @@ export type IntervalListProps = {
   onRemove: (index: number) => void;
 };
 
+const toOptions = (list: number[]) =>
+  list.map((month) => ({ value: month, label: formatYyyymm(month) }));
+
 export function useIntervalList({
   months,
   intervals,
@@ -16,14 +20,29 @@ export function useIntervalList({
   onAdd,
   onRemove,
 }: IntervalListProps) {
+  const rows = intervals.map((it, i) => {
+    const { startMonths, endMonths } = intervalBounds(months, intervals, i);
+    return {
+      key: it.key,
+      start: it.start,
+      end: it.end,
+      startOptions: toOptions(startMonths),
+      endOptions: toOptions(endMonths),
+    };
+  });
+
+  const lastEnd = intervals[intervals.length - 1]?.end;
+  const canAdd =
+    lastEnd !== undefined && months.indexOf(lastEnd) < months.length - 1;
+
   return {
-    months,
-    intervals,
+    rows,
     canRemove: intervals.length > 1,
-    // Adapt the slider's {rangeStart,rangeEnd} back to the form's {start,end}.
-    onSliderChange:
-      (index: number) => (next: { rangeStart: number; rangeEnd: number }) =>
-        onUpdate(index, { start: next.rangeStart, end: next.rangeEnd }),
+    canAdd,
+    onStartChange: (i: number) => (value: number) =>
+      onUpdate(i, { start: value, end: intervals[i].end }),
+    onEndChange: (i: number) => (value: number) =>
+      onUpdate(i, { start: intervals[i].start, end: value }),
     onAdd,
     onRemove,
   };

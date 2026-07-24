@@ -3,24 +3,53 @@
 import { Plus, X } from "lucide-react";
 import { Button } from "@/components/Button";
 import { IconButton } from "@/components/IconButton";
-import { MonthRangeSlider } from "../MonthRangeSlider";
 import { type IntervalListProps, useIntervalList } from "./hook";
 import styles from "./style.module.scss";
 
 export function IntervalList(props: IntervalListProps) {
-  const { months, intervals, canRemove, onSliderChange, onAdd, onRemove } =
-    useIntervalList(props);
+  const {
+    rows,
+    canRemove,
+    canAdd,
+    onStartChange,
+    onEndChange,
+    onAdd,
+    onRemove,
+  } = useIntervalList(props);
 
   return (
     <div className={styles.list}>
-      {intervals.map((interval, index) => (
-        <div key={interval.key} className={styles.row}>
-          <MonthRangeSlider
-            months={months}
-            rangeStart={interval.start}
-            rangeEnd={interval.end}
-            onChange={onSliderChange(index)}
-          />
+      {rows.map((row, index) => (
+        <div key={row.key} className={styles.row}>
+          <select
+            className={styles.select}
+            aria-label={`Início do intervalo ${index + 1}`}
+            value={row.start}
+            onChange={(event) =>
+              onStartChange(index)(Number(event.target.value))
+            }
+          >
+            {row.startOptions.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </select>
+          <span className={styles.sep} aria-hidden>
+            até
+          </span>
+          <select
+            className={styles.select}
+            aria-label={`Fim do intervalo ${index + 1}`}
+            value={row.end}
+            onChange={(event) => onEndChange(index)(Number(event.target.value))}
+          >
+            {row.endOptions.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </select>
           {canRemove ? (
             <IconButton
               variant="danger"
@@ -32,9 +61,11 @@ export function IntervalList(props: IntervalListProps) {
           ) : null}
         </div>
       ))}
-      <Button variant="ghost" onClick={onAdd}>
-        <Plus size={16} aria-hidden /> Adicionar intervalo
-      </Button>
+      {canAdd ? (
+        <Button variant="ghost" onClick={onAdd}>
+          <Plus size={16} aria-hidden /> Adicionar intervalo
+        </Button>
+      ) : null}
     </div>
   );
 }
