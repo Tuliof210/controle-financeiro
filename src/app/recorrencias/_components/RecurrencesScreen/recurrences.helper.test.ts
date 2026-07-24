@@ -8,8 +8,7 @@ const make = (overrides: Partial<Recurrence>): Recurrence => ({
   valueCents: 1000,
   type: "income",
   ownerId: "p1",
-  rangeStart: 202601,
-  rangeEnd: 202612,
+  months: [202601, 202602, 202603],
   createdAt: new Date(),
   ...overrides,
 });

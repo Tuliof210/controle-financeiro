@@ -5,8 +5,7 @@ export type RecurrenceInput = {
   valueCents: number;
   type: "income" | "expense";
   ownerId: string;
-  rangeStart: number;
-  rangeEnd: number;
+  months: number[]; // active YYYYMM months
 };
 
 export type RecurrenceRepository = {

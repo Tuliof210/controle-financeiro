@@ -28,15 +28,24 @@ model Goal {
 }
 
 model Recurrence {
-  id         String   @id @default(cuid())
+  id         String            @id @default(cuid())
   name       String
   valueCents Int
   type       String
-  owner      Person   @relation(fields: [ownerId], references: [id])
+  owner      Person            @relation(fields: [ownerId], references: [id])
   ownerId    String
-  rangeStart Int
-  rangeEnd   Int
-  createdAt  DateTime @default(now())
+  months     RecurrenceMonth[]
+  createdAt  DateTime          @default(now())
+}
+
+model RecurrenceMonth {
+  id           String     @id @default(cuid())
+  recurrence   Recurrence @relation(fields: [recurrenceId], references: [id], onDelete: Cascade)
+  recurrenceId String
+  month        Int // YYYYMM
+
+  @@unique([recurrenceId, month])
+  @@index([month])
 }
 
 model Settings {

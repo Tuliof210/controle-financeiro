@@ -3,14 +3,15 @@ import { useProfile } from "@/components/ProfileProvider/hook";
 import type { Person } from "@/core/entities/person.entity";
 import type { Recurrence } from "@/core/entities/recurrence.entity";
 import { buildMonths } from "./components/MonthRangeSlider/months.helper";
+import { intervalsToMonths } from "./intervals.helper";
+import { useRecurrenceIntervals } from "./intervals.hook";
 
 export type RecurrenceFormValues = {
   name: string;
   valueCents: number;
   type: Recurrence["type"];
   ownerId: string;
-  rangeStart: number;
-  rangeEnd: number;
+  months: number[];
 };
 
 export type RecurrenceFormProps = {
@@ -39,26 +40,19 @@ export function useRecurrenceForm({
     initial?.type ?? "income",
   );
   const [ownerId, setOwnerId] = useState(initial?.ownerId ?? defaultOwnerId);
-  const [rangeStart, setRangeStart] = useState(
-    initial?.rangeStart ?? period?.start ?? 0,
-  );
-  const [rangeEnd, setRangeEnd] = useState(
-    initial?.rangeEnd ?? period?.end ?? 0,
-  );
+  const { intervals, updateInterval, addInterval, removeInterval } =
+    useRecurrenceIntervals(initial?.months, period);
   const [localError, setLocalError] = useState<string>();
 
   const months = period ? buildMonths(period.start, period.end) : [];
-  const onRangeChange = (next: { rangeStart: number; rangeEnd: number }) => {
-    setRangeStart(next.rangeStart);
-    setRangeEnd(next.rangeEnd);
-  };
+  const selectedMonths = intervalsToMonths(intervals);
 
   const canSubmit =
     period !== null &&
     name.trim().length > 0 &&
     valueCents >= 1 &&
     ownerId !== "" &&
-    rangeStart <= rangeEnd;
+    selectedMonths.length >= 1;
 
   const handleSubmit = () => {
     if (!canSubmit) {
@@ -71,8 +65,7 @@ export function useRecurrenceForm({
       valueCents,
       type,
       ownerId,
-      rangeStart,
-      rangeEnd,
+      months: selectedMonths,
     });
   };
 
@@ -86,9 +79,10 @@ export function useRecurrenceForm({
     ownerId,
     setOwnerId,
     months,
-    rangeStart,
-    rangeEnd,
-    onRangeChange,
+    intervals,
+    updateInterval,
+    addInterval,
+    removeInterval,
     localError,
     canSubmit,
     handleSubmit,
