@@ -3,13 +3,10 @@
 import { Button } from "@/components/Button";
 import { MoneyInput } from "@/components/MoneyInput";
 import { TextField } from "@/components/TextField";
-import { RECURRENCE_TYPES } from "@/lib/recurrence-types";
+import { ENTRY_TYPES, SELECTED_VARIANT, TYPE_LABELS } from "@/lib/entry-types";
 import { IntervalList } from "./components/IntervalList";
 import { type RecurrenceFormProps, useRecurrenceForm } from "./hook";
 import styles from "./style.module.scss";
-
-const TYPE_LABELS = { income: "Entrada", expense: "Saída" } as const;
-const SELECTED_VARIANT = { income: "success", expense: "danger" } as const;
 
 export function RecurrenceForm(props: RecurrenceFormProps) {
   const { error, submitLabel, people, period } = props;
@@ -47,7 +44,7 @@ export function RecurrenceForm(props: RecurrenceFormProps) {
         ariaLabel="Valor"
       />
       <div className={styles.typeToggle}>
-        {RECURRENCE_TYPES.map((kind) => (
+        {ENTRY_TYPES.map((kind) => (
           <Button
             key={kind}
             variant={type === kind ? SELECTED_VARIANT[kind] : "ghost"}

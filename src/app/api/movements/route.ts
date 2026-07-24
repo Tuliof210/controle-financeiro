@@ -1,8 +1,8 @@
 import type { NextRequest } from "next/server";
 import { z } from "zod";
 import { Prisma } from "@/generated/prisma/client";
+import { ENTRY_TYPES } from "@/lib/entry-types";
 import { fail, ok, safeJson } from "@/lib/http";
-import { MOVEMENT_TYPES } from "@/lib/movement-types";
 import {
   createMovement,
   deleteMovement,
@@ -13,7 +13,7 @@ import {
 const movementShape = {
   name: z.string().trim().min(1).max(80),
   valueCents: z.number().int().min(1),
-  type: z.enum(MOVEMENT_TYPES),
+  type: z.enum(ENTRY_TYPES),
   ownerId: z.string().min(1),
   month: z.number().int().min(190001).max(999912),
 };

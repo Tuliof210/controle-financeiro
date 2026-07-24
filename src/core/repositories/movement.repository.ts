@@ -1,9 +1,10 @@
 import type { Movement } from "@/core/entities/movement.entity";
+import type { EntryType } from "@/lib/entry-types";
 
 export type MovementInput = {
   name: string;
   valueCents: number;
-  type: "income" | "expense";
+  type: EntryType;
   ownerId: string;
   month: number; // YYYYMM
 };

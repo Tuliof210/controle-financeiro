@@ -1,8 +1,8 @@
 import type { NextRequest } from "next/server";
 import { z } from "zod";
 import { Prisma } from "@/generated/prisma/client";
+import { ENTRY_TYPES } from "@/lib/entry-types";
 import { fail, ok, safeJson } from "@/lib/http";
-import { RECURRENCE_TYPES } from "@/lib/recurrence-types";
 import {
   createRecurrence,
   deleteRecurrence,
@@ -13,7 +13,7 @@ import {
 const recurrenceShape = {
   name: z.string().trim().min(1).max(80),
   valueCents: z.number().int().min(1),
-  type: z.enum(RECURRENCE_TYPES),
+  type: z.enum(ENTRY_TYPES),
   ownerId: z.string().min(1),
   // At least one active month; deduped and sorted so storage is canonical.
   months: z

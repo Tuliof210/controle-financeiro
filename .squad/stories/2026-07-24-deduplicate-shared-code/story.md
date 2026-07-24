@@ -66,7 +66,7 @@ migrations, no API contract changes.
       the owner without blocking Phase 1.
 
 ## Tasks
-- [ ] tasks/01-shared-entry-types.md — ENTRY_TYPES/EntryType/TYPE_LABELS/SELECTED_VARIANT in src/lib/entry-types.ts
+- [x] tasks/01-shared-entry-types.md — ENTRY_TYPES/EntryType/TYPE_LABELS/SELECTED_VARIANT in src/lib/entry-types.ts
 - [ ] tasks/02-shared-month-toolkit.md — all YYYYMM utils (incl. buildMonths/formatYyyymm) in src/lib/months.ts
 - [ ] tasks/03-shared-ownership-helpers.md — generic visibleFor/splitByType + FAMILY_PROFILE + resolveOwnerId
 - [ ] tasks/04-generic-row-section-screen.md — generic EntryRow/EntrySection/EntryScreen (Phase 2)

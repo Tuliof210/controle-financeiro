@@ -3,13 +3,10 @@
 import { Button } from "@/components/Button";
 import { MoneyInput } from "@/components/MoneyInput";
 import { TextField } from "@/components/TextField";
-import { MOVEMENT_TYPES } from "@/lib/movement-types";
+import { ENTRY_TYPES, SELECTED_VARIANT, TYPE_LABELS } from "@/lib/entry-types";
 import { type MovementFormProps, useMovementForm } from "./hook";
 import { formatYyyymm } from "./month.helper";
 import styles from "./style.module.scss";
-
-const TYPE_LABELS = { income: "Entrada", expense: "Saída" } as const;
-const SELECTED_VARIANT = { income: "success", expense: "danger" } as const;
 
 export function MovementForm(props: MovementFormProps) {
   const { error, submitLabel, people, period } = props;
@@ -45,7 +42,7 @@ export function MovementForm(props: MovementFormProps) {
         ariaLabel="Valor"
       />
       <div className={styles.typeToggle}>
-        {MOVEMENT_TYPES.map((kind) => (
+        {ENTRY_TYPES.map((kind) => (
           <Button
             key={kind}
             variant={type === kind ? SELECTED_VARIANT[kind] : "ghost"}
