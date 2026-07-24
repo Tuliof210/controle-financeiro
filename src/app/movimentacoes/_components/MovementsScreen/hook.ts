@@ -4,8 +4,8 @@ import type { Movement } from "@/core/entities/movement.entity";
 import type { Person } from "@/core/entities/person.entity";
 import type { Settings } from "@/core/entities/settings.entity";
 import { apiDelete, apiGet, apiPost, apiPut } from "@/lib/api";
+import { splitByType, visibleFor } from "@/lib/ownership";
 import type { MovementFormValues } from "./components/MovementForm/hook";
-import { splitByType, visibleFor } from "./movements.helper";
 
 type ModalState =
   | { type: "none" }

@@ -3,6 +3,7 @@ import { useProfile } from "@/components/ProfileProvider/hook";
 import type { Person } from "@/core/entities/person.entity";
 import type { Recurrence } from "@/core/entities/recurrence.entity";
 import { buildMonths } from "@/lib/months";
+import { resolveOwnerId } from "@/lib/ownership";
 
 import { intervalsToMonths } from "./intervals.helper";
 import { useRecurrenceIntervals } from "./intervals.hook";
@@ -31,9 +32,7 @@ export function useRecurrenceForm({
   onSubmit,
 }: Pick<RecurrenceFormProps, "initial" | "people" | "period" | "onSubmit">) {
   const { profile } = useProfile();
-  const defaultOwnerId = people.some((person) => person.id === profile)
-    ? profile
-    : (people[0]?.id ?? "");
+  const defaultOwnerId = resolveOwnerId(profile, people);
 
   const [name, setName] = useState(initial?.name ?? "");
   const [valueCents, setValueCents] = useState(initial?.valueCents ?? 0);

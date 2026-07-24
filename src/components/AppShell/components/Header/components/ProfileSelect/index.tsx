@@ -1,5 +1,6 @@
 "use client";
 
+import { FAMILY_PROFILE } from "@/lib/ownership";
 import { useProfileSelect } from "./hook";
 import styles from "./style.module.scss";
 
@@ -13,7 +14,7 @@ export function ProfileSelect() {
       value={profile}
       onChange={onChange}
     >
-      <option value="familia">Família</option>
+      <option value={FAMILY_PROFILE}>Família</option>
       {people.map((person) => (
         <option key={person.id} value={person.id}>
           {person.name}

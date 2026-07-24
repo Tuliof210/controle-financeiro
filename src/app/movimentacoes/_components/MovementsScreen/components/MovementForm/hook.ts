@@ -3,6 +3,7 @@ import { useProfile } from "@/components/ProfileProvider/hook";
 import type { Movement } from "@/core/entities/movement.entity";
 import type { Person } from "@/core/entities/person.entity";
 import { buildMonths, currentYYYYMM } from "@/lib/months";
+import { resolveOwnerId } from "@/lib/ownership";
 
 export type MovementFormValues = {
   name: string;
@@ -28,9 +29,7 @@ export function useMovementForm({
   onSubmit,
 }: Pick<MovementFormProps, "initial" | "people" | "period" | "onSubmit">) {
   const { profile } = useProfile();
-  const defaultOwnerId = people.some((person) => person.id === profile)
-    ? profile
-    : (people[0]?.id ?? "");
+  const defaultOwnerId = resolveOwnerId(profile, people);
 
   // Default to the current month, clamped into the period (YYYYMM is monotonic
   // as an int, so min/max clamps correctly); 0 when there is no period.

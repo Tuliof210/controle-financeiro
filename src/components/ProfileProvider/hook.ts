@@ -8,6 +8,7 @@ import {
 } from "react";
 import type { Person } from "@/core/entities/person.entity";
 import { apiGet } from "@/lib/api";
+import { FAMILY_PROFILE } from "@/lib/ownership";
 import { isStaleProfile, resolveLabel } from "./profile.helper";
 
 export type ProfileProviderProps = {
@@ -24,7 +25,7 @@ type ProfileContextValue = {
 export const ProfileContext = createContext<ProfileContextValue | null>(null);
 
 export function useProfileState(): ProfileContextValue {
-  const [profile, setProfileRaw] = useState<string>("familia");
+  const [profile, setProfileRaw] = useState<string>(FAMILY_PROFILE);
   const [people, setPeople] = useState<Person[]>([]);
   const [peopleLoaded, setPeopleLoaded] = useState(false);
 
@@ -52,12 +53,12 @@ export function useProfileState(): ProfileContextValue {
   }, []);
 
   // Self-heal: once people has actually loaded, a profile id that no
-  // longer matches anyone (its person got deleted) resets to "familia" so
-  // `profile`/localStorage never stay stuck on a dangling id — only the
+  // longer matches anyone (its person got deleted) resets to FAMILY_PROFILE
+  // so `profile`/localStorage never stay stuck on a dangling id — only the
   // derived `label` used to fall back before this.
   useEffect(() => {
     if (peopleLoaded && isStaleProfile(profile, people)) {
-      setProfile("familia");
+      setProfile(FAMILY_PROFILE);
     }
   }, [peopleLoaded, profile, people, setProfile]);
 
