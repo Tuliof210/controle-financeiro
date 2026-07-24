@@ -59,6 +59,20 @@
   }
 }
 
+.success {
+  background: var(--color-positive);
+  border-color: var(--color-positive);
+  color: var(--white);
+
+  &:hover:not(:disabled) {
+    filter: brightness(0.92);
+  }
+
+  &:active:not(:disabled) {
+    filter: brightness(0.84);
+  }
+}
+
 // Ghost: no solid border — a subtle structural edge at most.
 .ghost {
   background: transparent;

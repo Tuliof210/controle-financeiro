@@ -5,10 +5,10 @@ import { type RecurrenceSectionProps, useRecurrenceSection } from "./hook";
 import styles from "./style.module.scss";
 
 export function RecurrenceSection(props: RecurrenceSectionProps) {
-  const { title, icon, rows, onAdd } = useRecurrenceSection(props);
+  const { title, icon, tone, rows, onAdd } = useRecurrenceSection(props);
 
   return (
-    <SectionCard title={title} icon={icon}>
+    <SectionCard title={title} icon={icon} tone={tone}>
       {rows.length === 0 ? (
         <p className={styles.empty}>Nenhuma recorrência cadastrada ainda.</p>
       ) : (

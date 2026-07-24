@@ -9,6 +9,7 @@ import { type RecurrenceFormProps, useRecurrenceForm } from "./hook";
 import styles from "./style.module.scss";
 
 const TYPE_LABELS = { income: "Entrada", expense: "Saída" } as const;
+const SELECTED_VARIANT = { income: "success", expense: "danger" } as const;
 
 export function RecurrenceForm(props: RecurrenceFormProps) {
   const { error, submitLabel, people, period } = props;
@@ -48,7 +49,7 @@ export function RecurrenceForm(props: RecurrenceFormProps) {
         {RECURRENCE_TYPES.map((kind) => (
           <Button
             key={kind}
-            variant={type === kind ? "primary" : "ghost"}
+            variant={type === kind ? SELECTED_VARIANT[kind] : "ghost"}
             onClick={() => setType(kind)}
           >
             {TYPE_LABELS[kind]}

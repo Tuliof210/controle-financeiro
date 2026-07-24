@@ -36,6 +36,14 @@
   font-variant-numeric: tabular-nums;
 }
 
+.income {
+  color: var(--color-positive);
+}
+
+.expense {
+  color: var(--color-negative);
+}
+
 .period {
   color: var(--color-text-muted);
   font-family: var(--font-mono);

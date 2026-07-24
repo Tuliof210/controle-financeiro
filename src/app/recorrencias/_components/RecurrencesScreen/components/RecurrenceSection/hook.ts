@@ -5,6 +5,7 @@ import type { Recurrence } from "@/core/entities/recurrence.entity";
 export type RecurrenceSectionProps = {
   title: string;
   icon: LucideIcon;
+  tone: "positive" | "negative";
   items: Recurrence[];
   people: Person[];
   onAdd: () => void;
@@ -17,6 +18,7 @@ export type RecurrenceSectionProps = {
 export function useRecurrenceSection({
   title,
   icon,
+  tone,
   items,
   people,
   onAdd,
@@ -30,5 +32,5 @@ export function useRecurrenceSection({
     onDelete: () => onDelete(recurrence),
   }));
 
-  return { title, icon, rows, onAdd };
+  return { title, icon, tone, rows, onAdd };
 }

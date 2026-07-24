@@ -1,7 +1,7 @@
 import type { ButtonHTMLAttributes } from "react";
 import styles from "./style.module.scss";
 
-type Variant = "primary" | "ghost" | "danger";
+type Variant = "primary" | "ghost" | "danger" | "success";
 
 export type ButtonProps = {
   variant?: Variant;

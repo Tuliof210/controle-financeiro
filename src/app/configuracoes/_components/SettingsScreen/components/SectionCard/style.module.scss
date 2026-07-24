@@ -15,6 +15,14 @@
   color: var(--color-text);
 }
 
+.positive {
+  color: var(--color-positive);
+}
+
+.negative {
+  color: var(--color-negative);
+}
+
 .title {
   margin: 0;
   font-family: var(--font-mono);

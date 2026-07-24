@@ -33,6 +33,7 @@ export function RecurrencesScreen() {
         <RecurrenceSection
           title="Entradas"
           icon={ArrowDownCircle}
+          tone="positive"
           items={income}
           people={people}
           onAdd={() => openAdd("income")}
@@ -42,6 +43,7 @@ export function RecurrencesScreen() {
         <RecurrenceSection
           title="Saídas"
           icon={ArrowUpCircle}
+          tone="negative"
           items={expense}
           people={people}
           onAdd={() => openAdd("expense")}
