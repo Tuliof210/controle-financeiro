@@ -1,23 +1,25 @@
 import { SectionCard } from "@/app/configuracoes/_components/SettingsScreen/components/SectionCard";
 import { Button } from "@/components/Button";
-import { RecurrenceRow } from "../RecurrenceRow";
-import { type RecurrenceSectionProps, useRecurrenceSection } from "./hook";
+import { EntryRow } from "@/components/EntryRow";
+import type { Entry } from "@/lib/entry-types";
+import { type EntrySectionProps, useEntrySection } from "./hook";
 import styles from "./style.module.scss";
 
-export function RecurrenceSection(props: RecurrenceSectionProps) {
-  const { title, icon, tone, rows, onAdd } = useRecurrenceSection(props);
+export function EntrySection<T extends Entry>(props: EntrySectionProps<T>) {
+  const { title, icon, tone, rows, empty, onAdd } = useEntrySection(props);
 
   return (
     <SectionCard title={title} icon={icon} tone={tone}>
       {rows.length === 0 ? (
-        <p className={styles.empty}>Nenhuma recorrência cadastrada ainda.</p>
+        <p className={styles.empty}>{empty}</p>
       ) : (
         <ul className={styles.list}>
-          {rows.map(({ recurrence, person, onEdit, onDelete }) => (
-            <RecurrenceRow
-              key={recurrence.id}
-              recurrence={recurrence}
+          {rows.map(({ entry, person, period, onEdit, onDelete }) => (
+            <EntryRow
+              key={entry.id}
+              entry={entry}
               person={person}
+              period={period}
               onEdit={onEdit}
               onDelete={onDelete}
             />

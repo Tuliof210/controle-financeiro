@@ -1,33 +1,34 @@
 import { useCallback, useEffect, useState } from "react";
 import { useProfile } from "@/components/ProfileProvider/hook";
-import type { Movement } from "@/core/entities/movement.entity";
 import type { Person } from "@/core/entities/person.entity";
 import type { Settings } from "@/core/entities/settings.entity";
 import { apiDelete, apiGet, apiPost, apiPut } from "@/lib/api";
+import type { Entry, EntryType } from "@/lib/entry-types";
 import { splitByType, visibleFor } from "@/lib/ownership";
-import type { MovementFormValues } from "./components/MovementForm/hook";
+import type { EntryScreenConfig, ModalState } from "./types";
 
-type ModalState =
-  | { type: "none" }
-  | { type: "add"; kind: Movement["type"] }
-  | { type: "edit"; movement: Movement }
-  | { type: "delete"; movement: Movement };
-
-export function useMovementsScreen() {
+// `V` is the entity's form-values shape; `T` is the entity itself, which must
+// be usable to seed that form (every entity is its own form's initial value).
+export function useEntryScreen<
+  T extends Entry & Partial<V>,
+  V extends { type: EntryType },
+>({ resource, labels }: EntryScreenConfig<T, V>) {
   const { profile } = useProfile();
-  const [movements, setMovements] = useState<Movement[]>([]);
+  const [items, setItems] = useState<T[]>([]);
   const [people, setPeople] = useState<Person[]>([]);
   const [settings, setSettings] = useState<Settings | null>(null);
-  const [modal, setModal] = useState<ModalState>({ type: "none" });
+  const [modal, setModal] = useState<ModalState<T>>({ type: "none" });
   const [error, setError] = useState<string>();
+
+  const path = `/api/${resource}`;
 
   const refetch = useCallback(
     () =>
-      apiGet<Movement[]>("/api/movements").then((result) => {
+      apiGet<T[]>(path).then((result) => {
         if (result.error) return setError(result.error);
-        setMovements(result.data ?? []);
+        setItems(result.data ?? []);
       }),
-    [],
+    [path],
   );
 
   useEffect(() => {
@@ -40,18 +41,16 @@ export function useMovementsScreen() {
     });
   }, [refetch]);
 
-  const { income, expense } = splitByType(visibleFor(movements, profile));
+  const { income, expense } = splitByType(visibleFor(items, profile));
 
-  const openModal = (state: ModalState) => {
+  const openModal = (state: ModalState<T>) => {
     setError(undefined);
     setModal(state);
   };
   const close = () => openModal({ type: "none" });
-  const openAdd = (kind: Movement["type"]) => openModal({ type: "add", kind });
-  const openEdit = (movement: Movement) =>
-    openModal({ type: "edit", movement });
-  const openDelete = (movement: Movement) =>
-    openModal({ type: "delete", movement });
+  const openAdd = (kind: EntryType) => openModal({ type: "add", kind });
+  const openEdit = (entry: T) => openModal({ type: "edit", entry });
+  const openDelete = (entry: T) => openModal({ type: "delete", entry });
 
   const persist = async (result: Awaited<ReturnType<typeof apiPost>>) => {
     if (result.error) return setError(result.error);
@@ -59,19 +58,16 @@ export function useMovementsScreen() {
     refetch();
   };
 
-  const onAdd = (values: MovementFormValues) =>
-    apiPost("/api/movements", values).then(persist);
+  const onAdd = (values: V) => apiPost(path, values).then(persist);
 
-  const onUpdate = (values: MovementFormValues) =>
+  const onUpdate = (values: V) =>
     modal.type === "edit"
-      ? apiPut("/api/movements", { id: modal.movement.id, ...values }).then(
-          persist,
-        )
+      ? apiPut(path, { id: modal.entry.id, ...values }).then(persist)
       : undefined;
 
   const onConfirmDelete = () =>
     modal.type === "delete"
-      ? apiDelete(`/api/movements?id=${modal.movement.id}`).then(persist)
+      ? apiDelete(`${path}?id=${modal.entry.id}`).then(persist)
       : undefined;
 
   const period =
@@ -80,6 +76,7 @@ export function useMovementsScreen() {
       : null;
 
   return {
+    labels,
     income,
     expense,
     people,
