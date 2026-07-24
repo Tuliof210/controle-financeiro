@@ -1,8 +1,4 @@
-import {
-  composeYYYYMM,
-  splitYYYYMM,
-} from "@/components/MonthPicker/month.helper";
-import { buildMonths } from "./components/MonthRangeSlider/months.helper";
+import { buildMonths, composeYYYYMM, splitYYYYMM } from "@/lib/months";
 
 export type Interval = { start: number; end: number };
 

@@ -1,9 +1,8 @@
 import { useState } from "react";
-import { currentYYYYMM } from "@/components/MonthPicker/month.helper";
 import { useProfile } from "@/components/ProfileProvider/hook";
 import type { Movement } from "@/core/entities/movement.entity";
 import type { Person } from "@/core/entities/person.entity";
-import { buildMonths } from "./month.helper";
+import { buildMonths, currentYYYYMM } from "@/lib/months";
 
 export type MovementFormValues = {
   name: string;

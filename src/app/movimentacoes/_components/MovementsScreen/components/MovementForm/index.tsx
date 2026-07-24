@@ -4,8 +4,8 @@ import { Button } from "@/components/Button";
 import { MoneyInput } from "@/components/MoneyInput";
 import { TextField } from "@/components/TextField";
 import { ENTRY_TYPES, SELECTED_VARIANT, TYPE_LABELS } from "@/lib/entry-types";
+import { formatYyyymm } from "@/lib/months";
 import { type MovementFormProps, useMovementForm } from "./hook";
-import { formatYyyymm } from "./month.helper";
 import styles from "./style.module.scss";
 
 export function MovementForm(props: MovementFormProps) {

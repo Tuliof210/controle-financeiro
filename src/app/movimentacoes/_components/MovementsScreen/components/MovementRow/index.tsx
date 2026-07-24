@@ -3,7 +3,7 @@ import { IconButton } from "@/components/IconButton";
 import { formatCents } from "@/components/MoneyInput/money.helper";
 import type { Movement } from "@/core/entities/movement.entity";
 import type { Person } from "@/core/entities/person.entity";
-import { formatYyyymm } from "../MovementForm/month.helper";
+import { formatYyyymm } from "@/lib/months";
 import styles from "./style.module.scss";
 
 type MovementRowProps = {

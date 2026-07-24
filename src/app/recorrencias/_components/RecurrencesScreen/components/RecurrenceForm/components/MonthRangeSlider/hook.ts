@@ -1,4 +1,4 @@
-import { formatYyyymm } from "@/app/recorrencias/_components/RecurrencesScreen/recurrence-range.helper";
+import { formatYyyymm } from "@/lib/months";
 
 export type MonthRangeSliderProps = {
   months: number[];
