@@ -4,8 +4,8 @@ import type { Person } from "@/core/entities/person.entity";
 import type { Recurrence } from "@/core/entities/recurrence.entity";
 import type { Settings } from "@/core/entities/settings.entity";
 import { apiDelete, apiGet, apiPost, apiPut } from "@/lib/api";
+import { splitByType, visibleFor } from "@/lib/ownership";
 import type { RecurrenceFormValues } from "./components/RecurrenceForm/hook";
-import { splitByType, visibleFor } from "./recurrences.helper";
 
 type ModalState =
   | { type: "none" }
