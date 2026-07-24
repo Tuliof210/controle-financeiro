@@ -27,7 +27,7 @@ export function RecurrenceRow({
       />
       <span className={styles.owner}>{person?.name ?? "—"}</span>
       <span className={styles.name}>{recurrence.name}</span>
-      <span className={styles.value}>
+      <span className={`${styles.value} ${styles[recurrence.type]}`}>
         R$ {formatCents(recurrence.valueCents)}
       </span>
       <span className={styles.period}>
