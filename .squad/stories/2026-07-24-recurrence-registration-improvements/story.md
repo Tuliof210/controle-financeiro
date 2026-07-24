@@ -60,6 +60,6 @@ must backfill them, not reset.
 - [ ] All three tasks merged (each as its own PR).
 
 ## Tasks
-- [ ] tasks/01-money-input-caret-fix.md — pin MoneyInput caret to the right (odometer entry)
+- [x] tasks/01-money-input-caret-fix.md — pin MoneyInput caret to the right (odometer entry)
 - [ ] tasks/02-semantic-entry-exit-colors.md — green/red semantic colors for entrada/saída (toggle, labels, list values)
 - [ ] tasks/03-non-contiguous-month-intervals.md — RecurrenceMonth child table + multi-interval sliders end-to-end
