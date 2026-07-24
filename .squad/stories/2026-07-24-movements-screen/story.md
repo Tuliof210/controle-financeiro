@@ -51,5 +51,5 @@ Portuguese-UI split. `Movement`/`movements` is confirmed free of collisions.
 - [ ] Both tasks merged (each as its own PR).
 
 ## Tasks
-- [ ] tasks/01-movements-backend.md — Movement model + migration + entity/repository + /api/movements, and generalize the people-delete conflict message
+- [x] tasks/01-movements-backend.md — Movement model + migration + entity/repository + /api/movements, and generalize the people-delete conflict message
 - [ ] tasks/02-movements-screen.md — MovementsScreen + modal form with a bounded single-month select, row, section, and the /movimentacoes page

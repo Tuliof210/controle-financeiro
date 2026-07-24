@@ -18,6 +18,7 @@ model Person {
   color       String
   createdAt   DateTime     @default(now())
   recurrences Recurrence[]
+  movements   Movement[]
 }
 
 model Goal {
@@ -45,6 +46,19 @@ model RecurrenceMonth {
   month        Int // YYYYMM
 
   @@unique([recurrenceId, month])
+  @@index([month])
+}
+
+model Movement {
+  id         String   @id @default(cuid())
+  name       String
+  valueCents Int
+  type       String
+  owner      Person   @relation(fields: [ownerId], references: [id])
+  ownerId    String
+  month      Int // YYYYMM
+  createdAt  DateTime @default(now())
+
   @@index([month])
 }
 
