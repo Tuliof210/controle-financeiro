@@ -1,3 +1,5 @@
+import { MovementsScreen } from "./_components/MovementsScreen";
+
 export default function Page() {
-  return <h1>Movimentações</h1>;
+  return <MovementsScreen />;
 }

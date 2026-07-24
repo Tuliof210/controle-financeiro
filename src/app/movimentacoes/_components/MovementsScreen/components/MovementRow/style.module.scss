@@ -1,0 +1,52 @@
+@use "swatch-colors";
+
+.row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+.swatch {
+  width: var(--space-4);
+  height: var(--space-4);
+  flex-shrink: 0;
+  border-radius: var(--radius-0);
+}
+
+.owner {
+  min-width: 80px;
+  color: var(--color-text-muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+}
+
+.name {
+  flex: 1;
+  min-width: 120px;
+  color: var(--color-text);
+  font-family: var(--font-mono);
+  font-size: var(--text-base);
+}
+
+.value {
+  color: var(--color-text);
+  font-family: var(--font-mono);
+  font-size: var(--text-base);
+  font-variant-numeric: tabular-nums;
+}
+
+.income {
+  color: var(--color-positive);
+}
+
+.expense {
+  color: var(--color-negative);
+}
+
+.period {
+  color: var(--color-text-muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  font-variant-numeric: tabular-nums;
+}
