@@ -11,7 +11,8 @@ type MoneyInputProps = {
 };
 
 export function MoneyInput(props: MoneyInputProps) {
-  const { display, onChange, id, ariaLabel } = useMoneyInput(props);
+  const { display, inputRef, onChange, onFocus, onSelect, id, ariaLabel } =
+    useMoneyInput(props);
 
   return (
     <div className={styles.field}>
@@ -19,10 +20,13 @@ export function MoneyInput(props: MoneyInputProps) {
         R$
       </span>
       <input
+        ref={inputRef}
         className={styles.input}
         inputMode="decimal"
         value={display}
         onChange={onChange}
+        onFocus={onFocus}
+        onSelect={onSelect}
         id={id}
         aria-label={ariaLabel}
       />
