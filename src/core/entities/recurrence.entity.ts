@@ -4,7 +4,6 @@ export type Recurrence = {
   valueCents: number;
   type: "income" | "expense";
   ownerId: string;
-  rangeStart: number;
-  rangeEnd: number;
+  months: number[]; // sorted, de-duped YYYYMM list of active months
   createdAt: Date;
 };

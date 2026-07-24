@@ -22,8 +22,7 @@ const input = {
   valueCents: 500000,
   type: "income" as const,
   ownerId: "p1",
-  rangeStart: 202608,
-  rangeEnd: 202612,
+  months: [202608, 202609, 202610, 202611, 202612],
 };
 
 describe("recurrences service", () => {

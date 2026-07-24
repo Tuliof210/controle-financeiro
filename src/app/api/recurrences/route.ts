@@ -15,18 +15,15 @@ const recurrenceShape = {
   valueCents: z.number().int().min(1),
   type: z.enum(RECURRENCE_TYPES),
   ownerId: z.string().min(1),
-  rangeStart: z.number().int().min(190001).max(999912),
-  rangeEnd: z.number().int().min(190001).max(999912),
+  // At least one active month; deduped and sorted so storage is canonical.
+  months: z
+    .array(z.number().int().min(190001).max(999912))
+    .min(1)
+    .transform((m) => [...new Set(m)].sort((a, b) => a - b)),
 };
 
-const validRange = (v: { rangeStart: number; rangeEnd: number }) =>
-  v.rangeStart <= v.rangeEnd;
-const rangeIssue = { message: "Período inválido", path: ["rangeEnd"] };
-
-const createSchema = z.object(recurrenceShape).refine(validRange, rangeIssue);
-const updateSchema = z
-  .object({ ...recurrenceShape, id: z.string().min(1) })
-  .refine(validRange, rangeIssue);
+const createSchema = z.object(recurrenceShape);
+const updateSchema = z.object({ ...recurrenceShape, id: z.string().min(1) });
 
 export async function GET() {
   try {

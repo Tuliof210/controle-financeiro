@@ -3,7 +3,7 @@ import { IconButton } from "@/components/IconButton";
 import { formatCents } from "@/components/MoneyInput/money.helper";
 import type { Person } from "@/core/entities/person.entity";
 import type { Recurrence } from "@/core/entities/recurrence.entity";
-import { formatPeriod } from "../../recurrence-range.helper";
+import { formatMonths } from "../../recurrence-range.helper";
 import styles from "./style.module.scss";
 
 type RecurrenceRowProps = {
@@ -30,9 +30,7 @@ export function RecurrenceRow({
       <span className={`${styles.value} ${styles[recurrence.type]}`}>
         R$ {formatCents(recurrence.valueCents)}
       </span>
-      <span className={styles.period}>
-        {formatPeriod(recurrence.rangeStart, recurrence.rangeEnd)}
-      </span>
+      <span className={styles.period}>{formatMonths(recurrence.months)}</span>
       <IconButton aria-label={`Editar ${recurrence.name}`} onClick={onEdit}>
         <Pencil size={16} aria-hidden />
       </IconButton>

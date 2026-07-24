@@ -4,7 +4,7 @@ import { Button } from "@/components/Button";
 import { MoneyInput } from "@/components/MoneyInput";
 import { TextField } from "@/components/TextField";
 import { RECURRENCE_TYPES } from "@/lib/recurrence-types";
-import { MonthRangeSlider } from "./components/MonthRangeSlider";
+import { IntervalList } from "./components/IntervalList";
 import { type RecurrenceFormProps, useRecurrenceForm } from "./hook";
 import styles from "./style.module.scss";
 
@@ -23,9 +23,10 @@ export function RecurrenceForm(props: RecurrenceFormProps) {
     ownerId,
     setOwnerId,
     months,
-    rangeStart,
-    rangeEnd,
-    onRangeChange,
+    intervals,
+    updateInterval,
+    addInterval,
+    removeInterval,
     localError,
     canSubmit,
     handleSubmit,
@@ -75,11 +76,12 @@ export function RecurrenceForm(props: RecurrenceFormProps) {
         </select>
       </div>
       {period ? (
-        <MonthRangeSlider
+        <IntervalList
           months={months}
-          rangeStart={rangeStart}
-          rangeEnd={rangeEnd}
-          onChange={onRangeChange}
+          intervals={intervals}
+          onUpdate={updateInterval}
+          onAdd={addInterval}
+          onRemove={removeInterval}
         />
       ) : (
         <p className={styles.guard}>
