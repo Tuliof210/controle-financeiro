@@ -74,7 +74,7 @@ month.
 - [ ] No `coverage` identifier survives anywhere under `src/`.
 
 ## Tasks
-- [ ] tasks/01-remove-coverage.md — delete the coverage card, its API block
+- [x] tasks/01-remove-coverage.md — delete the coverage card, its API block
       and the four MonthPoint fields it was the only consumer of
 - [ ] tasks/02-goals-card-depth.md — pace headline, per-goal meter, completion
       month and required monthly amount in the Objetivos card
