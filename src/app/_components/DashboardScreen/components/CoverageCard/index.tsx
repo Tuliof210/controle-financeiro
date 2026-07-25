@@ -1,6 +1,7 @@
 import { ClipboardCheck } from "lucide-react";
 import { SectionCard } from "@/components/SectionCard";
 import { HINTS } from "../../hints";
+import { MeterList } from "../MeterList";
 import { MeterRow } from "../MeterRow";
 import { type CoverageCardProps, useCoverageCard } from "./hook";
 import styles from "./style.module.scss";
@@ -15,19 +16,19 @@ export function CoverageCard(props: CoverageCardProps) {
       hint={HINTS.coverage}
     >
       {empty ? (
-        <p className={styles.empty}>
+        <p className={styles.note}>
           Nenhum compromisso previsto nos meses já decorridos.
         </p>
       ) : (
         <>
           <p className={styles.headline}>{headline}</p>
-          <p className={styles.empty}>{summary}</p>
+          <p className={styles.note}>{summary}</p>
           {rows.length === 0 ? (
-            <p className={styles.empty}>
+            <p className={styles.note}>
               Todos os meses decorridos estão lançados.
             </p>
           ) : (
-            <ul className={styles.list}>
+            <MeterList>
               {rows.map((row) => (
                 <MeterRow
                   key={row.key}
@@ -39,7 +40,7 @@ export function CoverageCard(props: CoverageCardProps) {
                   <span>faltam {row.gap}</span>
                 </MeterRow>
               ))}
-            </ul>
+            </MeterList>
           )}
         </>
       )}

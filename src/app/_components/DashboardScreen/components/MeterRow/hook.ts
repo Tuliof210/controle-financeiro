@@ -4,7 +4,7 @@ export type MeterRowProps = {
   label: string;
   // May exceed 100 — the bar clamps, the caller's text does not.
   percent: number;
-  tone: "positive" | "negative" | "neutral";
+  tone: "positive" | "negative";
   // What the bar means, in words. src/styles/README.md rule 7: meaning is
   // never colour-only, and a bar is a colour.
   srLabel: string;

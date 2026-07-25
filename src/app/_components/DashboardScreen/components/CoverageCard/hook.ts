@@ -24,7 +24,10 @@ export function useCoverageCard({ coverage }: CoverageCardProps) {
       return {
         key: month.month,
         label,
-        percent: sharePercent(month.recorded, month.committed),
+        // The GAP, not the recorded share: the row is red, sorted
+        // worst-first, and labelled "faltam X". A bar measuring `recorded`
+        // would grow as months got better — backwards on all three counts.
+        percent: sharePercent(month.gap, month.committed),
         gap: formatMoney(month.gap),
         srLabel: `${label}: faltam ${formatMoney(month.gap)} de ${formatMoney(month.committed)} previstos`,
       };

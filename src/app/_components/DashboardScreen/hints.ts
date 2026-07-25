@@ -57,7 +57,8 @@ export const HINTS = {
     "Dos compromissos previstos para os meses já decorridos, quanto já foi de",
     "fato lançado. Percentual baixo costuma significar lançamentos em atraso,",
     "não erro de previsão. A lista mostra os meses que ainda faltam, do maior",
-    "buraco para o menor.",
+    "buraco para o menor. O mês corrente entra nessa conta ainda pela metade,",
+    "então costuma aparecer no topo só por não ter terminado.",
   ].join(" "),
 
   goals: [

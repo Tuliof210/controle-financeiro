@@ -1,6 +1,7 @@
 import { PiggyBank } from "lucide-react";
 import { SectionCard } from "@/components/SectionCard";
 import { HINTS } from "../../hints";
+import { MeterList } from "../MeterList";
 import { MeterRow } from "../MeterRow";
 import { type LimitCardProps, useLimitCard } from "./hook";
 import styles from "./style.module.scss";
@@ -11,14 +12,14 @@ export function LimitCard(props: LimitCardProps) {
   return (
     <SectionCard title="Uso da meta mensal" icon={PiggyBank} hint={HINTS.limit}>
       {empty ? (
-        <p className={styles.empty}>
+        <p className={styles.note}>
           Defina a meta mensal em Configurações para acompanhar quanto de cada
           mês ela cobre.
         </p>
       ) : (
         <>
-          <p className={styles.empty}>Meta mensal de {ceiling}.</p>
-          <ul className={styles.list}>
+          <p className={styles.note}>Meta mensal de {ceiling}.</p>
+          <MeterList>
             {rows.map((row) => (
               <MeterRow
                 key={row.key}
@@ -34,7 +35,7 @@ export function LimitCard(props: LimitCardProps) {
                 </span>
               </MeterRow>
             ))}
-          </ul>
+          </MeterList>
         </>
       )}
     </SectionCard>
