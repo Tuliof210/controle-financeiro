@@ -4,8 +4,8 @@ import { CalendarRange } from "lucide-react";
 import { Button } from "@/components/Button";
 import { Modal } from "@/components/Modal";
 import { MonthPicker } from "@/components/MonthPicker";
+import { SectionCard } from "@/components/SectionCard";
 import { formatYyyymm } from "@/lib/months";
-import { SectionCard } from "../SectionCard";
 import { useRangeSection } from "./hook";
 import styles from "./style.module.scss";
 

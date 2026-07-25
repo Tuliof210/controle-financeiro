@@ -4,7 +4,7 @@ import { Users } from "lucide-react";
 import { Button } from "@/components/Button";
 import { ConfirmDialog } from "@/components/ConfirmDialog";
 import { Modal } from "@/components/Modal";
-import { SectionCard } from "../SectionCard";
+import { SectionCard } from "@/components/SectionCard";
 import { PersonForm } from "./components/PersonForm";
 import { PersonRow } from "./components/PersonRow";
 import { usePeopleSection } from "./hook";

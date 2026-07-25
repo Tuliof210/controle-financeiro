@@ -29,7 +29,7 @@ export type EntryScreenLabels = {
 };
 
 export type EntryScreenConfig<
-  T extends Entry & Partial<V>,
+  T extends Entry,
   V extends { type: EntryType },
 > = {
   // The /api/<resource> segment, e.g. "recurrences".

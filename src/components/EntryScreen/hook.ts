@@ -7,12 +7,12 @@ import type { Entry, EntryType } from "@/lib/entry-types";
 import { splitByType, visibleFor } from "@/lib/ownership";
 import type { EntryScreenConfig, ModalState } from "./types";
 
-// `V` is the entity's form-values shape; `T` is the entity itself, which must
-// be usable to seed that form (every entity is its own form's initial value).
-export function useEntryScreen<
-  T extends Entry & Partial<V>,
-  V extends { type: EntryType },
->({ resource, labels }: EntryScreenConfig<T, V>) {
+// `T` is the entity; `V` is its form-values shape. Seeding the form from either
+// a `T` (edit) or a bare `{ type }` (add) is handled by EntryFormProps.initial.
+export function useEntryScreen<T extends Entry, V extends { type: EntryType }>({
+  resource,
+  labels,
+}: EntryScreenConfig<T, V>) {
   const { profile } = useProfile();
   const [items, setItems] = useState<T[]>([]);
   const [people, setPeople] = useState<Person[]>([]);

@@ -1,6 +1,6 @@
-import { SectionCard } from "@/app/configuracoes/_components/SettingsScreen/components/SectionCard";
 import { Button } from "@/components/Button";
 import { EntryRow } from "@/components/EntryRow";
+import { SectionCard } from "@/components/SectionCard";
 import type { Entry } from "@/lib/entry-types";
 import { type EntrySectionProps, useEntrySection } from "./hook";
 import styles from "./style.module.scss";

@@ -9,10 +9,9 @@ import { useEntryScreen } from "./hook";
 import styles from "./style.module.scss";
 import type { EntryScreenConfig } from "./types";
 
-export function EntryScreen<
-  T extends Entry & Partial<V>,
-  V extends { type: EntryType },
->(config: EntryScreenConfig<T, V>) {
+export function EntryScreen<T extends Entry, V extends { type: EntryType }>(
+  config: EntryScreenConfig<T, V>,
+) {
   const { renderPeriod, Form } = config;
   const {
     labels,

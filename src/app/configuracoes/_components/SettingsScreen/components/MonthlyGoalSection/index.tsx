@@ -5,7 +5,7 @@ import { Button } from "@/components/Button";
 import { Modal } from "@/components/Modal";
 import { MoneyInput } from "@/components/MoneyInput";
 import { formatCents } from "@/components/MoneyInput/money.helper";
-import { SectionCard } from "../SectionCard";
+import { SectionCard } from "@/components/SectionCard";
 import { useMonthlyGoalSection } from "./hook";
 import styles from "./style.module.scss";
 
