@@ -1,0 +1,21 @@
+@use "theme" as t;
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-6);
+
+  @include t.bp("md") {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  // Three columns is what puts the Entradas/Saídas/Saldo trio on one row.
+  @include t.bp("lg") {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+// Charts span the row whatever the column count is.
+.wide {
+  grid-column: 1 / -1;
+}

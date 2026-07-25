@@ -1,0 +1,5 @@
+.svg {
+  // An <svg> is inline by default and picks up descender space below the box,
+  // which would push the plot past the measured height.
+  display: block;
+}

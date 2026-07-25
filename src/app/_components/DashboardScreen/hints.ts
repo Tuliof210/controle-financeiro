@@ -26,4 +26,17 @@ export const HINTS = {
     "Atual vai do início do período até o mês corrente. Valores negativos",
     "aparecem com ▼.",
   ].join(" "),
+
+  bars: [
+    "Entradas e saídas de cada mês, sem acumular. Cada barra usa o maior valor",
+    "entre o que foi lançado e o que está previsto; as barras com 50% de",
+    "opacidade são os meses em que o previsto superou o lançado, ou seja,",
+    "projeção e não histórico.",
+  ].join(" "),
+
+  cumulative: [
+    "Saldo acumulado mês a mês desde o início do período global. A linha fica",
+    "tracejada a partir do primeiro mês em que o previsto superou o lançado —",
+    "daí em diante é projeção. A linha horizontal marca o zero.",
+  ].join(" "),
 } as const;
