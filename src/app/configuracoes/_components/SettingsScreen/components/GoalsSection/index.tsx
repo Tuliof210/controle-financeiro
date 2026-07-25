@@ -5,7 +5,7 @@ import { Button } from "@/components/Button";
 import { ConfirmDialog } from "@/components/ConfirmDialog";
 import { IconButton } from "@/components/IconButton";
 import { Modal } from "@/components/Modal";
-import { formatCents } from "@/components/MoneyInput/money.helper";
+import { formatCents } from "@/lib/money";
 import { SectionCard } from "@/components/SectionCard";
 import { GoalForm } from "./components/GoalForm";
 import { useGoalsSection } from "./hook";

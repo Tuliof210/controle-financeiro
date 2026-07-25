@@ -4,7 +4,7 @@ import { PiggyBank } from "lucide-react";
 import { Button } from "@/components/Button";
 import { Modal } from "@/components/Modal";
 import { MoneyInput } from "@/components/MoneyInput";
-import { formatCents } from "@/components/MoneyInput/money.helper";
+import { formatCents } from "@/lib/money";
 import { SectionCard } from "@/components/SectionCard";
 import { useMonthlyGoalSection } from "./hook";
 import styles from "./style.module.scss";
