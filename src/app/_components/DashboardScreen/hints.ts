@@ -54,7 +54,13 @@ export const HINTS = {
   ].join(" "),
 
   goals: [
-    "Meses para alcançar cada objetivo guardando 25% da menor folga do período",
-    "todo mês. Se essa folga for zero, nenhum ritmo alcança o objetivo.",
+    "O valor no topo é quanto dá para guardar por mês: 25% da menor folga do",
+    "período. Cada barra mostra quanto do objetivo esse ritmo financia até o",
+    "fim do período global — cheia quer dizer que fecha dentro dele, e a data",
+    "ao lado é o mês em que isso acontece. Vermelha com “além do período”",
+    "quer dizer que o objetivo chega depois do fim do período, não que seja",
+    "impossível; aí aparece de quanto por mês você precisaria para fechar",
+    "dentro dele. Lista ordenada do objetivo mais próximo para o mais",
+    "distante. Se a folga for zero, nenhum ritmo alcança nada.",
   ].join(" "),
 } as const;

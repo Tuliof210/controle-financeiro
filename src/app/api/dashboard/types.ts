@@ -38,11 +38,18 @@ export type LimitMonth = {
   percent: number | null; // null when monthlyGoalCents is unset
 };
 
+// A goal measured against what the global period can actually put aside.
+// `doneMonth` is the single flag the card leans on: it is non-null exactly when
+// `accruedCents >= targetCents`, so the completion date, the meter's length and
+// its colour can never tell three different stories.
 export type GoalProjection = {
   id: string;
   name: string;
   targetCents: number;
   months: number | null; // null when the saving pace is 0
+  doneMonth: number | null; // YYYYMM; null when the period never funds it
+  accruedCents: number; // pace * months left in the period
+  neededCents: number; // per month, to close inside the period
 };
 
 export type DashboardRange = { start: number; end: number; current: number };

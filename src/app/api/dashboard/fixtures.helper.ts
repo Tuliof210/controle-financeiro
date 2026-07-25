@@ -1,3 +1,4 @@
+import type { Goal } from "@/core/entities/goal.entity";
 import type { Movement } from "@/core/entities/movement.entity";
 import type { Recurrence } from "@/core/entities/recurrence.entity";
 import type { EntryType } from "@/lib/entry-types";
@@ -5,6 +6,15 @@ import type { MonthPoint } from "./types";
 
 // Entry factories shared by this folder's test suites. Not a *.test.ts file,
 // so Vitest does not collect it, and no app code imports it.
+
+// Only the target and the identity matter to any goal rule — Goal carries no
+// deadline and no owner.
+export const goal = (targetCents: number, id = "g1"): Goal => ({
+  id,
+  name: "Carro",
+  targetCents,
+  createdAt: new Date(0),
+});
 
 // A zeroed MonthPoint, so a suite states only the fields its rule reads —
 // slack cares about `cumulative`, limit about `expense`.

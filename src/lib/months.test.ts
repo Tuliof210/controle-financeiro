@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
+  addMonths,
   buildMonths,
   composeYYYYMM,
   currentYYYYMM,
@@ -23,6 +24,28 @@ describe("composeYYYYMM", () => {
 describe("currentYYYYMM", () => {
   it("derives YYYYMM from the given date", () => {
     expect(currentYYYYMM(new Date(2026, 6, 22))).toBe(202607);
+  });
+});
+
+describe("addMonths", () => {
+  it("returns the input for a count of zero", () => {
+    expect(addMonths(202607, 0)).toBe(202607);
+  });
+
+  it("advances within the same year", () => {
+    expect(addMonths(202603, 4)).toBe(202607);
+  });
+
+  it("crosses a year boundary", () => {
+    expect(addMonths(202611, 3)).toBe(202702);
+  });
+
+  it("lands on December rather than month zero", () => {
+    expect(addMonths(202601, 11)).toBe(202612);
+  });
+
+  it("spans several years", () => {
+    expect(addMonths(202607, 30)).toBe(202901);
   });
 });
 
