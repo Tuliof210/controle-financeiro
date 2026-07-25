@@ -13,7 +13,11 @@ export function SectionCard(props: SectionCardProps) {
       <div className={titleRowClassName}>
         {Icon ? <Icon size={18} aria-hidden /> : null}
         <h2 className={styles.title}>{title}</h2>
-        {hint ? <Tooltip text={hint} /> : null}
+        {hint ? (
+          // Named after the card: a dashboard renders many of these, and a
+          // generic label would list them all identically to a screen reader.
+          <Tooltip text={hint} label={`Como ${title} é calculado`} />
+        ) : null}
       </div>
       <div className={styles.body}>{children}</div>
     </section>

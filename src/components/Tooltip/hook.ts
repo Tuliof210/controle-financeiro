@@ -1,19 +1,35 @@
 import type { KeyboardEvent } from "react";
-import { useId } from "react";
+import { useId, useState } from "react";
 
 export type TooltipProps = {
   text: string;
+  // Accessible name of the trigger. Defaults to the generic phrasing; callers
+  // rendering several tooltips on one screen should pass a distinct one, or
+  // every trigger reads identically in the element list.
+  label?: string;
 };
 
-export function useTooltip({ text }: TooltipProps) {
-  // Reveal/hide is pure CSS (:hover / :focus-within), but WCAG 1.4.13 wants
-  // hover-or-focus content dismissible without moving focus — blurring the
-  // trigger on Esc is that escape hatch. Pointer users dismiss by moving away.
+export function useTooltip({
+  text,
+  label = "Como este número é calculado",
+}: TooltipProps) {
+  // Reveal is pure CSS (:hover / :focus-within). WCAG 1.4.13 additionally
+  // requires the content be dismissible *without moving* hover or focus —
+  // blurring would move it — so Esc flips a flag instead and the trigger keeps
+  // focus. Re-arming on blur/pointer-enter means the next visit shows it again.
+  const [dismissed, setDismissed] = useState(false);
+
   const onKeyDown = (event: KeyboardEvent<HTMLButtonElement>) => {
-    if (event.key === "Escape") event.currentTarget.blur();
+    if (event.key !== "Escape" || dismissed) return;
+    // Consume it: this primitive is used inside cards that can sit in a native
+    // <dialog>, where the same keypress would otherwise also close the modal.
+    event.stopPropagation();
+    setDismissed(true);
   };
+
+  const rearm = () => setDismissed(false);
 
   // useId is SSR-safe: aria-describedby must resolve to the same id on the
   // server and the client, or hydration warns.
-  return { text, id: useId(), onKeyDown };
+  return { text, label, id: useId(), dismissed, onKeyDown, rearm };
 }
