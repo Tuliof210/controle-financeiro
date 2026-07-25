@@ -1,0 +1,49 @@
+.total {
+  margin: 0;
+  color: var(--color-text);
+  font-family: var(--font-mono);
+  // --text-xl, not --text-2xl: at three columns a card is ~300px, and
+  // "▲ R$ 100.500,00" wraps at 2rem. One step down leaves headroom for the
+  // glyph and for larger totals.
+  font-size: var(--text-xl);
+  font-weight: var(--weight-bold);
+  // Every figure on this screen is tabular so columns of money line up.
+  font-variant-numeric: tabular-nums;
+  line-height: var(--leading-tight);
+}
+
+.positive {
+  color: var(--color-positive);
+}
+
+.negative {
+  color: var(--color-negative);
+}
+
+.rows {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin: 0;
+}
+
+.row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.label {
+  color: var(--color-text-muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+}
+
+.value {
+  margin: 0;
+  color: var(--color-text);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  font-variant-numeric: tabular-nums;
+}

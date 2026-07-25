@@ -1,3 +1,5 @@
+import { DashboardScreen } from "./_components/DashboardScreen";
+
 export default function Page() {
-  return <h1>Dashboard</h1>;
+  return <DashboardScreen />;
 }
