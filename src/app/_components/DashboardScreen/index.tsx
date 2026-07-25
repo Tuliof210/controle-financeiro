@@ -1,18 +1,10 @@
 "use client";
 
-import {
-  ArrowDownCircle,
-  ArrowUpCircle,
-  CalendarRange,
-  LayoutDashboard,
-  Scale,
-  TriangleAlert,
-} from "lucide-react";
+import { CalendarRange, LayoutDashboard, TriangleAlert } from "lucide-react";
 import Link from "next/link";
 import { formatYyyymm } from "@/lib/months";
+import { Board } from "./components/Board";
 import { Notice } from "./components/Notice";
-import { StatCard } from "./components/StatCard";
-import { HINTS } from "./hints";
 import { useDashboardScreen } from "./hook";
 import styles from "./style.module.scss";
 
@@ -52,31 +44,7 @@ export function DashboardScreen() {
         </Notice>
       ) : null}
 
-      {data?.status === "ok" ? (
-        <div className={styles.grid}>
-          <StatCard
-            title="Entradas"
-            icon={ArrowDownCircle}
-            tone="positive"
-            hint={HINTS.income}
-            stats={data.income}
-          />
-          <StatCard
-            title="Saídas"
-            icon={ArrowUpCircle}
-            tone="negative"
-            hint={HINTS.expense}
-            stats={data.expense}
-          />
-          <StatCard
-            title="Saldo"
-            icon={Scale}
-            hint={HINTS.balance}
-            stats={data.balance}
-            signed
-          />
-        </div>
-      ) : null}
+      {data?.status === "ok" ? <Board data={data} /> : null}
     </div>
   );
 }

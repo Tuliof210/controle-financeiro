@@ -1,0 +1,7 @@
+.plot {
+  // useChartCard measures this box with getBoundingClientRect and hands the
+  // result to the plot; the height lives here only, so there is no second copy
+  // in TypeScript to drift.
+  width: 100%;
+  height: calc(var(--space-24) * 2.75);
+}

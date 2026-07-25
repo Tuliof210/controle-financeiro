@@ -1,0 +1,51 @@
+import type { LucideIcon } from "lucide-react";
+import {
+  type ReactNode,
+  useCallback,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
+
+export type ChartCardProps = {
+  title: string;
+  icon: LucideIcon;
+  hint: string;
+  // Receives the measured pixel box of the card body, so the plot can build its
+  // scales. Called again whenever the card reflows.
+  children: (size: { width: number; height: number }) => ReactNode;
+};
+
+export function useChartCard({ title, icon, hint, children }: ChartCardProps) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [size, setSize] = useState({ width: 0, height: 0 });
+
+  const measure = useCallback(() => {
+    const node = ref.current;
+    if (!node) return;
+    const { width, height } = node.getBoundingClientRect();
+    // Commit only a real change, or this loops.
+    setSize((prev) =>
+      prev.width === width && prev.height === height ? prev : { width, height },
+    );
+  }, []);
+
+  // Deliberately no dependency array: re-measure after EVERY render, which
+  // covers every layout change React drives. Collapsing the sidebar widens this
+  // card without touching the viewport, and measuring only on mount left the
+  // chart stuck at its old width. useLayoutEffect runs before paint, so the
+  // first frame is correct too — safe from the SSR warning because ChartCard
+  // only mounts once the client fetch resolves to status "ok".
+  useLayoutEffect(measure);
+
+  // Still observed, for resizes React never re-renders for (the window itself).
+  useLayoutEffect(() => {
+    const node = ref.current;
+    if (!node) return;
+    const observer = new ResizeObserver(measure);
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, [measure]);
+
+  return { title, icon, hint, children, ref, size };
+}
