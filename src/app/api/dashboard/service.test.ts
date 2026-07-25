@@ -53,14 +53,11 @@ describe("getDashboard", () => {
 
   it("reconciles both sides and splits the range at the current month", async () => {
     seed({
-      movements: [movement(202601, "income", 700000, "p1")],
-      recurrences: [
-        recurrence([202601, 202602, 202603], "income", 500000, "p1"),
-      ],
+      movements: [movement(202601, "income", 700000)],
+      recurrences: [recurrence([202601, 202602, 202603], "income", 500000)],
     });
     const data = await getDashboard("familia", NOW);
-    if (data.status !== "ok")
-      throw new Error(`expected ok, got ${data.status}`);
+    if (data.status !== "ok") throw new Error("expected ok");
 
     expect(data.points.map((p) => p.income)).toEqual([700000, 500000, 500000]);
     expect(data.income.total).toBe(1700000);
@@ -71,7 +68,7 @@ describe("getDashboard", () => {
   it("restricts the board to one person when owner is a person id", async () => {
     seed({
       movements: [
-        movement(202601, "income", 100000, "p1"),
+        movement(202601, "income", 100000),
         movement(202601, "income", 900000, "p2"),
       ],
     });
@@ -83,13 +80,21 @@ describe("getDashboard", () => {
     expect(family.income.total).toBe(1000000);
   });
 
-  it("keeps goals family-wide and unprojected until task 02", async () => {
+  it("keeps goals family-wide, ignoring the owner filter", async () => {
     seed({ goals: [{ id: "g1", name: "Carro", targetCents: 5000000 }] });
-    const data = await getDashboard("p1", NOW);
+    const data = await getDashboard("nobody", NOW);
     if (data.status !== "ok") throw new Error("expected ok");
 
-    expect(data.goals).toEqual([
-      { id: "g1", name: "Carro", targetCents: 5000000, months: null },
-    ]);
+    expect(data.goals.map((goal) => goal.id)).toEqual(["g1"]);
+  });
+
+  // End-to-end wiring of the six blocks lives in payload.helper.test.ts, which
+  // calls buildPayload directly — it is pure and needs none of these mocks.
+  it("passes the saved monthly ceiling through to the limit block", async () => {
+    seed({ settings: { monthlyGoalCents: 100000 } });
+    const data = await getDashboard("familia", NOW);
+    if (data.status !== "ok") throw new Error("expected ok");
+
+    expect(data.limit.goalCents).toBe(100000);
   });
 });

@@ -1,7 +1,11 @@
 import type { Goal } from "@/core/entities/goal.entity";
 import type { Movement } from "@/core/entities/movement.entity";
 import type { Recurrence } from "@/core/entities/recurrence.entity";
+import { buildCoverage } from "./coverage.helper";
+import { projectGoals } from "./goals.helper";
+import { buildLimit } from "./limit.helper";
 import { buildSeries, firstEstimatedMonth } from "./series.helper";
+import { buildSlack, savingPace } from "./slack.helper";
 import { computeStats } from "./stats.helper";
 import type { DashboardData, DashboardRange } from "./types";
 
@@ -9,6 +13,7 @@ type PayloadInput = {
   range: DashboardRange;
   months: number[];
   currentIndex: number;
+  goalCents: number | null;
   goals: Goal[];
   movements: Movement[];
   recurrences: Recurrence[];
@@ -21,6 +26,7 @@ export function buildPayload({
   range,
   months,
   currentIndex,
+  goalCents,
   goals,
   movements,
   recurrences,
@@ -28,6 +34,8 @@ export function buildPayload({
   const points = buildSeries(months, movements, recurrences);
   const stats = (pick: (point: (typeof points)[number]) => number) =>
     computeStats(points.map(pick), currentIndex);
+  const slack = buildSlack(points, range.current);
+  const pace = savingPace(slack);
 
   return {
     status: "ok",
@@ -37,17 +45,10 @@ export function buildPayload({
     income: stats((point) => point.income),
     expense: stats((point) => point.expense),
     balance: stats((point) => point.balance),
-    // ponytail: task 02 fills these — declared empty so the contract the
-    // screen consumes is already final and task 02 is a pure fill-in.
-    slack: [],
-    pace: 0,
-    limit: { goalCents: null, months: [] },
-    coverage: { committed: 0, recorded: 0, percent: null, months: [] },
-    goals: goals.map((goal) => ({
-      id: goal.id,
-      name: goal.name,
-      targetCents: goal.targetCents,
-      months: null,
-    })),
+    slack,
+    pace,
+    limit: buildLimit(points, goalCents),
+    coverage: buildCoverage(points, range.current),
+    goals: projectGoals(goals, pace),
   };
 }
