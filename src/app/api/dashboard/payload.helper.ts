@@ -1,7 +1,6 @@
 import type { Goal } from "@/core/entities/goal.entity";
 import type { Movement } from "@/core/entities/movement.entity";
 import type { Recurrence } from "@/core/entities/recurrence.entity";
-import { buildCoverage } from "./coverage.helper";
 import { projectGoals } from "./goals.helper";
 import { buildLimit } from "./limit.helper";
 import { buildSeries, firstEstimatedMonth } from "./series.helper";
@@ -21,7 +20,7 @@ type PayloadInput = {
 
 // Assembles the "ok" payload from an already-validated range and
 // already-owner-filtered entries. Kept out of service.ts so neither file
-// approaches the 100-line cap once task 02 adds its four blocks.
+// approaches the 100-line cap.
 export function buildPayload({
   range,
   months,
@@ -48,7 +47,6 @@ export function buildPayload({
     slack,
     pace,
     limit: buildLimit(points, goalCents),
-    coverage: buildCoverage(points, range.current),
     goals: projectGoals(goals, pace),
   };
 }

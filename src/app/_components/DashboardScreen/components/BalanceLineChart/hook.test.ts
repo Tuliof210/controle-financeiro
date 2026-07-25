@@ -12,10 +12,6 @@ const point = (month: number, cumulative: number): MonthPoint => ({
   cumulative,
   incomeEstimated: false,
   expenseEstimated: false,
-  realIncome: 0,
-  realExpense: 0,
-  estimatedIncome: 0,
-  estimatedExpense: 0,
 });
 
 const POINTS = [

@@ -3,6 +3,7 @@ import type { Recurrence } from "@/core/entities/recurrence.entity";
 import type { MonthPoint } from "./types";
 
 // The four raw sums a month accumulates before the two sides are reconciled.
+// Local to this file: the payload only ever carries the reconciled result.
 type Sums = {
   realIncome: number;
   realExpense: number;
@@ -80,10 +81,6 @@ export function buildSeries(
       // so the month is history, not projection.
       incomeEstimated: estIncome > realIncome,
       expenseEstimated: estExpense > realExpense,
-      realIncome,
-      realExpense,
-      estimatedIncome: estIncome,
-      estimatedExpense: estExpense,
     };
   });
 }

@@ -15,10 +15,6 @@ const point = (month: number, over: Partial<MonthPoint> = {}): MonthPoint => ({
   cumulative: 0,
   incomeEstimated: false,
   expenseEstimated: false,
-  realIncome: 0,
-  realExpense: 0,
-  estimatedIncome: 0,
-  estimatedExpense: 0,
   ...over,
 });
 
