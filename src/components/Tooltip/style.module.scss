@@ -1,0 +1,90 @@
+@use "theme" as t;
+
+.wrapper {
+  position: relative;
+  display: inline-flex;
+}
+
+.trigger {
+  position: relative;
+  display: inline-flex;
+  padding: 0;
+  background: none;
+  border: 0;
+  color: var(--color-text-muted);
+  // `help` rather than `pointer`: the control reveals an explanation, it does
+  // not navigate or submit.
+  cursor: help;
+
+  &:focus-visible {
+    @include t.focus-ring;
+  }
+
+  // The icon is 14px but README rule 7 puts the minimum hit target at 44px.
+  // An overlaid pseudo-element rather than padding, so the title row does not
+  // grow and the focus ring stays tight on the icon. It reaches 15px below the
+  // icon, which also bridges the gap to the bubble — without that, a pointer
+  // travelling from icon to bubble crosses dead space and the bubble hides
+  // (WCAG 1.4.13 "Hoverable"), since --duration-fast is 0ms under
+  // prefers-reduced-motion and leaves no transition tail to cross.
+  &::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    // Raw 44px, as IconButton/ColorPicker do — there is no hit-target token,
+    // and the "never hardcode" rule covers colour/space/radius/shadow/duration.
+    width: 44px;
+    height: 44px;
+    transform: translate(-50%, -50%);
+  }
+}
+
+.bubble {
+  position: absolute;
+  // Centred on the trigger and opening downward. Centring halves the overflow
+  // risk versus anchoring to either edge, and the viewport clamp keeps a long
+  // hint from pushing past the screen on a narrow card.
+  // ponytail: no collision detection — a very long card title on a very narrow
+  // screen can still clip. Swap for CSS anchor positioning (`position-try`)
+  // once Safari ships it, rather than adding a JS positioning library.
+  top: calc(100% + var(--space-2));
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: var(--z-dropdown);
+  width: max-content;
+  max-width: min(calc(var(--space-24) * 3), calc(100vw - var(--space-8)));
+  padding: var(--space-3);
+  background: var(--color-surface-raised);
+  border: var(--border-2) solid var(--color-border);
+  border-radius: var(--radius-0);
+  color: var(--color-text);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-regular);
+  line-height: var(--leading-snug);
+  // The DS reserves the blur shadow for floating layers: menu, popover, modal,
+  // toast.
+  @include t.elevation(overlay);
+
+  // Hidden, never unmounted, so aria-describedby always resolves. The duration
+  // token already collapses to 0ms under prefers-reduced-motion.
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity var(--duration-fast) var(--ease-snappy),
+    visibility var(--duration-fast) var(--ease-snappy);
+
+  .wrapper:hover &,
+  .wrapper:focus-within & {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  // Esc sets the flag; it re-arms on blur or the next pointer entry. Wins over
+  // both reveal rules above by specificity, so the trigger can keep focus.
+  .wrapper[data-dismissed] & {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
