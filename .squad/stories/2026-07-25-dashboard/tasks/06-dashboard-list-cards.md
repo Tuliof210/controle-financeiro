@@ -26,6 +26,14 @@ was wrong. The copy must not imply the plan was wrong. When
 `coverage.percent` is `null` (nothing committed in any elapsed month), render
 an empty state.
 
+> Flagged in task 02's review, decide when you build this card: "elapsed"
+> includes the **current, only partially-elapsed month**, so it will almost
+> always sit at the top of the worst-first list purely because the month is not
+> over yet. That is the spec as written (`rangeStart .. min(currentMonth,
+> rangeEnd)` inclusive), and it is not a bug — but if the card reads as noisy
+> because of it, that is a scope question for the owner, not something to
+> silently change in the helper.
+
 **4. Objetivos** (`data.goals`) — one row per saved `Goal` with its target and
 how many months until it is reached at the current pace, or *"inalcançável no
 ritmo atual"* when `months` is `null`. With no goals saved, an empty state
