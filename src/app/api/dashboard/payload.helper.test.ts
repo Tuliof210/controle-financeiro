@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { movement, recurrence } from "./fixtures.helper";
+import { goal, movement, recurrence } from "./fixtures.helper";
 import { buildPayload } from "./payload.helper";
 
 // buildPayload is pure, so this exercises the wiring of all five blocks off one
@@ -11,9 +11,7 @@ const data = buildPayload({
   months: [202601, 202602, 202603],
   currentIndex: 1,
   goalCents: 100000,
-  goals: [
-    { id: "g1", name: "Carro", targetCents: 5000000, createdAt: new Date(0) },
-  ],
+  goals: [goal(5000000), goal(100000, "g2")],
   movements: [
     movement(202601, "income", 500000),
     movement(202601, "expense", 200000),
@@ -51,7 +49,19 @@ describe("buildPayload", () => {
 
   it("derives the pace from the tightest slack month and projects the goals", () => {
     expect(data.pace).toBe(120000); // 25% of 480000
-    expect(data.goals[0].months).toBe(42); // ceil(5000000 / 120000)
+    // Soonest first, so the cheap goal overtakes the one declared before it.
+    expect(data.goals.map((goal) => goal.id)).toEqual(["g2", "g1"]);
+    expect(data.goals[1].months).toBe(42); // ceil(5000000 / 120000)
+  });
+
+  it("hands the goals the horizon, not the whole range", () => {
+    // The wiring this pins: monthsAhead is slack.length (2 months left), NOT
+    // months.length (3), and `current` is range.current (202602), not
+    // range.start. 2 * 120000 accrued; Bici needs one month, so it closes in
+    // the current month itself.
+    expect(data.goals[1].accruedCents).toBe(240000);
+    expect(data.goals[0].doneMonth).toBe(202602);
+    expect(data.goals[1].doneMonth).toBeNull(); // 42 months, only 2 left
   });
 
   it("measures every month against the saved ceiling", () => {

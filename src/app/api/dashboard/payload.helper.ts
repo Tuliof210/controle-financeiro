@@ -47,6 +47,12 @@ export function buildPayload({
     slack,
     pace,
     limit: buildLimit(points, goalCents),
-    goals: projectGoals(goals, pace),
+    // slack runs from the current month to the range end, so its length is
+    // exactly how many months are left to save in.
+    goals: projectGoals(goals, {
+      pace,
+      monthsAhead: slack.length,
+      current: range.current,
+    }),
   };
 }

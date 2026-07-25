@@ -25,6 +25,14 @@ export function currentYYYYMM(now = new Date()) {
   return composeYYYYMM(now.getFullYear(), now.getMonth() + 1);
 }
 
+// YYYYMM advanced by N months. Goes through a flat month count so December ->
+// January is arithmetic, not a special case.
+export function addMonths(value: number, count: number): number {
+  const { year, month } = splitYYYYMM(value);
+  const total = year * 12 + (month - 1) + count;
+  return composeYYYYMM(Math.trunc(total / 12), (total % 12) + 1);
+}
+
 export function yearOptions(currentYear = new Date().getFullYear()) {
   const start = currentYear - 3;
   const end = currentYear + 8;
