@@ -7,7 +7,7 @@ import { SelectField } from "@/components/SelectField";
 import { TextField } from "@/components/TextField";
 import type { Person } from "@/core/entities/person.entity";
 import { ENTRY_TYPES, SELECTED_VARIANT, TYPE_LABELS } from "@/lib/entry-types";
-import type { EntryFormBase } from "./hook";
+import type { EntryFormBase } from "./entry-form.helper";
 import styles from "./style.module.scss";
 
 export type EntryFormFields = EntryFormBase & {
@@ -43,7 +43,16 @@ export function EntryForm({
   canSubmit,
   onSubmit,
 }: EntryFormProps) {
-  const { name, setName, valueCents, setValueCents, type, setType } = fields;
+  const {
+    name,
+    setName,
+    valueCents,
+    setValueCents,
+    type,
+    setType,
+    ownerId,
+    setOwnerId,
+  } = fields;
 
   return (
     <div className={styles.form}>
@@ -72,8 +81,8 @@ export function EntryForm({
       <SelectField
         id={`${idPrefix}-owner`}
         label="Responsável"
-        value={fields.ownerId}
-        onChange={fields.setOwnerId}
+        value={ownerId}
+        onChange={setOwnerId}
         options={people.map((person) => ({
           value: person.id,
           label: person.name,

@@ -1,22 +1,9 @@
+import { type SelectFieldProps, useSelectField } from "./hook";
 import styles from "./style.module.scss";
 
-export type SelectFieldOption = { value: string; label: string };
+export function SelectField(props: SelectFieldProps) {
+  const { id, label, value, options, onChange } = useSelectField(props);
 
-export type SelectFieldProps = {
-  id: string;
-  label: string;
-  value: string;
-  options: SelectFieldOption[];
-  onChange: (value: string) => void;
-};
-
-export function SelectField({
-  id,
-  label,
-  value,
-  options,
-  onChange,
-}: SelectFieldProps) {
   return (
     <div className={styles.field}>
       <label htmlFor={id} className={styles.label}>
@@ -27,7 +14,7 @@ export function SelectField({
         aria-label={label}
         className={styles.select}
         value={value}
-        onChange={(event) => onChange(event.target.value)}
+        onChange={onChange}
       >
         {options.map((option) => (
           <option key={option.value} value={option.value}>

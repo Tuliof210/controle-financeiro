@@ -3,17 +3,14 @@ import { useProfile } from "@/components/ProfileProvider/hook";
 import type { Person } from "@/core/entities/person.entity";
 import type { EntryType } from "@/lib/entry-types";
 import { resolveOwnerId } from "@/lib/ownership";
+import {
+  type EntryFormBase,
+  isEntryValid,
+  toEntryBase,
+} from "./entry-form.helper";
 
-// The half of an entry that never varies between entities. The period — the
-// half that does — stays in each feature's own form hook, so no generic is
-// needed here and each form keeps its own concrete payload type.
-export type EntryFormBase = {
-  name: string;
-  valueCents: number;
-  type: EntryType;
-  ownerId: string;
-};
-
+// Role-suffixed rather than a plain `hook.ts`: this is consumed by each
+// feature's own form hook, not by EntryForm/index.tsx, which is presentational.
 export function useEntryForm(
   initial: Partial<EntryFormBase> | undefined,
   people: Person[],
@@ -39,14 +36,8 @@ export function useEntryForm(
       ownerId,
       setOwnerId,
     },
-    // The shared half of the submit payload, trimmed and ready.
-    base: (): EntryFormBase => ({
-      name: name.trim(),
-      valueCents,
-      type,
-      ownerId,
-    }),
-    isValid: name.trim().length > 0 && valueCents >= 1 && ownerId !== "",
+    base: () => toEntryBase({ name, valueCents, type, ownerId }),
+    isValid: isEntryValid({ name, valueCents, ownerId }),
     localError,
     setLocalError,
   };

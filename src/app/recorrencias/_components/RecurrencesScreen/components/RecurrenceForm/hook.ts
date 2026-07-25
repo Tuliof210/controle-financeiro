@@ -1,5 +1,5 @@
-import type { EntryFormBase } from "@/components/EntryForm/hook";
-import { useEntryForm } from "@/components/EntryForm/hook";
+import type { EntryFormBase } from "@/components/EntryForm/entry-form.helper";
+import { useEntryForm } from "@/components/EntryForm/entry-form.hook";
 import type { Person } from "@/core/entities/person.entity";
 import { buildMonths } from "@/lib/months";
 import { intervalsToMonths } from "./intervals.helper";

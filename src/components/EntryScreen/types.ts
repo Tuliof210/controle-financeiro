@@ -8,10 +8,11 @@ export type ModalState<T> =
   | { type: "edit"; entry: T }
   | { type: "delete"; entry: T };
 
-// The prop contract every entry form already satisfies. `initial` accepts a
-// bare `{ type }` seed so the add modal needs no cast: V always carries a
-// `type`, but TS cannot see that through the generic on its own.
-export type EntryFormProps<V> = {
+// The prop contract a feature form must satisfy to slot into EntryScreen —
+// distinct from EntryForm's own props, which are the shared layout component's.
+// `initial` accepts a bare `{ type }` seed so the add modal needs no cast: V
+// always carries a `type`, but TS cannot see that through the generic on its own.
+export type EntryFormSlotProps<V> = {
   initial?: Partial<V> | { type: EntryType };
   error?: string;
   submitLabel: string;
@@ -36,5 +37,5 @@ export type EntryScreenConfig<
   resource: string;
   labels: EntryScreenLabels;
   renderPeriod: (item: T) => ReactNode;
-  Form: ComponentType<EntryFormProps<V>>;
+  Form: ComponentType<EntryFormSlotProps<V>>;
 };

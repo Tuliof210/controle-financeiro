@@ -1,6 +1,6 @@
 import { useState } from "react";
-import type { EntryFormBase } from "@/components/EntryForm/hook";
-import { useEntryForm } from "@/components/EntryForm/hook";
+import type { EntryFormBase } from "@/components/EntryForm/entry-form.helper";
+import { useEntryForm } from "@/components/EntryForm/entry-form.hook";
 import type { Person } from "@/core/entities/person.entity";
 import { buildMonths, currentYYYYMM } from "@/lib/months";
 
