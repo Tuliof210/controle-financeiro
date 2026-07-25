@@ -20,21 +20,6 @@ describe("buildSeries", () => {
     expect(points.map((p) => p.incomeEstimated)).toEqual([false, true, true]);
   });
 
-  it("keeps both unreconciled sides alongside the reconciled figure", () => {
-    const points = buildSeries(
-      [202601],
-      [mv(202601, "income", 900000)],
-      [rc([202601], "income", 500000), rc([202601], "expense", 250000)],
-    );
-    expect(points[0]).toMatchObject({
-      income: 900000,
-      realIncome: 900000,
-      estimatedIncome: 500000,
-      realExpense: 0,
-      estimatedExpense: 250000,
-    });
-  });
-
   it("does not flag a tie as estimated", () => {
     const points = buildSeries(
       [202601],

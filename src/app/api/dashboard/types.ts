@@ -13,13 +13,6 @@ export type MonthPoint = {
   cumulative: number; // running sum of balance from the range's first month
   incomeEstimated: boolean; // estimated > real -> projection, render at 50% opacity
   expenseEstimated: boolean;
-  // The unreconciled sides. The screen ignores these; the coverage block needs
-  // them, because "how much of the commitment was recorded" is invisible once
-  // the two have been collapsed into a single max().
-  realIncome: number;
-  realExpense: number;
-  estimatedIncome: number;
-  estimatedExpense: number;
 };
 
 export type Stats = {
@@ -43,14 +36,6 @@ export type LimitMonth = {
   month: number;
   spent: number; // effective expense of the month, cents
   percent: number | null; // null when monthlyGoalCents is unset
-};
-
-// An elapsed month whose known commitments are not yet fully recorded.
-export type CoverageMonth = {
-  month: number;
-  committed: number;
-  recorded: number;
-  gap: number; // committed - recorded, > 0 for every entry in the list
 };
 
 export type GoalProjection = {
@@ -77,8 +62,7 @@ export type DashboardData =
       // month is real-dominant. Owner's decision (2026-07-25): this is NOT
       // clamped to the current month, so an under-recorded PAST month starts
       // the dashed run early — dashed means "from here on the recorded data no
-      // longer covers the commitments", not "future". The coverage card is
-      // what explains why it started where it did.
+      // longer covers the commitments", not "future".
       dashedFrom: number | null;
       income: Stats;
       expense: Stats;
@@ -86,11 +70,5 @@ export type DashboardData =
       slack: SlackMonth[];
       pace: number;
       limit: { goalCents: number | null; months: LimitMonth[] };
-      coverage: {
-        committed: number;
-        recorded: number;
-        percent: number | null;
-        months: CoverageMonth[];
-      };
       goals: GoalProjection[];
     };

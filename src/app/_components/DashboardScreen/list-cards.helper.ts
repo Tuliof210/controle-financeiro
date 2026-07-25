@@ -1,4 +1,4 @@
-// Small derivations the four list cards share. Pure, so they carry the tests —
+// Small derivations the three list cards share. Pure, so they carry the tests —
 // the components around them cannot be tested under this repo's node-environment
 // Vitest config.
 

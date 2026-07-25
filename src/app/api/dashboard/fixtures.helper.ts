@@ -7,7 +7,7 @@ import type { MonthPoint } from "./types";
 // so Vitest does not collect it, and no app code imports it.
 
 // A zeroed MonthPoint, so a suite states only the fields its rule reads —
-// slack cares about `cumulative`, coverage about the four unreconciled sums.
+// slack cares about `cumulative`, limit about `expense`.
 export const point = (
   month: number,
   overrides: Partial<MonthPoint> = {},
@@ -19,10 +19,6 @@ export const point = (
   cumulative: 0,
   incomeEstimated: false,
   expenseEstimated: false,
-  realIncome: 0,
-  realExpense: 0,
-  estimatedIncome: 0,
-  estimatedExpense: 0,
   ...overrides,
 });
 

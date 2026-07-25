@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { movement, recurrence } from "./fixtures.helper";
 import { buildPayload } from "./payload.helper";
 
-// buildPayload is pure, so this exercises the wiring of all six blocks off one
+// buildPayload is pure, so this exercises the wiring of all five blocks off one
 // dataset without any repository mocks. Each rule has its own unit suite; what
 // this catches is a wiring mistake — a swapped argument, a stale `pace`, the
 // current month passed where the range start belongs.
@@ -59,16 +59,5 @@ describe("buildPayload", () => {
     expect(data.limit.months.map((row) => row.percent)).toEqual([
       200, 100, 100,
     ]);
-  });
-
-  it("scores coverage over elapsed months only", () => {
-    // January recorded more than it committed on both sides; February recorded
-    // nothing against 500000. March is ahead of the current month.
-    expect(data.coverage).toMatchObject({
-      committed: 1000000,
-      recorded: 500000,
-      percent: 50,
-      months: [{ month: 202602, gap: 500000 }],
-    });
   });
 });
