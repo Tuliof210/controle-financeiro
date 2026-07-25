@@ -1,0 +1,18 @@
+@use "theme" as t;
+
+.notice {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+
+  a {
+    color: var(--color-brand);
+    text-decoration: underline;
+
+    &:focus-visible {
+      @include t.focus-ring;
+    }
+  }
+}
