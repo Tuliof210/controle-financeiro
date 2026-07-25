@@ -8,7 +8,7 @@ import { splitByType, visibleFor } from "@/lib/ownership";
 import type { EntryScreenConfig, ModalState } from "./types";
 
 // `T` is the entity; `V` is its form-values shape. Seeding the form from either
-// a `T` (edit) or a bare `{ type }` (add) is handled by EntryFormProps.initial.
+// a `T` (edit) or a bare `{ type }` (add) is handled by EntryFormSlotProps.initial.
 export function useEntryScreen<T extends Entry, V extends { type: EntryType }>({
   resource,
   labels,

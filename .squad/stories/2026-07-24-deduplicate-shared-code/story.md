@@ -51,9 +51,15 @@ migrations, no API contract changes.
 - [ ] `visibleFor`/`splitByType` exist once as generics in `src/lib/ownership.ts`
       (with a shared `FAMILY_PROFILE` const); the two feature copies are gone.
       Owner-default logic is a single `resolveOwnerId`.
-- [ ] (Phase 2) The recurrence/movement Row, Section, Screen, and Form are each
-      a single generic component reused by both features, or — if deferred —
-      the story is explicitly closed at Phase 1 with the owner's agreement.
+- [x] (Phase 2) The recurrence/movement Row, Section, Screen, and Form are each
+      a single component reused by both features. **Row/Section/Screen are
+      generic (task 04). The Form is shared by composition, not by a generic
+      (task 05)** — a generic `EntryForm` parameterized over the period was
+      built and rejected: `Partial<P>` is opaque while `P` is an unresolved type
+      parameter, so the screen could not seed the form without unverifiable
+      casts. Sharing the concrete half (name/value/type/owner) and letting each
+      form own its period needs no generic and no cast. Decision made with the
+      owner mid-task; see task 05's PR for the full evidence.
 - [ ] No behavior change anywhere: every existing test still passes unchanged in
       intent, and the recurrences + movements screens work exactly as before
       (verified live).
@@ -70,4 +76,4 @@ migrations, no API contract changes.
 - [x] tasks/02-shared-month-toolkit.md — all YYYYMM utils (incl. buildMonths/formatYyyymm) in src/lib/months.ts
 - [x] tasks/03-shared-ownership-helpers.md — generic visibleFor/splitByType + FAMILY_PROFILE + resolveOwnerId
 - [x] tasks/04-generic-row-section-screen.md — generic EntryRow/EntrySection/EntryScreen (Phase 2)
-- [ ] tasks/05-generic-entry-form.md — generic EntryForm with a pluggable period control (Phase 2, highest risk)
+- [x] tasks/05-generic-entry-form.md — shared EntryForm + SelectField (composition, not a generic — see AC above)
