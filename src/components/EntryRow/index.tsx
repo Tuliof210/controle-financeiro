@@ -1,9 +1,9 @@
 import { Pencil, Trash2 } from "lucide-react";
 import type { ReactNode } from "react";
 import { IconButton } from "@/components/IconButton";
-import { formatCents } from "@/lib/money";
 import type { Person } from "@/core/entities/person.entity";
 import type { Entry } from "@/lib/entry-types";
+import { formatCents } from "@/lib/money";
 import styles from "./style.module.scss";
 
 type EntryRowProps = {

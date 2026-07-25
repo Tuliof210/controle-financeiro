@@ -181,7 +181,7 @@ issues four unfiltered reads.
 
 ## Tasks
 
-- [ ] tasks/01-money-and-series-api.md — move the money helper to `src/lib/`, add signed/grouped display formatters, and ship `GET /api/dashboard` with the monthly effective series, cumulative balance and the three statistic blocks
+- [x] tasks/01-money-and-series-api.md — move the money helper to `src/lib/`, add signed/grouped display formatters, and ship `GET /api/dashboard` with the monthly effective series, cumulative balance and the three statistic blocks
 - [ ] tasks/02-slack-limit-coverage-goals-api.md — extend the payload with safe-to-spend, monthly-goal usage, commitment coverage and goal projections
 - [ ] tasks/03-card-tooltip.md — add a `Tooltip` component and a `hint` slot on `SectionCard` so every card can explain its own logic
 - [ ] tasks/04-dashboard-screen-stats.md — build `DashboardScreen` (fetch, profile, empty/error states) and the three Entradas/Saídas/Saldo stat cards
