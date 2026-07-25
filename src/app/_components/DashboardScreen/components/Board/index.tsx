@@ -67,7 +67,7 @@ export function Board(props: BoardProps) {
 
       <SlackCard slack={data.slack} />
       <LimitCard limit={data.limit} />
-      <GoalsCard goals={data.goals} />
+      <GoalsCard goals={data.goals} pace={data.pace} />
     </div>
   );
 }
