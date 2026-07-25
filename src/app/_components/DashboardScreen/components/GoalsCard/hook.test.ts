@@ -88,4 +88,13 @@ describe("useGoalsCard", () => {
       expect(row.tone === "positive").toBe(row.percent === 100);
     }
   });
+
+  it("never announces 100% on a goal the period does not close", () => {
+    // 99.96% funded and still short: rounding announced "100%" beside a red
+    // bar reading "além do período". The floor is what stops that.
+    const row = card([goal({ doneMonth: null, accruedCents: 4998000 })])
+      .rows[0];
+    expect(row.tone).toBe("negative");
+    expect(row.srLabel).toContain("99%");
+  });
 });

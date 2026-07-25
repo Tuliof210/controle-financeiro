@@ -8,10 +8,15 @@ type Horizon = {
   current: number; // YYYYMM
 };
 
-// Unreachable goals sink to the bottom. MAX_SAFE_INTEGER and not
-// POSITIVE_INFINITY: Infinity - Infinity is NaN, and a comparator returning NaN
-// reads as a bug even though the spec coerces it to 0. Array.sort is stable, so
-// goals tied on months keep the repository's createdAt order.
+// Soonest first. Array.sort is stable, so goals tied on months keep the
+// repository's createdAt order.
+//
+// The ?? branch is inert by construction, kept only to satisfy the type: pace
+// is payload-global, so `months` is null for EVERY goal or for none — a list
+// mixing the two cannot exist, and mutating the fallback changes nothing
+// observable. MAX_SAFE_INTEGER rather than POSITIVE_INFINITY all the same,
+// since Infinity - Infinity is NaN and a comparator returning NaN reads as a
+// bug even though the spec coerces it to 0.
 const wait = (goal: GoalProjection) => goal.months ?? Number.MAX_SAFE_INTEGER;
 
 // Goal carries no deadline, so the questions are how long each target takes at

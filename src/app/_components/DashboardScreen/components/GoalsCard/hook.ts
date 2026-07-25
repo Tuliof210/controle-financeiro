@@ -43,7 +43,11 @@ export function useGoalsCard({ goals, pace }: GoalsCardProps) {
         needed: reached
           ? null
           : `precisaria de ${formatMoney(goal.neededCents)}/mês`,
-        srLabel: `${goal.name}: ${Math.round(percent)}% do objetivo financiado até o fim do período`,
+        // Floor, never round, on a goal the period misses: rounding announced
+        // "100%" for anything from 99.5% up, so a short red bar reading "além
+        // do período" told a screen reader it was fully funded. 100 is
+        // reserved for a full bar.
+        srLabel: `${goal.name}: ${reached ? 100 : Math.floor(percent)}% do objetivo financiado até o fim do período`,
       };
     }),
   };

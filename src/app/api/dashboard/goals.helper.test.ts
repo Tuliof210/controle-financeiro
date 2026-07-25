@@ -77,7 +77,9 @@ describe("projectGoals — the invariant the card leans on", () => {
 });
 
 describe("projectGoals — ordering", () => {
-  it("puts the soonest goal first and the unreachable ones last", () => {
+  // "beyond" is reachable, just past the period's end — "unreachable" here
+  // means months === null, which only a zero pace produces, for every goal.
+  it("puts the soonest goal first and the ones past the period last", () => {
     const projected = projectGoals(
       [goal(50000, "far"), goal(3000, "near"), goal(90000, "beyond")],
       horizon(1000, 60),
@@ -86,7 +88,7 @@ describe("projectGoals — ordering", () => {
     expect(projected.at(-1)?.doneMonth).toBeNull();
   });
 
-  it("keeps the repository order among ties and when none are reachable", () => {
+  it("keeps the repository order among ties and at a zero pace", () => {
     const tied = projectGoals(
       [goal(1000, "a"), goal(1000, "b")],
       horizon(1000),
