@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { axisTickMonths, dashSplit, yDomain } from "./chart.helper";
+import { axisTickMonths, dashSplit, leftMargin, yDomain } from "./chart.helper";
 
 const point = (month: number) =>
   ({ month }) as unknown as Parameters<typeof dashSplit>[0][number];
@@ -75,5 +75,25 @@ describe("axisTickMonths", () => {
   it("never returns more labels than asked for", () => {
     const long = Array.from({ length: 36 }, (_, i) => i);
     expect(axisTickMonths(long, 6).length).toBeLessThanOrEqual(6);
+  });
+});
+
+describe("leftMargin", () => {
+  it("widens for a signed label so the SVG root does not clip it", () => {
+    // "−R$ 20.000" is 10 chars vs "R$ 40.000" at 9 — the case a fixed 68px
+    // margin clipped once the balance went negative.
+    expect(leftMargin(["−R$ 20.000"])).toBeGreaterThan(
+      leftMargin(["R$ 40.000"]),
+    );
+  });
+
+  it("sizes from the longest label, not the last", () => {
+    expect(leftMargin(["R$ 0", "−R$ 1.234.567"])).toBe(
+      leftMargin(["−R$ 1.234.567"]),
+    );
+  });
+
+  it("still returns the gutter for no labels", () => {
+    expect(leftMargin([])).toBeGreaterThan(0);
   });
 });
