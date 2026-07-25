@@ -2,13 +2,13 @@ import { ChartFrame } from "../ChartFrame";
 import { type MonthlyBarChartProps, useMonthlyBarChart } from "./hook";
 
 export function MonthlyBarChart(props: MonthlyBarChartProps) {
-  const { frame, bars } = useMonthlyBarChart(props);
+  const { frame, bars, width, height } = useMonthlyBarChart(props);
 
   return (
     <ChartFrame
       title="Entradas e saídas de cada mês do período"
-      width={props.width}
-      height={props.height}
+      width={width}
+      height={height}
       frame={frame}
     >
       {bars.map((bar) => (

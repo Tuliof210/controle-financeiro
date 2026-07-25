@@ -5,14 +5,14 @@ import { type BalanceLineChartProps, useBalanceLineChart } from "./hook";
 const LINE = { stroke: "var(--color-brand)", strokeWidth: 2 };
 
 export function BalanceLineChart(props: BalanceLineChartProps) {
-  const { frame, solid, dashed, x, y, dots, zeroY } =
+  const { frame, solid, dashed, x, y, dots, zeroY, width, height } =
     useBalanceLineChart(props);
 
   return (
     <ChartFrame
       title="Saldo acumulado de cada mês do período"
-      width={props.width}
-      height={props.height}
+      width={width}
+      height={height}
       frame={frame}
     >
       {/* Without this a negative balance reads as "a bit lower" rather than

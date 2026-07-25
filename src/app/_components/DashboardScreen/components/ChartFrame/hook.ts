@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import type { buildFrame } from "../../chart.helper";
+import type { buildFrame } from "../../chart-frame.helper";
 
 export type ChartFrameProps = {
   // Accessible name for the plot as a whole; the marks carry their own <title>s

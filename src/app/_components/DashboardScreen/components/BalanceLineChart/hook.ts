@@ -1,7 +1,8 @@
 import type { MonthPoint } from "@/app/api/dashboard/types";
 import { formatMoney } from "@/lib/money";
 import { formatYyyymm } from "@/lib/months";
-import { buildFrame, dashSplit } from "../../chart.helper";
+import { dashSplit } from "../../chart.helper";
+import { buildFrame } from "../../chart-frame.helper";
 
 export type BalanceLineChartProps = {
   points: MonthPoint[];
@@ -17,7 +18,7 @@ export function useBalanceLineChart({
   height,
 }: BalanceLineChartProps) {
   const frame = buildFrame(
-    points.map((point) => point.month),
+    points,
     points.map((point) => point.cumulative),
     width,
     height,
@@ -32,6 +33,8 @@ export function useBalanceLineChart({
 
   return {
     frame,
+    width,
+    height,
     x,
     y,
     ...dashSplit(points, dashedFrom),

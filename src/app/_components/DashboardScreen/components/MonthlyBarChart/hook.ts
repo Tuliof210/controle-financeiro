@@ -2,7 +2,7 @@ import { scaleBand } from "@visx/scale";
 import type { MonthPoint } from "@/app/api/dashboard/types";
 import { formatMoney } from "@/lib/money";
 import { formatYyyymm } from "@/lib/months";
-import { buildFrame } from "../../chart.helper";
+import { buildFrame } from "../../chart-frame.helper";
 
 export type MonthlyBarChartProps = {
   points: MonthPoint[];
@@ -23,7 +23,7 @@ export function useMonthlyBarChart({
   height,
 }: MonthlyBarChartProps) {
   const frame = buildFrame(
-    points.map((point) => point.month),
+    points,
     points.flatMap((point) => [point.income, point.expense]),
     width,
     height,
@@ -62,5 +62,5 @@ export function useMonthlyBarChart({
     }),
   );
 
-  return { frame, bars };
+  return { frame, bars, width, height };
 }

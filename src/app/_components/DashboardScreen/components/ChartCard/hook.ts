@@ -1,5 +1,11 @@
 import type { LucideIcon } from "lucide-react";
-import { type ReactNode, useLayoutEffect, useRef, useState } from "react";
+import {
+  type ReactNode,
+  useCallback,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 
 export type ChartCardProps = {
   title: string;
@@ -10,35 +16,36 @@ export type ChartCardProps = {
   children: (size: { width: number; height: number }) => ReactNode;
 };
 
-const SAME = (a: DOMRect, b: { width: number; height: number }) =>
-  a.width === b.width && a.height === b.height;
-
 export function useChartCard({ title, icon, hint, children }: ChartCardProps) {
   const ref = useRef<HTMLDivElement>(null);
   const [size, setSize] = useState({ width: 0, height: 0 });
 
-  // useLayoutEffect, not useEffect: it measures before paint, so the chart is
-  // there on the first frame instead of flashing an empty box. Safe from the
-  // SSR warning because ChartCard only mounts after the client-side fetch
-  // resolves to status "ok" — it never renders on the server.
+  const measure = useCallback(() => {
+    const node = ref.current;
+    if (!node) return;
+    const { width, height } = node.getBoundingClientRect();
+    // Commit only a real change, or this loops.
+    setSize((prev) =>
+      prev.width === width && prev.height === height ? prev : { width, height },
+    );
+  }, []);
+
+  // Deliberately no dependency array: re-measure after EVERY render, which
+  // covers every layout change React drives. Collapsing the sidebar widens this
+  // card without touching the viewport, and measuring only on mount left the
+  // chart stuck at its old width. useLayoutEffect runs before paint, so the
+  // first frame is correct too — safe from the SSR warning because ChartCard
+  // only mounts once the client fetch resolves to status "ok".
+  useLayoutEffect(measure);
+
+  // Still observed, for resizes React never re-renders for (the window itself).
   useLayoutEffect(() => {
     const node = ref.current;
     if (!node) return;
-
-    const measure = () => {
-      const box = node.getBoundingClientRect();
-      setSize((prev) =>
-        SAME(box, prev) ? prev : { width: box.width, height: box.height },
-      );
-    };
-
-    // Measure once outright rather than relying on ResizeObserver's initial
-    // callback, so the first render does not depend on observer delivery.
-    measure();
     const observer = new ResizeObserver(measure);
     observer.observe(node);
     return () => observer.disconnect();
-  }, []);
+  }, [measure]);
 
   return { title, icon, hint, children, ref, size };
 }
