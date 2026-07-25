@@ -4,8 +4,8 @@ import { PiggyBank } from "lucide-react";
 import { Button } from "@/components/Button";
 import { Modal } from "@/components/Modal";
 import { MoneyInput } from "@/components/MoneyInput";
-import { formatCents } from "@/components/MoneyInput/money.helper";
 import { SectionCard } from "@/components/SectionCard";
+import { formatMoney } from "@/lib/money";
 import { useMonthlyGoalSection } from "./hook";
 import styles from "./style.module.scss";
 
@@ -26,7 +26,7 @@ export function MonthlyGoalSection() {
     <SectionCard title="Meta mensal" icon={PiggyBank}>
       <div className={styles.row}>
         <p className={styles.summary}>
-          {savedGoalCents > 0 ? `R$ ${formatCents(savedGoalCents)}` : "—"}
+          {savedGoalCents > 0 ? formatMoney(savedGoalCents) : "—"}
         </p>
         <Button variant="ghost" onClick={openModal}>
           Editar
