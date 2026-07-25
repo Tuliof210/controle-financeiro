@@ -1,24 +1,28 @@
 import { Pencil, Trash2 } from "lucide-react";
+import type { ReactNode } from "react";
 import { IconButton } from "@/components/IconButton";
 import { formatCents } from "@/components/MoneyInput/money.helper";
 import type { Person } from "@/core/entities/person.entity";
-import type { Recurrence } from "@/core/entities/recurrence.entity";
-import { formatMonths } from "../../recurrence-range.helper";
+import type { Entry } from "@/lib/entry-types";
 import styles from "./style.module.scss";
 
-type RecurrenceRowProps = {
-  recurrence: Recurrence;
+type EntryRowProps = {
+  entry: Entry;
   person?: Person;
+  // Already-formatted period cell — the one part that differs per entity
+  // (a recurrence's month intervals vs a movement's single month).
+  period: ReactNode;
   onEdit: () => void;
   onDelete: () => void;
 };
 
-export function RecurrenceRow({
-  recurrence,
+export function EntryRow({
+  entry,
   person,
+  period,
   onEdit,
   onDelete,
-}: RecurrenceRowProps) {
+}: EntryRowProps) {
   return (
     <li className={styles.row}>
       <span
@@ -26,17 +30,17 @@ export function RecurrenceRow({
         aria-hidden
       />
       <span className={styles.owner}>{person?.name ?? "—"}</span>
-      <span className={styles.name}>{recurrence.name}</span>
-      <span className={`${styles.value} ${styles[recurrence.type]}`}>
-        R$ {formatCents(recurrence.valueCents)}
+      <span className={styles.name}>{entry.name}</span>
+      <span className={`${styles.value} ${styles[entry.type]}`}>
+        R$ {formatCents(entry.valueCents)}
       </span>
-      <span className={styles.period}>{formatMonths(recurrence.months)}</span>
-      <IconButton aria-label={`Editar ${recurrence.name}`} onClick={onEdit}>
+      <span className={styles.period}>{period}</span>
+      <IconButton aria-label={`Editar ${entry.name}`} onClick={onEdit}>
         <Pencil size={16} aria-hidden />
       </IconButton>
       <IconButton
         variant="danger"
-        aria-label={`Excluir ${recurrence.name}`}
+        aria-label={`Excluir ${entry.name}`}
         onClick={onDelete}
       >
         <Trash2 size={16} aria-hidden />

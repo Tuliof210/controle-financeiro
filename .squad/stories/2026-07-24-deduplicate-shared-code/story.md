@@ -69,5 +69,5 @@ migrations, no API contract changes.
 - [x] tasks/01-shared-entry-types.md — ENTRY_TYPES/EntryType/TYPE_LABELS/SELECTED_VARIANT in src/lib/entry-types.ts
 - [x] tasks/02-shared-month-toolkit.md — all YYYYMM utils (incl. buildMonths/formatYyyymm) in src/lib/months.ts
 - [x] tasks/03-shared-ownership-helpers.md — generic visibleFor/splitByType + FAMILY_PROFILE + resolveOwnerId
-- [ ] tasks/04-generic-row-section-screen.md — generic EntryRow/EntrySection/EntryScreen (Phase 2)
+- [x] tasks/04-generic-row-section-screen.md — generic EntryRow/EntrySection/EntryScreen (Phase 2)
 - [ ] tasks/05-generic-entry-form.md — generic EntryForm with a pluggable period control (Phase 2, highest risk)
