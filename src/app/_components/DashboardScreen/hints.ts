@@ -39,4 +39,30 @@ export const HINTS = {
     "tracejada a partir do primeiro mês em que o previsto superou o lançado —",
     "daí em diante é projeção. A linha horizontal marca o zero.",
   ].join(" "),
+
+  slack: [
+    "O quanto dá para gastar a mais em cada mês sem furar nenhum mês seguinte:",
+    "80% do menor saldo acumulado de ali até o fim do período. Semanal divide",
+    "por 4, diário por 30. A barra é a folga do mês comparada à do mês mais",
+    "folgado da lista.",
+  ].join(" "),
+
+  limit: [
+    "Quanto as saídas de cada mês consumiram da meta mensal definida em",
+    "Configurações. Até 100% está dentro; acima disso, estourou. A barra para",
+    "de crescer em 100%, mas o percentual ao lado continua subindo.",
+  ].join(" "),
+
+  coverage: [
+    "Dos compromissos previstos para os meses já decorridos, quanto já foi de",
+    "fato lançado. Percentual baixo costuma significar lançamentos em atraso,",
+    "não erro de previsão. A lista mostra os meses que ainda faltam, do maior",
+    "buraco para o menor. O mês corrente entra nessa conta ainda pela metade,",
+    "então costuma aparecer no topo só por não ter terminado.",
+  ].join(" "),
+
+  goals: [
+    "Meses para alcançar cada objetivo guardando 25% da menor folga do período",
+    "todo mês. Se essa folga for zero, nenhum ritmo alcança o objetivo.",
+  ].join(" "),
 } as const;

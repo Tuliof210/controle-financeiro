@@ -1,0 +1,63 @@
+@use "theme" as t;
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.row {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-3);
+}
+
+.name {
+  flex: 1;
+  min-width: var(--space-16);
+  color: var(--color-text);
+  font-family: var(--font-mono);
+  font-size: var(--text-base);
+}
+
+.target {
+  color: var(--color-text);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  font-variant-numeric: tabular-nums;
+}
+
+.wait {
+  color: var(--color-text-muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  font-variant-numeric: tabular-nums;
+}
+
+// Not colour alone: the copy itself says the goal is out of reach.
+.unreachable {
+  color: var(--color-negative);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+}
+
+.empty {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+
+  a {
+    color: var(--color-brand);
+    text-decoration: underline;
+
+    &:focus-visible {
+      @include t.focus-ring;
+    }
+  }
+}

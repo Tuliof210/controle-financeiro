@@ -1,0 +1,13 @@
+// Muted prose: empty states and the summary line above a list. Named for the
+// role, not for "empty", since it carries both.
+.note {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+}
+
+.split {
+  color: var(--color-text-muted);
+}
