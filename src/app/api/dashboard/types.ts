@@ -13,6 +13,13 @@ export type MonthPoint = {
   cumulative: number; // running sum of balance from the range's first month
   incomeEstimated: boolean; // estimated > real -> projection, render at 50% opacity
   expenseEstimated: boolean;
+  // The unreconciled sides. The screen ignores these; the coverage block needs
+  // them, because "how much of the commitment was recorded" is invisible once
+  // the two have been collapsed into a single max().
+  realIncome: number;
+  realExpense: number;
+  estimatedIncome: number;
+  estimatedExpense: number;
 };
 
 export type Stats = {
@@ -76,7 +83,6 @@ export type DashboardData =
       income: Stats;
       expense: Stats;
       balance: Stats;
-      // Filled by task 02; empty until then.
       slack: SlackMonth[];
       pace: number;
       limit: { goalCents: number | null; months: LimitMonth[] };

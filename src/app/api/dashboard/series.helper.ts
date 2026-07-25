@@ -80,6 +80,10 @@ export function buildSeries(
       // so the month is history, not projection.
       incomeEstimated: estIncome > realIncome,
       expenseEstimated: estExpense > realExpense,
+      realIncome,
+      realExpense,
+      estimatedIncome: estIncome,
+      estimatedExpense: estExpense,
     };
   });
 }

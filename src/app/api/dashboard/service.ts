@@ -41,6 +41,7 @@ export async function getDashboard(
     range,
     months,
     currentIndex,
+    goalCents: settings.monthlyGoalCents,
     // Goals are family-wide — the entity has no ownerId — so they are not
     // filtered by the active profile the way movements and recurrences are.
     goals,
