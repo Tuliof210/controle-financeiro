@@ -25,9 +25,14 @@ export function useDashboardScreen() {
       // A response for a profile we have already moved on from must not land.
       if (!current) return;
       // apiGet never rejects: every failure resolves to { error }, so an
-      // unchecked result would render a failed load as an empty board.
-      if (result.error) return setError(result.error);
-      setData(result.data ?? null);
+      // unchecked result would render a failed load as an empty board. It also
+      // returns `{ data: undefined }` for any 2xx whose body has no `data`
+      // (a 204, an empty body) — `null` is this screen's loading sentinel, so
+      // storing that would strand it on "Carregando" with nothing in flight.
+      if (result.error || !result.data) {
+        return setError(result.error ?? "Erro inesperado");
+      }
+      setData(result.data);
     });
 
     return () => {

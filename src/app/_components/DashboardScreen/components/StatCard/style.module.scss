@@ -1,3 +1,12 @@
+// The headline figure: same dt/dd pairing as the rows below it, but stacked so
+// the number keeps the visual weight.
+.totalRow {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  margin-bottom: var(--space-2);
+}
+
 .total {
   margin: 0;
   color: var(--color-text);
