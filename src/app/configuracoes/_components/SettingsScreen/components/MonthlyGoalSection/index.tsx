@@ -5,7 +5,7 @@ import { Button } from "@/components/Button";
 import { Modal } from "@/components/Modal";
 import { MoneyInput } from "@/components/MoneyInput";
 import { SectionCard } from "@/components/SectionCard";
-import { formatCents } from "@/lib/money";
+import { formatMoney } from "@/lib/money";
 import { useMonthlyGoalSection } from "./hook";
 import styles from "./style.module.scss";
 
@@ -26,7 +26,7 @@ export function MonthlyGoalSection() {
     <SectionCard title="Meta mensal" icon={PiggyBank}>
       <div className={styles.row}>
         <p className={styles.summary}>
-          {savedGoalCents > 0 ? `R$ ${formatCents(savedGoalCents)}` : "—"}
+          {savedGoalCents > 0 ? formatMoney(savedGoalCents) : "—"}
         </p>
         <Button variant="ghost" onClick={openModal}>
           Editar

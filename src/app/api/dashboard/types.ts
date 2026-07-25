@@ -66,7 +66,13 @@ export type DashboardData =
       status: "ok";
       range: DashboardRange;
       points: MonthPoint[];
-      dashedFrom: number | null; // first month with incomeEstimated || expenseEstimated
+      // First month with incomeEstimated || expenseEstimated; null when every
+      // month is real-dominant. Owner's decision (2026-07-25): this is NOT
+      // clamped to the current month, so an under-recorded PAST month starts
+      // the dashed run early — dashed means "from here on the recorded data no
+      // longer covers the commitments", not "future". The coverage card is
+      // what explains why it started where it did.
+      dashedFrom: number | null;
       income: Stats;
       expense: Stats;
       balance: Stats;

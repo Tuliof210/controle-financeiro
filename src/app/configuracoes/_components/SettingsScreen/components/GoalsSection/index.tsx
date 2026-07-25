@@ -6,7 +6,7 @@ import { ConfirmDialog } from "@/components/ConfirmDialog";
 import { IconButton } from "@/components/IconButton";
 import { Modal } from "@/components/Modal";
 import { SectionCard } from "@/components/SectionCard";
-import { formatCents } from "@/lib/money";
+import { formatMoney } from "@/lib/money";
 import { GoalForm } from "./components/GoalForm";
 import { useGoalsSection } from "./hook";
 import styles from "./style.module.scss";
@@ -35,7 +35,7 @@ export function GoalsSection() {
             <li key={goal.id} className={styles.row}>
               <span className={styles.name}>{goal.name}</span>
               <span className={styles.target}>
-                R$ {formatCents(goal.targetCents)}
+                {formatMoney(goal.targetCents)}
               </span>
               <span className={styles.placeholder}>— progresso em breve</span>
               <IconButton

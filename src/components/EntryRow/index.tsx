@@ -3,7 +3,7 @@ import type { ReactNode } from "react";
 import { IconButton } from "@/components/IconButton";
 import type { Person } from "@/core/entities/person.entity";
 import type { Entry } from "@/lib/entry-types";
-import { formatCents } from "@/lib/money";
+import { formatMoney } from "@/lib/money";
 import styles from "./style.module.scss";
 
 type EntryRowProps = {
@@ -32,7 +32,7 @@ export function EntryRow({
       <span className={styles.owner}>{person?.name ?? "—"}</span>
       <span className={styles.name}>{entry.name}</span>
       <span className={`${styles.value} ${styles[entry.type]}`}>
-        R$ {formatCents(entry.valueCents)}
+        {formatMoney(entry.valueCents)}
       </span>
       <span className={styles.period}>{period}</span>
       <IconButton aria-label={`Editar ${entry.name}`} onClick={onEdit}>

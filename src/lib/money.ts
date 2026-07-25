@@ -1,7 +1,9 @@
 // cents -> "1234,56". padStart(3) guarantees at least "0,0X".
 // Sign-less and ungrouped ON PURPOSE: MoneyInput reformats its value on every
 // keystroke and its caret handlers depend on this exact output. formatMoney
-// below is the grouped, signed variant for display.
+// below is the grouped, signed variant every display site uses.
+// (This retires the old "ponytail: add a '.' grouper when large goals need it"
+// note — the grouper now exists as formatMoney, so the deferral is closed.)
 export const formatCents = (cents: number): string => {
   const s = String(Math.abs(Math.trunc(cents))).padStart(3, "0");
   return `${s.slice(0, -2)},${s.slice(-2)}`;
