@@ -2,7 +2,7 @@ import { type MeterRowProps, useMeterRow } from "./hook";
 import styles from "./style.module.scss";
 
 export function MeterRow(props: MeterRowProps) {
-  const { label, tone, srLabel, children, fill } = useMeterRow(props);
+  const { label, tone, srLabel, children, footer, fill } = useMeterRow(props);
 
   return (
     <li className={styles.row}>
@@ -21,6 +21,7 @@ export function MeterRow(props: MeterRowProps) {
           style={{ width: fill }}
         />
       </div>
+      {footer ? <div className={styles.footer}>{footer}</div> : null}
     </li>
   );
 }

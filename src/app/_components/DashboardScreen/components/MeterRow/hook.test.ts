@@ -28,4 +28,23 @@ describe("useMeterRow", () => {
   it("clamps a negative fill to zero rather than a negative width", () => {
     expect(row(-25).fill).toBe("0%");
   });
+
+  it("leaves the footer undefined when the caller omits it", () => {
+    // Slack and Limit pass no footer; index.tsx renders no <div> for it, so
+    // their rows must stay exactly as they were.
+    expect(row(50).footer).toBeUndefined();
+  });
+
+  it("passes a footer through when given one", () => {
+    expect(
+      useMeterRow({
+        label: "Casa",
+        percent: 50,
+        tone: "positive",
+        srLabel: "…",
+        children: null,
+        footer: "~7 meses",
+      }).footer,
+    ).toBe("~7 meses");
+  });
 });
