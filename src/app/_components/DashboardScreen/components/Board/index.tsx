@@ -8,7 +8,11 @@ import {
 import { HINTS } from "../../hints";
 import { BalanceLineChart } from "../BalanceLineChart";
 import { ChartCard } from "../ChartCard";
+import { CoverageCard } from "../CoverageCard";
+import { GoalsCard } from "../GoalsCard";
+import { LimitCard } from "../LimitCard";
 import { MonthlyBarChart } from "../MonthlyBarChart";
+import { SlackCard } from "../SlackCard";
 import { StatCard } from "../StatCard";
 import { type BoardProps, useBoard } from "./hook";
 import styles from "./style.module.scss";
@@ -61,6 +65,11 @@ export function Board(props: BoardProps) {
           )}
         </ChartCard>
       </div>
+
+      <SlackCard slack={data.slack} />
+      <LimitCard limit={data.limit} />
+      <CoverageCard coverage={data.coverage} />
+      <GoalsCard goals={data.goals} />
     </div>
   );
 }

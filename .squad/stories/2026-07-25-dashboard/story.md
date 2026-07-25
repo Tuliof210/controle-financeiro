@@ -186,4 +186,4 @@ issues four unfiltered reads.
 - [x] tasks/03-card-tooltip.md — add a `Tooltip` component and a `hint` slot on `SectionCard` so every card can explain its own logic
 - [x] tasks/04-dashboard-screen-stats.md — build `DashboardScreen` (fetch, profile, empty/error states) and the three Entradas/Saídas/Saldo stat cards
 - [x] tasks/05-dashboard-charts.md — add visx and the two charts: grouped bars with 50%-opacity projections, cumulative line with a solid→dashed break
-- [ ] tasks/06-dashboard-list-cards.md — the four list cards: folga, uso da meta mensal, cobertura do previsto and objetivos
+- [x] tasks/06-dashboard-list-cards.md — the four list cards: folga, uso da meta mensal, cobertura do previsto and objetivos
