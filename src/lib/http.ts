@@ -15,3 +15,15 @@ export async function safeJson(request: Request): Promise<unknown> {
     return undefined;
   }
 }
+
+// Same trust boundary as safeJson: request.formData() throws on a malformed or
+// absent multipart body, before any validation runs.
+export async function safeFormData(
+  request: Request,
+): Promise<FormData | undefined> {
+  try {
+    return await request.formData();
+  } catch {
+    return undefined;
+  }
+}
