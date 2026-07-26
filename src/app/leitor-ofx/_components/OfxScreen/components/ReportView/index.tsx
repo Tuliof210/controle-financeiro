@@ -4,6 +4,7 @@ import { SectionCard } from "@/components/SectionCard";
 import { FilePicker } from "../FilePicker";
 import { AccountLine } from "./components/AccountLine";
 import { MonthRow } from "./components/MonthRow";
+import { TotalsRow } from "./components/TotalsRow";
 import { type ReportViewProps, useReportView } from "./hook";
 import styles from "./style.module.scss";
 
@@ -57,17 +58,7 @@ export function ReportView(props: ReportViewProps) {
             ))}
           </tbody>
           <tfoot>
-            <tr>
-              <th scope="row">Total</th>
-              <td>{view.totals.income}</td>
-              <td>{view.totals.expense}</td>
-              <td
-                className={view.totals.negative ? styles.negative : undefined}
-              >
-                {view.totals.balance}
-              </td>
-              <td>{view.totals.count}</td>
-            </tr>
+            <TotalsRow {...view.totals} />
           </tfoot>
         </table>
       </div>
