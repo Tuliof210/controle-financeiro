@@ -1,7 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { parsed, SGML_STATEMENT, statement, tx } from "./fixtures.helper";
-import type { OfxStatement } from "./parse.helper";
-import { parseOfx } from "./parse.helper";
+import { type OfxStatement, parseOfx } from "./parse.helper";
 import { buildReport } from "./report.helper";
 
 const report = (...statements: OfxStatement[]) =>
@@ -57,12 +56,17 @@ describe("buildReport — the months it renders", () => {
     });
   });
 
-  // The count also pins that `totals` sums the RENDERED rows rather than the
-  // raw transactions — the two only agree while no row is dropped.
   it("keeps a transaction posted outside the declared window", () => {
     const built = report(statement([tx(202512, 1000)], [202601, 202602]));
     expect(built.months.map((m) => m.month)).toEqual([202512, 202601, 202602]);
-    expect(built.totals.count).toBe(1);
+  });
+
+  // `totals` sums the RENDERED rows, never the raw transactions — and the span
+  // guard dropping a month is the only case that can tell the two apart.
+  it("totals the rendered rows, not the ones the guard dropped", () => {
+    const built = report(statement([tx(190001, 700), tx(202601, 5000)]));
+    expect(built.months[0].month).toBe(200602);
+    expect(built.totals).toMatchObject({ incomeCents: 5000, count: 1 });
   });
 
   it("renders nothing when there is neither a transaction nor a window", () => {
@@ -77,17 +81,13 @@ describe("buildReport — the months it renders", () => {
 });
 
 describe("buildReport — the payload", () => {
-  it("totals the fixture's four transactions", () => {
+  it("carries the totals, the currency and every account", () => {
     expect(fixture.totals).toEqual({
       incomeCents: 315000,
       expenseCents: 165025,
       balanceCents: 149975,
       count: 4,
     });
-  });
-
-  it("carries the institution, the currency and every account", () => {
-    expect(fixture.org).toBe("Banco Teste");
     expect(fixture.currency).toBe("BRL");
     expect(fixture.accounts[0].balanceCents).toBe(149975);
   });

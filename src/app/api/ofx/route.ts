@@ -1,12 +1,16 @@
 import type { NextRequest } from "next/server";
 import { fail, ok, safeFormData } from "@/lib/http";
-import { readOfx } from "./service";
+import { type ReadOfxResult, readOfx } from "./service";
 
 // next.config.ts sets no body limit for Route Handlers, so the cap lives here.
 // A year of OFX is tens of KB, so this is generous by a hundredfold.
 const MAX_BYTES = 5 * 1024 * 1024;
 
-const MESSAGES: Record<string, string> = {
+// Keyed on the refusal statuses themselves, not on `string`: a status added to
+// ReadOfxResult without a message here becomes a compile error rather than an
+// `undefined` message that JSON.stringify drops, silently breaking the
+// {error:{message,code}} envelope every other route upholds.
+const MESSAGES: Record<Exclude<ReadOfxResult["status"], "ok">, string> = {
   not_ofx: "Arquivo não parece ser um OFX.",
   card_only:
     "Este arquivo tem apenas fatura de cartão. O leitor processa extrato de conta corrente.",

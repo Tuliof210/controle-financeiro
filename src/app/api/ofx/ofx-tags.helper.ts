@@ -2,6 +2,8 @@
 // parse.helper.ts so they can be unit-tested directly and so neither file
 // crosses the 100-line cap.
 
+const MAX_CENTS = 1_000_000_000_00; // R$ 1 billion, matching src/lib/money.ts
+
 // A leaf element's value. OFX 1.x omits leaf closing tags, so the value runs
 // to the next `<`; OFX 2.x closes them, and `[^<]*` stops in the same place.
 // Empty or whitespace-only reads as absent.
@@ -11,11 +13,29 @@ export function leaf(block: string, tag: string): string | null {
 }
 
 // Every occurrence of an aggregate's inner text. Aggregates ARE closed in both
-// dialects, so one pattern serves both. Non-greedy, so sibling aggregates do
-// not collapse into one match.
+// dialects, so one scan serves both.
+//
+// An indexOf walk rather than a non-greedy regex: `<TAG>([\s\S]*?)</TAG>` is
+// quadratic on a file full of unclosed opening tags, since the lazy quantifier
+// rescans to EOF once per one — 4.8 MB of repeated <STMTRS> took 48s and
+// stalls the whole single-threaded server, which the 5 MB cap does not
+// prevent. Linear, and identical to the regex: nearest close wins, the search
+// resumes past it, an unclosed aggregate ends the scan.
 export function blocks(text: string, tag: string): string[] {
-  const pattern = new RegExp(`<${tag}>([\\s\\S]*?)</${tag}>`, "g");
-  return [...text.matchAll(pattern)].map((match) => match[1]);
+  const open = `<${tag}>`;
+  const close = `</${tag}>`;
+  const found: string[] = [];
+  let at = text.indexOf(open);
+  while (at !== -1) {
+    const from = at + open.length;
+    const end = text.indexOf(close, from);
+    if (end === -1) {
+      break;
+    }
+    found.push(text.slice(from, end));
+    at = text.indexOf(open, end + close.length);
+  }
+  return found;
 }
 
 // "-1234.56" | "1.234,56" | "1234" -> integer cents. Whichever of `.` or `,`
@@ -45,6 +65,13 @@ export function amountToCents(raw: string): number | null {
   // OFX amounts carry two decimals; a third digit is truncated, not rounded.
   const cents =
     Number(whole) * 100 + Number(fraction.padEnd(2, "0").slice(0, 2));
+  // The same R$ 1 billion ceiling src/lib/money.ts guards with — there it
+  // clamps, here it drops the row, this function's existing failure mode. Past
+  // MAX_SAFE_INTEGER cents stop being exact in a float64, so one absurd row
+  // absorbs every real one in the month's total while the count claims both.
+  if (Math.abs(cents) > MAX_CENTS) {
+    return null;
+  }
   return sign === "-" ? -cents : cents;
 }
 

@@ -101,12 +101,16 @@ What the screen shows, top to bottom:
       checkout globs `.claude/worktrees/*` and counts other branches' tests.
 - [ ] `npm run build` succeeds.
 - [ ] The 100-line-per-file cap holds for every new file. Correcting what this
-      story originally claimed: `noExcessiveLinesPerFile` **does** fire, but
-      only on `.ts` — it is silent on `.tsx`, which is why `EntryScreen/index.tsx`
-      (109 lines) has never been flagged. On `.ts` it reports at `info`
-      severity, so it does **not** fail `npm run lint`; read the `Found N infos`
-      line against the baseline of 1. On `.tsx`, count by hand — nothing will
-      tell you.
+      story originally claimed — `noExcessiveLinesPerFile` **does** fire, and
+      the mechanism is neither the file extension nor comment-stripping:
+      **lines inside a JSX expression are not counted.** Two 110-line probe
+      files, one whose body is 104 lines of JSX and one of 108 plain
+      statements: the first is silent, the second reports `(110)`. That is why
+      `EntryScreen/index.tsx` at 109 lines has never been flagged, and it means
+      **every `index.tsx` in this repo escapes the rule** while `hook.ts`,
+      `*.helper.ts` and `*.test.ts` are policed. It reports at `info` severity,
+      so it never fails `npm run lint` — read `Found N infos` against the
+      baseline of 1. For a JSX-heavy file, count by hand; nothing will tell you.
 - [ ] Verified live in the browser preview with a real OFX export, in light and
       dark theme, at desktop width and at 375px, with no console error.
 - [ ] Every OFX fixture committed to the repo is synthetic — no real account

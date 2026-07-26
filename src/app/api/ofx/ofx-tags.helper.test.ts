@@ -33,10 +33,11 @@ describe("blocks", () => {
 });
 
 describe("amountToCents", () => {
-  it("reads the spec form, signed", () => {
+  it("reads the spec form, signed, whitespace and all", () => {
     expect(amountToCents("-1234.56")).toBe(-123456);
     expect(amountToCents("1234.56")).toBe(123456);
     expect(amountToCents("+10.00")).toBe(1000);
+    expect(amountToCents(" 10.00 ")).toBe(1000);
   });
 
   it("reads the pt-BR form banks send against the spec", () => {
@@ -56,10 +57,6 @@ describe("amountToCents", () => {
     expect(amountToCents("-0.01")).toBe(-1);
   });
 
-  it("tolerates surrounding whitespace", () => {
-    expect(amountToCents(" 10.00 ")).toBe(1000);
-  });
-
   // Pinned so the ambiguity documented on the function is a decision on record
   // rather than a surprise: a lone separator plus three digits reads as
   // centavos, per the spec, not as a pt-BR thousands group.
@@ -74,6 +71,12 @@ describe("amountToCents", () => {
     expect(amountToCents("")).toBeNull();
     expect(amountToCents("R$ 10")).toBeNull();
     expect(amountToCents("-")).toBeNull();
+  });
+
+  // Past MAX_SAFE_INTEGER one absurd row absorbs every real one via float error.
+  it("drops an amount past the R$ 1 billion ceiling, keeping the ceiling", () => {
+    expect(amountToCents("99999999999999999999.99")).toBeNull();
+    expect(amountToCents("1000000000.00")).toBe(100000000000);
   });
 });
 
