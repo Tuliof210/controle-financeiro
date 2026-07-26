@@ -122,5 +122,5 @@ What the screen shows, top to bottom:
       `POST /api/ofx` route, with the tag/amount/date primitives tested
 - [x] tasks/02-ofx-screen.md — the `/leitor-ofx` screen: nav entry, upload,
       sessionStorage lifecycle, metadata header, monthly table, two buttons
-- [ ] tasks/03-copy-value.md — the per-value copy-to-clipboard button on the
+- [x] tasks/03-copy-value.md — the per-value copy-to-clipboard button on the
       entradas and saídas cells
