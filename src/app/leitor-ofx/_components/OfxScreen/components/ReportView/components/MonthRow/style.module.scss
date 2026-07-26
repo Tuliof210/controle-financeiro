@@ -1,0 +1,17 @@
+.label {
+  color: var(--color-text-muted);
+  font-weight: var(--weight-regular);
+  text-align: left;
+}
+
+.income {
+  color: var(--color-positive);
+}
+
+.expense {
+  color: var(--color-negative);
+}
+
+.count {
+  color: var(--color-text-muted);
+}

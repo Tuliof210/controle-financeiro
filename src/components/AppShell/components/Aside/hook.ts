@@ -1,5 +1,6 @@
 import {
   ArrowLeftRight,
+  FileUp,
   LayoutDashboard,
   Repeat,
   Settings,
@@ -10,6 +11,7 @@ const TOP_ITEMS = [
   { href: "/", label: "Dashboard", icon: LayoutDashboard },
   { href: "/movimentacoes", label: "Movimentações", icon: ArrowLeftRight },
   { href: "/recorrencias", label: "Recorrências", icon: Repeat },
+  { href: "/leitor-ofx", label: "Leitor OFX", icon: FileUp },
 ];
 
 const BOTTOM_ITEM = {
