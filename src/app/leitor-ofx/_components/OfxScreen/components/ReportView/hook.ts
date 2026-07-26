@@ -28,7 +28,12 @@ export function useReportView({
     onClose,
     onFile,
     fileName: report.fileName,
-    org: [report.org, report.fid].filter(Boolean).join(" · ") || "—",
+    // <FID> is a suffix on the institution's name, never a value on its own —
+    // a bare "001" under the label "Instituição" names nothing a reader can
+    // use, so a file with an id but no <ORG> falls back like any other.
+    org: report.org
+      ? [report.org, report.fid].filter(Boolean).join(" · ")
+      : "—",
     currency: report.currency ?? "—",
     count: String(report.totals.count),
     period:

@@ -79,7 +79,11 @@ export function ReportView(props: ReportViewProps) {
       ) : null}
 
       <div className={styles.actions}>
-        <Button variant="ghost" onClick={view.onClose}>
+        {/* Disabled while a parse is in flight, like the picker beside it:
+            close() cannot cancel the pending upload, whose success branch would
+            otherwise setReport + write storage after the report was dropped —
+            resurrecting a closed report and re-persisting its session key. */}
+        <Button variant="ghost" onClick={view.onClose} disabled={view.loading}>
           Fechar
         </Button>
         <FilePicker

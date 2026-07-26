@@ -45,11 +45,13 @@ describe("useReportView — the header", () => {
     });
   });
 
-  // Every OFX field the header shows is optional in the wild.
+  // A file carrying only <FID> must not print a bare "001" under "Instituição".
   it("falls back rather than rendering an empty header", () => {
     const bare = view({ org: null, fid: null, currency: null });
     expect(bare.org).toBe("—");
     expect(bare.currency).toBe("—");
+    expect(view({ org: null, fid: "001" }).org).toBe("—");
+    expect(view({ fid: null }).org).toBe("Banco Teste");
   });
 
   it("has no period when the report renders no month at all", () => {
@@ -68,12 +70,8 @@ describe("useReportView — the table", () => {
   });
 
   it("marks a period that spent more than it took in", () => {
-    const totals = {
-      incomeCents: 0,
-      expenseCents: 45025,
-      balanceCents: -45025,
-      count: 1,
-    };
+    const spent = { incomeCents: 0, expenseCents: 45025, count: 1 };
+    const totals = { ...spent, balanceCents: -45025 };
     expect(view({ totals }).totals).toMatchObject({
       balance: "−R$ 450,25",
       negative: true,
