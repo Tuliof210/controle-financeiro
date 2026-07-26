@@ -100,10 +100,13 @@ What the screen shows, top to bottom:
       Pre-change baseline: **33 files / 237 tests**. A run from the main
       checkout globs `.claude/worktrees/*` and counts other branches' tests.
 - [ ] `npm run build` succeeds.
-- [ ] The 100-line-per-file cap holds for every new file. Biome does **not**
-      enforce it — `noExcessiveLinesPerFile` is configured but emits nothing
-      (verified silent on a 1562-line file), so `npm run lint` will stay quiet.
-      Count the lines by hand.
+- [ ] The 100-line-per-file cap holds for every new file. Correcting what this
+      story originally claimed: `noExcessiveLinesPerFile` **does** fire, but
+      only on `.ts` — it is silent on `.tsx`, which is why `EntryScreen/index.tsx`
+      (109 lines) has never been flagged. On `.ts` it reports at `info`
+      severity, so it does **not** fail `npm run lint`; read the `Found N infos`
+      line against the baseline of 1. On `.tsx`, count by hand — nothing will
+      tell you.
 - [ ] Verified live in the browser preview with a real OFX export, in light and
       dark theme, at desktop width and at 375px, with no console error.
 - [ ] Every OFX fixture committed to the repo is synthetic — no real account
@@ -111,7 +114,7 @@ What the screen shows, top to bottom:
       gitignored.
 
 ## Tasks
-- [ ] tasks/01-ofx-api.md — the OFX parser and the stateless
+- [x] tasks/01-ofx-api.md — the OFX parser and the stateless
       `POST /api/ofx` route, with the tag/amount/date primitives tested
 - [ ] tasks/02-ofx-screen.md — the `/leitor-ofx` screen: nav entry, upload,
       sessionStorage lifecycle, metadata header, monthly table, two buttons
