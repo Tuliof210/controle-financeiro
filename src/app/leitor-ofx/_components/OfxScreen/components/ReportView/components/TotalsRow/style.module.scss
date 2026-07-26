@@ -15,7 +15,10 @@
 // lines up with the rows it sums — the one row a reader checks the column
 // against. 44px is README rule 7's hit-target floor plus the cell's own
 // padding; there is no token for either.
-.reserved {
+//
+// Nested under .row deliberately: ReportView sets the cell padding via the
+// `.table td` shorthand, which outranks a bare `.reserved` and silently wins.
+.row .reserved {
   padding-inline-end: calc(44px + var(--space-2) + var(--space-3));
 }
 
