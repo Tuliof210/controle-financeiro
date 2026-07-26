@@ -1,0 +1,12 @@
+// There is no visually-hidden utility class in this repo — grepped, none
+// exists — so the live region defines its own.
+.sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}

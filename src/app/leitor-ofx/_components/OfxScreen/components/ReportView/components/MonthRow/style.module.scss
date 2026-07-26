@@ -4,6 +4,15 @@
   text-align: left;
 }
 
+// The value and its copy button share one line; the cells are already
+// right-aligned, so the pair hugs the column's edge.
+.cell {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-2);
+}
+
 .income {
   color: var(--color-positive);
 }

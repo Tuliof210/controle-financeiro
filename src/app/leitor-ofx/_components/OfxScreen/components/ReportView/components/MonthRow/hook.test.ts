@@ -47,3 +47,35 @@ describe("useMonthRow", () => {
     });
   });
 });
+
+describe("useMonthRow — what the copy buttons carry", () => {
+  // The whole point of the screen: this string is pasted into a MoneyInput,
+  // which runs it through digitsToCents. Grouped or signed forms would need
+  // editing first, so the display value is deliberately NOT what is copied.
+  it("copies the paste-ready form, not the displayed one", () => {
+    const jan = row();
+    expect(jan.copyIncome).toBe("4312,50");
+    expect(jan.copyExpense).toBe("2890,00");
+    expect(jan.income).toBe("R$ 4.312,50");
+  });
+
+  it("names each button after its own row and column", () => {
+    expect(row()).toMatchObject({
+      copyIncomeLabel: "Copiar entradas de Jan/26",
+      copyExpenseLabel: "Copiar saídas de Jan/26",
+    });
+  });
+
+  // The table is zero-filled by design; a button offering "0,00" is noise.
+  it("offers no button for a value of zero", () => {
+    const empty = row({ incomeCents: 0, expenseCents: 0 });
+    expect(empty.copyIncome).toBeNull();
+    expect(empty.copyExpense).toBeNull();
+  });
+
+  it("still offers the other button when only one side is zero", () => {
+    const inflowOnly = row({ expenseCents: 0 });
+    expect(inflowOnly.copyIncome).toBe("4312,50");
+    expect(inflowOnly.copyExpense).toBeNull();
+  });
+});
