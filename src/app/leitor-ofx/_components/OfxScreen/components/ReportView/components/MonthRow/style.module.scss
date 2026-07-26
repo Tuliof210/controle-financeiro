@@ -9,8 +9,20 @@
 .cell {
   display: inline-flex;
   align-items: center;
-  justify-content: flex-end;
   gap: var(--space-2);
+}
+
+// Reserved on EVERY row, empty or not. Without it the button — not the number
+// — is what meets the column edge, so a row with a button sits 52px left of a
+// row without one, and the digits stop forming a column at all. That would
+// defeat the tabular-nums the table sets on exactly these cells.
+//
+// 44px is the hit-target floor from src/styles/README.md rule 7. There is no
+// token for it, so it is hardcoded here as IconButton and ColorPicker do.
+// Fixing the width also stops the row height alternating with the button.
+.slot {
+  flex: 0 0 44px;
+  height: 44px;
 }
 
 .income {

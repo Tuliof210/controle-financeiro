@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { copyText } from "./copy-text.helper";
 
 type Status = "idle" | "done" | "failed";
 
@@ -27,17 +28,13 @@ export function useCopyButton({ text, label }: CopyButtonProps) {
   }, [status]);
 
   const copy = async () => {
-    try {
-      // The try must wrap the property access too, not just the promise:
-      // navigator.clipboard is undefined on an insecure origin, so this throws
-      // a TypeError synchronously — which inside an async function still
-      // becomes a rejection the catch sees. A bare .catch() on the call would
-      // not have caught it.
-      await navigator.clipboard.writeText(text);
-      setStatus("done");
-    } catch {
-      setStatus("failed");
-    }
+    // Back to idle FIRST. Copying the same cell twice would otherwise set an
+    // Object.is-equal status, which React bails out of — the effect would not
+    // re-run, the first click's countdown would keep running, and the second
+    // copy would get no acknowledgement at all. The commit before the await
+    // gives the repeat click a visible blink and restarts the countdown.
+    setStatus("idle");
+    setStatus(await copyText(text));
   };
 
   return { label, status, copy, announcement: ANNOUNCEMENTS[status] };

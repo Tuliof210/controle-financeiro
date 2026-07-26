@@ -24,17 +24,23 @@ export function MonthRow(props: MonthRowProps) {
       <td className={styles.income}>
         <span className={styles.cell}>
           {income}
-          {copyIncome ? (
-            <CopyButton text={copyIncome} label={copyIncomeLabel} />
-          ) : null}
+          {/* The slot is rendered whether or not it holds a button, so a zero
+              row's digits land on the same right edge as a row with one. */}
+          <span className={styles.slot}>
+            {copyIncome ? (
+              <CopyButton text={copyIncome} label={copyIncomeLabel} />
+            ) : null}
+          </span>
         </span>
       </td>
       <td className={styles.expense}>
         <span className={styles.cell}>
           {expense}
-          {copyExpense ? (
-            <CopyButton text={copyExpense} label={copyExpenseLabel} />
-          ) : null}
+          <span className={styles.slot}>
+            {copyExpense ? (
+              <CopyButton text={copyExpense} label={copyExpenseLabel} />
+            ) : null}
+          </span>
         </span>
       </td>
       <td className={negative ? styles.expense : undefined}>{balance}</td>
