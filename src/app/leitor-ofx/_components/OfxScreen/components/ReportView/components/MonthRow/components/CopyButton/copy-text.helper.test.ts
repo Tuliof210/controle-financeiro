@@ -21,9 +21,18 @@ describe("copyText", () => {
   });
 
   // An insecure origin has no navigator.clipboard at all, so the throw is a
-  // synchronous TypeError on the property access rather than a rejection.
+  // synchronous TypeError rather than a rejection.
   it("reports failed when there is no clipboard API", async () => {
     vi.stubGlobal("navigator", {});
+    expect(await copyText("4312,50")).toBe("failed");
+  });
+
+  // This is the case that makes the try's placement load-bearing: with no
+  // navigator at all the throw is on the identifier itself, so hoisting the
+  // access above the try would escape the catch. Verified by mutation — the
+  // clipboard-undefined case above passes either way, this one does not.
+  it("reports failed when there is no navigator at all", async () => {
+    vi.stubGlobal("navigator", undefined);
     expect(await copyText("4312,50")).toBe("failed");
   });
 });
