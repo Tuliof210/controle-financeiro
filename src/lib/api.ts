@@ -35,3 +35,13 @@ export const apiPut = <T>(url: string, body: unknown) =>
 
 export const apiDelete = <T>(url: string) =>
   request<T>(url, { method: "DELETE" });
+
+// Multipart, so the content-type header is deliberately absent: the browser
+// has to set it itself to carry the boundary. Everything else goes through the
+// same request() envelope handling as the JSON helpers — including the fact
+// that it never rejects, so callers still check `result.error`.
+export const apiUpload = <T>(url: string, file: File) => {
+  const body = new FormData();
+  body.append("file", file);
+  return request<T>(url, { method: "POST", body });
+};
