@@ -5,11 +5,18 @@
   font-size: var(--text-sm);
 }
 
+// No gap — the rows separate themselves with a bottom rule now, and a gap
+// would break the run of dividers into floating lines.
 .list {
   display: flex;
   flex-direction: column;
-  gap: var(--space-2);
   margin: 0;
   padding: 0;
   list-style: none;
+}
+
+// Button centres its content but declares no gap of its own, and it is a shared
+// primitive two sibling tasks are editing — so the icon/label gap is set here.
+.add {
+  gap: var(--space-2);
 }
