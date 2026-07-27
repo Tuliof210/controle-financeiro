@@ -1,0 +1,41 @@
+@use "theme" as t;
+
+.leaf {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-2);
+  padding: var(--space-1) 0;
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+}
+
+.tag {
+  color: var(--color-brand-text);
+  font-weight: var(--weight-medium);
+
+  &:focus-visible {
+    @include t.focus-ring;
+  }
+}
+
+// Only a <summary> in this pair is ever focusable/clickable — the rest of
+// this rule is shared with the plain leaf label above. line-height (not
+// display:flex) hits the 44px hit-target floor (src/styles/README.md rule
+// 7) without overriding <summary>'s default list-item display, which is
+// what draws the native disclosure triangle.
+summary.tag {
+  cursor: pointer;
+  line-height: 44px;
+}
+
+.value {
+  color: var(--color-text);
+  overflow-wrap: anywhere;
+}
+
+.children {
+  margin: 0;
+  padding-left: var(--space-4);
+  border-left: var(--border-1) solid var(--color-border-subtle);
+  list-style: none;
+}
