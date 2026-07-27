@@ -22,6 +22,14 @@ export type EntryFormSlotProps<V> = {
   period: { start: number; end: number } | null;
 };
 
+// Per-section copy. The two sections of one screen say different things when
+// empty, so a single shared `empty` string could not carry it.
+export type EntrySectionLabels = {
+  add: string;
+  emptyTitle: string;
+  emptyHint: string;
+};
+
 export type EntryScreenLabels = {
   // One object rather than three flat fields: it spreads straight into
   // <PageHeader> and keeps EntryScreen/index.tsx at its current line count,
@@ -30,7 +38,8 @@ export type EntryScreenLabels = {
   addTitle: string;
   editTitle: string;
   deleteTitle: string;
-  empty: string;
+  income: EntrySectionLabels;
+  expense: EntrySectionLabels;
 };
 
 export type EntryScreenConfig<
