@@ -1,3 +1,6 @@
+// No `overflow: hidden` here, ever: the Tooltip trigger inside .titleRow uses
+// t.focus-ring, an outline with outline-offset — an overflow-hidden ancestor
+// clips it on all 13 cards at once, and nothing tests focus rings.
 .card {
   display: flex;
   flex-direction: column;
@@ -5,7 +8,7 @@
   padding: var(--space-6);
   background: var(--color-surface);
   border: var(--border-2) solid var(--color-border);
-  border-radius: var(--radius-0);
+  border-radius: var(--radius-md);
 }
 
 .titleRow {
@@ -15,6 +18,9 @@
   color: var(--color-text);
 }
 
+// `.positive`/`.negative` are reached by a CSS-Modules string lookup
+// (`styles[tone]` in index.tsx) — renaming either kills the tint with no
+// compile error and no test failure.
 .positive {
   color: var(--color-positive);
 }
@@ -23,11 +29,16 @@
   color: var(--color-negative);
 }
 
+// text-transform rather than uppercasing the strings: the titles are read by
+// screen readers and reused verbatim as Tooltip labels ("Como {title} é
+// calculado").
 .title {
   margin: 0;
-  font-family: var(--font-mono);
-  font-size: var(--text-md);
-  font-weight: var(--weight-bold);
+  font-family: var(--font-display);
+  font-size: var(--text-2xs);
+  font-weight: var(--weight-regular);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
 }
 
 .body {

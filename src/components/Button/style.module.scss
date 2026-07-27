@@ -6,10 +6,13 @@
   justify-content: center;
   min-height: 44px;
   padding: var(--space-2) var(--space-4);
-  border: var(--border-2) solid transparent;
-  border-radius: var(--radius-0);
+  // The frame is now always visible, in the same hue the hard press shadow is
+  // cast in — so the shadow reads as an extrusion of the border, not a blob.
+  border: var(--border-2) solid var(--color-border);
+  border-radius: var(--radius-sm);
   font-family: var(--font-mono);
   font-size: var(--text-base);
+  font-weight: var(--weight-bold);
   cursor: pointer;
   transition:
     background var(--duration-fast) var(--ease-snappy),
@@ -19,21 +22,23 @@
     @include t.focus-ring;
   }
 
-  // Distinct disabled: muted fill + border, not just opacity.
+  // Distinct disabled: muted fill + border, not just opacity. The explicit flat
+  // elevation is load-bearing — without it a disabled primary keeps casting a
+  // press shadow it cannot act on.
   &:disabled {
     cursor: not-allowed;
     background: var(--color-surface-raised);
     border-color: var(--color-border-subtle);
     color: var(--color-text-muted);
+    box-shadow: var(--elevation-flat);
   }
 }
 
-// Filled variants: the border shares the fill hue so it reads as structure,
-// not a black outline. Hover/active darken the whole control (brightness),
+// Filled variants. Hover/active darken the whole control (brightness),
 // preserving saturation instead of washing it out like opacity did.
-.primary {
-  background: var(--color-brand);
-  border-color: var(--color-brand);
+.primary,
+.danger,
+.success {
   color: var(--white);
 
   &:hover:not(:disabled) {
@@ -42,35 +47,29 @@
 
   &:active:not(:disabled) {
     filter: brightness(0.84);
+  }
+}
+
+.primary {
+  background: var(--color-brand);
+  // README rule 3, as amended: the hard offset shadow is scoped to the primary
+  // action and the modal panel. `danger`/`success` deliberately go without.
+  @include t.elevation(press);
+
+  // The 2px displacement plus the shortened shadow is what makes the press read
+  // as physical — both or neither.
+  &:active:not(:disabled) {
+    transform: translate(2px, 2px);
+    @include t.elevation(press-active);
   }
 }
 
 .danger {
   background: var(--color-negative);
-  border-color: var(--color-negative);
-  color: var(--white);
-
-  &:hover:not(:disabled) {
-    filter: brightness(0.92);
-  }
-
-  &:active:not(:disabled) {
-    filter: brightness(0.84);
-  }
 }
 
 .success {
   background: var(--color-positive);
-  border-color: var(--color-positive);
-  color: var(--white);
-
-  &:hover:not(:disabled) {
-    filter: brightness(0.92);
-  }
-
-  &:active:not(:disabled) {
-    filter: brightness(0.84);
-  }
 }
 
 // Ghost: no solid border — a subtle structural edge at most.
@@ -86,5 +85,22 @@
   &:active:not(:disabled) {
     background: var(--color-surface-raised);
     filter: brightness(0.96);
+  }
+}
+
+// Full-width dashed outline that fills on hover — the "Adicionar …" affordance
+// at the bottom of every list card. A consumer needing the negative tint
+// composes it at the call site; one use does not earn a `dashed-danger`.
+.dashed {
+  justify-content: center;
+  width: 100%;
+  background: transparent;
+  color: var(--color-text);
+  border: var(--border-2) dashed var(--color-border);
+
+  &:hover:not(:disabled) {
+    background: var(--color-brand);
+    color: var(--white);
+    border-style: solid;
   }
 }

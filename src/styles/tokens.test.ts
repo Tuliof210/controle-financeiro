@@ -24,6 +24,7 @@ const REQUIRED_SEMANTIC_COLORS = [
   "color-border",
   "color-border-subtle",
   "color-brand",
+  "color-brand-text",
   "color-accent",
   "color-positive",
   "color-negative",
