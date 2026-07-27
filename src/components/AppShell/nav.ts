@@ -2,6 +2,7 @@ import {
   ArrowLeftRight,
   FileUp,
   LayoutDashboard,
+  ListTree,
   type LucideIcon,
   Repeat,
   Settings,
@@ -16,7 +17,7 @@ export type NavEntry = {
 
 // One definition, two consumers: the desktop rail (Aside) and the mobile
 // BottomNav. `short` is the bottom-nav label — the full ones do not fit in a
-// fifth of 375px.
+// sixth of 375px.
 export const NAV: NavEntry[] = [
   { href: "/", label: "Dashboard", short: "Painel", icon: LayoutDashboard },
   {
@@ -33,6 +34,12 @@ export const NAV: NavEntry[] = [
   },
   { href: "/leitor-ofx", label: "Leitor OFX", short: "OFX", icon: FileUp },
   {
+    href: "/ofx-decoder",
+    label: "OFX Decoder",
+    short: "Decoder",
+    icon: ListTree,
+  },
+  {
     href: "/configuracoes",
     label: "Configurações",
     short: "Ajustes",
@@ -42,7 +49,7 @@ export const NAV: NavEntry[] = [
 
 // Exact equality, never prefix matching: no destination here is nested under
 // another, and "/" is a prefix of every path — startsWith would light up the
-// Dashboard item on all five screens. Shared so the rail and the bottom nav
+// Dashboard item on all six screens. Shared so the rail and the bottom nav
 // cannot drift apart on what "active" means.
 export function isActiveNav(pathname: string, href: string): boolean {
   return pathname === href;
