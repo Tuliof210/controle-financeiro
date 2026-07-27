@@ -26,13 +26,20 @@
   font-variant-numeric: tabular-nums;
 }
 
+// The figures wrap as whole values, never mid-value: at 375px an unwrapped row
+// broke "R$ 56.552,00" after the "R$", which reads as two numbers.
 .figures {
   display: flex;
+  flex-wrap: wrap;
   gap: var(--space-3);
   color: var(--color-text);
   font-family: var(--font-mono);
   font-size: var(--text-sm);
   font-variant-numeric: tabular-nums;
+
+  > * {
+    white-space: nowrap;
+  }
 }
 
 // 8px already (--space-2 IS the design's track height); only the corner moves,

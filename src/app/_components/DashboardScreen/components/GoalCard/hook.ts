@@ -10,7 +10,11 @@ export type GoalCardProps = { goal: GoalProjection };
 // (.eta uppercases the month label in CSS — the string stays readable, the way
 // SectionCard keeps its titles readable for screen readers and Tooltip labels.)
 function etaLabel({ months, doneMonth }: GoalProjection): string {
-  const pace = months === null ? "RITMO ZERO" : `~${months} MESES`;
+  // Singularised, as the retired goalLabel was: "~1 MESES" is not Portuguese.
+  const pace =
+    months === null
+      ? "RITMO ZERO"
+      : `~${months} ${months === 1 ? "MÊS" : "MESES"}`;
   const lands =
     doneMonth === null
       ? "ALÉM DO PERÍODO"

@@ -69,6 +69,8 @@ describe("useGoalCard", () => {
   it("marks a goal the period never funds as ALÉM DO PERÍODO", () => {
     // doneMonth null is the producer's only flag for "not inside the range".
     expect(card(beyond).eta).toBe("~7 MESES · ALÉM DO PERÍODO");
+    // "~1 MESES" is not Portuguese; the retired goalLabel singularised too.
+    expect(card({ months: 1 }).eta).toBe("~1 MÊS · CONCLUI EM Fev/27");
   });
 
   it("never divides by a zero target", () => {
