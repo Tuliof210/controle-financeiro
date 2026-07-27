@@ -33,7 +33,20 @@ tokens this repo already has, and the implementation uses the repo's names:
 | `--c-muted` | `--color-text-muted` | `--c-caution` | `--color-caution` |
 | `--c-border` | `--color-border` | `--c-info` | `--color-info` |
 | `--c-line` | `--color-border-subtle` | `--c-grad` | `--gradient-toxic` |
-| `--on-brand` | `var(--white)` (no token — brand is violet in both themes) | | |
+| `--on-brand` | ~~`var(--white)`~~ — **this row was wrong**, see below | | |
+
+**Correction (2026-07-27, after the fact).** Collapsing `--on-brand` to
+`var(--white)` was a mistake, and it is the root of the contrast debt this story
+accepted. The reasoning — "brand is violet in both themes" — is true and
+irrelevant: what varies by theme is the *contrast against* that violet, not the
+violet. Measured, `--white` on a filled surface clears the 4.5:1 body floor in
+exactly one of six cases (brand light 5.33 PASS; brand dark 3.72, negative light
+3.73, negative dark 3.07, positive light 2.59, positive dark 1.67 — all FAIL).
+The design had a token for precisely this and killing it is why the same defect
+recurred across three PRs. Remediation, deferred by the owner as known debt:
+per-fill theme-aware `--color-on-brand` (white light / `--ink-900` dark),
+`--color-on-negative` and `--color-on-positive` (`--ink-900` both), which clear
+every combination. See `.squad/learnings.md`.
 
 Its layout aliases collapse the same way: `--card-p` → `--space-6`,
 `--row-py` → `--space-3`, `--sec-gap` → `--space-6`,
