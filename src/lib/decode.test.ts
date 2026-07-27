@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { decodeOfx } from "./decode.helper";
+import { decodeOfx } from "./decode";
 
 describe("decodeOfx", () => {
   it("reads plain ASCII unchanged", () => {

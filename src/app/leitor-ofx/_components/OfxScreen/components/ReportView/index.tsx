@@ -1,7 +1,7 @@
 import { Check, FileText } from "lucide-react";
 import { Button } from "@/components/Button";
+import { FilePicker } from "@/components/FilePicker";
 import { SectionCard } from "@/components/SectionCard";
-import { FilePicker } from "../FilePicker";
 import { AccountLine } from "./components/AccountLine";
 import { MonthRow } from "./components/MonthRow";
 import { TotalsRow } from "./components/TotalsRow";

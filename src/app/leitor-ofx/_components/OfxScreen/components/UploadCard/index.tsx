@@ -1,6 +1,6 @@
 import { FileUp } from "lucide-react";
+import { DropZone } from "@/components/DropZone";
 import { SectionCard } from "@/components/SectionCard";
-import { DropZone } from "../DropZone";
 import { type UploadCardProps, useUploadCard } from "./hook";
 import styles from "./style.module.scss";
 

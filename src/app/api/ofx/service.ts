@@ -1,4 +1,4 @@
-import { decodeOfx } from "./decode.helper";
+import { decodeOfx } from "@/lib/decode";
 import { parseOfx } from "./parse.helper";
 import { buildReport } from "./report.helper";
 import type { OfxReport } from "./types";
