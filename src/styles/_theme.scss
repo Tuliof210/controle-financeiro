@@ -33,8 +33,14 @@ $breakpoints: (
     box-shadow: var(--elevation-raised);
   } @else if $level == overlay {
     box-shadow: var(--elevation-overlay);
+  } @else if $level == press {
+    box-shadow: var(--elevation-press);
+  } @else if $level == press-active {
+    box-shadow: var(--elevation-press-active);
+  } @else if $level == panel {
+    box-shadow: var(--elevation-panel);
   } @else {
-    @error "Unknown elevation level: #{$level}. Use flat, raised, or overlay.";
+    @error "Unknown elevation level: #{$level}. Use flat, raised, overlay, press, press-active, or panel.";
   }
 }
 

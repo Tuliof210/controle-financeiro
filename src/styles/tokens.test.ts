@@ -30,6 +30,13 @@ const REQUIRED_SEMANTIC_COLORS = [
   "color-caution",
   "color-info",
   "color-focus",
+  // The rail is dark in both themes, so these need the same parity guarantee
+  // as the surface ramp — they are semantics, not primitives.
+  "rail-bg",
+  "rail-fg",
+  "rail-muted",
+  "rail-line",
+  "rail-hover",
 ];
 
 describe("design token theme parity", () => {

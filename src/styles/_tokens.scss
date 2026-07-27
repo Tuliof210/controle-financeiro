@@ -56,6 +56,17 @@
   --color-info: var(--cyan-500);
   --color-focus: var(--violet-500);
 
+  // Navigation rail. Dark in BOTH themes, which is why it is its own family
+  // rather than an alias of the surface ramp above — there is no combination
+  // of --color-surface/-text that reads as "dark chrome" in the light theme.
+  --rail-bg: var(--ink-900);
+  --rail-fg: var(--paper);
+  // --ink-500 is only 3.92:1 on --ink-900, under rule 7's 4.5:1 body floor.
+  // --ink-400 measures 7.30:1 and is the muted tone the rail actually uses.
+  --rail-muted: var(--ink-400);
+  --rail-line: var(--ink-700);
+  --rail-hover: var(--ink-800);
+
   // Gradients compose already-themed color tokens, so they never need a
   // separate dark declaration — they flip automatically with the colors.
   --gradient-sunset: linear-gradient(
@@ -84,6 +95,12 @@
   --color-info: var(--cyan-400);
   --color-focus: var(--violet-400);
 
+  --rail-bg: var(--ink-800);
+  --rail-fg: var(--ink-050);
+  --rail-muted: var(--ink-400);
+  --rail-line: var(--ink-700);
+  --rail-hover: var(--ink-700);
+
   --elevation-overlay: 0 8px 24px -8px rgba(0, 0, 0, 0.6);
 }
 
@@ -104,6 +121,12 @@
     --color-caution: var(--amber-400);
     --color-info: var(--cyan-400);
     --color-focus: var(--violet-400);
+
+    --rail-bg: var(--ink-800);
+    --rail-fg: var(--ink-050);
+    --rail-muted: var(--ink-400);
+    --rail-line: var(--ink-700);
+    --rail-hover: var(--ink-700);
 
     --elevation-overlay: 0 8px 24px -8px rgba(0, 0, 0, 0.6);
   }
@@ -178,6 +201,14 @@
   --elevation-flat: none;
   --elevation-raised: 0 1px 0 var(--color-border-subtle);
   --elevation-overlay: 0 8px 24px -8px rgba(14, 15, 20, 0.25);
+
+  // Hard offset shadows: the frame, cast. Deliberately blur-less, and always
+  // in --color-border so they flip with the theme like the border they echo.
+  // Scope is written down in README rule 3 — primary action and modal panel
+  // only. No dark counterpart: --color-border is already themed.
+  --elevation-press: 3px 3px 0 var(--color-border);
+  --elevation-press-active: 1px 1px 0 var(--color-border);
+  --elevation-panel: 8px 8px 0 var(--color-border);
 }
 
 // ---- Motion — collapses under prefers-reduced-motion -----------------------
