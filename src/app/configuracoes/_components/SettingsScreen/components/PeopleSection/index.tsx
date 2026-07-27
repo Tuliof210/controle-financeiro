@@ -1,6 +1,6 @@
 "use client";
 
-import { Users } from "lucide-react";
+import { Plus, Users } from "lucide-react";
 import { Button } from "@/components/Button";
 import { ConfirmDialog } from "@/components/ConfirmDialog";
 import { Modal } from "@/components/Modal";
@@ -39,15 +39,28 @@ export function PeopleSection() {
           ))}
         </ul>
       )}
-      <Button onClick={() => open("add")}>Adicionar</Button>
+      <Button variant="dashed" onClick={() => open("add")}>
+        <Plus size={16} aria-hidden />
+        Adicionar pessoa
+      </Button>
 
-      <Modal open={modal === "add"} onClose={close} title="Adicionar pessoa">
+      <Modal
+        open={modal === "add"}
+        onClose={close}
+        eyebrow="PESSOA"
+        title="Adicionar pessoa"
+      >
         {modal === "add" && (
           <PersonForm error={error} onSubmit={onAdd} submitLabel="Adicionar" />
         )}
       </Modal>
 
-      <Modal open={modal === "edit"} onClose={close} title="Editar pessoa">
+      <Modal
+        open={modal === "edit"}
+        onClose={close}
+        eyebrow="PESSOA"
+        title="Editar pessoa"
+      >
         {modal === "edit" && target && (
           <PersonForm
             initial={{ name: target.name, color: target.color }}
@@ -62,6 +75,7 @@ export function PeopleSection() {
         open={modal === "delete"}
         onClose={close}
         onConfirm={onConfirmDelete}
+        error={error}
         title="Excluir pessoa"
         message={`Excluir ${target?.name}? Esta ação não pode ser desfeita.`}
       />

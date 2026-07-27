@@ -6,6 +6,7 @@ import { Modal } from "@/components/Modal";
 import { MonthPicker } from "@/components/MonthPicker";
 import { SectionCard } from "@/components/SectionCard";
 import { formatYyyymm } from "@/lib/months";
+import { RangeTimeline } from "./components/RangeTimeline";
 import { useRangeSection } from "./hook";
 import styles from "./style.module.scss";
 
@@ -17,6 +18,7 @@ export function RangeSection() {
     setRangeEnd,
     savedRangeStart,
     savedRangeEnd,
+    timeline,
     touched,
     error,
     open,
@@ -28,21 +30,29 @@ export function RangeSection() {
   const unset = savedRangeStart === null && savedRangeEnd === null;
 
   return (
-    <SectionCard title="Range" icon={CalendarRange}>
+    <SectionCard title="Período da projeção" icon={CalendarRange}>
       <div className={styles.row}>
         <p className={styles.summary}>
-          {unset
-            ? "Nenhum período definido"
-            : `${formatYyyymm(savedRangeStart)} → ${formatYyyymm(savedRangeEnd)}`}
+          {unset ? (
+            "Nenhum período definido"
+          ) : (
+            <>
+              {formatYyyymm(savedRangeStart)}{" "}
+              <span className={styles.arrow}>→</span>{" "}
+              {formatYyyymm(savedRangeEnd)}
+            </>
+          )}
         </p>
         <Button variant="ghost" onClick={openModal}>
           Editar
         </Button>
       </div>
+      {timeline ? <RangeTimeline {...timeline} /> : null}
       <Modal
         open={open}
         onClose={closeModal}
-        title="Editar range"
+        eyebrow="PERÍODO"
+        title="Editar período da projeção"
         footer={
           <Button onClick={onSave} disabled={!touched}>
             Salvar

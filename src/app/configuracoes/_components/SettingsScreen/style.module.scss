@@ -13,6 +13,9 @@
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   gap: var(--space-6);
+  // Without it the two cards of a row stretch to the taller one, and a short
+  // card (Meta mensal) grows a block of dead space under its last control.
+  align-items: start;
 
   @include t.bp("md") {
     grid-template-columns: repeat(2, minmax(0, 1fr));

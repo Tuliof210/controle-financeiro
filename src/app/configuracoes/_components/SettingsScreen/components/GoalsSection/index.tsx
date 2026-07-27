@@ -1,6 +1,6 @@
 "use client";
 
-import { Pencil, Target, Trash2 } from "lucide-react";
+import { Pencil, Plus, Target, Trash2 } from "lucide-react";
 import { Button } from "@/components/Button";
 import { ConfirmDialog } from "@/components/ConfirmDialog";
 import { IconButton } from "@/components/IconButton";
@@ -37,7 +37,6 @@ export function GoalsSection() {
               <span className={styles.target}>
                 {formatMoney(goal.targetCents)}
               </span>
-              <span className={styles.placeholder}>— progresso em breve</span>
               <IconButton
                 aria-label={`Editar ${goal.name}`}
                 onClick={() => openEdit(goal)}
@@ -55,11 +54,15 @@ export function GoalsSection() {
           ))}
         </ul>
       )}
-      <Button onClick={openAdd}>Adicionar</Button>
+      <Button variant="dashed" onClick={openAdd}>
+        <Plus size={16} aria-hidden />
+        Adicionar objetivo
+      </Button>
 
       <Modal
         open={modal.type === "add"}
         onClose={close}
+        eyebrow="OBJETIVO"
         title="Adicionar objetivo"
       >
         {modal.type === "add" && (
@@ -70,6 +73,7 @@ export function GoalsSection() {
       <Modal
         open={modal.type === "edit"}
         onClose={close}
+        eyebrow="OBJETIVO"
         title="Editar objetivo"
       >
         {modal.type === "edit" && (
@@ -89,6 +93,7 @@ export function GoalsSection() {
         open={modal.type === "delete"}
         onClose={close}
         onConfirm={onConfirmDelete}
+        error={error}
         title="Excluir objetivo"
         message={
           modal.type === "delete"

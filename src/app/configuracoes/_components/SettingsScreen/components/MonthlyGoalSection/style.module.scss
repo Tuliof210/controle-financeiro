@@ -10,8 +10,16 @@
   margin: 0;
   color: var(--color-text);
   font-family: var(--font-mono);
-  font-size: var(--text-md);
+  font-size: var(--text-2xl);
   font-variant-numeric: tabular-nums;
+  line-height: var(--leading-tight);
+}
+
+.caption {
+  margin: var(--space-2) 0 0;
+  color: var(--color-text-muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-2xs);
 }
 
 .error {
