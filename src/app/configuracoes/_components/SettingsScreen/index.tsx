@@ -1,5 +1,6 @@
 "use client";
 
+import { PageHeader } from "@/components/PageHeader";
 import { GoalsSection } from "./components/GoalsSection";
 import { MonthlyGoalSection } from "./components/MonthlyGoalSection";
 import { PeopleSection } from "./components/PeopleSection";
@@ -8,11 +9,11 @@ import { useSettingsScreen } from "./hook";
 import styles from "./style.module.scss";
 
 export function SettingsScreen() {
-  const { eyebrow } = useSettingsScreen();
+  const header = useSettingsScreen();
 
   return (
     <div className={styles.screen}>
-      <h1 className={styles.eyebrow}>{eyebrow}</h1>
+      <PageHeader {...header} />
       <div className={styles.grid}>
         <PeopleSection />
         <RangeSection />

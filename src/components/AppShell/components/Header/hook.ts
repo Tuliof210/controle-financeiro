@@ -1,19 +1,33 @@
 import { useEffect, useState } from "react";
 import { useProfile } from "@/components/ProfileProvider/hook";
 import { getGreeting } from "./greeting.helper";
+import { formatToday } from "./today.helper";
 
 type UseHeaderProps = {
-  sidebarOpen: boolean;
+  sidebarCollapsed: boolean;
   onToggleSidebar: () => void;
 };
 
-export function useHeader({ sidebarOpen, onToggleSidebar }: UseHeaderProps) {
-  const [greeting, setGreeting] = useState("");
+export function useHeader({
+  sidebarCollapsed,
+  onToggleSidebar,
+}: UseHeaderProps) {
+  // Both lines are clock-derived, so both stay empty on the server and land in
+  // the same effect — a second effect would only add another hydration seam.
+  const [lines, setLines] = useState({ greeting: "", today: "" });
   const { label } = useProfile();
 
   useEffect(() => {
-    setGreeting(`${getGreeting(new Date())}, ${label}`);
+    const now = new Date();
+    setLines({
+      greeting: `${getGreeting(now)}, ${label}`,
+      today: formatToday(now),
+    });
   }, [label]);
 
-  return { greeting, sidebarOpen, onToggleSidebar };
+  return {
+    ...lines,
+    sidebarExpanded: !sidebarCollapsed,
+    onToggleSidebar,
+  };
 }

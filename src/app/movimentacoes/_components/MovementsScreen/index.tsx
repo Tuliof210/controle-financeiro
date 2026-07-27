@@ -11,7 +11,11 @@ export function MovementsScreen() {
     <EntryScreen<Movement, MovementFormValues>
       resource="movements"
       labels={{
-        heading: "Movimentações",
+        header: {
+          eyebrow: "LANÇAMENTOS",
+          title: "Movimentações",
+          subtitle: "Entradas e saídas pontuais de cada pessoa da casa.",
+        },
         addTitle: "Adicionar movimentação",
         editTitle: "Editar movimentação",
         deleteTitle: "Excluir movimentação",

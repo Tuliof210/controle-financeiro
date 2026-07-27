@@ -7,21 +7,26 @@ type NavItemProps = {
   href: string;
   label: string;
   active: boolean;
+  collapsed: boolean;
   icon: LucideIcon;
 };
 
 export function NavItem(props: NavItemProps) {
-  const { href, label, active, icon: Icon } = useNavItem(props);
+  const { href, label, active, icon: Icon, className } = useNavItem(props);
 
   return (
     <li>
+      {/* aria-label duplicates the visible label because the collapsed rail
+          takes the <span> out of the a11y tree with `display: none` — without
+          it an icon-only link would have no accessible name. */}
       <Link
         href={href}
-        className={styles.link}
+        className={className}
         aria-current={active ? "page" : undefined}
+        aria-label={label}
       >
         <Icon className={styles.icon} size={18} aria-hidden />
-        <span>{label}</span>
+        <span className={styles.label}>{label}</span>
       </Link>
     </li>
   );

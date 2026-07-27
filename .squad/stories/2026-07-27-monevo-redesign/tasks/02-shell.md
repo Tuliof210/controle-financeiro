@@ -368,12 +368,15 @@ the configured range end. The header does not have the range; drop the clause
 rather than fetch settings for a sentence.
 
 **`EntryScreen/index.tsx` is shared by Movimentações and Recorrências** and is
-the single tightest file in the repo — **102 effective lines against a 100-line
-cap**. It already takes a `heading` string prop; widen that to the three
-strings (or a small object) rather than adding JSX to the file, and if the
-change pushes it over, that is the signal to lift its two `Modal` blocks into a
-child component, not to squeeze. Count by hand: the rule reports at `info` and
-does not count lines inside a JSX expression, so nothing will tell you.
+one of the longer files in the repo. **Correcting what this task file
+originally claimed:** it said "102 effective lines against a 100-line cap".
+That is wrong. PR #49's review binary-searched Biome's real count by running
+`maxLines` against a scratch config — Biome reports **93** (about 92 before the
+change), against 110 physical lines. So the file was never near the cap and the
+"no headroom" premise here was overstated. Widening the `heading` prop into an
+object is still the right call; it just was not forced. Count by hand when it
+matters: the rule reports at `info`, and lines inside a JSX expression are not
+counted, so nothing will tell you.
 
 ### Verify
 Run from inside the task worktree, never the main checkout:

@@ -189,7 +189,7 @@ movement modal.
       counted**, so every `index.tsx` escapes the rule while `hook.ts`,
       `*.helper.ts` and `*.test.ts` are policed; for a JSX-heavy file, count by
       hand. Three files start with almost no headroom and are all in scope:
-      `EntryScreen/index.tsx` (102 effective), `GoalsSection/index.tsx` (95),
+      `GoalsSection/index.tsx` (95),
       `EntryForm/index.tsx` (94).
 - [ ] Not one hardcoded colour, spacing, radius, shadow or duration is
       introduced. `grep -nE '#[0-9a-fA-F]{3,8}|[0-9]+ms|rgba?\(' src --include='*.scss'`
@@ -220,7 +220,7 @@ movement modal.
 - [x] tasks/01-foundations.md — amend rule 3, add the hard-shadow and
       `--rail-*` tokens, extend the elevation mixin, update the test and the
       Foundations docs
-- [ ] tasks/02-shell.md — the dark collapsible rail, the Monevo mark, the
+- [x] tasks/02-shell.md — the dark collapsible rail, the Monevo mark, the
       header, the mobile bottom nav and the shared page header block
 - [ ] tasks/03-primitives.md — restyle Button (plus a `dashed` variant),
       IconButton, Modal, SectionCard, the inputs and Tooltip

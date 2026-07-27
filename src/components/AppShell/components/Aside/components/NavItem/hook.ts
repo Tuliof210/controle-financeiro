@@ -1,12 +1,28 @@
 import type { LucideIcon } from "lucide-react";
+import styles from "./style.module.scss";
 
 type UseNavItemProps = {
   href: string;
   label: string;
   active: boolean;
+  collapsed: boolean;
   icon: LucideIcon;
 };
 
-export function useNavItem({ href, label, active, icon }: UseNavItemProps) {
-  return { href, label, active, icon };
+export function useNavItem({
+  href,
+  label,
+  active,
+  collapsed,
+  icon,
+}: UseNavItemProps) {
+  return {
+    href,
+    label,
+    active,
+    icon,
+    className: [styles.link, collapsed && styles.collapsed]
+      .filter(Boolean)
+      .join(" "),
+  };
 }
