@@ -1,10 +1,14 @@
 // Spans, not divs: this renders inside EntryRow's <span> period slot.
+// ponytail: raw 160px, the bar's only width reservation — the same raw-pixel
+// exception the 10px track below, EntryRow's swatch and the rail widths take,
+// since the DS has no size scale. It lives here rather than on EntryRow's
+// `.period` slot because only this component needs the room: the slot is a
+// flex item, so its `min-width: auto` floor picks this up at every width, and
+// Movimentações' plain-text period keeps its natural size.
 .wrap {
   display: flex;
   flex-direction: column;
   gap: var(--space-1);
-  // Keeps the track readable at 375px — below `md` the row wraps and the slot
-  // takes its own line rather than squeezing the bar to a sliver.
   min-width: 160px;
 }
 

@@ -1,4 +1,3 @@
-@use "theme" as t;
 @use "swatch-colors";
 
 .row {
@@ -54,17 +53,12 @@
   color: var(--color-negative);
 }
 
-// Wide enough for the recurrence coverage bar from `md` up; below that the row
-// wraps and the slot takes the full line instead of squeezing the bar to a
-// sliver.
+// No width of its own: the slot sizes to whatever the screen renders into it —
+// CoverageBar carries the recurrence bar's 160px reservation, and a movement's
+// plain month text needs none.
 .period {
   color: var(--color-text-muted);
   font-family: var(--font-mono);
   font-size: var(--text-sm);
   font-variant-numeric: tabular-nums;
-
-  @include t.bp("md") {
-    flex: 0 0 auto;
-    min-width: 160px;
-  }
 }
