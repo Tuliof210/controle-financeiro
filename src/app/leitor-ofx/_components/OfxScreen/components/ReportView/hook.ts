@@ -22,6 +22,7 @@ export function useReportView({
 }: ReportViewProps) {
   const first = report.months.at(0);
   const last = report.months.at(-1);
+  const count = report.totals.count;
 
   return {
     error,
@@ -36,7 +37,10 @@ export function useReportView({
       ? [report.org, report.fid].filter(Boolean).join(" · ")
       : "—",
     currency: report.currency ?? "—",
-    count: String(report.totals.count),
+    // The whole badge phrase, not just the number: a one-transaction file is a
+    // legitimate report and "1 lançamentos lidos" is wrong. index.tsx stays
+    // logic-free, so the agreement has to be decided here.
+    count: `${count} ${count === 1 ? "lançamento lido" : "lançamentos lidos"}`,
     account: accountLabel(report.accounts),
     finalBalance: finalBalance(report.accounts),
     period:
@@ -54,7 +58,7 @@ export function useReportView({
       income: formatMoney(report.totals.incomeCents),
       expense: formatMoney(report.totals.expenseCents),
       balance: formatMoney(report.totals.balanceCents),
-      count: report.totals.count,
+      count,
       negative: report.totals.balanceCents < 0,
     },
   };

@@ -16,7 +16,7 @@ export function ReportView(props: ReportViewProps) {
       <div className={styles.head}>
         <p className={styles.file}>{view.fileName}</p>
         <p className={styles.badge}>
-          <Check size={12} aria-hidden /> {view.count} lançamentos lidos
+          <Check size={12} aria-hidden /> {view.count}
         </p>
       </div>
       {/* No "Lançamentos" key here any more — the badge above carries it. */}
