@@ -1,0 +1,16 @@
+// The brand box is part of the mark, not of its callers: the rail head and the
+// mobile header both draw the identical 36x36 violet tile, so it lives here once.
+.box {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  // ponytail: raw 36px like the rail's two widths — the DS has no size scale,
+  // and one fixed tile does not earn a --size-* token family.
+  width: 36px;
+  height: 36px;
+  background: var(--color-brand);
+  color: var(--white);
+  border: var(--border-2) solid var(--color-border);
+  border-radius: var(--radius-sm);
+}
