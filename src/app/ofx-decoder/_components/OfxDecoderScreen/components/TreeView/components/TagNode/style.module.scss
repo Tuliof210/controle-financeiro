@@ -19,10 +19,13 @@
 }
 
 // Only a <summary> in this pair is ever focusable/clickable — the rest of
-// this rule is shared with the plain leaf label above.
+// this rule is shared with the plain leaf label above. line-height (not
+// display:flex) hits the 44px hit-target floor (src/styles/README.md rule
+// 7) without overriding <summary>'s default list-item display, which is
+// what draws the native disclosure triangle.
 summary.tag {
   cursor: pointer;
-  padding: var(--space-1) 0;
+  line-height: 44px;
 }
 
 .value {
