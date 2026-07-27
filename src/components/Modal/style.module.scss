@@ -3,14 +3,16 @@
 .dialog {
   padding: 0;
   border: var(--border-2) solid var(--color-border);
-  border-radius: var(--radius-0);
+  border-radius: var(--radius-md);
   background: var(--color-surface-raised);
   color: var(--color-text);
   width: calc(100% - var(--space-8));
   // ponytail: no container-width token exists in the DS; matches the `sm` bp.
   max-width: 480px;
   z-index: var(--z-modal);
-  @include t.elevation(overlay);
+  // README rule 3, as amended: the large hard offset shadow is scoped to the
+  // modal panel, and replaces the blur overlay shadow that used to sit here.
+  @include t.elevation(panel);
 
   // Dimmed scrim derived from the bg token — theme-aware, no hardcoded color.
   &::backdrop {
@@ -18,36 +20,47 @@
   }
 }
 
+// A strictly inner box, and one with no padding of its own. Two reasons it must
+// stay that way: hook.ts detects a backdrop click with `e.target ===
+// ref.current`, so any padding here would turn a click on the panel's own edge
+// into a close; and the sticky header has to reach the panel's edges. Padding
+// lives on the header/body/footer instead.
 .panel {
   display: flex;
   flex-direction: column;
-  gap: var(--space-4);
-  padding: var(--space-5);
-
-  @include t.bp(sm) {
-    padding: var(--space-6);
-  }
 }
 
 .header {
+  position: sticky;
+  top: 0;
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
   gap: var(--space-4);
+  padding: var(--space-6);
+  // Must match the panel's surface, or the body scrolls visibly underneath.
+  background: var(--color-surface-raised);
+  border-bottom: var(--border-2) solid var(--color-border);
 }
 
+.eyebrow {
+  margin: 0 0 var(--space-3);
+  color: var(--color-brand);
+  font-family: var(--font-display);
+  font-size: var(--text-2xs);
+  letter-spacing: var(--tracking-wide);
+}
+
+// Stays at --text-lg: the design draws --text-md, but _base.scss and every
+// other title in the app are at lg, and consistency beats a 4px difference.
 .title {
   margin: 0;
   font-family: var(--font-display);
   font-size: var(--text-lg);
 }
 
-.close {
-  min-width: 44px;
-  padding: var(--space-2);
-}
-
 .body {
+  padding: var(--space-6);
   font-family: var(--font-mono);
   font-size: var(--text-base);
   line-height: 1.5;
@@ -57,4 +70,5 @@
   display: flex;
   justify-content: flex-end;
   gap: var(--space-3);
+  padding: 0 var(--space-6) var(--space-6);
 }
