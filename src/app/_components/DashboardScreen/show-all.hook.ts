@@ -20,7 +20,14 @@ export function showAllView<T>(rows: T[], all: boolean, cap = CAP) {
 // written once. Role-suffixed rather than `hook.ts`: a folder's hook.ts is
 // called by its OWN index.tsx, and this one is called by two other components'
 // hooks.
+//
+// `all` is returned, not just consumed: the chip is a disclosure button and
+// owes the reader an `aria-expanded`, the way Aside's and Header's do.
 export function useShowAll<T>(rows: T[], cap = CAP) {
   const [all, setAll] = useState(false);
-  return { ...showAllView(rows, all, cap), toggle: () => setAll((v) => !v) };
+  return {
+    ...showAllView(rows, all, cap),
+    all,
+    toggle: () => setAll((v) => !v),
+  };
 }

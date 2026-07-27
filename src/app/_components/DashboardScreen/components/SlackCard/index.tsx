@@ -8,7 +8,7 @@ import { type SlackCardProps, useSlackCard } from "./hook";
 import styles from "./style.module.scss";
 
 export function SlackCard(props: SlackCardProps) {
-  const { empty, rows, label, hidden, toggle } = useSlackCard(props);
+  const { empty, rows, label, hidden, all, toggle } = useSlackCard(props);
 
   return (
     <SectionCard title="Folga de gastos" icon={Wallet} hint={HINTS.slack}>
@@ -21,7 +21,9 @@ export function SlackCard(props: SlackCardProps) {
         <>
           {/* SectionCard takes no header action; the chip right-aligns itself
               inside the card body instead of widening it for two call sites. */}
-          {hidden ? <ShowAllToggle label={label} onClick={toggle} /> : null}
+          {hidden ? (
+            <ShowAllToggle label={label} expanded={all} onClick={toggle} />
+          ) : null}
           <MeterList>
             {rows.map((row) => (
               <MeterRow

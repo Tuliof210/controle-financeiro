@@ -8,7 +8,8 @@ import { type LimitCardProps, useLimitCard } from "./hook";
 import styles from "./style.module.scss";
 
 export function LimitCard(props: LimitCardProps) {
-  const { empty, ceiling, rows, label, hidden, toggle } = useLimitCard(props);
+  const { empty, ceiling, rows, label, hidden, all, toggle } =
+    useLimitCard(props);
 
   return (
     <SectionCard title="Uso da meta mensal" icon={PiggyBank} hint={HINTS.limit}>
@@ -21,7 +22,9 @@ export function LimitCard(props: LimitCardProps) {
         <>
           <div className={styles.cardHead}>
             <p className={styles.note}>Meta mensal de {ceiling}.</p>
-            {hidden ? <ShowAllToggle label={label} onClick={toggle} /> : null}
+            {hidden ? (
+              <ShowAllToggle label={label} expanded={all} onClick={toggle} />
+            ) : null}
           </div>
           <MeterList>
             {rows.map((row) => (

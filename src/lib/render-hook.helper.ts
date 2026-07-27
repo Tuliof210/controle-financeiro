@@ -8,12 +8,14 @@ import { renderToStaticMarkup } from "react-dom/server";
 // and that the hook which ASSEMBLES a feature is the test target, not only the
 // pure helper it calls.
 //
-// Known ceiling: a server render is ONE pass, so only the initial state is
-// observable and calling a returned setter changes nothing. Every stateful hook
-// here therefore keeps its state-dependent derivation in a pure exported
-// function (see `show-all.hook.ts`), so both branches stay covered.
+// Known ceiling: there is no `act`, so a setter called from an EVENT (a click,
+// a timer) is not observable. A setter called during the render itself is —
+// React re-runs the same component immediately, and the loop below captures the
+// last pass, which is how `show-all.hook.test.ts` walks its toggle round trip.
+// Stateful hooks here still keep their state-dependent derivation in a pure
+// exported function, so both branches stay readable as well as covered.
 // ponytail: a 6-line probe instead of a jsdom + @testing-library stack; add
-// those two dev dependencies if a future hook needs a real re-render.
+// those two dev dependencies if a future hook needs event-driven re-renders.
 //
 // Lives in lib/ because ARCHITECTURE.md has no test-infrastructure folder and
 // one file does not earn one.
