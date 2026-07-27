@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import type { Settings } from "@/core/entities/settings.entity";
 import { apiGet, apiPut } from "@/lib/api";
+import { currentYYYYMM } from "@/lib/months";
 
 export function useRangeSection() {
   const [rangeStart, setRangeStartValue] = useState<number | null>(null);
@@ -62,6 +63,17 @@ export function useRangeSection() {
     setRangeEnd,
     savedRangeStart,
     savedRangeEnd,
+    // The timeline needs both bounds, so it is null whenever either is unset —
+    // a stricter condition than the summary's "neither is set" empty state.
+    // `current` is resolved here, never during a child's render.
+    timeline:
+      savedRangeStart !== null && savedRangeEnd !== null
+        ? {
+            start: savedRangeStart,
+            end: savedRangeEnd,
+            current: currentYYYYMM(),
+          }
+        : null,
     touched,
     error,
     open,
