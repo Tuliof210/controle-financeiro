@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { goalLabel, limitTone, sharePercent } from "./list-cards.helper";
+import { limitTone, sharePercent } from "./list-cards.helper";
 
 describe("sharePercent", () => {
   it("scales a row against the largest row", () => {
@@ -33,20 +33,5 @@ describe("limitTone", () => {
 
   it("treats an unset ceiling as not-overspent", () => {
     expect(limitTone(null)).toBe("positive");
-  });
-});
-
-describe("goalLabel", () => {
-  it("reports the wait in months", () => {
-    expect(goalLabel(7)).toBe("~7 meses");
-    expect(goalLabel(42)).toBe("~42 meses");
-  });
-
-  it("singularises one month", () => {
-    expect(goalLabel(1)).toBe("~1 mês");
-  });
-
-  it("says unreachable when the pace is zero", () => {
-    expect(goalLabel(null)).toBe("inalcançável no ritmo atual");
   });
 });

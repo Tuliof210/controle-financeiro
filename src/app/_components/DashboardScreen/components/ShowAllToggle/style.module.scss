@@ -1,0 +1,34 @@
+@use "theme" as t;
+
+// margin-left: auto rather than a wrapper's justify-content, so the same chip
+// right-aligns both on its own inside SectionCard's flex COLUMN body (SlackCard,
+// which has no description line) and beside a <p> in LimitCard's head row.
+// Auto margins absorb free space on a flex item's cross axis too.
+.toggle {
+  // The design draws a bare --space-1/--space-2 chip; src/styles/README.md rule
+  // 7(e)'s 44px floor wins. It sits on its own row, so the extra height shifts
+  // nothing around it and no ::after overlay is needed.
+  min-height: 44px;
+  margin-left: auto;
+  padding: var(--space-1) var(--space-2);
+  background: transparent;
+  color: var(--color-text-muted);
+  border: var(--border-1) solid var(--color-border);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-mono);
+  font-size: var(--text-2xs);
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background var(--duration-fast) var(--ease-snappy),
+    color var(--duration-fast) var(--ease-snappy);
+
+  &:hover {
+    background: var(--color-surface-raised);
+    color: var(--color-text);
+  }
+
+  &:focus-visible {
+    @include t.focus-ring;
+  }
+}

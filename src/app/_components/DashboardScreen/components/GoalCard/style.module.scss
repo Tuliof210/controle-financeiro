@@ -1,0 +1,109 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-6);
+  background: var(--color-surface);
+  border: var(--border-2) solid var(--color-border);
+  border-radius: var(--radius-md);
+}
+
+.head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.name {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin: 0;
+  color: var(--color-text);
+  font-family: var(--font-mono);
+  font-size: var(--text-md);
+  font-weight: var(--weight-bold);
+  // A long goal name must break rather than widen the card at 375px.
+  overflow-wrap: anywhere;
+}
+
+// flex-shrink: 0 so the icon keeps its 15px next to a name that wraps.
+.icon {
+  flex-shrink: 0;
+  color: var(--color-brand);
+}
+
+.iconFull {
+  flex-shrink: 0;
+  color: var(--color-positive);
+}
+
+.eta {
+  margin: var(--space-2) 0 0;
+  color: var(--color-text-muted);
+  font-family: var(--font-display);
+  font-size: var(--text-2xs);
+  letter-spacing: var(--tracking-wide);
+  line-height: var(--leading-normal);
+  text-transform: uppercase;
+}
+
+// Same number as the bar's width and as `covered`, never a fourth quantity.
+.badge {
+  flex: none;
+  padding: var(--space-1) var(--space-2);
+  background: var(--color-surface-raised);
+  color: var(--color-text-muted);
+  border: var(--border-1) solid var(--color-border-subtle);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-mono);
+  font-size: var(--text-2xs);
+  font-weight: var(--weight-bold);
+  font-variant-numeric: tabular-nums;
+}
+
+// --ink-900 rather than --white on the fill: 7.40:1 light / 11.43:1 dark,
+// where white would be 2.59 / 1.67. Same pairing HeroCard's delta badge uses.
+.badgeFull {
+  background: var(--color-positive);
+  color: var(--ink-900);
+  border-color: var(--color-positive);
+}
+
+.covered {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  font-variant-numeric: tabular-nums;
+  line-height: var(--leading-normal);
+}
+
+// 12px = --space-3, on the 4px scale. overflow: hidden is what rounds the fill.
+.track {
+  width: 100%;
+  height: var(--space-3);
+  background: var(--color-surface-raised);
+  border: var(--border-1) solid var(--color-border-subtle);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+
+.fill {
+  height: 100%;
+  background: var(--gradient-toxic);
+  transition: width var(--duration-base) var(--ease-snappy);
+}
+
+.fillFull {
+  background: var(--color-positive);
+}
+
+.note {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  line-height: var(--leading-normal);
+}

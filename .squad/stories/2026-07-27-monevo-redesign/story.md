@@ -226,7 +226,7 @@ movement modal.
       IconButton, Modal, SectionCard, the inputs and Tooltip
 - [x] tasks/04-dashboard-geral.md — the tab shell and the `Visão geral` tab:
       hero card, KPI cards with sparklines, the two charts
-- [ ] tasks/05-dashboard-projecao-metas.md — the `Projeção` tab with its
+- [x] tasks/05-dashboard-projecao-metas.md — the `Projeção` tab with its
       show-all toggles and the `Metas` tab's capacity banner and goal cards
 - [x] tasks/06-entries.md — Movimentações and Recorrências: section totals,
       empty states, dashed add button, recurrence coverage bar

@@ -1,4 +1,6 @@
 import { GeneralTab } from "../GeneralTab";
+import { GoalsTab } from "../GoalsTab";
+import { ProjectionTab } from "../ProjectionTab";
 import { TabBar } from "../TabBar";
 import { type BoardProps, useBoard } from "./hook";
 import styles from "./style.module.scss";
@@ -10,7 +12,8 @@ export function Board(props: BoardProps) {
     <div className={styles.board}>
       <TabBar tabs={tabs} onSelect={onSelect} />
       {tab === "geral" ? <GeneralTab data={data} /> : null}
-      {/* task 05 adds ProjectionTab and GoalsTab here */}
+      {tab === "projecao" ? <ProjectionTab data={data} /> : null}
+      {tab === "metas" ? <GoalsTab data={data} /> : null}
     </div>
   );
 }
