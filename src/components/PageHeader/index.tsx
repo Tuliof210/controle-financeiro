@@ -8,7 +8,7 @@ export function PageHeader(props: PageHeaderProps) {
   const { eyebrow, title, subtitle } = usePageHeader(props);
 
   return (
-    <header className={styles.header}>
+    <header>
       <p className={styles.eyebrow}>{eyebrow}</p>
       <h1 className={styles.title}>{title}</h1>
       <p className={styles.subtitle}>{subtitle}</p>

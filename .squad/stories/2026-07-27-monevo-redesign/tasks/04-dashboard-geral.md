@@ -303,6 +303,17 @@ Charts stay full width, one per row, in their existing `ChartCard`. The design
 stacks the KPIs into one column below 1240px; `lg` (1024px) is the closest
 breakpoint in this repo's closed map — use it rather than adding a fifth.
 
+**Inherited bug this task must fix while rewriting `Board`.** PR #49's review
+measured `/` at 375px: `documentElement.scrollWidth` **400** vs `clientWidth`
+375, with **14 overflowing elements**, because `Board`'s bare `1fr` grid track
+never shrinks below its content's min-content width — the cards measure 376.6px.
+The story's DoD requires the page body not to scroll horizontally, and this is
+the one screen that still does. The fix is the same one that already works on
+Configurações: `grid-template-columns: minmax(0, 1fr)` (and
+`repeat(N, minmax(0, 1fr))` at the breakpoints), which took that screen to **0**
+overflowing elements. Apply it to every grid you write here, and re-measure at
+375px rather than assuming.
+
 **Do not change `ChartCard`'s height** (`calc(var(--space-24) * 2.75)`). It is
 read back by `getBoundingClientRect` in `ChartCard/hook.ts` and is the sole
 source of every chart scale. If task 03's `SectionCard` padding change moves

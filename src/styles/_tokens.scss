@@ -29,7 +29,12 @@
   --ink-800: #181a22;
   --ink-700: #242733;
   --ink-600: #3a3e4d;
-  --ink-500: #6b7180;
+  // Darkened from #6b7180. Its sole consumer is --color-text-muted, and that
+  // token was marginal: 4.88:1 on --color-surface (white) but 4.40:1 on
+  // --color-bg (paper), under rule 7's 4.5:1 floor. Every muted text in the app
+  // sat on a surface until PageHeader put one on the page background. #5f6573
+  // measures 5.26:1 on paper and 5.84:1 on white — still clearly muted.
+  --ink-500: #5f6573;
   --ink-400: #9aa0ae;
   --ink-300: #c7cbd4;
   --ink-200: #e4e6ec;

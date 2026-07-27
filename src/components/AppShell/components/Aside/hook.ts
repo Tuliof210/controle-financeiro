@@ -1,6 +1,5 @@
 import { PanelLeftClose, PanelLeftOpen } from "lucide-react";
-import { usePathname } from "next/navigation";
-import { isActiveNav, NAV } from "../../nav";
+import { useNavActive } from "../../nav.hook";
 import styles from "./style.module.scss";
 
 type UseAsideProps = {
@@ -9,11 +8,11 @@ type UseAsideProps = {
 };
 
 export function useAside({ collapsed, onToggle }: UseAsideProps) {
-  const pathname = usePathname();
+  const { items, isActive } = useNavActive();
 
   return {
-    items: NAV,
-    isActive: (href: string) => isActiveNav(pathname, href),
+    items,
+    isActive,
     collapsed,
     onToggle,
     className: [styles.aside, collapsed && styles.collapsed]
