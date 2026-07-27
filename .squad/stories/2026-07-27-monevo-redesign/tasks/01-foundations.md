@@ -147,9 +147,10 @@ in the file's existing voice:
   `--elevation-panel` is for the **modal panel** only.
 - No other hard offset shadow. Anything else still gets a border.
 
-Do not touch rules 1, 2 and 4–7, and do not restate the four pillars — they are
-duplicated in `src/styles/docs/Overview.mdx`, `CLAUDE.md` and
-`.design-sync/config.json`, and this task changes none of them.
+Do not touch rules 1, 2 and 4–7, and do not restate the four pillars. Pillar 1's
+text (`elevation via surface tiers — not heavy offset shadows`) lives in exactly
+three places — `src/styles/README.md:11`, `src/styles/docs/Overview.mdx:18` and
+`.design-sync/conventions.md:11` — and this task changes none of them.
 
 ### 6. The Foundations docs
 `src/styles/docs/Elevation.mdx` lists the three current tokens as
