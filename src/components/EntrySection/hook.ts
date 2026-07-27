@@ -1,7 +1,12 @@
 import type { LucideIcon } from "lucide-react";
 import type { ReactNode } from "react";
+import type {
+  EntrySectionLabels,
+  Period,
+} from "@/components/EntryScreen/types";
 import type { Person } from "@/core/entities/person.entity";
 import type { Entry } from "@/lib/entry-types";
+import { formatMoney } from "@/lib/money";
 
 export type EntrySectionProps<T extends Entry> = {
   title: string;
@@ -9,8 +14,9 @@ export type EntrySectionProps<T extends Entry> = {
   tone: "positive" | "negative";
   items: T[];
   people: Person[];
-  empty: string;
-  renderPeriod: (item: T) => ReactNode;
+  period: Period | null;
+  labels: EntrySectionLabels;
+  renderPeriod: (item: T, period: Period | null) => ReactNode;
   onAdd: () => void;
   onEdit: (item: T) => void;
   onDelete: (item: T) => void;
@@ -24,7 +30,8 @@ export function useEntrySection<T extends Entry>({
   tone,
   items,
   people,
-  empty,
+  period,
+  labels,
   renderPeriod,
   onAdd,
   onEdit,
@@ -33,10 +40,22 @@ export function useEntrySection<T extends Entry>({
   const rows = items.map((item) => ({
     entry: item,
     person: people.find((person) => person.id === item.ownerId),
-    period: renderPeriod(item),
+    period: renderPeriod(item, period),
     onEdit: () => onEdit(item),
     onDelete: () => onDelete(item),
   }));
 
-  return { title, icon, tone, rows, empty, onAdd };
+  // `items` arrives already filtered by the person <select> (visibleFor), so the
+  // header total always agrees with the rows rendered under it.
+  const totalCents = items.reduce((sum, item) => sum + item.valueCents, 0);
+
+  return {
+    title,
+    icon,
+    tone,
+    rows,
+    total: formatMoney(totalCents),
+    labels,
+    onAdd,
+  };
 }

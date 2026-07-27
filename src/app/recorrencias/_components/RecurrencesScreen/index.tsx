@@ -2,9 +2,9 @@
 
 import { EntryScreen } from "@/components/EntryScreen";
 import type { Recurrence } from "@/core/entities/recurrence.entity";
+import { CoverageBar } from "./components/CoverageBar";
 import { RecurrenceForm } from "./components/RecurrenceForm";
 import type { RecurrenceFormValues } from "./components/RecurrenceForm/hook";
-import { formatMonths } from "./recurrence-range.helper";
 
 export function RecurrencesScreen() {
   return (
@@ -19,9 +19,21 @@ export function RecurrencesScreen() {
         addTitle: "Adicionar recorrência",
         editTitle: "Editar recorrência",
         deleteTitle: "Excluir recorrência",
-        empty: "Nenhuma recorrência cadastrada ainda.",
+        income: {
+          add: "Nova recorrência",
+          emptyTitle: "Sem entradas recorrentes",
+          emptyHint:
+            "Cadastre salário ou renda fixa para a projeção ficar precisa.",
+        },
+        expense: {
+          add: "Nova recorrência",
+          emptyTitle: "Sem saídas recorrentes",
+          emptyHint: "Aluguel, financiamento e assinaturas entram aqui.",
+        },
       }}
-      renderPeriod={(recurrence) => formatMonths(recurrence.months)}
+      renderPeriod={(recurrence, period) => (
+        <CoverageBar months={recurrence.months} period={period} />
+      )}
       Form={RecurrenceForm}
     />
   );

@@ -3,6 +3,10 @@ import type { PageHeaderProps } from "@/components/PageHeader/hook";
 import type { Person } from "@/core/entities/person.entity";
 import type { Entry, EntryType } from "@/lib/entry-types";
 
+// The global projection range from GET /api/settings — null until the owner
+// saves one.
+export type Period = { start: number; end: number };
+
 export type ModalState<T> =
   | { type: "none" }
   | { type: "add"; kind: EntryType }
@@ -19,7 +23,15 @@ export type EntryFormSlotProps<V> = {
   submitLabel: string;
   onSubmit: (values: V) => void;
   people: Person[];
-  period: { start: number; end: number } | null;
+  period: Period | null;
+};
+
+// Per-section copy. The two sections of one screen say different things when
+// empty, so a single shared `empty` string could not carry it.
+export type EntrySectionLabels = {
+  add: string;
+  emptyTitle: string;
+  emptyHint: string;
 };
 
 export type EntryScreenLabels = {
@@ -30,7 +42,8 @@ export type EntryScreenLabels = {
   addTitle: string;
   editTitle: string;
   deleteTitle: string;
-  empty: string;
+  income: EntrySectionLabels;
+  expense: EntrySectionLabels;
 };
 
 export type EntryScreenConfig<
@@ -40,6 +53,9 @@ export type EntryScreenConfig<
   // The /api/<resource> segment, e.g. "recurrences".
   resource: string;
   labels: EntryScreenLabels;
-  renderPeriod: (item: T) => ReactNode;
+  // The global projection range is passed alongside the item so a period cell
+  // can draw itself relative to it (the recurrence coverage bar). Callers that
+  // do not need it — Movimentações — just ignore the second argument.
+  renderPeriod: (item: T, period: Period | null) => ReactNode;
   Form: ComponentType<EntryFormSlotProps<V>>;
 };

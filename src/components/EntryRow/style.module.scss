@@ -5,13 +5,22 @@
   align-items: center;
   flex-wrap: wrap;
   gap: var(--space-3);
+  padding-bottom: var(--space-3);
+  border-bottom: var(--border-1) solid var(--color-border-subtle);
+  transition: background var(--duration-fast) var(--ease-snappy);
+
+  &:hover {
+    background: var(--color-surface-raised);
+  }
 }
 
+// ponytail: raw 14px, the same raw-pixel exception BrandMark and the rail
+// widths already take — the DS has no size scale and 14 is off the 4px grid.
 .swatch {
-  width: var(--space-4);
-  height: var(--space-4);
+  width: 14px;
+  height: 14px;
   flex-shrink: 0;
-  border-radius: var(--radius-0);
+  border-radius: var(--radius-sm);
 }
 
 .owner {
@@ -44,6 +53,9 @@
   color: var(--color-negative);
 }
 
+// No width of its own: the slot sizes to whatever the screen renders into it —
+// CoverageBar carries the recurrence bar's 160px reservation, and a movement's
+// plain month text needs none.
 .period {
   color: var(--color-text-muted);
   font-family: var(--font-mono);

@@ -1,0 +1,38 @@
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-12) var(--space-4);
+  text-align: center;
+}
+
+// ponytail: raw 44px, same exception the repo already makes for the hit-target
+// floor — the DS has no size scale. Here it is DECORATIVE, not a hit target:
+// the box is non-interactive and its icon is aria-hidden.
+.box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  color: var(--color-text-muted);
+  border: var(--border-2) dashed var(--color-border-subtle);
+  border-radius: var(--radius-sm);
+}
+
+.title {
+  margin: 0;
+  color: var(--color-text);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+}
+
+.hint {
+  margin: 0;
+  max-width: 34ch;
+  color: var(--color-text-muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  text-wrap: pretty;
+}

@@ -19,7 +19,20 @@ export function MovementsScreen() {
         addTitle: "Adicionar movimentação",
         editTitle: "Editar movimentação",
         deleteTitle: "Excluir movimentação",
-        empty: "Nenhuma movimentação cadastrada ainda.",
+        // "para este filtro", not "cadastrada ainda": the person <select>
+        // filters client-side, so an empty section here is more often the
+        // filter than an empty database.
+        income: {
+          add: "Adicionar entrada",
+          emptyTitle: "Nenhuma entrada para este filtro",
+          emptyHint:
+            "Troque a pessoa selecionada ou registre a primeira entrada do período.",
+        },
+        expense: {
+          add: "Adicionar saída",
+          emptyTitle: "Nenhuma saída para este filtro",
+          emptyHint: "Mês limpo — ou o filtro está estreito demais.",
+        },
       }}
       renderPeriod={(movement) => formatYyyymm(movement.month)}
       Form={MovementForm}
