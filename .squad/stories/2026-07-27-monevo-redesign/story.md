@@ -220,7 +220,7 @@ movement modal.
 - [x] tasks/01-foundations.md — amend rule 3, add the hard-shadow and
       `--rail-*` tokens, extend the elevation mixin, update the test and the
       Foundations docs
-- [ ] tasks/02-shell.md — the dark collapsible rail, the Monevo mark, the
+- [x] tasks/02-shell.md — the dark collapsible rail, the Monevo mark, the
       header, the mobile bottom nav and the shared page header block
 - [ ] tasks/03-primitives.md — restyle Button (plus a `dashed` variant),
       IconButton, Modal, SectionCard, the inputs and Tooltip
