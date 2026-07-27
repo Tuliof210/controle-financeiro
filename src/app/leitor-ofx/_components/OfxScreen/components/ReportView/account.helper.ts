@@ -7,8 +7,11 @@ import { formatMoney } from "@/lib/money";
 
 // " +N" so a multi-account file does not read as a single-account one; the
 // account lines under the metadata row still spell every one of them out.
+// Like finalBalance below, it walks rather than trusting accounts.at(0): a file
+// whose FIRST statement omits <ACCTID> would otherwise print "—" over an
+// account list spelling the real number out.
 export const accountLabel = (accounts: OfxAccount[]): string => {
-  const first = accounts.at(0)?.accountId;
+  const first = accounts.find((account) => account.accountId)?.accountId;
   const others = accounts.length - 1;
   return first ? `${first}${others > 0 ? ` +${others}` : ""}` : "—";
 };

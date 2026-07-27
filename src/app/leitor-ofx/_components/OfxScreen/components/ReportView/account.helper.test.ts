@@ -25,6 +25,13 @@ describe("accountLabel", () => {
     expect(accountLabel(many)).toBe("12345-6 +2");
   });
 
+  // A two-account file may declare <ACCTID> only on the second statement — "—"
+  // over an account list showing 999 is the metadata row contradicting itself.
+  it("skips accounts that declare no id, and still counts them", () => {
+    const some = [account({ accountId: null }), account({ accountId: "999" })];
+    expect(accountLabel(some)).toBe("999 +1");
+  });
+
   // Every OfxAccount field is nullable, so a file naming no account must not
   // print "undefined" under CONTA.
   it("falls back when there is no account, or none with an id", () => {
