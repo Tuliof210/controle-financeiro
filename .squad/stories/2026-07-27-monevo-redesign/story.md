@@ -228,7 +228,7 @@ movement modal.
       hero card, KPI cards with sparklines, the two charts
 - [ ] tasks/05-dashboard-projecao-metas.md — the `Projeção` tab with its
       show-all toggles and the `Metas` tab's capacity banner and goal cards
-- [ ] tasks/06-entries.md — Movimentações and Recorrências: section totals,
+- [x] tasks/06-entries.md — Movimentações and Recorrências: section totals,
       empty states, dashed add button, recurrence coverage bar
 - [ ] tasks/07-ofx.md — the dropzone, the indeterminate loading state and the
       restyled OFX report
