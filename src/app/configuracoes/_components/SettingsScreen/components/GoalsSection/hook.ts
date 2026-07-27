@@ -42,7 +42,12 @@ export function useGoalsSection() {
     setError(undefined);
     setModal({ type: "edit", goal });
   };
-  const openDelete = (goal: Goal) => setModal({ type: "delete", goal });
+  // Clears like openAdd/openEdit do: the dialog now renders `error`, so a
+  // stale one from a failed refetch would greet the user on open.
+  const openDelete = (goal: Goal) => {
+    setError(undefined);
+    setModal({ type: "delete", goal });
+  };
 
   const persist = async (result: Awaited<ReturnType<typeof apiPost>>) => {
     if (result.error) {
