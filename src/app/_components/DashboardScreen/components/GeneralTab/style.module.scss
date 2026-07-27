@@ -1,0 +1,23 @@
+@use "theme" as t;
+
+.tab {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+// minmax(0, 1fr), never a bare 1fr: `1fr` is minmax(auto, 1fr), so the track
+// never shrinks below the card's min-content width and the page scrolls
+// sideways at 375px. Same fix that took Configurações to zero overflowing
+// elements.
+.kpis {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-6);
+
+  // The design stacks the KPIs into one column below 1240px; `lg` (1024px) is
+  // the closest stop in this repo's closed breakpoint map.
+  @include t.bp("lg") {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}

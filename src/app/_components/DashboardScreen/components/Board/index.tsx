@@ -1,73 +1,16 @@
-import {
-  ArrowDownCircle,
-  ArrowUpCircle,
-  ChartColumn,
-  Scale,
-  TrendingUp,
-} from "lucide-react";
-import { HINTS } from "../../hints";
-import { BalanceLineChart } from "../BalanceLineChart";
-import { ChartCard } from "../ChartCard";
-import { GoalsCard } from "../GoalsCard";
-import { LimitCard } from "../LimitCard";
-import { MonthlyBarChart } from "../MonthlyBarChart";
-import { SlackCard } from "../SlackCard";
-import { StatCard } from "../StatCard";
+import { GeneralTab } from "../GeneralTab";
+import { TabBar } from "../TabBar";
 import { type BoardProps, useBoard } from "./hook";
 import styles from "./style.module.scss";
 
 export function Board(props: BoardProps) {
-  const { data } = useBoard(props);
+  const { data, tab, tabs, onSelect } = useBoard(props);
 
   return (
-    <div className={styles.grid}>
-      <StatCard
-        title="Entradas"
-        icon={ArrowDownCircle}
-        tone="positive"
-        hint={HINTS.income}
-        stats={data.income}
-      />
-      <StatCard
-        title="Saídas"
-        icon={ArrowUpCircle}
-        tone="negative"
-        hint={HINTS.expense}
-        stats={data.expense}
-      />
-      <StatCard
-        title="Saldo"
-        icon={Scale}
-        hint={HINTS.balance}
-        stats={data.balance}
-        signed
-      />
-
-      <div className={styles.wide}>
-        <ChartCard title="Evolução mensal" icon={ChartColumn} hint={HINTS.bars}>
-          {(size) => <MonthlyBarChart points={data.points} {...size} />}
-        </ChartCard>
-      </div>
-
-      <div className={styles.wide}>
-        <ChartCard
-          title="Saldo acumulado"
-          icon={TrendingUp}
-          hint={HINTS.cumulative}
-        >
-          {(size) => (
-            <BalanceLineChart
-              points={data.points}
-              dashedFrom={data.dashedFrom}
-              {...size}
-            />
-          )}
-        </ChartCard>
-      </div>
-
-      <SlackCard slack={data.slack} />
-      <LimitCard limit={data.limit} />
-      <GoalsCard goals={data.goals} pace={data.pace} />
+    <div className={styles.board}>
+      <TabBar tabs={tabs} onSelect={onSelect} />
+      {tab === "geral" ? <GeneralTab data={data} /> : null}
+      {/* task 05 adds ProjectionTab and GoalsTab here */}
     </div>
   );
 }

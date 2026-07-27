@@ -14,7 +14,7 @@ const stats = (total: number): Stats => ({
   median: 20000,
 });
 
-const base = { title: "Saldo", icon: Scale, hint: "…" };
+const base = { title: "Saldo", icon: Scale, hint: "…", series: [1, 2, 3] };
 
 describe("useStatCard", () => {
   it("marks a negative signed total with ▼ and the negative accent", () => {
@@ -55,10 +55,28 @@ describe("useStatCard", () => {
   it("formats the four secondary rows in order", () => {
     const card = useStatCard({ ...base, stats: stats(1), signed: true });
     expect(card.rows).toEqual([
-      { key: "current", label: "Valor atual", value: "R$ 500,00" },
-      { key: "mean", label: "Média", value: "R$ 250,00" },
-      { key: "stdDev", label: "Desvio padrão", value: "R$ 10,00" },
+      { key: "current", label: "Realizado", value: "R$ 500,00" },
+      { key: "mean", label: "Média/mês", value: "R$ 250,00" },
       { key: "median", label: "Mediana", value: "R$ 200,00" },
+      { key: "stdDev", label: "Desvio padrão", value: "R$ 10,00" },
     ]);
+  });
+
+  it("colours the sparkline from the FIXED tone, not the sign of the total", () => {
+    const income = useStatCard({ ...base, stats: stats(1), tone: "positive" });
+    expect(income.color).toBe("var(--color-positive)");
+    // Saldo passes no tone, so its line stays brand-coloured whichever way the
+    // balance goes — a green line under a red headline would read as a second,
+    // contradicting signal.
+    const down = useStatCard({ ...base, stats: stats(-1), signed: true });
+    expect(down.tone).toBe("negative");
+    expect(down.color).toBe("var(--color-brand)");
+  });
+
+  it("hands the card its own series, and null for an empty one", () => {
+    expect(useStatCard({ ...base, stats: stats(1) }).spark).not.toBeNull();
+    expect(
+      useStatCard({ ...base, stats: stats(1), series: [] }).spark,
+    ).toBeNull();
   });
 });

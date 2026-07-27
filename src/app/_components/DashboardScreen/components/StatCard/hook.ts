@@ -1,12 +1,15 @@
 import type { LucideIcon } from "lucide-react";
 import type { Stats } from "@/app/api/dashboard/types";
 import { formatMoney } from "@/lib/money";
+import { spark } from "../../spark.helper";
 
 export type StatCardProps = {
   title: string;
   icon: LucideIcon;
   hint: string;
   stats: Stats;
+  // The card's own monthly series, drawn as the sparkline beside the headline.
+  series: number[];
   // Fixed accent for the always-positive cards (Entradas/Saídas). Omitted by
   // Saldo, which derives its accent from the sign instead.
   tone?: "positive" | "negative";
@@ -18,6 +21,7 @@ export function useStatCard({
   icon,
   hint,
   stats,
+  series,
   tone,
   signed,
 }: StatCardProps) {
@@ -34,13 +38,24 @@ export function useStatCard({
     glyph,
     total: formatMoney(stats.total),
     tone: signed ? (negative ? "negative" : "positive") : tone,
+    spark: spark(series),
+    // A literal token string handed to SVG as a presentation attribute, exactly
+    // as chart.config.ts does: it resolves inside the SVG and follows the theme
+    // switch with no JS. Keyed on the FIXED tone, so Saldo's line keeps one
+    // colour instead of flipping green/red with the sign of its total.
+    color:
+      tone === "positive"
+        ? "var(--color-positive)"
+        : tone === "negative"
+          ? "var(--color-negative)"
+          : "var(--color-brand)",
     // Secondary rows stay neutral: formatMoney's minus sign carries the
     // meaning, so they need no glyph to go with an accent colour.
     rows: [
-      { key: "current", label: "Valor atual", value: stats.current },
-      { key: "mean", label: "Média", value: stats.mean },
-      { key: "stdDev", label: "Desvio padrão", value: stats.stdDev },
+      { key: "current", label: "Realizado", value: stats.current },
+      { key: "mean", label: "Média/mês", value: stats.mean },
       { key: "median", label: "Mediana", value: stats.median },
+      { key: "stdDev", label: "Desvio padrão", value: stats.stdDev },
     ].map((row) => ({ ...row, value: formatMoney(row.value) })),
   };
 }

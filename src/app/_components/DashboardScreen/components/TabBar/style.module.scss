@@ -1,0 +1,49 @@
+@use "theme" as t;
+
+// A <fieldset>, so the UA's own border/margin/padding and its
+// `min-inline-size: min-content` all have to be cleared before the bar looks
+// like a bar.
+.bar {
+  display: flex;
+  // Hugs its three labels, but never wider than the column it sits in.
+  width: max-content;
+  max-width: 100%;
+  min-inline-size: 0;
+  margin: 0;
+  padding: 0;
+  // No `overflow: hidden`, for the reason SectionCard documents: the tabs' focus
+  // ring is an outline with outline-offset, so an overflow-hidden parent clips
+  // it away entirely. At --radius-sm (2px) the active tab's square fill poking
+  // past the corner is imperceptible; a missing focus ring is not.
+  background: var(--color-surface);
+  border: var(--border-2) solid var(--color-border);
+  border-radius: var(--radius-sm);
+}
+
+.tab {
+  // The design draws 42; README rule 7(e) is a floor, not a suggestion.
+  min-height: 44px;
+  padding: 0 var(--space-5);
+  background: transparent;
+  color: var(--color-text-muted);
+  border: 0;
+  border-right: var(--border-2) solid var(--color-border);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  white-space: nowrap;
+  cursor: pointer;
+
+  &:focus-visible {
+    @include t.focus-ring;
+  }
+
+  &:last-child {
+    border-right: 0;
+  }
+
+  &[aria-pressed="true"] {
+    background: var(--color-text);
+    color: var(--color-bg);
+    font-weight: var(--weight-bold);
+  }
+}

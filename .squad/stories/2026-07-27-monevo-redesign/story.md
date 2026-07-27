@@ -224,7 +224,7 @@ movement modal.
       header, the mobile bottom nav and the shared page header block
 - [x] tasks/03-primitives.md — restyle Button (plus a `dashed` variant),
       IconButton, Modal, SectionCard, the inputs and Tooltip
-- [ ] tasks/04-dashboard-geral.md — the tab shell and the `Visão geral` tab:
+- [x] tasks/04-dashboard-geral.md — the tab shell and the `Visão geral` tab:
       hero card, KPI cards with sparklines, the two charts
 - [ ] tasks/05-dashboard-projecao-metas.md — the `Projeção` tab with its
       show-all toggles and the `Metas` tab's capacity banner and goal cards
