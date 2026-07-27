@@ -43,11 +43,14 @@
 // --color-brand-text, not --color-brand: on --color-surface-raised in the dark
 // theme --violet-400 measures 3.99:1, under rule 7's 4.5:1 floor. The text
 // sibling clears every surface in both themes (4.57 light / 6.83 dark here).
+// font-weight is explicit because this is an h2 and only h1 is reset in
+// _base.scss — same reason SectionCard's .title spells it out.
 .eyebrow {
   margin: 0;
   color: var(--color-brand-text);
   font-family: var(--font-display);
   font-size: var(--text-2xs);
+  font-weight: var(--weight-regular);
   letter-spacing: var(--tracking-wide);
   line-height: var(--leading-normal);
 }

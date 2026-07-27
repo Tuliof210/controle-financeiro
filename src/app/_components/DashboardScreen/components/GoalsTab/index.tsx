@@ -14,7 +14,10 @@ export function GoalsTab(props: GoalsTabProps) {
       <section className={styles.banner}>
         <div className={styles.capacity}>
           <div className={styles.eyebrowRow}>
-            <p className={styles.eyebrow}>CAPACIDADE DE POUPANÇA</p>
+            {/* The eyebrow already reads as this section's title, and it is
+                the only one the banner has — so it IS the h2, matching the
+                one SectionCard renders on every other card in the shell. */}
+            <h2 className={styles.eyebrow}>CAPACIDADE DE POUPANÇA</h2>
             <Tooltip
               text={HINTS.goals}
               label="Como a capacidade de poupança é calculada"

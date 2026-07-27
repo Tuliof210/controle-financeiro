@@ -10,14 +10,17 @@ export function GoalCard(props: GoalCardProps) {
     <section className={styles.card}>
       <div className={styles.head}>
         <div>
-          <p className={styles.name}>
+          {/* h3, under the banner's h2: every other card on this screen
+              titles itself through SectionCard's h2, and without these the
+              Metas tab offered heading navigation nothing but the page h1. */}
+          <h3 className={styles.name}>
             {full ? (
               <Check size={15} aria-hidden className={styles.iconFull} />
             ) : (
               <Target size={15} aria-hidden className={styles.icon} />
             )}
             {name}
-          </p>
+          </h3>
           <p className={styles.eta}>{eta}</p>
         </div>
         <span className={`${styles.badge} ${full ? styles.badgeFull : ""}`}>
