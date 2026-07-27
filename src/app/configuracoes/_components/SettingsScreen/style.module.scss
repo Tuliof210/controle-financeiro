@@ -6,20 +6,15 @@
   gap: var(--space-6);
 }
 
-.eyebrow {
-  margin: 0;
-  color: var(--color-text);
-  font-family: var(--font-display);
-  font-size: var(--text-lg);
-  letter-spacing: var(--tracking-display);
-}
-
+// minmax(0, …) rather than a bare 1fr: a bare fr track never shrinks below its
+// content's min-content width, so at 375px the cards measured 384px wide and
+// the page scrolled sideways. Measured 400px -> 375px scrollWidth.
 .grid {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--space-6);
 
   @include t.bp("md") {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }

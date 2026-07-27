@@ -1,4 +1,5 @@
 import type { ComponentType, ReactNode } from "react";
+import type { PageHeaderProps } from "@/components/PageHeader/hook";
 import type { Person } from "@/core/entities/person.entity";
 import type { Entry, EntryType } from "@/lib/entry-types";
 
@@ -22,7 +23,10 @@ export type EntryFormSlotProps<V> = {
 };
 
 export type EntryScreenLabels = {
-  heading: string;
+  // One object rather than three flat fields: it spreads straight into
+  // <PageHeader> and keeps EntryScreen/index.tsx at its current line count,
+  // which sits right on the 100-line cap.
+  header: PageHeaderProps;
   addTitle: string;
   editTitle: string;
   deleteTitle: string;

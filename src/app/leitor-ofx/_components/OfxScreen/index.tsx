@@ -1,5 +1,6 @@
 "use client";
 
+import { PageHeader } from "@/components/PageHeader";
 import { ReportView } from "./components/ReportView";
 import { UploadCard } from "./components/UploadCard";
 import { useOfxScreen } from "./hook";
@@ -10,7 +11,11 @@ export function OfxScreen() {
 
   return (
     <div className={styles.screen}>
-      <h1 className={styles.eyebrow}>Leitor OFX</h1>
+      <PageHeader
+        eyebrow="IMPORTAÇÃO"
+        title="Leitor OFX"
+        subtitle="Leia o extrato do banco direto no navegador, sem subir nada."
+      />
       {loaded ? (
         report ? (
           <ReportView

@@ -2,6 +2,7 @@
 
 import { CalendarRange, LayoutDashboard, TriangleAlert } from "lucide-react";
 import Link from "next/link";
+import { PageHeader } from "@/components/PageHeader";
 import { formatYyyymm } from "@/lib/months";
 import { Board } from "./components/Board";
 import { Notice } from "./components/Notice";
@@ -13,7 +14,11 @@ export function DashboardScreen() {
 
   return (
     <div className={styles.screen}>
-      <h1 className={styles.eyebrow}>Dashboard</h1>
+      <PageHeader
+        eyebrow="PAINEL"
+        title="Dashboard"
+        subtitle="Onde o dinheiro da família está hoje e para onde ele vai."
+      />
 
       {loading ? (
         <Notice title="Carregando" icon={LayoutDashboard}>

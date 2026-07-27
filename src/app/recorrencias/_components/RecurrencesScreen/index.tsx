@@ -11,7 +11,11 @@ export function RecurrencesScreen() {
     <EntryScreen<Recurrence, RecurrenceFormValues>
       resource="recurrences"
       labels={{
-        heading: "Recorrências",
+        header: {
+          eyebrow: "AUTOMÁTICO",
+          title: "Recorrências",
+          subtitle: "O que se repete todo mês — a base de toda a projeção.",
+        },
         addTitle: "Adicionar recorrência",
         editTitle: "Editar recorrência",
         deleteTitle: "Excluir recorrência",

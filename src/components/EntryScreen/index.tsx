@@ -4,6 +4,7 @@ import { ArrowDownCircle, ArrowUpCircle } from "lucide-react";
 import { ConfirmDialog } from "@/components/ConfirmDialog";
 import { EntrySection } from "@/components/EntrySection";
 import { Modal } from "@/components/Modal";
+import { PageHeader } from "@/components/PageHeader";
 import type { Entry, EntryType } from "@/lib/entry-types";
 import { useEntryScreen } from "./hook";
 import styles from "./style.module.scss";
@@ -32,7 +33,7 @@ export function EntryScreen<T extends Entry, V extends { type: EntryType }>(
 
   return (
     <div className={styles.screen}>
-      <h1 className={styles.eyebrow}>{labels.heading}</h1>
+      <PageHeader {...labels.header} />
 
       <div className={styles.grid}>
         <EntrySection
