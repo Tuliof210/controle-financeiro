@@ -2,3 +2,12 @@
   margin: 0;
   color: var(--color-text);
 }
+
+// The repo's error idiom, verbatim: the ▲ glyph carries the meaning beside the
+// colour, per README rule 7(c).
+.error {
+  margin: var(--space-3) 0 0;
+  color: var(--color-negative);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+}
