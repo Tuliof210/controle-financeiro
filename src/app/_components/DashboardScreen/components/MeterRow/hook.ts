@@ -9,9 +9,10 @@ export type MeterRowProps = {
   // never colour-only, and a bar is a colour.
   srLabel: string;
   children: ReactNode;
-  // An optional third line under the track. Only GoalsCard needs one — Slack
-  // and Limit say everything they have to say in the head.
-  footer?: ReactNode;
+  // A month past the current one: the figure is a projection, not history, so
+  // the fill is hatched rather than solid. Derived by the card from
+  // `month > range.current` — the payload marks no month itself.
+  projected?: boolean;
 };
 
 export function useMeterRow({
@@ -20,14 +21,14 @@ export function useMeterRow({
   tone,
   srLabel,
   children,
-  footer,
+  projected,
 }: MeterRowProps) {
   return {
     label,
     tone,
     srLabel,
     children,
-    footer,
+    projected,
     // A 140% month must still read as 140% in text; only the fill clamps.
     fill: `${Math.min(100, Math.max(0, percent))}%`,
   };

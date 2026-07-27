@@ -29,22 +29,22 @@ describe("useMeterRow", () => {
     expect(row(-25).fill).toBe("0%");
   });
 
-  it("leaves the footer undefined when the caller omits it", () => {
-    // Slack and Limit pass no footer; index.tsx renders no <div> for it, so
-    // their rows must stay exactly as they were.
-    expect(row(50).footer).toBeUndefined();
+  it("leaves a row unhatched when the caller says nothing", () => {
+    // Both cards pass `projected` explicitly; an undefined here must render no
+    // .projected class rather than a hatch on every month.
+    expect(row(50).projected).toBeUndefined();
   });
 
-  it("passes a footer through when given one", () => {
+  it("passes the projected flag through to the fill", () => {
     expect(
       useMeterRow({
-        label: "Casa",
+        label: "Dez/26",
         percent: 50,
         tone: "positive",
         srLabel: "…",
         children: null,
-        footer: "~7 meses",
-      }).footer,
-    ).toBe("~7 meses");
+        projected: true,
+      }).projected,
+    ).toBe(true);
   });
 });
