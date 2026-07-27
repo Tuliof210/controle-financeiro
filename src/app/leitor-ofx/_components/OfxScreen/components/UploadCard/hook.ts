@@ -4,13 +4,8 @@ export type UploadCardProps = {
   onFile: (file: File) => void;
 };
 
+// A pass-through now: the idle copy moved into DropZone, and the "Lendo o
+// arquivo…" note this used to swap in became LoadingCard, a state of its own.
 export function useUploadCard({ error, loading, onFile }: UploadCardProps) {
-  return {
-    error,
-    loading,
-    onFile,
-    note: loading
-      ? "Lendo o arquivo…"
-      : "Lê o arquivo e mostra entradas e saídas por mês. Nada é salvo no banco.",
-  };
+  return { error, loading, onFile };
 }
