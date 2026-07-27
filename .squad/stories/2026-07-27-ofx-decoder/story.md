@@ -22,7 +22,7 @@ so everything else in the file stays invisible.
       the browser Network panel open, and confirm it stays empty
 
 ## Tasks
-- [ ] tasks/01-promote-upload-primitives.md — move `decodeOfx`, `FilePicker` and
+- [x] tasks/01-promote-upload-primitives.md — move `decodeOfx`, `FilePicker` and
       `DropZone` to their shared homes, no behavior change
 - [ ] tasks/02-ofx-decoder-screen.md — the nav entry, the route, the generic tag
       tokenizer and the collapsible tree
