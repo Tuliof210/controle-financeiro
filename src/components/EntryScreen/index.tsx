@@ -106,6 +106,10 @@ export function EntryScreen<T extends Entry, V extends { type: EntryType }>(
         message={
           modal.type === "delete" ? `Excluir "${modal.entry.name}"?` : ""
         }
+        // persist() returns on failure WITHOUT closing, so a rejected delete
+        // (a 404 from a stale second tab) leaves this dialog open. Without the
+        // slot it sat silent and `Excluir` read as a dead button.
+        error={error}
       />
     </div>
   );
