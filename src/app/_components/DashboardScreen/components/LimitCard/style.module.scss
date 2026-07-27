@@ -11,3 +11,13 @@
 .split {
   color: var(--color-text-muted);
 }
+
+// The description and the show-all chip share one line. Wraps at narrow widths
+// rather than squeezing the sentence; the chip carries its own margin-left:auto,
+// so nothing here needs a justify-content.
+.cardHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+}
