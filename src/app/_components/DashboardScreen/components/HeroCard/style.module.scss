@@ -13,11 +13,11 @@
   border-radius: var(--radius-md);
 }
 
-// The design writes the scanline as rgba(255,255,255,.045) — a hardcoded colour
-// that breaks rule 1 and never flips with the theme. color-mix over --color-bg
-// is the same effect, theme-aware, and the pattern Modal's ::backdrop already
-// uses. The 3px/1px stops are derived from --space-1 and --border-1 so no raw
-// pixel enters the file either.
+// The design writes the scanline as a raw white at 4.5% alpha — a hardcoded
+// colour that breaks rule 1 and never flips with the theme. color-mix over
+// --color-bg is the same effect, theme-aware, and the pattern Modal's
+// ::backdrop already uses. The 3px transparent / 1px line stops are derived
+// from --space-1 and --border-1, so no raw pixel enters the file either.
 .scan {
   position: absolute;
   inset: 0;
