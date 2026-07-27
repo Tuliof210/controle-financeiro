@@ -1,21 +1,10 @@
-@use "theme" as t;
-
-.grid {
-  display: grid;
-  grid-template-columns: 1fr;
+// The bar and the active panel, stacked. A flex column rather than a grid: the
+// `grid-template-columns: 1fr` that used to live here is exactly what pushed the
+// page past 375px, because `1fr` is minmax(auto, 1fr) and the track never shrank
+// below the cards' min-content width. Each tab owns its own grid now, and every
+// one of them uses minmax(0, 1fr).
+.board {
+  display: flex;
+  flex-direction: column;
   gap: var(--space-6);
-
-  @include t.bp("md") {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  // Three columns is what puts the Entradas/Saídas/Saldo trio on one row.
-  @include t.bp("lg") {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-// Charts span the row whatever the column count is.
-.wide {
-  grid-column: 1 / -1;
 }

@@ -1,10 +1,68 @@
-// The headline figure: same dt/dd pairing as the rows below it, but stacked so
-// the number keeps the visual weight.
-.totalRow {
+// A wrapper around SectionCard purely so the design's corner marks have a box
+// to hang off. `display: grid` (not block) so the card still stretches to the
+// tallest of the three in a row, exactly as it did when SectionCard was the
+// grid item itself.
+.card {
+  position: relative;
+  display: grid;
+}
+
+// The design draws 10px squares; 10 is not on the 4px scale, and the story's
+// DoD allows raw pixels only for the 44px hit target and the two rail widths.
+.card::before,
+.card::after {
+  content: "";
+  position: absolute;
+  width: var(--space-2);
+  height: var(--space-2);
+}
+
+// Pulled out by the border width so each mark sits ON the frame's corner.
+.card::before {
+  top: calc(var(--border-2) * -1);
+  left: calc(var(--border-2) * -1);
+  background: var(--color-brand);
+}
+
+.card::after {
+  bottom: calc(var(--border-2) * -1);
+  right: calc(var(--border-2) * -1);
+  background: var(--color-border);
+}
+
+// Headline on the left, sparkline on the right. It wraps rather than overflows:
+// at three columns a card is ~230px and "▲ R$ 100.500,00" plus a 112px spark
+// does not fit on one line.
+.head {
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.spark {
+  // Stays on the right even after wrapping to its own line.
+  margin-left: auto;
+  max-width: 100%;
+}
+
+// The headline figure: same dt/dd pairing as the rows below it, but stacked and
+// reversed so the number leads and the caption sits under it. Reversed in CSS,
+// not in the DOM, so the dt still precedes its dd for assistive tech.
+.headline {
+  display: flex;
+  flex-direction: column-reverse;
   gap: var(--space-1);
-  margin-bottom: var(--space-2);
+  margin: 0;
+}
+
+.caption {
+  color: var(--color-text-muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-2xs);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
 }
 
 .total {
@@ -19,6 +77,8 @@
   // Every figure on this screen is tabular so columns of money line up.
   font-variant-numeric: tabular-nums;
   line-height: var(--leading-tight);
+  // At 375px the longest totals have to break instead of widening the page.
+  overflow-wrap: anywhere;
 }
 
 .positive {
