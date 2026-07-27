@@ -51,7 +51,11 @@
 .danger {
   color: var(--color-negative);
 
-  &:hover:not(:disabled) {
+  // :active is grouped with :hover, not left on its own: a Space-hold keyboard
+  // activation fires :active WITHOUT :hover, and an 8% darkening of a red glyph
+  // on a transparent surface is no press feedback at all.
+  &:hover:not(:disabled),
+  &:active:not(:disabled) {
     background: var(--color-negative);
     border-color: var(--color-negative);
     color: var(--white);

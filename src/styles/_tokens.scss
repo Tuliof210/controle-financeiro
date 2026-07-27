@@ -49,6 +49,12 @@
   --color-border: var(--ink-900);
   --color-border-subtle: var(--ink-200);
   --color-brand: var(--violet-500);
+  // Brand as TEXT, which --color-brand cannot always be: on
+  // --color-surface-raised in dark, --violet-400 measures 3.99:1, under rule
+  // 7's 4.5:1 floor. This pair clears every surface in both themes
+  // (4.57–5.33 light, 6.83–8.79 dark). Use it for brand-coloured copy;
+  // --color-brand stays for fills, borders and marks.
+  --color-brand-text: var(--violet-500);
   --color-accent: var(--lime-400);
   --color-positive: var(--green-500);
   --color-negative: var(--red-500);
@@ -88,6 +94,7 @@
   --color-border: var(--ink-600);
   --color-border-subtle: var(--ink-700);
   --color-brand: var(--violet-400);
+  --color-brand-text: var(--violet-300);
   --color-accent: var(--lime-300);
   --color-positive: var(--green-400);
   --color-negative: var(--red-400);
@@ -115,6 +122,7 @@
     --color-border: var(--ink-600);
     --color-border-subtle: var(--ink-700);
     --color-brand: var(--violet-400);
+    --color-brand-text: var(--violet-300);
     --color-accent: var(--lime-300);
     --color-positive: var(--green-400);
     --color-negative: var(--red-400);
