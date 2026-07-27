@@ -217,7 +217,7 @@ movement modal.
       `preview_start` with `{url: "http://localhost:<port>"}`.
 
 ## Tasks
-- [ ] tasks/01-foundations.md — amend rule 3, add the hard-shadow and
+- [x] tasks/01-foundations.md — amend rule 3, add the hard-shadow and
       `--rail-*` tokens, extend the elevation mixin, update the test and the
       Foundations docs
 - [ ] tasks/02-shell.md — the dark collapsible rail, the Monevo mark, the
