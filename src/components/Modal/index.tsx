@@ -32,7 +32,12 @@ export function Modal({
           {/* `danger`, not the default ghost: the design's close control turns
               red on hover. Resting state stays a quiet icon on a transparent
               surface either way. */}
-          <IconButton variant="danger" aria-label="Fechar" onClick={onClose}>
+          <IconButton
+            variant="danger"
+            aria-label="Fechar"
+            className={styles.close}
+            onClick={onClose}
+          >
             <X size={16} aria-hidden />
           </IconButton>
         </header>
