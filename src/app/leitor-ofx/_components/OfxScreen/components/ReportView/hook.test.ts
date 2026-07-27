@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { OfxMonth, OfxReport } from "@/app/api/ofx/types";
+import type { OfxAccount, OfxMonth, OfxReport } from "@/app/api/ofx/types";
 import { useReportView } from "./hook";
 
 const month = (m: number, income = 0, expense = 0): OfxMonth => ({
@@ -8,6 +8,17 @@ const month = (m: number, income = 0, expense = 0): OfxMonth => ({
   expenseCents: expense,
   balanceCents: income - expense,
   count: income || expense ? 1 : 0,
+});
+
+const account = (over: Partial<OfxAccount> = {}): OfxAccount => ({
+  bankId: "001",
+  accountId: "12345-6",
+  accountType: "CHECKING",
+  balanceCents: 149975,
+  balanceMonth: 202602,
+  start: null,
+  end: null,
+  ...over,
 });
 
 const view = (over: Partial<OfxReport> = {}) =>
@@ -52,10 +63,8 @@ describe("useReportView — the header", () => {
     expect(bare.currency).toBe("—");
     expect(view({ org: null, fid: "001" }).org).toBe("—");
     expect(view({ fid: null }).org).toBe("Banco Teste");
-  });
-
-  it("has no period when the report renders no month at all", () => {
     expect(view({ months: [] }).period).toBe("—");
+    expect(view()).toMatchObject({ account: "—", finalBalance: "—" });
   });
 });
 
@@ -79,20 +88,13 @@ describe("useReportView — the table", () => {
   });
 
   // A file may legitimately hold the same account twice, so the key cannot be
-  // built from the account's own fields alone.
-  it("keys every account uniquely, even two identical ones", () => {
-    const account = {
-      bankId: "001",
-      accountId: "1",
-      accountType: null,
-      balanceCents: null,
-      balanceMonth: null,
-      start: null,
-      end: null,
-    };
-    const keys = view({ accounts: [account, account] }).accounts.map(
-      (a) => a.key,
-    );
-    expect(new Set(keys).size).toBe(2);
+  // built from the account's own fields alone. The metadata row's two account
+  // facts ride along; their own cases live in account.helper.test.ts.
+  it("keys every account uniquely, and carries the account facts", () => {
+    const twice = [account(), account({ balanceCents: 5000 })];
+    const seen = view({ accounts: twice });
+    expect(new Set(seen.accounts.map((a) => a.key)).size).toBe(2);
+    expect(seen.account).toBe("12345-6 +1");
+    expect(seen.finalBalance).toBe("R$ 50,00");
   });
 });

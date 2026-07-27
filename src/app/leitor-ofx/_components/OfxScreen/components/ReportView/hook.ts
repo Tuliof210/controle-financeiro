@@ -1,6 +1,7 @@
 import type { OfxReport } from "@/app/api/ofx/types";
 import { formatMoney } from "@/lib/money";
 import { formatYyyymm } from "@/lib/months";
+import { accountLabel, finalBalance } from "./account.helper";
 
 export type ReportViewProps = {
   report: OfxReport;
@@ -36,6 +37,8 @@ export function useReportView({
       : "—",
     currency: report.currency ?? "—",
     count: String(report.totals.count),
+    account: accountLabel(report.accounts),
+    finalBalance: finalBalance(report.accounts),
     period:
       first && last
         ? `${formatYyyymm(first.month)} – ${formatYyyymm(last.month)}`
