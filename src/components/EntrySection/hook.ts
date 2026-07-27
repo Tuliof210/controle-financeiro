@@ -1,6 +1,9 @@
 import type { LucideIcon } from "lucide-react";
 import type { ReactNode } from "react";
-import type { EntrySectionLabels } from "@/components/EntryScreen/types";
+import type {
+  EntrySectionLabels,
+  Period,
+} from "@/components/EntryScreen/types";
 import type { Person } from "@/core/entities/person.entity";
 import type { Entry } from "@/lib/entry-types";
 import { formatMoney } from "@/lib/money";
@@ -11,8 +14,9 @@ export type EntrySectionProps<T extends Entry> = {
   tone: "positive" | "negative";
   items: T[];
   people: Person[];
+  period: Period | null;
   labels: EntrySectionLabels;
-  renderPeriod: (item: T) => ReactNode;
+  renderPeriod: (item: T, period: Period | null) => ReactNode;
   onAdd: () => void;
   onEdit: (item: T) => void;
   onDelete: (item: T) => void;
@@ -26,6 +30,7 @@ export function useEntrySection<T extends Entry>({
   tone,
   items,
   people,
+  period,
   labels,
   renderPeriod,
   onAdd,
@@ -35,7 +40,7 @@ export function useEntrySection<T extends Entry>({
   const rows = items.map((item) => ({
     entry: item,
     person: people.find((person) => person.id === item.ownerId),
-    period: renderPeriod(item),
+    period: renderPeriod(item, period),
     onEdit: () => onEdit(item),
     onDelete: () => onDelete(item),
   }));

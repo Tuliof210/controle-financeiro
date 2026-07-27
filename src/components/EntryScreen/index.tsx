@@ -42,6 +42,7 @@ export function EntryScreen<T extends Entry, V extends { type: EntryType }>(
           tone="positive"
           items={income}
           people={people}
+          period={period}
           labels={labels.income}
           renderPeriod={renderPeriod}
           onAdd={() => openAdd("income")}
@@ -54,6 +55,7 @@ export function EntryScreen<T extends Entry, V extends { type: EntryType }>(
           tone="negative"
           items={expense}
           people={people}
+          period={period}
           labels={labels.expense}
           renderPeriod={renderPeriod}
           onAdd={() => openAdd("expense")}

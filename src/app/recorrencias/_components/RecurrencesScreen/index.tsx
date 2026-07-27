@@ -2,9 +2,9 @@
 
 import { EntryScreen } from "@/components/EntryScreen";
 import type { Recurrence } from "@/core/entities/recurrence.entity";
+import { CoverageBar } from "./components/CoverageBar";
 import { RecurrenceForm } from "./components/RecurrenceForm";
 import type { RecurrenceFormValues } from "./components/RecurrenceForm/hook";
-import { formatMonths } from "./recurrence-range.helper";
 
 export function RecurrencesScreen() {
   return (
@@ -31,7 +31,9 @@ export function RecurrencesScreen() {
           emptyHint: "Aluguel, financiamento e assinaturas entram aqui.",
         },
       }}
-      renderPeriod={(recurrence) => formatMonths(recurrence.months)}
+      renderPeriod={(recurrence, period) => (
+        <CoverageBar months={recurrence.months} period={period} />
+      )}
       Form={RecurrenceForm}
     />
   );

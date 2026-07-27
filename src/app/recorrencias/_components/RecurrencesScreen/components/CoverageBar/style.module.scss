@@ -1,0 +1,38 @@
+// Spans, not divs: this renders inside EntryRow's <span> period slot.
+.wrap {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  // Keeps the track readable at 375px — below `md` the row wraps and the slot
+  // takes its own line rather than squeezing the bar to a sliver.
+  min-width: 160px;
+}
+
+// ponytail: raw 10px track height, the same raw-pixel exception the rail widths
+// and BrandMark already take — the DS has no size scale.
+.track {
+  position: relative;
+  display: block;
+  height: 10px;
+  background: var(--color-surface-raised);
+  border: var(--border-1) solid var(--color-border-subtle);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+
+// One fill per contiguous interval, so a recurrence with a gap draws exactly
+// what its "·"-separated label says.
+.fill {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  background: var(--color-brand);
+  border-radius: var(--radius-sm);
+}
+
+.range {
+  color: var(--color-text-muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-variant-numeric: tabular-nums;
+}
