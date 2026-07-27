@@ -1,0 +1,37 @@
+// The 2px gap and the 26px tick height are the design's own, and both are raw
+// pixels in a decorative strip — neither is spacing between content blocks, so
+// neither earns a token, the same standing as the 44px hit target.
+.timeline {
+  display: flex;
+  gap: 2px;
+}
+
+.tick {
+  flex: 1;
+  height: 26px;
+  border: var(--border-1) solid var(--color-border-subtle);
+  border-radius: var(--radius-sm);
+}
+
+// Solid = elapsed. The caption says the same thing in words.
+.done {
+  background: var(--color-brand);
+}
+
+// Hatched = projected.
+.todo {
+  background: repeating-linear-gradient(
+    45deg,
+    var(--color-brand) 0 2px,
+    transparent 2px 5px
+  );
+}
+
+.caption {
+  display: flex;
+  justify-content: space-between;
+  margin: var(--space-2) 0 0;
+  color: var(--color-text-muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-2xs);
+}
