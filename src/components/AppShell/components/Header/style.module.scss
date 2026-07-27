@@ -4,23 +4,45 @@
 // src/components/AppShell/style.module.scss for the named-area contract.
 .header {
   grid-area: header;
+  position: sticky;
+  top: 0;
+  z-index: var(--z-sticky);
   display: flex;
   align-items: center;
-  gap: var(--space-4);
-  padding: var(--space-3) var(--space-6);
-  border-bottom: var(--border-1) solid var(--color-border);
+  gap: var(--space-3);
+  // Without this the grid column is sized by the header's min-content width —
+  // a nowrap greeting plus five fixed controls — and the whole page scrolls
+  // sideways at 375px instead of the greeting ellipsising.
+  min-width: 0;
+  // ponytail: the design's 72px header, same raw-pixel exception as the rail.
+  height: 72px;
+  padding: 0 var(--space-4);
+  border-bottom: var(--border-2) solid var(--color-border);
   background: var(--color-surface);
+
+  @include t.bp("md") {
+    gap: var(--space-4);
+    padding: 0 var(--space-10);
+  }
 }
 
+// Mobile-first: the brand mark stands where the (desktop-only) hamburger sits.
 .toggle {
-  display: flex;
+  display: none;
   align-items: center;
-  border: none;
+  justify-content: center;
+  flex: none;
+  // Rule 7(e): hit targets are at least 44px.
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: var(--border-2) solid var(--color-border);
+  border-radius: var(--radius-sm);
   background: transparent;
   color: var(--color-text);
   line-height: 1;
-  padding: var(--space-2);
   cursor: pointer;
+  transition: background var(--duration-fast) var(--ease-snappy);
 
   &:hover {
     background: var(--color-surface-raised);
@@ -29,12 +51,57 @@
   &:focus-visible {
     @include t.focus-ring;
   }
+
+  @include t.bp("md") {
+    display: flex;
+  }
+}
+
+.mark {
+  display: flex;
+  flex: none;
+  // Holds the space the (hidden) greeting block gives up below `md`, so the
+  // controls stay pinned to the right edge.
+  margin-right: auto;
+
+  @include t.bp("md") {
+    display: none;
+  }
+}
+
+// Below `md` a 375px header cannot fit brand + greeting + select + toggle +
+// avatar: measured, the greeting collapses to 37px, i.e. "Bo…". Dropping the
+// decorative line beats rendering an unreadable stub.
+.greetingBlock {
+  display: none;
+  flex-direction: column;
+  gap: var(--space-1);
+  flex: 1;
+  min-width: 0;
+
+  @include t.bp("md") {
+    display: flex;
+  }
+}
+
+.greeting,
+.today {
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .greeting {
-  margin: 0;
   font-family: var(--font-mono);
-  font-size: var(--text-lg);
+  font-size: var(--text-md);
   font-weight: var(--weight-medium);
   color: var(--color-text);
+}
+
+.today {
+  font-family: var(--font-mono);
+  font-size: var(--text-2xs);
+  letter-spacing: var(--tracking-wide);
+  color: var(--color-text-muted);
 }
