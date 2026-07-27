@@ -31,6 +31,9 @@ export function useOfxScreen() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [loaded, setLoaded] = useState(false);
+  // Display-only, for the loading card's own heading. Deliberately not
+  // persisted: the stored report already carries its fileName.
+  const [fileName, setFileName] = useState("");
 
   // Read in an effect, never during render: that is what keeps the first paint
   // identical on server and client, and `loaded` is what stops the upload card
@@ -41,6 +44,7 @@ export function useOfxScreen() {
   }, []);
 
   const upload = async (file: File) => {
+    setFileName(file.name);
     setLoading(true);
     setError(null);
     const result = await apiUpload<OfxReport>("/api/ofx", file);
@@ -58,8 +62,9 @@ export function useOfxScreen() {
   const close = () => {
     setReport(null);
     setError(null);
+    setFileName("");
     clearStored();
   };
 
-  return { loaded, report, error, loading, upload, close };
+  return { loaded, report, error, loading, fileName, upload, close };
 }
