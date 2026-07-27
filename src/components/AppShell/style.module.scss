@@ -1,18 +1,44 @@
+@use "theme" as t;
+
 // Named-area contract shared with Header (grid-area: header) and Aside
 // (grid-area: aside) — the aside name spans both rows, so it fills full height.
+// Mobile-first: below `md` there is no rail, so the grid is a single column and
+// the fixed BottomNav (outside the grid) carries navigation instead.
 .shell {
   display: grid;
-  grid-template-columns: auto 1fr;
+  grid-template-columns: 1fr;
   grid-template-rows: auto 1fr;
   grid-template-areas:
-    "aside header"
-    "aside main";
+    "header"
+    "main";
   min-height: 100vh;
+
+  @include t.bp("md") {
+    grid-template-columns: auto 1fr;
+    grid-template-areas:
+      "aside header"
+      "aside main";
+  }
 }
 
 .main {
   grid-area: main;
   min-width: 0;
-  padding: var(--space-6);
+  padding: var(--space-4);
+  // 96px of bottom room so the last card clears the fixed BottomNav bar.
+  padding-bottom: var(--space-24);
   background: var(--color-bg);
+
+  @include t.bp("md") {
+    padding: var(--space-10);
+    padding-bottom: var(--space-12);
+  }
+}
+
+.page {
+  // ponytail: raw max-width, the same exception the rail widths take — the DS
+  // has no size scale and one content cap does not earn a token family.
+  max-width: 1560px;
+  width: 100%;
+  margin: 0 auto;
 }

@@ -1,0 +1,47 @@
+@use "theme" as t;
+
+// Mobile-first: shown below `md`, replaced by the rail from `md` up.
+.nav {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: var(--z-sticky);
+  display: flex;
+  background: var(--rail-bg);
+  border-top: var(--border-2) solid var(--color-border);
+
+  @include t.bp("md") {
+    display: none;
+  }
+}
+
+.item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-1);
+  flex: 1;
+  min-width: 0;
+  // Rule 7(e): hit targets are at least 44px — 60px here so icon + label fit.
+  min-height: 60px;
+  padding: var(--space-3) var(--space-1);
+  border-top: var(--border-3) solid transparent;
+  color: var(--rail-muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-2xs);
+  text-align: center;
+  text-decoration: none;
+
+  &:focus-visible {
+    @include t.focus-ring;
+  }
+
+  // Same contract as NavItem: aria-current is both the a11y signal and the
+  // selector, so the two cannot drift apart.
+  &[aria-current="page"] {
+    color: var(--color-accent);
+    border-top-color: var(--color-accent);
+  }
+}

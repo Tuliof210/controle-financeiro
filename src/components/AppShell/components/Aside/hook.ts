@@ -1,26 +1,25 @@
-import {
-  ArrowLeftRight,
-  FileUp,
-  LayoutDashboard,
-  Repeat,
-  Settings,
-} from "lucide-react";
+import { PanelLeftClose, PanelLeftOpen } from "lucide-react";
 import { usePathname } from "next/navigation";
+import { isActiveNav, NAV } from "../../nav";
+import styles from "./style.module.scss";
 
-const TOP_ITEMS = [
-  { href: "/", label: "Dashboard", icon: LayoutDashboard },
-  { href: "/movimentacoes", label: "Movimentações", icon: ArrowLeftRight },
-  { href: "/recorrencias", label: "Recorrências", icon: Repeat },
-  { href: "/leitor-ofx", label: "Leitor OFX", icon: FileUp },
-];
-
-const BOTTOM_ITEM = {
-  href: "/configuracoes",
-  label: "Configurações",
-  icon: Settings,
+type UseAsideProps = {
+  collapsed: boolean;
+  onToggle: () => void;
 };
 
-export function useAside() {
+export function useAside({ collapsed, onToggle }: UseAsideProps) {
   const pathname = usePathname();
-  return { topItems: TOP_ITEMS, bottomItem: BOTTOM_ITEM, pathname };
+
+  return {
+    items: NAV,
+    isActive: (href: string) => isActiveNav(pathname, href),
+    collapsed,
+    onToggle,
+    className: [styles.aside, collapsed && styles.collapsed]
+      .filter(Boolean)
+      .join(" "),
+    ToggleIcon: collapsed ? PanelLeftOpen : PanelLeftClose,
+    toggleLabel: collapsed ? "Expandir menu" : "Recolher menu",
+  };
 }
