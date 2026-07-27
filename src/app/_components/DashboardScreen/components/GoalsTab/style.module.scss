@@ -8,22 +8,29 @@
 
 // The one raised surface on this tab: it frames the number every card below is
 // derived from.
+// A grid rather than a wrapping flex row: the design's own layout puts the pace
+// left and the two facts right, and a breakpoint says that in tokens. A
+// `min-width` big enough to force the flex wrap would be a raw pixel value, and
+// the only raw pixels this repo allows are the 44px hit target and the two rail
+// widths.
 .banner {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--space-6);
   padding: var(--space-6);
   background: var(--color-surface-raised);
   border: var(--border-2) solid var(--color-border);
   border-radius: var(--radius-md);
+
+  @include t.bp("md") {
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+  }
 }
 
-// min-width so the pace block claims a readable column before the two facts
-// wrap under it; min-inline-size: 0 keeps it shrinkable at 375px.
+// Grid items default to min-width: auto, which would let a long figure push the
+// track wider than the card.
 .capacity {
-  flex: 1;
-  min-width: min(240px, 100%);
   min-inline-size: 0;
 }
 
