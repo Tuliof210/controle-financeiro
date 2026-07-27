@@ -7,11 +7,11 @@ import styles from "./style.module.scss";
 // The wrapper owns the card chrome and the error line; the drag behaviour lives
 // in DropZone so its handlers stay isolated and testable.
 export function UploadCard(props: UploadCardProps) {
-  const { error, loading, onFile } = useUploadCard(props);
+  const { error, onFile } = useUploadCard(props);
 
   return (
     <SectionCard title="Enviar extrato OFX" icon={FileUp}>
-      <DropZone disabled={loading} onFile={onFile} />
+      <DropZone onFile={onFile} />
       {error ? (
         <p className={styles.error}>
           <span aria-hidden>▲</span> {error}

@@ -43,6 +43,23 @@ export function useOfxScreen() {
     setLoaded(true);
   }, []);
 
+  // The drop panel's own preventDefault only covers events that land ON it. A
+  // file dropped a few pixels outside still hits the browser's default, which
+  // is to open the file in the tab — the SPA, and the report with it, gone.
+  // Only a window-level preventDefault stops that, and it has to cover dragover
+  // as well as drop. It lives on the screen, not on DropZone: DropZone is only
+  // mounted in the idle state, while the report state invites a drag with
+  // "Trocar arquivo" and has the most to lose from one landing off-target.
+  useEffect(() => {
+    const swallow = (event: Event) => event.preventDefault();
+    window.addEventListener("dragover", swallow);
+    window.addEventListener("drop", swallow);
+    return () => {
+      window.removeEventListener("dragover", swallow);
+      window.removeEventListener("drop", swallow);
+    };
+  }, []);
+
   const upload = async (file: File) => {
     setFileName(file.name);
     setLoading(true);

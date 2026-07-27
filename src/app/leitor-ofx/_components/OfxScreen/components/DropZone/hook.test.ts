@@ -12,10 +12,18 @@ const dragEvent = (...files: File[]) =>
     dataTransfer: { files },
   }) as unknown as DragEvent<HTMLElement>;
 
-const setup = (disabled?: boolean) => {
+// dragleave carries the element the pointer moved TO: inside the panel while
+// it is merely crossing a child, outside (or null) when it really left.
+const leaveEvent = (inside: boolean) =>
+  ({
+    currentTarget: { contains: () => inside },
+    relatedTarget: {},
+  }) as unknown as DragEvent<HTMLElement>;
+
+const setup = () => {
   const onFile = vi.fn();
   const setOver = vi.fn();
-  return { onFile, setOver, ...dropHandlers(setOver, { disabled, onFile }) };
+  return { onFile, setOver, ...dropHandlers(setOver, { onFile }) };
 };
 
 describe("dropHandlers — the drop", () => {
@@ -48,22 +56,8 @@ describe("dropHandlers — the drop", () => {
   // the whole SPA is replaced by it.
   it("always cancels the browser's own handling of the drop", () => {
     const event = dragEvent(file("extrato.ofx"));
-    setup(true).onDrop(event);
+    setup().onDrop(event);
     expect(event.preventDefault).toHaveBeenCalled();
-  });
-});
-
-describe("dropHandlers — while a parse is in flight", () => {
-  it("swallows the drop instead of queueing a second upload", () => {
-    const zone = setup(true);
-    zone.onDrop(dragEvent(file("extrato.ofx")));
-    expect(zone.onFile).not.toHaveBeenCalled();
-  });
-
-  it("does not light the panel up, since nothing would come of it", () => {
-    const zone = setup(true);
-    zone.onDragOver(dragEvent());
-    expect(zone.setOver).not.toHaveBeenCalledWith(true);
   });
 });
 
@@ -78,9 +72,17 @@ describe("dropHandlers — the drag-over state", () => {
     expect(event.preventDefault).toHaveBeenCalledTimes(2);
   });
 
-  it("reverts when the pointer leaves", () => {
+  it("reverts when the pointer genuinely leaves the panel", () => {
     const zone = setup();
-    zone.onDragLeave();
+    zone.onDragLeave(leaveEvent(false));
     expect(zone.setOver).toHaveBeenCalledWith(false);
+  });
+
+  // dragleave bubbles from the glyph, the eyebrow, the note and the button, so
+  // taking it at face value drops the highlight while the drag is still inside.
+  it("holds the highlight when the drag only crosses onto a child", () => {
+    const zone = setup();
+    zone.onDragLeave(leaveEvent(true));
+    expect(zone.setOver).not.toHaveBeenCalled();
   });
 });

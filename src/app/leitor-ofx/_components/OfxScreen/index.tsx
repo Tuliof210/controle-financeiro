@@ -34,7 +34,7 @@ export function OfxScreen() {
             onFile={upload}
           />
         ) : (
-          <UploadCard error={error} loading={loading} onFile={upload} />
+          <UploadCard error={error} onFile={upload} />
         )
       ) : null}
     </div>
