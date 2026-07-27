@@ -22,6 +22,10 @@ export const semantics = [
   "color-info", "color-focus",
 ];
 
+export const rail = [
+  "rail-bg", "rail-fg", "rail-muted", "rail-line", "rail-hover",
+];
+
 export const Swatch = ({ name }) => (
   <div style={{ border: "var(--border-1) solid var(--color-border-subtle)" }}>
     <div style={{ height: "56px", background: `var(--${name})` }} />
@@ -46,6 +50,18 @@ the ones components consume — never reach for a primitive directly.
 
 <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(140px, 1fr))", gap: "var(--space-3)", margin: "var(--space-4) 0" }}>
   {semantics.map((name) => <Swatch key={name} name={name} />)}
+</div>
+
+## Navigation rail (theme-aware, but dark in both themes)
+
+Its own family, not part of the surface ramp above: the rail stays dark
+chrome in the light theme, so no combination of `--color-surface` /
+`--color-text` expresses it. `--rail-muted` is `--ink-400` rather than the
+`--ink-500` the surface ramp uses for muted text — on `--rail-bg` that would
+measure 3.92:1, under rule 7's 4.5:1 floor.
+
+<div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(140px, 1fr))", gap: "var(--space-3)", margin: "var(--space-4) 0" }}>
+  {rail.map((name) => <Swatch key={name} name={name} />)}
 </div>
 
 ## Gradients

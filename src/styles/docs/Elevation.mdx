@@ -7,7 +7,14 @@ import { Meta } from "@storybook/addon-docs/blocks";
 Border-first, not shadow-first. A surface tier (`--color-surface`,
 `--color-surface-raised`) plus a border is the default way to lift an
 element. Blur-shadow (`--elevation-overlay`) is reserved for floating layers
-only — menu, popover, modal, toast. **No hard offset shadows anywhere.**
+only — menu, popover, modal, toast.
+
+The three hard offset shadows below are blur-less and cast in
+`--color-border`, so they read as the frame displaced rather than as depth.
+They are **scoped**, not general-purpose: `--elevation-press` and
+`--elevation-press-active` belong to the primary action (resting, then
+2px-displaced while pressed), `--elevation-panel` to the modal panel.
+Nothing else gets one.
 
 <div style={{ display: "flex", gap: "var(--space-6)", flexWrap: "wrap", background: "var(--color-bg)", padding: "var(--space-6)" }}>
   <div style={{ width: "160px", height: "100px", background: "var(--color-surface)", border: "var(--border-1) solid var(--color-border)", boxShadow: "var(--elevation-flat)", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--font-mono)", fontSize: "var(--text-xs)" }}>
@@ -18,5 +25,23 @@ only — menu, popover, modal, toast. **No hard offset shadows anywhere.**
   </div>
   <div style={{ width: "160px", height: "100px", background: "var(--color-surface-raised)", border: "var(--border-1) solid var(--color-border)", boxShadow: "var(--elevation-overlay)", display: "flex", alignItems: "center", justifyContent: "center", textAlign: "center", fontFamily: "var(--font-mono)", fontSize: "var(--text-xs)" }}>
     {"--elevation-overlay (floating layers only)"}
+  </div>
+</div>
+
+## Hard offset shadows
+
+Each box below carries a `--border-2` frame, because these shadows are only
+ever used on bordered surfaces — the shadow is that border, displaced. The
+extra right/bottom margin is there so the offset has somewhere to land.
+
+<div style={{ display: "flex", gap: "var(--space-10)", flexWrap: "wrap", background: "var(--color-bg)", padding: "var(--space-6)", paddingRight: "var(--space-16)", paddingBottom: "var(--space-16)" }}>
+  <div style={{ width: "160px", height: "100px", background: "var(--color-brand)", color: "var(--white)", border: "var(--border-2) solid var(--color-border)", borderRadius: "var(--radius-sm)", boxShadow: "var(--elevation-press)", display: "flex", alignItems: "center", justifyContent: "center", textAlign: "center", fontFamily: "var(--font-mono)", fontSize: "var(--text-xs)" }}>
+    {"--elevation-press (primary action, resting)"}
+  </div>
+  <div style={{ width: "160px", height: "100px", background: "var(--color-brand)", color: "var(--white)", border: "var(--border-2) solid var(--color-border)", borderRadius: "var(--radius-sm)", boxShadow: "var(--elevation-press-active)", transform: "translate(2px, 2px)", display: "flex", alignItems: "center", justifyContent: "center", textAlign: "center", fontFamily: "var(--font-mono)", fontSize: "var(--text-xs)" }}>
+    {"--elevation-press-active (pressed, shown displaced)"}
+  </div>
+  <div style={{ width: "160px", height: "100px", background: "var(--color-surface-raised)", border: "var(--border-2) solid var(--color-border)", borderRadius: "var(--radius-md)", boxShadow: "var(--elevation-panel)", display: "flex", alignItems: "center", justifyContent: "center", textAlign: "center", fontFamily: "var(--font-mono)", fontSize: "var(--text-xs)" }}>
+    {"--elevation-panel (modal panel)"}
   </div>
 </div>
