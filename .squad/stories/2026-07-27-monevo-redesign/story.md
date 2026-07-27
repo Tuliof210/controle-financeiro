@@ -222,7 +222,7 @@ movement modal.
       Foundations docs
 - [ ] tasks/02-shell.md — the dark collapsible rail, the Monevo mark, the
       header, the mobile bottom nav and the shared page header block
-- [ ] tasks/03-primitives.md — restyle Button (plus a `dashed` variant),
+- [x] tasks/03-primitives.md — restyle Button (plus a `dashed` variant),
       IconButton, Modal, SectionCard, the inputs and Tooltip
 - [ ] tasks/04-dashboard-geral.md — the tab shell and the `Visão geral` tab:
       hero card, KPI cards with sparklines, the two charts
