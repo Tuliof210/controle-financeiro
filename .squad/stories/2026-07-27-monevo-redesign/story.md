@@ -230,7 +230,7 @@ movement modal.
       show-all toggles and the `Metas` tab's capacity banner and goal cards
 - [x] tasks/06-entries.md — Movimentações and Recorrências: section totals,
       empty states, dashed add button, recurrence coverage bar
-- [ ] tasks/07-ofx.md — the dropzone, the indeterminate loading state and the
+- [x] tasks/07-ofx.md — the dropzone, the indeterminate loading state and the
       restyled OFX report
 - [x] tasks/08-settings.md — Configurações: the two-column grid, the range
       timeline and the restyled sections

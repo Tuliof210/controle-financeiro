@@ -1,4 +1,4 @@
-import { FileText } from "lucide-react";
+import { Check, FileText } from "lucide-react";
 import { Button } from "@/components/Button";
 import { SectionCard } from "@/components/SectionCard";
 import { FilePicker } from "../FilePicker";
@@ -13,11 +13,21 @@ export function ReportView(props: ReportViewProps) {
 
   return (
     <SectionCard title="Relatório OFX" icon={FileText}>
-      <p className={styles.file}>{view.fileName}</p>
+      <div className={styles.head}>
+        <p className={styles.file}>{view.fileName}</p>
+        <p className={styles.badge}>
+          <Check size={12} aria-hidden /> {view.count}
+        </p>
+      </div>
+      {/* No "Lançamentos" key here any more — the badge above carries it. */}
       <dl className={styles.facts}>
         <div>
           <dt>Instituição</dt>
           <dd>{view.org}</dd>
+        </div>
+        <div>
+          <dt>Conta</dt>
+          <dd>{view.account}</dd>
         </div>
         <div>
           <dt>Período</dt>
@@ -28,8 +38,8 @@ export function ReportView(props: ReportViewProps) {
           <dd>{view.currency}</dd>
         </div>
         <div>
-          <dt>Lançamentos</dt>
-          <dd>{view.count}</dd>
+          <dt>Saldo final</dt>
+          <dd>{view.finalBalance}</dd>
         </div>
       </dl>
       <ul className={styles.accounts}>
