@@ -39,11 +39,7 @@ export function PeopleSection() {
           ))}
         </ul>
       )}
-      <Button
-        variant="dashed"
-        className={styles.add}
-        onClick={() => open("add")}
-      >
+      <Button variant="dashed" onClick={() => open("add")}>
         <Plus size={16} aria-hidden />
         Adicionar pessoa
       </Button>

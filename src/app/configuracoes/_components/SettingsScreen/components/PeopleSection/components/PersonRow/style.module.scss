@@ -28,6 +28,9 @@
   border-radius: var(--radius-sm);
 }
 
+// min-width: 0 is what makes the ellipsis possible at all — a flex item's
+// default min-width: auto refuses to shrink below its text, so a long name
+// widens the card instead of truncating.
 .name {
   flex: 1;
   min-width: 0;

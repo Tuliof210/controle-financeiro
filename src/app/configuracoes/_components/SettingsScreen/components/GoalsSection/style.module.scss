@@ -15,6 +15,11 @@
   list-style: none;
 }
 
+// Same row anatomy as PersonRow — see
+// `PeopleSection/components/PersonRow/style.module.scss` for the reasoning
+// behind the dropped last rule and `.name`'s `min-width: 0`, stated once there
+// rather than twice. Left duplicated on purpose: sharing it would promote a
+// block across two feature folders, which this task does not do.
 .row {
   display: flex;
   align-items: center;
@@ -27,15 +32,11 @@
     background: var(--color-surface-raised);
   }
 
-  // No trailing rule directly above the dashed "Adicionar objetivo" button.
   &:last-child {
     border-bottom: 0;
   }
 }
 
-// min-width: 0 is what makes the ellipsis possible at all — a flex item's
-// default min-width: auto refuses to shrink below its text, so a long goal name
-// widens the card instead of truncating.
 .name {
   flex: 1;
   min-width: 0;
@@ -52,10 +53,4 @@
   font-family: var(--font-mono);
   font-size: var(--text-base);
   font-variant-numeric: tabular-nums;
-}
-
-// Button centres its content but declares no gap of its own, and it is a shared
-// primitive two sibling tasks are editing — so the icon/label gap is set here.
-.add {
-  gap: var(--space-2);
 }

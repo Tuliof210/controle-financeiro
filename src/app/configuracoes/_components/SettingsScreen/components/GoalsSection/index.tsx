@@ -54,7 +54,7 @@ export function GoalsSection() {
           ))}
         </ul>
       )}
-      <Button variant="dashed" className={styles.add} onClick={openAdd}>
+      <Button variant="dashed" onClick={openAdd}>
         <Plus size={16} aria-hidden />
         Adicionar objetivo
       </Button>
