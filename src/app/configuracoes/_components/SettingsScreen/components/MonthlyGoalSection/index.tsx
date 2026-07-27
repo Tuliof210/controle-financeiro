@@ -25,9 +25,16 @@ export function MonthlyGoalSection() {
   return (
     <SectionCard title="Meta mensal" icon={PiggyBank}>
       <div className={styles.row}>
-        <p className={styles.summary}>
-          {savedGoalCents > 0 ? formatMoney(savedGoalCents) : "—"}
-        </p>
+        <div>
+          {/* `> 0`, not `!== null`: 0 is the repo's "unset" for this setting
+              (limit.helper.ts reads it the same way). Do not tighten it. */}
+          <p className={styles.summary}>
+            {savedGoalCents > 0 ? formatMoney(savedGoalCents) : "—"}
+          </p>
+          <p className={styles.caption}>
+            teto de gastos por mês para a família
+          </p>
+        </div>
         <Button variant="ghost" onClick={openModal}>
           Editar
         </Button>
@@ -35,6 +42,7 @@ export function MonthlyGoalSection() {
       <Modal
         open={open}
         onClose={closeModal}
+        eyebrow="META"
         title="Editar meta mensal"
         footer={
           <Button onClick={onSave} disabled={!loaded}>
