@@ -4,6 +4,10 @@ export type ConfirmDialogProps = {
   onConfirm: () => void;
   title: string;
   message: string;
+  // A failure raised by onConfirm, shown in place. Without it a rejected
+  // delete (DELETE /api/people answers 409 for a person who still has
+  // movements) leaves the dialog open with no explanation at all.
+  error?: string;
   confirmLabel?: string;
   danger?: boolean;
 };

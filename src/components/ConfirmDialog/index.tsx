@@ -11,6 +11,7 @@ export function ConfirmDialog({
   onConfirm,
   title,
   message,
+  error,
   confirmLabel,
   danger,
 }: ConfirmDialogProps) {
@@ -36,6 +37,11 @@ export function ConfirmDialog({
       }
     >
       <p className={styles.message}>{message}</p>
+      {error ? (
+        <p className={styles.error}>
+          <span aria-hidden>▲</span> {error}
+        </p>
+      ) : null}
     </Modal>
   );
 }
