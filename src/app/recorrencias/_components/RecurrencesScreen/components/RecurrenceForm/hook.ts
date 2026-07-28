@@ -1,7 +1,6 @@
 import type { EntryFormBase } from "@/components/EntryForm/entry-form.helper";
 import { useEntryForm } from "@/components/EntryForm/entry-form.hook";
 import type { Person } from "@/core/entities/person.entity";
-import { buildMonths } from "@/lib/months";
 import { intervalsToMonths } from "./intervals.helper";
 import { useRecurrenceIntervals } from "./intervals.hook";
 
@@ -13,24 +12,19 @@ export type RecurrenceFormProps = {
   submitLabel: string;
   onSubmit: (values: RecurrenceFormValues) => void;
   people: Person[];
-  period: { start: number; end: number } | null;
 };
 
 export function useRecurrenceForm({
   initial,
   people,
-  period,
   onSubmit,
-}: Pick<RecurrenceFormProps, "initial" | "people" | "period" | "onSubmit">) {
+}: Pick<RecurrenceFormProps, "initial" | "people" | "onSubmit">) {
   const entry = useEntryForm(initial, people);
   const { intervals, updateInterval, addInterval, removeInterval } =
-    useRecurrenceIntervals(initial?.months, period);
+    useRecurrenceIntervals(initial?.months);
 
-  const months = period ? buildMonths(period.start, period.end) : [];
   const selectedMonths = intervalsToMonths(intervals);
-
-  const canSubmit =
-    period !== null && entry.isValid && selectedMonths.length >= 1;
+  const canSubmit = entry.isValid && selectedMonths.length >= 1;
 
   const handleSubmit = () => {
     if (!canSubmit) {
@@ -44,7 +38,6 @@ export function useRecurrenceForm({
   return {
     fields: entry.fields,
     localError: entry.localError,
-    months,
     intervals,
     updateInterval,
     addInterval,

@@ -2,7 +2,6 @@ import type { Interval } from "../../intervals.helper";
 import type { KeyedInterval } from "../../intervals.hook";
 
 export type IntervalListProps = {
-  months: number[];
   intervals: KeyedInterval[];
   onUpdate: (index: number, next: Interval) => void;
   onAdd: () => void;
@@ -10,20 +9,18 @@ export type IntervalListProps = {
 };
 
 export function useIntervalList({
-  months,
   intervals,
   onUpdate,
   onAdd,
   onRemove,
 }: IntervalListProps) {
   return {
-    months,
     intervals,
     canRemove: intervals.length > 1,
-    // Adapt the slider's {rangeStart,rangeEnd} back to the form's {start,end}.
-    onSliderChange:
-      (index: number) => (next: { rangeStart: number; rangeEnd: number }) =>
-        onUpdate(index, { start: next.rangeStart, end: next.rangeEnd }),
+    onStartChange: (index: number) => (start: number) =>
+      onUpdate(index, { start, end: intervals[index].end }),
+    onEndChange: (index: number) => (end: number) =>
+      onUpdate(index, { start: intervals[index].start, end }),
     onAdd,
     onRemove,
   };

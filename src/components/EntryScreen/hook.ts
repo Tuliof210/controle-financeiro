@@ -1,11 +1,10 @@
 import { useCallback, useEffect, useState } from "react";
 import { useProfile } from "@/components/ProfileProvider/hook";
 import type { Person } from "@/core/entities/person.entity";
-import type { Settings } from "@/core/entities/settings.entity";
 import { apiDelete, apiGet, apiPost, apiPut } from "@/lib/api";
 import type { Entry, EntryType } from "@/lib/entry-types";
 import { splitByType, visibleFor } from "@/lib/ownership";
-import type { EntryScreenConfig, ModalState } from "./types";
+import type { EntryScreenConfig, ModalState, Period } from "./types";
 
 // `T` is the entity; `V` is its form-values shape. Seeding the form from either
 // a `T` (edit) or a bare `{ type }` (add) is handled by EntryFormSlotProps.initial.
@@ -16,7 +15,7 @@ export function useEntryScreen<T extends Entry, V extends { type: EntryType }>({
   const { profile } = useProfile();
   const [items, setItems] = useState<T[]>([]);
   const [people, setPeople] = useState<Person[]>([]);
-  const [settings, setSettings] = useState<Settings | null>(null);
+  const [period, setPeriod] = useState<Period | null>(null);
   const [modal, setModal] = useState<ModalState<T>>({ type: "none" });
   const [error, setError] = useState<string>();
 
@@ -36,8 +35,8 @@ export function useEntryScreen<T extends Entry, V extends { type: EntryType }>({
     apiGet<Person[]>("/api/people").then((result) => {
       if (!result.error) setPeople(result.data ?? []);
     });
-    apiGet<Settings>("/api/settings").then((result) => {
-      if (!result.error && result.data) setSettings(result.data);
+    apiGet<Period | null>("/api/period").then((result) => {
+      if (!result.error) setPeriod(result.data ?? null);
     });
   }, [refetch]);
 
@@ -69,11 +68,6 @@ export function useEntryScreen<T extends Entry, V extends { type: EntryType }>({
     modal.type === "delete"
       ? apiDelete(`${path}?id=${modal.entry.id}`).then(persist)
       : undefined;
-
-  const period =
-    settings?.rangeStart != null && settings?.rangeEnd != null
-      ? { start: settings.rangeStart, end: settings.rangeEnd }
-      : null;
 
   return {
     labels,

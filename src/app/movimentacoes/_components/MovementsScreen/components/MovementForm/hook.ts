@@ -2,7 +2,7 @@ import { useState } from "react";
 import type { EntryFormBase } from "@/components/EntryForm/entry-form.helper";
 import { useEntryForm } from "@/components/EntryForm/entry-form.hook";
 import type { Person } from "@/core/entities/person.entity";
-import { buildMonths, currentYYYYMM } from "@/lib/months";
+import { currentYYYYMM } from "@/lib/months";
 
 export type MovementFormValues = EntryFormBase & { month: number };
 
@@ -12,28 +12,20 @@ export type MovementFormProps = {
   submitLabel: string;
   onSubmit: (values: MovementFormValues) => void;
   people: Person[];
-  period: { start: number; end: number } | null;
 };
 
 export function useMovementForm({
   initial,
   people,
-  period,
   onSubmit,
-}: Pick<MovementFormProps, "initial" | "people" | "period" | "onSubmit">) {
+}: Pick<MovementFormProps, "initial" | "people" | "onSubmit">) {
   const entry = useEntryForm(initial, people);
 
-  // Default to the current month, clamped into the period (YYYYMM is monotonic
-  // as an int, so min/max clamps correctly); 0 when there is no period.
-  const defaultMonth = period
-    ? Math.min(Math.max(currentYYYYMM(), period.start), period.end)
-    : 0;
-  const [month, setMonth] = useState(initial?.month ?? defaultMonth);
+  // No period to default into any more — the current month is always a valid
+  // pick, and MonthPicker needs a non-null value from the first render.
+  const [month, setMonth] = useState(initial?.month ?? currentYYYYMM());
 
-  const monthOptions = period ? buildMonths(period.start, period.end) : [];
-
-  const canSubmit =
-    period !== null && entry.isValid && monthOptions.includes(month);
+  const canSubmit = entry.isValid;
 
   const handleSubmit = () => {
     if (!canSubmit) {
@@ -49,7 +41,6 @@ export function useMovementForm({
     localError: entry.localError,
     month,
     setMonth,
-    monthOptions,
     canSubmit,
     handleSubmit,
   };

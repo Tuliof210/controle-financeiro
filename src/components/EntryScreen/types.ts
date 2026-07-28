@@ -3,8 +3,9 @@ import type { PageHeaderProps } from "@/components/PageHeader/hook";
 import type { Person } from "@/core/entities/person.entity";
 import type { Entry, EntryType } from "@/lib/entry-types";
 
-// The global projection range from GET /api/settings — null until the owner
-// saves one.
+// The global projection range from GET /api/period — derived from every
+// recurrence-active month and every movement's own month; null until the
+// first one is registered.
 export type Period = { start: number; end: number };
 
 export type ModalState<T> =
@@ -23,7 +24,6 @@ export type EntryFormSlotProps<V> = {
   submitLabel: string;
   onSubmit: (values: V) => void;
   people: Person[];
-  period: Period | null;
 };
 
 // Per-section copy. The two sections of one screen say different things when

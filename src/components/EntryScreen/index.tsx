@@ -76,7 +76,6 @@ export function EntryScreen<T extends Entry, V extends { type: EntryType }>(
             onSubmit={onAdd}
             submitLabel="Adicionar"
             people={people}
-            period={period}
           />
         )}
       </Modal>
@@ -93,7 +92,6 @@ export function EntryScreen<T extends Entry, V extends { type: EntryType }>(
             onSubmit={onUpdate}
             submitLabel="Salvar"
             people={people}
-            period={period}
           />
         )}
       </Modal>

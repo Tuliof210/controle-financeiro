@@ -1,21 +1,13 @@
 "use client";
 
 import { EntryForm } from "@/components/EntryForm";
-import { SelectField } from "@/components/SelectField";
-import { formatYyyymm } from "@/lib/months";
+import { MonthPicker } from "@/components/MonthPicker";
 import { type MovementFormProps, useMovementForm } from "./hook";
 
 export function MovementForm(props: MovementFormProps) {
-  const { error, submitLabel, people, period } = props;
-  const {
-    fields,
-    month,
-    setMonth,
-    monthOptions,
-    localError,
-    canSubmit,
-    handleSubmit,
-  } = useMovementForm(props);
+  const { error, submitLabel, people } = props;
+  const { fields, month, setMonth, localError, canSubmit, handleSubmit } =
+    useMovementForm(props);
 
   return (
     <EntryForm
@@ -23,20 +15,13 @@ export function MovementForm(props: MovementFormProps) {
       people={people}
       fields={fields}
       period={
-        period ? (
-          <SelectField
-            id="movement-month"
-            label="Mês"
-            value={String(month)}
-            onChange={(next) => setMonth(Number(next))}
-            options={monthOptions.map((option) => ({
-              value: String(option),
-              label: formatYyyymm(option),
-            }))}
-          />
-        ) : null
+        <MonthPicker
+          id="movement-month"
+          label="Mês"
+          value={month}
+          onChange={setMonth}
+        />
       }
-      guard="Defina o período global em Configurações para cadastrar movimentações."
       error={localError ?? error}
       submitLabel={submitLabel}
       canSubmit={canSubmit}
