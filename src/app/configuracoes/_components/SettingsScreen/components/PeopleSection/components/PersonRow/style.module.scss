@@ -1,9 +1,9 @@
 @use "swatch-colors";
 
+// Divider/hover/spacing only — RowLayout owns the internal grid this row
+// renders through. Border-run idiom on purpose (no gap): see GoalsSection's
+// list for the same reasoning, stated once there.
 .row {
-  display: flex;
-  align-items: center;
-  gap: var(--space-3);
   padding: var(--space-4) var(--space-2);
   border-bottom: var(--border-1) solid var(--color-border-subtle);
   transition: background var(--duration-fast) var(--ease-snappy);
@@ -28,16 +28,15 @@
   border-radius: var(--radius-sm);
 }
 
-// min-width: 0 is what makes the ellipsis possible at all — a flex item's
-// default min-width: auto refuses to shrink below its text, so a long name
-// widens the card instead of truncating.
+// overflow-wrap, not ellipsis: RowLayout wraps tiers onto their own line
+// instead of truncating, so a fixed-width truncation would fight the
+// primitive's flex-wrap instead of cooperating with it (same idiom as
+// EntryRow's `.name`).
 .name {
-  flex: 1;
+  flex: 1 1 auto;
   min-width: 0;
-  overflow: hidden;
+  overflow-wrap: anywhere;
   color: var(--color-text);
   font-family: var(--font-mono);
   font-size: var(--text-base);
-  text-overflow: ellipsis;
-  white-space: nowrap;
 }

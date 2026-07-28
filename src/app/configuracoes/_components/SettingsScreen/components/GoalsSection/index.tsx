@@ -1,13 +1,12 @@
 "use client";
 
-import { Pencil, Plus, Target, Trash2 } from "lucide-react";
+import { Plus, Target } from "lucide-react";
 import { Button } from "@/components/Button";
 import { ConfirmDialog } from "@/components/ConfirmDialog";
-import { IconButton } from "@/components/IconButton";
 import { Modal } from "@/components/Modal";
 import { SectionCard } from "@/components/SectionCard";
-import { formatMoney } from "@/lib/money";
 import { GoalForm } from "./components/GoalForm";
+import { GoalRow } from "./components/GoalRow";
 import { useGoalsSection } from "./hook";
 import styles from "./style.module.scss";
 
@@ -32,25 +31,12 @@ export function GoalsSection() {
       ) : (
         <ul className={styles.list}>
           {goals?.map((goal) => (
-            <li key={goal.id} className={styles.row}>
-              <span className={styles.name}>{goal.name}</span>
-              <span className={styles.target}>
-                {formatMoney(goal.targetCents)}
-              </span>
-              <IconButton
-                aria-label={`Editar ${goal.name}`}
-                onClick={() => openEdit(goal)}
-              >
-                <Pencil size={16} />
-              </IconButton>
-              <IconButton
-                variant="danger"
-                aria-label={`Excluir ${goal.name}`}
-                onClick={() => openDelete(goal)}
-              >
-                <Trash2 size={16} />
-              </IconButton>
-            </li>
+            <GoalRow
+              key={goal.id}
+              goal={goal}
+              onEdit={() => openEdit(goal)}
+              onDelete={() => openDelete(goal)}
+            />
           ))}
         </ul>
       )}
