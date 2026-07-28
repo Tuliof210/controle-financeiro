@@ -1,3 +1,5 @@
+import { formatMoneyShort, formatMoneyShortK } from "@/lib/money";
+
 // Geometry and styling shared by both charts, so the two line up on the same
 // month positions and read as one component rather than two.
 
@@ -26,6 +28,15 @@ export const isDesktopWidth = (width: number): boolean =>
 
 export const monthWindowSize = (width: number): number =>
   isDesktopWidth(width) ? MONTHS_DESKTOP : MONTHS_MOBILE;
+
+// Same width-based choice as monthWindowSize, for what the Y axis actually
+// draws: below the desktop plot width, formatMoneyShort's full grouped
+// digits ("R$ 12.345") are too wide for the gutter, so both charts drop to
+// the compact "K" form instead. Shared here so buildFrame's gutter sizing
+// and ChartFrame's rendered labels can never disagree on which format is on
+// screen at a given width.
+export const formatYTickFor = (width: number) =>
+  isDesktopWidth(width) ? formatMoneyShort : formatMoneyShortK;
 
 // visx renders plain SVG, so DS tokens go straight into presentation
 // attributes — they resolve inside SVG and follow the runtime theme switch for
