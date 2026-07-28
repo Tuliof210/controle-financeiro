@@ -51,8 +51,8 @@ export function ChartFrame(props: ChartFrameProps) {
           />
         </Group>
       </svg>
-      {/* biome-ignore lint/a11y/noNoninteractiveTabindex: the WAI-ARIA scrollable-region pattern — this box IS the interactive element (native arrow-key scroll once focused), nothing inside it is itself focusable. */}
-      <div className={styles.scroll} tabIndex={0}>
+      {/* biome-ignore lint/a11y/noNoninteractiveTabindex: the WAI-ARIA scrollable-region pattern — this box IS the interactive element (native arrow-key scroll once focused), nothing inside it is itself focusable. A <section> with an accessible name implies role="region" on its own, so that half of the pattern needs no explicit role. */}
+      <section className={styles.scroll} tabIndex={0} aria-label={title}>
         <svg
           className={styles.plot}
           width={innerWidth + MARGIN.right}
@@ -81,7 +81,7 @@ export function ChartFrame(props: ChartFrameProps) {
             />
           </Group>
         </svg>
-      </div>
+      </section>
     </div>
   );
 }
