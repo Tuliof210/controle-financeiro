@@ -9,8 +9,8 @@ export function TotalsRow(props: TotalsRowProps) {
       <th scope="row" className={styles.label}>
         Total
       </th>
-      <td className={styles.reserved}>{income}</td>
-      <td className={styles.reserved}>{expense}</td>
+      <td>{income}</td>
+      <td>{expense}</td>
       <td className={negative ? styles.negative : undefined}>{balance}</td>
       <td>{count}</td>
     </tr>

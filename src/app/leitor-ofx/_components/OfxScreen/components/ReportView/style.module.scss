@@ -74,10 +74,11 @@
 
 .table {
   width: 100%;
-  // A layout floor, not a spacing value — five numeric columns plus the copy
-  // slot stop being readable below it, and .tableWrap scrolls instead of the
-  // page body. Same category as the two rail widths: no --space-* reaches it.
-  min-width: 560px;
+  // No min-width: the 560px floor existed to keep five numeric columns plus a
+  // 44px copy slot readable. With the slot gone, `white-space: nowrap` below
+  // already holds the table at 489px for an all-zero report and 583px for real
+  // money values, so any floor low enough to justify would never bind.
+  // .tableWrap scrolls on that intrinsic width instead of the page body.
   border-collapse: collapse;
   font-family: var(--font-mono);
   font-size: var(--text-sm);
