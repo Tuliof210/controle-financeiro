@@ -23,7 +23,7 @@ everything descriptive on the left, the controls flushed to the far right.
       stylesheets, so the 100-line cap fails nothing on its own.
 
 ## Tasks
-- [ ] tasks/01-two-wrappers-per-row.md — the two wrappers and the one-line
+- [x] tasks/01-two-wrappers-per-row.md — the two wrappers and the one-line
       layout, with the nested subgrid keeping columns aligned across rows
 - [ ] tasks/02-stacked-mode-across-wrappers.md — split the narrow-width stack
       between the `<li>` and the data wrapper
