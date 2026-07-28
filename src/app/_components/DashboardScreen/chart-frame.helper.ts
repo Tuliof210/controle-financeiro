@@ -1,7 +1,13 @@
 import { scaleBand, scaleLinear } from "@visx/scale";
 import type { MonthPoint } from "@/app/api/dashboard/types";
-import { formatMoneyShort } from "@/lib/money";
-import { BAND_PADDING, MARGIN, monthWindowSize, Y_TICKS } from "./chart.config";
+import { formatMoneyShort, formatMoneyShortK } from "@/lib/money";
+import {
+  BAND_PADDING,
+  isDesktopWidth,
+  MARGIN,
+  monthWindowSize,
+  Y_TICKS,
+} from "./chart.config";
 import { yDomain } from "./chart.helper";
 
 // JetBrains Mono at --text-2xs is ~6px per character; the gutter covers the
@@ -55,7 +61,13 @@ export function buildFrame(
   const marginTicks = scaleFor(
     points.flatMap((point) => [point.income, point.expense, point.cumulative]),
   ).ticks(Y_TICKS);
-  const left = leftMargin(marginTicks.map(formatMoneyShort));
+  // Same width-based choice ChartFrame/hook.ts's formatYTick makes for what's
+  // actually drawn — the gutter has to match the format displayed in it, or
+  // mobile reserves space for "R$ 40.000" while rendering the shorter "R$ 40K".
+  const formatYTick = isDesktopWidth(width)
+    ? formatMoneyShort
+    : formatMoneyShortK;
+  const left = leftMargin(marginTicks.map(formatYTick));
   const visibleWidth = Math.max(0, width - left - MARGIN.right);
 
   // Every month gets a fixed bandwidth, sized so exactly one window (12
