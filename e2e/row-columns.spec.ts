@@ -25,6 +25,17 @@ async function box(locator: Locator) {
   return found;
 }
 
+// The amount's box is not the amount. Its cell stretches to fill the grid
+// track, so the box ends at the track's right edge whether the text inside is
+// flushed there or not — a box-only assertion stays green with the alignment
+// visibly broken. A Range over the node's contents measures what is painted.
+const textRight = (locator: Locator) =>
+  locator.evaluate((el) => {
+    const range = document.createRange();
+    range.selectNodeContents(el);
+    return range.getBoundingClientRect().right;
+  });
+
 // Everything a row shows, located the way a user sees it — by its text and by
 // the button's accessible name, never by the class or attribute that places
 // it. Generous timeout on the first wait: a fresh dev server also pays for
@@ -39,10 +50,12 @@ async function openRow(page: Page, path: string, name: string) {
     .filter({ hasText: LONG_NAME })
     .getByRole("listitem")
     .filter({ hasText: name });
+  const value = row.getByText(/^R\$/);
   return {
     row: await box(row),
     name: await box(row.getByText(name, { exact: true })),
-    value: await box(row.getByText(/^R\$/)),
+    value: await box(value),
+    valueRight: await textRight(value),
     edit: await box(row.getByRole("button", { name: `Editar ${name}` })),
   };
 }
@@ -71,10 +84,7 @@ for (const { path, sibling } of SCREENS) {
       const short = await openRow(page, path, sibling);
       // One column for names and one for amounts, whatever each row holds.
       expect(short.name.x).toBeCloseTo(long.name.x, 0);
-      expect(short.value.x + short.value.width).toBeCloseTo(
-        long.value.x + long.value.width,
-        0,
-      );
+      expect(short.valueRight).toBeCloseTo(long.valueRight, 0);
     });
   }
 }
