@@ -22,5 +22,3 @@ Format: `- [<path>:<line-or-symbol>] <what is wrong>, until <what earns it a fix
 
 ---
 
-- [package.json:16] `test:e2e` carries `--pass-with-no-tests` permanently, so a run whose `testDir` matches nothing at all still exits 0 — the gate cannot tell "no specs yet" from "specs stopped being collected"; PR #63 added `e2e/row-overflow.spec.ts`, the first real spec, without dropping the flag — until the next e2e-touching PR removes it (2026-07-28)
-- [src/components/EntryRow/index.tsx] two-file component (no `hook.ts`), pre-existing but PR #63 substantially rewrote `index.tsx` into `RowLayout`'s render-prop shape without extracting one, though its own sibling `RowLayout/hook.ts` in the same PR is a zero-logic pass-through added purely to keep the three-file shape — until the next `EntryRow` edit moves `EntryRowProps` + the destructure into `hook.ts` (2026-07-28)

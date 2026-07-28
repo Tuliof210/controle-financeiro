@@ -13,7 +13,7 @@
     "lint:fix": "biome check --write .",
     "format": "biome format --write",
     "test": "npm run test:e2e",
-    "test:e2e": "playwright test --pass-with-no-tests",
+    "test:e2e": "playwright test",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },
