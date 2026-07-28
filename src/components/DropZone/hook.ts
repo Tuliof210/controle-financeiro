@@ -1,14 +1,22 @@
-import { type DragEvent, useState } from "react";
+import { type DragEvent, type ReactNode, useState } from "react";
+
+// What becomes of the file after it is read — the one line that differs
+// between the two screens using this panel. This default is true of the
+// decoder; /leitor-ofx overrides it, because importing writes to the database.
+const DEFAULT_NOTE =
+  "O arquivo é lido no seu navegador e some quando você fecha a aba. Nada é salvo no banco.";
 
 export type DropZoneProps = {
   onFile: (file: File) => void;
+  note?: ReactNode;
 };
 
-export function useDropZone({ onFile }: DropZoneProps) {
+export function useDropZone({ onFile, note = DEFAULT_NOTE }: DropZoneProps) {
   const [over, setOver] = useState(false);
 
   return {
     onFile,
+    note,
     over,
     // preventDefault on EVERY dragover, not just the first: without it the
     // browser navigates to the dropped file and the SPA is gone.

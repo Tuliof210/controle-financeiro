@@ -4,7 +4,8 @@ import { type DropZoneProps, useDropZone } from "./hook";
 import styles from "./style.module.scss";
 
 export function DropZone(props: DropZoneProps) {
-  const { over, onFile, onDragOver, onDragLeave, onDrop } = useDropZone(props);
+  const { over, note, onFile, onDragOver, onDragLeave, onDrop } =
+    useDropZone(props);
 
   return (
     // No tabIndex and no click handler on the panel itself: a focusable div
@@ -21,10 +22,7 @@ export function DropZone(props: DropZoneProps) {
         <Upload size={28} aria-hidden />
       </span>
       <p className={styles.eyebrow}>Arraste o extrato .ofx</p>
-      <p className={styles.note}>
-        O arquivo é lido no seu navegador e some quando você fecha a aba. Nada é
-        salvo no banco.
-      </p>
+      <p className={styles.note}>{note}</p>
       <FilePicker label="Escolher arquivo" onFile={onFile} />
       {/* 5 MB, not the design's 10: the route's cap is 5 and is not changing. */}
       <p className={styles.foot}>

@@ -1,0 +1,16 @@
+.row {
+  th,
+  td {
+    border-bottom: none;
+    border-top: var(--border-2) solid var(--color-border);
+    font-weight: var(--weight-bold);
+  }
+}
+
+.label {
+  text-align: left;
+}
+
+.negative {
+  color: var(--color-negative);
+}

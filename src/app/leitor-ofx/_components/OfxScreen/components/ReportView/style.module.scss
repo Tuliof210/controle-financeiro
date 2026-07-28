@@ -66,53 +66,6 @@
   list-style: none;
 }
 
-// Five numeric columns do not fit a 375px viewport; the table scrolls inside
-// this box rather than widening the card.
-.tableWrap {
-  overflow-x: auto;
-}
-
-.table {
-  width: 100%;
-  // A layout floor, not a spacing value — five numeric columns plus the copy
-  // slot stop being readable below it, and .tableWrap scrolls instead of the
-  // page body. Same category as the two rail widths: no --space-* reaches it.
-  min-width: 560px;
-  border-collapse: collapse;
-  font-family: var(--font-mono);
-  font-size: var(--text-sm);
-
-  th,
-  td {
-    padding: var(--space-2) var(--space-3);
-    text-align: right;
-    white-space: nowrap;
-    font-variant-numeric: tabular-nums;
-    border-bottom: var(--border-1) solid var(--color-border-subtle);
-  }
-
-  thead th {
-    color: var(--color-text-muted);
-    font-family: var(--font-display);
-    font-size: var(--text-2xs);
-    font-weight: var(--weight-regular);
-    letter-spacing: var(--tracking-wide);
-    text-transform: uppercase;
-    border-bottom: var(--border-2) solid var(--color-border);
-  }
-
-  tbody tr:hover {
-    background: var(--color-surface-raised);
-  }
-}
-
-.caption {
-  padding-bottom: var(--space-2);
-  color: var(--color-text-muted);
-  font-size: var(--text-xs);
-  text-align: left;
-}
-
 .error {
   display: flex;
   align-items: center;
@@ -126,5 +79,9 @@
 .actions {
   display: flex;
   flex-wrap: wrap;
+  // The import's tooltip trigger is a 14px icon among 44px buttons; without
+  // this it stretches to the row's height instead of sitting beside the
+  // button it explains.
+  align-items: center;
   gap: var(--space-3);
 }

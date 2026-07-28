@@ -24,6 +24,10 @@ export type OfxMonth = {
 
 export type OfxReport = {
   fileName: string;
+  // Hex SHA-256 of the uploaded bytes — the file's identity. Required, not
+  // optional: it is what the import flow checks before offering to write, and
+  // an optional field would push the undefined case onto every consumer.
+  fileHash: string;
   org: string | null; // <FI><ORG>, the institution's name
   fid: string | null;
   currency: string | null; // <CURDEF>, e.g. "BRL"

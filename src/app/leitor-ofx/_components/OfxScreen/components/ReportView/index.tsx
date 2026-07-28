@@ -3,8 +3,8 @@ import { Button } from "@/components/Button";
 import { FilePicker } from "@/components/FilePicker";
 import { SectionCard } from "@/components/SectionCard";
 import { AccountLine } from "./components/AccountLine";
-import { MonthRow } from "./components/MonthRow";
-import { TotalsRow } from "./components/TotalsRow";
+import { ImportAction } from "./components/ImportAction";
+import { MonthTable } from "./components/MonthTable";
 import { type ReportViewProps, useReportView } from "./hook";
 import styles from "./style.module.scss";
 
@@ -48,30 +48,7 @@ export function ReportView(props: ReportViewProps) {
         ))}
       </ul>
 
-      <div className={styles.tableWrap}>
-        <table className={styles.table}>
-          <caption className={styles.caption}>
-            Entradas e saídas por mês
-          </caption>
-          <thead>
-            <tr>
-              <th scope="col">Mês</th>
-              <th scope="col">Entradas</th>
-              <th scope="col">Saídas</th>
-              <th scope="col">Saldo</th>
-              <th scope="col">Lanç.</th>
-            </tr>
-          </thead>
-          <tbody>
-            {view.rows.map((row) => (
-              <MonthRow key={row.month} month={row} />
-            ))}
-          </tbody>
-          <tfoot>
-            <TotalsRow {...view.totals} />
-          </tfoot>
-        </table>
-      </div>
+      <MonthTable rows={view.rows} totals={view.totals} />
 
       {view.error ? (
         <p className={styles.error}>
@@ -92,6 +69,7 @@ export function ReportView(props: ReportViewProps) {
           disabled={view.loading}
           onFile={view.onFile}
         />
+        <ImportAction report={view.report} />
       </div>
     </SectionCard>
   );

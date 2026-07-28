@@ -1,0 +1,27 @@
+// Same column as EntryForm's body: the dialog holds two fields and a summary,
+// and nothing here earns a layout of its own.
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.summary {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+}
+
+// The ▲ error paragraph the rest of this screen uses, repeated because there
+// is no shared class for it — ReportView, EntryForm and ConfirmDialog each
+// keep their own copy.
+.error {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  margin: 0;
+  color: var(--color-negative);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+}
