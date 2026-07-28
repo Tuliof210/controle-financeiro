@@ -1,10 +1,8 @@
 import type { LucideIcon } from "lucide-react";
 import type { ReactNode } from "react";
-import type {
-  EntrySectionLabels,
-  Period,
-} from "@/components/EntryScreen/types";
+import type { EntrySectionLabels } from "@/components/EntryScreen/types";
 import type { Person } from "@/core/entities/person.entity";
+import type { Period } from "@/core/use-cases/period.service";
 import type { Entry } from "@/lib/entry-types";
 import { formatMoney } from "@/lib/money";
 

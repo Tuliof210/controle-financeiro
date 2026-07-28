@@ -1,11 +1,8 @@
 import type { ComponentType, ReactNode } from "react";
 import type { PageHeaderProps } from "@/components/PageHeader/hook";
 import type { Person } from "@/core/entities/person.entity";
+import type { Period } from "@/core/use-cases/period.service";
 import type { Entry, EntryType } from "@/lib/entry-types";
-
-// The global projection range from GET /api/settings — null until the owner
-// saves one.
-export type Period = { start: number; end: number };
 
 export type ModalState<T> =
   | { type: "none" }
@@ -23,7 +20,6 @@ export type EntryFormSlotProps<V> = {
   submitLabel: string;
   onSubmit: (values: V) => void;
   people: Person[];
-  period: Period | null;
 };
 
 // Per-section copy. The two sections of one screen say different things when

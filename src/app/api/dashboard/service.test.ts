@@ -17,35 +17,29 @@ import { movement, recurrence } from "./fixtures.helper";
 import { getDashboard } from "./service";
 import { seed } from "./service.test.helper";
 
-// Fixed clock: currentYYYYMM would otherwise read the real date. This repo has
-// no fake timers and injects a Date instead (see src/lib/months.test.ts).
+// Fixed clock (no fake timers in this repo; see src/lib/months.test.ts).
 const NOW = new Date(2026, 1, 15); // 202602
 
-// Four separate vi.mock factories share state across tests, so unlike the
-// single-repository service suites this one needs an explicit reset.
+// Four mocks share state — unlike a single-repository suite, reset explicitly.
 beforeEach(() => vi.clearAllMocks());
 
 describe("getDashboard", () => {
-  it("reports no_range when a bound is unset", async () => {
-    seed({ settings: { rangeStart: null, rangeEnd: 202612 } });
+  it("reports no_range when there are no entries anywhere", async () => {
+    seed();
     expect(await getDashboard("familia", NOW)).toEqual({ status: "no_range" });
   });
 
-  it("reports no_range when the stored range is inverted", async () => {
-    seed({ settings: { rangeStart: 202612, rangeEnd: 202601 } });
-    expect(await getDashboard("familia", NOW)).toEqual({ status: "no_range" });
-  });
-
-  it("reports out_of_range when the current month is past the range end", async () => {
-    seed({ settings: { rangeStart: 202501, rangeEnd: 202512 } });
+  it("reports out_of_range when the current month falls outside the entries", async () => {
+    seed({
+      movements: [movement(202501, "income", 1), movement(202512, "income", 1)],
+    });
     expect(await getDashboard("familia", NOW)).toEqual({
       status: "out_of_range",
       range: { start: 202501, end: 202512, current: 202602 },
     });
-  });
-
-  it("reports out_of_range when the current month precedes the range start", async () => {
-    seed({ settings: { rangeStart: 202701, rangeEnd: 202712 } });
+    seed({
+      movements: [movement(202701, "income", 1), movement(202712, "income", 1)],
+    });
     expect(await getDashboard("familia", NOW)).toMatchObject({
       status: "out_of_range",
     });
@@ -66,14 +60,14 @@ describe("getDashboard", () => {
   });
 
   it("restricts the board to one person when owner is a person id", async () => {
-    seed({
-      movements: [
-        movement(202601, "income", 100000),
-        movement(202601, "income", 900000, "p2"),
-      ],
-    });
-    const mine = await getDashboard("p1", NOW);
-    const family = await getDashboard("familia", NOW);
+    const entries = [
+      movement(202601, "income", 100000),
+      movement(202601, "income", 900000, "p2"),
+    ];
+    seed({ movements: entries });
+    const january = new Date(2026, 0, 15);
+    const mine = await getDashboard("p1", january);
+    const family = await getDashboard("familia", january);
     if (mine.status !== "ok" || family.status !== "ok") throw new Error("ok");
 
     expect(mine.income.total).toBe(100000);
@@ -81,7 +75,10 @@ describe("getDashboard", () => {
   });
 
   it("keeps goals family-wide, ignoring the owner filter", async () => {
-    seed({ goals: [{ id: "g1", name: "Carro", targetCents: 5000000 }] });
+    seed({
+      movements: [movement(202602, "income", 1)],
+      goals: [{ id: "g1", name: "Carro", targetCents: 5000000 }],
+    });
     const data = await getDashboard("nobody", NOW);
     if (data.status !== "ok") throw new Error("expected ok");
 
@@ -91,7 +88,10 @@ describe("getDashboard", () => {
   // End-to-end wiring of the six blocks lives in payload.helper.test.ts, which
   // calls buildPayload directly — it is pure and needs none of these mocks.
   it("passes the saved monthly ceiling through to the limit block", async () => {
-    seed({ settings: { monthlyGoalCents: 100000 } });
+    seed({
+      movements: [movement(202602, "income", 1)],
+      settings: { monthlyGoalCents: 100000 },
+    });
     const data = await getDashboard("familia", NOW);
     if (data.status !== "ok") throw new Error("expected ok");
 

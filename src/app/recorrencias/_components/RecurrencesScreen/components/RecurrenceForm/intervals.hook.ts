@@ -1,14 +1,20 @@
 import { useRef, useState } from "react";
+import { currentYYYYMM } from "@/lib/months";
 import { type Interval, monthsToIntervals } from "./intervals.helper";
 
 // A stable per-row key so React reconciles rows correctly across add/remove
 // (index keys would mis-associate rows). Not persisted — UI-only.
 export type KeyedInterval = Interval & { key: number };
 
-export function useRecurrenceIntervals(
-  initialMonths: number[] | undefined,
-  period: { start: number; end: number } | null,
-) {
+// No period to seed a default interval from any more — a fresh interval
+// (initial or added) starts as the current month, both ends non-null from the
+// first render so MonthPicker's mount-time self-seed can never fire.
+const defaultInterval = (): Interval => ({
+  start: currentYYYYMM(),
+  end: currentYYYYMM(),
+});
+
+export function useRecurrenceIntervals(initialMonths: number[] | undefined) {
   const nextKey = useRef(0);
   const withKeys = (list: Interval[]): KeyedInterval[] =>
     list.map((it) => ({ ...it, key: nextKey.current++ }));
@@ -17,9 +23,7 @@ export function useRecurrenceIntervals(
     withKeys(
       initialMonths?.length
         ? monthsToIntervals(initialMonths)
-        : period
-          ? [{ start: period.start, end: period.end }]
-          : [],
+        : [defaultInterval()],
     ),
   );
 
@@ -28,10 +32,9 @@ export function useRecurrenceIntervals(
       prev.map((it, i) => (i === index ? { ...it, ...next } : it)),
     );
   const addInterval = () =>
-    period &&
     setIntervals((prev) => [
       ...prev,
-      { key: nextKey.current++, start: period.start, end: period.end },
+      { key: nextKey.current++, ...defaultInterval() },
     ]);
   const removeInterval = (index: number) =>
     setIntervals((prev) =>

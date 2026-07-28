@@ -16,8 +16,10 @@ const recurrenceShape = {
   type: z.enum(ENTRY_TYPES),
   ownerId: z.string().min(1),
   // At least one active month; deduped and sorted so storage is canonical.
+  // 2000-2099: the picker's own domain — the derived period feeds
+  // buildMonths, so a wider bound risks a corrupt row enumerating ~950k rows.
   months: z
-    .array(z.number().int().min(190001).max(999912))
+    .array(z.number().int().min(200001).max(209912))
     .min(1)
     .transform((m) => [...new Set(m)].sort((a, b) => a - b)),
 };

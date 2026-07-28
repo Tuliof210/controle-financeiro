@@ -1,4 +1,4 @@
-import type { Period } from "@/components/EntryScreen/types";
+import type { Period } from "@/core/use-cases/period.service";
 import { buildMonths } from "@/lib/months";
 import { monthsToIntervals } from "./components/RecurrenceForm/intervals.helper";
 

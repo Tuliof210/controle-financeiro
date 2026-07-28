@@ -22,10 +22,11 @@ export type EntryFormProps = {
   idPrefix: string;
   people: Person[];
   fields: EntryFormFields;
-  // The entity's own period control, or null when there is no global period —
-  // the one part of the form that genuinely differs, so the caller renders it.
-  period: ReactNode | null;
-  guard: string;
+  // The entity's own month control — a MonthPicker (Movement) or an
+  // IntervalList (Recurrence) — the one part of the form that genuinely
+  // differs, so the caller renders it. Always non-null: there is no global
+  // period to wait on any more, every month in the domain is fair game.
+  period: ReactNode;
   error?: string;
   submitLabel: string;
   canSubmit: boolean;
@@ -37,7 +38,6 @@ export function EntryForm({
   people,
   fields,
   period,
-  guard,
   error,
   submitLabel,
   canSubmit,
@@ -88,7 +88,7 @@ export function EntryForm({
           label: person.name,
         }))}
       />
-      {period ?? <p className={styles.guard}>{guard}</p>}
+      {period}
       {error ? (
         <p className={styles.error}>
           <span aria-hidden>▲</span> {error}

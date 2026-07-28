@@ -3,24 +3,32 @@
 import { Plus, X } from "lucide-react";
 import { Button } from "@/components/Button";
 import { IconButton } from "@/components/IconButton";
-import { MonthRangeSlider } from "../MonthRangeSlider";
+import { MonthPicker } from "@/components/MonthPicker";
 import { type IntervalListProps, useIntervalList } from "./hook";
 import styles from "./style.module.scss";
 
 export function IntervalList(props: IntervalListProps) {
-  const { months, intervals, canRemove, onSliderChange, onAdd, onRemove } =
+  const { intervals, canRemove, onStartChange, onEndChange, onAdd, onRemove } =
     useIntervalList(props);
 
   return (
     <div className={styles.list}>
       {intervals.map((interval, index) => (
         <div key={interval.key} className={styles.row}>
-          <MonthRangeSlider
-            months={months}
-            rangeStart={interval.start}
-            rangeEnd={interval.end}
-            onChange={onSliderChange(index)}
-          />
+          <div className={styles.pickers}>
+            <MonthPicker
+              id={`recurrence-interval-${interval.key}-start`}
+              label="Início"
+              value={interval.start}
+              onChange={onStartChange(index)}
+            />
+            <MonthPicker
+              id={`recurrence-interval-${interval.key}-end`}
+              label="Fim"
+              value={interval.end}
+              onChange={onEndChange(index)}
+            />
+          </div>
           {canRemove ? (
             <IconButton
               variant="danger"

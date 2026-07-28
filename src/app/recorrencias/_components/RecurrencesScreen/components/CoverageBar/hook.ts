@@ -1,4 +1,4 @@
-import type { Period } from "@/components/EntryScreen/types";
+import type { Period } from "@/core/use-cases/period.service";
 import { coverage } from "../../coverage.helper";
 import { formatMonths } from "../../recurrence-range.helper";
 

@@ -15,7 +15,9 @@ const movementShape = {
   valueCents: z.number().int().min(1),
   type: z.enum(ENTRY_TYPES),
   ownerId: z.string().min(1),
-  month: z.number().int().min(190001).max(999912),
+  // 2000-2099: the picker's own domain — the derived period feeds
+  // buildMonths, so a wider bound risks a corrupt row enumerating ~950k rows.
+  month: z.number().int().min(200001).max(209912),
 };
 
 const createSchema = z.object(movementShape);

@@ -33,9 +33,12 @@ export function addMonths(value: number, count: number): number {
   return composeYYYYMM(Math.trunc(total / 12), (total % 12) + 1);
 }
 
-export function yearOptions(currentYear = new Date().getFullYear()) {
-  const start = currentYear - 3;
-  const end = currentYear + 8;
+// Fixed, not relative-to-now: a movement or recurrence interval can land on
+// any month in this domain regardless of when it is entered, so the picker's
+// options can't drift with the clock either.
+export function yearOptions() {
+  const start = 2000;
+  const end = 2099;
   return Array.from({ length: end - start + 1 }, (_, index) => start + index);
 }
 
@@ -59,8 +62,8 @@ export function buildMonths(start: number, end: number): number[] {
   return months;
 }
 
-// YYYYMM -> "Ago/26" (2-digit year). null -> muted placeholder, for the
-// Settings bounds which are unset until the owner saves a global period.
+// YYYYMM -> "Ago/26" (2-digit year). null -> muted placeholder, for a caller
+// that may not have a value yet.
 export function formatYyyymm(value: number | null): string {
   if (value == null) {
     return "—";

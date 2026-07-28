@@ -50,11 +50,11 @@ describe("addMonths", () => {
 });
 
 describe("yearOptions", () => {
-  it("spans currentYear - 3 .. currentYear + 8", () => {
-    const years = yearOptions(2026);
-    expect(years[0]).toBe(2023);
-    expect(years.at(-1)).toBe(2034);
-    expect(years).toHaveLength(12);
+  it("spans a fixed 2000..2099, regardless of the current year", () => {
+    const years = yearOptions();
+    expect(years[0]).toBe(2000);
+    expect(years.at(-1)).toBe(2099);
+    expect(years).toHaveLength(100);
   });
 });
 

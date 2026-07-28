@@ -8,10 +8,13 @@
   display: flex;
   align-items: center;
   gap: var(--space-2);
+}
 
-  // The slider takes the remaining width; the remove button sits beside it.
-  & > :first-child {
-    flex: 1;
-    min-width: 0;
-  }
+// The two pickers take the remaining width; the remove button sits beside it.
+.pickers {
+  display: flex;
+  flex-wrap: wrap;
+  flex: 1;
+  min-width: 0;
+  gap: var(--space-4);
 }

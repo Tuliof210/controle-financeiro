@@ -1,7 +1,6 @@
 "use client";
 
 import { CalendarRange, LayoutDashboard, TriangleAlert } from "lucide-react";
-import Link from "next/link";
 import { PageHeader } from "@/components/PageHeader";
 import { formatYyyymm } from "@/lib/months";
 import { Board } from "./components/Board";
@@ -34,9 +33,8 @@ export function DashboardScreen() {
 
       {data?.status === "no_range" ? (
         <Notice title="Período global" icon={CalendarRange}>
-          Defina o período global em{" "}
-          <Link href="/configuracoes">Configurações</Link> para visualizar a
-          dashboard.
+          Nenhum lançamento ainda. Registre uma movimentação ou recorrência para
+          o período aparecer aqui.
         </Notice>
       ) : null}
 
@@ -44,8 +42,8 @@ export function DashboardScreen() {
         <Notice title="Período global" icon={CalendarRange}>
           O período global ({formatYyyymm(data.range.start)}–
           {formatYyyymm(data.range.end)}) não cobre o mês atual (
-          {formatYyyymm(data.range.current)}). Ajuste em{" "}
-          <Link href="/configuracoes">Configurações</Link>.
+          {formatYyyymm(data.range.current)}). Registre uma movimentação ou
+          recorrência nesse mês para incluí-lo.
         </Notice>
       ) : null}
 
