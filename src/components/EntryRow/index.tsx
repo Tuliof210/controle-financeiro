@@ -1,67 +1,49 @@
 import { Pencil, Trash2 } from "lucide-react";
-import type { ReactNode } from "react";
 import { IconButton } from "@/components/IconButton";
-import { RowLayout } from "@/components/RowLayout";
-import type { Person } from "@/core/entities/person.entity";
-import type { Entry } from "@/lib/entry-types";
-import { formatMoney } from "@/lib/money";
+import { type EntryRowProps, useEntryRow } from "./hook";
 import styles from "./style.module.scss";
 
-type EntryRowProps = {
-  entry: Entry;
-  person?: Person;
-  // Already-formatted period cell — the one part that differs per entity
-  // (a recurrence's month intervals vs a movement's single month).
-  period: ReactNode;
-  onEdit: () => void;
-  onDelete: () => void;
-};
+// Flat cells, no tier wrappers: the enclosing RowGrid places each one by its
+// `data-cell` tag, which is what lets sibling rows share columns.
+export function EntryRow(props: EntryRowProps) {
+  const {
+    name,
+    swatchClass,
+    valueClass,
+    value,
+    owner,
+    period,
+    onEdit,
+    onDelete,
+  } = useEntryRow(props);
 
-export function EntryRow({
-  entry,
-  person,
-  period,
-  onEdit,
-  onDelete,
-}: EntryRowProps) {
   return (
     <li className={styles.row}>
-      <RowLayout
-        swatch={
-          <span
-            className={`${styles.swatch} ${person ? styles[person.color] : ""}`}
-            aria-hidden
-          />
-        }
-        primary={
-          <>
-            <span className={styles.name}>{entry.name}</span>
-            <span className={`${styles.value} ${styles[entry.type]}`}>
-              {formatMoney(entry.valueCents)}
-            </span>
-          </>
-        }
-        secondary={
-          <>
-            <span className={styles.owner}>{person?.name ?? "—"}</span>
-            <span className={styles.period}>{period}</span>
-          </>
-        }
-        actions={
-          <>
-            <IconButton aria-label={`Editar ${entry.name}`} onClick={onEdit}>
-              <Pencil size={16} aria-hidden />
-            </IconButton>
-            <IconButton
-              variant="danger"
-              aria-label={`Excluir ${entry.name}`}
-              onClick={onDelete}
-            >
-              <Trash2 size={16} aria-hidden />
-            </IconButton>
-          </>
-        }
-      />
+      <span data-cell="swatch" className={swatchClass} aria-hidden />
+      <span data-cell="name" className={styles.name}>
+        {name}
+      </span>
+      <span data-cell="value" className={valueClass}>
+        {value}
+      </span>
+      <span data-cell="owner" className={styles.owner}>
+        {owner}
+      </span>
+      <span data-cell="period" className={styles.period}>
+        {period}
+      </span>
+      <span data-cell="actions" className={styles.actions}>
+        <IconButton aria-label={`Editar ${name}`} onClick={onEdit}>
+          <Pencil size={16} aria-hidden />
+        </IconButton>
+        <IconButton
+          variant="danger"
+          aria-label={`Excluir ${name}`}
+          onClick={onDelete}
+        >
+          <Trash2 size={16} aria-hidden />
+        </IconButton>
+      </span>
     </li>
   );
 }
