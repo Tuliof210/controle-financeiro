@@ -1,3 +1,4 @@
+import { derivePeriod } from "@/core/use-cases/period.service";
 import { goalRepository } from "@/infra/repositories/goal.prisma.repository";
 import { movementRepository } from "@/infra/repositories/movement.prisma.repository";
 import { recurrenceRepository } from "@/infra/repositories/recurrence.prisma.repository";
@@ -20,20 +21,14 @@ export async function getDashboard(
     goalRepository.list(),
   ]);
 
-  const { rangeStart, rangeEnd } = settings;
-  if (rangeStart == null || rangeEnd == null) return { status: "no_range" };
+  // The period is derived from the entries themselves, not typed by hand —
+  // start/end are a min/max over the same set, so this can never be inverted
+  // the way a hand-saved Settings range could.
+  const period = derivePeriod(movements, recurrences);
+  if (period === null) return { status: "no_range" };
 
-  // An inverted range is reachable: PUT /api/settings validates the incoming
-  // patch, never the merged result, so a lone rangeStart can land past a
-  // stored rangeEnd. buildMonths yields [] for it.
-  const months = buildMonths(rangeStart, rangeEnd);
-  if (months.length === 0) return { status: "no_range" };
-
-  const range = {
-    start: rangeStart,
-    end: rangeEnd,
-    current: currentYYYYMM(now),
-  };
+  const months = buildMonths(period.start, period.end);
+  const range = { ...period, current: currentYYYYMM(now) };
   const currentIndex = months.indexOf(range.current);
   if (currentIndex === -1) return { status: "out_of_range", range };
 

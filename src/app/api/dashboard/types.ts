@@ -55,9 +55,8 @@ export type GoalProjection = {
 export type DashboardRange = { start: number; end: number; current: number };
 
 // Discriminated on `status` so the screen renders one of three states without
-// inspecting nullable fields. "no_range" also covers a persisted inverted
-// range — PUT /api/settings only validates the incoming patch, never the
-// merged result, so rangeStart > rangeEnd is reachable.
+// inspecting nullable fields. "no_range" is the empty-database state: the
+// period is derived from the entries (derivePeriod), so it is never inverted.
 export type DashboardData =
   | { status: "no_range" }
   | { status: "out_of_range"; range: DashboardRange }
