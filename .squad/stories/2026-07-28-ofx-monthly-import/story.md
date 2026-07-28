@@ -32,5 +32,5 @@ the app already computed and already knows how to store.
       all-or-nothing bulk endpoint
 - [x] tasks/02-report-file-hash.md — the reader returns a SHA-256 of the uploaded file
 - [x] tasks/03-drop-copy-buttons.md — delete the per-cell copy affordance
-- [ ] tasks/04-import-action.md — the Importar button and its confirmation dialog
+- [x] tasks/04-import-action.md — the Importar button and its confirmation dialog
 - [ ] tasks/05-import-e2e-spec.md — end-to-end proof of the import and the re-import lock

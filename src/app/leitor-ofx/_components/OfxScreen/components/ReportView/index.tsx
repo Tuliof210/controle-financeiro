@@ -3,6 +3,7 @@ import { Button } from "@/components/Button";
 import { FilePicker } from "@/components/FilePicker";
 import { SectionCard } from "@/components/SectionCard";
 import { AccountLine } from "./components/AccountLine";
+import { ImportAction } from "./components/ImportAction";
 import { MonthRow } from "./components/MonthRow";
 import { TotalsRow } from "./components/TotalsRow";
 import { type ReportViewProps, useReportView } from "./hook";
@@ -92,6 +93,7 @@ export function ReportView(props: ReportViewProps) {
           disabled={view.loading}
           onFile={view.onFile}
         />
+        <ImportAction report={view.report} />
       </div>
     </SectionCard>
   );
