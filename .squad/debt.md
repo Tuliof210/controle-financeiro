@@ -23,3 +23,4 @@ Format: `- [<path>:<line-or-symbol>] <what is wrong>, until <what earns it a fix
 ---
 
 - [src/app/_components/DashboardScreen/chart.helper.ts:33] `axisTickMonths` is dead code — no production caller remains after the chart month-window rework, only its own test still calls it, until it and its `describe` block in chart.helper.test.ts are deleted (2026-07-28)
+- [src/app/_components/DashboardScreen/chart-frame.helper.ts:65] `buildFrame`'s Y-axis gutter width (`formatYTickFor(width)`) has no direct test proving it stays width-sensitive — the identical call in `ChartFrame/hook.ts` is covered by `hook.test.ts`, this one isn't; a mutation test (hardcoding the width) leaves all of `chart-frame.helper.test.ts` green, until a case exercises `buildFrame` at both sides of the desktop breakpoint using the file's existing `zeroFrame`/`DESKTOP_PLOT_WIDTH` fixtures (2026-07-28)
