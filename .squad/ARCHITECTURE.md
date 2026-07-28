@@ -123,6 +123,12 @@ Vitest. Every non-trivial `hook.ts` / `service.ts` (a branch, a loop, or
 anything touching the expected-vs-actual delta math) gets one colocated
 `*.test.ts` file.
 
+End-to-end: `npm run test:e2e` (Playwright, `playwright.config.ts`). Specs live
+in `e2e/` — empty for now, so the run passes with `--pass-with-no-tests`. The
+run boots its own `next dev` on :3100 (never reusing a running one) against a
+throwaway `e2e.db` that it deletes and re-migrates via `db:setup` every time —
+`dev.db` is never touched.
+
 ### Request validation
 Zod. Route handlers are a trust boundary — the request body is parsed
 through a Zod schema before it reaches the service.
