@@ -22,5 +22,7 @@ Format: `- [<path>:<line-or-symbol>] <what is wrong>, until <what earns it a fix
 
 ---
 
+- [prisma/schema.prisma:OfxImport] nothing links a movement back to the import that wrote it and nothing clears a `fileHash`, so deleting the imported rows on /movimentacoes leaves that statement permanently unimportable — the owner declined an undo when the story was scoped, until wanting to re-import a statement after correcting it (2026-07-28)
+- [src/app/leitor-ofx/_components/OfxScreen/components/ReportView/components/ImportAction/hook.ts:submit] a 409 `already_imported` renders the message but leaves the Importar button enabled, because `src/lib/api.ts` surfaces only `error.message` and drops `error.code` — only reachable when a second importer writes the same file mid-dialog, until `api.ts` carries the code through (2026-07-28)
 - [src/components/EntryScreen/style.module.scss:19] the comment claims row width now grows monotonically with the window, but 764px→768px still drops a row from 680px to 372px and it stays stacked to ~1056px — the 1280px collapse is genuinely gone, this one is AppShell's 264px aside still keyed to `t.bp("md")` (src/components/AppShell/style.module.scss:16), until a change moves AppShell off that viewport breakpoint (2026-07-28)
 
