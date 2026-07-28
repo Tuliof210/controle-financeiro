@@ -1,12 +1,8 @@
 import type { ComponentType, ReactNode } from "react";
 import type { PageHeaderProps } from "@/components/PageHeader/hook";
 import type { Person } from "@/core/entities/person.entity";
+import type { Period } from "@/core/use-cases/period.service";
 import type { Entry, EntryType } from "@/lib/entry-types";
-
-// The global projection range from GET /api/period — derived from every
-// recurrence-active month and every movement's own month; null until the
-// first one is registered.
-export type Period = { start: number; end: number };
 
 export type ModalState<T> =
   | { type: "none" }
