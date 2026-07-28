@@ -1,3 +1,5 @@
+import { formatMoneyShort, formatMoneyShortK } from "@/lib/money";
+
 // Geometry and styling shared by both charts, so the two line up on the same
 // month positions and read as one component rather than two.
 
@@ -7,8 +9,34 @@
 export const MARGIN = { top: 8, right: 8, bottom: 28 };
 
 export const Y_TICKS = 4;
-export const MAX_X_TICKS = 8;
 export const BAND_PADDING = 0.25;
+
+// Below this measured plot width (ChartCard's own box, not the viewport —
+// see chart-frame.helper.ts) the chart windows to 6 months and switches the Y
+// axis to compact "K" labels; at or above it, 12 months and the full
+// formatter. Measured (not assumed): ChartCard's box is 291px at a 375px
+// viewport and 884px at 1280px, so 768px — $breakpoints.md in
+// src/styles/_theme.scss — sits comfortably between the two with room either
+// side. Re-measure both before moving this number; it is not the viewport
+// width.
+export const DESKTOP_PLOT_WIDTH = 768;
+export const MONTHS_DESKTOP = 12;
+export const MONTHS_MOBILE = 6;
+
+export const isDesktopWidth = (width: number): boolean =>
+  width >= DESKTOP_PLOT_WIDTH;
+
+export const monthWindowSize = (width: number): number =>
+  isDesktopWidth(width) ? MONTHS_DESKTOP : MONTHS_MOBILE;
+
+// Same width-based choice as monthWindowSize, for what the Y axis actually
+// draws: below the desktop plot width, formatMoneyShort's full grouped
+// digits ("R$ 12.345") are too wide for the gutter, so both charts drop to
+// the compact "K" form instead. Shared here so buildFrame's gutter sizing
+// and ChartFrame's rendered labels can never disagree on which format is on
+// screen at a given width.
+export const formatYTickFor = (width: number) =>
+  isDesktopWidth(width) ? formatMoneyShort : formatMoneyShortK;
 
 // visx renders plain SVG, so DS tokens go straight into presentation
 // attributes — they resolve inside SVG and follow the runtime theme switch for

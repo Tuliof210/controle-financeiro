@@ -33,7 +33,7 @@ the data instead of the data asking permission from the period.
 ## Tasks
 - [x] tasks/01-derive-global-period.md — the period follows the entries, both
       forms get free month+year pickers, the Configurações card is deleted
-- [ ] tasks/02-chart-month-window.md — 12/6-month window, inner horizontal
+- [x] tasks/02-chart-month-window.md — 12/6-month window, inner horizontal
       scroll, pinned Y axis, "K" tick labels on mobile
 - [ ] tasks/03-drop-settings-range-columns.md — the migration that removes the
       by-then unread rangeStart/rangeEnd columns

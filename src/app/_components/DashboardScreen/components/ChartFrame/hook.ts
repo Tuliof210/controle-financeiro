@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { formatYTickFor } from "../../chart.config";
 import type { buildFrame } from "../../chart-frame.helper";
 
 export type ChartFrameProps = {
@@ -19,5 +20,15 @@ export function useChartFrame({
   frame,
   children,
 }: ChartFrameProps) {
-  return { title, width, height, frame, children };
+  return {
+    title,
+    width,
+    height,
+    frame,
+    children,
+    // Same measured width buildFrame used to pick the 12/6-month window — the
+    // narrower mobile window is also where the full grouped format ("R$
+    // 12.345") gets too wide for the axis gutter.
+    formatYTick: formatYTickFor(width),
+  };
 }

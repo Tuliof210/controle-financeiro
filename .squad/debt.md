@@ -21,3 +21,5 @@ leaves by being fixed, or by the code being deleted — never by being reworded.
 Format: `- [<path>:<line-or-symbol>] <what is wrong>, until <what earns it a fix> (YYYY-MM-DD)`
 
 ---
+
+- [src/app/_components/DashboardScreen/chart.helper.ts:33] `axisTickMonths` is dead code — no production caller remains after the chart month-window rework, only its own test still calls it, until it and its `describe` block in chart.helper.test.ts are deleted (2026-07-28)

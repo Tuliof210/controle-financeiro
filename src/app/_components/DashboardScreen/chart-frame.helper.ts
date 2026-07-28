@@ -1,8 +1,13 @@
 import { scaleBand, scaleLinear } from "@visx/scale";
 import type { MonthPoint } from "@/app/api/dashboard/types";
-import { formatMoneyShort } from "@/lib/money";
-import { BAND_PADDING, MARGIN, MAX_X_TICKS, Y_TICKS } from "./chart.config";
-import { axisTickMonths, yDomain } from "./chart.helper";
+import {
+  BAND_PADDING,
+  formatYTickFor,
+  MARGIN,
+  monthWindowSize,
+  Y_TICKS,
+} from "./chart.config";
+import { yDomain } from "./chart.helper";
 
 // JetBrains Mono at --text-2xs is ~6px per character; the gutter covers the
 // tick mark plus its gap to the axis. Derived rather than fixed because a
@@ -10,6 +15,15 @@ import { axisTickMonths, yDomain } from "./chart.helper";
 // positive labels a constant was sized for, and the SVG root clips the excess.
 const CHAR_PX = 6;
 const TICK_GUTTER = 12;
+
+// "Jan/24" is always 6 characters (formatYyyymm's MONTH_LABELS are all 3
+// letters); MIN_TICK_GAP is breathing room so two labels never render flush
+// against each other even where they technically fit. Measured, not assumed:
+// at the 6-month mobile window the label (36px) was WIDER than the per-month
+// step (~35px) — every-month labels ran together with zero gap — so this
+// isn't optional polish, it is what keeps the mobile axis readable at all.
+const X_LABEL_WIDTH = 6 * CHAR_PX;
+const MIN_TICK_GAP = 4;
 
 export function leftMargin(labels: string[]): number {
   return (
@@ -46,8 +60,33 @@ export function buildFrame(
   const marginTicks = scaleFor(
     points.flatMap((point) => [point.income, point.expense, point.cumulative]),
   ).ticks(Y_TICKS);
-  const left = leftMargin(marginTicks.map(formatMoneyShort));
-  const innerWidth = Math.max(0, width - left - MARGIN.right);
+  // formatYTickFor is shared with ChartFrame/hook.ts, so this gutter always
+  // matches the format actually drawn (see chart.config.ts for why).
+  const left = leftMargin(marginTicks.map(formatYTickFor(width)));
+  const visibleWidth = Math.max(0, width - left - MARGIN.right);
+
+  // Every month gets a fixed bandwidth, sized so exactly one window (12
+  // desktop / 6 mobile) fills the visible card — not the whole history
+  // squeezed into it. `innerWidth` only grows past `visibleWidth` once there
+  // are more months than the window holds; ChartFrame scrolls that excess
+  // horizontally instead of shrinking the bars. Below the window size this
+  // collapses back to `visibleWidth` exactly, same as before this changed.
+  const windowSize = monthWindowSize(width);
+  const bandwidth = windowSize > 0 ? visibleWidth / windowSize : 0;
+  const innerWidth = Math.max(visibleWidth, bandwidth * months.length);
+
+  const monthScale = scaleBand({
+    domain: months,
+    range: [0, innerWidth],
+    padding: BAND_PADDING,
+  });
+
+  // Thin by real step vs. real label width, not a fixed count: a wide window
+  // (few months, or desktop) has room for every label, a narrow one does not.
+  const stride = Math.max(
+    1,
+    Math.ceil((X_LABEL_WIDTH + MIN_TICK_GAP) / (monthScale.step() || 1)),
+  );
 
   return {
     left,
@@ -55,11 +94,7 @@ export function buildFrame(
     innerHeight,
     valueScale,
     gridValues,
-    monthScale: scaleBand({
-      domain: months,
-      range: [0, innerWidth],
-      padding: BAND_PADDING,
-    }),
-    tickValues: axisTickMonths(months, MAX_X_TICKS),
+    monthScale,
+    tickValues: months.filter((_, index) => index % stride === 0),
   };
 }

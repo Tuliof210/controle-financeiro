@@ -1,5 +1,39 @@
-.svg {
-  // An <svg> is inline by default and picks up descender space below the box,
-  // which would push the plot past the measured height.
+@use "theme" as t;
+
+.frame {
+  display: flex;
+  height: 100%;
+}
+
+// An <svg> is inline by default and picks up descender space below the box,
+// which would push the plot past the measured height.
+.axis,
+.plot {
   display: block;
+}
+
+// Fixed at exactly its own width — never shrinks, never grows — so .scroll
+// below is the only side that gives when the two don't both fit.
+.axis {
+  flex-shrink: 0;
+}
+
+// The repo's only other horizontal-scroll box is ReportView's .tableWrap
+// (same overflow-x: auto). min-width: 0 is the flex-specific half of that fix:
+// flex items default to min-width: auto, which floors a shrinking item at its
+// content size — here, the plot <svg>'s full unscrolled width — and this box
+// would widen to fit it instead of scrolling.
+//
+// No `overflow: hidden`, ever (see SectionCard's comment: an overflow
+// ancestor clips an outline-offset focus ring). This box relies on that too —
+// its own :focus-visible ring is drawn at its own border, not clipped by its
+// own overflow-x, but would be by a hidden ancestor. Nothing inside the box
+// (the marks) is itself focusable, so no ring ever needs to survive a scroll.
+.scroll {
+  min-width: 0;
+  overflow-x: auto;
+
+  &:focus-visible {
+    @include t.focus-ring;
+  }
 }
