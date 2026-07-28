@@ -31,7 +31,7 @@ the data instead of the data asking permission from the period.
       confirm the Y axis stays on screen and the page never scrolls sideways
 
 ## Tasks
-- [ ] tasks/01-derive-global-period.md — the period follows the entries, both
+- [x] tasks/01-derive-global-period.md — the period follows the entries, both
       forms get free month+year pickers, the Configurações card is deleted
 - [ ] tasks/02-chart-month-window.md — 12/6-month window, inner horizontal
       scroll, pinned Y axis, "K" tick labels on mobile
