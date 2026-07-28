@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test";
-import { GUTTER, LISTS, openRow, overlaps } from "./row.helper";
+import { GUTTER, LISTS, openRow, overlaps, PAIR_GAP } from "./row.helper";
 import { seed } from "./seed.helper";
 
 // Measured, not read off the viewport: at 1440px this app's shell leaves an
@@ -38,10 +38,13 @@ for (const list of LISTS) {
       // A column no row in this list fills takes no width: no row in Pessoas
       // has an amount or an owner, so the name cell reaches the action pair
       // one gutter away instead of stopping short of two dead columns.
+      // Floor as well as ceiling — the gutters ride on the cells, and a rule
+      // that stopped matching them would collapse every gap to 0 and pass a
+      // ceiling-only assertion harder than a correct row does.
       if (list.bare) {
-        expect(cells.edit.x - (cells.name.x + cells.name.width)).toBeLessThan(
-          GUTTER + 1,
-        );
+        const gap = cells.edit.x - (cells.name.x + cells.name.width);
+        expect(gap).toBeLessThan(GUTTER + 1);
+        expect(gap).toBeGreaterThan(GUTTER - 1);
       }
     }
   });
@@ -58,6 +61,25 @@ for (const list of LISTS) {
   });
 
   for (const width of [WIDE, NARROW]) {
+    test(`${list.path} ${list.short} keeps its controls together at ${width}px`, async ({
+      page,
+    }) => {
+      await page.setViewportSize({ width, height: 900 });
+
+      for (const name of [list.long, list.short]) {
+        const cells = await openRow(page, list, name);
+        // One line, one gap. Both come from the same rule on the controls
+        // half, and the row has no class of its own to fall back on, so a
+        // pair that quietly wrapped onto two lines would still sit inside
+        // the row's box and pass every other assertion in this suite.
+        expect(overlaps(cells.edit, cells.remove)).toBe(true);
+        expect(cells.remove.x - (cells.edit.x + cells.edit.width)).toBeCloseTo(
+          PAIR_GAP,
+          0,
+        );
+      }
+    });
+
     test(`${list.path} ${list.short} aligns its columns at ${width}px`, async ({
       page,
     }) => {

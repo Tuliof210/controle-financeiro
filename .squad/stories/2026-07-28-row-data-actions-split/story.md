@@ -27,5 +27,5 @@ everything descriptive on the left, the controls flushed to the far right.
       layout, with the nested subgrid keeping columns aligned across rows
 - [x] tasks/02-stacked-mode-across-wrappers.md — split the narrow-width stack
       between the `<li>` and the data wrapper
-- [ ] tasks/03-guard-gutters-and-pair.md — e2e floor on the half-to-half gap and
+- [x] tasks/03-guard-gutters-and-pair.md — e2e floor on the half-to-half gap and
       on the control pair, which nothing asserts today

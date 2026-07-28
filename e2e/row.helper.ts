@@ -29,6 +29,11 @@ export const LISTS = [
 // --space-3: the one gutter that separates two cells that do exist.
 export const GUTTER = 12;
 
+// --space-2, the gap inside the control pair. It lives in a single CSS rule
+// and the rows have no `.actions` class to fall back on, so if that rule ever
+// stops matching the two 44px buttons are free to drift apart or wrap.
+export const PAIR_GAP = 8;
+
 export const overlaps = (a: { y: number; height: number }, b: typeof a) =>
   a.y < b.y + b.height && b.y < a.y + a.height;
 
@@ -73,5 +78,6 @@ export async function openRow(
     value: list.bare ? null : await box(value),
     valueRight: list.bare ? null : await textRight(value),
     edit: await box(row.getByRole("button", { name: `Editar ${name}` })),
+    remove: await box(row.getByRole("button", { name: `Excluir ${name}` })),
   };
 }
