@@ -127,5 +127,9 @@
 .actions {
   display: flex;
   flex-wrap: wrap;
+  // The import's tooltip trigger is a 14px icon among 44px buttons; without
+  // this it stretches to the row's height instead of sitting beside the
+  // button it explains.
+  align-items: center;
   gap: var(--space-3);
 }

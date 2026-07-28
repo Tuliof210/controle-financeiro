@@ -29,6 +29,9 @@ export function useReportView({
     loading,
     onClose,
     onFile,
+    // Passed through whole: ImportAction needs the hash, the file name and
+    // every month, and threading three props would say less than one.
+    report,
     fileName: report.fileName,
     // <FID> is a suffix on the institution's name, never a value on its own —
     // a bare "001" under the label "Instituição" names nothing a reader can
