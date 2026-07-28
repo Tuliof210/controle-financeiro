@@ -4,11 +4,6 @@
   text-align: left;
 }
 
-// .cell and .slot lived here to reserve a fixed 44px next to every amount, so
-// a row with a copy button and a row without still ended their digits on the
-// same edge. With no button in the cell the amount meets the column edge on
-// its own and the table's own right-alignment is enough.
-
 .income {
   color: var(--color-positive);
 }

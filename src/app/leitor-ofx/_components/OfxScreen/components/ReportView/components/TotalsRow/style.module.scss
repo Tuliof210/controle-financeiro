@@ -11,10 +11,6 @@
   text-align: left;
 }
 
-// .reserved mirrored the 44px copy slot MonthRow used to keep, so the Total
-// lined up with the rows it sums. The slot is gone from MonthRow, so this
-// padding is what would now push the Total out of the column.
-
 .negative {
   color: var(--color-negative);
 }
