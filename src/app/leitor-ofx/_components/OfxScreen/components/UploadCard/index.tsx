@@ -11,7 +11,13 @@ export function UploadCard(props: UploadCardProps) {
 
   return (
     <SectionCard title="Enviar extrato OFX" icon={FileUp}>
-      <DropZone onFile={onFile} />
+      {/* Not the default note: this screen can write to the database. The
+          file itself still never lands there — only the monthly totals the
+          user confirms in the import dialog do. */}
+      <DropZone
+        onFile={onFile}
+        note="O arquivo é lido e some quando você fecha a aba. Só os totais mensais que você confirmar na importação vão para o banco."
+      />
       {error ? (
         <p className={styles.error}>
           <span aria-hidden>▲</span> {error}
