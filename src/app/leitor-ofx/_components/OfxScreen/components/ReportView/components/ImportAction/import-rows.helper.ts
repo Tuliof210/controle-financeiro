@@ -2,14 +2,8 @@ import type { OfxMonth, OfxReport } from "@/app/api/ofx/types";
 import type { Person } from "@/core/entities/person.entity";
 import { type EntryType, TYPE_LABELS } from "@/lib/entry-types";
 import { formatYyyymm } from "@/lib/months";
+import type { MovementRow } from "@/lib/movement-schema";
 import { accountLabel } from "../../account.helper";
-
-export type ImportRow = {
-  name: string;
-  valueCents: number;
-  type: EntryType;
-  month: number;
-};
 
 // The identifier field's cap, and the reason nothing here truncates a NAME:
 // the longest one this can build is "Entrada " + 40 + " " + "Ago/26" = 55
@@ -26,12 +20,12 @@ export const IDENTIFIER_MAX = 40;
 export function buildImportRows(
   months: OfxMonth[],
   identifier: string,
-): ImportRow[] {
+): MovementRow[] {
   const label = identifier.trim();
 
   return months.flatMap(({ month, incomeCents, expenseCents }) => {
     const period = formatYyyymm(month);
-    const row = (type: EntryType, valueCents: number): ImportRow => ({
+    const row = (type: EntryType, valueCents: number): MovementRow => ({
       name: `${TYPE_LABELS[type]} ${label} ${period}`,
       valueCents,
       type,

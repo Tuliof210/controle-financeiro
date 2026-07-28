@@ -1,19 +1,12 @@
 import type { MovementInput } from "@/core/repositories/movement.repository";
 import { ofxImportRepository } from "@/infra/repositories/ofx-import.prisma.repository";
-import type { EntryType } from "@/lib/entry-types";
-
-export type ImportRow = {
-  name: string;
-  valueCents: number;
-  type: EntryType;
-  month: number;
-};
+import type { MovementRow } from "@/lib/movement-schema";
 
 export type ImportOfxInput = {
   fileHash: string;
   fileName: string;
   ownerId: string;
-  movements: ImportRow[];
+  movements: MovementRow[];
 };
 
 export async function isOfxImported(fileHash: string) {
