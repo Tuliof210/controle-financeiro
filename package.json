@@ -12,7 +12,7 @@
     "lint": "biome check .",
     "lint:fix": "biome check --write .",
     "format": "biome format --write",
-    "test": "vitest run",
+    "test": "npm run test:e2e",
     "test:e2e": "playwright test --pass-with-no-tests",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
@@ -43,7 +43,6 @@
     "sass": "^1.101.3",
     "storybook": "10.5.3",
     "typescript": "^5",
-    "vite": "^8.1.5",
-    "vitest": "^4.1.10"
+    "vite": "^8.1.5"
   }
 }

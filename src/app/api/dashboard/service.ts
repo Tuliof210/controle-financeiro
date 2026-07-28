@@ -8,12 +8,7 @@ import { visibleFor } from "@/lib/ownership";
 import { buildPayload } from "./payload.helper";
 import type { DashboardData } from "./types";
 
-// `now` is injected so tests can pin the clock — this repo has no fake timers
-// and injects a Date instead (see src/lib/months.test.ts).
-export async function getDashboard(
-  owner: string,
-  now = new Date(),
-): Promise<DashboardData> {
+export async function getDashboard(owner: string): Promise<DashboardData> {
   const [settings, movements, recurrences, goals] = await Promise.all([
     settingsRepository.get(),
     movementRepository.list(),
@@ -28,7 +23,7 @@ export async function getDashboard(
   if (period === null) return { status: "no_range" };
 
   const months = buildMonths(period.start, period.end);
-  const range = { ...period, current: currentYYYYMM(now) };
+  const range = { ...period, current: currentYYYYMM(new Date()) };
   const currentIndex = months.indexOf(range.current);
   if (currentIndex === -1) return { status: "out_of_range", range };
 

@@ -3,7 +3,7 @@ import type { OfxAccount } from "./types";
 
 export type OfxTransaction = { month: number; cents: number };
 
-export type OfxStatement = {
+type OfxStatement = {
   account: OfxAccount;
   currency: string | null;
   transactions: OfxTransaction[];

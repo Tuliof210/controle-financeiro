@@ -27,11 +27,3 @@ export function dashSplit(
     dashed: points.slice(index),
   };
 }
-
-// Thins the x axis so a 36-month range does not collapse into unreadable
-// overlap. Every month is still plotted; only the labels are sampled.
-export function axisTickMonths(months: number[], maxTicks: number): number[] {
-  if (months.length <= maxTicks) return months;
-  const step = Math.ceil(months.length / maxTicks);
-  return months.filter((_, index) => index % step === 0);
-}

@@ -1,9 +1,8 @@
 import type { OfxAccount } from "@/app/api/ofx/types";
 import { formatMoney } from "@/lib/money";
 
-// The two metadata values derived from the account list. Pulled out of hook.ts
-// so their cases fit their own test file — hook.test.ts already sat at the
-// 100-line cap.
+// The two metadata values derived from the account list. Pulled out of hook.ts,
+// which already sat at the 100-line cap.
 
 // " +N" so a multi-account file does not read as a single-account one; the
 // account lines under the metadata row still spell every one of them out.
