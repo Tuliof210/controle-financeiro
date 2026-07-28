@@ -66,3 +66,15 @@ model Settings {
   id               Int  @id @default(1)
   monthlyGoalCents Int?
 }
+
+// One OFX statement whose monthly totals were turned into movements. Free
+// standing on purpose: nothing links a movement back to its import, because
+// there is no undo — the row exists only so the same file cannot be imported
+// twice. A relation here would also default to ON DELETE RESTRICT and start
+// failing the movement/person delete handlers.
+model OfxImport {
+  id         String   @id @default(cuid())
+  fileHash   String   @unique // hex SHA-256 of the uploaded bytes
+  fileName   String
+  importedAt DateTime @default(now())
+}

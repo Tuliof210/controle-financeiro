@@ -28,7 +28,7 @@ the app already computed and already knows how to store.
 - [ ] `wc -l` on every file created or touched is <= 100
 
 ## Tasks
-- [ ] tasks/01-ofx-import-endpoint.md — OfxImport table, repository and the
+- [x] tasks/01-ofx-import-endpoint.md — OfxImport table, repository and the
       all-or-nothing bulk endpoint
 - [ ] tasks/02-report-file-hash.md — the reader returns a SHA-256 of the uploaded file
 - [ ] tasks/03-drop-copy-buttons.md — delete the per-cell copy affordance
