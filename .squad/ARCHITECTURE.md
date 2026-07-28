@@ -119,12 +119,17 @@ Every route returns the same success/error envelope (e.g. `{ data }` /
 endpoint's failure shape.
 
 ### Testing
-Vitest. Every non-trivial `hook.ts` / `service.ts` (a branch, a loop, or
-anything touching the expected-vs-actual delta math) gets one colocated
-`*.test.ts` file.
+End to end, by behaviour, and nothing else. What is tested is what a user can
+see: a spec drives the real app in a real browser and asserts on the screen.
+What is **not** tested is anything in isolation — no file, helper, hook,
+service or component has its own test, and there is no unit runner left to
+write one with. Renaming a helper or moving it between folders must never turn
+a test red; if it could, the test was pinning implementation detail, which is
+exactly what this repo stopped paying for.
 
-End-to-end: `npm run test:e2e` (Playwright, `playwright.config.ts`). Specs live
-in `e2e/` — empty for now, so the run passes with `--pass-with-no-tests`. The
+`npm run test:e2e` — aliased as `npm run test` — is the whole suite
+(Playwright, `playwright.config.ts`). Specs live in `e2e/` — empty for now, so
+the run passes with `--pass-with-no-tests`. The
 run boots its own `next dev` on :3100 (never reusing a running one) against a
 throwaway `e2e.db` that it deletes and re-migrates via `db:setup` every time —
 `dev.db` is never touched.
