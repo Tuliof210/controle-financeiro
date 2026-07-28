@@ -1,0 +1,80 @@
+// The track set, declared once for the whole list. Rows are subgrid, so every
+// cell of every row resolves against these tracks instead of sizing itself.
+.list {
+  // Query container for the rows below. The row's own inline size is the only
+  // honest signal: measured on this app's shell a row is 368px wide at a 768px
+  // viewport and 624px at 1024px, so no `t.bp()` cutoff can tell "has room"
+  // from "has none" — @container reads the width that actually exists.
+  container-type: inline-size;
+  display: grid;
+  // swatch | name | amount | owner | period | actions. The two user-text
+  // columns are the only flexible ones and both floor at 0, so a 60-char
+  // unbroken name shrinks (with overflow-wrap) instead of widening the list.
+  grid-template-columns: auto minmax(0, 2fr) auto minmax(0, 1fr) auto auto;
+  column-gap: var(--space-3);
+  row-gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.list > li {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: subgrid;
+  align-items: center;
+  min-width: 0;
+
+  // Placement is by `data-cell`, not by source position: a row that omits a
+  // cell (a goal has no owner) keeps every other cell in its own column.
+  > [data-cell="swatch"] {
+    grid-column: 1;
+  }
+  > [data-cell="name"] {
+    grid-column: 2;
+  }
+  > [data-cell="value"] {
+    grid-column: 3;
+  }
+  > [data-cell="owner"] {
+    grid-column: 4;
+  }
+  > [data-cell="period"] {
+    grid-column: 5;
+  }
+  > [data-cell="actions"] {
+    grid-column: 6;
+  }
+
+  // Below the width where one line fits, a designed stack — not a wrap. The
+  // cutoff is measured, not guessed: the fixed cells (14px swatch, ~92px
+  // amount, 160px coverage bar, 96px action pair) plus five 12px gaps already
+  // claim 422px, and a ~20-char name (~168px) next to a ~8-char owner (~67px)
+  // is the least that reads as a line rather than a column of syllables.
+  @container (max-width: 659px) {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    column-gap: var(--space-3);
+    row-gap: var(--space-1);
+
+    > [data-cell="swatch"] {
+      grid-area: 1 / 1;
+    }
+    > [data-cell="name"] {
+      grid-area: 1 / 2;
+    }
+    // Spans both text rows so the 44px pair sits beside name+amount rather
+    // than claiming a line of its own.
+    > [data-cell="actions"] {
+      grid-area: 1 / 3 / span 2;
+    }
+    > [data-cell="value"] {
+      grid-area: 2 / 2;
+    }
+    > [data-cell="owner"] {
+      grid-area: 3 / 2 / auto / span 2;
+    }
+    > [data-cell="period"] {
+      grid-area: 4 / 2 / auto / span 2;
+    }
+  }
+}

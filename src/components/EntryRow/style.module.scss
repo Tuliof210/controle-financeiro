@@ -1,8 +1,9 @@
 @use "swatch-colors";
 
-// Divider/hover/spacing only — RowLayout owns the internal grid these rows
-// render through, and PersonRow/GoalRow (task 02) keep their own idiom here
-// (a border-run instead of this gap-per-row spacing).
+// Divider/hover/spacing only — RowGrid owns the columns these cells land in,
+// and the row keeps painting its own box so aligning costs it nothing.
+// PersonRow/GoalRow (task 02) keep their own idiom here (a border-run instead
+// of this gap-per-row spacing).
 .row {
   padding-bottom: var(--space-3);
   border-bottom: var(--border-1) solid var(--color-border-subtle);
@@ -18,43 +19,33 @@
 .swatch {
   width: 14px;
   height: 14px;
-  flex-shrink: 0;
   border-radius: var(--radius-sm);
 }
 
 // overflow-wrap: user-entered text (up to 60 chars, no spaces required) can
-// contain a single word wider than the shrunk box min-width: 0 allows — plain
-// wrapping only breaks at spaces, so that word would paint past its box and
-// into `.value`/`.period` beside it. This lets it break mid-word instead.
-.owner {
-  overflow-wrap: anywhere;
-  color: var(--color-text-muted);
-  font-family: var(--font-mono);
-  font-size: var(--text-sm);
-}
-
-// flex-basis: auto (not the 0% a bare `flex: 1` implies) so this item's
-// hypothetical size for the wrap decision is its own text, not zero — a
-// zero basis let `.value` claim the line first and squeezed `.name` into a
-// sliver too narrow for its words, even with overflow-wrap. This way a name
-// that doesn't fit next to `.value` wraps `.value` to its own line instead.
+// contain a single word wider than its column — plain wrapping only breaks at
+// spaces, so that word would paint past its cell and into `.value`/`.period`
+// beside it. This lets it break mid-word instead, and is what lets the name
+// column floor at 0 without the row widening the whole list.
 .name {
-  flex: 1 1 auto;
-  min-width: 0;
   overflow-wrap: anywhere;
   color: var(--color-text);
   font-family: var(--font-mono);
   font-size: var(--text-base);
 }
 
+// justify-self: end in both layouts, so every amount in the list ends at the
+// same x — tabular-nums then keeps the digits themselves in line.
 .value {
-  flex-shrink: 0;
+  justify-self: end;
   color: var(--color-text);
   font-family: var(--font-mono);
   font-size: var(--text-base);
   font-variant-numeric: tabular-nums;
 }
 
+// Redundant reinforcement only: valueCents is always positive and the section
+// around the row (ENTRADAS / SAÍDAS, with its own total) carries the meaning.
 .income {
   color: var(--color-positive);
 }
@@ -63,7 +54,16 @@
   color: var(--color-negative);
 }
 
-// No width of its own: the slot sizes to whatever the screen renders into it —
+// Tier separation is type + colour, not a border or a shadow: the metadata
+// pair drops a step in size and to the muted tone.
+.owner {
+  overflow-wrap: anywhere;
+  color: var(--color-text-muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+}
+
+// No width of its own: the cell sizes to whatever the screen renders into it —
 // CoverageBar carries the recurrence bar's 160px reservation, and a movement's
 // plain month text needs none.
 .period {
@@ -71,4 +71,12 @@
   font-family: var(--font-mono);
   font-size: var(--text-sm);
   font-variant-numeric: tabular-nums;
+}
+
+// The pair is one cell, so it never splits across lines; its own column keeps
+// both buttons at the row's right edge in either layout.
+.actions {
+  display: flex;
+  justify-self: end;
+  gap: var(--space-2);
 }
