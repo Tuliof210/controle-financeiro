@@ -24,7 +24,7 @@ so a list can't be scanned down a column. The owner hits this on a normal deskto
 - [ ] `wc -l` on every file created or touched is <= 100
 
 ## Tasks
-- [ ] tasks/01-entry-rows-column-grid.md — build the list-level column primitive and
+- [x] tasks/01-entry-rows-column-grid.md — build the list-level column primitive and
       put Recorrências + Movimentações on it, with a spec that catches the exploded row
 - [ ] tasks/02-settings-rows-column-grid.md — move Pessoas and Objetivos onto it and
       delete RowLayout
