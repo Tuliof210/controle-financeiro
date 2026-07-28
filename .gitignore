@@ -12,6 +12,8 @@
 
 # testing
 /coverage
+/test-results/
+/playwright-report/
 
 # next.js
 /.next/
@@ -51,6 +53,8 @@ next-env.d.ts
 /prisma/*.db-journal
 /dev.db
 /dev.db-journal
+/e2e.db
+/e2e.db-journal
 
 # pocket-squad task worktrees
 /.claude/worktrees/
