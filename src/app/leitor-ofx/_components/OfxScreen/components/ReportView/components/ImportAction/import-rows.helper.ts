@@ -11,9 +11,12 @@ export type ImportRow = {
   month: number;
 };
 
-// The identifier field's own cap, and the reason nothing here truncates: the
-// longest name this can build is "Entrada " + 40 + " " + "Ago/26" = 55 chars,
-// comfortably under the 80 the movements schema accepts.
+// The identifier field's cap, and the reason nothing here truncates a NAME:
+// the longest one this can build is "Entrada " + 40 + " " + "Ago/26" = 55
+// chars, comfortably under the 80 the movements schema accepts. Enforced in
+// two places, because the field's `maxLength` only caps what is typed —
+// prefillIdentifier below sets a value programmatically, out of a file whose
+// <ACCTID> and <ORG> have no length limit of their own.
 export const IDENTIFIER_MAX = 40;
 
 // One row per non-zero monthly total, named "Entrada 12345-6 Ago/26". A month
@@ -60,7 +63,8 @@ export const importedHint = (at: string | null): string =>
 // something to pre-fill a field with, so the institution takes over.
 export const prefillIdentifier = (report: OfxReport): string => {
   const account = accountLabel(report.accounts);
-  return account === "—" ? (report.org ?? "") : account;
+  const seed = account === "—" ? (report.org ?? "") : account;
+  return seed.slice(0, IDENTIFIER_MAX);
 };
 
 // SelectField has no empty state of its own, so an account with nobody
