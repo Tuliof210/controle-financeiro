@@ -26,5 +26,5 @@ so a list can't be scanned down a column. The owner hits this on a normal deskto
 ## Tasks
 - [x] tasks/01-entry-rows-column-grid.md — build the list-level column primitive and
       put Recorrências + Movimentações on it, with a spec that catches the exploded row
-- [ ] tasks/02-settings-rows-column-grid.md — move Pessoas and Objetivos onto it and
+- [x] tasks/02-settings-rows-column-grid.md — move Pessoas and Objetivos onto it and
       delete RowLayout

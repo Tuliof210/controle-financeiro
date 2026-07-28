@@ -23,5 +23,4 @@ Format: `- [<path>:<line-or-symbol>] <what is wrong>, until <what earns it a fix
 ---
 
 - [src/components/EntryScreen/style.module.scss:19] the comment claims row width now grows monotonically with the window, but 764px→768px still drops a row from 680px to 372px and it stays stacked to ~1056px — the 1280px collapse is genuinely gone, this one is AppShell's 264px aside still keyed to `t.bp("md")` (src/components/AppShell/style.module.scss:16), until a change moves AppShell off that viewport breakpoint (2026-07-28)
-- [src/components/RowGrid/style.module.scss:4] the header comment cites 768px→368px and 1024px→624px to argue no `t.bp()` cutoff can separate "has room" from "has none", but that pair is monotonic and a cutoff between them would separate it fine — the claim is true on the 764→768 and 1798→1802 inversions instead, until the next RowGrid edit cites those (2026-07-28)
 
