@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import type { MonthPoint } from "@/app/api/dashboard/types";
+import { DESKTOP_PLOT_WIDTH } from "./chart.config";
 import { buildFrame, leftMargin } from "./chart-frame.helper";
 
 const point = (month: number, over: Partial<MonthPoint> = {}): MonthPoint => ({
@@ -20,6 +21,23 @@ const POINTS = [
   point(202602, { income: 900000, expense: 250000, cumulative: -2800000 }),
   point(202603, { income: 900000, expense: 250000, cumulative: -2150000 }),
 ];
+
+// count months; a fixed six-figure cumulative gives left a realistic (not
+// near-zero) width, without varying it by count — the tests below compare
+// left/innerWidth across different counts at the same width.
+const monthsPoints = (count: number) =>
+  Array.from({ length: count }, (_, i) =>
+    point(202601 + i, { cumulative: -2_900_000 }),
+  );
+const zeroFrame = (count: number, width: number) => {
+  const months = monthsPoints(count);
+  return buildFrame(
+    months,
+    months.map(() => 0),
+    width,
+    260,
+  );
+};
 
 const barFrame = () =>
   buildFrame(
@@ -69,6 +87,39 @@ describe("buildFrame", () => {
     const frame = buildFrame(POINTS, [1000], 10, 10);
     expect(frame.innerWidth).toBe(0);
     expect(frame.innerHeight).toBe(0);
+  });
+});
+
+describe("buildFrame — month window", () => {
+  it("scrolls past the window size at a steady bandwidth, widening the window at the desktop breakpoint", () => {
+    const six = zeroFrame(6, 600); // 600px mobile: 6-month window
+    const twelve = zeroFrame(12, 600); // two full windows: double the content width
+    expect(twelve.innerWidth).toBeCloseTo(six.innerWidth * 2, 0);
+    // Roughly, not exactly: scaleBand's outer padding does not cancel out
+    // perfectly across domain counts — not the old squeeze-to-fit, though,
+    // where 12 months landed at HALF this bandwidth, not near it.
+    const ratio = twelve.monthScale.bandwidth() / six.monthScale.bandwidth();
+    expect(ratio).toBeCloseTo(1, 1);
+
+    const w = DESKTOP_PLOT_WIDTH;
+    expect(zeroFrame(9, w - 1).innerWidth).toBeGreaterThan(
+      zeroFrame(6, w - 1).innerWidth, // same (mobile) width: 9 > 6-month window scrolls
+    );
+    expect(zeroFrame(9, w).innerWidth).toBeCloseTo(
+      zeroFrame(12, w).innerWidth, // same (desktop) width: 9 < 12-month window fits
+    );
+  });
+
+  it("thins x-axis labels only once the real per-month step cannot fit one", () => {
+    // 291px is what ChartCard measured at a real 375px viewport: "Jan/24"
+    // (36px) was WIDER than the actual per-month step there (~35px) and the
+    // labels ran together before this thinning existed.
+    const tight = zeroFrame(30, 291);
+    expect(tight.tickValues.length).toBeLessThan(30);
+    expect(tight.tickValues[0]).toBe(monthsPoints(30)[0].month);
+
+    const roomy = zeroFrame(30, DESKTOP_PLOT_WIDTH * 3);
+    expect(roomy.tickValues.length).toBe(30);
   });
 });
 

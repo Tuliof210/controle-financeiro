@@ -4,6 +4,7 @@ import {
   formatCents,
   formatMoney,
   formatMoneyShort,
+  formatMoneyShortK,
 } from "./money";
 
 describe("formatCents", () => {
@@ -43,6 +44,29 @@ describe("formatMoneyShort", () => {
 
   it("keeps the sign and the grouping", () => {
     expect(formatMoneyShort(-123456789)).toBe("−R$ 1.234.567");
+  });
+});
+
+describe("formatMoneyShortK", () => {
+  it("keeps one decimal, ungrouped", () => {
+    expect(formatMoneyShortK(1_234_567_00)).toBe("R$ 1234,5K");
+  });
+
+  it("drops the decimal when it is exactly zero", () => {
+    expect(formatMoneyShortK(2_000_000)).toBe("R$ 20K");
+  });
+
+  it("truncates instead of rounding up, like formatMoneyShort", () => {
+    // 12.399K: a naive round-to-1-decimal would bump this to 12,4K.
+    expect(formatMoneyShortK(1_239_900)).toBe("R$ 12,3K");
+  });
+
+  it("keeps the sign", () => {
+    expect(formatMoneyShortK(-28_000_00)).toBe("−R$ 28K");
+  });
+
+  it("stays below 1K for a sub-thousand value", () => {
+    expect(formatMoneyShortK(50000)).toBe("R$ 0,5K");
   });
 });
 

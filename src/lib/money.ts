@@ -28,6 +28,17 @@ export const formatMoney = (cents: number): string => {
 export const formatMoneyShort = (cents: number): string =>
   `${sign(cents)}R$ ${group(formatCents(cents).split(",")[0])}`;
 
+// cents -> "R$ 12,3K" / "R$ 20K" / "−R$ 2,8K": thousands of reais, one
+// decimal, truncated (never rounded up, matching formatCents), the decimal
+// dropped when it is zero. For chart Y axis labels on mobile, where
+// formatMoneyShort's full grouped digits ("R$ 12.345") are too wide.
+export const formatMoneyShortK = (cents: number): string => {
+  const tenthsOfK = Math.trunc(Math.abs(cents) / 10_000);
+  const whole = Math.trunc(tenthsOfK / 10);
+  const tenth = tenthsOfK % 10;
+  return `${sign(cents)}R$ ${tenth === 0 ? whole : `${whole},${tenth}`}K`;
+};
+
 // any string -> cents, keeping ONLY 0-9 (mask/comma/paste-junk stripped).
 const MAX_CENTS = 1_000_000_000_00; // R$ 1 billion guard against overflow
 export const digitsToCents = (raw: string): number => {
