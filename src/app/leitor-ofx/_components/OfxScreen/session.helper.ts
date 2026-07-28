@@ -13,7 +13,12 @@ export function parseSession(raw: string | null): OfxReport | null {
   }
   try {
     const parsed = JSON.parse(raw);
-    return Array.isArray(parsed?.months) && Array.isArray(parsed?.accounts)
+    // fileHash is part of the test, not just the arrays: a report cached by a
+    // build that predates it would otherwise flow on with an undefined hash,
+    // leaving the import button with nothing to identify the file by.
+    return Array.isArray(parsed?.months) &&
+      Array.isArray(parsed?.accounts) &&
+      typeof parsed?.fileHash === "string"
       ? (parsed as OfxReport)
       : null;
   } catch {
