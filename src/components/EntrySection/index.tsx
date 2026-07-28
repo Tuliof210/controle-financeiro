@@ -1,6 +1,7 @@
 import { Plus } from "lucide-react";
 import { Button } from "@/components/Button";
 import { EntryRow } from "@/components/EntryRow";
+import { RowGrid } from "@/components/RowGrid";
 import { SectionCard } from "@/components/SectionCard";
 import type { Entry } from "@/lib/entry-types";
 import { EmptyState } from "./components/EmptyState";
@@ -24,7 +25,7 @@ export function EntrySection<T extends Entry>(props: EntrySectionProps<T>) {
           hint={labels.emptyHint}
         />
       ) : (
-        <ul className={styles.list}>
+        <RowGrid>
           {rows.map(({ entry, person, period, onEdit, onDelete }) => (
             <EntryRow
               key={entry.id}
@@ -35,7 +36,7 @@ export function EntrySection<T extends Entry>(props: EntrySectionProps<T>) {
               onDelete={onDelete}
             />
           ))}
-        </ul>
+        </RowGrid>
       )}
       <Button
         variant="dashed"
