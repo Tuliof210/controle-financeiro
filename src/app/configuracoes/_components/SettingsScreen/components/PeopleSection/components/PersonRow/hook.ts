@@ -1,4 +1,5 @@
 import type { Person } from "@/core/entities/person.entity";
+import styles from "./style.module.scss";
 
 export type PersonRowProps = {
   person: Person;
@@ -6,8 +7,12 @@ export type PersonRowProps = {
   onDelete: () => void;
 };
 
-// Nothing to derive — a pass-through keeps the folder shape uniform, the
-// same reasoning RowLayout's own hook uses.
-export function usePersonRow(props: PersonRowProps) {
-  return props;
+export function usePersonRow({ person, ...rest }: PersonRowProps) {
+  return {
+    ...rest,
+    name: person.name,
+    // The swatch colour is a CSS-Modules string lookup; resolving it here
+    // keeps index.tsx free of the concatenation, as EntryRow's hook does.
+    swatchClass: `${styles.swatch} ${styles[person.color]}`,
+  };
 }

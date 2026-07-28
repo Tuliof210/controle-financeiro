@@ -4,6 +4,7 @@ import { Plus, Target } from "lucide-react";
 import { Button } from "@/components/Button";
 import { ConfirmDialog } from "@/components/ConfirmDialog";
 import { Modal } from "@/components/Modal";
+import { RowGrid } from "@/components/RowGrid";
 import { SectionCard } from "@/components/SectionCard";
 import { GoalForm } from "./components/GoalForm";
 import { GoalRow } from "./components/GoalRow";
@@ -29,7 +30,7 @@ export function GoalsSection() {
       {goals?.length === 0 ? (
         <p className={styles.empty}>Nenhum objetivo cadastrado ainda.</p>
       ) : (
-        <ul className={styles.list}>
+        <RowGrid>
           {goals?.map((goal) => (
             <GoalRow
               key={goal.id}
@@ -38,7 +39,7 @@ export function GoalsSection() {
               onDelete={() => openDelete(goal)}
             />
           ))}
-        </ul>
+        </RowGrid>
       )}
       <Button variant="dashed" onClick={openAdd}>
         <Plus size={16} aria-hidden />

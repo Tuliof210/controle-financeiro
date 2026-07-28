@@ -4,13 +4,3 @@
   font-family: var(--font-mono);
   font-size: var(--text-sm);
 }
-
-// No gap — the rows separate themselves with a bottom rule now, and a gap
-// would break the run of dividers into floating lines.
-.list {
-  display: flex;
-  flex-direction: column;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}

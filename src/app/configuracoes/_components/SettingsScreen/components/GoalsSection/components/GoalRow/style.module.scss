@@ -1,5 +1,5 @@
-// Divider/hover/spacing only — RowLayout owns the internal grid this row
-// renders through. Same row anatomy as PersonRow — see
+// Divider/hover/padding only — RowGrid owns the columns these cells land in.
+// Same row anatomy as PersonRow: see
 // `PeopleSection/components/PersonRow/style.module.scss` for the reasoning
 // behind the dropped last rule, stated once there rather than twice.
 .row {
@@ -16,21 +16,29 @@
   }
 }
 
-// overflow-wrap, not ellipsis: RowLayout wraps tiers onto their own line
-// instead of truncating (same idiom as EntryRow's/PersonRow's `.name`).
+// overflow-wrap: an 80-char goal name needs no spaces to be legal, and plain
+// wrapping only breaks at spaces (same idiom as EntryRow's/PersonRow's).
 .name {
-  flex: 1 1 auto;
-  min-width: 0;
   overflow-wrap: anywhere;
   color: var(--color-text);
   font-family: var(--font-mono);
   font-size: var(--text-base);
 }
 
-.target {
-  flex-shrink: 0;
+// justify-self: end in both layouts, so every target in the list ends at the
+// same x — tabular-nums then keeps the digits themselves in line.
+.value {
+  justify-self: end;
   color: var(--color-text);
   font-family: var(--font-mono);
   font-size: var(--text-base);
   font-variant-numeric: tabular-nums;
+}
+
+// The pair is one cell, so it never splits across lines; its own column keeps
+// both buttons at the row's right edge in either layout.
+.actions {
+  display: flex;
+  justify-self: end;
+  gap: var(--space-2);
 }
