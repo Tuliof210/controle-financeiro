@@ -1,0 +1,15 @@
+import type { OfxImport } from "@/core/entities/ofx-import.entity";
+import type { MovementInput } from "@/core/repositories/movement.repository";
+
+export type OfxImportInput = {
+  fileHash: string;
+  fileName: string;
+  movements: MovementInput[];
+};
+
+export type OfxImportRepository = {
+  findByHash(fileHash: string): Promise<OfxImport | null>;
+  // Writes the movements and the import record together or not at all, and
+  // answers how many movements landed.
+  create(input: OfxImportInput): Promise<number>;
+};
