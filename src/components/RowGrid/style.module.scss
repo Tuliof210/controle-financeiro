@@ -1,3 +1,8 @@
+// The stacked (narrow) mode is a partial of its own: this file was already at
+// the repo's 100-line cap before the two halves, and the stack is the half of
+// it that reads as one idea. Not a component — a mixin definition, no output.
+@use "./stack" as *;
+
 // The track set, declared once for the whole list. Rows are subgrid, so every
 // cell of every row resolves against these tracks instead of sizing itself.
 .list {
@@ -73,29 +78,6 @@
   justify-self: end;
   gap: var(--space-2);
   margin-inline-start: var(--space-3);
-}
-
-// Below the width where one line fits, a designed stack — not a wrap.
-@mixin stack {
-  grid-template-columns: auto minmax(0, 1fr) auto;
-  row-gap: var(--space-1);
-
-  > [data-cell="swatch"] { grid-area: 1 / 1; }
-  > [data-cell="name"] { grid-area: 1 / 2; }
-  // Spans both text rows so the 44px pair sits beside name+amount rather than
-  // claiming a line of its own.
-  > [data-cell="actions"] { grid-area: 1 / 3 / span 2; }
-  > [data-cell="value"] { grid-area: 2 / 2; }
-  > [data-cell="owner"] { grid-area: 3 / 2 / auto / span 2; }
-  > [data-cell="period"] { grid-area: 4 / 2 / auto / span 2; }
-
-  // Second tier of the same stack: below 260px, 16px padding + 14px swatch +
-  // two 12px gutters + the 96px pair leave the name under 110px (~11 mono
-  // chars) and it paints one letter per line — measured 0px over 19 lines on
-  // a 148px Pessoas row. Nested, so it outranks the placement it overrides.
-  @container (max-width: 259px) {
-    > [data-cell="actions"] { grid-area: auto / 1 / auto / -1; }
-  }
 }
 
 // Two floors, because a list stacks when ITS OWN cells stop fitting, not when
