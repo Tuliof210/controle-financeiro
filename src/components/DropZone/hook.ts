@@ -4,14 +4,12 @@ export type DropZoneProps = {
   onFile: (file: File) => void;
 };
 
-// Split out of the hook so the handlers are testable: hook.test.ts runs in the
-// node environment with no React renderer, so calling useDropZone — which calls
-// useState — would throw. These take the setter instead and stay pure.
-export function dropHandlers(
-  setOver: (over: boolean) => void,
-  { onFile }: DropZoneProps,
-) {
+export function useDropZone({ onFile }: DropZoneProps) {
+  const [over, setOver] = useState(false);
+
   return {
+    onFile,
+    over,
     // preventDefault on EVERY dragover, not just the first: without it the
     // browser navigates to the dropped file and the SPA is gone.
     onDragOver: (event: DragEvent<HTMLElement>) => {
@@ -41,10 +39,4 @@ export function dropHandlers(
       }
     },
   };
-}
-
-export function useDropZone(props: DropZoneProps) {
-  const [over, setOver] = useState(false);
-
-  return { ...props, over, ...dropHandlers(setOver, props) };
 }

@@ -1,6 +1,5 @@
 // The inline sparkline every KPI card draws beside its headline. Pure geometry,
-// so it carries the test — the component around it cannot be rendered under this
-// repo's node-environment Vitest config.
+// shared by every card that draws one.
 
 export const SPARK_W = 112;
 export const SPARK_H = 30;

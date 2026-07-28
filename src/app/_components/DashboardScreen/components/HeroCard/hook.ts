@@ -53,8 +53,7 @@ function buildFacts(points: MonthPoint[]) {
   ];
 }
 
-// Pure: it calls no React hook, which is why it carries hook.test.ts. The
-// no-jsdom limit blocks RENDERING, not a hook that happens to use no React.
+// Pure: it calls no React hook, despite the `use` prefix the convention gives it.
 export function useHeroCard({ data }: HeroCardProps) {
   const { points, range } = data;
   const last = points[points.length - 1];

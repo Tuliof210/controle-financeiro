@@ -5,7 +5,7 @@ import { etaLabel, noteLabel } from "./timeline.helper";
 
 export type GoalCardProps = { goal: GoalProjection };
 
-// Calls no React hook, so it is directly testable — see hook.test.ts.
+// Calls no React hook, despite the `use` prefix the convention gives it.
 export function useGoalCard({ goal }: GoalCardProps) {
   const { name, targetCents, accruedCents } = goal;
 

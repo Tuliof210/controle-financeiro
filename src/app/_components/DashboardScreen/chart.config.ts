@@ -19,7 +19,7 @@ export const BAND_PADDING = 0.25;
 // src/styles/_theme.scss — sits comfortably between the two with room either
 // side. Re-measure both before moving this number; it is not the viewport
 // width.
-export const DESKTOP_PLOT_WIDTH = 768;
+const DESKTOP_PLOT_WIDTH = 768;
 export const MONTHS_DESKTOP = 12;
 export const MONTHS_MOBILE = 6;
 

@@ -7,7 +7,7 @@ import { monthsToIntervals } from "./components/RecurrenceForm/intervals.helper"
 export type Segment = { left: string; width: string };
 
 // 4 decimals is well past sub-pixel on any track width; it just keeps the
-// generated CSS (and the tests) readable.
+// generated CSS readable.
 const pct = (value: number, total: number): string =>
   `${Number(((value / total) * 100).toFixed(4))}%`;
 

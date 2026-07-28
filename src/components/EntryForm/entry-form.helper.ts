@@ -11,7 +11,7 @@ export type EntryFormBase = {
 };
 
 // Shared by both features, so a regression here breaks recurrences and
-// movements together — hence the colocated tests.
+// movements together.
 export function isEntryValid({
   name,
   valueCents,

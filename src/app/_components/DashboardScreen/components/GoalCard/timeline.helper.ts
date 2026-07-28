@@ -5,7 +5,6 @@ import { formatYyyymm } from "@/lib/months";
 // The two sentences that answer WHEN the goal lands. They read `doneMonth` and
 // `months`, which are different facts from the bar's percentage — so they live
 // apart from the coverage math in hook.ts, which reads only accrued vs target.
-// Split out when hook.test.ts hit ARCHITECTURE's 100-line cap.
 
 // Two facts, deliberately separate: how long the goal takes at the current
 // pace, and whether that lands inside the global period.

@@ -41,8 +41,8 @@ file, plus the token layer next to it (`_tokens.scss`, `_theme.scss`,
 5. **Spacing comes only from the 4px scale** (`--space-1` … `--space-24`).
    No ad-hoc pixel values.
 6. **Every semantic token exists in both themes.** A token added to `:root`
-   without a `[data-theme="dark"]` counterpart is an incomplete token — see
-   `tokens.test.ts`, which enforces this for the semantic color set.
+   without a `[data-theme="dark"]` counterpart is an incomplete token — nothing
+   checks this for you, so add both blocks in the same edit.
 7. **Accessibility is non-negotiable:**
    - Every interactive element has a visible focus ring
      (`@include t.focus-ring;` from `_theme.scss`).

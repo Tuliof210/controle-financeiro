@@ -6,8 +6,7 @@ export const SESSION_KEY = "ofx-report";
 // user with devtools — left behind, so parse defensively: any shape that is
 // not a report reads as absent rather than letting the table map over
 // undefined. The storage calls themselves stay in hook.ts, where ThemeToggle
-// and ProfileProvider keep theirs; this half is the part worth testing, and
-// Vitest runs in `node`, where sessionStorage does not exist.
+// and ProfileProvider keep theirs; this half is pure parsing.
 export function parseSession(raw: string | null): OfxReport | null {
   if (!raw) {
     return null;

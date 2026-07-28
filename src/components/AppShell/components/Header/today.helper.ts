@@ -2,7 +2,8 @@
 // appended "· DADOS ATÉ … · PROJEÇÃO ATÉ …", which needs the settings range the
 // header does not fetch; the date alone is the honest half.
 //
-// `now` is injected (like greeting.helper.ts) so the test needs no clock mock.
+// `now` is injected (like greeting.helper.ts) so both header lines read one
+// clock, taken once in hook.ts.
 // Intl supplies both the weekday and the month name — pt-BR abbreviates them
 // with a trailing dot ("dom.", "jul."), which the design's all-caps form drops.
 export function formatToday(now: Date): string {
