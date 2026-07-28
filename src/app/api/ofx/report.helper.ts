@@ -41,7 +41,11 @@ const sum = (months: OfxMonth[]) =>
     { incomeCents: 0, expenseCents: 0, balanceCents: 0, count: 0 },
   );
 
-export function buildReport(parse: OfxParse, fileName: string): OfxReport {
+export function buildReport(
+  parse: OfxParse,
+  fileName: string,
+  fileHash: string,
+): OfxReport {
   // A multi-account file produces ONE table, by decision; the accounts array
   // is what keeps the composition visible in the header.
   const transactions = parse.statements.flatMap((s) => s.transactions);
@@ -62,6 +66,7 @@ export function buildReport(parse: OfxParse, fileName: string): OfxReport {
     // Comes from the upload and is rendered in the UI; no reason to carry an
     // unbounded string.
     fileName: fileName.slice(0, 120),
+    fileHash,
     org: parse.org,
     fid: parse.fid,
     currency:
