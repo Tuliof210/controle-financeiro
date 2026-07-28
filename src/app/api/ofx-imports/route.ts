@@ -1,19 +1,9 @@
 import type { NextRequest } from "next/server";
 import { z } from "zod";
 import { Prisma } from "@/generated/prisma/client";
-import { ENTRY_TYPES } from "@/lib/entry-types";
 import { fail, ok, safeJson } from "@/lib/http";
+import { movementRowSchema } from "@/lib/movement-schema";
 import { importOfx, isOfxImported } from "./service";
-
-// Bounds copied from /api/movements on purpose: these rows become Movements,
-// and `month` in particular is what stops a mis-parsed statement date from
-// widening the derived period until buildMonths enumerates it month by month.
-const rowSchema = z.object({
-  name: z.string().trim().min(1).max(80),
-  valueCents: z.number().int().min(1),
-  type: z.enum(ENTRY_TYPES),
-  month: z.number().int().min(200001).max(209912),
-});
 
 const createSchema = z.object({
   // The reader's SHA-256, not a free-form label: a 64-char lowercase hex digest.
@@ -23,7 +13,7 @@ const createSchema = z.object({
   // No body limit is configured for Route Handlers, so the cap lives here: the
   // OFX reader spans at most MAX_SPAN = 240 months, each able to yield one
   // income and one expense row.
-  movements: z.array(rowSchema).min(1).max(480),
+  movements: z.array(movementRowSchema).min(1).max(480),
 });
 
 export async function GET(request: NextRequest) {

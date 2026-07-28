@@ -1,8 +1,8 @@
 import type { NextRequest } from "next/server";
 import { z } from "zod";
 import { Prisma } from "@/generated/prisma/client";
-import { ENTRY_TYPES } from "@/lib/entry-types";
 import { fail, ok, safeJson } from "@/lib/http";
+import { movementRowShape } from "@/lib/movement-schema";
 import {
   createMovement,
   deleteMovement,
@@ -10,15 +10,9 @@ import {
   updateMovement,
 } from "./service";
 
-const movementShape = {
-  name: z.string().trim().min(1).max(80),
-  valueCents: z.number().int().min(1),
-  type: z.enum(ENTRY_TYPES),
-  ownerId: z.string().min(1),
-  // 2000-2099: the picker's own domain — the derived period feeds
-  // buildMonths, so a wider bound risks a corrupt row enumerating ~950k rows.
-  month: z.number().int().min(200001).max(209912),
-};
+// One row's fields plus its own owner. /api/ofx-imports validates the same
+// shape in bulk, with a single owner for the whole batch.
+const movementShape = { ...movementRowShape, ownerId: z.string().min(1) };
 
 const createSchema = z.object(movementShape);
 const updateSchema = z.object({ ...movementShape, id: z.string().min(1) });
