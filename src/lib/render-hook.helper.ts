@@ -1,5 +1,8 @@
 import { createElement, type ReactElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
+import { vi } from "vitest";
+import { ProfileContext } from "@/components/ProfileProvider/hook";
+import type { Person } from "@/core/entities/person.entity";
 
 // Test-only. Renders a hook once, on the server, so a `hook.ts` that DOES call
 // React hooks stays testable under this repo's node-environment Vitest — no
@@ -38,3 +41,26 @@ export function renderHook<R>(
   renderToStaticMarkup(wrap(createElement(Probe)));
   return captured as R;
 }
+
+// Shared fixture for the `wrap` case above: any hook that reads useProfile
+// (MovementForm/RecurrenceForm's shared useEntryForm) needs a ProfileContext
+// value without a live ProfileProvider. Extracted here after
+// MovementForm/hook.test.ts and RecurrenceForm/hook.test.ts each declared a
+// byte-identical copy of both PEOPLE and withProfile.
+export const PEOPLE: Person[] = [
+  { id: "p1", name: "Marina", color: "cyan", createdAt: new Date() },
+];
+
+export const withProfile = (children: ReactElement) =>
+  createElement(
+    ProfileContext.Provider,
+    {
+      value: {
+        profile: "p1",
+        people: PEOPLE,
+        label: "Marina",
+        setProfile: vi.fn(),
+      },
+    },
+    children,
+  );

@@ -1,30 +1,7 @@
-import { createElement, type ReactElement } from "react";
 import { describe, expect, it, vi } from "vitest";
-import { ProfileContext } from "@/components/ProfileProvider/hook";
-import type { Person } from "@/core/entities/person.entity";
 import { currentYYYYMM } from "@/lib/months";
-import { renderHook } from "@/lib/render-hook.helper";
+import { PEOPLE, renderHook, withProfile } from "@/lib/render-hook.helper";
 import { type MovementFormProps, useMovementForm } from "./hook";
-
-const PEOPLE: Person[] = [
-  { id: "p1", name: "Marina", color: "cyan", createdAt: new Date() },
-];
-
-// useMovementForm calls useEntryForm, which reads useProfile — supply the
-// Context value directly so the hook runs without a live ProfileProvider.
-const withProfile = (children: ReactElement) =>
-  createElement(
-    ProfileContext.Provider,
-    {
-      value: {
-        profile: "p1",
-        people: PEOPLE,
-        label: "Marina",
-        setProfile: vi.fn(),
-      },
-    },
-    children,
-  );
 
 const form = (
   over: Partial<
