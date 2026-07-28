@@ -1,4 +1,4 @@
-import { createElement } from "react";
+import { createElement, type ReactElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 
 // Test-only. Renders a hook once, on the server, so a `hook.ts` that DOES call
@@ -17,14 +17,24 @@ import { renderToStaticMarkup } from "react-dom/server";
 // ponytail: a 6-line probe instead of a jsdom + @testing-library stack; add
 // those two dev dependencies if a future hook needs event-driven re-renders.
 //
+// `wrap` hands back the probe wrapped in a Context.Provider (or any element
+// tree) for a hook that reads context — e.g. useProfile. Pass the Provider
+// with an explicit value directly rather than pulling in the real Provider
+// component: its own effects (localStorage, fetch) never run under SSR
+// anyway, so depending on that would be leaning on an accident, not a
+// contract.
+//
 // Lives in lib/ because ARCHITECTURE.md has no test-infrastructure folder and
 // one file does not earn one.
-export function renderHook<R>(use: () => R): R {
+export function renderHook<R>(
+  use: () => R,
+  wrap: (children: ReactElement) => ReactElement = (children) => children,
+): R {
   let captured: R | undefined;
   const Probe = () => {
     captured = use();
     return null;
   };
-  renderToStaticMarkup(createElement(Probe));
+  renderToStaticMarkup(wrap(createElement(Probe)));
   return captured as R;
 }
