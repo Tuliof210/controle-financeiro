@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import type { OfxReport } from "@/app/api/ofx/types";
 import { useProfile } from "@/components/ProfileProvider/hook";
-import { apiGet, apiPost } from "@/lib/api";
+import { apiPost } from "@/lib/api";
 import { resolveOwnerId } from "@/lib/ownership";
 import {
   buildImportRows,
@@ -11,12 +11,9 @@ import {
   prefillIdentifier,
   summaryOf,
 } from "./import-rows.helper";
+import { useImportedRecord } from "./imported.hook";
 
 export type ImportActionProps = { report: OfxReport };
-
-type ImportedState = { imported: boolean; importedAt: string | null };
-
-const NOT_IMPORTED: ImportedState = { imported: false, importedAt: null };
 
 export function useImportAction({ report }: ImportActionProps) {
   // people comes from the provider, which already fetched /api/people for the
@@ -27,26 +24,15 @@ export function useImportAction({ report }: ImportActionProps) {
   const [ownerId, setOwnerId] = useState("");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string>();
-  const [record, setRecord] = useState<ImportedState>(NOT_IMPORTED);
-
-  // Keyed on the hash, so swapping the file re-asks rather than carrying the
-  // previous file's verdict. `alive` because a fast "Trocar arquivo" can land
-  // a stale answer after the new one.
-  useEffect(() => {
-    let alive = true;
-    setRecord(NOT_IMPORTED);
-    apiGet<ImportedState>(
-      `/api/ofx-imports?hash=${encodeURIComponent(report.fileHash)}`,
-    ).then((result) => {
-      if (alive && result.data) setRecord(result.data);
-    });
-    return () => {
-      alive = false;
-    };
-  }, [report.fileHash]);
+  const [record, setRecord] = useImportedRecord(report.fileHash);
 
   const rows = buildImportRows(report.months, identifier);
-  const canSubmit = identifier.trim().length > 0 && ownerId !== "" && !busy;
+  // rows.length too: readOfx calls a file empty on a zero TRANSACTION count,
+  // and a 0.00 transaction is counted while adding nothing to either total —
+  // so a real report can yield no rows, and confirming would post an empty
+  // array the endpoint's .min(1) refuses.
+  const canSubmit =
+    rows.length > 0 && identifier.trim().length > 0 && ownerId !== "" && !busy;
 
   const openDialog = () => {
     setIdentifier(prefillIdentifier(report));
