@@ -64,6 +64,15 @@
   > [data-cell="value"] { grid-area: 2 / 2; }
   > [data-cell="owner"] { grid-area: 3 / 2 / auto / span 2; }
   > [data-cell="period"] { grid-area: 4 / 2 / auto / span 2; }
+
+  // Second tier of the same stack: keeping the pair beside the name costs the
+  // row 16px padding + 14px swatch + two 12px gutters + 96px of buttons, so
+  // under 260px the name track drops below 110px (~11 mono chars) and paints
+  // a letter per line. Measured 0px/19 lines on a 148px Pessoas row (768px
+  // viewport) before this. Nested, so it outranks the placement above.
+  @container (max-width: 259px) {
+    > [data-cell="actions"] { grid-area: auto / 1 / auto / -1; }
+  }
 }
 
 // Two floors, because a list stacks when ITS OWN cells stop fitting, not when

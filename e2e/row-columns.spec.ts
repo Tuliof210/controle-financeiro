@@ -9,6 +9,16 @@ import { seed } from "./seed.helper";
 // viewport breakpoint can't decide this and a container query can.
 const WIDE = 1440;
 const NARROW = 375;
+// The app's worst width, and one neither endpoint above reaches: the
+// two-column Configurações grid has just kicked in but the viewport has not
+// grown to pay for it, so a row gets 148px — narrower than the 291px it gets
+// at 375px. Nothing else covers it: row-overflow.spec.ts runs at 768px but
+// asserts only scrollWidth, which stays clean *because* the text wraps.
+const PINCHED = 768;
+// ~11 chars of the mono face. Under it a name stops being a line of text and
+// becomes the column of syllables this story exists to remove — the 148px
+// Pessoas row measured a 0px name over 19 lines before the second stack tier.
+const FLOOR = 100;
 
 test.beforeAll(seed);
 
@@ -33,6 +43,17 @@ for (const list of LISTS) {
           GUTTER + 1,
         );
       }
+    }
+  });
+
+  test(`${list.path} ${list.short} keeps a readable name at ${PINCHED}px`, async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: PINCHED, height: 900 });
+
+    for (const name of [list.long, list.short]) {
+      const cells = await openRow(page, list, name);
+      expect(cells.name.width).toBeGreaterThan(FLOOR);
     }
   });
 
