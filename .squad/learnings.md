@@ -19,7 +19,6 @@ Format: `- [<path-or-area>] <fact>, so <what to do differently> (YYYY-MM-DD)`
 
 - [biome] `noExcessiveLinesPerFile`/Function are `info` not `error` at `level: "on"` — the 100-line cap does not fail `npm run lint`, so treat it as review-only and measure the real count, never estimate (added 2026-07-21, extended 2026-07-25)
 - [tooling] The harness's Bash shell can silently revert to a stale worktree cwd between calls — re-`cd` and verify `pwd`/branch in the SAME call as any cwd-sensitive git op (added 2026-07-22)
-- [publish] `gh pr merge --delete-branch` fails to delete a branch still checked out in a worktree — confirm the merge separately, remove the worktree/branch by hand, verify with `git ls-remote` (added 2026-07-21, extended 2026-07-27)
 - [publish] Parallel `/ps:run` worktrees collide on `story.md` — commit it to main before spawning them; if PRs still conflict, merge one at a time, keeping all already-checked boxes (added 2026-07-23)
 - [worktree] `node_modules` isn't shared across worktrees — a dependency installed in one task's worktree is silently absent in the next one's, though lint/test may still pass via the main checkout — `npm install` at the start of any task with a new dependency (added 2026-07-22)
 - [tooling] `npm run test` from the main checkout globs nested worktree checkouts too, inflating counts — measure from inside the worktree or with an explicit path filter (added 2026-07-25)
