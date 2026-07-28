@@ -3,22 +3,9 @@ import { z } from "zod";
 import { fail, ok, safeJson } from "@/lib/http";
 import { getSettings, saveSettings } from "./service";
 
-const yyyymm = z.number().int().min(190001).max(999912);
-
-const putSchema = z
-  .object({
-    rangeStart: yyyymm.nullable().optional(),
-    rangeEnd: yyyymm.nullable().optional(),
-    monthlyGoalCents: z.number().int().min(0).nullable().optional(),
-  })
-  .refine(
-    (s) =>
-      s.rangeStart == null || s.rangeEnd == null || s.rangeEnd >= s.rangeStart,
-    {
-      message: "Fim não pode ser antes do Início",
-      path: ["rangeEnd"],
-    },
-  );
+const putSchema = z.object({
+  monthlyGoalCents: z.number().int().min(0).nullable().optional(),
+});
 
 export async function GET() {
   try {

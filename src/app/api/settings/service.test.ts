@@ -13,8 +13,6 @@ import { getSettings, saveSettings } from "./service";
 describe("settings service", () => {
   it("getSettings delegates to the repository", async () => {
     const settings = {
-      rangeStart: null,
-      rangeEnd: null,
       monthlyGoalCents: null,
     };
     vi.mocked(settingsRepository.get).mockResolvedValue(settings);
@@ -25,7 +23,7 @@ describe("settings service", () => {
 
   it("saveSettings delegates the patch to the repository", async () => {
     const patch = { monthlyGoalCents: 50000 };
-    const saved = { rangeStart: null, rangeEnd: null, monthlyGoalCents: 50000 };
+    const saved = { monthlyGoalCents: 50000 };
     vi.mocked(settingsRepository.save).mockResolvedValue(saved);
     const result = await saveSettings(patch);
     expect(settingsRepository.save).toHaveBeenCalledWith(patch);

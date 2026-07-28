@@ -12,11 +12,9 @@ import { settingsRepository } from "@/infra/repositories/settings.prisma.reposit
 // not collect it; the suite's vi.mock registrations still apply here, since
 // they replace the module for the whole test module graph.
 
-// rangeStart/rangeEnd stay null: getDashboard derives its period from the
-// movements/recurrences lists below, not from Settings any more.
+// getDashboard derives its period from the movements/recurrences lists below,
+// not from Settings.
 const DEFAULT_SETTINGS: Settings = {
-  rangeStart: null,
-  rangeEnd: null,
   monthlyGoalCents: null,
 };
 

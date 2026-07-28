@@ -4,8 +4,6 @@ import { prisma } from "@/infra/db/client";
 
 function toEntity(row: Settings): Settings {
   return {
-    rangeStart: row.rangeStart,
-    rangeEnd: row.rangeEnd,
     monthlyGoalCents: row.monthlyGoalCents,
   };
 }
