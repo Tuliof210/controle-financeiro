@@ -1,62 +1,86 @@
 ---
-description: Execute one task from a loaded story in an isolated worktree and open a PR back to the branch you started from. Usage - /ps:run <task>
+description: Run a whole story - one worktree, tasks in order, each merged into the story branch, ending in one PR to review. Usage - /ps:run <story-slug>
+effort: medium
+allowed-tools: Read, Write, Edit, Glob, Grep, Bash(git:*), Bash(gh:*), Bash(glab:*), Bash(sh .claude/ps-check.sh:*), Bash(npm:*), Bash(pnpm:*), Bash(yarn:*), Bash(npx:*), Bash(make:*), Bash(cargo:*), Bash(go:*), Bash(pytest:*), Bash(uv:*)
 ---
 
-Target: "$ARGUMENTS" identifies the task. If a story is already loaded in this
-conversation (via `/ps:load`), it's just the task reference (number or
-filename) within it. Otherwise it's `<story-slug>/<task-reference>` — load
-that story's `story.md` and the one task file yourself before continuing.
+Target: "$ARGUMENTS" is the story slug (the `.squad/stories/<slug>` directory name, or
+enough of it to match one). Empty → list the slugs and ask; never guess.
 
-## 0. Preconditions
+Everything here runs in **this chat**, in order, one task at a time. That is the design,
+not a limitation: you are already warm with the story's context, and a cold subagent per
+task pays to rebuild what you are holding. The only cold context in this workflow is
+`/ps:review`, where not knowing what the author intended is the whole point.
 
-- Already inside a pocket-squad worktree? Leave it first (`ExitWorktree`, or run from
-  the main checkout's path) — a task always branches from the **main checkout's**
-  current branch, never from another in-progress task's branch.
-- If the task's "Depends on" lists a task whose checkbox isn't checked in
-  `story.md`, warn the owner and confirm before continuing — don't hard-block.
+## 1. Set up, once
 
-## 1. Isolate
+Record the branch you are on — the **target branch**, where this story eventually lands.
 
-Record the current branch — the worktree's starting point and the PR's base. Use
-`EnterWorktree` if available; otherwise
-`git worktree add ../<repo>--ps/<story-slug>--<task-slug> -b ps/<story-slug>/<task-slug>`
+    sh .claude/ps-check.sh sync <story-slug>     # reconcile story.md with reality first
 
-## 2. Implement
+Read `story.md`, then the task files still open. A task whose PR is already merged is
+history — skip its file. If every task is done, say so and stop; the story PR may
+already be waiting for `/ps:review`.
 
-Load the norms first — `.squad/ARCHITECTURE.md` (conventions, plus the exemplar paths
-it names) and `.squad/learnings.md`, where the rules whose scope touches this task are
-binding and the rest is background. Those bound *how* you write; the task file bounds
-*what*. It is a contract, not a transcript: it states the outcome, what to imitate,
-what is off limits — designing the implementation is your job, here, with the code in
-front of you. Imitate the exemplar instead of inventing, reuse what the repo already
-has, and keep the auth / validation / DS steps its neighbours have.
+Then one worktree for the whole story:
 
-Small commits. Run the task's `Verify` commands; if it names none, fall back to the
-repo's standard lint/test/build. Never weaken a check to make it pass. Anything the
-task told you to measure gets measured now, not assumed.
+    git worktree add ../<repo>--ps/<story-slug> -b ps-story/<story-slug>
+    sh .claude/ps-check.sh warm ../<repo>--ps/<story-slug>
 
-## 3. Close the loop
+`warm` shares this checkout's installed dependencies instead of installing them again.
+Once per story now, not once per task. **If a task changes a lockfile, delete the link
+it names and run the project's real install first** — the directory is shared with the
+main checkout, so installing through the link corrupts it.
 
-As the last commit, check this task's box in `story.md`'s Tasks list — it rides into
-the PR and lands on the base branch when the PR merges.
+The story branch is `ps-story/<slug>` and task branches are `ps/<slug>/<task-slug>`.
+Two namespaces on purpose: git cannot hold `ps/<slug>` and `ps/<slug>/<task>` at the
+same time, and `ps-check.sh` derives each task's state from its own branch name.
 
-## 4. PR
+## 2. Each task, in filename order
 
-Push and open the PR against the recorded branch (`gh pr create --base <branch>`, or
-the equivalent). The title is exactly this and nothing else:
+Work inside the worktree. For task `NN-<task-slug>.md`:
 
-    <story-slug> 3/5 — <task title>
+1. **Read that task file now**, not earlier. One task's contract at a time is what
+   keeps this chat from carrying five tasks' worth of detail it does not need yet.
+2. `git switch -c ps/<story-slug>/<task-slug>` from the story branch.
+3. Implement. The task carries its own `## Context` — the exemplar, the symbol, the
+   commands, found once at plan time. **Do not re-derive it**: no repo survey, no norm
+   hunt. Open what Context names, apply `.squad/learnings.md`, write the code. It states
+   the outcome and the boundaries; designing the implementation is still your job, with
+   the code in front of you.
+4. Run the task's `Verify` commands once, at the end. If it names none, fall back to the
+   repo's standard lint/test/build. Never weaken a check to make it pass.
+5. Tick this task's box in `story.md` and commit it with the work. Safe now — tasks are
+   serial, so no two branches touch that file at once.
+6. Push, and open a PR **into `ps-story/<story-slug>`**, body per `.squad/templates/pr.md`
+   ("Task PR"). Title: `<story-slug> NN/N — <task title>`.
+7. Squash-merge it immediately: `gh pr merge <n> --squash --delete-branch`. **No review
+   here** — the review happens once, on the whole story, in section 4.
+8. `git switch ps-story/<story-slug> && git pull` before the next task.
 
-`3` is the task filename's `NN` stem, `5` is how many tasks `story.md` lists, and the
-title is that task file's heading. A squash-merge makes this line the base branch's
-commit subject, so where the repo has a commit convention it goes in front —
-`feat: export-csv 3/5 — recursive column parser`.
+Report one line per task and keep moving:
 
-Body follows `.squad/templates/pr.md` — self-contained, readable without this chat.
-If the task declares a `window:`, copy that line into the body: whoever publishes it
-has to see it.
+```
+▸ 01 pending → PR #71 → merged into ps-story/export-csv
+▸ 02 pending → PR #72 → merged
+! 03 parked — scope question: <one line>
+```
 
-## 5. Report
+A task that hits a scope decision, or fails its own verification twice, **parks**: say
+so in one line, leave its branch alone, and go to the next task. Never invent the
+decision. A refused permission parks the same way and names the exact refused call.
 
-PR URL, and suggest `/ps:review`. One task, one worktree, one PR — never bundle
-tasks. A scope decision appearing mid-execution goes to the owner; never invent it.
+## 3. When the tasks are done
+
+From the main checkout (`ExitWorktree`, or run from its path), open **one PR** from
+`ps-story/<story-slug>` to the target branch you recorded in section 1. Body per
+`.squad/templates/pr.md` ("Story PR") — this is the one a human reads, so write it for
+someone who was not here.
+
+Title: `<story-slug> — <story title>`, with the repo's commit convention in front where
+it has one.
+
+## 4. Report
+
+The story PR's URL, the tasks that parked and why, and `/ps:review <pr>` as the next
+step. The story branch and its worktree stay until `/ps:publish` sweeps them.

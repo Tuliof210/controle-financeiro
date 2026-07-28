@@ -1,20 +1,23 @@
 {
-  "version": "0.5.0",
-  "installedAt": "2026-07-28T05:14:34.826Z",
+  "version": "2.0.0",
+  "installedAt": "2026-07-28T18:15:28.385Z",
   "files": {
-    "claude/commands/ps/init.md": "0a1783f684dd0ebc7afa6db6b3a71297f452e275cccade97cebe5b69733c5e2f",
-    "claude/commands/ps/load.md": "daf263e3a601be4e3bcacc3688fb0fa6016350e013c4b76a30345dc58b97f9df",
-    "claude/commands/ps/pipe.md": "0c8aba948654817424fffd880102572e4bd9cd05b977b7dff1ec5a3e4e1e30cc",
-    "claude/commands/ps/prune.md": "0314fc898886de66a677570a69deee77cf6c2d2888bccd66e46496fa7a6d1c3b",
-    "claude/commands/ps/publish.md": "c50af1bfed898052b4ab12559ff23074620a34f7786994f36b3ff3a2e35a8edc",
-    "claude/commands/ps/review.md": "2d2b656f6a0b517ec0a305cec55a779bea0d2f58ba3da6a28f6429f01580e79b",
-    "claude/commands/ps/run.md": "e4482811d9b901343cb0406f3a8259fa826bee67d11cc886926fc75c11f8a8c4",
-    "claude/commands/ps/story.md": "8ebe9b405e9e649479742fa99b86de8dc466a114e2a9b1b289548460e05913b2",
-    "claude/ps-check.sh": "6caf56f310faa12134e9669905b97572c74fa7e6eab9f8e7e0f2de26e28eaea8",
-    "squad/debt.md": "3335b4c2f7a7f9488eca20eee37adb3b382c1c3d272011c3d2ac0042b3fae628",
+    "claude/agents/ps-review.md": "714c16995b6f0b0c19a9454ab1d8d2a8a1d73bfd3e8f4183ed8912ac64e10c86",
+    "claude/agents/ps-verify.md": "7a54ec0a5c86a9010cb9423b50be0cb89469446bdd37f6d4dea000f1cbc1423c",
+    "claude/commands/ps/init.md": "0f1c719eea61b9513c8f2b02cfef9c65c91f136091febad673998d4801c23ec5",
+    "claude/commands/ps/prune.md": "116c1189dbf778fb9313b2e14be6b0bc1267fcbf41a989f21042277fbcd7e8b0",
+    "claude/commands/ps/publish.md": "d4bb481a46e78a8eec575ba4a4040644187c19b5cfea9be52c038ddbbff6ccc4",
+    "claude/commands/ps/review.md": "9902875bb42413c49e04ce0d7884fba6dbf320d08c072cbd1460dfb488ed476f",
+    "claude/commands/ps/run.md": "6e2aceb8c787fe99e01420efedb2bb2b9211aaace1d0dd10ba92e646077379ed",
+    "claude/commands/ps/story.md": "13f47281534bc1f5cfa65b64c3dbbf96f16584e92a995c6e62f8616d0ecea20f",
+    "claude/ps-check.sh": "28020c67f44c22d32e2cdf4943e540381a5d6fdf8880506f53c6a50433fab1f6",
+    "claude/ps-review.md": "08b15d50799aed8f2aeb30635e2d27704dda61479acab4b7c8461c81a53ea96b",
+    "claude/ps-verify.md": "ab9e09055f967cf86f519fcfe59cdd2f5e7f2e689b002782df5a4c03f89e6984",
+    "claude/settings.json": "0a2326b9ea72e2c83cb0389efc78cc3ee1e45fc0fa2a8d4d107b51f58102901d",
+    "squad/debt.md": "d5d1be7dd5aa8e2405a91b8aa2e4b64c40aebe5197abda49d654d4aaf4b8a4c8",
     "squad/learnings.md": "9dd0a998cd393424c4ede4b2e8740e94fb712f7c1f223744cbcdcf25b81bc1a1",
-    "squad/templates/pr.md": "97fc343d21871c88f0e1be5dbda0a1924a258a7635e858168a0a17b34b1e1aad",
+    "squad/templates/pr.md": "db6f523877600577c0e1f1e1e74eff728b93b7f97c78b79197c416c7c0ab186b",
     "squad/templates/story.md": "67d3f0f7cddf8c08c3052eed5ea5dac15713f15882db7f6a93a730d21115ac91",
-    "squad/templates/task.md": "bd476110d2b3123410b2fd8e0c72604ec99264387a0326475a8d9cdb31326fd0"
+    "squad/templates/task.md": "e3d34b4959661bb8e0b6f3c7255d859f189b96ab837a0510d5165a9e2a8f674c"
   }
 }
