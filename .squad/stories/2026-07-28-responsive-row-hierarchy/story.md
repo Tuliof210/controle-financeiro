@@ -21,6 +21,6 @@ scrolling sideways — the owner hits this on a normal desktop, not just on a ph
 - [ ] `wc -l` on every file created or touched is <= 100
 
 ## Tasks
-- [ ] tasks/01-shared-row-primitive.md — extract the row primitive, adopt it in
+- [x] tasks/01-shared-row-primitive.md — extract the row primitive, adopt it in
       Recorrências + Movimentações, land the e2e overflow spec
 - [ ] tasks/02-settings-rows-adopt-primitive.md — move Pessoas and Objetivos onto it

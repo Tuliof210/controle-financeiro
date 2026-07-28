@@ -1,6 +1,7 @@
 import { Pencil, Trash2 } from "lucide-react";
 import type { ReactNode } from "react";
 import { IconButton } from "@/components/IconButton";
+import { RowLayout } from "@/components/RowLayout";
 import type { Person } from "@/core/entities/person.entity";
 import type { Entry } from "@/lib/entry-types";
 import { formatMoney } from "@/lib/money";
@@ -25,26 +26,42 @@ export function EntryRow({
 }: EntryRowProps) {
   return (
     <li className={styles.row}>
-      <span
-        className={`${styles.swatch} ${person ? styles[person.color] : ""}`}
-        aria-hidden
+      <RowLayout
+        swatch={
+          <span
+            className={`${styles.swatch} ${person ? styles[person.color] : ""}`}
+            aria-hidden
+          />
+        }
+        primary={
+          <>
+            <span className={styles.name}>{entry.name}</span>
+            <span className={`${styles.value} ${styles[entry.type]}`}>
+              {formatMoney(entry.valueCents)}
+            </span>
+          </>
+        }
+        secondary={
+          <>
+            <span className={styles.owner}>{person?.name ?? "—"}</span>
+            <span className={styles.period}>{period}</span>
+          </>
+        }
+        actions={
+          <>
+            <IconButton aria-label={`Editar ${entry.name}`} onClick={onEdit}>
+              <Pencil size={16} aria-hidden />
+            </IconButton>
+            <IconButton
+              variant="danger"
+              aria-label={`Excluir ${entry.name}`}
+              onClick={onDelete}
+            >
+              <Trash2 size={16} aria-hidden />
+            </IconButton>
+          </>
+        }
       />
-      <span className={styles.owner}>{person?.name ?? "—"}</span>
-      <span className={styles.name}>{entry.name}</span>
-      <span className={`${styles.value} ${styles[entry.type]}`}>
-        {formatMoney(entry.valueCents)}
-      </span>
-      <span className={styles.period}>{period}</span>
-      <IconButton aria-label={`Editar ${entry.name}`} onClick={onEdit}>
-        <Pencil size={16} aria-hidden />
-      </IconButton>
-      <IconButton
-        variant="danger"
-        aria-label={`Excluir ${entry.name}`}
-        onClick={onDelete}
-      >
-        <Trash2 size={16} aria-hidden />
-      </IconButton>
     </li>
   );
 }

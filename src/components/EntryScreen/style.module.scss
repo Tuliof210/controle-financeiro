@@ -6,12 +6,15 @@
   gap: var(--space-6);
 }
 
+// minmax(0, …) rather than a bare 1fr: a bare fr track never shrinks below
+// its content's min-content width, which is how this grid overflowed
+// sideways below a laptop width. Same fix as SettingsScreen's `.grid`.
 .grid {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--space-6);
 
   @include t.bp("md") {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
