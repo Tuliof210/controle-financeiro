@@ -39,3 +39,4 @@ Format: `- [<path-or-area>] <fact>, so <what to do differently> (YYYY-MM-DD)`
 - [design-system] Contrast is a property of the pair, not the token — a token passing on one background/fill can fail on another; measure the exact pair before reuse, don't assume from the fill's hue (added 2026-07-25, extended 2026-07-27)
 - [testing] Test the hook that assembles a feature, not just the pure helper it calls — deleting a component can silently delete its guards' tests too (added 2026-07-25, extended 2026-07-27)
 - [review] A claim in a PR body is unverified until tested against the diff — delete a claimed type constraint and run `tsc`, mutate a fix's own test to prove it can fail (added 2026-07-22, extended 2026-07-25)
+- [squad] A task's "already handled by task N" Scope claim can contradict task N's own Forbidden list — verify against it, don't trust the later task file (2026-07-28)
