@@ -1,10 +1,9 @@
 @use "swatch-colors";
 
+// Divider/hover/spacing only — RowLayout owns the internal grid these rows
+// render through, and PersonRow/GoalRow (task 02) keep their own idiom here
+// (a border-run instead of this gap-per-row spacing).
 .row {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: var(--space-3);
   padding-bottom: var(--space-3);
   border-bottom: var(--border-1) solid var(--color-border-subtle);
   transition: background var(--duration-fast) var(--ease-snappy);
@@ -23,22 +22,33 @@
   border-radius: var(--radius-sm);
 }
 
+// overflow-wrap: user-entered text (up to 60 chars, no spaces required) can
+// contain a single word wider than the shrunk box min-width: 0 allows — plain
+// wrapping only breaks at spaces, so that word would paint past its box and
+// into `.value`/`.period` beside it. This lets it break mid-word instead.
 .owner {
-  min-width: 80px;
+  overflow-wrap: anywhere;
   color: var(--color-text-muted);
   font-family: var(--font-mono);
   font-size: var(--text-sm);
 }
 
+// flex-basis: auto (not the 0% a bare `flex: 1` implies) so this item's
+// hypothetical size for the wrap decision is its own text, not zero — a
+// zero basis let `.value` claim the line first and squeezed `.name` into a
+// sliver too narrow for its words, even with overflow-wrap. This way a name
+// that doesn't fit next to `.value` wraps `.value` to its own line instead.
 .name {
-  flex: 1;
-  min-width: 120px;
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow-wrap: anywhere;
   color: var(--color-text);
   font-family: var(--font-mono);
   font-size: var(--text-base);
 }
 
 .value {
+  flex-shrink: 0;
   color: var(--color-text);
   font-family: var(--font-mono);
   font-size: var(--text-base);
