@@ -22,5 +22,5 @@ see. The owner pays that tax on every story, alone, and gets no confidence back.
 
 ## Tasks
 - [x] tasks/01-playwright-e2e-harness.md — wire Playwright against a throwaway DB
-- [ ] tasks/02-delete-unit-test-suite.md — delete every test, Vitest, and every
+- [x] tasks/02-delete-unit-test-suite.md — delete every test, Vitest, and every
       reference left dangling
