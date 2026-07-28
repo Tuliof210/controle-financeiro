@@ -1,4 +1,5 @@
 import type { Goal } from "@/core/entities/goal.entity";
+import { formatMoney } from "@/lib/money";
 
 export type GoalRowProps = {
   goal: Goal;
@@ -6,8 +7,10 @@ export type GoalRowProps = {
   onDelete: () => void;
 };
 
-// Nothing to derive — a pass-through keeps the folder shape uniform, the
-// same reasoning RowLayout's own hook uses.
-export function useGoalRow(props: GoalRowProps) {
-  return props;
+export function useGoalRow({ goal, ...rest }: GoalRowProps) {
+  return {
+    ...rest,
+    name: goal.name,
+    value: formatMoney(goal.targetCents),
+  };
 }

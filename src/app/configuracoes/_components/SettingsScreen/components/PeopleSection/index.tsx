@@ -4,6 +4,7 @@ import { Plus, Users } from "lucide-react";
 import { Button } from "@/components/Button";
 import { ConfirmDialog } from "@/components/ConfirmDialog";
 import { Modal } from "@/components/Modal";
+import { RowGrid } from "@/components/RowGrid";
 import { SectionCard } from "@/components/SectionCard";
 import { PersonForm } from "./components/PersonForm";
 import { PersonRow } from "./components/PersonRow";
@@ -28,7 +29,7 @@ export function PeopleSection() {
       {people?.length === 0 ? (
         <p className={styles.empty}>Nenhuma pessoa cadastrada ainda.</p>
       ) : (
-        <ul className={styles.list}>
+        <RowGrid>
           {people?.map((person) => (
             <PersonRow
               key={person.id}
@@ -37,7 +38,7 @@ export function PeopleSection() {
               onDelete={() => open("delete", person)}
             />
           ))}
-        </ul>
+        </RowGrid>
       )}
       <Button variant="dashed" onClick={() => open("add")}>
         <Plus size={16} aria-hidden />

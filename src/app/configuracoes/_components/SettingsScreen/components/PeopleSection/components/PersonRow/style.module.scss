@@ -1,8 +1,7 @@
 @use "swatch-colors";
 
-// Divider/hover/spacing only — RowLayout owns the internal grid this row
-// renders through. Border-run idiom on purpose (no gap): see GoalsSection's
-// list for the same reasoning, stated once there.
+// Divider/hover/padding only — RowGrid owns the columns these cells land in,
+// and the row keeps painting its own box, so aligning costs it nothing.
 .row {
   padding: var(--space-4) var(--space-2);
   border-bottom: var(--border-1) solid var(--color-border-subtle);
@@ -24,17 +23,13 @@
 .swatch {
   width: 14px;
   height: 14px;
-  flex-shrink: 0;
   border-radius: var(--radius-sm);
 }
 
-// overflow-wrap, not ellipsis: RowLayout wraps tiers onto their own line
-// instead of truncating, so a fixed-width truncation would fight the
-// primitive's flex-wrap instead of cooperating with it (same idiom as
-// EntryRow's `.name`).
+// overflow-wrap: a person's name is up to 60 user-entered chars with no spaces
+// required, and plain wrapping only breaks at spaces — this is what lets the
+// name column floor at 0 instead of one long word widening the whole list.
 .name {
-  flex: 1 1 auto;
-  min-width: 0;
   overflow-wrap: anywhere;
   color: var(--color-text);
   font-family: var(--font-mono);

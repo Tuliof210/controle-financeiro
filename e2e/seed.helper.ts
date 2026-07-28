@@ -18,7 +18,10 @@ export const LONG_PERSON_NAME =
 // is the only way "the columns line up" can mean anything.
 export const SHORT_RECURRENCE = "Luz";
 export const SHORT_MOVEMENT = "Bonus";
-const OWNER_NAME = "Fernanda Alexandrina";
+export const SHORT_GOAL = "Viagem";
+// Doubles as the owner of the long-named rows and as Pessoas' own short-named
+// sibling — the only list whose rows carry no amount at all.
+export const SHORT_PERSON = "Fernanda Alexandrina";
 
 type Named = { id: string; name: string };
 
@@ -45,14 +48,14 @@ async function waitFor(path: string, name: string) {
 
 // Every spec file's beforeAll runs in its own worker against one shared DB,
 // and only Person.name is @unique — so that constraint is the lock. Whoever
-// creates OWNER_NAME writes the rows; everyone else waits for the goal, which
-// is written last.
+// creates SHORT_PERSON writes the rows; everyone else waits for the short
+// goal, which is written last.
 export async function seed() {
   const owner = await post("/api/people", {
-    name: OWNER_NAME,
+    name: SHORT_PERSON,
     color: "violet",
   });
-  if (!owner) return waitFor("/api/goals", LONG_NAME);
+  if (!owner) return waitFor("/api/goals", SHORT_GOAL);
 
   const other = await post("/api/people", {
     name: LONG_PERSON_NAME,
@@ -87,4 +90,5 @@ export async function seed() {
     month: 202602,
   });
   await post("/api/goals", { name: LONG_NAME, targetCents: 500000 });
+  await post("/api/goals", { name: SHORT_GOAL, targetCents: 1234567 });
 }
