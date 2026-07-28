@@ -6,19 +6,19 @@ helper or renaming a hook breaks green tests that never guarded anything a user 
 see. The owner pays that tax on every story, alone, and gets no confidence back.
 
 ## Acceptance Criteria
-- [ ] Playwright boots the real app against a throwaway SQLite file, with zero specs
+- [x] Playwright boots the real app against a throwaway SQLite file, with zero specs
       written — behaviour coverage is a later story
-- [ ] No `*.test.ts` / `*.test.tsx`, no Vitest, and no file left in `src/` that only
+- [x] No `*.test.ts` / `*.test.tsx`, no Vitest, and no file left in `src/` that only
       existed to serve a test
-- [ ] `.squad/ARCHITECTURE.md`'s Testing section describes e2e-by-behaviour, and no
+- [x] `.squad/ARCHITECTURE.md`'s Testing section describes e2e-by-behaviour, and no
       doc, learning or debt entry still names a deleted test file
 
 ## Definition of Done
-- [ ] `npm run test` exits 0 and is the Playwright run
+- [x] `npm run test` exits 0 and is the Playwright run
       (owner accepted a zero-spec harness: this proves the runner is wired, not that
       the app boots — the first spec is what proves that)
-- [ ] `npm run lint` and `npm run build` green
-- [ ] A repo-wide grep for `vitest` and for both test globs comes back empty
+- [x] `npm run lint` and `npm run build` green
+- [x] A repo-wide grep for `vitest` and for both test globs comes back empty
 
 ## Tasks
 - [x] tasks/01-playwright-e2e-harness.md — wire Playwright against a throwaway DB
