@@ -34,10 +34,9 @@
   font-size: var(--text-base);
 }
 
-// justify-self: end in both layouts, so every amount in the list ends at the
-// same x — tabular-nums then keeps the digits themselves in line.
+// RowGrid ends the cell at the row's right edge; tabular-nums is this row's
+// half of that, keeping the digits themselves in line down the column.
 .value {
-  justify-self: end;
   color: var(--color-text);
   font-family: var(--font-mono);
   font-size: var(--text-base);
@@ -71,12 +70,4 @@
   font-family: var(--font-mono);
   font-size: var(--text-sm);
   font-variant-numeric: tabular-nums;
-}
-
-// The pair is one cell, so it never splits across lines; its own column keeps
-// both buttons at the row's right edge in either layout.
-.actions {
-  display: flex;
-  justify-self: end;
-  gap: var(--space-2);
 }

@@ -38,12 +38,19 @@
 
   // Placement is by `data-cell`, not by source position: a row that omits a
   // cell (a person has no amount) keeps every other cell in its own column.
+  // Cell layout is the list's too, or each row keeps a private copy of it: the
+  // pair is one flex cell that never splits, both flushed to the row's edge.
   > [data-cell="swatch"] { grid-column: 1; }
   > [data-cell="name"] { grid-column: 2; }
-  > [data-cell="value"] { grid-column: 3; }
+  > [data-cell="value"] { grid-column: 3; justify-self: end; }
   > [data-cell="owner"] { grid-column: 4; }
   > [data-cell="period"] { grid-column: 5; }
-  > [data-cell="actions"] { grid-column: 6; }
+  > [data-cell="actions"] {
+    grid-column: 6;
+    display: flex;
+    justify-self: end;
+    gap: var(--space-2);
+  }
 
   // The gutter belongs to the cell that needs it, so an absent cell costs
   // nothing at all. The row's first cell gets none — its column starts the row.
@@ -65,11 +72,10 @@
   > [data-cell="owner"] { grid-area: 3 / 2 / auto / span 2; }
   > [data-cell="period"] { grid-area: 4 / 2 / auto / span 2; }
 
-  // Second tier of the same stack: keeping the pair beside the name costs the
-  // row 16px padding + 14px swatch + two 12px gutters + 96px of buttons, so
-  // under 260px the name track drops below 110px (~11 mono chars) and paints
-  // a letter per line. Measured 0px/19 lines on a 148px Pessoas row (768px
-  // viewport) before this. Nested, so it outranks the placement above.
+  // Second tier of the same stack: below 260px, 16px padding + 14px swatch +
+  // two 12px gutters + the 96px pair leave the name under 110px (~11 mono
+  // chars) and it paints one letter per line — measured 0px over 19 lines on
+  // a 148px Pessoas row. Nested, so it outranks the placement it overrides.
   @container (max-width: 259px) {
     > [data-cell="actions"] { grid-area: auto / 1 / auto / -1; }
   }

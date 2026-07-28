@@ -35,11 +35,3 @@
   font-family: var(--font-mono);
   font-size: var(--text-base);
 }
-
-// The pair is one cell, so it never splits across lines; its own column keeps
-// both buttons at the row's right edge in either layout.
-.actions {
-  display: flex;
-  justify-self: end;
-  gap: var(--space-2);
-}
