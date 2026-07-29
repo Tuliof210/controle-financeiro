@@ -19,7 +19,6 @@ test.describe("mobile nav drawer", () => {
       "Dashboard",
       "Movimentações",
       "Recorrências",
-      "Parcelamentos",
       "Leitor OFX",
       "OFX Decoder",
       "Configurações",
