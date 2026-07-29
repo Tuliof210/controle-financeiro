@@ -8,10 +8,12 @@
 // owner and period onto a line under the name, so nothing is left to line up.
 .list {
   // Query container for the rows. A row's own inline size is the only honest
-  // signal — this shell moves a row BACKWARDS as the window grows (680px at a
-  // 764px viewport, 372px at 768px, where the aside appears), so no media query
-  // can decide it. It stays on the <ul>: an element is never its own query
-  // container, and `container-type` on a grid item zeroes its intrinsic size.
+  // signal — the two-column split above (EntryScreen/Sections,
+  // SettingsScreen) fires from a CONTAINER width, not the viewport, so the
+  // same viewport can leave a row on either side of it depending on what else
+  // is on screen; no media query can predict which. It stays on the <ul>: an
+  // element is never its own query container, and `container-type` on a grid
+  // item zeroes its intrinsic size.
   container-type: inline-size;
   display: flex;
   flex-direction: column;

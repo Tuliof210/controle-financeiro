@@ -23,7 +23,7 @@
   (run once after `npm install` on a fresh checkout)
 - `npm run test:e2e` (aliased as `npm run test`) — Playwright; boots its own
   dev server on :3100 against a throwaway `e2e.db`, never `dev.db`. Specs go
-  in `e2e/` (empty for now)
+  in `e2e/`
 - `npm run storybook` — Storybook dev server (Foundations MDX docs, :6006)
 - `npm run build-storybook` — static Storybook build
 

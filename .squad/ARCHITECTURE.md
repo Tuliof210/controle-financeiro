@@ -26,6 +26,11 @@ Every component is a folder with exactly three files:
   Next.js only scopes styles for files named that way; plain `style.scss`
   would leak globally. Requires the `sass` package as a dependency.
 
+**Exception**: a `_*.scss` Sass partial may sit alongside `style.module.scss`
+when the File size cap (below) forces a split off it — it is a mixin
+definition, not a component, and emits no CSS of its own (e.g.
+`RowGrid/_tiers.scss`, `EntryRow/_meta.scss`).
+
 Because the component is `index.tsx`, `@/components/Button` resolves on its
 own (default folder→index resolution) — no barrel files anywhere.
 
@@ -128,11 +133,10 @@ a test red; if it could, the test was pinning implementation detail, which is
 exactly what this repo stopped paying for.
 
 `npm run test:e2e` — aliased as `npm run test` — is the whole suite
-(Playwright, `playwright.config.ts`). Specs live in `e2e/` — empty for now, so
-the run passes with `--pass-with-no-tests`. The
-run boots its own `next dev` on :3100 (never reusing a running one) against a
-throwaway `e2e.db` that it deletes and re-migrates via `db:setup` every time —
-`dev.db` is never touched.
+(Playwright, `playwright.config.ts`). Specs live in `e2e/`. The run boots its
+own `next dev` on :3100 (never reusing a running one) against a throwaway
+`e2e.db` that it deletes and re-migrates via `db:setup` every time — `dev.db`
+is never touched.
 
 ### Request validation
 Zod. Route handlers are a trust boundary — the request body is parsed
