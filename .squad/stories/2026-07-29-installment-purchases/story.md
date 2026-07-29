@@ -30,7 +30,7 @@ nothing answers "how much does Out/26 already owe?".
       the raw total must turn it red
 
 ## Tasks
-- [ ] tasks/01-kind-and-total.md — `kind` + `totalCents` through the stack
+- [x] tasks/01-kind-and-total.md — `kind` + `totalCents` through the stack
 - [ ] tasks/02-fixed-only-recurrences.md — `/recorrencias` shows only `fixed`
 - [ ] tasks/03-promote-tabbar.md — TabBar moves to `src/components`
 - [ ] tasks/04-installments-screen.md — nav, route, tabs and the purchase list
