@@ -1,30 +1,29 @@
-// Not a spec: playwright's default testMatch only collects `*.spec.ts`, so
-// this file is shared setup for the row specs that sit next to it.
+// Not a spec — playwright only collects `*.spec.ts`. Shared row-spec setup.
 
-// "localhost", matching playwright.config.ts's baseURL — see the comment
-// there on why 127.0.0.1 doesn't work against Next 16 dev.
+// "localhost", matching playwright.config.ts's baseURL — see that file on why
+// 127.0.0.1 doesn't work against Next 16 dev.
 const BASE_URL = "http://localhost:3100";
-// One unbroken run of letters, no spaces: the worst case for a name column
-// that can only wrap at word boundaries — proves overflow-wrap, not just
-// ordinary text wrap, is doing the work.
+// One unbroken run of letters: the worst case for truncation.
 export const LONG_NAME =
   "Financiamentodoapartamentonovoextraordinariamentelongoesemespacos";
-// Person.name caps at 60 (LONG_NAME is 65) — its own word, not a substring
-// of LONG_NAME, or the row locators would match both rows.
+// Person.name caps at 60 (LONG_NAME is 65); its own word, or the locators
+// would match both rows.
 export const LONG_PERSON_NAME =
   "Reformaestruturaldacoberturaeavarandadositiofamiliar";
-// A short-named sibling in the same card as the long-named row on each
-// screen, owned by someone else: two rows whose content has nothing in common
-// is the only way "the columns line up" can mean anything.
+// A short-named sibling in the long-named row's card, owned by someone else —
+// two rows with nothing in common is what makes "columns line up" mean anything.
 export const SHORT_RECURRENCE = "Luz";
+// Disjoint months: `formatMonths` joins one chunk per interval with " · ", so
+// this line is long and unwrappable. Every other seeded recurrence is
+// contiguous and gives one short chunk — how the period text once painted out
+// of its row with the suite green.
+export const SPLIT_RECURRENCE = "Rateio";
 export const SHORT_MOVEMENT = "Bonus";
 export const SHORT_GOAL = "Viagem";
-// Doubles as the owner of the long-named rows and as Pessoas' own short-named
-// sibling — the only list whose rows carry no amount at all.
+// Owner of the long-named rows, and Pessoas' own short-named sibling.
 export const SHORT_PERSON = "Fernanda Alexandrina";
 
 type Named = { id: string; name: string };
-
 async function post(path: string, body: unknown) {
   const res = await fetch(`${BASE_URL}${path}`, {
     method: "POST",
@@ -88,6 +87,13 @@ export async function seed() {
     type: "income",
     ownerId: other.id,
     month: 202602,
+  });
+  await post("/api/recurrences", {
+    name: SPLIT_RECURRENCE,
+    valueCents: 7350,
+    type: "expense",
+    ownerId: other.id,
+    months: [202601, 202603, 202605, 202607, 202609, 202611],
   });
   await post("/api/goals", { name: LONG_NAME, targetCents: 500000 });
   await post("/api/goals", { name: SHORT_GOAL, targetCents: 1234567 });

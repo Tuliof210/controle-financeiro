@@ -34,7 +34,7 @@ export function EntryRow(props: EntryRowProps) {
         <span className={styles.meta}>
           <span className={styles.owner}>{owner}</span>
           <span className={styles.separator} aria-hidden />
-          <span>{period}</span>
+          <span className={styles.period}>{period}</span>
         </span>
       </span>
       <span data-cell="amt" className={valueClass}>
