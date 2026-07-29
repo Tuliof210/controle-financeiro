@@ -1,6 +1,7 @@
 import { expect, type Page, test } from "@playwright/test";
 import { LISTS, openRow } from "./row.helper";
 import { seed } from "./seed.helper";
+import { settle } from "./settle.helper";
 
 // A row button PAINTS 30px (40px once the row collapses) but must still answer a
 // 44px tap. Nothing else in the suite can see that: the mechanism is a bare
@@ -52,6 +53,10 @@ for (const width of [1440, 375]) {
       await openRow(page, list, list.short);
       const button = page.getByRole("button", { name: edit });
       await button.evaluate((el) => el.scrollIntoView({ block: "center" }));
+      // Both the box below and every `elementFromPoint` probe are in viewport
+      // coordinates, so a scroll still in flight between the two silently aims
+      // the probes somewhere else. Wait for the button's box to stop moving.
+      await settle(page, button);
       const box = await button.boundingBox();
       if (!box) throw new Error("expected the edit button to have a box");
       const x = box.x + box.width / 2;
