@@ -1,0 +1,39 @@
+// Below the width where one line fits, a designed stack — not a wrap. The row
+// keeps its two halves side by side and the stacking happens INSIDE the data
+// half. Every span is restated here because the row stops being a subgrid in
+// this mode: `1 / -2` and `-2 / -1` count lines, and there are fewer of them.
+@mixin stack {
+  grid-template-columns: minmax(0, 1fr) auto;
+  row-gap: var(--space-1);
+
+  // Top-aligned rather than centred — this is what the old two-row span bought:
+  // the 44px pair sits beside name+amount instead of claiming a line of its own.
+  > [data-row="controls"] {
+    grid-column: 2;
+    align-self: start;
+  }
+
+  // The cells' gutters (margin-inline-start, from style.module.scss) still
+  // apply and are what indents the text column past the swatch.
+  > [data-row="data"] {
+    grid-column: 1;
+    grid-template-columns: auto minmax(0, 1fr);
+    row-gap: var(--space-1);
+
+    > [data-cell="swatch"] { grid-area: 1 / 1; }
+    > [data-cell="name"] { grid-area: 1 / 2; }
+    > [data-cell="value"] { grid-area: 2 / 2; }
+    > [data-cell="owner"] { grid-area: 3 / 2; }
+    > [data-cell="period"] { grid-area: 4 / 2; }
+  }
+
+  // Second tier of the same stack: below 260px, 16px padding + 14px swatch +
+  // a 12px gutter + the 96px pair leave the name under 110px (~11 mono chars)
+  // and it paints one letter per line — measured 0px over 19 lines on a 148px
+  // Pessoas row. The controls drop to a line of their own, still flush right.
+  @container (max-width: 259px) {
+    grid-template-columns: minmax(0, 1fr);
+
+    > [data-row="controls"] { grid-column: 1; }
+  }
+}
