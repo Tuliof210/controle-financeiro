@@ -1,3 +1,5 @@
+@use "theme" as t;
+
 .screen {
   // Query container for `.grid` below — the two-column switch has to read the
   // space the cards actually get, not the window, the same way EntryScreen's
@@ -23,10 +25,10 @@
   // That one is what put a 148px row on screen: at a 768px viewport the second
   // column arrived before the window had grown to pay for it, so a card here
   // was narrower than the same card on a 375px phone and the name inside it
-  // collapsed. Same number and same derivation as EntryScreen's — twice
-  // RowGrid's 440px one-line floor plus each card's 48px of padding, the 24px
-  // gap and 16px of slack against sub-pixel rounding.
-  @container (min-width: 1016px) {
+  // collapsed. Same threshold and same derivation as EntryScreen's — twice
+  // `$row-one-line-floor` plus each card's 48px of padding, the 24px gap and
+  // 16px of slack against sub-pixel rounding.
+  @container (min-width: #{2 * (t.$row-one-line-floor + 48px) + 24px + 16px}) {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }

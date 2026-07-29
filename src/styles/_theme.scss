@@ -15,6 +15,14 @@ $breakpoints: (
   "xl": 1280px,
 );
 
+// A RowGrid row's one-line floor: at or above it, a row holds name, amount and
+// actions on one line. Below it, RowGrid/_tiers.scss collapses. Compile-time,
+// like $breakpoints above — consumed inside @container preludes, where a
+// custom property cannot resolve. Anything derived from it (a tier's
+// max-width, a two-column card's min-width) reads this symbol rather than
+// re-deriving the number.
+$row-one-line-floor: 440px;
+
 @mixin bp($name) {
   @media (min-width: map.get($breakpoints, $name)) {
     @content;

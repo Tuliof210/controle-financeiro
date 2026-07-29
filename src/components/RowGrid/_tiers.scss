@@ -1,8 +1,10 @@
+@use "theme" as t;
+
 // Two collapses, both keyed on the row's own width. The design draws one, at
-// 440px, reached with a viewport media query; both halves of that are wrong
-// here. The viewport lies about a row's width in this shell, and one threshold
-// cannot serve both a row that still has room for its amount and the 148px a
-// Configurações row gets at a 768px viewport.
+// $row-one-line-floor, reached with a viewport media query; both halves of
+// that are wrong here. The viewport lies about a row's width in this shell,
+// and one threshold cannot serve both a row that still has room for its
+// amount and the 148px a Configurações row gets at a 768px viewport.
 //
 // Both numbers are measured, not designed — swept by setting the list's width
 // and reading the name cell back. The fixed cost of a one-line entry row is
@@ -14,10 +16,10 @@
   // action pair stays up beside the name — dropping it here would spend a whole
   // line before the row actually needs one.
   //
-  // 439, not the design's 440: measured, a 440px row still gives the name 180px
-  // and a 420px row gives it 160px. 180 is where a name stops reading as a
-  // fragment, so the collapse belongs just under it.
-  @container (max-width: 439px) {
+  // One under the floor, not the floor itself: measured, a 440px row still
+  // gives the name 180px and a 420px row gives it 160px. 180 is where a name
+  // stops reading as a fragment, so the collapse belongs just under it.
+  @container (max-width: #{t.$row-one-line-floor - 1px}) {
     .list > li {
       // The design's mobile button. At 40px IconButton's 44px hit overlay
       // overhangs 2px, well inside this row's 12px of vertical padding, so a
