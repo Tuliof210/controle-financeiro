@@ -55,6 +55,17 @@ export function useImportAction({ report }: ImportActionProps) {
     });
     setBusy(false);
     if (result.error || !result.data) {
+      // Same code the server's own already-imported lookup and its P2002 race
+      // both emit — either way the file IS imported now (by this submit or by
+      // whoever won the race), so this reaches the same end state as success:
+      // dialog closed, outer button disabled, tooltip explaining why. No date
+      // to show for the dateless branch, so the tooltip falls back to its
+      // generic wording.
+      if (result.code === "already_imported") {
+        setOpen(false);
+        setRecord({ imported: true, importedAt: null });
+        return;
+      }
       return setError(result.error ?? "Erro inesperado");
     }
     setOpen(false);

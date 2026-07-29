@@ -6,6 +6,9 @@ import { seed } from "./seed.helper";
 // transaction — so a correct import writes three movements, not six: the
 // zero-filled month must contribute nothing.
 const FIXTURE = join(__dirname, "extrato-import.ofx");
+// A second, distinct file: its own SHA-256, so it starts this spec cold
+// independently of FIXTURE, which the two tests above already consume.
+const RACE_FIXTURE = join(__dirname, "extrato-import-race.ofx");
 const IDENTIFIER = "E2E-1";
 const EXPECTED = [
   `Entrada ${IDENTIFIER} Jun/26`,
@@ -81,6 +84,55 @@ test("refuses to import the same file twice", async ({ page }) => {
   await expect(trigger).toBeDisabled(SLOW);
   // The reason has to be reachable: the disabled button fires no events, so
   // the hint hangs off its own focusable trigger beside it.
+  await expect(
+    page.getByRole("button", { name: "Por que não posso importar" }),
+  ).toBeVisible();
+});
+
+test("closes on a 409 raised while the dialog is open", async ({
+  page,
+  request,
+}) => {
+  await page.goto("/leitor-ofx");
+  const uploadResponse = page.waitForResponse(
+    (res) =>
+      res.url().includes("/api/ofx") && res.request().method() === "POST",
+  );
+  await page.locator('input[type="file"]').setInputFiles(RACE_FIXTURE);
+  const { data: report } = await (await uploadResponse).json();
+
+  const trigger = page
+    .getByRole("button", { name: "Importar", exact: true })
+    .first();
+  await expect(trigger).toBeEnabled();
+  await trigger.click();
+
+  const dialog = page.getByRole("dialog");
+  await dialog.getByLabel("Identificador do documento").fill("E2E-RACE");
+
+  // The race itself: import the exact same file server-side while the dialog
+  // sits open, as a second importer would. The UI never re-checks — its own
+  // submit() below is what has to discover this, not a re-render off a poll.
+  const { data: people } = await (await request.get("/api/people")).json();
+  const winner = await request.post("/api/ofx-imports", {
+    data: {
+      fileHash: report.fileHash,
+      fileName: report.fileName,
+      ownerId: people[0].id,
+      movements: [
+        { name: "Race", valueCents: 100, type: "income", month: 202609 },
+      ],
+    },
+  });
+  expect(winner.ok()).toBe(true);
+
+  await dialog.getByRole("button", { name: "Importar", exact: true }).click();
+
+  // Same end state as a successful import, reached from the 409 alone: the
+  // dialog this submit opened closes, and the trigger it opened from is now
+  // disabled with its tooltip — no reload, no re-fetch of the record.
+  await expect(dialog).toBeHidden(SLOW);
+  await expect(trigger).toBeDisabled();
   await expect(
     page.getByRole("button", { name: "Por que não posso importar" }),
   ).toBeVisible();
