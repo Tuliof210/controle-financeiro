@@ -1,7 +1,8 @@
-// The narrow tiers are a partial of their own — this file was already at the
-// repo's 100-line cap as a subgrid, and the two collapses read as one idea.
-// Not a component: a mixin definition, no output of its own.
+// Two partials of their own, same reason: this file was already at the
+// repo's 100-line cap, and each reads as one idea — the narrow-tier
+// collapses, and the column-keyed gutter reset. Neither is a component.
 @use "./tiers" as *;
+@use "./gutter" as *;
 
 // The LIST owns the row's box and decides when it collapses; the ROW owns its
 // tracks. Sibling rows deliberately no longer share columns — the design moves
@@ -52,31 +53,12 @@
 
   // Placement is by `data-cell`, never by source position, so a row that omits
   // a cell keeps every other one in its area. The gutter belongs to the cell
-  // that needs it: an absent cell costs nothing, and whichever cell is
-  // leftmost in the GRID starts flush at the row's edge.
+  // that needs it — an absent cell costs nothing, and whichever cell is
+  // leftmost in the GRID starts flush (`_gutter.scss`).
   > [data-cell] {
     margin-inline-start: var(--space-3);
   }
-
-  // `who` is always column 1, in every tier it appears in — flush whenever it
-  // renders.
-  > [data-cell="who"] {
-    margin-inline-start: 0;
-  }
-
-  // A row with no `who` cell (a goal) has nothing in column 1 at all: that
-  // track collapses to zero width, so whichever cell would otherwise share it
-  // — `main` always, and `amt` once `_tiers.scss` re-aligns it to the row's
-  // start below the one-line floor — is flush too. Keyed on the column's own
-  // emptiness (`:has()`), not on which cell happens to come first in the DOM,
-  // so this needs no per-tier case: `act` never needs it (always end-aligned,
-  // so its own margin-inline-start is inert regardless of tier).
-  &:not(:has(> [data-cell="who"])) {
-    > [data-cell="main"],
-    > [data-cell="amt"] {
-      margin-inline-start: 0;
-    }
-  }
+  @include gutter;
 
   > [data-cell="who"] {
     grid-area: who;
