@@ -57,6 +57,7 @@ export function IntervalList(props: IntervalListProps) {
           >
             <input
               type="checkbox"
+              className={styles.checkbox}
               id={`forecast-interval-${interval.key}-lock`}
               checked={isLocked(index)}
               onChange={onLockToggle(index)}
