@@ -1,14 +1,24 @@
 @use "theme" as t;
 
 // Compact square button for a single lucide icon (row Editar/Excluir).
-// 44px square honors the minimum hit-target rule; border matches the reworked
-// Button (angular, subtle structural edge).
+// Border matches the reworked Button (angular, subtle structural edge).
+//
+// The painted size is a knob, not a constant: `--icon-btn-size` lets a caller
+// shrink the box (the row lists do, to the design's 30px) without touching the
+// hit target, which `::after` below holds at 44px regardless. Default 44px, so
+// the two modal call sites — Modal's close and IntervalList's remove, neither
+// of which sizes itself — are unaffected by the knob existing.
+// ponytail: raw 44px throughout, the same raw-pixel exception Tooltip and
+// ColorPicker already take — the DS has no size scale, and "never hardcode"
+// covers colour/space/radius/shadow/duration, not hit targets.
 .iconButton {
+  position: relative;
   display: inline-flex;
+  flex: none;
   align-items: center;
   justify-content: center;
-  width: 44px;
-  height: 44px;
+  width: var(--icon-btn-size, 44px);
+  height: var(--icon-btn-size, 44px);
   padding: 0;
   border: var(--border-2) solid var(--color-border-subtle);
   border-radius: var(--radius-sm);
@@ -20,8 +30,31 @@
     color var(--duration-fast) var(--ease-snappy),
     filter var(--duration-fast) var(--ease-snappy);
 
+  // The focus ring stays on the button itself, so it hugs the painted box
+  // rather than the (invisible, larger) overlay below.
   &:focus-visible {
     @include t.focus-ring;
+  }
+
+  // The tap, decoupled from the paint. An overlay rather than padding: padding
+  // would grow the box and shift every cell beside it in the row, which is the
+  // same reason Tooltip's trigger reaches for one.
+  //
+  // CALLER CONTRACT: two adjacent shrunk IconButtons must sit at least
+  // `44px - <size>` apart, or their overlays overlap and a tap near the seam
+  // fires the wrong button — and since `danger` is the later sibling, the one
+  // it wrongly fires is the destructive one. At the rows' 30px that is 14px,
+  // which is why they gap with --space-4 and not the --space-2 a 44px pair
+  // could afford. Vertically the same overhang (7px at 30px) must stay inside
+  // the row's own padding, or it eats into the neighbouring row's tap band.
+  &::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: max(44px, var(--icon-btn-size, 44px));
+    height: max(44px, var(--icon-btn-size, 44px));
+    transform: translate(-50%, -50%);
   }
 
   &:disabled {
