@@ -18,12 +18,12 @@ export type EntryFormFields = EntryFormBase & {
 };
 
 export type EntryFormProps = {
-  // Prefixes the field ids, e.g. "recurrence" -> "recurrence-name".
+  // Prefixes the field ids, e.g. "forecast" -> "forecast-name".
   idPrefix: string;
   people: Person[];
   fields: EntryFormFields;
   // The entity's own month control — a MonthPicker (Movement) or an
-  // IntervalList (Recurrence) — the one part of the form that genuinely
+  // IntervalList (Forecast) — the one part of the form that genuinely
   // differs, so the caller renders it. Always non-null: there is no global
   // period to wait on any more, every month in the domain is fair game.
   period: ReactNode;

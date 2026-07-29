@@ -10,7 +10,7 @@ export type EntryFormBase = {
   ownerId: string;
 };
 
-// Shared by both features, so a regression here breaks recurrences and
+// Shared by both features, so a regression here breaks forecasts and
 // movements together.
 export function isEntryValid({
   name,

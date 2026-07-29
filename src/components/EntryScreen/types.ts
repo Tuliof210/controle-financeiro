@@ -46,11 +46,11 @@ export type EntryScreenConfig<
   T extends Entry,
   V extends { type: EntryType },
 > = {
-  // The /api/<resource> segment, e.g. "recurrences".
+  // The /api/<resource> segment, e.g. "forecasts".
   resource: string;
   labels: EntryScreenLabels;
   // The global projection range is passed alongside the item so a period cell
-  // can draw itself relative to it (the recurrence coverage bar). Callers that
+  // can draw itself relative to it (the forecast coverage bar). Callers that
   // do not need it — Movimentações — just ignore the second argument.
   renderPeriod: (item: T, period: Period | null) => ReactNode;
   // The band under the row, when the entity has one. A second slot rather than

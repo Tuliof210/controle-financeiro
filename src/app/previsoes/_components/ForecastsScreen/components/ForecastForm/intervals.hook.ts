@@ -14,7 +14,7 @@ const defaultInterval = (): Interval => ({
   end: currentYYYYMM(),
 });
 
-export function useRecurrenceIntervals(initialMonths: number[] | undefined) {
+export function useForecastIntervals(initialMonths: number[] | undefined) {
   const nextKey = useRef(0);
   const withKeys = (list: Interval[]): KeyedInterval[] =>
     list.map((it) => ({ ...it, key: nextKey.current++ }));

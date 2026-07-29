@@ -23,7 +23,7 @@
   list-style: none;
 }
 
-// who | main | amt | act, plus the band a recurrence auto-places beneath them.
+// who | main | amt | act, plus the band a forecast auto-places beneath them.
 // `who` is `auto`, not the design's fixed 26px, so a chipless row (a goal) pays
 // nothing for it — and since the gutters ride on the cells rather than on
 // `column-gap`, nothing for its gutter either: a gap is billed between two
@@ -88,7 +88,7 @@
     justify-self: end;
   }
 
-  // An IMPLICIT row, not one declared in the areas above: a recurrence with no
+  // An IMPLICIT row, not one declared in the areas above: a forecast with no
   // global period renders no band, and a declared row would still bill its
   // `row-gap` for the band that never came. `-1` is the last explicit line, so
   // this keeps reaching the row's edge as the tiers drop columns.

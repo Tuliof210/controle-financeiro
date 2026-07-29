@@ -18,7 +18,7 @@
   overflow: hidden;
 }
 
-// One fill per contiguous interval, so a recurrence with a gap draws exactly
+// One fill per contiguous interval, so a forecast with a gap draws exactly
 // what the "·"-separated intervals in its metadata line say.
 .fill {
   position: absolute;

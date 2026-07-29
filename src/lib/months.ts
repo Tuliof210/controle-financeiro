@@ -33,7 +33,7 @@ export function addMonths(value: number, count: number): number {
   return composeYYYYMM(Math.trunc(total / 12), (total % 12) + 1);
 }
 
-// Fixed, not relative-to-now: a movement or recurrence interval can land on
+// Fixed, not relative-to-now: a movement or forecast interval can land on
 // any month in this domain regardless of when it is entered, so the picker's
 // options can't drift with the clock either.
 export function yearOptions() {

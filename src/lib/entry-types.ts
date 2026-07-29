@@ -1,7 +1,7 @@
 export const ENTRY_TYPES = ["income", "expense"] as const;
 export type EntryType = (typeof ENTRY_TYPES)[number];
 
-// What every entry (recurrence, movement, ...) has in common. The generic
+// What every entry (forecast, movement, ...) has in common. The generic
 // EntryRow/EntrySection/EntryScreen work off this shape; the period is the
 // only part that differs per entity, so it is injected by the caller.
 export type Entry = {
