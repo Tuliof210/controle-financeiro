@@ -28,5 +28,5 @@ against 53 passing tests, a dashboard sentence that reports the wrong number.
 - [x] tasks/04-row-gutter-column.md — RowGrid's gutter reset keys on the column, not on source position
 - [x] tasks/05-entry-screen-split.md — EntryScreen under the 100-line cap via its repeated JSX
 - [x] tasks/06-e2e-transport-helper.md — one home for the e2e fetch plumbing both seed helpers copy
-- [ ] tasks/07-dashboard-copy.md — ceiling card wording, and three dashboard comments that describe code that changed
+- [x] tasks/07-dashboard-copy.md — ceiling card wording, and three dashboard comments that describe code that changed
 - [ ] tasks/08-docs-true.md — ARCHITECTURE/CLAUDE/spec comments stop asserting things that are false

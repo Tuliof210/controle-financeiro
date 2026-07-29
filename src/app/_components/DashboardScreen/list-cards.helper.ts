@@ -3,11 +3,13 @@
 // "inalcançável no ritmo atual") is now GoalCard's own `eta`, but the
 // zero-divisor guard below is still shared by all three.
 
-// A row's share of the largest row, for the meter fill. `max` is 0 whenever
-// every row is 0 (an all-underwater range leaves no ceiling at all), and dividing
-// by it would give NaN and a bar of width "NaN%".
-export function sharePercent(value: number, max: number): number {
-  return max > 0 ? (value / max) * 100 : 0;
+// Each caller's share of ITS OWN whole — a month's own cumulative balance
+// (CeilingCard), a goal's own target (GoalCard) — never the largest across
+// rows, despite the parameter's old name. `whole` is 0 whenever the caller's
+// own whole is 0 (an all-underwater range leaves no ceiling at all), and
+// dividing by it would give NaN and a bar of width "NaN%".
+export function sharePercent(value: number, whole: number): number {
+  return whole > 0 ? (value / whole) * 100 : 0;
 }
 
 // The monthly ceiling is a budget: at or under it is fine, past it is not.
