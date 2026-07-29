@@ -1,6 +1,7 @@
 import { Wallet } from "lucide-react";
 import { SectionCard } from "@/components/SectionCard";
 import { HINTS } from "../../hints";
+import { Headline } from "../Headline";
 import { MeterList } from "../MeterList";
 import { MeterRow } from "../MeterRow";
 import { ShowAllToggle } from "../ShowAllToggle";
@@ -27,16 +28,10 @@ export function CeilingCard(props: CeilingCardProps) {
         <p className={styles.note}>{note}</p>
       ) : (
         <>
-          {/* A labelled figure, not a bare number — otherwise the biggest value
-              on the card is the only one a screen reader announces without a
-              name. Same dt/dd pairing as StatCard's headline. */}
-          <dl className={styles.headline}>
-            <dt className={styles.caption}>Gasto extra por mês</dt>
-            <dd className={styles.total}>
-              {monthly}
-              <span className={styles.splits}>{splits}</span>
-            </dd>
-          </dl>
+          <Headline caption="Gasto extra por mês">
+            {monthly}
+            <span className={styles.splits}>{splits}</span>
+          </Headline>
           {horizon ? <p className={styles.note}>{horizon}</p> : null}
           {/* SectionCard takes no header action; the chip right-aligns itself
               inside the card body instead of widening it for two call sites. */}
