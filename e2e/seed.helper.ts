@@ -11,12 +11,12 @@ export const LONG_PERSON_NAME =
   "Reformaestruturaldacoberturaeavarandadositiofamiliar";
 // A short-named sibling in the long-named row's card, owned by someone else —
 // two rows with nothing in common is what makes "columns line up" mean anything.
-export const SHORT_RECURRENCE = "Luz";
+export const SHORT_FORECAST = "Luz";
 // Disjoint months: `formatMonths` joins one chunk per interval with " · ", so
-// this line is long and unwrappable. Every other seeded recurrence is
+// this line is long and unwrappable. Every other seeded forecast is
 // contiguous and gives one short chunk — how the period text once painted out
 // of its row with the suite green.
-export const SPLIT_RECURRENCE = "Rateio";
+export const SPLIT_FORECAST = "Rateio";
 export const SHORT_MOVEMENT = "Bonus";
 export const SHORT_GOAL = "Viagem";
 // Owner of the long-named rows, and Pessoas' own short-named sibling.
@@ -37,15 +37,15 @@ export async function seed() {
     name: LONG_PERSON_NAME,
     color: "lime",
   });
-  await post("/api/recurrences", {
+  await post("/api/forecasts", {
     name: LONG_NAME,
     valueCents: 123456,
     type: "expense",
     ownerId: owner.id,
     months: [202601, 202602, 202603],
   });
-  await post("/api/recurrences", {
-    name: SHORT_RECURRENCE,
+  await post("/api/forecasts", {
+    name: SHORT_FORECAST,
     valueCents: 19990,
     type: "expense",
     ownerId: other.id,
@@ -65,8 +65,8 @@ export async function seed() {
     ownerId: other.id,
     month: 202602,
   });
-  await post("/api/recurrences", {
-    name: SPLIT_RECURRENCE,
+  await post("/api/forecasts", {
+    name: SPLIT_FORECAST,
     valueCents: 7350,
     type: "expense",
     ownerId: other.id,

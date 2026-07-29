@@ -25,7 +25,7 @@ import { seed } from "./seed.helper";
 
 test.beforeAll(async () => {
   // Order matters, it is not politeness: the range is derived from EVERY entry
-  // in the database, so the shared seed's 202611 recurrence has to have landed
+  // in the database, so the shared seed's 202611 forecast has to have landed
   // before this fixture's months mean anything.
   await seed();
   await seedCeiling();
@@ -87,7 +87,7 @@ test("with no ceiling, the card names the first month in the red", async ({
   await expect(card.getByRole("img")).toHaveCount(0);
 });
 
-// Range end is the shared seed's SPLIT_RECURRENCE reach (202611, Nov/26 —
+// Range end is the shared seed's SPLIT_FORECAST reach (202611, Nov/26 —
 // seed.helper.ts), computed here rather than hardcoded so this keeps reading
 // correctly whenever it runs, including the one month a year (November) that
 // exercises the singular branch — "1 mês restante", not "1 meses restantes",
