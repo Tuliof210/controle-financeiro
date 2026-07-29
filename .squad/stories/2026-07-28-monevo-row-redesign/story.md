@@ -26,8 +26,11 @@ list-wide shared columns, which the design abandons entirely.
 - [x] `npm run lint` exits 0.
 - [x] `npm run test` is green — requires **no `next dev` running in this
       directory** (Next 16 refuses a second one per directory).
-- [x] Browser preview of `/movimentacoes`, `/recorrencias` and `/configuracoes`
+- [ ] Browser preview of `/movimentacoes`, `/recorrencias` and `/configuracoes`
       at 1440 / 768 / 375 px, in both themes, screenshotted on the PR.
+      NOT DONE: the preview was walked and its measurements are on the PR, but
+      attaching images needs GitHub's web upload — `gh` has no endpoint for it,
+      so this box cannot be closed from the command line. Owner's call.
 
 ## Tasks
 - [x] tasks/01-icon-button-compact.md — a size knob on IconButton that shrinks
