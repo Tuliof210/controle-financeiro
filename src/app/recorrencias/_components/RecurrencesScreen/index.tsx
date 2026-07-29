@@ -2,10 +2,10 @@
 
 import { EntryScreen } from "@/components/EntryScreen";
 import type { Recurrence } from "@/core/entities/recurrence.entity";
+import { formatMonths } from "@/lib/month-intervals.helper";
 import { CoverageBar } from "./components/CoverageBar";
 import { RecurrenceForm } from "./components/RecurrenceForm";
 import type { RecurrenceFormValues } from "./components/RecurrenceForm/hook";
-import { formatMonths } from "./recurrence-range.helper";
 
 export function RecurrencesScreen() {
   return (

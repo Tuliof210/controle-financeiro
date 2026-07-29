@@ -1,5 +1,6 @@
 import {
   ArrowLeftRight,
+  CreditCard,
   FileUp,
   LayoutDashboard,
   ListTree,
@@ -31,6 +32,12 @@ export const NAV: NavEntry[] = [
     label: "Recorrências",
     short: "Fixos",
     icon: Repeat,
+  },
+  {
+    href: "/parcelamentos",
+    label: "Parcelamentos",
+    short: "Parcelas",
+    icon: CreditCard,
   },
   { href: "/leitor-ofx", label: "Leitor OFX", short: "OFX", icon: FileUp },
   {

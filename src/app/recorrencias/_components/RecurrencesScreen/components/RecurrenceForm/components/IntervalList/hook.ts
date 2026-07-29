@@ -1,4 +1,4 @@
-import type { Interval } from "../../intervals.helper";
+import type { Interval } from "@/lib/month-intervals.helper";
 import type { KeyedInterval } from "../../intervals.hook";
 
 export type IntervalListProps = {
