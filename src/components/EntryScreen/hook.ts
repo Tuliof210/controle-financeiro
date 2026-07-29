@@ -12,6 +12,7 @@ import type { EntryScreenConfig, ModalState } from "./types";
 export function useEntryScreen<T extends Entry, V extends { type: EntryType }>({
   resource,
   labels,
+  visible,
 }: EntryScreenConfig<T, V>) {
   const { profile } = useProfile();
   const [items, setItems] = useState<T[]>([]);
@@ -41,7 +42,8 @@ export function useEntryScreen<T extends Entry, V extends { type: EntryType }>({
     });
   }, [refetch]);
 
-  const { income, expense } = splitByType(visibleFor(items, profile));
+  const shown = visible ? items.filter(visible) : items;
+  const { income, expense } = splitByType(visibleFor(shown, profile));
 
   const openModal = (state: ModalState<T>) => {
     setError(undefined);

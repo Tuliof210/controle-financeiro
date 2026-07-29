@@ -1,31 +1,13 @@
 import type { NextRequest } from "next/server";
-import { z } from "zod";
 import { Prisma } from "@/generated/prisma/client";
-import { ENTRY_TYPES } from "@/lib/entry-types";
 import { fail, ok, safeJson } from "@/lib/http";
+import { createSchema, updateSchema } from "./recurrence-schema.helper";
 import {
   createRecurrence,
   deleteRecurrence,
   listRecurrences,
   updateRecurrence,
 } from "./service";
-
-const recurrenceShape = {
-  name: z.string().trim().min(1).max(80),
-  valueCents: z.number().int().min(1),
-  type: z.enum(ENTRY_TYPES),
-  ownerId: z.string().min(1),
-  // At least one active month; deduped and sorted so storage is canonical.
-  // 2000-2099: the picker's own domain — the derived period feeds
-  // buildMonths, so a wider bound risks a corrupt row enumerating ~950k rows.
-  months: z
-    .array(z.number().int().min(200001).max(209912))
-    .min(1)
-    .transform((m) => [...new Set(m)].sort((a, b) => a - b)),
-};
-
-const createSchema = z.object(recurrenceShape);
-const updateSchema = z.object({ ...recurrenceShape, id: z.string().min(1) });
 
 export async function GET() {
   try {

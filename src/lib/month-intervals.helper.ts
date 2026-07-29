@@ -1,5 +1,13 @@
-import { buildMonths, composeYYYYMM, splitYYYYMM } from "@/lib/months";
+import {
+  buildMonths,
+  composeYYYYMM,
+  formatYyyymm,
+  splitYYYYMM,
+} from "@/lib/months";
 
+// Promoted out of the recurrence form once /parcelamentos needed to read a
+// month set too. Kept apart from months.ts, which is single-month arithmetic
+// and already near the file cap.
 export type Interval = { start: number; end: number };
 
 // Next YYYYMM, rolling the year over after December.
@@ -36,4 +44,16 @@ export function monthsToIntervals(months: number[]): Interval[] {
     }
   }
   return intervals;
+}
+
+// Active months -> their contiguous intervals, e.g. "Jan/26–Mar/26 · Jul/26–Dez/26".
+// A single-month interval renders as just "Mai/26".
+export function formatMonths(months: number[]): string {
+  return monthsToIntervals(months)
+    .map(({ start, end }) =>
+      start === end
+        ? formatYyyymm(start)
+        : `${formatYyyymm(start)}–${formatYyyymm(end)}`,
+    )
+    .join(" · ");
 }

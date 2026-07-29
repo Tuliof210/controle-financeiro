@@ -1,0 +1,18 @@
+// The band under the row. Muted and small: the parcel in the amount cell is
+// the number that matters month to month, the total is context.
+.total {
+  color: var(--color-text-muted);
+  font-size: var(--text-xs);
+}
+
+// Mirrors EntrySection's Saídas button: the dashed variant composed with a
+// negative hover fill at the call site, per the note in Button's stylesheet.
+// Every purchase here is an outflow, so there is no tone to switch on.
+.add {
+  gap: var(--space-2);
+
+  &:hover:not(:disabled) {
+    background: var(--color-negative);
+    border-color: var(--color-negative);
+  }
+}
