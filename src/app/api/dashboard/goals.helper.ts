@@ -52,7 +52,7 @@ export function projectGoals(
             ? addMonths(current, months - 1)
             : null,
         accruedCents,
-        // monthsAhead is >= 1 by construction: buildSlack runs from the current
+        // monthsAhead is >= 1 by construction: buildCeiling runs from the current
         // month to the range end, and getDashboard already answered
         // "out_of_range" when the current month falls outside it. No guard.
         neededCents: Math.ceil(goal.targetCents / monthsAhead),

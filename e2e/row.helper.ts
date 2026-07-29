@@ -7,6 +7,7 @@ import {
   SHORT_PERSON,
   SHORT_RECURRENCE,
 } from "./seed.helper";
+import { settle } from "./settle.helper";
 
 // Not a spec (playwright only collects `*.spec.ts`): the row locators, shared
 // by the specs next to it — see seed.helper.ts for the same arrangement.
@@ -79,6 +80,7 @@ export async function openRow(
   // The row itself, not its text anywhere on the page: /configuracoes also
   // renders every person's name in the header's hidden <select> options.
   await expect(row).toBeVisible({ timeout: 15_000 });
+  await settle(page, row);
   const value = row.getByText(/^R\$/);
   return {
     name: await box(row.getByText(name, { exact: true })),

@@ -1,7 +1,7 @@
 @use "theme" as t;
 
 // margin-left: auto rather than a wrapper's justify-content, so the same chip
-// right-aligns both on its own inside SectionCard's flex COLUMN body (SlackCard,
+// right-aligns both on its own inside SectionCard's flex COLUMN body (CeilingCard,
 // which has no description line) and beside a <p> in LimitCard's head row.
 // Auto margins absorb free space on a flex item's cross axis too.
 .toggle {

@@ -9,13 +9,13 @@ export type GoalCardProps = { goal: GoalProjection };
 export function useGoalCard({ goal }: GoalCardProps) {
   const { name, targetCents, accruedCents } = goal;
 
-  // ONE quantity, stated three ways: how much of the goal the projected slack
+  // ONE quantity, stated three ways: how much of the goal the projected ceiling
   // covers before the range ends. NOT money already set aside — there is no
   // savedCents on Goal, no contributions table, nothing. `.squad/learnings.md`
   // records a meter shipping backwards because its length measured one thing
   // while its colour and label measured another, so the bar's width, the badge
   // and `covered` below are all derived from this single number, capped
-  // together. sharePercent (shared with SlackCard) carries the zero-divisor
+  // together. sharePercent (shared with CeilingCard) carries the zero-divisor
   // guard: a 0 target would divide by zero, and there is no coverage of nothing.
   //
   // FLOOR, never round. Rounding announced "100%" for anything from 99.5% up,

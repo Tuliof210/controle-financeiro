@@ -1,24 +1,38 @@
 import { Wallet } from "lucide-react";
 import { SectionCard } from "@/components/SectionCard";
 import { HINTS } from "../../hints";
+import { Headline } from "../Headline";
 import { MeterList } from "../MeterList";
 import { MeterRow } from "../MeterRow";
 import { ShowAllToggle } from "../ShowAllToggle";
-import { type SlackCardProps, useSlackCard } from "./hook";
+import { type CeilingCardProps, useCeilingCard } from "./hook";
 import styles from "./style.module.scss";
 
-export function SlackCard(props: SlackCardProps) {
-  const { empty, rows, label, hidden, all, toggle } = useSlackCard(props);
+export function CeilingCard(props: CeilingCardProps) {
+  const {
+    empty,
+    note,
+    monthly,
+    splits,
+    horizon,
+    rows,
+    label,
+    hidden,
+    all,
+    toggle,
+  } = useCeilingCard(props);
 
   return (
-    <SectionCard title="Folga de gastos" icon={Wallet} hint={HINTS.slack}>
+    <SectionCard title="Teto de Gastos" icon={Wallet} hint={HINTS.ceiling}>
       {empty ? (
-        <p className={styles.note}>
-          Sem folga no período: o saldo acumulado projetado não cobre gastos
-          adicionais.
-        </p>
+        <p className={styles.note}>{note}</p>
       ) : (
         <>
+          <Headline caption="Gasto extra por mês">
+            {monthly}
+            <span className={styles.splits}>{splits}</span>
+          </Headline>
+          {horizon ? <p className={styles.note}>{horizon}</p> : null}
           {/* SectionCard takes no header action; the chip right-aligns itself
               inside the card body instead of widening it for two call sites. */}
           {hidden ? (
@@ -34,9 +48,8 @@ export function SlackCard(props: SlackCardProps) {
                 projected={row.projected}
                 srLabel={row.srLabel}
               >
-                <span>{row.total}</span>
-                <span className={styles.split}>{row.weekly}/sem</span>
-                <span className={styles.split}>{row.daily}/dia</span>
+                <span>{row.remaining}</span>
+                <span className={styles.of}>de {row.of}</span>
               </MeterRow>
             ))}
           </MeterList>

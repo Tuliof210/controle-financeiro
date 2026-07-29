@@ -1,5 +1,6 @@
 import { SectionCard } from "@/components/SectionCard";
 import { SPARK_H, SPARK_W } from "../../spark.helper";
+import { Headline } from "../Headline";
 import { type StatCardProps, useStatCard } from "./hook";
 import styles from "./style.module.scss";
 
@@ -13,16 +14,10 @@ export function StatCard(props: StatCardProps) {
     <div className={styles.card}>
       <SectionCard title={title} icon={icon} tone={tone} hint={hint}>
         <div className={styles.head}>
-          {/* The headline is a labelled figure like the other four, not a bare
-              number — otherwise the biggest value on the card is the only one a
-              screen reader announces without a name. */}
-          <dl className={styles.headline}>
-            <dt className={styles.caption}>Valor total no período</dt>
-            <dd className={`${styles.total} ${tone ? styles[tone] : ""}`}>
-              {glyph ? <span aria-hidden>{glyph} </span> : null}
-              {total}
-            </dd>
-          </dl>
+          <Headline caption="Valor total no período" tone={tone}>
+            {glyph ? <span aria-hidden>{glyph} </span> : null}
+            {total}
+          </Headline>
           {/* aria-hidden: the four rows below already carry every number the
               sparkline shows. */}
           {spark ? (
