@@ -133,3 +133,22 @@ for (const list of LISTS) {
     }
   });
 }
+
+// GoalRow renders no `who` cell, so column 1 collapses to zero width and
+// `main`/`amt` both land in column 2 — the gutter reset used to key on DOM
+// order (`:first-child`), which zeroed `main`'s margin (source-first) but not
+// `amt`'s (source-second), leaving them 12px apart despite sharing a column.
+// NARROW puts a goal row under the one-line floor, where `_tiers.scss`
+// re-aligns `amt` to `justify-self: start` and the mismatch becomes visible.
+test("/configuracoes Viagem keeps name and dropped amount flush at the same edge", async ({
+  page,
+}) => {
+  const goals = LISTS.find(
+    (list) => list.path === "/configuracoes" && !list.bare,
+  );
+  if (!goals) throw new Error("expected a non-bare /configuracoes list");
+  await page.setViewportSize({ width: NARROW, height: 900 });
+  const cells = await openRow(page, goals, goals.short);
+  if (!cells.valueEdges) throw new Error("expected an amount to measure");
+  expect(cells.name.x).toBeCloseTo(cells.valueEdges.left, 0);
+});

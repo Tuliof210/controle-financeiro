@@ -25,7 +25,7 @@ against 53 passing tests, a dashboard sentence that reports the wrong number.
 - [x] tasks/01-api-error-code.md — carry `error.code` through `api.ts`; ImportAction disables on a 409
 - [x] tasks/02-row-floor-symbol.md — one Sass symbol for RowGrid's one-line floor; 439 and both 1016s derive from it
 - [x] tasks/03-rail-breakpoint.md — the rail arrives only where the shell can afford it, killing the 764→768 cliff
-- [ ] tasks/04-row-gutter-column.md — RowGrid's gutter reset keys on the column, not on source position
+- [x] tasks/04-row-gutter-column.md — RowGrid's gutter reset keys on the column, not on source position
 - [ ] tasks/05-entry-screen-split.md — EntryScreen under the 100-line cap via its repeated JSX
 - [ ] tasks/06-e2e-transport-helper.md — one home for the e2e fetch plumbing both seed helpers copy
 - [ ] tasks/07-dashboard-copy.md — ceiling card wording, and three dashboard comments that describe code that changed
