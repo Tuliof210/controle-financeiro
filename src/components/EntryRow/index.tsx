@@ -16,6 +16,7 @@ export function EntryRow(props: EntryRowProps) {
     value,
     owner,
     period,
+    band,
     onEdit,
     onDelete,
   } = useEntryRow(props);
@@ -51,6 +52,7 @@ export function EntryRow(props: EntryRowProps) {
           <Trash2 size={14} aria-hidden />
         </IconButton>
       </span>
+      {band ? <span data-cell="bar">{band}</span> : null}
     </li>
   );
 }

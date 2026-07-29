@@ -26,12 +26,13 @@ export function EntrySection<T extends Entry>(props: EntrySectionProps<T>) {
         />
       ) : (
         <RowGrid>
-          {rows.map(({ entry, person, period, onEdit, onDelete }) => (
+          {rows.map(({ entry, person, period, band, onEdit, onDelete }) => (
             <EntryRow
               key={entry.id}
               entry={entry}
               person={person}
               period={period}
+              band={band}
               onEdit={onEdit}
               onDelete={onDelete}
             />

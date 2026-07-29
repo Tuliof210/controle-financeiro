@@ -11,6 +11,10 @@ export type EntryRowProps = {
   // recurrence's month intervals vs a movement's single month). It reads in the
   // metadata line now, beside the owner, rather than in a column of its own.
   period: ReactNode;
+  // The full-width band under the row, when the entity has one. Absent for a
+  // movement, and absent for a recurrence until a global period is saved — the
+  // row must render no cell at all then, not an empty one.
+  band?: ReactNode;
   onEdit: () => void;
   onDelete: () => void;
 };

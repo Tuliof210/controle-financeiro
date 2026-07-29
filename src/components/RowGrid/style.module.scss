@@ -4,16 +4,14 @@
 @use "./tiers" as *;
 
 // The LIST owns the row's box and decides when it collapses; the ROW owns its
-// own tracks. Sibling rows deliberately no longer share columns: the design
-// moves owner and period onto a second line under the name, so there is nothing
-// left to line up across rows and every row can size itself.
+// tracks. Sibling rows deliberately no longer share columns — the design moves
+// owner and period onto a line under the name, so nothing is left to line up.
 .list {
   // Query container for the rows. A row's own inline size is the only honest
   // signal — this shell moves a row BACKWARDS as the window grows (680px at a
-  // 764px viewport, 372px at 768px, where the 264px aside appears), so no media
-  // query can decide this. It stays on the <ul>: an element is never its own
-  // query container, and `container-type` on a grid item would zero the
-  // intrinsic size it contributes to its parent.
+  // 764px viewport, 372px at 768px, where the aside appears), so no media query
+  // can decide it. It stays on the <ul>: an element is never its own query
+  // container, and `container-type` on a grid item zeroes its intrinsic size.
   container-type: inline-size;
   display: flex;
   flex-direction: column;
@@ -22,16 +20,16 @@
   list-style: none;
 }
 
-// who | main | amt | act, plus the `bar` row a recurrence adds under them.
-// `who` is `auto`, not the design's fixed 26px, so a row with no chip (a goal)
-// pays nothing for the column — and because the gutters ride on the cells
-// instead of on `column-gap`, it pays nothing for that column's gutter either:
-// `column-gap` bills the gap between two tracks even when one holds no item.
+// who | main | amt | act, plus the band a recurrence auto-places beneath them.
+// `who` is `auto`, not the design's fixed 26px, so a chipless row (a goal) pays
+// nothing for it — and since the gutters ride on the cells rather than on
+// `column-gap`, nothing for its gutter either: a gap is billed between two
+// tracks even when one holds no item.
 .list > li {
   --icon-btn-size: 30px;
   display: grid;
   grid-template-columns: auto minmax(0, 1fr) auto auto;
-  grid-template-areas: "who main amt act" ". bar bar bar";
+  grid-template-areas: "who main amt act";
   align-items: center;
   column-gap: 0;
   row-gap: var(--space-2);
@@ -50,10 +48,10 @@
     border-bottom: 0;
   }
 
-  // Placement is by `data-cell`, never by source position: a row that omits a
-  // cell keeps every other cell in its own area. The gutter belongs to the cell
-  // that needs it, so an absent cell costs nothing and the row's first cell —
-  // whichever it turns out to be — starts flush at the row's edge.
+  // Placement is by `data-cell`, never by source position, so a row that omits
+  // a cell keeps every other one in its area. The gutter belongs to the cell
+  // that needs it: an absent cell costs nothing, and whichever cell comes first
+  // starts flush at the row's edge.
   > [data-cell] {
     margin-inline-start: var(--space-3);
   }
@@ -66,9 +64,8 @@
     grid-area: who;
   }
 
-  // min-width is restated because it does not inherit: without this floor the
-  // 65-char unbroken name re-inflates the `1fr` track from the inside, which is
-  // exactly what `minmax(0, …)` above exists to prevent.
+  // min-width does not inherit, and without this floor the 65-char unbroken
+  // name re-inflates the `1fr` track that `minmax(0, …)` exists to collapse.
   > [data-cell="main"] {
     grid-area: main;
     min-width: 0;
@@ -80,10 +77,10 @@
   }
 
   // The pair's flex and gap live only here — no row stylesheet has an
-  // `.actions` class to fall back on. --space-4, not the --space-2 a 44px pair
-  // could afford: IconButton holds a 44px hit overlay behind a 30px paint, and
-  // two of those need >= 44 - 30 between them or the overlays overlap and a tap
-  // left of the seam fires Excluir. Measured at 6px of overlap on --space-2.
+  // `.actions` class to fall back on. --space-4, not --space-2: IconButton
+  // holds a 44px hit overlay behind a 30px paint, and two of those need
+  // >= 44 - 30 apart or a tap left of the seam fires Excluir (measured: 6px of
+  // overlap on --space-2).
   > [data-cell="act"] {
     display: flex;
     grid-area: act;
@@ -91,8 +88,12 @@
     justify-self: end;
   }
 
+  // An IMPLICIT row, not one declared in the areas above: a recurrence with no
+  // global period renders no band, and a declared row would still bill its
+  // `row-gap` for the band that never came. `-1` is the last explicit line, so
+  // this keeps reaching the row's edge as the tiers drop columns.
   > [data-cell="bar"] {
-    grid-area: bar;
+    grid-column: 2 / -1;
   }
 }
 

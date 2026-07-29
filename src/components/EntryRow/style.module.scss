@@ -2,12 +2,11 @@
 
 // Cell contents only. RowGrid owns the row's box and the areas these land in,
 // so PersonRow and GoalRow share the anatomy without restating a line of it.
-//
 // The ink is `--ink-900`, a PRIMITIVE, never `--color-text`: swatch-colors'
-// seven fills are theme-independent `-400` tokens, so a themed ink would flip
-// in dark mode and land at 1.22:1 on lime. Measured on all seven, `--ink-900`'s
-// worst pair is violet at 5.15:1 — what GoalCard and HeroCard already state.
-// --radius-sm, not --radius-full, which the tokens file scopes to status dots.
+// seven fills are theme-independent `-400` tokens, so a themed ink flips in
+// dark mode to 1.22:1 on lime. Measured on all seven, `--ink-900`'s worst pair
+// is violet at 5.15:1 — what GoalCard and HeroCard already state. --radius-sm,
+// not --radius-full, which the tokens file scopes to status dots.
 // ponytail: raw 26px, off the 4px grid, the rail widths' standing exception.
 .chip {
   display: flex;
@@ -33,9 +32,8 @@
 
 // Ellipsis, not the `overflow-wrap: anywhere` this row used to carry — mutually
 // exclusive, and the design truncates. `display: block` is load-bearing
-// (`text-overflow` is inert on an inline box); `overflow` stays on this element
-// alone, since on the row or `.main` it clips IconButton's hit overlay and the
-// outline-offset focus ring.
+// (`text-overflow` is inert on an inline box); `overflow` stays here alone,
+// since on the row or `.main` it clips the hit overlay and the focus ring.
 .name {
   display: block;
   overflow: hidden;
@@ -48,9 +46,10 @@
 
 // Owner and period, one tier down in size and tone — mono, not the display face
 // `--text-2xs` usually pairs with, because a name and a month are body copy.
-// `nowrap`, not the design's `wrap`: the seeded 51-char spaceless name measured
-// 306px, unwrappable, so it set this line's min-content and pushed the row 109px
-// past the card at 375px. Truncating also keeps every row the same height.
+// `nowrap` on both axes, not the design's `wrap`: the seeded 51-char spaceless
+// name is unwrappable and set this line's min-content at 306px, pushing the row
+// 109px past the card at 375px; and without it the intervals broke mid-range
+// into two lines. One line, uniform row heights, and the owner is what gives.
 .meta {
   display: flex;
   flex-wrap: nowrap;
@@ -60,6 +59,7 @@
   font-family: var(--font-mono);
   font-size: var(--text-2xs);
   letter-spacing: var(--tracking-wide);
+  white-space: nowrap;
 }
 
 // The only unbounded part of the line gives way; the period is short and fixed.
