@@ -10,14 +10,14 @@ export function useGoalsTab({ data }: GoalsTabProps) {
     goals,
     empty: goals.length === 0,
     capacity: formatMoney(pace),
-    // `pace` is floor(0.25 × min(slack.total)), so the caption is literally what
+    // `pace` is floor(0.25 × ceiling.monthly), so the caption is literally what
     // it is. At zero there is nothing to divide by and nothing to describe as a
     // share, so the sentence changes rather than the number.
     caption: pace
-      ? "guardando 25% da menor folga do período"
-      : "sem folga projetada no período",
+      ? "guardando 25% do teto de gastos"
+      : "sem teto de gastos no período",
     // "COBERTAS NO PERÍODO", not "CONCLUÍDAS": doneMonth means the projected
-    // slack funds the target before the range ends, which is not the same as
+    // ceiling funds the target before the range ends, which is not the same as
     // achieved. There is no achieved state in this data.
     covered: `${goals.filter((goal) => goal.doneMonth !== null).length} / ${goals.length}`,
     total: formatMoneyShort(

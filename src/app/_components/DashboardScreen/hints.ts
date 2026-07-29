@@ -40,12 +40,15 @@ export const HINTS = {
     "daí em diante é projeção. A linha horizontal marca o zero.",
   ].join(" "),
 
-  slack: [
-    "O quanto dá para gastar a mais em cada mês sem furar nenhum mês seguinte:",
-    "80% do menor saldo acumulado de ali até o fim do período. Semanal divide",
-    "por 4, diário por 30. A barra é a folga do mês comparada à do mês mais",
-    "folgado da lista. Os meses posteriores ao atual aparecem hachurados: são",
-    "projeção, não histórico.",
+  ceiling: [
+    "Quanto dá para gastar a mais TODO mês, do mês atual até o fim do período,",
+    "sem que nenhum mês fique no vermelho: 80% do menor saldo acumulado",
+    "dividido pelo número de meses até ele. Gastar esse valor num mês desconta",
+    "dele em todos os seguintes, por isso o horizonte importa — o mesmo saldo",
+    "esticado no dobro de meses vale metade por mês. Semanal divide por 4,",
+    "diário por 30. A barra de cada mês é quanto sobra do saldo projetado",
+    "daquele mês depois do teto; o mês que limita marca 20%. Os meses",
+    "posteriores ao atual aparecem hachurados: são projeção, não histórico.",
   ].join(" "),
 
   limit: [
@@ -56,13 +59,13 @@ export const HINTS = {
   ].join(" "),
 
   goals: [
-    "Quanto dá para guardar por mês: 25% da menor folga do período. A barra de",
+    "Quanto dá para guardar por mês: 25% do teto de gastos. A barra de",
     "cada objetivo mostra quanto dele esse ritmo cobre até o fim do período",
     "global — é cobertura projetada, não dinheiro já guardado, que o app não",
     "registra. Cheia quer dizer que o período cobre o objetivo inteiro;",
     "“ALÉM DO PERÍODO” quer dizer que ele fecha depois do fim do período, não",
     "que seja impossível, e aí aparece de quanto por mês você precisaria para",
     "fechar dentro dele. Lista ordenada do objetivo mais próximo para o mais",
-    "distante. Se a folga for zero, nenhum ritmo alcança nada.",
+    "distante. Se o teto for zero, nenhum ritmo alcança nada.",
   ].join(" "),
 } as const;

@@ -14,7 +14,7 @@ const PACE_SHARE = 0.25;
 // The divisor is the whole point. A minimum of plain balances prices ONE
 // hypothetical spend in isolation, so its per-month answers are mutually
 // exclusive — spending the first month's figure invalidates every later one,
-// which is exactly how the old "folga" misled.
+// which is exactly how the per-month figure it replaces misled.
 //
 // `j` counts months from the current one, NOT positions in `points`. Past
 // months are baked into `cumulative` — it is a stock, the money in the bank —

@@ -1,0 +1,60 @@
+// Muted prose: the empty state and the horizon line under the headline. Named
+// for the role, not for "empty", since it carries both.
+.note {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+}
+
+// The headline figure, imitating StatCard: the same dt/dd pairing as the rows
+// below it, stacked and reversed so the number leads and the caption sits under
+// it. Reversed in CSS, not in the DOM, so the dt still precedes its dd for
+// assistive tech.
+.headline {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: var(--space-1);
+  margin: 0;
+}
+
+.caption {
+  color: var(--color-text-muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-2xs);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+}
+
+.total {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  margin: 0;
+  color: var(--color-text);
+  font-family: var(--font-mono);
+  // --text-xl for the same reason StatCard uses it: at three columns a card is
+  // ~300px and a 2rem money figure wraps.
+  font-size: var(--text-xl);
+  font-weight: var(--weight-bold);
+  // Every figure on this screen is tabular so columns of money line up.
+  font-variant-numeric: tabular-nums;
+  line-height: var(--leading-tight);
+  // At 375px the longest totals have to break instead of widening the page.
+  overflow-wrap: anywhere;
+}
+
+// The weekly/daily split hangs off the big number, same weight relationship as
+// HeroCard's .factSub.
+.splits {
+  font-size: var(--text-xs);
+  font-weight: var(--weight-regular);
+  opacity: 0.7;
+}
+
+// "de R$ 1.000,00" beside each row's survivor, so the bar's denominator is
+// readable rather than implied.
+.of {
+  color: var(--color-text-muted);
+}
