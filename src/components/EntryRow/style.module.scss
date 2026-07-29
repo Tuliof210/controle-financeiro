@@ -1,50 +1,65 @@
 @use "swatch-colors";
+// The metadata line is a partial of its own: this file sits on the repo's
+// 100-line cap, and owner/period/separator read as one idea. Not a component —
+// a mixin definition, no output of its own.
+@use "./meta" as *;
 
-// Divider/hover/spacing only — RowGrid owns the columns these cells land in,
-// and the row keeps painting its own box so aligning costs it nothing.
-// PersonRow/GoalRow (task 02) keep their own idiom here (a border-run instead
-// of this gap-per-row spacing).
-.row {
-  padding-bottom: var(--space-3);
-  border-bottom: var(--border-1) solid var(--color-border-subtle);
-  transition: background var(--duration-fast) var(--ease-snappy);
-
-  &:hover {
-    background: var(--color-surface-raised);
-  }
-}
-
-// ponytail: raw 14px, the same raw-pixel exception BrandMark and the rail
-// widths already take — the DS has no size scale and 14 is off the 4px grid.
-.swatch {
-  width: 14px;
-  height: 14px;
+// Cell contents only. RowGrid owns the row's box and the areas these land in,
+// so PersonRow and GoalRow share the anatomy without restating a line of it.
+// The ink is `--ink-900`, a PRIMITIVE, never `--color-text`: the seven fills
+// are theme-independent `-400` tokens, so a themed ink flips in dark mode to
+// 1.22:1 on lime. Measured on all seven, `--ink-900`'s worst pair is violet at
+// 5.15:1 — what GoalCard and HeroCard already state. --radius-sm, not
+// --radius-full, which the tokens scope to status dots. ponytail: raw 26px.
+.chip {
+  display: flex;
+  width: 26px;
+  height: 26px;
+  align-items: center;
+  justify-content: center;
+  border: var(--border-1) solid var(--color-border);
   border-radius: var(--radius-sm);
+  color: var(--ink-900);
+  font-family: var(--font-mono);
+  font-size: var(--text-2xs);
 }
 
-// overflow-wrap: user-entered text (up to 60 chars, no spaces required) can
-// contain a single word wider than its column — plain wrapping only breaks at
-// spaces, so that word would paint past its cell and into `.value`/`.period`
-// beside it. This lets it break mid-word instead, and is what lets the name
-// column floor at 0 without the row widening the whole list.
+// RowGrid's `min-width: 0` floor again; without it a 65-char unbroken name
+// widens the row from inside.
+.main {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+// Ellipsis, not the `overflow-wrap: anywhere` this used to carry — mutually
+// exclusive, and the design truncates. `display: block` is load-bearing
+// (`text-overflow` is inert on an inline box); `overflow` stays here alone,
+// since on the row or `.main` it clips the hit overlay and the focus ring.
 .name {
-  overflow-wrap: anywhere;
+  display: block;
+  overflow: hidden;
   color: var(--color-text);
   font-family: var(--font-mono);
   font-size: var(--text-base);
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-// RowGrid ends the cell at the row's right edge; tabular-nums is this row's
-// half of that, keeping the digits themselves in line down the column.
+
+// One leaf, never a wrapper around an inner span: the e2e finds it with
+// `getByText(/^R\$/)`, which matches a wrapper too — strict mode dies.
 .value {
   color: var(--color-text);
   font-family: var(--font-mono);
-  font-size: var(--text-base);
+  font-size: var(--text-md);
   font-variant-numeric: tabular-nums;
+  white-space: nowrap;
 }
 
-// Redundant reinforcement only: valueCents is always positive and the section
-// around the row (ENTRADAS / SAÍDAS, with its own total) carries the meaning.
+// Redundant reinforcement: valueCents is always positive and the section
+// around the row carries the meaning.
 .income {
   color: var(--color-positive);
 }
@@ -53,21 +68,4 @@
   color: var(--color-negative);
 }
 
-// Tier separation is type + colour, not a border or a shadow: the metadata
-// pair drops a step in size and to the muted tone.
-.owner {
-  overflow-wrap: anywhere;
-  color: var(--color-text-muted);
-  font-family: var(--font-mono);
-  font-size: var(--text-sm);
-}
-
-// No width of its own: the cell sizes to whatever the screen renders into it —
-// CoverageBar carries the recurrence bar's 160px reservation, and a movement's
-// plain month text needs none.
-.period {
-  color: var(--color-text-muted);
-  font-family: var(--font-mono);
-  font-size: var(--text-sm);
-  font-variant-numeric: tabular-nums;
-}
+@include meta-line;

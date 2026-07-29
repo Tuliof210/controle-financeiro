@@ -13,7 +13,7 @@ import type { EntryScreenConfig } from "./types";
 export function EntryScreen<T extends Entry, V extends { type: EntryType }>(
   config: EntryScreenConfig<T, V>,
 ) {
-  const { renderPeriod, Form } = config;
+  const { renderPeriod, renderBand, Form } = config;
   const {
     labels,
     income,
@@ -45,6 +45,7 @@ export function EntryScreen<T extends Entry, V extends { type: EntryType }>(
           period={period}
           labels={labels.income}
           renderPeriod={renderPeriod}
+          renderBand={renderBand}
           onAdd={() => openAdd("income")}
           onEdit={openEdit}
           onDelete={openDelete}
@@ -58,6 +59,7 @@ export function EntryScreen<T extends Entry, V extends { type: EntryType }>(
           period={period}
           labels={labels.expense}
           renderPeriod={renderPeriod}
+          renderBand={renderBand}
           onAdd={() => openAdd("expense")}
           onEdit={openEdit}
           onDelete={openDelete}

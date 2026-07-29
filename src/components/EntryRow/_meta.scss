@@ -1,0 +1,49 @@
+// The muted line under the name: who the entry belongs to and when it applies.
+@mixin meta-line {
+  // Owner and period, one tier down in size and tone — mono, not the display face
+  // `--text-2xs` usually pairs with, since a name and a month are body copy.
+  // `nowrap` on both axes, not the design's `wrap`: the seeded 51-char spaceless
+  // name is unwrappable and set this line's min-content at 306px, pushing the row
+  // 109px past the card at 375px, and without it intervals broke mid-range.
+  .meta {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: var(--space-2);
+    color: var(--color-text-muted);
+    font-family: var(--font-mono);
+    font-size: var(--text-2xs);
+    letter-spacing: var(--tracking-wide);
+    white-space: nowrap;
+  }
+
+  // BOTH parts are unbounded, so both must give way. `formatMonths` emits one
+  // chunk per interval, so a six-interval recurrence reads `Jan/26 · Mar/26 ·
+  // Mai/26 · Jul/26 · Set/26 · Nov/26` — measured before this rule, 122px of it
+  // painted past the row and the page scrolled 80px sideways at 375px, because a
+  // flex item's automatic minimum is its min-content and under `nowrap` that is
+  // the whole string.
+  .owner,
+  .period {
+    overflow: hidden;
+    min-width: 0;
+    text-overflow: ellipsis;
+  }
+
+  // Shrinks ~1000x faster than the period, but never to nothing: at zero width
+  // the separator is orphaned at the head of the line. Three characters plus an
+  // ellipsis still name the owner, and the chip carries the rest.
+  .owner {
+    min-width: 3ch;
+    flex-shrink: 999;
+  }
+
+  // Drawn, not typed — `formatMonths` already joins intervals with a "·".
+  // ponytail: raw 4px, under --space-1.
+  .separator {
+    width: 4px;
+    height: 4px;
+    flex: none;
+    background: var(--color-border-subtle);
+  }
+}

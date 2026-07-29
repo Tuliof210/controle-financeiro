@@ -1,37 +1,31 @@
 @use "swatch-colors";
 
-// Divider/hover/padding only — RowGrid owns the columns these cells land in,
-// and the row keeps painting its own box, so aligning costs it nothing.
-.row {
-  padding: var(--space-4) var(--space-2);
-  border-bottom: var(--border-1) solid var(--color-border-subtle);
-  transition: background var(--duration-fast) var(--ease-snappy);
+// Cell contents only — RowGrid owns the row's box and the areas these land in,
+// the same way it does for EntryRow. Nothing about padding, divider, hover or
+// button size is restated here, so the two cannot drift apart.
 
-  &:hover {
-    background: var(--color-surface-raised);
-  }
-
-  // No trailing rule directly above the dashed "Adicionar pessoa" button.
-  &:last-child {
-    border-bottom: 0;
-  }
-}
-
-// ponytail: 14px is the design's dot size and there is no --size-* token
-// family; one decorative swatch does not earn one, the same standing as the
-// timeline's 26px tick. Add the family if a third fixed size shows up.
+// ponytail: 14px is the design's dot size for this list — it stays a dot here
+// rather than becoming EntryRow's 26px lettered chip, since a Pessoas row names
+// the person right beside it. There is no --size-* token family; add one if a
+// third fixed size shows up.
 .swatch {
   width: 14px;
   height: 14px;
   border-radius: var(--radius-sm);
 }
 
-// overflow-wrap: a person's name is up to 60 user-entered chars with no spaces
-// required, and plain wrapping only breaks at spaces — this is what lets the
-// name column floor at 0 instead of one long word widening the whole list.
+// Ellipsis rather than the `overflow-wrap: anywhere` this row used to carry: a
+// person's name is up to 60 user-entered characters that need no spaces, and
+// the row truncates now instead of wrapping. `display: block` is load-bearing
+// (`text-overflow` is inert on an inline box), and `overflow` belongs on this
+// element alone — on the row it would clip IconButton's 44px hit overlay and
+// the outline-offset focus ring.
 .name {
-  overflow-wrap: anywhere;
+  display: block;
+  overflow: hidden;
   color: var(--color-text);
   font-family: var(--font-mono);
   font-size: var(--text-base);
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }

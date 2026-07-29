@@ -15,6 +15,7 @@ export type EntrySectionProps<T extends Entry> = {
   period: Period | null;
   labels: EntrySectionLabels;
   renderPeriod: (item: T, period: Period | null) => ReactNode;
+  renderBand?: (item: T, period: Period | null) => ReactNode;
   onAdd: () => void;
   onEdit: (item: T) => void;
   onDelete: (item: T) => void;
@@ -31,6 +32,7 @@ export function useEntrySection<T extends Entry>({
   period,
   labels,
   renderPeriod,
+  renderBand,
   onAdd,
   onEdit,
   onDelete,
@@ -39,6 +41,7 @@ export function useEntrySection<T extends Entry>({
     entry: item,
     person: people.find((person) => person.id === item.ownerId),
     period: renderPeriod(item, period),
+    band: renderBand?.(item, period),
     onEdit: () => onEdit(item),
     onDelete: () => onDelete(item),
   }));

@@ -1,98 +1,100 @@
-// The stacked (narrow) mode is a partial of its own: this file was already at
-// the repo's 100-line cap before the two halves, and the stack is the half of
-// it that reads as one idea. Not a component — a mixin definition, no output.
-@use "./stack" as *;
+// The narrow tiers are a partial of their own — this file was already at the
+// repo's 100-line cap as a subgrid, and the two collapses read as one idea.
+// Not a component: a mixin definition, no output of its own.
+@use "./tiers" as *;
 
-// The track set, declared once for the whole list. Rows are subgrid, so every
-// cell of every row resolves against these tracks instead of sizing itself.
+// The LIST owns the row's box and decides when it collapses; the ROW owns its
+// tracks. Sibling rows deliberately no longer share columns — the design moves
+// owner and period onto a line under the name, so nothing is left to line up.
 .list {
-  // Query container for the rows: the row's own inline size is the only honest
+  // Query container for the rows. A row's own inline size is the only honest
   // signal — this shell moves a row BACKWARDS as the window grows (680px at a
-  // 764px viewport, 372px at 768px, where the 264px aside appears).
+  // 764px viewport, 372px at 768px, where the aside appears), so no media query
+  // can decide it. It stays on the <ul>: an element is never its own query
+  // container, and `container-type` on a grid item zeroes its intrinsic size.
   container-type: inline-size;
-  display: grid;
-  // swatch | name | amount | owner | period | actions. The two user-text
-  // columns are the only flexible ones and both floor at 0, so a 60-char
-  // unbroken name shrinks (with overflow-wrap) instead of widening the list.
-  grid-template-columns:
-    auto minmax(0, 2fr) auto var(--col-owner, minmax(0, 1fr)) auto auto;
-  // Gutters ride on the cells (margin-inline-start below), never on the track
-  // set: `column-gap` bills a column's two gutters even where no row has a
-  // cell for it, and Pessoas would pay 36px for three such columns.
-  column-gap: 0;
-  row-gap: var(--space-2);
+  display: flex;
+  flex-direction: column;
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
-// An empty `auto` track measures 0, but an empty flexible one still claims its
-// share of the free space — 188px of a 716px Pessoas row. `:has()` is
-// descendant-scoped, so it still sees a cell nested inside the data half.
-.list:not(:has([data-cell="owner"])) {
-  --col-owner: 0;
-}
-
-// Two halves, not six cells. The row stays a subgrid so the halves can be
-// subgrids too: drop any of these three and the data half would adopt the
-// ROW's tracks instead of the list's, and every row would align to itself.
+// who | main | amt | act, plus the band a recurrence auto-places beneath them.
+// `who` is `auto`, not the design's fixed 26px, so a chipless row (a goal) pays
+// nothing for it — and since the gutters ride on the cells rather than on
+// `column-gap`, nothing for its gutter either: a gap is billed between two
+// tracks even when one holds no item.
 .list > li {
+  --icon-btn-size: 30px;
   display: grid;
-  grid-column: 1 / -1;
-  grid-template-columns: subgrid;
+  grid-template-columns: auto minmax(0, 1fr) auto auto;
+  grid-template-areas: "who main amt act";
   align-items: center;
+  column-gap: 0;
+  row-gap: var(--space-2);
   min-width: 0;
+  padding: var(--space-3) var(--space-2);
+  border-bottom: var(--border-1) solid var(--color-border-subtle);
+  transition: background var(--duration-fast) var(--ease-snappy);
+
+  &:hover {
+    background: var(--color-surface-raised);
+  }
+
+  // No trailing rule directly above the dashed "Adicionar …" button — it is a
+  // sibling of this list, not a row in it.
+  &:last-child {
+    border-bottom: 0;
+  }
+
+  // Placement is by `data-cell`, never by source position, so a row that omits
+  // a cell keeps every other one in its area. The gutter belongs to the cell
+  // that needs it: an absent cell costs nothing, and whichever cell comes first
+  // starts flush at the row's edge.
+  > [data-cell] {
+    margin-inline-start: var(--space-3);
+  }
+
+  > [data-cell]:first-child {
+    margin-inline-start: 0;
+  }
+
+  > [data-cell="who"] {
+    grid-area: who;
+  }
+
+  // min-width does not inherit, and without this floor the 65-char unbroken
+  // name re-inflates the `1fr` track that `minmax(0, …)` exists to collapse.
+  > [data-cell="main"] {
+    grid-area: main;
+    min-width: 0;
+  }
+
+  > [data-cell="amt"] {
+    grid-area: amt;
+    justify-self: end;
+  }
+
+  // The pair's flex and gap live only here — no row stylesheet has an
+  // `.actions` class to fall back on. --space-4, not --space-2: IconButton
+  // holds a 44px hit overlay behind a 30px paint, and two of those need
+  // >= 44 - 30 apart or a tap left of the seam fires Excluir (measured: 6px of
+  // overlap on --space-2).
+  > [data-cell="act"] {
+    display: flex;
+    grid-area: act;
+    gap: var(--space-4);
+    justify-self: end;
+  }
+
+  // An IMPLICIT row, not one declared in the areas above: a recurrence with no
+  // global period renders no band, and a declared row would still bill its
+  // `row-gap` for the band that never came. `-1` is the last explicit line, so
+  // this keeps reaching the row's edge as the tiers drop columns.
+  > [data-cell="bar"] {
+    grid-column: 2 / -1;
+  }
 }
 
-// The data half takes every track but the last. The span is explicit because an
-// auto-placed subgrid item spans one track; `align-items`/`min-width` are
-// restated because neither inherits, and without that floor CoverageBar's 160px
-// and an unbroken name re-floor the tracks `minmax(0, …)` exists to collapse.
-.list > li > [data-row="data"] {
-  display: grid;
-  grid-column: 1 / -2;
-  grid-template-columns: subgrid;
-  align-items: center;
-  min-width: 0;
-
-  // Placement is by `data-cell`, not source position: a row that omits a cell
-  // (a person has no amount) keeps every other cell in its own column.
-  > [data-cell="swatch"] { grid-column: 1; }
-  > [data-cell="name"] { grid-column: 2; }
-  > [data-cell="value"] { grid-column: 3; justify-self: end; }
-  > [data-cell="owner"] { grid-column: 4; }
-  > [data-cell="period"] { grid-column: 5; }
-
-  // The gutter belongs to the cell that needs it, so an absent cell costs
-  // nothing. The first cell gets none — its column starts the row.
-  > [data-cell] { margin-inline-start: var(--space-3); }
-  > [data-cell]:first-child { margin-inline-start: 0; }
-}
-
-// The controls half, flush at the row's right edge. The pair's flex and gap
-// live only here — no row stylesheet has an `.actions` class to fall back to,
-// and without them the two 44px buttons are free to wrap onto a second line.
-.list > li > [data-row="controls"] {
-  display: flex;
-  grid-column: -2 / -1;
-  justify-self: end;
-  gap: var(--space-2);
-  margin-inline-start: var(--space-3);
-}
-
-// Two floors, because a list stacks when ITS OWN cells stop fitting, not when
-// the widest list's do. Entry rows: 14px swatch + ~92px amount + 160px
-// coverage bar + 96px action pair + five 12px gutters already claim 422px, and
-// a ~20-char name (168px) beside a ~8-char owner (67px) is the least that
-// reads as a line rather than a column of syllables.
-@container (max-width: 659px) {
-  .list:has([data-cell="owner"]) > li { @include stack; }
-}
-
-// Configurações rows carry three cells, not six: a 109px amount
-// (R$ 500.000,00) + the same 96px pair + two gutters + the same 168px name =
-// 397px. Held to the entry floor they would stack at 484px — the width a card
-// there gets at a 1440px viewport, with room to spare.
-@container (max-width: 399px) {
-  .list:not(:has([data-cell="owner"])) > li { @include stack; }
-}
+@include tiers;
