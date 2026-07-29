@@ -19,7 +19,6 @@ Format: `- [<path-or-area>] <fact>, so <what to do differently> (YYYY-MM-DD)`
 
 - [biome] `noExcessiveLinesPerFile`/Function are `info` not `error` and never read `.scss` — `wc -l` every touched file including stylesheets, and expect some already over cap on main (2026-07-28)
 - [tooling] The harness's Bash shell can silently revert to a stale worktree cwd between calls — re-`cd` and verify `pwd`/branch in the SAME call as any cwd-sensitive git op (added 2026-07-22)
-- [publish] The plan commit belongs on the story branch only — a copy on main makes `story.md` add/add conflict the PR (resolve `--ours`) and forces `--skip` on the post-merge rebase (2026-07-28)
 - [worktree] A fresh worktree needs manual setup twice over: skip `ps-check.sh warm`'s `node_modules` symlink (breaks Turbopack, run a real `npm install`) and copy `dev.db` from the main checkout before migrating (gitignored, so `git worktree add` never brings it — a `0` row count means a missing copy, not lost data) (2026-07-28)
 - [tooling] `npm run lint:fix` and `npm install` both rewrite files outside a task's scope — `git status`/`git checkout --` the unrelated churn before committing (added 2026-07-25)
 - [browser-preview] `preview_start {name}` launches from the main checkout, never a worktree's cwd — run the server manually there and `preview_start {url}`; the pane is shared across agents and a backgrounded tab reports `innerWidth: 0` (2026-07-29)
@@ -39,3 +38,4 @@ Format: `- [<path-or-area>] <fact>, so <what to do differently> (YYYY-MM-DD)`
 - [playwright] `fullyParallel` is unset, so workers scale with SPEC FILE count — adding one file loads every other spec harder and can redden a geometry assertion that never flaked; `settle` (e2e/settle.helper.ts) before measuring, never `retries` (2026-07-29)
 - [playwright] A native `<dialog>` has an implicit ARIA role "dialog" — a second one anywhere (e.g. a nav drawer) breaks an existing `getByRole("dialog")` locator (strict-mode violation); override its role instead (2026-07-29)
 - [tooling] Entering an externally-created worktree (`EnterWorktree` with `path:`) can leave the main checkout's INDEX staged with the worktree's full diff while its working tree stays untouched — before any destructive git op, check `git diff HEAD --stat`, not just `git status`; a dirty index alone is `git reset`, not lost work (2026-07-29)
+- [playwright] A scripted `.focus()` call can leave `:focus-visible` unmatched even when the rule is correct — verify a focus ring with a real keyboard `Tab` press instead (2026-07-29)
