@@ -2,26 +2,26 @@ import type { EntryFormBase } from "@/components/EntryForm/entry-form.helper";
 import { useEntryForm } from "@/components/EntryForm/entry-form.hook";
 import type { Person } from "@/core/entities/person.entity";
 import { intervalsToMonths } from "./intervals.helper";
-import { useRecurrenceIntervals } from "./intervals.hook";
+import { useForecastIntervals } from "./intervals.hook";
 
-export type RecurrenceFormValues = EntryFormBase & { months: number[] };
+export type ForecastFormValues = EntryFormBase & { months: number[] };
 
-export type RecurrenceFormProps = {
-  initial?: Partial<RecurrenceFormValues>;
+export type ForecastFormProps = {
+  initial?: Partial<ForecastFormValues>;
   error?: string;
   submitLabel: string;
-  onSubmit: (values: RecurrenceFormValues) => void;
+  onSubmit: (values: ForecastFormValues) => void;
   people: Person[];
 };
 
-export function useRecurrenceForm({
+export function useForecastForm({
   initial,
   people,
   onSubmit,
-}: Pick<RecurrenceFormProps, "initial" | "people" | "onSubmit">) {
+}: Pick<ForecastFormProps, "initial" | "people" | "onSubmit">) {
   const entry = useEntryForm(initial, people);
   const { intervals, updateInterval, addInterval, removeInterval } =
-    useRecurrenceIntervals(initial?.months);
+    useForecastIntervals(initial?.months);
 
   const selectedMonths = intervalsToMonths(intervals);
   const canSubmit = entry.isValid && selectedMonths.length >= 1;

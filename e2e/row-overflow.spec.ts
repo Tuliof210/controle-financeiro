@@ -5,7 +5,7 @@ import { LONG_NAME, LONG_PERSON_NAME, seed } from "./seed.helper";
 // stop) — the rail materialising a 264px column plus wider padding is exactly
 // the kind of edit that could reopen horizontal overflow.
 const WIDTHS = [375, 767, 768, 1024, 1440];
-const ROUTES = ["/recorrencias", "/movimentacoes", "/configuracoes"];
+const ROUTES = ["/previsoes", "/movimentacoes", "/configuracoes"];
 
 test.beforeAll(seed);
 

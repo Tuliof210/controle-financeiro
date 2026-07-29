@@ -33,8 +33,8 @@ export function DashboardScreen() {
 
       {data?.status === "no_range" ? (
         <Notice title="Período global" icon={CalendarRange}>
-          Nenhum lançamento ainda. Registre uma movimentação ou recorrência para
-          o período aparecer aqui.
+          Nenhum lançamento ainda. Registre uma movimentação ou previsão para o
+          período aparecer aqui.
         </Notice>
       ) : null}
 
@@ -43,7 +43,7 @@ export function DashboardScreen() {
           O período global ({formatYyyymm(data.range.start)}–
           {formatYyyymm(data.range.end)}) não cobre o mês atual (
           {formatYyyymm(data.range.current)}). Registre uma movimentação ou
-          recorrência nesse mês para incluí-lo.
+          previsão nesse mês para incluí-lo.
         </Notice>
       ) : null}
 

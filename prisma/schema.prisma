@@ -13,12 +13,12 @@ datasource db {
 }
 
 model Person {
-  id          String       @id @default(cuid())
-  name        String       @unique
-  color       String
-  createdAt   DateTime     @default(now())
-  recurrences Recurrence[]
-  movements   Movement[]
+  id        String     @id @default(cuid())
+  name      String     @unique
+  color     String
+  createdAt DateTime   @default(now())
+  forecasts Forecast[]
+  movements Movement[]
 }
 
 model Goal {
@@ -28,24 +28,24 @@ model Goal {
   createdAt   DateTime @default(now())
 }
 
-model Recurrence {
-  id         String            @id @default(cuid())
+model Forecast {
+  id         String          @id @default(cuid())
   name       String
   valueCents Int
   type       String
-  owner      Person            @relation(fields: [ownerId], references: [id])
+  owner      Person          @relation(fields: [ownerId], references: [id])
   ownerId    String
-  months     RecurrenceMonth[]
-  createdAt  DateTime          @default(now())
+  months     ForecastMonth[]
+  createdAt  DateTime        @default(now())
 }
 
-model RecurrenceMonth {
-  id           String     @id @default(cuid())
-  recurrence   Recurrence @relation(fields: [recurrenceId], references: [id], onDelete: Cascade)
-  recurrenceId String
-  month        Int // YYYYMM
+model ForecastMonth {
+  id         String   @id @default(cuid())
+  forecast   Forecast @relation(fields: [forecastId], references: [id], onDelete: Cascade)
+  forecastId String
+  month      Int // YYYYMM
 
-  @@unique([recurrenceId, month])
+  @@unique([forecastId, month])
   @@index([month])
 }
 

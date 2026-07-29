@@ -1,10 +1,10 @@
+import type { Forecast } from "@/core/entities/forecast.entity";
 import type { Movement } from "@/core/entities/movement.entity";
-import type { Recurrence } from "@/core/entities/recurrence.entity";
 
 export type Period = { start: number; end: number };
 
 // The projection period the app can offer: oldest -> newest month across
-// every recurrence-active month and every movement's own month. null when
+// every forecast-active month and every movement's own month. null when
 // both are empty. The period is the OUTPUT of the entries, never an input
 // that constrains them — callers must never use this to clamp or reject an
 // entry's month.
@@ -14,11 +14,11 @@ export type Period = { start: number; end: number };
 // over their results rather than a third place that re-queries the DB.
 export function derivePeriod(
   movements: Movement[],
-  recurrences: Recurrence[],
+  forecasts: Forecast[],
 ): Period | null {
   const months = [
     ...movements.map((movement) => movement.month),
-    ...recurrences.flatMap((recurrence) => recurrence.months),
+    ...forecasts.flatMap((forecast) => forecast.months),
   ];
   return months.length === 0
     ? null

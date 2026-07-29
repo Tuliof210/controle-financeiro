@@ -18,7 +18,7 @@
   }
 
   // BOTH parts are unbounded, so both must give way. `formatMonths` emits one
-  // chunk per interval, so a six-interval recurrence reads `Jan/26 · Mar/26 ·
+  // chunk per interval, so a six-interval forecast reads `Jan/26 · Mar/26 ·
   // Mai/26 · Jul/26 · Set/26 · Nov/26` — measured before this rule, 122px of it
   // painted past the row and the page scrolled 80px sideways at 375px, because a
   // flex item's automatic minimum is its min-content and under `nowrap` that is

@@ -1,6 +1,6 @@
 import type { Period } from "@/core/use-cases/period.service";
 import { buildMonths } from "@/lib/months";
-import { monthsToIntervals } from "./components/RecurrenceForm/intervals.helper";
+import { monthsToIntervals } from "./components/ForecastForm/intervals.helper";
 
 // One positioned span per contiguous run of covered months, as percentages of
 // the global projection range, so the bar can be laid out with left/width.
@@ -11,12 +11,12 @@ export type Segment = { left: string; width: string };
 const pct = (value: number, total: number): string =>
   `${Number(((value / total) * 100).toFixed(4))}%`;
 
-// Where a recurrence's months sit inside the global projection range.
+// Where a forecast's months sit inside the global projection range.
 //
 // Returns one segment per contiguous interval — never a single span from first
-// to last — so a recurrence with a gap draws exactly what its "Jan/26–Mar/26 ·
+// to last — so a forecast with a gap draws exactly what its "Jan/26–Mar/26 ·
 // Jul/26" label says. Months outside the range are dropped rather than
-// clamped-and-drawn, so a recurrence starting before the range or running past
+// clamped-and-drawn, so a forecast starting before the range or running past
 // its end fills the track's edge instead of overflowing it.
 //
 // Returns [] when nothing overlaps (or the range is inverted, which

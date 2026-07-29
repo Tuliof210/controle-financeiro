@@ -18,8 +18,7 @@ test.describe("mobile nav drawer", () => {
     for (const label of [
       "Dashboard",
       "Movimentações",
-      "Recorrências",
-      "Parcelamentos",
+      "Previsões",
       "Leitor OFX",
       "OFX Decoder",
       "Configurações",
@@ -58,9 +57,9 @@ test.describe("mobile nav drawer", () => {
     await page.setViewportSize(MOBILE);
     await page.goto("/");
     await page.getByRole("button", { name: TOGGLE }).click();
-    await page.getByRole("link", { name: "Recorrências" }).click();
+    await page.getByRole("link", { name: "Previsões" }).click();
 
-    await expect(page).toHaveURL("/recorrencias");
+    await expect(page).toHaveURL("/previsoes");
     await expect(page.getByRole("navigation", { name: NAV })).toBeHidden();
   });
 

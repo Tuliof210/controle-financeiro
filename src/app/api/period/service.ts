@@ -1,11 +1,11 @@
 import { derivePeriod } from "@/core/use-cases/period.service";
+import { forecastRepository } from "@/infra/repositories/forecast.prisma.repository";
 import { movementRepository } from "@/infra/repositories/movement.prisma.repository";
-import { recurrenceRepository } from "@/infra/repositories/recurrence.prisma.repository";
 
 export async function getPeriod() {
-  const [movements, recurrences] = await Promise.all([
+  const [movements, forecasts] = await Promise.all([
     movementRepository.list(),
-    recurrenceRepository.list(),
+    forecastRepository.list(),
   ]);
-  return derivePeriod(movements, recurrences);
+  return derivePeriod(movements, forecasts);
 }

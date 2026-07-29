@@ -10,7 +10,7 @@ export type CoverageBarProps = {
 };
 
 export function useCoverageBar({ months, period }: CoverageBarProps) {
-  // Still `[]` when a range exists but no month of this recurrence falls in it:
+  // Still `[]` when a range exists but no month of this forecast falls in it:
   // an empty track is the honest drawing of "in range, active in none of it".
   return { segments: coverage(months, period) };
 }

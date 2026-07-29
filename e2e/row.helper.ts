@@ -2,10 +2,10 @@ import { expect, type Locator, type Page } from "@playwright/test";
 import {
   LONG_NAME,
   LONG_PERSON_NAME,
+  SHORT_FORECAST,
   SHORT_GOAL,
   SHORT_MOVEMENT,
   SHORT_PERSON,
-  SHORT_RECURRENCE,
 } from "./seed.helper";
 import { settle } from "./settle.helper";
 
@@ -16,7 +16,7 @@ import { settle } from "./settle.helper";
 // <ul> on a page holding several, `short` a sibling row inside the same list,
 // and `bare` marks the list whose rows carry no amount at all.
 export const LISTS = [
-  { path: "/recorrencias", long: LONG_NAME, short: SHORT_RECURRENCE },
+  { path: "/previsoes", long: LONG_NAME, short: SHORT_FORECAST },
   { path: "/movimentacoes", long: LONG_NAME, short: SHORT_MOVEMENT },
   { path: "/configuracoes", long: LONG_NAME, short: SHORT_GOAL },
   {

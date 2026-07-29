@@ -2,9 +2,9 @@
 
 import { EntryForm } from "@/components/EntryForm";
 import { IntervalList } from "./components/IntervalList";
-import { type RecurrenceFormProps, useRecurrenceForm } from "./hook";
+import { type ForecastFormProps, useForecastForm } from "./hook";
 
-export function RecurrenceForm(props: RecurrenceFormProps) {
+export function ForecastForm(props: ForecastFormProps) {
   const { error, submitLabel, people } = props;
   const {
     fields,
@@ -15,11 +15,11 @@ export function RecurrenceForm(props: RecurrenceFormProps) {
     localError,
     canSubmit,
     handleSubmit,
-  } = useRecurrenceForm(props);
+  } = useForecastForm(props);
 
   return (
     <EntryForm
-      idPrefix="recurrence"
+      idPrefix="forecast"
       people={people}
       fields={fields}
       period={

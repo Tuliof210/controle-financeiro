@@ -17,13 +17,13 @@ export function IntervalList(props: IntervalListProps) {
         <div key={interval.key} className={styles.row}>
           <div className={styles.pickers}>
             <MonthPicker
-              id={`recurrence-interval-${interval.key}-start`}
+              id={`forecast-interval-${interval.key}-start`}
               label="Início"
               value={interval.start}
               onChange={onStartChange(index)}
             />
             <MonthPicker
-              id={`recurrence-interval-${interval.key}-end`}
+              id={`forecast-interval-${interval.key}-end`}
               label="Fim"
               value={interval.end}
               onChange={onEndChange(index)}
