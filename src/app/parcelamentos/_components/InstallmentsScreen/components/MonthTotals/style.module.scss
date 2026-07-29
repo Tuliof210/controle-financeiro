@@ -1,0 +1,43 @@
+.list {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+// Month, how many purchases land in it, what it owes. The middle column takes
+// the slack so the amount stays flush right at every width; no container query
+// is needed because there is nothing here to collapse.
+.row {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-2);
+  border-bottom: var(--border-1) solid var(--color-border-subtle);
+
+  &:last-child {
+    border-bottom: 0;
+  }
+}
+
+.month {
+  color: var(--color-text);
+  font-family: var(--font-mono);
+  font-size: var(--text-base);
+}
+
+.count {
+  color: var(--color-text-muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+}
+
+// Negative, like every parcel amount on the other tab: a month's row is what
+// that month owes, never a balance.
+.total {
+  color: var(--color-negative);
+  font-family: var(--font-mono);
+  font-size: var(--text-md);
+}

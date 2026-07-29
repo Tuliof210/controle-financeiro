@@ -2,6 +2,7 @@
 
 import { PageHeader } from "@/components/PageHeader";
 import { TabBar } from "@/components/TabBar";
+import { MonthTotals } from "./components/MonthTotals";
 import { PurchaseList } from "./components/PurchaseList";
 import { PurchaseModals } from "./components/PurchaseModals";
 import { useInstallmentsScreen } from "./hook";
@@ -42,6 +43,8 @@ export function InstallmentsScreen() {
           onDelete={(purchase) => setModal({ type: "delete", purchase })}
         />
       ) : null}
+
+      {tab === "meses" ? <MonthTotals purchases={purchases} /> : null}
 
       <PurchaseModals
         modal={modal}

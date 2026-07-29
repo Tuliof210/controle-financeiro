@@ -35,5 +35,5 @@ nothing answers "how much does Out/26 already owe?".
 - [x] tasks/03-promote-tabbar.md — TabBar moves to `src/components`
 - [x] tasks/04-installments-screen.md — nav, route, tabs and the purchase list
 - [x] tasks/05-installment-form.md — total + parcel count in, CRUD out
-- [ ] tasks/06-month-aggregator.md — the second tab, one row per month
+- [x] tasks/06-month-aggregator.md — the second tab, one row per month
 - [ ] tasks/07-installments-e2e.md — the spec, on its own fixture
