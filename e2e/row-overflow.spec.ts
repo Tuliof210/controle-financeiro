@@ -1,10 +1,10 @@
 import { expect, test } from "@playwright/test";
 import { LONG_NAME, LONG_PERSON_NAME, seed } from "./seed.helper";
 
-// 1903/1904 bracket AppShell's rail threshold (src/styles/_theme.scss's
-// "rail" stop) — the rail materialising a 264px column plus wider padding is
-// exactly the kind of edit that could reopen horizontal overflow.
-const WIDTHS = [375, 768, 1024, 1903, 1904];
+// 767/768 bracket AppShell's rail threshold (src/styles/_theme.scss's "md"
+// stop) — the rail materialising a 264px column plus wider padding is exactly
+// the kind of edit that could reopen horizontal overflow.
+const WIDTHS = [375, 767, 768, 1024, 1440];
 const ROUTES = ["/recorrencias", "/movimentacoes", "/configuracoes"];
 
 test.beforeAll(seed);

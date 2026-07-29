@@ -12,52 +12,22 @@ import {
 export type NavEntry = {
   href: string;
   label: string;
-  short: string;
   icon: LucideIcon;
 };
 
-// One definition, two consumers: the desktop rail (Aside) and the mobile
-// BottomNav. `short` is the bottom-nav label — the full ones do not fit in a
-// sixth of 375px.
 export const NAV: NavEntry[] = [
-  { href: "/", label: "Dashboard", short: "Painel", icon: LayoutDashboard },
-  {
-    href: "/movimentacoes",
-    label: "Movimentações",
-    short: "Mov.",
-    icon: ArrowLeftRight,
-  },
-  {
-    href: "/recorrencias",
-    label: "Recorrências",
-    short: "Fixos",
-    icon: Repeat,
-  },
-  {
-    href: "/parcelamentos",
-    label: "Parcelamentos",
-    short: "Parcelas",
-    icon: CreditCard,
-  },
-  { href: "/leitor-ofx", label: "Leitor OFX", short: "OFX", icon: FileUp },
-  {
-    href: "/ofx-decoder",
-    label: "OFX Decoder",
-    short: "Decoder",
-    icon: ListTree,
-  },
-  {
-    href: "/configuracoes",
-    label: "Configurações",
-    short: "Ajustes",
-    icon: Settings,
-  },
+  { href: "/", label: "Dashboard", icon: LayoutDashboard },
+  { href: "/movimentacoes", label: "Movimentações", icon: ArrowLeftRight },
+  { href: "/recorrencias", label: "Recorrências", icon: Repeat },
+  { href: "/parcelamentos", label: "Parcelamentos", icon: CreditCard },
+  { href: "/leitor-ofx", label: "Leitor OFX", icon: FileUp },
+  { href: "/ofx-decoder", label: "OFX Decoder", icon: ListTree },
+  { href: "/configuracoes", label: "Configurações", icon: Settings },
 ];
 
 // Exact equality, never prefix matching: no destination here is nested under
 // another, and "/" is a prefix of every path — startsWith would light up the
-// Dashboard item on all six screens. Shared so the rail and the bottom nav
-// cannot drift apart on what "active" means.
+// Dashboard item on all six screens.
 export function isActiveNav(pathname: string, href: string): boolean {
   return pathname === href;
 }

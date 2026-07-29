@@ -2,8 +2,9 @@
 
 // Claims the "aside" area of the parent AppShell grid — see
 // src/components/AppShell/style.module.scss for the named-area contract.
-// Mobile-first: below `rail` the rail is replaced wholesale by BottomNav, so
-// it starts hidden and the `bp()` min-width mixin turns it on.
+// Mobile-first: below `md` this is hidden here (task 02 opens it as an
+// overlay drawer instead), and the `bp()` min-width mixin turns the
+// in-layout rail on from `md` up.
 .aside {
   grid-area: aside;
   display: none;
@@ -18,7 +19,7 @@
   overflow: hidden;
   transition: width var(--duration-slow) var(--ease-snappy);
 
-  @include t.bp("rail") {
+  @include t.bp("md") {
     display: flex;
     // Full-height and pinned: the grid area spans both rows, so sticky has room
     // to travel and the collapse control at the foot stays reachable instead of

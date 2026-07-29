@@ -47,8 +47,8 @@ for (const width of [1440, 375]) {
       // openRow navigates and waits for the row; the box comes from the button
       // itself afterwards, centred in the viewport first. `block: "center"`
       // rather than scrollIntoViewIfNeeded, which scrolls the minimum and can
-      // leave the button flush against an edge — at 375px the fixed bottom nav
-      // sits over it there, and every probe below would be reading that nav's
+      // leave the button flush against an edge — the fixed sticky header sits
+      // over it there, and every probe below would be reading the header's
       // z-order instead of this button's band.
       await openRow(page, list, list.short);
       const button = page.getByRole("button", { name: edit });

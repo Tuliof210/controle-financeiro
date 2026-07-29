@@ -13,22 +13,6 @@ $breakpoints: (
   "md": 768px,
   "lg": 1024px,
   "xl": 1280px,
-  // Where AppShell's rail can materialise without shrinking the content it
-  // sits beside. Below it, BottomNav carries navigation instead — see
-  // AppShell/components/Aside and .../BottomNav, the only consumers of this
-  // stop. Measured, not designed: crossing "md" here used to cost the
-  // content box 264px (the rail, Aside/style.module.scss) + 80px (.main's
-  // padding going --space-4 to --space-10 on both sides) = 344px in one
-  // step, so a row was narrower right after the rail appeared than right
-  // before. AppShell's own `.page { max-width: 1560px }` is what makes a
-  // safe stop possible at all: below 1560 + 344 = 1904px, .page hasn't hit
-  // that cap pre-rail, so the loss still reads on screen; at or above it,
-  // the content box was already pinned at 1560px before the rail arrives,
-  // so losing 344px of AVAILABLE space costs nothing OBSERVABLE. 1904 is
-  // the smallest such point — confirmed live (`/recorrencias`, a seeded
-  // row): width plateaus at the same value from 1904px on, and never dips
-  // below it approaching 1904 from underneath.
-  "rail": 1904px,
 );
 
 // A RowGrid row's one-line floor: at or above it, a row holds name, amount and
