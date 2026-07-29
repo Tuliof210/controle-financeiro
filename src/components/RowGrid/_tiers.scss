@@ -1,0 +1,53 @@
+// Two collapses, both keyed on the row's own width. The design draws one, at
+// 440px, reached with a viewport media query; both halves of that are wrong
+// here. The viewport lies about a row's width in this shell, and one threshold
+// cannot serve both a row that still has room for its amount and the 148px a
+// Configurações row gets at a 768px viewport.
+//
+// Both numbers are measured, not designed — swept by setting the list's width
+// and reading the name cell back. The fixed cost of a one-line entry row is
+// 260px (16 padding + 26 chip + 3x12 gutters + ~106 amount + 76 action pair),
+// so everything below is that plus what the name still needs.
+@mixin tiers {
+  // The amount leaves the name's line for the line below, starting where the
+  // name starts rather than stranded at the right edge of a short row. The
+  // action pair stays up beside the name — dropping it here would spend a whole
+  // line before the row actually needs one.
+  //
+  // 439, not the design's 440: measured, a 440px row still gives the name 180px
+  // and a 420px row gives it 160px. 180 is where a name stops reading as a
+  // fragment, so the collapse belongs just under it.
+  @container (max-width: 439px) {
+    .list > li {
+      // The design's mobile button. At 40px IconButton's 44px hit overlay
+      // overhangs 2px, well inside this row's 12px of vertical padding, so a
+      // thumb aimed at one row cannot reach its neighbour's controls.
+      --icon-btn-size: 40px;
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      grid-template-areas: "who main act" ". amt amt" ". bar bar";
+
+      > [data-cell="amt"] {
+        justify-self: start;
+      }
+    }
+  }
+
+  // Second tier: the pair drops to a line of its own, still flush right.
+  //
+  // 279, not the 259 the old stacked mode used: measured, a 260px row leaves
+  // the name 98px, under the 100px floor `row-columns.spec.ts` asserts, and a
+  // 280px row leaves it 118px. Every cell below the name spans the full row
+  // here rather than sitting in the name's column — at this width that column
+  // is narrower than either the ~106px amount or the 96px pair, and both were
+  // measured pushing 4px out of the row's right edge.
+  @container (max-width: 279px) {
+    .list > li {
+      grid-template-columns: auto minmax(0, 1fr);
+      grid-template-areas: "who main" "amt amt" "act act" "bar bar";
+
+      > [data-cell="act"] {
+        justify-self: end;
+      }
+    }
+  }
+}

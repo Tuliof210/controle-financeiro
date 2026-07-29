@@ -3,13 +3,15 @@ import { IconButton } from "@/components/IconButton";
 import { type EntryRowProps, useEntryRow } from "./hook";
 import styles from "./style.module.scss";
 
-// Two halves: the data block and the controls. RowGrid spans the data half
-// across every track but the last and places each cell inside it by its
-// `data-cell` tag, which is what lets sibling rows share columns.
+// Four cells, each tagged with the grid area RowGrid places it in: the owner
+// chip, the name-plus-metadata block, the amount, and the action pair. Owner
+// and period live inside `main` now — they read as one muted line under the
+// name instead of claiming two columns of their own.
 export function EntryRow(props: EntryRowProps) {
   const {
     name,
-    swatchClass,
+    chipClass,
+    initial,
     valueClass,
     value,
     owner,
@@ -19,32 +21,34 @@ export function EntryRow(props: EntryRowProps) {
   } = useEntryRow(props);
 
   return (
-    <li className={styles.row}>
-      <span data-row="data">
-        <span data-cell="swatch" className={swatchClass} aria-hidden />
-        <span data-cell="name" className={styles.name}>
-          {name}
-        </span>
-        <span data-cell="value" className={valueClass}>
-          {value}
-        </span>
-        <span data-cell="owner" className={styles.owner}>
-          {owner}
-        </span>
-        <span data-cell="period" className={styles.period}>
-          {period}
+    <li>
+      {/* aria-hidden: the initial only re-states the owner name that the
+          metadata line below spells out in full, so announcing it would prefix
+          every row's accessible name with a stray letter. */}
+      <span data-cell="who" className={chipClass} aria-hidden>
+        {initial}
+      </span>
+      <span data-cell="main" className={styles.main}>
+        <span className={styles.name}>{name}</span>
+        <span className={styles.meta}>
+          <span className={styles.owner}>{owner}</span>
+          <span className={styles.separator} aria-hidden />
+          <span>{period}</span>
         </span>
       </span>
-      <span data-row="controls">
+      <span data-cell="amt" className={valueClass}>
+        {value}
+      </span>
+      <span data-cell="act">
         <IconButton aria-label={`Editar ${name}`} onClick={onEdit}>
-          <Pencil size={16} aria-hidden />
+          <Pencil size={14} aria-hidden />
         </IconButton>
         <IconButton
           variant="danger"
           aria-label={`Excluir ${name}`}
           onClick={onDelete}
         >
-          <Trash2 size={16} aria-hidden />
+          <Trash2 size={14} aria-hidden />
         </IconButton>
       </span>
     </li>
