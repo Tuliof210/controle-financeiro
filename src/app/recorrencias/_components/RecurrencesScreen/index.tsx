@@ -5,6 +5,7 @@ import type { Recurrence } from "@/core/entities/recurrence.entity";
 import { CoverageBar } from "./components/CoverageBar";
 import { RecurrenceForm } from "./components/RecurrenceForm";
 import type { RecurrenceFormValues } from "./components/RecurrenceForm/hook";
+import { formatMonths } from "./recurrence-range.helper";
 
 export function RecurrencesScreen() {
   return (
@@ -31,9 +32,14 @@ export function RecurrencesScreen() {
           emptyHint: "Aluguel, financiamento e assinaturas entram aqui.",
         },
       }}
-      renderPeriod={(recurrence, period) => (
-        <CoverageBar months={recurrence.months} period={period} />
-      )}
+      // The two halves of a recurrence's period now land in two places: the
+      // intervals read in the row's metadata line, the band under the row.
+      renderPeriod={(recurrence) => formatMonths(recurrence.months)}
+      renderBand={(recurrence, period) =>
+        period ? (
+          <CoverageBar months={recurrence.months} period={period} />
+        ) : null
+      }
       Form={RecurrenceForm}
     />
   );

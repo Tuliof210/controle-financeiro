@@ -34,6 +34,6 @@ list-wide shared columns, which the design abandons entirely.
       the paint without shrinking the tap
 - [x] tasks/02-entry-row-areas.md — replace RowGrid's shared columns with the
       design's per-row grid areas, chip and metadata line
-- [ ] tasks/03-coverage-bar-band.md — split the recurrence period into metadata
+- [x] tasks/03-coverage-bar-band.md — split the recurrence period into metadata
       text plus a full-width band, and open the seam that carries it
 - [ ] tasks/04-settings-rows.md — Pessoas and Objetivos onto the same anatomy

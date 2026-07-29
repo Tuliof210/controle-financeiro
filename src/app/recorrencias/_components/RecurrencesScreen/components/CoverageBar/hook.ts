@@ -1,23 +1,16 @@
 import type { Period } from "@/core/use-cases/period.service";
 import { coverage } from "../../coverage.helper";
-import { formatMonths } from "../../recurrence-range.helper";
 
 export type CoverageBarProps = {
   months: number[];
-  // null until the owner saves a global range in Configurações — there is then
-  // nothing to measure against, so no track is drawn at all and the interval
-  // label stands alone.
-  period: Period | null;
+  // Non-nullable now: with no global range saved there is nothing to measure
+  // against and no band to draw, and the screen decides that before rendering
+  // this — so the row emits no band cell at all rather than an empty one.
+  period: Period;
 };
 
 export function useCoverageBar({ months, period }: CoverageBarProps) {
-  const label = formatMonths(months);
-
-  return {
-    label,
-    segments: period ? coverage(months, period) : null,
-    // The bar only reinforces the label beside it, which is the real content —
-    // so role="img" with the same words is honest, not a second source of truth.
-    srLabel: `Vigência: ${label}`,
-  };
+  // Still `[]` when a range exists but no month of this recurrence falls in it:
+  // an empty track is the honest drawing of "in range, active in none of it".
+  return { segments: coverage(months, period) };
 }

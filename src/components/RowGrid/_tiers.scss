@@ -24,7 +24,7 @@
       // thumb aimed at one row cannot reach its neighbour's controls.
       --icon-btn-size: 40px;
       grid-template-columns: auto minmax(0, 1fr) auto;
-      grid-template-areas: "who main act" ". amt amt" ". bar bar";
+      grid-template-areas: "who main act" ". amt amt";
 
       > [data-cell="amt"] {
         justify-self: start;
@@ -43,7 +43,7 @@
   @container (max-width: 279px) {
     .list > li {
       grid-template-columns: auto minmax(0, 1fr);
-      grid-template-areas: "who main" "amt amt" "act act" "bar bar";
+      grid-template-areas: "who main" "amt amt" "act act";
 
       > [data-cell="act"] {
         justify-self: end;
