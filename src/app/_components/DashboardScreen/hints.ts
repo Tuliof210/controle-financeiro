@@ -42,10 +42,11 @@ export const HINTS = {
 
   ceiling: [
     "Quanto dá para gastar a mais TODO mês, do mês atual até o fim do período,",
-    "sem que nenhum mês fique no vermelho: 80% do menor saldo acumulado",
-    "dividido pelo número de meses até ele. Gastar esse valor num mês desconta",
-    "dele em todos os seguintes, por isso o horizonte importa — o mesmo saldo",
-    "esticado no dobro de meses vale metade por mês. Semanal divide por 4,",
+    "sem que nenhum mês fique no vermelho: divide-se o saldo acumulado de cada",
+    "mês pelo número de meses até ele, e o teto é 80% do MENOR desses",
+    "resultados. Gastar esse valor num mês desconta dele em todos os seguintes,",
+    "por isso o horizonte importa — o mesmo saldo esticado no dobro de meses",
+    "vale metade por mês. Semanal divide por 4,",
     "diário por 30. A barra de cada mês é quanto sobra do saldo projetado",
     "daquele mês depois do teto; o mês que limita marca 20%. Os meses",
     "posteriores ao atual aparecem hachurados: são projeção, não histórico.",
