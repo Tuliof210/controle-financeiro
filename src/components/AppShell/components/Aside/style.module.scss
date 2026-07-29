@@ -1,5 +1,7 @@
 @use "theme" as t;
 @use "./drawer" as *;
+@use "./brand" as *;
+@use "./collapse" as *;
 
 // Claims the "aside" area of the parent AppShell grid — see
 // src/components/AppShell/style.module.scss for the named-area contract. A
@@ -40,58 +42,7 @@
   }
 }
 
-// Collapsed hides labels, never items: the <span>s stay in the DOM so the width
-// transition animates against stable content instead of a churning subtree.
-// `collapsed` upstream (AppShell/hook.ts) is only ever true at desktop width,
-// so this never fights the drawer below `md`.
-.collapsed {
-  width: 80px;
-
-  .brandText,
-  .menu,
-  .collapseLabel {
-    display: none;
-  }
-
-  .brand,
-  .collapse {
-    justify-content: center;
-  }
-}
-
-.brand {
-  display: flex;
-  align-items: center;
-  gap: var(--space-3);
-  flex: none;
-  // ponytail: the design's 72px rail head; same raw-pixel exception as the
-  // rail widths above.
-  height: 72px;
-  padding: 0 var(--space-4);
-  border-bottom: var(--border-2) solid var(--rail-line);
-}
-
-.brandText {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-1);
-  min-width: 0;
-  white-space: nowrap;
-}
-
-.brandName {
-  font-family: var(--font-display);
-  font-size: var(--text-xs);
-  line-height: var(--leading-tight);
-  letter-spacing: var(--tracking-display);
-  color: var(--rail-fg);
-}
-
-.brandTag {
-  font-size: var(--text-2xs);
-  letter-spacing: var(--tracking-wide);
-  color: var(--rail-muted);
-}
+@include brand;
 
 .nav {
   display: flex;
@@ -123,48 +74,4 @@
   gap: var(--space-1);
 }
 
-// The collapse control only makes sense for the desktop rail — the drawer
-// closes via Esc, a backdrop click or navigating, not a labelled button.
-.footer {
-  display: none;
-  flex: none;
-  padding: var(--space-3);
-  border-top: var(--border-2) solid var(--rail-line);
-
-  @include t.bp("md") {
-    display: block;
-  }
-}
-
-.collapse {
-  display: flex;
-  align-items: center;
-  gap: var(--space-3);
-  width: 100%;
-  // Rule 7(e): hit targets are at least 44px.
-  min-height: 44px;
-  padding: var(--space-3);
-  border: none;
-  border-radius: var(--radius-sm);
-  background: transparent;
-  color: var(--rail-muted);
-  font-family: var(--font-mono);
-  font-size: var(--text-2xs);
-  letter-spacing: var(--tracking-wide);
-  white-space: nowrap;
-  cursor: pointer;
-  transition: background var(--duration-fast) var(--ease-snappy);
-
-  &:hover {
-    background: var(--rail-hover);
-    color: var(--rail-fg);
-  }
-
-  &:focus-visible {
-    @include t.focus-ring;
-  }
-}
-
-.collapseIcon {
-  flex: none;
-}
+@include collapse;

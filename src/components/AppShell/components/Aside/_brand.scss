@@ -1,0 +1,40 @@
+// The rail's brand header — <BrandMark/> plus the wordmark beside it,
+// rendered in Aside/index.tsx's `.brand` block. Split off style.module.scss
+// to stay under ARCHITECTURE.md's 100-line file cap; a mixin definition, not
+// a component, emitting nothing until @include'd — the same exception
+// RowGrid/_tiers.scss uses.
+@mixin brand {
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    flex: none;
+    // ponytail: the design's 72px rail head; same raw-pixel exception as the
+    // rail widths in style.module.scss.
+    height: 72px;
+    padding: 0 var(--space-4);
+    border-bottom: var(--border-2) solid var(--rail-line);
+  }
+
+  .brandText {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    min-width: 0;
+    white-space: nowrap;
+  }
+
+  .brandName {
+    font-family: var(--font-display);
+    font-size: var(--text-xs);
+    line-height: var(--leading-tight);
+    letter-spacing: var(--tracking-display);
+    color: var(--rail-fg);
+  }
+
+  .brandTag {
+    font-size: var(--text-2xs);
+    letter-spacing: var(--tracking-wide);
+    color: var(--rail-muted);
+  }
+}
