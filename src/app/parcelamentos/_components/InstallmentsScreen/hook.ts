@@ -8,21 +8,9 @@ import {
   type PurchaseFormValues,
   toRecurrencePayload,
 } from "./purchase-payload.helper";
+import { type InstallmentsTab, type PurchaseModal, TAB_LABELS } from "./types";
 
 const PATH = "/api/recurrences";
-
-export type InstallmentsTab = "compras" | "meses";
-
-export type PurchaseModal =
-  | { type: "none" }
-  | { type: "add" }
-  | { type: "edit"; purchase: Recurrence }
-  | { type: "delete"; purchase: Recurrence };
-
-const LABELS: [InstallmentsTab, string][] = [
-  ["compras", "Compras"],
-  ["meses", "Por mês"],
-];
 
 // One fetch of every recurrence, narrowed here: /api/recurrences is the same
 // list the dashboard sums, so the split between fixed and installment is a
@@ -55,9 +43,18 @@ export function useInstallmentsScreen() {
     (item) => item.kind === "installment",
   );
 
+  // Every modal transition goes through here, exactly as EntryScreen's does:
+  // one `error` slot feeds all three dialogs, so a failure left behind by the
+  // add form would otherwise greet the next one — including the delete
+  // confirmation, where a stale red banner reads as "this delete was refused".
+  const openModal = (state: PurchaseModal) => {
+    setError(undefined);
+    setModal(state);
+  };
+
   const persist = async (result: Awaited<ReturnType<typeof apiPost>>) => {
     if (result.error) return setError(result.error);
-    setModal({ type: "none" });
+    openModal({ type: "none" });
     refetch();
   };
 
@@ -82,13 +79,13 @@ export function useInstallmentsScreen() {
 
   return {
     tab,
-    tabs: LABELS.map(([id, label]) => ({ id, label, active: id === tab })),
+    tabs: TAB_LABELS.map(([id, label]) => ({ id, label, active: id === tab })),
     onSelect: setTab,
     purchases,
     people,
     modal,
-    setModal,
-    close: () => setModal({ type: "none" }),
+    openModal,
+    close: () => openModal({ type: "none" }),
     error,
     onAdd,
     onUpdate,

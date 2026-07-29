@@ -1,6 +1,6 @@
 import type { Person } from "@/core/entities/person.entity";
-import type { PurchaseModal } from "../../hook";
 import type { PurchaseFormValues } from "../../purchase-payload.helper";
+import type { PurchaseModal } from "../../types";
 
 export type PurchaseModalsProps = {
   modal: PurchaseModal;

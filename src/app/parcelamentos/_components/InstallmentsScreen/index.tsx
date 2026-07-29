@@ -16,7 +16,7 @@ export function InstallmentsScreen() {
     purchases,
     people,
     modal,
-    setModal,
+    openModal,
     close,
     error,
     onAdd,
@@ -38,9 +38,9 @@ export function InstallmentsScreen() {
         <PurchaseList
           purchases={purchases}
           people={people}
-          onAdd={() => setModal({ type: "add" })}
-          onEdit={(purchase) => setModal({ type: "edit", purchase })}
-          onDelete={(purchase) => setModal({ type: "delete", purchase })}
+          onAdd={() => openModal({ type: "add" })}
+          onEdit={(purchase) => openModal({ type: "edit", purchase })}
+          onDelete={(purchase) => openModal({ type: "delete", purchase })}
         />
       ) : null}
 
