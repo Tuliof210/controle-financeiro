@@ -2,9 +2,7 @@
 // ceiling card, kept out of seed.helper.ts so the four row specs keep the exact
 // data they were written against.
 
-// "localhost", matching playwright.config.ts's baseURL — see that file on why
-// 127.0.0.1 doesn't work against Next 16 dev.
-const BASE_URL = "http://localhost:3100";
+import { post, waitFor } from "./api.helper";
 
 export const CEILING_PERSON = "Dona do Teto";
 export const RED_PERSON = "Dono do Vermelho";
@@ -24,28 +22,6 @@ const shift = (value: number, count: number) => {
   const index = Math.floor(value / 100) * 12 + (value % 100) - 1 + count;
   return Math.floor(index / 12) * 100 + (index % 12) + 1;
 };
-
-type Named = { id: string; name: string };
-async function post(path: string, body: unknown) {
-  const res = await fetch(`${BASE_URL}${path}`, {
-    method: "POST",
-    headers: { "content-type": "application/json" },
-    body: JSON.stringify(body),
-  });
-  return (await res.json()).data;
-}
-
-async function list(path: string): Promise<Named[]> {
-  return (await fetch(`${BASE_URL}${path}`).then((r) => r.json())).data ?? [];
-}
-
-async function waitFor(path: string, name: string) {
-  for (let attempt = 0; attempt < 100; attempt += 1) {
-    if ((await list(path)).some((row) => row.name === name)) return;
-    await new Promise((resolve) => setTimeout(resolve, 100));
-  }
-  throw new Error(`${path} never got a row named ${name}`);
-}
 
 const income = (name: string, valueCents: number, month: number, id: string) =>
   post("/api/movements", {
