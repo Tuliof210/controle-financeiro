@@ -26,7 +26,7 @@
   }
 }
 
-// Mobile-first: the brand mark stands where the (desktop-only) hamburger sits.
+// Mobile-first: the brand mark stands where the (rail-only) hamburger sits.
 .toggle {
   display: none;
   align-items: center;
@@ -52,7 +52,7 @@
     @include t.focus-ring;
   }
 
-  @include t.bp("md") {
+  @include t.bp("rail") {
     display: flex;
   }
 }
@@ -60,11 +60,11 @@
 .mark {
   display: flex;
   flex: none;
-  // Holds the space the (hidden) greeting block gives up below `md`, so the
+  // Holds the space the (hidden) greeting block gives up below `rail`, so the
   // controls stay pinned to the right edge.
   margin-right: auto;
 
-  @include t.bp("md") {
+  @include t.bp("rail") {
     display: none;
   }
 }

@@ -19,8 +19,9 @@ export function Header(props: HeaderProps) {
 
   return (
     <header className={styles.header}>
-      {/* The hamburger collapses the rail, which does not exist below `md` —
-          so it is desktop-only and the brand mark stands in its place. */}
+      {/* The hamburger collapses the rail, which does not exist below the
+          `rail` breakpoint (src/styles/_theme.scss) — so it only shows from
+          there up, and the brand mark stands in its place below it. */}
       <button
         type="button"
         className={styles.toggle}
