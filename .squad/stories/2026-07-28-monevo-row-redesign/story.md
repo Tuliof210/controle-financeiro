@@ -36,4 +36,4 @@ list-wide shared columns, which the design abandons entirely.
       design's per-row grid areas, chip and metadata line
 - [x] tasks/03-coverage-bar-band.md — split the recurrence period into metadata
       text plus a full-width band, and open the seam that carries it
-- [ ] tasks/04-settings-rows.md — Pessoas and Objetivos onto the same anatomy
+- [x] tasks/04-settings-rows.md — Pessoas and Objetivos onto the same anatomy
