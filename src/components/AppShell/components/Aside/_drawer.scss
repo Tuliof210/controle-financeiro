@@ -1,0 +1,25 @@
+@use "theme" as t;
+
+// Off-canvas presentation for Aside's <dialog> below `md`, mixed into
+// `.aside` there — see style.module.scss for the always-on desktop half.
+// Scoped with a raw max-width query, not the `bp()` mixin: theme.scss's
+// version is min-width only (there is no bp-down), and this must stop
+// applying at `md` even if the dialog were left open, so the desktop rule
+// there always wins regardless of source order.
+@mixin drawer {
+  &[open] {
+    @media (max-width: 767px) {
+      display: flex;
+      position: fixed;
+      inset: 0 auto 0 0;
+      z-index: var(--z-overlay);
+      max-width: 85vw;
+      height: 100vh;
+      box-shadow: var(--elevation-overlay);
+
+      &::backdrop {
+        background: color-mix(in srgb, var(--color-bg) 70%, transparent);
+      }
+    }
+  }
+}

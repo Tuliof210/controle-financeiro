@@ -26,9 +26,10 @@
   }
 }
 
-// Mobile-first: the brand mark stands where the (rail-only) hamburger sits.
+// Visible at every width: collapses the in-layout rail from `md` up, opens
+// the overlay drawer below it.
 .toggle {
-  display: none;
+  display: flex;
   align-items: center;
   justify-content: center;
   flex: none;
@@ -51,26 +52,10 @@
   &:focus-visible {
     @include t.focus-ring;
   }
-
-  @include t.bp("rail") {
-    display: flex;
-  }
 }
 
-.mark {
-  display: flex;
-  flex: none;
-  // Holds the space the (hidden) greeting block gives up below `rail`, so the
-  // controls stay pinned to the right edge.
-  margin-right: auto;
-
-  @include t.bp("rail") {
-    display: none;
-  }
-}
-
-// Below `md` a 375px header cannot fit brand + greeting + select + toggle +
-// avatar: measured, the greeting collapses to 37px, i.e. "Bo…". Dropping the
+// Below `md` a 375px header cannot fit toggle + greeting + select + avatar:
+// measured, the greeting collapses to 37px, i.e. "Bo…". Dropping the
 // decorative line beats rendering an unreadable stub.
 .greetingBlock {
   display: none;

@@ -8,22 +8,19 @@ import { seed } from "./seed.helper";
 // (440px), while at 375px both are 291px and collapse.
 const WIDE = 1440;
 const NARROW = 375;
-// A mid-range width below AppShell's rail threshold — see the "rail" stop in
-// src/styles/_theme.scss — kept as a sample distinct from WIDE and NARROW.
-// It used to be the app's worst width: before the rail's threshold moved
-// (2026-07-29), the two-column Configurações grid had kicked in but the
-// viewport had not grown to pay for it, so a row got 148px here, narrower
-// than at 375px. Fixed by RowGrid's `$row-one-line-floor`-derived container
-// query (the two-column grid can no longer arrive before a row can afford
-// it) and by the rail moving off this width entirely.
+// The point AppShell's rail arrives (src/styles/_theme.scss's "md" stop,
+// 768px) — kept as a sample distinct from WIDE and NARROW. It used to be the
+// app's worst width: before the rail's threshold moved (2026-07-29), the
+// two-column Configurações grid had kicked in but the viewport had not grown
+// to pay for it, so a row got 148px here, narrower than at 375px. Fixed by
+// RowGrid's `$row-one-line-floor`-derived container query (the two-column
+// grid can no longer arrive before a row can afford it).
 const PINCHED = 768;
-// One below and one at the point AppShell's rail can appear without shrinking
-// the content beside it (src/styles/_theme.scss's "rail" stop, 1904px).
-// Sampling both sides is how "growing the window never narrows a row" is
-// actually exercised, not just asserted in a comment — see the monotonicity
-// test below.
-const RAIL_BEFORE = 1903;
-const RAIL_AFTER = 1904;
+// Just below the rail's arrival. Sampled by the monotonicity test below
+// against NARROW, never against PINCHED: the rail materialising a 264px
+// column plus wider padding right at 768px is a measured, owner-chosen
+// narrowing (2026-07-29), not a regression to guard against.
+const MD_BEFORE = 767;
 // ~11 chars of the mono face. Under it the row truncates a name down to an
 // ellipsis with almost nothing in front of it.
 const FLOOR = 100;
@@ -110,20 +107,19 @@ for (const list of LISTS) {
     });
   }
 
-  // The property AppShell's rail threshold exists to guarantee, checked within
-  // a single RowGrid tier at a time so this isolates the rail from the
-  // separate (pre-existing, out of scope here) question of whether the
-  // two-column grid split itself is ever narrower than the single column it
-  // replaces — see debt.md on that gap. NARROW→PINCHED stays single-column on
-  // every list (both well under the two-column threshold); RAIL_BEFORE→
-  // RAIL_AFTER stays two-column on every list (both well over it) and brackets
-  // the rail's own arrival, the thing this task changes.
+  // Checked on each side of the rail's arrival, never across it: NARROW→
+  // MD_BEFORE stays rail-free on every list, PINCHED→WIDE stays rail-active on
+  // every list (both measured, both well clear of the pre-existing, out of
+  // scope two-column-split question tracked in debt.md), so this isolates
+  // "growing the window never narrows a row" from the one point where it is
+  // allowed to — the rail materialising at 768px, an accepted cost of this
+  // task, not the property under test.
   test(`${list.path} ${list.short} never gets narrower within a column tier as the window grows`, async ({
     page,
   }) => {
     for (const [narrower, wider] of [
-      [NARROW, PINCHED],
-      [RAIL_BEFORE, RAIL_AFTER],
+      [NARROW, MD_BEFORE],
+      [PINCHED, WIDE],
     ]) {
       await page.setViewportSize({ width: narrower, height: 900 });
       const before = await openRow(page, list, list.short);

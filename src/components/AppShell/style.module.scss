@@ -2,10 +2,8 @@
 
 // Named-area contract shared with Header (grid-area: header) and Aside
 // (grid-area: aside) — the aside name spans both rows, so it fills full height.
-// Mobile-first: below `rail` there is no rail (the stop is named for what it
-// gates, not aliased to `md` — see $breakpoints in theme.scss for why it isn't
-// 768), so the grid is a single column and the fixed BottomNav (outside the
-// grid) carries navigation instead.
+// Mobile-first: below `md` the rail opens as an overlay drawer instead (see
+// Aside), so the grid stays a single column there.
 .shell {
   display: grid;
   grid-template-columns: 1fr;
@@ -15,7 +13,7 @@
     "main";
   min-height: 100vh;
 
-  @include t.bp("rail") {
+  @include t.bp("md") {
     grid-template-columns: auto 1fr;
     grid-template-areas:
       "aside header"
@@ -27,13 +25,10 @@
   grid-area: main;
   min-width: 0;
   padding: var(--space-4);
-  // 96px of bottom room so the last card clears the fixed BottomNav bar.
-  padding-bottom: var(--space-24);
   background: var(--color-bg);
 
-  @include t.bp("rail") {
+  @include t.bp("md") {
     padding: var(--space-10);
-    padding-bottom: var(--space-12);
   }
 }
 

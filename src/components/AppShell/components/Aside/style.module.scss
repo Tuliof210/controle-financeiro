@@ -1,24 +1,36 @@
 @use "theme" as t;
+@use "./drawer" as *;
+@use "./brand" as *;
+@use "./collapse" as *;
 
 // Claims the "aside" area of the parent AppShell grid — see
-// src/components/AppShell/style.module.scss for the named-area contract.
-// Mobile-first: below `rail` the rail is replaced wholesale by BottomNav, so
-// it starts hidden and the `bp()` min-width mixin turns it on.
+// src/components/AppShell/style.module.scss for the named-area contract. A
+// native <dialog>, not an <aside>: below `md` it opens as a modal drawer (see
+// hook.ts and _drawer.scss, mirroring src/components/Modal's technique). From
+// `md` up this rule alone decides visibility — author CSS beats the UA's
+// `dialog:not([open]) { display: none }` regardless of the native `open`
+// attribute, so nothing here ever waits on the hook's effect to run.
 .aside {
   grid-area: aside;
   display: none;
   flex-direction: column;
+  margin: 0;
+  padding: 0;
+  border: none;
+  max-width: none;
+  max-height: none;
   // ponytail: two raw widths, deliberately not a --size-* token family — a
   // token family plus a Foundations page for two numbers in one file is not
   // worth it. Promote if a third fixed width shows up.
   width: 264px;
   background: var(--rail-bg);
   color: var(--rail-fg);
-  border-right: var(--border-2) solid var(--color-border);
   overflow: hidden;
   transition: width var(--duration-slow) var(--ease-snappy);
 
-  @include t.bp("rail") {
+  @include drawer;
+
+  @include t.bp("md") {
     display: flex;
     // Full-height and pinned: the grid area spans both rows, so sticky has room
     // to travel and the collapse control at the foot stays reachable instead of
@@ -26,59 +38,11 @@
     position: sticky;
     top: 0;
     height: 100vh;
+    border-right: var(--border-2) solid var(--color-border);
   }
 }
 
-// Collapsed hides labels, never items: the <span>s stay in the DOM so the width
-// transition animates against stable content instead of a churning subtree.
-.collapsed {
-  width: 80px;
-
-  .brandText,
-  .menu,
-  .collapseLabel {
-    display: none;
-  }
-
-  .brand,
-  .collapse {
-    justify-content: center;
-  }
-}
-
-.brand {
-  display: flex;
-  align-items: center;
-  gap: var(--space-3);
-  flex: none;
-  // ponytail: the design's 72px rail head; same raw-pixel exception as the
-  // rail widths above.
-  height: 72px;
-  padding: 0 var(--space-4);
-  border-bottom: var(--border-2) solid var(--rail-line);
-}
-
-.brandText {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-1);
-  min-width: 0;
-  white-space: nowrap;
-}
-
-.brandName {
-  font-family: var(--font-display);
-  font-size: var(--text-xs);
-  line-height: var(--leading-tight);
-  letter-spacing: var(--tracking-display);
-  color: var(--rail-fg);
-}
-
-.brandTag {
-  font-size: var(--text-2xs);
-  letter-spacing: var(--tracking-wide);
-  color: var(--rail-muted);
-}
+@include brand;
 
 .nav {
   display: flex;
@@ -110,41 +74,4 @@
   gap: var(--space-1);
 }
 
-.footer {
-  flex: none;
-  padding: var(--space-3);
-  border-top: var(--border-2) solid var(--rail-line);
-}
-
-.collapse {
-  display: flex;
-  align-items: center;
-  gap: var(--space-3);
-  width: 100%;
-  // Rule 7(e): hit targets are at least 44px.
-  min-height: 44px;
-  padding: var(--space-3);
-  border: none;
-  border-radius: var(--radius-sm);
-  background: transparent;
-  color: var(--rail-muted);
-  font-family: var(--font-mono);
-  font-size: var(--text-2xs);
-  letter-spacing: var(--tracking-wide);
-  white-space: nowrap;
-  cursor: pointer;
-  transition: background var(--duration-fast) var(--ease-snappy);
-
-  &:hover {
-    background: var(--rail-hover);
-    color: var(--rail-fg);
-  }
-
-  &:focus-visible {
-    @include t.focus-ring;
-  }
-}
-
-.collapseIcon {
-  flex: none;
-}
+@include collapse;

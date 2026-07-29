@@ -5,22 +5,41 @@ import styles from "./style.module.scss";
 
 type AsideProps = {
   collapsed: boolean;
+  drawerOpen: boolean;
   onToggle: () => void;
+  onCloseDrawer: () => void;
 };
 
 export function Aside(props: AsideProps) {
   const {
+    ref,
     items,
     isActive,
     collapsed,
     onToggle,
+    handleClose,
+    handleClick,
     className,
     ToggleIcon,
     toggleLabel,
   } = useAside(props);
 
   return (
-    <aside id="app-sidebar" className={className}>
+    // role="navigation": this is a nav landmark at every width, a modal only
+    // while the drawer is open below `md` — the native <dialog>'s implicit
+    // "dialog" role would misdescribe the always-on desktop rail, and would
+    // collide with an actual modal dialog open elsewhere on the same page.
+    // biome-ignore lint/a11y/useKeyWithClickEvents: backdrop click is a mouse-only affordance; the native <dialog> already closes on Esc for keyboard users.
+    // biome-ignore lint/a11y/useSemanticElements: a plain <nav> has none of <dialog>'s showModal()/close()/Esc/::backdrop the drawer below `md` needs.
+    <dialog
+      id="app-sidebar"
+      ref={ref}
+      role="navigation"
+      aria-label="Navegação principal"
+      className={className}
+      onClose={handleClose}
+      onClick={handleClick}
+    >
       <div className={styles.brand}>
         <BrandMark />
         <span className={styles.brandText}>
@@ -29,7 +48,7 @@ export function Aside(props: AsideProps) {
         </span>
       </div>
 
-      <nav className={styles.nav} aria-label="Navegação principal">
+      <div className={styles.nav}>
         <p className={styles.menu}>MENU</p>
         <ul className={styles.list}>
           {items.map((item) => (
@@ -41,7 +60,7 @@ export function Aside(props: AsideProps) {
             />
           ))}
         </ul>
-      </nav>
+      </div>
 
       <div className={styles.footer}>
         <button
@@ -55,6 +74,6 @@ export function Aside(props: AsideProps) {
           <span className={styles.collapseLabel}>{toggleLabel}</span>
         </button>
       </div>
-    </aside>
+    </dialog>
   );
 }

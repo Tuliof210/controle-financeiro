@@ -1,0 +1,73 @@
+@use "theme" as t;
+
+// The rail's collapse affordance — the footer button that shrinks it to an
+// 80px icon strip, and the `.collapsed` state that hides labels for it. Split
+// off style.module.scss to stay under ARCHITECTURE.md's 100-line file cap; a
+// mixin definition, not a component, emitting nothing until @include'd — the
+// same exception RowGrid/_tiers.scss uses.
+@mixin collapse {
+  // Collapsed hides labels, never items: the <span>s stay in the DOM so the
+  // width transition animates against stable content instead of a churning
+  // subtree. `collapsed` upstream (AppShell/hook.ts) is only ever true at
+  // desktop width, so this never fights the drawer below `md`.
+  .collapsed {
+    width: 80px;
+
+    .brandText,
+    .menu,
+    .collapseLabel {
+      display: none;
+    }
+
+    .brand,
+    .collapse {
+      justify-content: center;
+    }
+  }
+
+  // The collapse control only makes sense for the desktop rail — the drawer
+  // closes via Esc, a backdrop click or navigating, not a labelled button.
+  .footer {
+    display: none;
+    flex: none;
+    padding: var(--space-3);
+    border-top: var(--border-2) solid var(--rail-line);
+
+    @include t.bp("md") {
+      display: block;
+    }
+  }
+
+  .collapse {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    width: 100%;
+    // Rule 7(e): hit targets are at least 44px.
+    min-height: 44px;
+    padding: var(--space-3);
+    border: none;
+    border-radius: var(--radius-sm);
+    background: transparent;
+    color: var(--rail-muted);
+    font-family: var(--font-mono);
+    font-size: var(--text-2xs);
+    letter-spacing: var(--tracking-wide);
+    white-space: nowrap;
+    cursor: pointer;
+    transition: background var(--duration-fast) var(--ease-snappy);
+
+    &:hover {
+      background: var(--rail-hover);
+      color: var(--rail-fg);
+    }
+
+    &:focus-visible {
+      @include t.focus-ring;
+    }
+  }
+
+  .collapseIcon {
+    flex: none;
+  }
+}
