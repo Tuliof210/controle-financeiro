@@ -80,14 +80,7 @@ export async function DELETE(request: NextRequest) {
         return fail("Pessoa não encontrada", "not_found", 404);
       }
       if (error.code === "P2003") {
-        // Names the screens because they are no longer two: an installment is
-        // invisible on /recorrencias, so "registros vinculados" alone sends
-        // the owner to a list that shows nothing blocking them.
-        return fail(
-          "Pessoa possui registros em Movimentações, Recorrências ou Parcelamentos",
-          "conflict",
-          409,
-        );
+        return fail("Pessoa possui registros vinculados", "conflict", 409);
       }
     }
     throw error;

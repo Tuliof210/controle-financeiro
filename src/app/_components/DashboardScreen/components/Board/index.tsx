@@ -1,7 +1,7 @@
-import { TabBar } from "@/components/TabBar";
 import { GeneralTab } from "../GeneralTab";
 import { GoalsTab } from "../GoalsTab";
 import { ProjectionTab } from "../ProjectionTab";
+import { TabBar } from "../TabBar";
 import { type BoardProps, useBoard } from "./hook";
 import styles from "./style.module.scss";
 
@@ -10,7 +10,7 @@ export function Board(props: BoardProps) {
 
   return (
     <div className={styles.board}>
-      <TabBar tabs={tabs} onSelect={onSelect} label="Seções do painel" />
+      <TabBar tabs={tabs} onSelect={onSelect} />
       {tab === "geral" ? <GeneralTab data={data} /> : null}
       {tab === "projecao" ? <ProjectionTab data={data} /> : null}
       {tab === "metas" ? <GoalsTab data={data} /> : null}

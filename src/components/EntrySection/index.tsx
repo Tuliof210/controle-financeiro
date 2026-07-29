@@ -1,10 +1,10 @@
 import { Plus } from "lucide-react";
 import { Button } from "@/components/Button";
-import { EmptyState } from "@/components/EmptyState";
 import { EntryRow } from "@/components/EntryRow";
 import { RowGrid } from "@/components/RowGrid";
 import { SectionCard } from "@/components/SectionCard";
 import type { Entry } from "@/lib/entry-types";
+import { EmptyState } from "./components/EmptyState";
 import { type EntrySectionProps, useEntrySection } from "./hook";
 import styles from "./style.module.scss";
 

@@ -1,7 +1,7 @@
 import type { EntryFormBase } from "@/components/EntryForm/entry-form.helper";
 import { useEntryForm } from "@/components/EntryForm/entry-form.hook";
 import type { Person } from "@/core/entities/person.entity";
-import { intervalsToMonths } from "@/lib/month-intervals.helper";
+import { intervalsToMonths } from "./intervals.helper";
 import { useRecurrenceIntervals } from "./intervals.hook";
 
 export type RecurrenceFormValues = EntryFormBase & { months: number[] };

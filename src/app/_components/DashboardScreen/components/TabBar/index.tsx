@@ -9,11 +9,11 @@ import styles from "./style.module.scss";
 // <fieldset>, not <div role="group">: Biome's a11y/useSemanticElements rejects
 // the explicit role in favour of the element that already implies it, and
 // fieldset's implicit ARIA role IS group. aria-label names it without a legend.
-export function TabBar<Id extends string>(props: TabBarProps<Id>) {
-  const { tabs, onSelect, label } = useTabBar(props);
+export function TabBar(props: TabBarProps) {
+  const { tabs, onSelect } = useTabBar(props);
 
   return (
-    <fieldset className={styles.bar} aria-label={label}>
+    <fieldset className={styles.bar} aria-label="Seções do painel">
       {tabs.map((tab) => (
         <button
           key={tab.id}

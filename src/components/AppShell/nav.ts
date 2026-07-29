@@ -1,6 +1,5 @@
 import {
   ArrowLeftRight,
-  CreditCard,
   FileUp,
   LayoutDashboard,
   ListTree,
@@ -19,7 +18,6 @@ export const NAV: NavEntry[] = [
   { href: "/", label: "Dashboard", icon: LayoutDashboard },
   { href: "/movimentacoes", label: "Movimentações", icon: ArrowLeftRight },
   { href: "/recorrencias", label: "Recorrências", icon: Repeat },
-  { href: "/parcelamentos", label: "Parcelamentos", icon: CreditCard },
   { href: "/leitor-ofx", label: "Leitor OFX", icon: FileUp },
   { href: "/ofx-decoder", label: "OFX Decoder", icon: ListTree },
   { href: "/configuracoes", label: "Configurações", icon: Settings },

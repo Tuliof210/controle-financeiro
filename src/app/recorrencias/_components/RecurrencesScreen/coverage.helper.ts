@@ -1,6 +1,6 @@
 import type { Period } from "@/core/use-cases/period.service";
-import { monthsToIntervals } from "@/lib/month-intervals.helper";
 import { buildMonths } from "@/lib/months";
+import { monthsToIntervals } from "./components/RecurrenceForm/intervals.helper";
 
 // One positioned span per contiguous run of covered months, as percentages of
 // the global projection range, so the bar can be laid out with left/width.

@@ -33,14 +33,6 @@ model Recurrence {
   name       String
   valueCents Int
   type       String
-  // "fixed" | "installment", with no Prisma enum — same convention as `type`:
-  // a String column guarded by z.enum at the route boundary. The default is
-  // what makes every row written before installments existed read back right.
-  kind       String            @default("fixed")
-  // The price the owner typed for an installment purchase; null on a fixed
-  // row, and display-only. Deliberately does NOT reconcile with valueCents:
-  // the projection adds valueCents once per active month and never reads this.
-  totalCents Int?
   owner      Person            @relation(fields: [ownerId], references: [id])
   ownerId    String
   months     RecurrenceMonth[]

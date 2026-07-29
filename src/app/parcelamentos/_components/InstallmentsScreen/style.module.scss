@@ -1,8 +1,0 @@
-// Same stack as EntryScreen: header, then the switchable body. No query
-// container here — this screen has a single column at every width, so nothing
-// below it needs to measure the space the cards get.
-.screen {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-6);
-}
