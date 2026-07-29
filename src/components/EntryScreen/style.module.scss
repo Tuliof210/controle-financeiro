@@ -1,40 +1,10 @@
-@use "theme" as t;
-
-// Query container for `.grid` below — the two-column switch has to read the
-// space the cards actually get, not the window.
+// Query container for `Sections/style.module.scss`'s `.grid` — the
+// two-column switch has to read the space the cards actually get, not the
+// window. `container-type` has to live here: an element is never its own
+// query container, and `.grid` is what gets queried.
 .screen {
   container-type: inline-size;
   display: flex;
   flex-direction: column;
   gap: var(--space-6);
-}
-
-// minmax(0, …) rather than a bare 1fr: a bare fr track never shrinks below
-// its content's min-content width, which is how this grid overflowed
-// sideways below a laptop width. Same fix as SettingsScreen's `.grid`.
-//
-// The second column arrives at a container width, not at the `md` viewport it
-// used to: measured, `md` gave each card a 148px-wide row — narrower than the
-// 291px the same row gets on a 375px phone — which is what made rows explode
-// into five lines on a normal desktop. The threshold below is twice
-// `$row-one-line-floor` (RowGrid's own one-line floor) plus each card's 48px
-// of padding, the 24px gap and 16px of slack, so the split happens where each
-// column can still hold a one-line row and the layout never gets worse as the
-// window grows. The slack is real: at exactly twice the floor plus 120 the
-// measured column came out one pixel under it, which stacked every row at
-// 1790px and un-stacked it again at 1920px.
-//
-// Down from a fixed 1456px: the row that used to need 660px to hold one line
-// needs only the floor since it stopped spreading owner and period across
-// columns of their own — so the two-column layout is affordable far earlier.
-// Deriving from the symbol, rather than a literal, is what keeps this and
-// SettingsScreen's identical threshold in sync when the floor moves.
-.grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: var(--space-6);
-
-  @container (min-width: #{2 * (t.$row-one-line-floor + 48px) + 24px + 16px}) {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
 }

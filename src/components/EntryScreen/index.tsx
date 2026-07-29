@@ -1,11 +1,10 @@
 "use client";
 
-import { ArrowDownCircle, ArrowUpCircle } from "lucide-react";
 import { ConfirmDialog } from "@/components/ConfirmDialog";
-import { EntrySection } from "@/components/EntrySection";
-import { Modal } from "@/components/Modal";
 import { PageHeader } from "@/components/PageHeader";
 import type { Entry, EntryType } from "@/lib/entry-types";
+import { Modals } from "./components/Modals";
+import { Sections } from "./components/Sections";
 import { useEntryScreen } from "./hook";
 import styles from "./style.module.scss";
 import type { EntryScreenConfig } from "./types";
@@ -35,68 +34,29 @@ export function EntryScreen<T extends Entry, V extends { type: EntryType }>(
     <div className={styles.screen}>
       <PageHeader {...labels.header} />
 
-      <div className={styles.grid}>
-        <EntrySection
-          title="Entradas"
-          icon={ArrowDownCircle}
-          tone="positive"
-          items={income}
-          people={people}
-          period={period}
-          labels={labels.income}
-          renderPeriod={renderPeriod}
-          renderBand={renderBand}
-          onAdd={() => openAdd("income")}
-          onEdit={openEdit}
-          onDelete={openDelete}
-        />
-        <EntrySection
-          title="Saídas"
-          icon={ArrowUpCircle}
-          tone="negative"
-          items={expense}
-          people={people}
-          period={period}
-          labels={labels.expense}
-          renderPeriod={renderPeriod}
-          renderBand={renderBand}
-          onAdd={() => openAdd("expense")}
-          onEdit={openEdit}
-          onDelete={openDelete}
-        />
-      </div>
+      <Sections
+        labels={labels}
+        income={income}
+        expense={expense}
+        people={people}
+        period={period}
+        renderPeriod={renderPeriod}
+        renderBand={renderBand}
+        onAdd={openAdd}
+        onEdit={openEdit}
+        onDelete={openDelete}
+      />
 
-      <Modal
-        open={modal.type === "add"}
-        onClose={close}
-        title={labels.addTitle}
-      >
-        {modal.type === "add" && (
-          <Form
-            initial={{ type: modal.kind }}
-            error={error}
-            onSubmit={onAdd}
-            submitLabel="Adicionar"
-            people={people}
-          />
-        )}
-      </Modal>
-
-      <Modal
-        open={modal.type === "edit"}
-        onClose={close}
-        title={labels.editTitle}
-      >
-        {modal.type === "edit" && (
-          <Form
-            initial={modal.entry}
-            error={error}
-            onSubmit={onUpdate}
-            submitLabel="Salvar"
-            people={people}
-          />
-        )}
-      </Modal>
+      <Modals
+        labels={labels}
+        modal={modal}
+        close={close}
+        error={error}
+        people={people}
+        onAdd={onAdd}
+        onUpdate={onUpdate}
+        Form={Form}
+      />
 
       <ConfirmDialog
         open={modal.type === "delete"}
