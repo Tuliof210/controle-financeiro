@@ -4,12 +4,12 @@ import { getGreeting } from "./greeting.helper";
 import { formatToday } from "./today.helper";
 
 type UseHeaderProps = {
-  sidebarCollapsed: boolean;
+  sidebarExpanded: boolean;
   onToggleSidebar: () => void;
 };
 
 export function useHeader({
-  sidebarCollapsed,
+  sidebarExpanded,
   onToggleSidebar,
 }: UseHeaderProps) {
   // Both lines are clock-derived, so both stay empty on the server and land in
@@ -27,7 +27,7 @@ export function useHeader({
 
   return {
     ...lines,
-    sidebarExpanded: !sidebarCollapsed,
+    sidebarExpanded,
     onToggleSidebar,
   };
 }

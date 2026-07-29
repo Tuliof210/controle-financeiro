@@ -8,7 +8,7 @@ import { useHeader } from "./hook";
 import styles from "./style.module.scss";
 
 type HeaderProps = {
-  sidebarCollapsed: boolean;
+  sidebarExpanded: boolean;
   onToggleSidebar: () => void;
 };
 

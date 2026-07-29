@@ -12,13 +12,19 @@ type AppShellProps = {
 };
 
 export function AppShell({ children }: AppShellProps) {
-  const { collapsed, toggle } = useAppShell();
+  const { collapsed, drawerOpen, closeDrawer, expanded, toggle } =
+    useAppShell();
 
   return (
     <ProfileProvider>
       <div className={styles.shell}>
-        <Header sidebarCollapsed={collapsed} onToggleSidebar={toggle} />
-        <Aside collapsed={collapsed} onToggle={toggle} />
+        <Header sidebarExpanded={expanded} onToggleSidebar={toggle} />
+        <Aside
+          collapsed={collapsed}
+          drawerOpen={drawerOpen}
+          onToggle={toggle}
+          onCloseDrawer={closeDrawer}
+        />
         <main className={styles.main}>
           <div className={styles.page}>{children}</div>
         </main>

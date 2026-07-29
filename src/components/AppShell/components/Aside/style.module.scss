@@ -1,23 +1,32 @@
 @use "theme" as t;
+@use "./drawer" as *;
 
 // Claims the "aside" area of the parent AppShell grid — see
-// src/components/AppShell/style.module.scss for the named-area contract.
-// Mobile-first: below `md` this is hidden here (task 02 opens it as an
-// overlay drawer instead), and the `bp()` min-width mixin turns the
-// in-layout rail on from `md` up.
+// src/components/AppShell/style.module.scss for the named-area contract. A
+// native <dialog>, not an <aside>: below `md` it opens as a modal drawer (see
+// hook.ts and _drawer.scss, mirroring src/components/Modal's technique). From
+// `md` up this rule alone decides visibility — author CSS beats the UA's
+// `dialog:not([open]) { display: none }` regardless of the native `open`
+// attribute, so nothing here ever waits on the hook's effect to run.
 .aside {
   grid-area: aside;
   display: none;
   flex-direction: column;
+  margin: 0;
+  padding: 0;
+  border: none;
+  max-width: none;
+  max-height: none;
   // ponytail: two raw widths, deliberately not a --size-* token family — a
   // token family plus a Foundations page for two numbers in one file is not
   // worth it. Promote if a third fixed width shows up.
   width: 264px;
   background: var(--rail-bg);
   color: var(--rail-fg);
-  border-right: var(--border-2) solid var(--color-border);
   overflow: hidden;
   transition: width var(--duration-slow) var(--ease-snappy);
+
+  @include drawer;
 
   @include t.bp("md") {
     display: flex;
@@ -27,11 +36,14 @@
     position: sticky;
     top: 0;
     height: 100vh;
+    border-right: var(--border-2) solid var(--color-border);
   }
 }
 
 // Collapsed hides labels, never items: the <span>s stay in the DOM so the width
 // transition animates against stable content instead of a churning subtree.
+// `collapsed` upstream (AppShell/hook.ts) is only ever true at desktop width,
+// so this never fights the drawer below `md`.
 .collapsed {
   width: 80px;
 
@@ -111,10 +123,17 @@
   gap: var(--space-1);
 }
 
+// The collapse control only makes sense for the desktop rail — the drawer
+// closes via Esc, a backdrop click or navigating, not a labelled button.
 .footer {
+  display: none;
   flex: none;
   padding: var(--space-3);
   border-top: var(--border-2) solid var(--rail-line);
+
+  @include t.bp("md") {
+    display: block;
+  }
 }
 
 .collapse {
