@@ -29,10 +29,13 @@ export const LISTS = [
 // --space-3: the one gutter that separates two cells that do exist.
 export const GUTTER = 12;
 
-// --space-2, the gap inside the control pair. It lives in a single CSS rule
-// and the rows have no `.actions` class to fall back on, so if that rule ever
-// stops matching the two 44px buttons are free to drift apart or wrap.
-export const PAIR_GAP = 8;
+// --space-4, the gap inside the control pair. Not --space-2: IconButton paints
+// 30px in a row but keeps a 44px hit overlay behind it, and two of those need
+// at least 44 - 30 between them or the overlays overlap — measured at 6px of
+// overlap on --space-2, with a tap left of the seam firing Excluir. The rule
+// lives in one place and the rows have no `.actions` class to fall back on, so
+// if it ever stops matching the two buttons are free to drift apart or wrap.
+export const PAIR_GAP = 16;
 
 export const overlaps = (a: { y: number; height: number }, b: typeof a) =>
   a.y < b.y + b.height && b.y < a.y + a.height;
@@ -44,14 +47,18 @@ async function box(locator: Locator) {
 }
 
 // The amount's box is not the amount. Its cell stretches to fill the grid
-// track, so the box ends at the track's right edge whether the text inside is
-// flushed there or not — a box-only assertion stays green with the alignment
-// visibly broken. A Range over the node's contents measures what is painted.
-const textRight = (locator: Locator) =>
+// track, so the box ends at the track's edge whether the text inside is flushed
+// there or not — a box-only assertion stays green with the alignment visibly
+// broken. A Range over the node's contents measures what is painted. Both edges
+// are read because the amount changes which one it is flushed to: it ends at
+// the row's right on one line, and starts under the name once it drops to its
+// own.
+const textEdges = (locator: Locator) =>
   locator.evaluate((el) => {
     const range = document.createRange();
     range.selectNodeContents(el);
-    return range.getBoundingClientRect().right;
+    const { left, right } = range.getBoundingClientRect();
+    return { left, right };
   });
 
 // Everything a row shows, located the way a user sees it — by its text and by
@@ -76,7 +83,7 @@ export async function openRow(
   return {
     name: await box(row.getByText(name, { exact: true })),
     value: list.bare ? null : await box(value),
-    valueRight: list.bare ? null : await textRight(value),
+    valueEdges: list.bare ? null : await textEdges(value),
     edit: await box(row.getByRole("button", { name: `Editar ${name}` })),
     remove: await box(row.getByRole("button", { name: `Excluir ${name}` })),
   };
