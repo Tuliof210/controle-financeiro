@@ -2,16 +2,28 @@ import { expect, test } from "@playwright/test";
 import { GUTTER, LISTS, openRow, overlaps, PAIR_GAP } from "./row.helper";
 import { seed } from "./seed.helper";
 
-// Measured, not read off the viewport: at 1440px this shell leaves an entry row
-// 1044px and a Configurações row 484px, both past RowGrid's 440px one-line
-// floor, while at 375px both are 291px and collapse. An entry row is also
-// narrower at 768px than at 764px — a viewport breakpoint cannot decide this.
+// Measured, not read off the viewport: at 1440px this shell leaves a row
+// 640px (both an entry row and a Configurações row — the two-column grid
+// gives every card the same width), past RowGrid's `$row-one-line-floor`
+// (440px), while at 375px both are 291px and collapse.
 const WIDE = 1440;
 const NARROW = 375;
-// The app's worst width, and one neither endpoint above reaches: the two-column
-// Configurações grid has kicked in but the viewport has not grown to pay for
-// it, so a row gets 148px — narrower than the 291px it gets at 375px.
+// A mid-range width below AppShell's rail threshold — see the "rail" stop in
+// src/styles/_theme.scss — kept as a sample distinct from WIDE and NARROW.
+// It used to be the app's worst width: before the rail's threshold moved
+// (2026-07-29), the two-column Configurações grid had kicked in but the
+// viewport had not grown to pay for it, so a row got 148px here, narrower
+// than at 375px. Fixed by RowGrid's `$row-one-line-floor`-derived container
+// query (the two-column grid can no longer arrive before a row can afford
+// it) and by the rail moving off this width entirely.
 const PINCHED = 768;
+// One below and one at the point AppShell's rail can appear without shrinking
+// the content beside it (src/styles/_theme.scss's "rail" stop, 1904px).
+// Sampling both sides is how "growing the window never narrows a row" is
+// actually exercised, not just asserted in a comment — see the monotonicity
+// test below.
+const RAIL_BEFORE = 1903;
+const RAIL_AFTER = 1904;
 // ~11 chars of the mono face. Under it the row truncates a name down to an
 // ellipsis with almost nothing in front of it.
 const FLOOR = 100;
@@ -97,4 +109,46 @@ for (const list of LISTS) {
       }
     });
   }
+
+  // The property AppShell's rail threshold exists to guarantee, checked within
+  // a single RowGrid tier at a time so this isolates the rail from the
+  // separate (pre-existing, out of scope here) question of whether the
+  // two-column grid split itself is ever narrower than the single column it
+  // replaces — see debt.md on that gap. NARROW→PINCHED stays single-column on
+  // every list (both well under the two-column threshold); RAIL_BEFORE→
+  // RAIL_AFTER stays two-column on every list (both well over it) and brackets
+  // the rail's own arrival, the thing this task changes.
+  test(`${list.path} ${list.short} never gets narrower within a column tier as the window grows`, async ({
+    page,
+  }) => {
+    for (const [narrower, wider] of [
+      [NARROW, PINCHED],
+      [RAIL_BEFORE, RAIL_AFTER],
+    ]) {
+      await page.setViewportSize({ width: narrower, height: 900 });
+      const before = await openRow(page, list, list.short);
+      await page.setViewportSize({ width: wider, height: 900 });
+      const after = await openRow(page, list, list.short);
+      expect(after.row.width).toBeGreaterThanOrEqual(before.row.width - 1);
+    }
+  });
 }
+
+// GoalRow renders no `who` cell, so column 1 collapses to zero width and
+// `main`/`amt` both land in column 2 — the gutter reset used to key on DOM
+// order (`:first-child`), which zeroed `main`'s margin (source-first) but not
+// `amt`'s (source-second), leaving them 12px apart despite sharing a column.
+// NARROW puts a goal row under the one-line floor, where `_tiers.scss`
+// re-aligns `amt` to `justify-self: start` and the mismatch becomes visible.
+test("/configuracoes Viagem keeps name and dropped amount flush at the same edge", async ({
+  page,
+}) => {
+  const goals = LISTS.find(
+    (list) => list.path === "/configuracoes" && !list.bare,
+  );
+  if (!goals) throw new Error("expected a non-bare /configuracoes list");
+  await page.setViewportSize({ width: NARROW, height: 900 });
+  const cells = await openRow(page, goals, goals.short);
+  if (!cells.valueEdges) throw new Error("expected an amount to measure");
+  expect(cells.name.x).toBeCloseTo(cells.valueEdges.left, 0);
+});

@@ -41,9 +41,18 @@ export function useCeilingCard({ ceiling, current }: CeilingCardProps) {
     splits: `${formatMoney(weekly)}/sem · ${formatMoney(daily)}/dia`,
     // The horizon is part of the figure, not decoration: the same balance
     // spread over twice the months is worth half as much per month, so a
-    // number shown without its period is not an answer.
+    // number shown without its period is not an answer. `months` is the
+    // range's REMAINING months (current .. end, per `types.ts`), never its
+    // total length — a range read anywhere but its first month has fewer
+    // months left than it is long.
+    //
+    // Inert by construction, kept only to satisfy the type: `tightest` is
+    // null exactly when `monthly` is 0, which is the same condition `empty`
+    // above short-circuits on — so this branch is never rendered with it.
+    // Mutating the fallback changes nothing observable; there is no test for
+    // it because there is no reachable behaviour.
     horizon: tightest
-      ? `Vale pelos ${months.length} meses do período. Limitado por ${formatYyyymm(tightest)}.`
+      ? `Vale pelo${months.length === 1 ? "" : "s"} ${months.length} ${months.length === 1 ? "mês restante" : "meses restantes"}. Limitado por ${formatYyyymm(tightest)}.`
       : null,
     ...useShowAll(rows),
   };

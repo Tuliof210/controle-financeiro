@@ -1,17 +1,20 @@
-// The narrow tiers are a partial of their own — this file was already at the
-// repo's 100-line cap as a subgrid, and the two collapses read as one idea.
-// Not a component: a mixin definition, no output of its own.
+// Two partials of their own, same reason: this file was already at the
+// repo's 100-line cap, and each reads as one idea — the narrow-tier
+// collapses, and the column-keyed gutter reset. Neither is a component.
 @use "./tiers" as *;
+@use "./gutter" as *;
 
 // The LIST owns the row's box and decides when it collapses; the ROW owns its
 // tracks. Sibling rows deliberately no longer share columns — the design moves
 // owner and period onto a line under the name, so nothing is left to line up.
 .list {
   // Query container for the rows. A row's own inline size is the only honest
-  // signal — this shell moves a row BACKWARDS as the window grows (680px at a
-  // 764px viewport, 372px at 768px, where the aside appears), so no media query
-  // can decide it. It stays on the <ul>: an element is never its own query
-  // container, and `container-type` on a grid item zeroes its intrinsic size.
+  // signal — the two-column split above (EntryScreen/Sections,
+  // SettingsScreen) fires from a CONTAINER width, not the viewport, so the
+  // same viewport can leave a row on either side of it depending on what else
+  // is on screen; no media query can predict which. It stays on the <ul>: an
+  // element is never its own query container, and `container-type` on a grid
+  // item zeroes its intrinsic size.
   container-type: inline-size;
   display: flex;
   flex-direction: column;
@@ -50,15 +53,12 @@
 
   // Placement is by `data-cell`, never by source position, so a row that omits
   // a cell keeps every other one in its area. The gutter belongs to the cell
-  // that needs it: an absent cell costs nothing, and whichever cell comes first
-  // starts flush at the row's edge.
+  // that needs it — an absent cell costs nothing, and whichever cell is
+  // leftmost in the GRID starts flush (`_gutter.scss`).
   > [data-cell] {
     margin-inline-start: var(--space-3);
   }
-
-  > [data-cell]:first-child {
-    margin-inline-start: 0;
-  }
+  @include gutter;
 
   > [data-cell="who"] {
     grid-area: who;

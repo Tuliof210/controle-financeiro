@@ -83,6 +83,10 @@ export async function openRow(
   await settle(page, row);
   const value = row.getByText(/^R\$/);
   return {
+    // The row's own box — inline size, not any cell's — for assertions about
+    // the row as a whole (e.g. that it never gets narrower as the window
+    // grows), as distinct from the per-cell boxes below.
+    row: await box(row),
     name: await box(row.getByText(name, { exact: true })),
     value: list.bare ? null : await box(value),
     valueEdges: list.bare ? null : await textEdges(value),

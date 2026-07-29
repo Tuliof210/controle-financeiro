@@ -86,3 +86,26 @@ test("with no ceiling, the card names the first month in the red", async ({
   // No ceiling means there are no survivors to draw.
   await expect(card.getByRole("img")).toHaveCount(0);
 });
+
+// Range end is the shared seed's SPLIT_RECURRENCE reach (202611, Nov/26 —
+// seed.helper.ts), computed here rather than hardcoded so this keeps reading
+// correctly whenever it runs, including the one month a year (November) that
+// exercises the singular branch — "1 mês restante", not "1 meses restantes",
+// the same rule GoalCard's timeline.helper.ts already enforces.
+const RANGE_END = 202611;
+const monthIndex = (yyyymm: number) =>
+  Math.floor(yyyymm / 100) * 12 + (yyyymm % 100) - 1;
+const now = new Date();
+const CURRENT = now.getFullYear() * 100 + now.getMonth() + 1;
+const REMAINING = monthIndex(RANGE_END) - monthIndex(CURRENT) + 1;
+
+test("names how many months remain, not the period's length", async ({
+  page,
+}) => {
+  const card = await openProjection(page, CEILING_PERSON);
+  const label =
+    REMAINING === 1
+      ? "Vale pelo 1 mês restante. Limitado por Nov/26."
+      : `Vale pelos ${REMAINING} meses restantes. Limitado por Nov/26.`;
+  await expect(card.getByText(label)).toBeVisible(SLOW);
+});

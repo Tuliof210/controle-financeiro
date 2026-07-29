@@ -1,0 +1,24 @@
+// Split out of style.module.scss to keep it under the repo's 100-line cap —
+// the same exception ARCHITECTURE.md grants _tiers.scss. Included inside
+// `.list > li`, so every selector below nests under it.
+@mixin gutter {
+  // `who` is always column 1, in every tier it appears in — flush whenever it
+  // renders.
+  > [data-cell="who"] {
+    margin-inline-start: 0;
+  }
+
+  // A row with no `who` cell (a goal) has nothing in column 1 at all: that
+  // track collapses to zero width, so whichever cell would otherwise share it
+  // — `main` always, and `amt` once `_tiers.scss` re-aligns it to the row's
+  // start below the one-line floor — is flush too. Keyed on the column's own
+  // emptiness (`:has()`), not on which cell happens to come first in the DOM,
+  // so this needs no per-tier case: `act` never needs it (always end-aligned,
+  // so its own margin-inline-start is inert regardless of tier).
+  &:not(:has(> [data-cell="who"])) {
+    > [data-cell="main"],
+    > [data-cell="amt"] {
+      margin-inline-start: 0;
+    }
+  }
+}

@@ -1,6 +1,6 @@
 type ApiResult<T> =
-  | { data: T; error?: undefined }
-  | { data?: undefined; error: string };
+  | { data: T; error?: undefined; code?: undefined }
+  | { data?: undefined; error: string; code?: string };
 
 async function request<T>(
   input: string,
@@ -11,7 +11,10 @@ async function request<T>(
     const body = await res.json().catch(() => null);
     return res.ok
       ? { data: body?.data as T }
-      : { error: (body?.error?.message as string) ?? "Erro inesperado" };
+      : {
+          error: (body?.error?.message as string) ?? "Erro inesperado",
+          code: body?.error?.code as string | undefined,
+        };
   } catch {
     return { error: "Erro inesperado" };
   }
