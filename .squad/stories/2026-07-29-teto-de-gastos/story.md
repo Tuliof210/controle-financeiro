@@ -31,7 +31,7 @@ recurring monthly budget, which is the one reading the formula cannot support.
       the ceiling formula must turn it red
 
 ## Tasks
-- [ ] tasks/01-ceiling-formula.md — replace the suffix minimum with a minimum
+- [x] tasks/01-ceiling-formula.md — replace the suffix minimum with a minimum
       of ratios, and reshape the payload around one figure
 - [ ] tasks/02-ceiling-card.md — hero figure plus survival bars, renamed, with
       copy that matches the new arithmetic

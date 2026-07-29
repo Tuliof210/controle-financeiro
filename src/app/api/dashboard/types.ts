@@ -23,12 +23,26 @@ export type Stats = {
   median: number;
 };
 
-// How much can be spent in a month without pushing any later month underwater.
-export type SlackMonth = {
+// The one figure the remaining period can sustain: how much can be spent EXTRA
+// every month, from the current month to the range end, without any month's
+// projected balance going under. Arithmetic in ceiling.helper.ts.
+export type CeilingMonth = {
   month: number;
-  total: number; // cents, >= 0
-  weekly: number; // floor(total / 4)
-  daily: number; // floor(total / 30)
+  cumulative: number; // the month's projected balance before the ceiling
+  remaining: number; // what survives the ceiling being spent every month
+};
+
+export type Ceiling = {
+  monthly: number; // cents, >= 0
+  weekly: number; // floor(monthly / 4)
+  daily: number; // floor(monthly / 30)
+  tightest: number | null; // the month that pins `monthly`; null when it is 0
+  // Earliest month already underwater. Non-null implies `monthly === 0`.
+  firstRed: { month: number; shortfall: number } | null;
+  // Current month .. range end, never empty. `monthly > 0` requires every
+  // `cumulative` here to be positive, so the card's `remaining / cumulative`
+  // bar can never divide by zero nor go negative.
+  months: CeilingMonth[];
 };
 
 // How much of the monthly spending ceiling that month's expense consumed.
@@ -73,7 +87,7 @@ export type DashboardData =
       income: Stats;
       expense: Stats;
       balance: Stats;
-      slack: SlackMonth[];
+      ceiling: Ceiling;
       pace: number;
       limit: { goalCents: number | null; months: LimitMonth[] };
       goals: GoalProjection[];

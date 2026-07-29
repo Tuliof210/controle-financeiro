@@ -1,10 +1,10 @@
 import type { Goal } from "@/core/entities/goal.entity";
 import type { Movement } from "@/core/entities/movement.entity";
 import type { Recurrence } from "@/core/entities/recurrence.entity";
+import { buildCeiling, savingPace } from "./ceiling.helper";
 import { projectGoals } from "./goals.helper";
 import { buildLimit } from "./limit.helper";
 import { buildSeries, firstEstimatedMonth } from "./series.helper";
-import { buildSlack, savingPace } from "./slack.helper";
 import { computeStats } from "./stats.helper";
 import type { DashboardData, DashboardRange } from "./types";
 
@@ -33,8 +33,8 @@ export function buildPayload({
   const points = buildSeries(months, movements, recurrences);
   const stats = (pick: (point: (typeof points)[number]) => number) =>
     computeStats(points.map(pick), currentIndex);
-  const slack = buildSlack(points, range.current);
-  const pace = savingPace(slack);
+  const ceiling = buildCeiling(points, range.current);
+  const pace = savingPace(ceiling);
 
   return {
     status: "ok",
@@ -44,14 +44,14 @@ export function buildPayload({
     income: stats((point) => point.income),
     expense: stats((point) => point.expense),
     balance: stats((point) => point.balance),
-    slack,
+    ceiling,
     pace,
     limit: buildLimit(points, goalCents),
-    // slack runs from the current month to the range end, so its length is
-    // exactly how many months are left to save in.
+    // The ceiling runs from the current month to the range end, so its length
+    // is exactly how many months are left to save in — never 0.
     goals: projectGoals(goals, {
       pace,
-      monthsAhead: slack.length,
+      monthsAhead: ceiling.months.length,
       current: range.current,
     }),
   };
