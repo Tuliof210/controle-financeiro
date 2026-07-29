@@ -49,6 +49,12 @@ export type EntryScreenConfig<
   // The /api/<resource> segment, e.g. "recurrences".
   resource: string;
   labels: EntryScreenLabels;
+  // Narrows what this screen shows, on the client, after fetching everything.
+  // It has to be here and not in the query string: `resource` is also the base
+  // of the delete URL, and it is the same repository call that feeds the
+  // dashboard and the derived period — filtering server-side would silently
+  // move numbers on screens this one knows nothing about.
+  visible?: (item: T) => boolean;
   // The global projection range is passed alongside the item so a period cell
   // can draw itself relative to it (the recurrence coverage bar). Callers that
   // do not need it — Movimentações — just ignore the second argument.
