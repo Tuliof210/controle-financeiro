@@ -55,7 +55,7 @@ for (const list of LISTS) {
     }
   });
 
-  for (const width of [WIDE, NARROW]) {
+  for (const width of [WIDE, NARROW, PINCHED]) {
     test(`${list.path} ${list.short} keeps its controls together at ${width}px`, async ({
       page,
     }) => {
