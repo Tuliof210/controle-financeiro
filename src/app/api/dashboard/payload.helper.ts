@@ -1,6 +1,6 @@
+import type { Forecast } from "@/core/entities/forecast.entity";
 import type { Goal } from "@/core/entities/goal.entity";
 import type { Movement } from "@/core/entities/movement.entity";
-import type { Recurrence } from "@/core/entities/recurrence.entity";
 import { buildCeiling, savingPace } from "./ceiling.helper";
 import { projectGoals } from "./goals.helper";
 import { buildLimit } from "./limit.helper";
@@ -15,7 +15,7 @@ type PayloadInput = {
   goalCents: number | null;
   goals: Goal[];
   movements: Movement[];
-  recurrences: Recurrence[];
+  forecasts: Forecast[];
 };
 
 // Assembles the "ok" payload from an already-validated range and
@@ -28,9 +28,9 @@ export function buildPayload({
   goalCents,
   goals,
   movements,
-  recurrences,
+  forecasts,
 }: PayloadInput): DashboardData {
-  const points = buildSeries(months, movements, recurrences);
+  const points = buildSeries(months, movements, forecasts);
   const stats = (pick: (point: (typeof points)[number]) => number) =>
     computeStats(points.map(pick), currentIndex);
   const ceiling = buildCeiling(points, range.current);

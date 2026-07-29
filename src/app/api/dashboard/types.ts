@@ -3,7 +3,7 @@
 // not a persisted entity, so it lives here rather than in core/entities.
 
 // One month of the global range, with "real" (Movement) and "estimated"
-// (Recurrence) already reconciled by the most-complete-picture-wins rule:
+// (Forecast) already reconciled by the most-complete-picture-wins rule:
 // the bigger of the two sides is the truth for that month AND that type.
 export type MonthPoint = {
   month: number; // YYYYMM

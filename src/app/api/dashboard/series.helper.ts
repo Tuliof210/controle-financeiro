@@ -1,5 +1,5 @@
+import type { Forecast } from "@/core/entities/forecast.entity";
 import type { Movement } from "@/core/entities/movement.entity";
-import type { Recurrence } from "@/core/entities/recurrence.entity";
 import type { MonthPoint } from "./types";
 
 // The four raw sums a month accumulates before the two sides are reconciled.
@@ -21,11 +21,11 @@ const emptySums = (): Sums => ({
 // Seeded from `months` so a month with no data at all still yields a zeroed
 // point rather than disappearing from the series. Entries whose month is not
 // in the global range fall through: nothing server-side clamps Movement.month
-// or RecurrenceMonth.month, and the dashboard is deliberately range-only.
+// or ForecastMonth.month, and the dashboard is deliberately range-only.
 function accumulate(
   months: number[],
   movements: Movement[],
-  recurrences: Recurrence[],
+  forecasts: Forecast[],
 ): Map<number, Sums> {
   const sums = new Map(months.map((month) => [month, emptySums()]));
 
@@ -36,31 +36,30 @@ function accumulate(
     else month.realExpense += movement.valueCents;
   }
 
-  for (const recurrence of recurrences) {
-    // valueCents is PER active month — a recurrence active Jan-Dec contributes
+  for (const forecast of forecasts) {
+    // valueCents is PER active month — a forecast active Jan-Dec contributes
     // its full value to each of those twelve months, never value / 12.
-    for (const active of recurrence.months) {
+    for (const active of forecast.months) {
       const month = sums.get(active);
       if (!month) continue;
-      if (recurrence.type === "income")
-        month.estIncome += recurrence.valueCents;
-      else month.estExpense += recurrence.valueCents;
+      if (forecast.type === "income") month.estIncome += forecast.valueCents;
+      else month.estExpense += forecast.valueCents;
     }
   }
 
   return sums;
 }
 
-// Reconciles "real" (Movement) against "estimated" (Recurrence) per month AND
+// Reconciles "real" (Movement) against "estimated" (Forecast) per month AND
 // per type: the more complete picture wins. Actuals above the commitments mean
 // the month happened; actuals below mean it has not happened yet, or has not
 // been fully recorded, so the commitments are the better truth.
 export function buildSeries(
   months: number[],
   movements: Movement[],
-  recurrences: Recurrence[],
+  forecasts: Forecast[],
 ): MonthPoint[] {
-  const sums = accumulate(months, movements, recurrences);
+  const sums = accumulate(months, movements, forecasts);
   let cumulative = 0;
 
   return months.map((month) => {

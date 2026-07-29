@@ -4,13 +4,13 @@ import { Prisma } from "@/generated/prisma/client";
 import { ENTRY_TYPES } from "@/lib/entry-types";
 import { fail, ok, safeJson } from "@/lib/http";
 import {
-  createRecurrence,
-  deleteRecurrence,
-  listRecurrences,
-  updateRecurrence,
+  createForecast,
+  deleteForecast,
+  listForecasts,
+  updateForecast,
 } from "./service";
 
-const recurrenceShape = {
+const forecastShape = {
   name: z.string().trim().min(1).max(80),
   valueCents: z.number().int().min(1),
   type: z.enum(ENTRY_TYPES),
@@ -24,14 +24,14 @@ const recurrenceShape = {
     .transform((m) => [...new Set(m)].sort((a, b) => a - b)),
 };
 
-const createSchema = z.object(recurrenceShape);
-const updateSchema = z.object({ ...recurrenceShape, id: z.string().min(1) });
+const createSchema = z.object(forecastShape);
+const updateSchema = z.object({ ...forecastShape, id: z.string().min(1) });
 
 export async function GET() {
   try {
-    return ok(await listRecurrences());
+    return ok(await listForecasts());
   } catch {
-    return fail("Erro ao carregar recorrências", "internal", 500);
+    return fail("Erro ao carregar previsões", "internal", 500);
   }
 }
 
@@ -42,7 +42,7 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    return ok(await createRecurrence(parsed.data), 201);
+    return ok(await createForecast(parsed.data), 201);
   } catch (error) {
     if (
       error instanceof Prisma.PrismaClientKnownRequestError &&
@@ -61,17 +61,17 @@ export async function PUT(request: NextRequest) {
   }
 
   try {
-    return ok(await updateRecurrence(parsed.data));
+    return ok(await updateForecast(parsed.data));
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       if (error.code === "P2025") {
-        return fail("Recorrência não encontrada", "not_found", 404);
+        return fail("Previsão não encontrada", "not_found", 404);
       }
       if (error.code === "P2003") {
         return fail("Pessoa não encontrada", "not_found", 404);
       }
     }
-    return fail("Erro ao atualizar recorrência", "internal", 500);
+    return fail("Erro ao atualizar previsão", "internal", 500);
   }
 }
 
@@ -82,14 +82,14 @@ export async function DELETE(request: NextRequest) {
   }
 
   try {
-    await deleteRecurrence(id);
+    await deleteForecast(id);
     return ok({ id });
   } catch (error) {
     if (
       error instanceof Prisma.PrismaClientKnownRequestError &&
       error.code === "P2025"
     ) {
-      return fail("Recorrência não encontrada", "not_found", 404);
+      return fail("Previsão não encontrada", "not_found", 404);
     }
     throw error;
   }

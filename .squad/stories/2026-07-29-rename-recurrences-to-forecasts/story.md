@@ -31,6 +31,6 @@ has to say "previsão" everywhere, from the nav down to the table name.
 ## Tasks
 - [x] tasks/01-drop-stale-nav-assertion.md — unrelated red spec left by the installments revert, fixed first so the suite is a usable baseline
 - [x] tasks/02-rename-forecast-tables.md — Prisma models + hand-written data-preserving SQLite migration
-- [ ] tasks/03-rename-forecast-domain-and-api.md — entity, repository, `/api/forecasts`, and every backend consumer
+- [x] tasks/03-rename-forecast-domain-and-api.md — entity, repository, `/api/forecasts`, and every backend consumer
 - [ ] tasks/04-rename-forecast-ui.md — `/previsoes` screen, nav, form, and the Portuguese copy
 - [ ] tasks/05-realign-e2e-to-forecasts.md — specs and helpers back to green on the new names

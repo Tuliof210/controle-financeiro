@@ -1,6 +1,6 @@
 import type { EntryType } from "@/lib/entry-types";
 
-export type Recurrence = {
+export type Forecast = {
   id: string;
   name: string;
   valueCents: number;

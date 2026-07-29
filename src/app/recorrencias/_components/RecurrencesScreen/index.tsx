@@ -1,7 +1,7 @@
 "use client";
 
 import { EntryScreen } from "@/components/EntryScreen";
-import type { Recurrence } from "@/core/entities/recurrence.entity";
+import type { Forecast } from "@/core/entities/forecast.entity";
 import { CoverageBar } from "./components/CoverageBar";
 import { RecurrenceForm } from "./components/RecurrenceForm";
 import type { RecurrenceFormValues } from "./components/RecurrenceForm/hook";
@@ -9,8 +9,8 @@ import { formatMonths } from "./recurrence-range.helper";
 
 export function RecurrencesScreen() {
   return (
-    <EntryScreen<Recurrence, RecurrenceFormValues>
-      resource="recurrences"
+    <EntryScreen<Forecast, RecurrenceFormValues>
+      resource="forecasts"
       labels={{
         header: {
           eyebrow: "AUTOMÁTICO",
