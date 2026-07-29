@@ -23,7 +23,7 @@ a range when the user only has a month, and two pickers where one would do.
 - [ ] `npm run test` green, including the new spec
 
 ## Tasks
-- [ ] tasks/01-lock-toggle.md — per-row lock inside IntervalList, derived from
+- [x] tasks/01-lock-toggle.md — per-row lock inside IntervalList, derived from
       `start === end`, no change to the component's props
 - [ ] tasks/02-e2e-spec.md — Playwright spec driving the lock through create,
       save and reopen
