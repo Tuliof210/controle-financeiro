@@ -30,7 +30,7 @@ list-wide shared columns, which the design abandons entirely.
       at 1440 / 768 / 375 px, in both themes, screenshotted on the PR.
 
 ## Tasks
-- [ ] tasks/01-icon-button-compact.md — a size knob on IconButton that shrinks
+- [x] tasks/01-icon-button-compact.md — a size knob on IconButton that shrinks
       the paint without shrinking the tap
 - [ ] tasks/02-entry-row-areas.md — replace RowGrid's shared columns with the
       design's per-row grid areas, chip and metadata line
