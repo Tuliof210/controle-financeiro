@@ -3,8 +3,6 @@ import type { DashboardData } from "@/app/api/dashboard/types";
 import { useProfile } from "@/components/ProfileProvider/hook";
 import { apiGet } from "@/lib/api";
 
-export type DashboardTab = "geral" | "projecao" | "metas";
-
 export function useDashboardScreen() {
   // AppShell mounts ProfileProvider globally, so the context is already there.
   // Two things about `profile` that shape this effect: it is ALWAYS "familia"
@@ -15,11 +13,6 @@ export function useDashboardScreen() {
   const { profile } = useProfile();
   const [data, setData] = useState<DashboardData | null>(null);
   const [error, setError] = useState<string>();
-  // Local state, no `?tab=` URL parameter: this is a local app with no
-  // deep-linking story, and a search param would cost a useSearchParams plus a
-  // Suspense boundary for a toggle. The fetch below stays keyed on `profile`
-  // alone, so switching tabs never refetches.
-  const [tab, setTab] = useState<DashboardTab>("geral");
 
   useEffect(() => {
     let current = true;
@@ -54,7 +47,5 @@ export function useDashboardScreen() {
     data,
     error,
     loading: data === null && error === undefined,
-    tab,
-    onSelectTab: setTab,
   };
 }

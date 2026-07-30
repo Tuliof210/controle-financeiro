@@ -9,7 +9,7 @@ import { useDashboardScreen } from "./hook";
 import styles from "./style.module.scss";
 
 export function DashboardScreen() {
-  const { data, error, loading, tab, onSelectTab } = useDashboardScreen();
+  const { data, error, loading } = useDashboardScreen();
 
   return (
     <div className={styles.screen}>
@@ -47,9 +47,7 @@ export function DashboardScreen() {
         </Notice>
       ) : null}
 
-      {data?.status === "ok" ? (
-        <Board data={data} tab={tab} onSelect={onSelectTab} />
-      ) : null}
+      {data?.status === "ok" ? <Board data={data} /> : null}
     </div>
   );
 }

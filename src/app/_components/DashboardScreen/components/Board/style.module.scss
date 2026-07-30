@@ -1,8 +1,8 @@
-// The bar and the active panel, stacked. A flex column rather than a grid: the
+// Every card of the dashboard, stacked. A flex column rather than a grid: the
 // `grid-template-columns: 1fr` that used to live here is exactly what pushed the
 // page past 375px, because `1fr` is minmax(auto, 1fr) and the track never shrank
-// below the cards' min-content width. Each tab owns its own grid now, and every
-// one of them uses minmax(0, 1fr).
+// below the cards' min-content width. The two inner grids that survive —
+// Overview's `.kpis` and GoalsSection's `.grid` — both use minmax(0, 1fr).
 .board {
   display: flex;
   flex-direction: column;

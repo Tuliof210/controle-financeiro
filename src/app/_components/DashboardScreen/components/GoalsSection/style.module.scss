@@ -1,13 +1,7 @@
 @use "theme" as t;
 
-.tab {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-6);
-}
-
-// The one raised surface on this tab: it frames the number every card below is
-// derived from.
+// The one raised surface on the dashboard: it frames the number every card
+// below it is derived from.
 // A grid rather than a wrapping flex row: the design's own layout puts the pace
 // left and the two facts right, and a breakpoint says that in tokens. A
 // `min-width` big enough to force the flex wrap would be a raw pixel value, and

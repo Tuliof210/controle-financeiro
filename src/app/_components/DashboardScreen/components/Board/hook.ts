@@ -1,27 +1,17 @@
 import type { DashboardData } from "@/app/api/dashboard/types";
-import type { DashboardTab } from "../../hook";
 
 // The "ok" variant only — the screen resolves the other states before rendering
 // a board at all, so this component never sees a nullable range.
 export type BoardData = Extract<DashboardData, { status: "ok" }>;
 
-export type BoardProps = {
-  data: BoardData;
-  tab: DashboardTab;
-  onSelect: (id: DashboardTab) => void;
-};
+export type BoardProps = { data: BoardData };
 
-const LABELS: [DashboardTab, string][] = [
-  ["geral", "Visão geral"],
-  ["projecao", "Projeção"],
-  ["metas", "Metas"],
-];
-
-export function useBoard({ data, tab, onSelect }: BoardProps) {
+export function useBoard({ data }: BoardProps) {
   return {
     data,
-    tab,
-    onSelect,
-    tabs: LABELS.map(([id, label]) => ({ id, label, active: id === tab })),
+    ceiling: data.ceiling,
+    // CeilingCard marks a month as projected by comparing it to this. It lives
+    // on the range, not on the rows, so the board is the one place reading it.
+    current: data.range.current,
   };
 }
