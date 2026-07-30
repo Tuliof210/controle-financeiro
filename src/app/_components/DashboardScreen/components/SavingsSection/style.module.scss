@@ -1,0 +1,36 @@
+@use "theme" as t;
+@use "./banner" as *;
+
+// The raised header block lives in `_banner.scss` — see the note there on why
+// it is split off. What the goal cards below it sit in stays here.
+@include banner;
+
+// minmax(0, 1fr), never a bare 1fr: `1fr` is minmax(auto, 1fr), so the track
+// never shrinks below a card's min-content width and the page scrolls sideways
+// at 375px. Same reason Overview's `.kpis` spells it out.
+.grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-6);
+
+  @include t.bp("md") {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.empty {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+
+  a {
+    color: var(--color-brand-text);
+    text-decoration: underline;
+
+    &:focus-visible {
+      @include t.focus-ring;
+    }
+  }
+}

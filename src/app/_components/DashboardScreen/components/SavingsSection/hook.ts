@@ -1,9 +1,9 @@
 import { formatMoney, formatMoneyShort } from "@/lib/money";
 import type { BoardData } from "../Board/hook";
 
-export type GoalsSectionProps = { data: BoardData };
+export type SavingsSectionProps = { data: BoardData };
 
-export function useGoalsSection({ data }: GoalsSectionProps) {
+export function useSavingsSection({ data }: SavingsSectionProps) {
   const { goals, pace } = data;
 
   return {

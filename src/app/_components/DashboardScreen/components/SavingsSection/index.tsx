@@ -2,12 +2,12 @@ import Link from "next/link";
 import { Tooltip } from "@/components/Tooltip";
 import { HINTS } from "../../hints";
 import { GoalCard } from "../GoalCard";
-import { type GoalsSectionProps, useGoalsSection } from "./hook";
+import { type SavingsSectionProps, useSavingsSection } from "./hook";
 import styles from "./style.module.scss";
 
-export function GoalsSection(props: GoalsSectionProps) {
+export function SavingsSection(props: SavingsSectionProps) {
   const { goals, empty, capacity, caption, goalCount, total } =
-    useGoalsSection(props);
+    useSavingsSection(props);
 
   // A fragment, not a wrapper — Board owns the column. See its comment.
   return (

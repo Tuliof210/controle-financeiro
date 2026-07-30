@@ -2,7 +2,7 @@
 // `grid-template-columns: 1fr` that used to live here is exactly what pushed the
 // page past 375px, because `1fr` is minmax(auto, 1fr) and the track never shrank
 // below the cards' min-content width. The two inner grids that survive —
-// Overview's `.kpis` and GoalsSection's `.grid` — both use minmax(0, 1fr).
+// Overview's `.kpis` and SavingsSection's `.grid` — both use minmax(0, 1fr).
 .board {
   display: flex;
   flex-direction: column;

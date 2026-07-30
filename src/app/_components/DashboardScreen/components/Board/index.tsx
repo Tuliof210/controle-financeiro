@@ -1,10 +1,10 @@
 import { CeilingCard } from "../CeilingCard";
-import { GoalsSection } from "../GoalsSection";
 import { Overview } from "../Overview";
+import { SavingsSection } from "../SavingsSection";
 import { type BoardProps, useBoard } from "./hook";
 import styles from "./style.module.scss";
 
-// One scroll, no tabs. Overview and GoalsSection render fragments rather than
+// One scroll, no tabs. Overview and SavingsSection render fragments rather than
 // wrappers of their own, so every card below is a direct child of this column
 // and the space between "Saldo acumulado" and "Teto de Gastos" is the same
 // --space-6 as between any other two cards. Three tab panels each carrying an
@@ -16,7 +16,7 @@ export function Board(props: BoardProps) {
     <div className={styles.board}>
       <Overview data={data} />
       <CeilingCard ceiling={ceiling} current={current} />
-      <GoalsSection data={data} />
+      <SavingsSection data={data} />
     </div>
   );
 }
