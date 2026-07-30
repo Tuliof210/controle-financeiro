@@ -1,0 +1,22 @@
+@use "theme" as t;
+
+// Cursor-anchored, not trigger-anchored like the DS Tooltip's bubble:
+// position comes straight off the pointer event (see hook.ts), so a plain
+// `fixed` + `translate` is enough.
+// ponytail: no viewport-edge collision handling, same ceiling the DS Tooltip
+// documents for its own bubble — add clamping if it overflows in practice.
+.bubble {
+  position: fixed;
+  z-index: var(--z-dropdown);
+  transform: translate(-50%, calc(-100% - var(--space-2)));
+  padding: var(--space-2) var(--space-3);
+  background: var(--color-surface-raised);
+  border: var(--border-2) solid var(--color-border);
+  border-radius: var(--radius-sm);
+  color: var(--color-text);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  white-space: nowrap;
+  pointer-events: none;
+  @include t.elevation(overlay);
+}
