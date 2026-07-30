@@ -17,8 +17,9 @@ export function useCeilingCard({ ceiling, current }: CeilingCardProps) {
   // and both go into the accessible name, so a bar can never be read as
   // measuring the figure beside it.
   //
-  // No divisor guard needed: `monthly > 0` implies every `worstAhead` here is
-  // positive, and the bars only render in that case.
+  // The divisor guard lives in `sharePercent` (whole > 0 -> 0), and it is load
+  // bearing now rather than belt-and-braces: the card renders whenever ANY month
+  // has room, so a leading month with a `worstAhead` of 0 can reach here.
   const rows = months.map((month) => {
     const label = formatYyyymm(month.month);
     const budget = formatMoney(month.budget);
@@ -37,7 +38,13 @@ export function useCeilingCard({ ceiling, current }: CeilingCardProps) {
   });
 
   return {
-    empty: monthly === 0,
+    // Empty means "nothing to offer anywhere in the period", NOT "nothing this
+    // month". Those were the same condition while the card showed one flat rate;
+    // with a figure per month they are not. An owner whose money starts in a
+    // later month has `monthly === 0` and real room further down the list —
+    // hiding it would keep broken exactly the half of the problem this card was
+    // rewritten to fix.
+    empty: months.every((month) => month.budget === 0),
     // Naming the FIRST month in the red says when it breaks, which is the
     // deadline to act on; a deeper month later does not move that date.
     note: firstRed
