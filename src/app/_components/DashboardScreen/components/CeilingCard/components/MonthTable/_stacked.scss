@@ -73,7 +73,10 @@
       border-top: var(--border-1) dashed var(--color-border-subtle);
     }
 
-    .month {
+    // Nested for the same specificity reason as in `_groups.scss`: unnested,
+    // this loses to `.table tbody th` six lines up and the "Atual" chip is
+    // thrown to the far right of the row instead of sitting by the month.
+    .table .month {
       justify-content: flex-start;
       font-size: var(--text-base);
       font-weight: var(--weight-medium);

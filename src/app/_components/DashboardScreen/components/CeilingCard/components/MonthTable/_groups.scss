@@ -4,10 +4,16 @@
 // crosses the 100-line cap. Not a component — its markup is MonthTable's
 // `index.tsx`.
 @mixin groups {
+  // Nested under `.table`, and it has to be: the base cell rules in
+  // `style.module.scss` are themselves nested, so `.table th` is (0,1,1) and
+  // `.table thead th` is (0,1,2). A top-level `.group` is (0,1,0) and loses to
+  // both however late it is written — which is how every declaration in this
+  // mixin came to be dead. `.table .group` is (0,2,0) and wins on class count.
+  //
   // The group titles read left to right over three columns each, breaking the
   // table's right alignment on purpose. No bottom rule: the row of real column
   // headers under them carries it for both.
-  .group {
+  .table .group {
     text-align: left;
     font-family: var(--font-display);
     color: var(--color-text);
@@ -35,9 +41,10 @@
     background: var(--color-brand);
   }
 
-  // The month reads as a label, so it keeps the workhorse face even in the head,
-  // where everything else is the display face.
-  .month {
+  // The month is a label, not a figure: left-aligned against the six columns of
+  // right-aligned money, and in the head it drops the uppercase and the tracking
+  // the other column headers carry. Nested for the specificity reason above.
+  .table .month {
     text-align: left;
     font-weight: var(--weight-regular);
     text-transform: none;
