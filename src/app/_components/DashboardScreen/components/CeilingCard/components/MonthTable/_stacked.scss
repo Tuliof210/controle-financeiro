@@ -17,7 +17,12 @@
 // accessibility tree as text and makes every figure self-describing.
 @mixin stacked {
   @container (max-width: 839px) {
+    // `caption` is in this list for a reason that is not symmetry: left as
+    // `table-caption` under a `display: block` parent it gets its own anonymous
+    // table wrapper and shrinks to MIN-content, so the card's one sentence
+    // rendered as a 65px, six-line ribbon at every width below the threshold.
     .table,
+    .table caption,
     .table tbody,
     .table tr,
     .table th,
