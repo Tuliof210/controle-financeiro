@@ -1,0 +1,61 @@
+@use "./groups" as *;
+@use "./stacked" as *;
+
+// The container, not a media query: this card sits inside Overview's `lg` grid,
+// so it is at its NARROWEST exactly when the viewport is at its widest. A
+// viewport breakpoint would collapse the table at the one width where it fits.
+.wrap {
+  container-type: inline-size;
+}
+
+.caption {
+  padding-bottom: var(--space-2);
+  color: var(--color-text-muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  text-align: left;
+}
+
+// Imitates the OFX ReportView MonthTable, minus its `.wrap { overflow-x: auto }`
+// — this card stacks instead of scrolling sideways.
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+
+  th,
+  td {
+    padding: var(--space-2);
+    text-align: right;
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+    border-bottom: var(--border-1) solid var(--color-border-subtle);
+  }
+
+  // Mono, not the display face — which is what the imported design does too,
+  // reserving Press Start 2P for the two group titles. Not cosmetic: measured in
+  // the browser, the pixel face set every column's min-content width and pushed
+  // the table's intrinsic width from 799px to 865px, which is most of the slack
+  // the card has at 1280.
+  thead th {
+    color: var(--color-text-muted);
+    font-size: var(--text-2xs);
+    font-weight: var(--weight-regular);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    border-bottom: var(--border-2) solid var(--color-border);
+  }
+
+  // The rule between the two hypotheses. By position and not by a class from the
+  // cell module: which column opens a block is a fact about this table's column
+  // model, and CSS Modules would not match a child module's class here anyway.
+  // Cell 1 is the month, so the blocks open at 2 and 5.
+  tbody td:nth-child(2),
+  tbody td:nth-child(5) {
+    border-left: var(--border-2) solid var(--color-border-subtle);
+  }
+}
+
+@include groups;
+@include stacked;

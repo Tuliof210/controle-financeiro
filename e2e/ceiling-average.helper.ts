@@ -33,12 +33,14 @@ export async function expectHeadlineIsFirstRow(card: Locator, budget: number) {
 // included, so the denominator moves with the calendar. Expanded first, since
 // `useShowAll` caps the list at 8 rows while the average takes all of them.
 export async function expectAverageStory(card: Locator) {
-  const budgets = (await readMonths(await expandCeiling(card))).map(
-    (month) => month.budget,
-  );
+  const months = await readMonths(await expandCeiling(card));
+  const budgets = months.map((month) => month.budget);
   expect(budgets.length).toBeGreaterThanOrEqual(3);
 
   const hero = await readHero(card);
+  // The headline and the column are the same figure, said twice — the second
+  // hypothesis is only worth reading if its spend IS the mean above it.
+  expect(months[0].average).toBe(hero.average);
   // Which headline is which, proven rather than assumed: the first is this
   // month's figure, so the second cannot also be it.
   expect(hero.monthly).toBe(budgets[0]);

@@ -1,0 +1,99 @@
+// The collapsed tier, split off `style.module.scss` under the exception
+// ARCHITECTURE.md grants `RowGrid/_tiers.scss`: a mixin that emits nothing on
+// its own, included once by the stylesheet beside it, so neither file crosses
+// the 100-line cap. Not a component.
+//
+// The threshold comes from a measurement, not from the design's 820px, and it is
+// measured against the CARD's width rather than the viewport's — on this
+// dashboard the two diverge, and the card is at its narrowest (628px at 1024)
+// where the viewport is already wide. The table's intrinsic width with the
+// current data is 799px; 839 leaves ~40px, and the card clears it only from the
+// `xl` layout up (884px at 1280). Figures one digit-group longer than today's
+// would eat that slack — re-measure before assuming it still holds.
+//
+// `display: block` gives up the table's implicit roles. What replaces them is
+// not ARIA (Biome rejects explicit roles here, and it is right while the table
+// is still a table) but the `data-label` printed below, which lands in the
+// accessibility tree as text and makes every figure self-describing.
+@mixin stacked {
+  @container (max-width: 839px) {
+    // `caption` is in this list for a reason that is not symmetry: left as
+    // `table-caption` under a `display: block` parent it gets its own anonymous
+    // table wrapper and shrinks to MIN-content, so the card's one sentence
+    // rendered as a 65px, six-line ribbon at every width below the threshold.
+    .table,
+    .table caption,
+    .table tbody,
+    .table tr,
+    .table th,
+    .table td {
+      display: block;
+    }
+
+    // Clipped, never `display: none`: as long as the table role survives in a
+    // given browser, these are still what answer "which column is this".
+    .head {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
+
+    .table tbody tr {
+      padding-block: var(--space-3);
+      border-bottom: var(--border-2) solid var(--color-border-subtle);
+    }
+
+    .table tbody th,
+    .table tbody td {
+      display: flex;
+      align-items: baseline;
+      // No `gap`: the label's auto margin below already separates it from the
+      // value, and a gap here would apply between the value's OWN parts too,
+      // prising the minus and the marker off the figure they belong to.
+      justify-content: space-between;
+      padding-inline: 0;
+      padding-block: var(--space-1);
+      border-bottom: 0;
+    }
+
+    // Six figures stacked in one column are unreadable without their headers,
+    // which is why the owner asked for the labels to repeat per row.
+    //
+    // `margin-inline-end: auto`, not `space-between` alone: a spend cell and a
+    // negative leftover have THREE flex children — the presentational minus and
+    // the red square are their own spans — and spread evenly the square marking
+    // a negative sat ~135px from its figure, which is not a marker on it (styles
+    // README rule 7c). The label absorbs the free space instead.
+    .table tbody td::before {
+      content: attr(data-label);
+      margin-inline-end: auto;
+      color: var(--color-text-muted);
+      font-size: var(--text-2xs);
+      letter-spacing: var(--tracking-wide);
+      text-transform: uppercase;
+    }
+
+    // Stacked, the blocks separate top to bottom, so the rule between the two
+    // hypotheses turns ninety degrees. Dashed and not solid: it divides two
+    // readings of one month, while the solid row border divides two months.
+    .table tbody td:nth-child(2),
+    .table tbody td:nth-child(5) {
+      margin-block-start: var(--space-2);
+      padding-block-start: var(--space-2);
+      border-left: 0;
+      border-top: var(--border-1) dashed var(--color-border-subtle);
+    }
+
+    // Nested for the same specificity reason as in `_groups.scss`: unnested,
+    // this loses to `.table tbody th` six lines up and the "Atual" chip is
+    // thrown to the far right of the row instead of sitting by the month.
+    .table .month {
+      justify-content: flex-start;
+      font-size: var(--text-base);
+      font-weight: var(--weight-medium);
+    }
+  }
+}
