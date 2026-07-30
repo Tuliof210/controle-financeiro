@@ -3,7 +3,6 @@ import type { Goal } from "@/core/entities/goal.entity";
 import type { Movement } from "@/core/entities/movement.entity";
 import { buildCeiling, savingPace } from "./ceiling.helper";
 import { projectGoals } from "./goals.helper";
-import { buildLimit } from "./limit.helper";
 import { buildSeries, firstEstimatedMonth } from "./series.helper";
 import { computeStats } from "./stats.helper";
 import type { DashboardData, DashboardRange } from "./types";
@@ -12,7 +11,6 @@ type PayloadInput = {
   range: DashboardRange;
   months: number[];
   currentIndex: number;
-  goalCents: number | null;
   goals: Goal[];
   movements: Movement[];
   forecasts: Forecast[];
@@ -25,7 +23,6 @@ export function buildPayload({
   range,
   months,
   currentIndex,
-  goalCents,
   goals,
   movements,
   forecasts,
@@ -46,7 +43,6 @@ export function buildPayload({
     balance: stats((point) => point.balance),
     ceiling,
     pace,
-    limit: buildLimit(points, goalCents),
     // The ceiling runs from the current month to the range end, so its length
     // is exactly how many months are left to save in — never 0.
     goals: projectGoals(goals, {

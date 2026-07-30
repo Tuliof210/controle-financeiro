@@ -27,7 +27,7 @@ every other goal, and queued one at a time.
 - [ ] `npm run test` — the whole Playwright suite green, including the new spec
 
 ## Tasks
-- [ ] tasks/01-remove-monthly-goal.md — delete "Meta mensal" from UI, payload, API and schema
+- [x] tasks/01-remove-monthly-goal.md — delete "Meta mensal" from UI, payload, API and schema
 - [ ] tasks/02-flatten-dashboard.md — drop the tab bar, render one column in the agreed order
 - [ ] tasks/03-capacity-from-ceiling-average.md — pace becomes 25% of the mean monthly ceiling
 - [ ] tasks/04-goal-time-metrics.md — three time-to-complete metrics per goal, in payload and on the card

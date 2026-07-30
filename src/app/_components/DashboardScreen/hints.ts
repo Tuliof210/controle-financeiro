@@ -53,13 +53,6 @@ export const HINTS = {
     "meses posteriores ao atual aparecem hachurados: são projeção, não histórico.",
   ].join(" "),
 
-  limit: [
-    "Quanto as saídas de cada mês consumiram da meta mensal definida em",
-    "Configurações. Até 100% está dentro; acima disso, estourou. A barra para",
-    "de crescer em 100%, mas o percentual ao lado continua subindo. Os meses",
-    "posteriores ao atual aparecem hachurados: são projeção, não histórico.",
-  ].join(" "),
-
   goals: [
     "Quanto dá para guardar por mês: 25% do valor FIXO que o período sustenta",
     "todo mês. Não é 25% do número grande do Teto de Gastos — aquele vale só",

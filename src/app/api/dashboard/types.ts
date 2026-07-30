@@ -51,13 +51,6 @@ export type Ceiling = {
   months: CeilingMonth[];
 };
 
-// How much of the monthly spending ceiling that month's expense consumed.
-export type LimitMonth = {
-  month: number;
-  spent: number; // effective expense of the month, cents
-  percent: number | null; // null when monthlyGoalCents is unset
-};
-
 // A goal measured against what the global period can actually put aside.
 // `doneMonth` is the single flag the card leans on: it is non-null exactly when
 // `accruedCents >= targetCents`, so the completion date, the meter's length and
@@ -95,6 +88,5 @@ export type DashboardData =
       balance: Stats;
       ceiling: Ceiling;
       pace: number;
-      limit: { goalCents: number | null; months: LimitMonth[] };
       goals: GoalProjection[];
     };
