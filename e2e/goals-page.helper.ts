@@ -8,7 +8,7 @@
 // reddened by the load it adds.
 
 import { expect, type Locator, type Page } from "@playwright/test";
-import { parseCents, SLOW } from "./ceiling-page.helper";
+import { parseCents, rowsOf, SLOW } from "./ceiling-page.helper";
 
 // The three metric labels, in the order the card renders them.
 export const METRIC_LABELS = [
@@ -44,9 +44,9 @@ export async function readCapacity(banner: Locator): Promise<number> {
 export async function expandCeiling(card: Locator) {
   const chip = card.getByRole("button", { name: /^Ver todos/ });
   if (await chip.isVisible()) await chip.click();
-  const bars = card.getByRole("img");
-  await expect(bars.first()).toBeVisible(SLOW);
-  return bars;
+  const rows = rowsOf(card);
+  await expect(rows.first()).toBeVisible(SLOW);
+  return rows;
 }
 
 // "~37 meses · Jul/29" -> 37, and "ritmo zero" -> null. The month is captured

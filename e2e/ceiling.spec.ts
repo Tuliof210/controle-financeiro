@@ -10,30 +10,19 @@ import {
   expectHeadlineIsFirstRow,
 } from "./ceiling-average.helper";
 import {
-  expectFirstBarFill,
   expectHeaderBadges,
   expectNoCeiling,
+  expectScenarios,
 } from "./ceiling-expect.helper";
-import {
-  expectAccumulator,
-  openCeiling,
-  readMonths,
-  SLOW,
-} from "./ceiling-page.helper";
+import { openCeiling, readMonths, rowsOf, SLOW } from "./ceiling-page.helper";
 import { seed } from "./seed.helper";
 
-// The "Teto de Gastos" card lists what each month may spend EXTRA, and the whole
-// column has to be spendable in ORDER without any month closing in the red. Any
-// single row reads the same under two wrong formulas, so every assertion here is
-// about the series — see expectAccumulator in ceiling-page.helper.ts.
-//
-// The formula has two halves and each has its own mutation, because a fixture
-// whose balance only rises cannot tell the second one apart from nothing:
-//  - accumulator: drop `- authorised` from `gap` in `buildCeiling`
-//    (src/app/api/dashboard/ceiling.helper.ts) and the accumulator assertions
-//    fail from the second row on.
-//  - suffix minimum: make `suffixMinimum` return `ahead.map((p) => p.cumulative)`
-//    and the DIP_PERSON test below fails. Nothing else catches that one.
+// The "Teto de Gastos" card reads each month twice: the balance it arrives at if
+// every earlier month spent its own ceiling, and the balance it arrives at if
+// every earlier month spent the average instead. Any single row reads the same
+// under two wrong formulas, so every assertion here is about the series — see
+// expectScenarios in ceiling-expect.helper.ts, which also names the two mutations
+// the fixtures below are shaped to catch.
 
 test.beforeAll(async () => {
   // Order matters, it is not politeness: the range is derived from EVERY entry
@@ -45,39 +34,37 @@ test.beforeAll(async () => {
 
 test("each month's figure discounts the months before it", async ({ page }) => {
   const card = await openCeiling(page, CEILING_PERSON);
-  const bars = card.getByRole("img");
-  await expect(bars.first()).toBeVisible(SLOW);
+  const rows = rowsOf(card);
+  await expect(rows.first()).toBeVisible(SLOW);
 
-  const months = await readMonths(bars);
+  const months = await readMonths(rows);
   expect(months.length).toBeGreaterThanOrEqual(3);
   expect(months[0].budget).toBeGreaterThan(0);
 
-  expectAccumulator(months);
+  expectScenarios(months);
   await expectHeadlineIsFirstRow(card, months[0].budget);
-  await expectFirstBarFill(page, bars, months[0]);
 });
 
 test("a later dip, not the month's own balance, caps the first month", async ({
   page,
 }) => {
   const card = await openCeiling(page, DIP_PERSON);
-  const bars = card.getByRole("img");
-  await expect(bars.first()).toBeVisible(SLOW);
+  const rows = rowsOf(card);
+  await expect(rows.first()).toBeVisible(SLOW);
 
-  const months = await readMonths(bars);
+  const months = await readMonths(rows);
   expect(months.length).toBeGreaterThanOrEqual(3);
-  expectAccumulator(months);
 
-  // This fixture falls in its second month and recovers in its third. Under a
-  // suffix minimum the first two rows share ONE number — the dip — and the third
-  // is larger. Under each month's own balance the first row would be the largest
-  // of the three, so these two lines are what the identity mutation breaks.
-  expect(months[0].worstAhead).toBe(months[1].worstAhead);
-  expect(months[0].worstAhead).toBeLessThan(months[2].worstAhead);
+  // This fixture falls in its second month and recovers in its third, which is
+  // the only shape that tells the suffix minimum apart from each month's own
+  // balance: price the first month against its OWN 3.000 and the second row's
+  // "Sobra" closes below zero. That floor is inside expectScenarios, and this
+  // fixture is what makes it bite.
+  expectScenarios(months);
 
   // And the consequence the owner cares about: the first month is allowed less
   // than its own balance would permit, because next month's dip is what binds.
-  expect(months[0].budget).toBeLessThan(months[2].budget);
+  expect(months[0].budget).toBeLessThan(months[0].ceilingBalance);
 });
 
 test("with no ceiling, the card names the first month in the red", async ({

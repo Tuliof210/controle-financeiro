@@ -1,6 +1,6 @@
 // Not a spec — playwright only collects `*.spec.ts`. The three metrics checked
 // as a SET rather than card by card, the way ceiling-page.helper's
-// expectAccumulator checks the ceiling column: any single card reads plausibly
+// expectScenarios checks the ceiling column: any single card reads plausibly
 // under the wrong formula, and only the relations between them do not.
 //
 // Separate from goals-page.helper.ts, which only reaches and reads, and out of

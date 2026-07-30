@@ -24,6 +24,8 @@ const cardOf = (page: Page) =>
     .locator("section")
     .filter({ has: page.getByRole("heading", { name: "Teto de Gastos" }) });
 
+export const rowsOf = (card: Locator) => card.locator("tbody tr");
+
 // The dashboard is one scroll, so reaching the card is a profile pick and
 // nothing else — there is no tab to click on the way.
 export async function openCeiling(
@@ -39,57 +41,28 @@ export async function openCeiling(
   return card;
 }
 
-// Each bar announces itself as "Ago/26: gasto extra R$ 1,92, restam R$ 0,48,
-// saldo R$ 12,00" — the month's own figure, what survives it, and the projected
-// balance the bar measures it against. NOT "teto": that word is the card's title
-// and its headline, where it means the figure, not the balance. All three come
-// off the accessible name rather than the cells, so the numbers under assertion
-// are the ones a screen reader is handed. The separators here are the contract:
-// reword `srLabel` in CeilingCard/hook.ts and every value below parses to NaN.
-export async function readMonths(bars: Locator) {
-  const labels = await bars.evaluateAll((nodes) =>
-    nodes.map((node) => node.getAttribute("aria-label") ?? ""),
+// Six figures per row, read positionally off the cells: cell 0 is the month
+// label, then the ceiling hypothesis (balance, spend, leftover) and the average
+// one. Positional and not by text, because four of the six column headers read
+// identically — telling them apart is what the column ORDER is for.
+//
+// `textContent` and not `innerText`: the stacked layout prints each cell's
+// column label through a `::before`, which innerText would fold into the value.
+// The two spend columns carry a presentational U+2212 that parseCents reads as a
+// sign, so they are taken as magnitudes — they are the amount subtracted, and
+// the subtraction already shows in the leftover beside them.
+export async function readMonths(rows: Locator) {
+  const cells = await rows.evaluateAll((nodes) =>
+    nodes.map((node) => [...node.children].map((c) => c.textContent ?? "")),
   );
-  return labels.map((label) => {
-    const [budget, remaining, worstAhead] = label
-      .split(/: gasto extra |, restam |, saldo /)
-      .slice(1);
-    return {
-      budget: parseCents(budget),
-      remaining: parseCents(remaining),
-      worstAhead: parseCents(worstAhead),
-    };
-  });
+  return cells.map((row) => ({
+    ceilingBalance: parseCents(row[1]),
+    budget: Math.abs(parseCents(row[2])),
+    ceilingLeft: parseCents(row[3]),
+    averageBalance: parseCents(row[4]),
+    average: Math.abs(parseCents(row[5])),
+    averageLeft: parseCents(row[6]),
+  }));
 }
 
 export type CeilingMonth = Awaited<ReturnType<typeof readMonths>>[number];
-
-// The card's whole promise, checked as a SERIES rather than row by row: each
-// month's figure is 80% of what is left of its worst balance ahead once the
-// earlier months have been taken, and what survives never goes under. Row by row,
-// a flat rate and a bare suffix minimum both read identically to the right
-// answer; here they do not. The suffix minimum can only RISE as months advance —
-// a per-month balance in its place would not have to.
-export function expectAccumulator(months: CeilingMonth[]) {
-  let authorised = 0;
-  months.forEach((month, at) => {
-    const headroom = month.worstAhead - authorised;
-    expect(month.budget, `month ${at}: 80% of its remaining headroom`).toBe(
-      Math.floor((4 * headroom) / 5),
-    );
-    authorised += month.budget;
-    expect(month.remaining, `month ${at}: survives earlier figures`).toBe(
-      month.worstAhead - authorised,
-    );
-    expect(
-      month.remaining,
-      `month ${at}: does not close under`,
-    ).toBeGreaterThanOrEqual(0);
-    if (at > 0) {
-      expect(
-        month.worstAhead,
-        `month ${at}: suffix minimum never falls`,
-      ).toBeGreaterThanOrEqual(months[at - 1].worstAhead);
-    }
-  });
-}
