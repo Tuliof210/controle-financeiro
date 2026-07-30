@@ -95,9 +95,14 @@ test("two cards fit 375px and keep a 44px tap band", async ({ page }) => {
   const remove = page.getByRole("button", { name: "Remover intervalo 2" });
   await expect(remove).toBeVisible();
 
-  const overflow = await page.evaluate(
-    () => document.documentElement.scrollWidth - window.innerWidth,
-  );
+  // On the dialog, not documentElement: a modal <dialog> is fixed in the top
+  // layer and adds NOTHING to the document's scrollWidth, so a 3000px card
+  // leaves it at the viewport width. The page behind it is row-overflow's job.
+  const overflow = await page.evaluate(() => {
+    const modal = document.querySelector("dialog[open]");
+    if (!modal) throw new Error("expected the forecast modal to be open");
+    return modal.scrollWidth - modal.clientWidth;
+  });
   expect(overflow).toBeLessThanOrEqual(0);
 
   // The label carries the toggle's tap band; the 20px box inside it never did.
