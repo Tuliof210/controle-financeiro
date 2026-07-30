@@ -1,0 +1,87 @@
+@use "theme" as t;
+@use "./checkbox";
+@use "./summary";
+
+// Same recipe as SectionCard, one tier up from the modal's --color-surface-raised
+// dialog. No `overflow: hidden`: it would clip the focus-ring outlines of the
+// controls inside.
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  padding: var(--space-6);
+  background: var(--color-surface);
+  border: var(--border-2) solid var(--color-border);
+  border-radius: var(--radius-md);
+}
+
+.header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-wide);
+  color: var(--color-text-muted);
+  // Uppercased in CSS, not in the copy, so the accessible text stays "Vigência".
+  text-transform: uppercase;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.lock {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 44px;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-wide);
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.checkbox {
+  @include checkbox.box;
+}
+
+.summary {
+  @include summary.strip;
+}
+
+.range {
+  @include summary.range;
+}
+
+.duration {
+  @include summary.badge;
+}
+
+// Stacked below the "sm" breakpoint: two month pickers, each holding two
+// selects, cannot share a 375px row without the option text going under the
+// caret. Side by side from there up.
+.pickers {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+
+  @include t.bp("sm") {
+    flex-direction: row;
+
+    > * {
+      flex: 1;
+      min-width: 0;
+    }
+  }
+}

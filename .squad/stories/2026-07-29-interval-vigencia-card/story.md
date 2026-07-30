@@ -28,10 +28,10 @@ Design project "Seletor de Vigência" is the approved target.
 - [ ] Visual check in the browser pane, light and dark, at 375px and 1280px
 
 ## Tasks
-- [ ] tasks/01-select-skin.md — shared DS select skin (caret + sizing) for
+- [x] tasks/01-select-skin.md — shared DS select skin (caret + sizing) for
       `MonthPicker` and `SelectField`
-- [ ] tasks/02-vigencia-card.md — card shell, header with the `VIGÊNCIA` eyebrow,
+- [x] tasks/02-vigencia-card.md — card shell, header with the `VIGÊNCIA` eyebrow,
       styled `Mês único` toggle, relocated remove control, dashed add button
-- [ ] tasks/03-summary-strip.md — month range and inverted duration badge
-- [ ] tasks/04-e2e-vigencia-card.md — extend `interval-lock.spec.ts` with the
+- [x] tasks/03-summary-strip.md — month range and inverted duration badge
+- [x] tasks/04-e2e-vigencia-card.md — extend `interval-lock.spec.ts` with the
       card's visible read-outs, overflow and hit-target checks

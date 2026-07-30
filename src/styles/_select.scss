@@ -1,0 +1,44 @@
+// The DS skin for a native <select>, shared verbatim by SelectField and
+// MonthPicker (whose `.select` blocks were byte-for-byte duplicates). A mixin
+// rather than a class: both consumers are `.module.scss` files owning their own
+// scoped class names.
+//
+// The caret is two linear-gradients, not an SVG. Chromium renders no
+// ::before/::after inside a <select>, so a pseudo-element caret is out; a
+// `data:image/svg+xml` background-image would bake the stroke colour into the
+// asset and could never follow the theme. Gradients read
+// --color-text-muted and switch with it, for free, with no extra markup.
+@use "theme" as t;
+
+@mixin skin {
+  appearance: none;
+  width: 100%;
+  // 46px, not the 44px floor: the caret needs vertical room and the design
+  // sizes the field at 46. Still clears the 44px hit-target minimum.
+  min-height: 46px;
+  // Right padding clears the caret; the option text must never run under it.
+  padding: 0 var(--space-6) 0 var(--space-3);
+  background-color: var(--color-bg);
+  background-image: linear-gradient(
+      45deg,
+      transparent 50%,
+      var(--color-text-muted) 50%
+    ),
+    linear-gradient(135deg, var(--color-text-muted) 50%, transparent 50%);
+  // The two tiles must abut: offsets differ by exactly one tile width.
+  background-position:
+    right var(--space-4) top 50%,
+    right var(--space-3) top 50%;
+  background-size: var(--space-1) var(--space-1);
+  background-repeat: no-repeat;
+  border: var(--border-2) solid var(--color-border);
+  border-radius: var(--radius-sm);
+  color: var(--color-text);
+  font-family: var(--font-mono);
+  font-size: var(--text-base);
+  cursor: pointer;
+
+  &:focus-visible {
+    @include t.focus-ring;
+  }
+}
