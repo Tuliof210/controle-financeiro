@@ -4,6 +4,6 @@ export function useSettingsScreen(): PageHeaderProps {
   return {
     eyebrow: "AJUSTES",
     title: "Configurações",
-    subtitle: "Pessoas, meta e objetivos da família.",
+    subtitle: "Pessoas e objetivos da família.",
   };
 }

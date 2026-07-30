@@ -1,11 +1,5 @@
 @use "theme" as t;
 
-.tab {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-6);
-}
-
 // minmax(0, 1fr), never a bare 1fr: `1fr` is minmax(auto, 1fr), so the track
 // never shrinks below the card's min-content width and the page scrolls
 // sideways at 375px. Same fix that took Configurações to zero overflowing

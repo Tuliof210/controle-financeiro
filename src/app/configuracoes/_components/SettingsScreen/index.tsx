@@ -2,7 +2,6 @@
 
 import { PageHeader } from "@/components/PageHeader";
 import { GoalsSection } from "./components/GoalsSection";
-import { MonthlyGoalSection } from "./components/MonthlyGoalSection";
 import { PeopleSection } from "./components/PeopleSection";
 import { useSettingsScreen } from "./hook";
 import styles from "./style.module.scss";
@@ -15,7 +14,6 @@ export function SettingsScreen() {
       <PageHeader {...header} />
       <div className={styles.grid}>
         <PeopleSection />
-        <MonthlyGoalSection />
         <GoalsSection />
       </div>
     </div>

@@ -2,15 +2,16 @@ import Link from "next/link";
 import { Tooltip } from "@/components/Tooltip";
 import { HINTS } from "../../hints";
 import { GoalCard } from "../GoalCard";
-import { type GoalsTabProps, useGoalsTab } from "./hook";
+import { type SavingsSectionProps, useSavingsSection } from "./hook";
 import styles from "./style.module.scss";
 
-export function GoalsTab(props: GoalsTabProps) {
-  const { goals, empty, capacity, caption, covered, total } =
-    useGoalsTab(props);
+export function SavingsSection(props: SavingsSectionProps) {
+  const { goals, empty, capacity, caption, goalCount, total } =
+    useSavingsSection(props);
 
+  // A fragment, not a wrapper — Board owns the column. See its comment.
   return (
-    <div className={styles.tab}>
+    <>
       <section className={styles.banner}>
         <div className={styles.capacity}>
           <div className={styles.eyebrowRow}>
@@ -30,12 +31,14 @@ export function GoalsTab(props: GoalsTabProps) {
           <p className={styles.caption}>{caption}</p>
         </div>
 
+        {/* The wrappers carry no class: `.facts` is the flex row that does the
+            spacing, and each <div> only keeps its dt/dd together. */}
         <dl className={styles.facts}>
-          <div className={styles.fact}>
-            <dt className={styles.factLabel}>COBERTAS NO PERÍODO</dt>
-            <dd className={styles.factValue}>{covered}</dd>
+          <div>
+            <dt className={styles.factLabel}>OBJETIVOS</dt>
+            <dd className={styles.factValue}>{goalCount}</dd>
           </div>
-          <div className={styles.fact}>
+          <div>
             <dt className={styles.factLabel}>TOTAL EM METAS</dt>
             <dd className={styles.factValue}>{total}</dd>
           </div>
@@ -54,6 +57,6 @@ export function GoalsTab(props: GoalsTabProps) {
           ))}
         </div>
       )}
-    </div>
+    </>
   );
 }

@@ -1,8 +1,8 @@
 import type { BoardData } from "../Board/hook";
 
-export type GeneralTabProps = { data: BoardData };
+export type OverviewProps = { data: BoardData };
 
-export function useGeneralTab({ data }: GeneralTabProps) {
+export function useOverview({ data }: OverviewProps) {
   return {
     data,
     // The series each KPI card draws. Saldo gets `cumulative`, not `balance`:

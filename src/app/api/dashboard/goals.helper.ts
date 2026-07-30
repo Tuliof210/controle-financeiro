@@ -1,62 +1,55 @@
 import type { Goal } from "@/core/entities/goal.entity";
 import { addMonths } from "@/lib/months";
-import type { GoalProjection } from "./types";
+import type { GoalPace, GoalProjection } from "./types";
 
 type Horizon = {
-  pace: number; // cents put aside per month
-  monthsAhead: number; // current month .. range end, inclusive
-  current: number; // YYYYMM
+  pace: number; // cents put aside per month — the whole monthly capacity
+  current: number; // YYYYMM, the month saving starts in
 };
 
-// Soonest first. Array.sort is stable, so goals tied on months keep the
-// repository's createdAt order.
+// Math.ceil: a wait always rounds UP, and a target smaller than one month's pace
+// is still one month, never zero. `months` is therefore >= 1 whenever it is not
+// null — POST /api/goals rejects a targetCents below 1 — so `months - 1` below
+// never runs off the start of the range.
 //
-// The ?? branch is inert by construction, kept only to satisfy the type: pace
-// is payload-global, so `months` is null for EVERY goal or for none — a list
-// mixing the two cannot exist, and mutating the fallback changes nothing
-// observable. MAX_SAFE_INTEGER rather than POSITIVE_INFINITY all the same,
-// since Infinity - Infinity is NaN and a comparator returning NaN reads as a
-// bug even though the spec coerces it to 0.
-const wait = (goal: GoalProjection) => goal.months ?? Number.MAX_SAFE_INTEGER;
+// Saving starts in the CURRENT month, hence `months - 1`: a one-month goal
+// completes this month, not the next.
+//
+// A pace of 0 means no month in the period leaves anything to put aside. Null is
+// the one guard the three metrics need, and it is shared: pace is payload-global,
+// so all three are null for every goal or for none.
+function paceOf(cents: number, pace: number, current: number): GoalPace {
+  if (pace <= 0) return null;
+  const months = Math.ceil(cents / pace);
+  return { months, doneMonth: addMonths(current, months - 1) };
+}
 
-// Goal carries no deadline, so the questions are how long each target takes at
-// the current saving pace, and whether the global period is long enough to get
-// there. Math.ceil: a wait always rounds UP, and a target smaller than one
-// month's pace is still one month, never zero.
-//
-// pace of 0 means no month in the range leaves anything to put aside — the
-// null is what the card renders as "inalcançável no ritmo atual".
+// Goal carries no deadline, so the question is how long each target takes — and
+// that has three honest answers depending on what else is being saved for at the
+// same time. Cheapest first, which is both the queue metric C is defined by and
+// the order metrics A and C agree on; Array.sort is stable, so goals tied on
+// target keep the repository's createdAt order.
 export function projectGoals(
   goals: Goal[],
-  { pace, monthsAhead, current }: Horizon,
+  { pace, current }: Horizon,
 ): GoalProjection[] {
-  // The same for every goal: what the period funds before any target is named.
-  const accruedCents = pace * monthsAhead;
+  const queue = [...goals].sort((a, b) => a.targetCents - b.targetCents);
+  // Metric C's running total: every cheaper goal is fully funded before this one
+  // starts, so what it waits on is the sum of the queue up to and including it.
+  let queued = 0;
 
-  return goals
-    .map((goal) => {
-      const months = pace > 0 ? Math.ceil(goal.targetCents / pace) : null;
-      return {
-        id: goal.id,
-        name: goal.name,
-        targetCents: goal.targetCents,
-        months,
-        // Saving starts in the CURRENT month, so a one-month goal completes
-        // this month, not the next — hence months - 1. `months <= monthsAhead`
-        // is the same condition as `accruedCents >= targetCents` for integers,
-        // which is what lets the card drive the date, the meter's length and
-        // its colour off this one field. months is >= 1 whenever it is not
-        // null: POST /api/goals rejects a targetCents below 1.
-        doneMonth:
-          months !== null && months <= monthsAhead
-            ? addMonths(current, months - 1)
-            : null,
-        accruedCents,
-        // monthsAhead is >= 1 by construction: buildCeiling runs from the current
-        // month to the range end, and getDashboard already answered
-        // "out_of_range" when the current month falls outside it. No guard.
-        neededCents: Math.ceil(goal.targetCents / monthsAhead),
-      };
-    })
-    .sort((a, b) => wait(a) - wait(b));
+  return queue.map((goal) => {
+    queued += goal.targetCents;
+    return {
+      id: goal.id,
+      name: goal.name,
+      targetCents: goal.targetCents,
+      dedicated: paceOf(goal.targetCents, pace, current),
+      // `target * count / pace`, never `target / (pace / count)`: the share of a
+      // goal is a fraction of a cent, and forming it would put a rounding step
+      // between the two metrics that are meant to be comparable.
+      parallel: paceOf(goal.targetCents * queue.length, pace, current),
+      serialized: paceOf(queued, pace, current),
+    };
+  });
 }

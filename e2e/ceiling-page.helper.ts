@@ -24,13 +24,14 @@ const cardOf = (page: Page) =>
     .locator("section")
     .filter({ has: page.getByRole("heading", { name: "Teto de Gastos" }) });
 
-export async function openProjection(
+// The dashboard is one scroll, so reaching the card is a profile pick and
+// nothing else — there is no tab to click on the way.
+export async function openCeiling(
   page: Page,
   person: string,
 ): Promise<Locator> {
   await page.goto("/");
   await page.getByRole("combobox").selectOption({ label: person });
-  await page.getByRole("button", { name: "Projeção" }).click();
   const card = cardOf(page);
   await expect(
     card.getByRole("heading", { name: "Teto de Gastos" }),

@@ -1,12 +1,12 @@
 import { useState } from "react";
 
-// The design caps both projection lists at eight rows before the toggle.
+// The design caps the projection list at eight rows before the toggle.
 const CAP = 8;
 
-// Shared by CeilingCard and LimitCard — the same behaviour, twice, so it is
-// written once. Role-suffixed rather than `hook.ts`: a folder's hook.ts is
-// called by its OWN index.tsx, and this one is called by two other components'
-// hooks.
+// Role-suffixed rather than `hook.ts`: a folder's hook.ts is called by its OWN
+// index.tsx, and this one is called by another component's hook. Written once
+// for two cards; only CeilingCard is left, and inlining it there is a bigger
+// diff than leaving it where it is.
 //
 // `all` is returned, not just consumed: the chip is a disclosure button and
 // owes the reader an `aria-expanded`, the way Aside's and Header's do.

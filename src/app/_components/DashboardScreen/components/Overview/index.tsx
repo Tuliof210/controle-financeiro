@@ -11,14 +11,16 @@ import { ChartCard } from "../ChartCard";
 import { HeroCard } from "../HeroCard";
 import { MonthlyBarChart } from "../MonthlyBarChart";
 import { StatCard } from "../StatCard";
-import { type GeneralTabProps, useGeneralTab } from "./hook";
+import { type OverviewProps, useOverview } from "./hook";
 import styles from "./style.module.scss";
 
-export function GeneralTab(props: GeneralTabProps) {
-  const { data, income, expense, balance } = useGeneralTab(props);
+export function Overview(props: OverviewProps) {
+  const { data, income, expense, balance } = useOverview(props);
 
+  // A fragment, not a wrapper: Board is the one column, and a nested one here
+  // would only be a second place for the card spacing to be decided.
   return (
-    <div className={styles.tab}>
+    <>
       <HeroCard data={data} />
 
       <div className={styles.kpis}>
@@ -65,6 +67,6 @@ export function GeneralTab(props: GeneralTabProps) {
           />
         )}
       </ChartCard>
-    </div>
+    </>
   );
 }

@@ -1,9 +1,4 @@
-import { sustainableRate } from "./sustainable.helper";
 import type { Ceiling, CeilingMonth, MonthPoint } from "./types";
-
-// A quarter of the sustainable rate is what the owner is willing to commit to a
-// goal every month.
-const PACE_SHARE = 0.25;
 
 // The worst projected balance from each month to the range end, right to left in
 // one pass. Seeded from the LAST balance rather than a sentinel: the formula this
@@ -71,8 +66,6 @@ export function buildCeiling(
     monthly,
     weekly: Math.floor(monthly / 4),
     daily: Math.floor(monthly / 30),
-    // Clamps itself to 0 on a red period, so `red` needs no branch here.
-    sustainable: sustainableRate(ahead),
     // The month whose balance IS the worst ahead — what limits this month's
     // figure, and the only month the card can honestly name.
     tightest: monthly > 0 ? tightestMonth(ahead, worst[0]) : null,
@@ -85,11 +78,4 @@ export function buildCeiling(
 // fallback is there to satisfy the type and is unreachable.
 function tightestMonth(ahead: MonthPoint[], floor: number): number {
   return (ahead.find((point) => point.cumulative === floor) ?? ahead[0]).month;
-}
-
-// A share of the sustainable rate, never of the front-loaded figure: goals.helper
-// multiplies this by the months left, which only stays inside the balance for a
-// rate that survives being spent every month.
-export function savingPace(ceiling: Ceiling): number {
-  return Math.floor(PACE_SHARE * ceiling.sustainable);
 }

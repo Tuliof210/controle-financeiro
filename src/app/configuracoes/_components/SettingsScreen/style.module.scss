@@ -17,8 +17,8 @@
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   gap: var(--space-6);
-  // Without it the two cards of a row stretch to the taller one, and a short
-  // card (Meta mensal) grows a block of dead space under its last control.
+  // Without it the two cards of a row stretch to the taller one, and the
+  // shorter one grows a block of dead space under its last control.
   align-items: start;
 
   // A container query, not the `md` viewport breakpoint this used to carry.

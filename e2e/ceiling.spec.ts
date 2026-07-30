@@ -10,7 +10,7 @@ import {
 } from "./ceiling.helper";
 import {
   expectAccumulator,
-  openProjection,
+  openCeiling,
   parseCents,
   readMonths,
   SLOW,
@@ -40,7 +40,7 @@ test.beforeAll(async () => {
 });
 
 test("each month's figure discounts the months before it", async ({ page }) => {
-  const card = await openProjection(page, CEILING_PERSON);
+  const card = await openCeiling(page, CEILING_PERSON);
   const bars = card.getByRole("img");
   await expect(bars.first()).toBeVisible(SLOW);
 
@@ -74,7 +74,7 @@ test("each month's figure discounts the months before it", async ({ page }) => {
 test("a later dip, not the month's own balance, caps the first month", async ({
   page,
 }) => {
-  const card = await openProjection(page, DIP_PERSON);
+  const card = await openCeiling(page, DIP_PERSON);
   const bars = card.getByRole("img");
   await expect(bars.first()).toBeVisible(SLOW);
 
@@ -97,7 +97,7 @@ test("a later dip, not the month's own balance, caps the first month", async ({
 test("with no ceiling, the card names the first month in the red", async ({
   page,
 }) => {
-  const card = await openProjection(page, RED_PERSON);
+  const card = await openCeiling(page, RED_PERSON);
 
   // Naming the first month says WHEN it breaks, which is the deadline to act
   // on; naming the deepest would say how much and lose the date. Asserting on
@@ -111,6 +111,6 @@ test("with no ceiling, the card names the first month in the red", async ({
 test("names how many months remain, not the period's length", async ({
   page,
 }) => {
-  const card = await openProjection(page, CEILING_PERSON);
+  const card = await openCeiling(page, CEILING_PERSON);
   await expect(card.getByText(horizonLabel())).toBeVisible(SLOW);
 });
