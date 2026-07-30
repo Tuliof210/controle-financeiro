@@ -39,7 +39,8 @@ export function monthLabel(yyyymm = CURRENT) {
   return `${labels[(yyyymm % 100) - 1]}/${String(Math.trunc(yyyymm / 100) % 100).padStart(2, "0")}`;
 }
 
-// The chip beside the average. Derived from fixture facts, never hardcoded: the
+// The chip beside the headline figure. Derived from fixture facts, never
+// hardcoded: the
 // range end is the shared seed's SPLIT_FORECAST reach (202611 — seed.helper.ts),
 // and the count has to keep reading correctly whenever this runs, including
 // November, the one month a year that exercises the singular branch.

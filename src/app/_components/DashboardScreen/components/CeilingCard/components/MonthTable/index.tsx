@@ -1,17 +1,20 @@
-import { ScenarioCells } from "./components/ScenarioCells";
 import { type MonthTableProps, useMonthTable } from "./hook";
 import styles from "./style.module.scss";
 
-// Six figures per month is a grid, not a chart — which is why the bars this
+// Three figures per month is a grid, not a chart — which is why the bars this
 // replaced are gone. A native <table> with no ARIA on it: Biome rejects explicit
 // roles here as redundant, and it is right for as long as the table is a table.
 //
 // Below the container query's threshold the row stacks, which needs
 // `display: block` and so gives up the implicit table roles. What replaces them
 // is not ARIA but the per-cell `data-label`, printed by a `::before` that lands
-// in the accessibility tree as text — so each figure reads "Saldo acum. (teto)
+// in the accessibility tree as text — so each figure reads "Saldo acum.
 // R$ 12.385,14" on its own, with no column to belong to. The <thead> is clipped
 // rather than hidden for the same reason.
+//
+// The cells are written out here rather than in a child component: one spending
+// hypothesis renders them once, and ARCHITECTURE only asks for a child when a
+// structure repeats.
 export function MonthTable(props: MonthTableProps) {
   const { rows } = useMonthTable(props);
 
@@ -19,41 +22,16 @@ export function MonthTable(props: MonthTableProps) {
     <div className={styles.wrap}>
       <table className={styles.table}>
         <caption className={styles.caption}>
-          Saldo acumulado mês a mês sob duas hipóteses de gasto
+          Saldo acumulado mês a mês, se cada mês gastar o seu teto
         </caption>
         <thead className={styles.head}>
-          <tr>
-            <td />
-            <th className={styles.group} colSpan={3} scope="colgroup">
-              <span className={`${styles.dot} ${styles.toCeiling}`} />
-              Se cada mês gastar o teto
-            </th>
-            <th className={styles.group} colSpan={3} scope="colgroup">
-              <span className={`${styles.dot} ${styles.toAverage}`} />
-              Se cada mês gastar a média
-            </th>
-          </tr>
-          {/* Four of the six headers read identically and are told apart only by
-              the group row above, which is not a programmatic association — the
-              aria-label is. */}
           <tr>
             <th scope="col" className={styles.month}>
               Mês
             </th>
-            <th scope="col" aria-label="Saldo acum. (teto)">
-              Saldo acum.
-            </th>
+            <th scope="col">Saldo acum.</th>
             <th scope="col">Teto do mês</th>
-            <th scope="col" aria-label="Sobra (teto)">
-              Sobra
-            </th>
-            <th scope="col" aria-label="Saldo acum. (média)">
-              Saldo acum.
-            </th>
-            <th scope="col">Média</th>
-            <th scope="col" aria-label="Sobra (média)">
-              Sobra
-            </th>
+            <th scope="col">Sobra</th>
           </tr>
         </thead>
         <tbody>
@@ -65,16 +43,19 @@ export function MonthTable(props: MonthTableProps) {
                   <span className={styles.current}>Atual</span>
                 ) : null}
               </th>
-              <ScenarioCells
-                {...row.ceiling}
-                spendLabel="Teto do mês"
-                blockLabel="teto"
-              />
-              <ScenarioCells
-                {...row.average}
-                spendLabel="Média"
-                blockLabel="média"
-              />
+              <td className={styles.balance} data-label="Saldo acum.">
+                {row.balance}
+              </td>
+              {/* The minus is presentational: this column is always subtracted
+                  from the balance beside it, and formatMoney never signs a
+                  positive. */}
+              <td className={styles.spend} data-label="Teto do mês">
+                <span aria-hidden>−</span>
+                {row.spend}
+              </td>
+              <td className={styles.left} data-label="Sobra">
+                {row.left}
+              </td>
             </tr>
           ))}
         </tbody>

@@ -1,10 +1,8 @@
-import type { Ceiling, CeilingRates } from "./ceiling.types";
-import { type CeilingSpend, withAverage } from "./ceiling-scenarios.helper";
+import type { Ceiling, CeilingMonth, CeilingRates } from "./ceiling.types";
 import type { MonthPoint } from "./types";
 
-// One figure at the three cadences the card shows. Both headlines floor the
-// same way, for the same reason the budget itself does: an allowance rounds
-// DOWN.
+// One figure at the three cadences the card shows. The headline floors the same
+// way, for the same reason the budget itself does: an allowance rounds DOWN.
 const rates = (monthly: number): CeilingRates => ({
   monthly,
   weekly: Math.floor(monthly / 4),
@@ -30,17 +28,26 @@ function suffixMinimum(ahead: MonthPoint[]): number[] {
 // That minimum alone is not an answer, and shipping it once proved it: it priced
 // each month's spend in isolation, so its per-month figures were mutually
 // exclusive and spending the first invalidated every later one. The accumulator
-// is the fix. Each month gets 80% of what is left of its worst balance AFTER the
-// earlier months have already been authorised, so the whole column can be spent
-// in order and no month closes under.
+// is the fix. Each month gets `cap` percent of what is left of its worst balance
+// AFTER the earlier months have already been authorised, so the whole column can
+// be spent in order and no month closes under.
 //
-// `(4 * gap) / 5` floored, in that order, never leaves the integers. Writing it
-// as `0.8 * gap` and flooring per step would compound float error down a
+// The accumulator is also why raising `cap` does NOT raise every row: only month
+// 0's gap is untouched by an earlier month. A later month is offered a share of
+// what the earlier ones left, and a bigger share of a smaller remainder can be
+// less — on a flat suffix minimum of 1000, month 1 gets 250 at cap 50 and 187 at
+// cap 75. Redistribution, not rounding; `expectCapOrder` in
+// e2e/ceiling-cap.helper.ts pins month 0 alone for this reason.
+//
+// `(gap * cap) / 100` floored, in THAT order, never leaves the integers — `gap`
+// is a sum and difference of integer cents throughout. Writing it as
+// `gap * (cap / 100)` and flooring per step would compound float error down a
 // recursion as deep as the range is long. Math.floor everywhere: a spending
 // allowance always rounds DOWN. Never Math.trunc — it differs on negatives.
 export function buildCeiling(
   points: MonthPoint[],
   currentMonth: number,
+  cap: number,
 ): Ceiling {
   // Never empty: service.ts answers "out_of_range" when the current month is
   // outside the range, and `points` is 1:1 with the months of that range.
@@ -53,43 +60,35 @@ export function buildCeiling(
   const red = ahead.find((point) => point.cumulative < 0);
 
   const worst = suffixMinimum(ahead);
-  const spends: CeilingSpend[] = [];
+  const months: CeilingMonth[] = [];
   let authorised = 0;
 
   for (let index = 0; index < ahead.length; index += 1) {
     // Defensive only: `worst` is non-decreasing and the gap stays >= 0 by
     // induction, so a negative gap means one of those two broke.
     const gap = Math.max(0, worst[index] - authorised);
-    const budget = red ? 0 : Math.floor((4 * gap) / 5);
+    const budget = red ? 0 : Math.floor((gap * cap) / 100);
     const { month, cumulative } = ahead[index];
     // Read BEFORE this month is authorised: the balance ARRIVING at the month.
     const ceilingBalance = cumulative - authorised;
     authorised += budget;
-    spends.push({
+    months.push({
       month,
       budget,
-      cumulative,
       ceilingBalance,
       ceilingLeft: cumulative - authorised,
     });
   }
 
-  const monthly = spends[0].budget;
-  const total = spends.reduce((sum, spend) => sum + spend.budget, 0);
-  // Divided ONCE, off the raw sum. `spends` is never empty (see `ahead`), so the
-  // denominator needs no guard. savingPace deliberately keeps computing its own
-  // quotient rather than quartering this one: floor(average / 4) and
-  // floor(total / 4n) differ by up to a cent, and `pace` is pinned to the latter.
-  const average = rates(Math.floor(total / spends.length));
+  const monthly = months[0].budget;
 
   return {
     ...rates(monthly),
-    average,
     // The month whose balance IS the worst ahead — what limits this month's
     // figure, and the only month the card can honestly name.
     tightest: monthly > 0 ? tightestMonth(ahead, worst[0]) : null,
     firstRed: red ? { month: red.month, shortfall: -red.cumulative } : null,
-    months: withAverage(spends, average.monthly),
+    months,
   };
 }
 

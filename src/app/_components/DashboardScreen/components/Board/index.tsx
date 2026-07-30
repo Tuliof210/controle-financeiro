@@ -10,12 +10,17 @@ import styles from "./style.module.scss";
 // --space-6 as between any other two cards. Three tab panels each carrying an
 // identical flex column of their own were three ways to disagree about it.
 export function Board(props: BoardProps) {
-  const { data, ceiling, current } = useBoard(props);
+  const { data, ceiling, current, cap, onCapChange } = useBoard(props);
 
   return (
     <div className={styles.board}>
       <Overview data={data} />
-      <CeilingCard ceiling={ceiling} current={current} />
+      <CeilingCard
+        ceiling={ceiling}
+        current={current}
+        cap={cap}
+        onCapChange={onCapChange}
+      />
       <SavingsSection data={data} />
     </div>
   );

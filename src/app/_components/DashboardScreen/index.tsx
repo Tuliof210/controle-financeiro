@@ -9,7 +9,8 @@ import { useDashboardScreen } from "./hook";
 import styles from "./style.module.scss";
 
 export function DashboardScreen() {
-  const { data, error, loading } = useDashboardScreen();
+  const { data, error, loading, refreshing, cap, setCap } =
+    useDashboardScreen();
 
   return (
     <div className={styles.screen}>
@@ -47,7 +48,18 @@ export function DashboardScreen() {
         </Notice>
       ) : null}
 
-      {data?.status === "ok" ? <Board data={data} /> : null}
+      {/* `aria-busy` and nothing else while a cap change is in flight: the board
+          stays mounted and readable, so the only thing missing is the word that
+          the figures are being replaced. The dimming is the visual half of the
+          same statement. */}
+      {data?.status === "ok" ? (
+        <div
+          className={refreshing ? styles.refreshing : undefined}
+          aria-busy={refreshing}
+        >
+          <Board data={data} cap={cap} onCapChange={setCap} />
+        </div>
+      ) : null}
     </div>
   );
 }

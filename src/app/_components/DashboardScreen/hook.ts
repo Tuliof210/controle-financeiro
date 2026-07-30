@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import type { DashboardData } from "@/app/api/dashboard/types";
 import { useProfile } from "@/components/ProfileProvider/hook";
 import { apiGet } from "@/lib/api";
+import { type CeilingCap, DEFAULT_CEILING_CAP } from "@/lib/ceiling-caps";
 
 export function useDashboardScreen() {
   // AppShell mounts ProfileProvider globally, so the context is already there.
@@ -11,41 +12,73 @@ export function useDashboardScreen() {
   // once /api/people resolves. Keying on it covers both — the corrected value
   // simply triggers another fetch.
   const { profile } = useProfile();
-  const [data, setData] = useState<DashboardData | null>(null);
+  // Tagged with the owner it was fetched for, and that tag is load-bearing.
+  // Keeping the board mounted through a CAP change is the point — same money,
+  // different setting. Keeping it through a PROFILE change is not: it would
+  // leave one person's figures on screen under another person's name until the
+  // new payload lands, unlabelled. Tagging lets one flag answer both.
+  const [held, setHeld] = useState<{
+    owner: string;
+    payload: DashboardData;
+  } | null>(null);
   const [error, setError] = useState<string>();
+  // Deliberately not persisted (owner's decision, 2026-07-30): every reload
+  // starts on the default. It lives up here rather than in CeilingCard because
+  // `pace` and the goal projections move with it, and those render in
+  // SavingsSection.
+  const [cap, setCap] = useState<CeilingCap>(DEFAULT_CEILING_CAP);
+  // Two questions `data === null` used to answer at once: "nothing to show" and
+  // "a request is in flight". Only the first belongs to the data. Every cap
+  // change re-runs this effect, and blanking unmounted the whole board — both
+  // charts, the goal cards, an expanded month table, and the very button that
+  // had just been clicked.
+  const [pending, setPending] = useState(true);
 
   useEffect(() => {
     let current = true;
-    setData(null);
+    setPending(true);
     setError(undefined);
 
     apiGet<DashboardData>(
-      `/api/dashboard?owner=${encodeURIComponent(profile)}`,
+      `/api/dashboard?owner=${encodeURIComponent(profile)}&cap=${cap}`,
     ).then((result) => {
-      // A response for a profile we have already moved on from must not land.
+      // A response for a profile or cap we have already moved on from must not
+      // land. This is also what makes serving the last-good `data` while a
+      // request is in flight safe: an out-of-order response still cannot win.
       if (!current) return;
+      setPending(false);
       // apiGet never rejects: every failure resolves to { error }, so an
       // unchecked result would render a failed load as an empty board. It also
       // returns `{ data: undefined }` for any 2xx whose body has no `data`
-      // (a 204, an empty body) — `null` is this screen's loading sentinel, so
-      // storing that would strand it on "Carregando" with nothing in flight.
+      // (a 204, an empty body), which would strand the screen showing figures
+      // from the previous request with nothing to say they are stale.
       if (result.error || !result.data) {
         return setError(result.error ?? "Erro inesperado");
       }
-      setData(result.data);
+      setHeld({ owner: profile, payload: result.data });
     });
 
     return () => {
       current = false;
     };
-  }, [profile]);
+  }, [profile, cap]);
 
-  // null data with no error is still loading — distinct from an empty board.
-  // (EntrySection seeds its list to [] and flashes its empty state on every
-  // load; PeopleSection/GoalsSection use null to avoid exactly that.)
+  // Nothing held for the profile on screen means nothing honest to show, so the
+  // board goes and the notice takes over.
+  const data = held?.owner === profile ? held.payload : null;
+
   return {
     data,
     error,
-    loading: data === null && error === undefined,
+    // Nothing rendered yet, so there is nothing to keep on screen.
+    // (EntrySection seeds its list to [] and flashes its empty state on every
+    // load; PeopleSection and GoalsSection use null to avoid exactly that.)
+    loading: pending && data === null && error === undefined,
+    // A cap change revalidates in place instead: what is on screen is still an
+    // honest read of the same person's money, and replacing it with a spinner
+    // loses the reader's scroll position and the card's expanded state.
+    refreshing: pending && data !== null,
+    cap,
+    setCap,
   };
 }
