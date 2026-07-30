@@ -23,8 +23,16 @@
   opacity: 0.7;
 }
 
-// "de R$ 1.000,00" beside each row's survivor, so the bar's denominator is
-// readable rather than implied.
+// The month's own figure — the one number in the row that is an instruction
+// rather than a reading. It carries the weight because the two values beside it
+// belong to the bar, not to it, and only contrast tells them apart.
+.budget {
+  font-weight: var(--weight-medium);
+}
+
+// "restam R$ 240,00" / "de R$ 1.000,00" — the bar's numerator and denominator,
+// muted and each its own flex child so MeterRow's `white-space: nowrap` keeps
+// them wrapping as whole values instead of breaking after the "R$".
 .of {
   color: var(--color-text-muted);
 }

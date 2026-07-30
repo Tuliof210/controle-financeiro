@@ -41,15 +41,16 @@ export const HINTS = {
   ].join(" "),
 
   ceiling: [
-    "Quanto dá para gastar a mais TODO mês, do mês atual até o fim do período,",
-    "sem que nenhum mês fique no vermelho: divide-se o saldo acumulado de cada",
-    "mês pelo número de meses até ele, e o teto é 80% do MENOR desses",
-    "resultados. Gastar esse valor num mês desconta dele em todos os seguintes,",
-    "por isso o horizonte importa — o mesmo saldo esticado no dobro de meses",
-    "vale metade por mês. Semanal divide por 4,",
-    "diário por 30. A barra de cada mês é quanto sobra do saldo projetado",
-    "daquele mês depois do teto; o mês que limita marca 20%. Os meses",
-    "posteriores ao atual aparecem hachurados: são projeção, não histórico.",
+    "Quanto dá para gastar a mais em CADA mês, do mês atual até o fim do",
+    "período. Gastar num mês desconta de todos os seguintes, então o limite de um",
+    "mês não é o saldo dele: é o PIOR saldo projetado daquele mês em diante. O",
+    "valor de cada mês é 80% desse pior saldo menos tudo o que os meses",
+    "anteriores já reservaram — por isso os primeiros recebem mais, e a lista",
+    "inteira pode ser gasta em ordem sem nenhum mês fechar no vermelho. Os 20%",
+    "não se perdem: ficam no saldo e voltam na folga dos meses seguintes. O",
+    "número grande é o do mês atual; semanal divide por 4, diário por 30. A",
+    "barra de cada mês é quanto sobra daquele pior saldo depois das reservas. Os",
+    "meses posteriores ao atual aparecem hachurados: são projeção, não histórico.",
   ].join(" "),
 
   limit: [

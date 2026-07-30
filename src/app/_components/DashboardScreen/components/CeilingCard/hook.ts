@@ -11,12 +11,17 @@ export type CeilingCardProps = { ceiling: Ceiling; current: number };
 export function useCeilingCard({ ceiling, current }: CeilingCardProps) {
   const { monthly, weekly, daily, tightest, firstRed, months } = ceiling;
 
-  // Each bar is the share of that month's OWN projected balance that survives
-  // the ceiling, so the month that pins it reads 20% — the safety margin, on
-  // screen. No divisor guard needed: `monthly > 0` implies every `cumulative`
-  // here is positive, and the bars only render in that case.
+  // Two quantities per row, and they are not the same one: `budget` is what that
+  // month may spend, the bar is what is left of the worst balance ahead once
+  // every budget up to it has been taken. Each carries its own label on screen
+  // and both go into the accessible name, so a bar can never be read as
+  // measuring the figure beside it.
+  //
+  // No divisor guard needed: `monthly > 0` implies every `worstAhead` here is
+  // positive, and the bars only render in that case.
   const rows = months.map((month) => {
     const label = formatYyyymm(month.month);
+    const budget = formatMoney(month.budget);
     const remaining = formatMoney(month.remaining);
     const of = formatMoney(month.worstAhead);
     return {
@@ -24,9 +29,10 @@ export function useCeilingCard({ ceiling, current }: CeilingCardProps) {
       label,
       percent: sharePercent(month.remaining, month.worstAhead),
       projected: month.month > current,
+      budget,
       remaining,
       of,
-      srLabel: `${label}: restam ${remaining} de ${of}`,
+      srLabel: `${label}: gasto extra ${budget}, restam ${remaining} de ${of}`,
     };
   });
 
@@ -39,12 +45,12 @@ export function useCeilingCard({ ceiling, current }: CeilingCardProps) {
       : "Sem teto: o saldo acumulado projetado não cobre nenhum gasto extra recorrente.",
     monthly: formatMoney(monthly),
     splits: `${formatMoney(weekly)}/sem · ${formatMoney(daily)}/dia`,
-    // The horizon is part of the figure, not decoration: the same balance
-    // spread over twice the months is worth half as much per month, so a
-    // number shown without its period is not an answer. `months` is the
-    // range's REMAINING months (current .. end, per `types.ts`), never its
-    // total length — a range read anywhere but its first month has fewer
-    // months left than it is long.
+    // The headline is THIS month's figure, so it no longer "vale" for the whole
+    // period the way a flat rate did — the count says how many months the list
+    // below covers, and `tightest` names the month whose balance caps the
+    // headline. `months` is the range's REMAINING months (current .. end, per
+    // `types.ts`), never its total length — a range read anywhere but its first
+    // month has fewer months left than it is long.
     //
     // Inert by construction, kept only to satisfy the type: `tightest` is
     // null exactly when `monthly` is 0, which is the same condition `empty`
@@ -52,7 +58,7 @@ export function useCeilingCard({ ceiling, current }: CeilingCardProps) {
     // Mutating the fallback changes nothing observable; there is no test for
     // it because there is no reachable behaviour.
     horizon: tightest
-      ? `Vale pelo${months.length === 1 ? "" : "s"} ${months.length} ${months.length === 1 ? "mês restante" : "meses restantes"}. Limitado por ${formatYyyymm(tightest)}.`
+      ? `${months.length} ${months.length === 1 ? "mês restante" : "meses restantes"}. Este mês é limitado por ${formatYyyymm(tightest)}.`
       : null,
     ...useShowAll(rows),
   };
