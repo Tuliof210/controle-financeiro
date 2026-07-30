@@ -5,6 +5,7 @@ import {
   RED_PERSON,
   seedCeiling,
 } from "./ceiling.helper";
+import { expectCapMovesTheFigures } from "./ceiling-cap.helper";
 import {
   expectHeaderBadges,
   expectHeadlineIsFirstRow,
@@ -74,4 +75,13 @@ test("names how many months remain, and which one caps this month", async ({
   page,
 }) => {
   await expectHeaderBadges(await openCeiling(page, CEILING_PERSON));
+});
+
+// DIP_PERSON, not the rising fixture: its second month falls, so it is the one
+// shape where re-checking the floor at each cap catches a suffix minimum broken
+// while `cap` was being threaded through buildCeiling.
+test("the cap selector moves the figures, and never under", async ({
+  page,
+}) => {
+  await expectCapMovesTheFigures(page, await openCeiling(page, DIP_PERSON));
 });
