@@ -14,7 +14,9 @@ unreachable.
       under the title.
 - [ ] Picking a cap recomputes the WHOLE payload: the ceiling figures, the
       savings-capacity banner and the goal projections all move together.
-- [ ] A lower cap gives every month a lower-or-equal ceiling, and no cap makes a
+- [ ] A higher cap raises THIS month's ceiling. Later months may move either way:
+      the ceiling is an accumulator, so a higher cap spends more early and leaves
+      the later months a smaller balance to take their share of. No cap makes any
       month close under (`sobra` never negative).
 - [ ] 50% is selected on load. The choice resets on reload — nothing persisted.
 - [ ] Changing the cap does not blank the board, does not scroll-jump, and does

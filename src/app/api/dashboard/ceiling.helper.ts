@@ -32,6 +32,13 @@ function suffixMinimum(ahead: MonthPoint[]): number[] {
 // AFTER the earlier months have already been authorised, so the whole column can
 // be spent in order and no month closes under.
 //
+// The accumulator is also why raising `cap` does NOT raise every row: only month
+// 0's gap is untouched by an earlier month. A later month is offered a share of
+// what the earlier ones left, and a bigger share of a smaller remainder can be
+// less — on a flat suffix minimum of 1000, month 1 gets 250 at cap 50 and 187 at
+// cap 75. Redistribution, not rounding; `expectCapOrder` in
+// e2e/ceiling-cap.helper.ts pins month 0 alone for this reason.
+//
 // `(gap * cap) / 100` floored, in THAT order, never leaves the integers — `gap`
 // is a sum and difference of integer cents throughout. Writing it as
 // `gap * (cap / 100)` and flooring per step would compound float error down a
