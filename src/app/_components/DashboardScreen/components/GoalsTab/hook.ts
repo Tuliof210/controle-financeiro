@@ -10,12 +10,14 @@ export function useGoalsTab({ data }: GoalsTabProps) {
     goals,
     empty: goals.length === 0,
     capacity: formatMoney(pace),
-    // `pace` is floor(0.25 × ceiling.monthly), so the caption is literally what
-    // it is. At zero there is nothing to divide by and nothing to describe as a
-    // share, so the sentence changes rather than the number.
+    // `pace` is floor(0.25 × ceiling.sustainable) — a share of the flat rate that
+    // survives being saved every month, NOT of the front-loaded figure the Teto
+    // de Gastos card displays. The caption must not name a percentage of that
+    // figure: the two differ, and a user comparing the two tabs would be reading
+    // a sentence their own screen contradicts.
     caption: pace
-      ? "guardando 25% do teto de gastos"
-      : "sem teto de gastos no período",
+      ? "ritmo que o período sustenta todo mês"
+      : "sem folga sustentável no período",
     // "COBERTAS NO PERÍODO", not "CONCLUÍDAS": doneMonth means the projected
     // ceiling funds the target before the range ends, which is not the same as
     // achieved. There is no achieved state in this data.

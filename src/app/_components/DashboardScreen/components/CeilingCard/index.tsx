@@ -28,7 +28,7 @@ export function CeilingCard(props: CeilingCardProps) {
         <p className={styles.note}>{note}</p>
       ) : (
         <>
-          <Headline caption="Gasto extra por mês">
+          <Headline caption="Gasto extra este mês">
             {monthly}
             <span className={styles.splits}>{splits}</span>
           </Headline>
@@ -48,7 +48,8 @@ export function CeilingCard(props: CeilingCardProps) {
                 projected={row.projected}
                 srLabel={row.srLabel}
               >
-                <span>{row.remaining}</span>
+                <span className={styles.budget}>{row.budget}</span>
+                <span className={styles.of}>restam {row.remaining}</span>
                 <span className={styles.of}>de {row.of}</span>
               </MeterRow>
             ))}

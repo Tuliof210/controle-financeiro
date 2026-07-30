@@ -41,15 +41,16 @@ export const HINTS = {
   ].join(" "),
 
   ceiling: [
-    "Quanto dá para gastar a mais TODO mês, do mês atual até o fim do período,",
-    "sem que nenhum mês fique no vermelho: divide-se o saldo acumulado de cada",
-    "mês pelo número de meses até ele, e o teto é 80% do MENOR desses",
-    "resultados. Gastar esse valor num mês desconta dele em todos os seguintes,",
-    "por isso o horizonte importa — o mesmo saldo esticado no dobro de meses",
-    "vale metade por mês. Semanal divide por 4,",
-    "diário por 30. A barra de cada mês é quanto sobra do saldo projetado",
-    "daquele mês depois do teto; o mês que limita marca 20%. Os meses",
-    "posteriores ao atual aparecem hachurados: são projeção, não histórico.",
+    "Quanto dá para gastar a mais em CADA mês, do mês atual até o fim do",
+    "período. Gastar num mês desconta de todos os seguintes, então o limite de um",
+    "mês não é o saldo dele: é o PIOR saldo projetado daquele mês em diante. O",
+    "valor de cada mês é 80% desse pior saldo menos tudo o que os meses",
+    "anteriores já reservaram — por isso os primeiros recebem mais, e a lista",
+    "inteira pode ser gasta em ordem sem nenhum mês fechar no vermelho. Os 20%",
+    "não se perdem: ficam no saldo e voltam na folga dos meses seguintes. O",
+    "número grande é o do mês atual; semanal divide por 4, diário por 30. A",
+    "barra de cada mês é quanto sobra daquele pior saldo depois das reservas. Os",
+    "meses posteriores ao atual aparecem hachurados: são projeção, não histórico.",
   ].join(" "),
 
   limit: [
@@ -60,13 +61,15 @@ export const HINTS = {
   ].join(" "),
 
   goals: [
-    "Quanto dá para guardar por mês: 25% do teto de gastos. A barra de",
-    "cada objetivo mostra quanto dele esse ritmo cobre até o fim do período",
-    "global — é cobertura projetada, não dinheiro já guardado, que o app não",
-    "registra. Cheia quer dizer que o período cobre o objetivo inteiro;",
+    "Quanto dá para guardar por mês: 25% do valor FIXO que o período sustenta",
+    "todo mês. Não é 25% do número grande do Teto de Gastos — aquele vale só",
+    "para o mês atual e é maior; guardar sempre exige uma taxa que se repita.",
+    "A barra de cada objetivo mostra quanto dele esse ritmo cobre até o fim do",
+    "período global — é cobertura projetada, não dinheiro já guardado, que o app",
+    "não registra. Cheia quer dizer que o período cobre o objetivo inteiro;",
     "“ALÉM DO PERÍODO” quer dizer que ele fecha depois do fim do período, não",
     "que seja impossível, e aí aparece de quanto por mês você precisaria para",
     "fechar dentro dele. Lista ordenada do objetivo mais próximo para o mais",
-    "distante. Se o teto for zero, nenhum ritmo alcança nada.",
+    "distante. Se o período não sustentar nada, nenhum ritmo alcança nada.",
   ].join(" "),
 } as const;

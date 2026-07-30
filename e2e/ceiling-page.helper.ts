@@ -38,17 +38,54 @@ export async function openProjection(
   return card;
 }
 
-// Each bar announces itself as "Ago/26: restam R$ 960,00 de R$ 1.200,00" — the
-// survivor and the balance it survived, in the order the months run.
+// Each bar announces itself as "Ago/26: gasto extra R$ 1,92, restam R$ 0,48 de
+// R$ 12,00" — the month's own figure first, then the pair the bar measures. All
+// three come off the accessible name rather than the cells, so the numbers under
+// assertion are the ones a screen reader is handed.
 export async function readMonths(bars: Locator) {
   const labels = await bars.evaluateAll((nodes) =>
     nodes.map((node) => node.getAttribute("aria-label") ?? ""),
   );
   return labels.map((label) => {
-    const [remaining, cumulative] = label.split(/restam | de /).slice(1);
+    const [budget, remaining, worstAhead] = label
+      .split(/: gasto extra |, restam | de /)
+      .slice(1);
     return {
+      budget: parseCents(budget),
       remaining: parseCents(remaining),
-      cumulative: parseCents(cumulative),
+      worstAhead: parseCents(worstAhead),
     };
+  });
+}
+
+type CeilingMonth = Awaited<ReturnType<typeof readMonths>>[number];
+
+// The card's whole promise, checked as a SERIES rather than row by row: each
+// month's figure is 80% of what is left of its worst balance ahead once the
+// earlier months have been taken, and what survives never goes under. Row by row,
+// a flat rate and a bare suffix minimum both read identically to the right
+// answer; here they do not. The suffix minimum can only RISE as months advance —
+// a per-month balance in its place would not have to.
+export function expectAccumulator(months: CeilingMonth[]) {
+  let authorised = 0;
+  months.forEach((month, at) => {
+    const headroom = month.worstAhead - authorised;
+    expect(month.budget, `month ${at}: 80% of its remaining headroom`).toBe(
+      Math.floor((4 * headroom) / 5),
+    );
+    authorised += month.budget;
+    expect(month.remaining, `month ${at}: survives earlier figures`).toBe(
+      month.worstAhead - authorised,
+    );
+    expect(
+      month.remaining,
+      `month ${at}: does not close under`,
+    ).toBeGreaterThanOrEqual(0);
+    if (at > 0) {
+      expect(
+        month.worstAhead,
+        `month ${at}: suffix minimum never falls`,
+      ).toBeGreaterThanOrEqual(months[at - 1].worstAhead);
+    }
   });
 }

@@ -6,6 +6,12 @@ import { post, waitFor } from "./api.helper";
 
 export const CEILING_PERSON = "Dona do Teto";
 export const RED_PERSON = "Dono do Vermelho";
+// A period whose balance DIPS and recovers. Its own first-month balance is
+// 3.000, but the second month falls to 1.200 and that dip is what caps the first
+// month — the one shape where "worst balance ahead" and "this month's own
+// balance" are different numbers, and so the only shape that can tell the two
+// formulas apart. The rising fixture above cannot: for it they are equal.
+export const DIP_PERSON = "Dona da Queda";
 // The FIRST red month closes this far under; the deepest closes at 900,00.
 // Which of the two the card names is the behaviour under test.
 export const FIRST_RED_HOLE = "R$ 340,00";
@@ -22,6 +28,23 @@ const shift = (value: number, count: number) => {
   const index = Math.floor(value / 100) * 12 + (value % 100) - 1 + count;
   return Math.floor(index / 12) * 100 + (index % 12) + 1;
 };
+
+// The horizon line CEILING_PERSON's card renders. Derived from fixture facts,
+// never hardcoded: the range end is the shared seed's SPLIT_FORECAST reach
+// (202611 — seed.helper.ts), the month count has to keep reading correctly
+// whenever this runs including November, the one month a year that exercises the
+// singular branch, and this fixture's balance only RISES, so the worst balance
+// ahead is the current month's own and the sentence names it. Month labels are
+// spelled out: this suite drives the app from outside and owns no app code.
+export function horizonLabel(rangeEnd = 202611) {
+  const index = (yyyymm: number) =>
+    Math.floor(yyyymm / 100) * 12 + (yyyymm % 100) - 1;
+  const left = index(rangeEnd) - index(CURRENT) + 1;
+  const labels = "Jan Fev Mar Abr Mai Jun Jul Ago Set Out Nov Dez".split(" ");
+  const label = `${labels[(CURRENT % 100) - 1]}/${String(Math.trunc(CURRENT / 100) % 100).padStart(2, "0")}`;
+  const months = left === 1 ? "1 mês restante" : `${left} meses restantes`;
+  return `${months}. Este mês é limitado por ${label}.`;
+}
 
 const income = (name: string, valueCents: number, month: number, id: string) =>
   post("/api/movements", {
@@ -49,7 +72,9 @@ export async function seedCeiling() {
     name: CEILING_PERSON,
     color: "violet",
   });
-  if (!owner) return waitFor("/api/movements", "vermelho C");
+  // The wait target is whatever this function writes LAST, so it moves whenever
+  // a person is appended below.
+  if (!owner) return waitFor("/api/movements", "queda C");
 
   // Cumulative 1.000 / 1.200 / 1.500, then flat to the range end — a rising
   // shape, so the old suffix-minimum and the ratio disagree loudly.
@@ -61,4 +86,11 @@ export async function seedCeiling() {
   await income("vermelho A", 50000, CURRENT, red.id);
   await expense("vermelho B", 84000, shift(CURRENT, 1), red.id);
   await expense("vermelho C", 56000, shift(CURRENT, 2), red.id);
+
+  // Cumulative 3.000 / 1.200 / 10.000 — down then up, and never negative, so the
+  // card still renders. The owner's own worked example, in cents.
+  const dip = await post("/api/people", { name: DIP_PERSON, color: "amber" });
+  await income("queda A", 3000, CURRENT, dip.id);
+  await expense("queda B", 1800, shift(CURRENT, 1), dip.id);
+  await income("queda C", 8800, shift(CURRENT, 2), dip.id);
 }
