@@ -1,22 +1,23 @@
 @use "theme" as t;
 
-// margin-left: auto rather than a wrapper's justify-content, so the chip
-// right-aligns on its own inside SectionCard's flex COLUMN body — CeilingCard
-// has no description line for it to sit beside. Auto margins absorb free space
-// on a flex item's cross axis too, which is what lets one rule cover both.
+// A full-width row rather than a right-aligned chip: it reads as one more row
+// in the list above it — the same --color-border-subtle rule MeterRow uses
+// between months — instead of a control floating disconnected in the corner.
 .toggle {
-  // The design draws a bare --space-1/--space-2 chip; src/styles/README.md rule
-  // 7(e)'s 44px floor wins. It sits on its own row, so the extra height shifts
-  // nothing around it and no ::after overlay is needed.
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-1);
+  width: 100%;
+  // src/styles/README.md rule 7(e)'s 44px floor.
   min-height: 44px;
-  margin-left: auto;
   padding: var(--space-1) var(--space-2);
   background: transparent;
   color: var(--color-text-muted);
-  border: var(--border-1) solid var(--color-border);
-  border-radius: var(--radius-sm);
+  border: 0;
+  border-top: var(--border-1) solid var(--color-border-subtle);
   font-family: var(--font-mono);
-  font-size: var(--text-2xs);
+  font-size: var(--text-xs);
   white-space: nowrap;
   cursor: pointer;
   transition:

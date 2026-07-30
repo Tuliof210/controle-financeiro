@@ -33,8 +33,6 @@ export function CeilingCard(props: CeilingCardProps) {
             <span className={styles.splits}>{splits}</span>
           </Headline>
           {horizon ? <p className={styles.note}>{horizon}</p> : null}
-          {/* SectionCard takes no header action; the chip right-aligns itself
-              inside the card body instead of widening it for two call sites. */}
           <MeterList>
             {rows.map((row) => (
               <MeterRow
