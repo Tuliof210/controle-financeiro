@@ -5,7 +5,8 @@
 @mixin bar {
   // 8px already (--space-2 IS the design's track height); only the corner moves,
   // from --radius-0 to --radius-sm. overflow: hidden is what rounds the fill
-  // too, and what keeps the average marker inside the track at 100%.
+  // too — and it CLIPS `.avg` below, which is why that one's `left` is capped in
+  // `hook.ts` at `100% - var(--border-2)` rather than at a flat 100%.
   .track {
     position: relative;
     width: 100%;

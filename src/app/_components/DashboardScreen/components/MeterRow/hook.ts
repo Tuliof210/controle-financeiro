@@ -34,7 +34,7 @@ export function useMeterRow({
   mark,
   markLabel,
 }: MeterRowProps) {
-  const clamp = (value: number) => `${Math.min(100, Math.max(0, value))}%`;
+  const clamp = (value: number) => Math.min(100, Math.max(0, value));
 
   return {
     label,
@@ -45,9 +45,15 @@ export function useMeterRow({
     current,
     markLabel,
     // A 140% month must still read as 140% in text; only the fill clamps.
-    fill: clamp(percent),
-    // An average above this month's own ceiling pins to the far end rather than
-    // vanishing outside the clipped track — "past the end" is the honest read.
-    mark: mark === undefined ? null : clamp(mark),
+    fill: `${clamp(percent)}%`,
+    // The marker is a 2px border on a zero-width box and the track clips its
+    // overflow, so a flat `left: 100%` paints the whole border OUTSIDE the clip
+    // box and draws nothing — precisely on the rows where the reference value is
+    // above this row's own total, which is the reading it exists to give. The
+    // `min()` holds the last 2px inside; at 0 it is a no-op.
+    mark:
+      mark === undefined
+        ? null
+        : `min(${clamp(mark)}%, calc(100% - var(--border-2)))`,
   };
 }
