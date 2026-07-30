@@ -39,17 +39,20 @@ export async function openCeiling(
   return card;
 }
 
-// Each bar announces itself as "Ago/26: gasto extra R$ 1,92, restam R$ 0,48 de
-// R$ 12,00" — the month's own figure first, then the pair the bar measures. All
-// three come off the accessible name rather than the cells, so the numbers under
-// assertion are the ones a screen reader is handed.
+// Each bar announces itself as "Ago/26: gasto extra R$ 1,92, restam R$ 0,48,
+// saldo R$ 12,00" — the month's own figure, what survives it, and the projected
+// balance the bar measures it against. NOT "teto": that word is the card's title
+// and its headline, where it means the figure, not the balance. All three come
+// off the accessible name rather than the cells, so the numbers under assertion
+// are the ones a screen reader is handed. The separators here are the contract:
+// reword `srLabel` in CeilingCard/hook.ts and every value below parses to NaN.
 export async function readMonths(bars: Locator) {
   const labels = await bars.evaluateAll((nodes) =>
     nodes.map((node) => node.getAttribute("aria-label") ?? ""),
   );
   return labels.map((label) => {
     const [budget, remaining, worstAhead] = label
-      .split(/: gasto extra |, restam | de /)
+      .split(/: gasto extra |, restam |, saldo /)
       .slice(1);
     return {
       budget: parseCents(budget),
@@ -59,7 +62,7 @@ export async function readMonths(bars: Locator) {
   });
 }
 
-type CeilingMonth = Awaited<ReturnType<typeof readMonths>>[number];
+export type CeilingMonth = Awaited<ReturnType<typeof readMonths>>[number];
 
 // The card's whole promise, checked as a SERIES rather than row by row: each
 // month's figure is 80% of what is left of its worst balance ahead once the

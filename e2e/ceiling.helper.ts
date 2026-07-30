@@ -29,21 +29,23 @@ const shift = (value: number, count: number) => {
   return Math.floor(index / 12) * 100 + (index % 12) + 1;
 };
 
-// The horizon line CEILING_PERSON's card renders. Derived from fixture facts,
-// never hardcoded: the range end is the shared seed's SPLIT_FORECAST reach
-// (202611 — seed.helper.ts), the month count has to keep reading correctly
-// whenever this runs including November, the one month a year that exercises the
-// singular branch, and this fixture's balance only RISES, so the worst balance
-// ahead is the current month's own and the sentence names it. Month labels are
-// spelled out: this suite drives the app from outside and owns no app code.
-export function horizonLabel(rangeEnd = 202611) {
-  const index = (yyyymm: number) =>
-    Math.floor(yyyymm / 100) * 12 + (yyyymm % 100) - 1;
-  const left = index(rangeEnd) - index(CURRENT) + 1;
+const index = (yyyymm: number) =>
+  Math.floor(yyyymm / 100) * 12 + (yyyymm % 100) - 1;
+
+// "Ago/26". Month labels are spelled out rather than imported: this suite drives
+// the app from outside and owns no app code.
+export function monthLabel(yyyymm = CURRENT) {
   const labels = "Jan Fev Mar Abr Mai Jun Jul Ago Set Out Nov Dez".split(" ");
-  const label = `${labels[(CURRENT % 100) - 1]}/${String(Math.trunc(CURRENT / 100) % 100).padStart(2, "0")}`;
-  const months = left === 1 ? "1 mês restante" : `${left} meses restantes`;
-  return `${months}. Este mês é limitado por ${label}.`;
+  return `${labels[(yyyymm % 100) - 1]}/${String(Math.trunc(yyyymm / 100) % 100).padStart(2, "0")}`;
+}
+
+// The chip beside the average. Derived from fixture facts, never hardcoded: the
+// range end is the shared seed's SPLIT_FORECAST reach (202611 — seed.helper.ts),
+// and the count has to keep reading correctly whenever this runs, including
+// November, the one month a year that exercises the singular branch.
+export function monthsLeftLabel(rangeEnd = 202611) {
+  const left = index(rangeEnd) - index(CURRENT) + 1;
+  return left === 1 ? "1 mês restante" : `${left} meses restantes`;
 }
 
 const income = (name: string, valueCents: number, month: number, id: string) =>

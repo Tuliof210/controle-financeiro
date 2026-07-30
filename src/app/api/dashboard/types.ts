@@ -24,9 +24,9 @@ export type Stats = {
 };
 
 // What the remaining period can carry as EXTRA spending, month by month: each
-// month gets its own figure, already net of everything the earlier months
-// authorised, so the whole column can be spent in order without any month's
-// projected balance going under. Arithmetic in ceiling.helper.ts.
+// month's figure is already net of everything the earlier months authorised, so
+// the column can be spent in order with no month closing under. Arithmetic in
+// ceiling.helper.ts.
 export type CeilingMonth = {
   month: number;
   budget: number; // cents, >= 0 — this month's own extra-spending figure
@@ -34,17 +34,23 @@ export type CeilingMonth = {
   remaining: number; // worstAhead, less every budget up to and including this one
 };
 
-export type Ceiling = {
-  monthly: number; // cents, >= 0 — the CURRENT month's budget
+// One figure at three cadences — the shape both of the card's headlines take.
+export type CeilingRates = {
+  monthly: number; // cents, >= 0
   weekly: number; // floor(monthly / 4)
   daily: number; // floor(monthly / 30)
+};
+
+// Spread, not nested: the top-level trio is the CURRENT month's budget.
+export type Ceiling = CeilingRates & {
+  // Raw mean over ALL of `months`, zeros included — never over the rendered rows.
+  average: CeilingRates;
   tightest: number | null; // month holding the worst balance ahead; null iff monthly is 0
   // Earliest month already underwater. Non-null implies `monthly === 0`, since a
   // red month zeroes every budget; that zero is the card's empty state.
   firstRed: { month: number; shortfall: number } | null;
   // Current month .. range end, never empty. `monthly > 0` requires every
-  // `worstAhead` here to be positive, so the card's `remaining / worstAhead` bar
-  // can never divide by zero nor go negative.
+  // `worstAhead` here to be positive, so the card's bars never divide by zero.
   months: CeilingMonth[];
 };
 

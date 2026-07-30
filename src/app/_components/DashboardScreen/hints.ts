@@ -21,7 +21,7 @@ export const HINTS = {
     "Saldo acumulado mês a mês. Tracejado é projeção; a linha horizontal marca o zero.",
 
   ceiling:
-    "Quanto dá para gastar a mais por mês sem nenhum mês futuro ficar no vermelho. Semanal e diário dividem esse valor por 4 e por 30; meses futuros aparecem hachurados.",
+    "Quanto dá para gastar a mais por mês sem nenhum mês futuro ficar no vermelho. Semanal e diário dividem esse valor por 4 e por 30. A média é o teto médio de todos os meses restantes; meses futuros aparecem hachurados.",
 
   goals:
     "25% da média mensal do Teto de Gastos no período. DEDICADO usa a capacidade só nele; EM PARALELO divide entre todos; UM DE CADA VEZ vai do mais barato ao mais caro.",

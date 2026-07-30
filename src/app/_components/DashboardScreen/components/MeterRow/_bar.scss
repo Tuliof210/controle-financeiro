@@ -1,0 +1,65 @@
+// The track and everything drawn inside it, split off `style.module.scss` under
+// the exception ARCHITECTURE.md grants `RowGrid/_tiers.scss`: a mixin that emits
+// nothing on its own, included once by the stylesheet beside it, so neither file
+// crosses the 100-line cap.
+@mixin bar {
+  // 8px already (--space-2 IS the design's track height); only the corner moves,
+  // from --radius-0 to --radius-sm. overflow: hidden is what rounds the fill
+  // too — and it CLIPS `.avg` below, which is why that one's `left` is capped in
+  // `hook.ts` at `100% - var(--border-2)` rather than at a flat 100%.
+  .track {
+    position: relative;
+    width: 100%;
+    height: var(--space-2);
+    background: var(--color-border-subtle);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+  }
+
+  // First child of .track, and it has to stay first: the ceiling spec measures
+  // the fill as the track's first <div> to check the bar against the payload.
+  .fill {
+    height: 100%;
+    transition: width var(--duration-base) var(--ease-snappy);
+  }
+
+  // background-COLOR, not the `background` shorthand: the shorthand resets
+  // background-image to none, which would silently kill .projected's hatch below
+  // depending on source order.
+  //
+  // `.positive`/`.negative` are reached by a CSS-Modules string lookup
+  // (`styles[tone]` in index.tsx) — renaming either kills the colour with no
+  // compile error and no test failure.
+  .positive {
+    background-color: var(--color-positive);
+  }
+
+  .negative {
+    background-color: var(--color-negative);
+  }
+
+  // A future month is a projection, not history. Striping the fill with the
+  // track's own colour is the design's `repeating-linear-gradient(45deg, <tone>
+  // 0 3px, transparent 3px 6px)` — same result, without having to inject the
+  // tone into the gradient, and on the 4px scale instead of raw pixels. The
+  // row's month label already says which months these are; the hatch is not the
+  // only signal.
+  .projected {
+    background-image: repeating-linear-gradient(
+      45deg,
+      transparent 0 var(--space-1),
+      var(--color-border-subtle) var(--space-1) var(--space-2)
+    );
+  }
+
+  // Where the period's average falls on THIS row's axis. Zero-width with a
+  // border so it reads as a rule rather than a second fill, and it carries a
+  // title because a line on a bar says nothing on its own.
+  .avg {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 0;
+    border-left: var(--border-2) dashed var(--color-text);
+  }
+}

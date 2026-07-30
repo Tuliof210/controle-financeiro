@@ -1,4 +1,13 @@
-import type { Ceiling, CeilingMonth, MonthPoint } from "./types";
+import type { Ceiling, CeilingMonth, CeilingRates, MonthPoint } from "./types";
+
+// One figure at the three cadences the card shows. Both headlines floor the
+// same way, for the same reason the budget itself does: an allowance rounds
+// DOWN.
+const rates = (monthly: number): CeilingRates => ({
+  monthly,
+  weekly: Math.floor(monthly / 4),
+  daily: Math.floor(monthly / 30),
+});
 
 // The worst projected balance from each month to the range end, right to left in
 // one pass. Seeded from the LAST balance rather than a sentinel: the formula this
@@ -61,11 +70,16 @@ export function buildCeiling(
   }
 
   const monthly = months[0].budget;
+  const total = months.reduce((sum, month) => sum + month.budget, 0);
 
   return {
-    monthly,
-    weekly: Math.floor(monthly / 4),
-    daily: Math.floor(monthly / 30),
+    ...rates(monthly),
+    // Divided ONCE, off the raw sum. `months` is never empty (see `ahead`), so
+    // the denominator needs no guard. savingPace deliberately keeps computing
+    // its own quotient rather than quartering this one: floor(average / 4) and
+    // floor(total / 4n) differ by up to a cent, and `pace` is pinned to the
+    // latter.
+    average: rates(Math.floor(total / months.length)),
     // The month whose balance IS the worst ahead — what limits this month's
     // figure, and the only month the card can honestly name.
     tightest: monthly > 0 ? tightestMonth(ahead, worst[0]) : null,
