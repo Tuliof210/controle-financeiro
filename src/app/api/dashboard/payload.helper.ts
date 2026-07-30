@@ -1,8 +1,9 @@
 import type { Forecast } from "@/core/entities/forecast.entity";
 import type { Goal } from "@/core/entities/goal.entity";
 import type { Movement } from "@/core/entities/movement.entity";
-import { buildCeiling, savingPace } from "./ceiling.helper";
+import { buildCeiling } from "./ceiling.helper";
 import { projectGoals } from "./goals.helper";
+import { savingPace } from "./pace.helper";
 import { buildSeries, firstEstimatedMonth } from "./series.helper";
 import { computeStats } from "./stats.helper";
 import type { DashboardData, DashboardRange } from "./types";

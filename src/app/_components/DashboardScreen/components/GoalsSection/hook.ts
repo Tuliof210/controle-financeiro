@@ -10,18 +10,15 @@ export function useGoalsSection({ data }: GoalsSectionProps) {
     goals,
     empty: goals.length === 0,
     capacity: formatMoney(pace),
-    // `pace` is floor(0.25 × ceiling.sustainable) — a share of the flat rate that
-    // survives being saved every month, NOT of the front-loaded figure the Teto
-    // de Gastos card displays. The caption must not name a percentage of that
-    // figure: the two differ, and a user comparing the two tabs would be reading
-    // a sentence their own screen contradicts.
+    // `pace` is a quarter of the MEAN of the Teto de Gastos figures, so unlike
+    // the flat rate it replaced the caption may point straight at that card —
+    // the two now read off the same numbers, and the reader can check it.
     caption: pace
-      ? "ritmo que o período sustenta todo mês"
-      : "sem folga sustentável no período",
-    // "COBERTAS NO PERÍODO", not "CONCLUÍDAS": doneMonth means the projected
-    // ceiling funds the target before the range ends, which is not the same as
-    // achieved. There is no achieved state in this data.
-    covered: `${goals.filter((goal) => goal.doneMonth !== null).length} / ${goals.length}`,
+      ? "25% da média dos tetos do período"
+      : "sem teto de gastos no período",
+    // The divisor of metric B on every card below, so it is worth its own slot:
+    // a reader comparing "EM PARALELO" against "DEDICADO" is looking for it.
+    goalCount: String(goals.length),
     total: formatMoneyShort(
       goals.reduce((sum, goal) => sum + goal.targetCents, 0),
     ),

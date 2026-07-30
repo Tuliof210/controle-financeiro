@@ -6,7 +6,7 @@ import { type GoalsSectionProps, useGoalsSection } from "./hook";
 import styles from "./style.module.scss";
 
 export function GoalsSection(props: GoalsSectionProps) {
-  const { goals, empty, capacity, caption, covered, total } =
+  const { goals, empty, capacity, caption, goalCount, total } =
     useGoalsSection(props);
 
   // A fragment, not a wrapper — Board owns the column. See its comment.
@@ -35,8 +35,8 @@ export function GoalsSection(props: GoalsSectionProps) {
             spacing, and each <div> only keeps its dt/dd together. */}
         <dl className={styles.facts}>
           <div>
-            <dt className={styles.factLabel}>COBERTAS NO PERÍODO</dt>
-            <dd className={styles.factValue}>{covered}</dd>
+            <dt className={styles.factLabel}>OBJETIVOS</dt>
+            <dd className={styles.factValue}>{goalCount}</dd>
           </div>
           <div>
             <dt className={styles.factLabel}>TOTAL EM METAS</dt>

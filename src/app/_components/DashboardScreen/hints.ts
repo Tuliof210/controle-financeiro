@@ -54,9 +54,10 @@ export const HINTS = {
   ].join(" "),
 
   goals: [
-    "Quanto dá para guardar por mês: 25% do valor FIXO que o período sustenta",
-    "todo mês. Não é 25% do número grande do Teto de Gastos — aquele vale só",
-    "para o mês atual e é maior; guardar sempre exige uma taxa que se repita.",
+    "Quanto dá para guardar por mês: 25% da MÉDIA dos tetos de gasto do",
+    "período, do mês atual até o fim. É a média, e não o número grande do Teto",
+    "de Gastos, porque aquele vale só para o mês atual — os meses seguintes",
+    "recebem menos, e guardar todo mês exige uma taxa que se repita.",
     "A barra de cada objetivo mostra quanto dele esse ritmo cobre até o fim do",
     "período global — é cobertura projetada, não dinheiro já guardado, que o app",
     "não registra. Cheia quer dizer que o período cobre o objetivo inteiro;",

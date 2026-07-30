@@ -38,9 +38,6 @@ export type Ceiling = {
   monthly: number; // cents, >= 0 — the CURRENT month's budget
   weekly: number; // floor(monthly / 4)
   daily: number; // floor(monthly / 30)
-  // The flat rate that survives being spent in every remaining month. Never
-  // displayed: it exists so savingPace can multiply it by the months left.
-  sustainable: number; // cents, >= 0
   tightest: number | null; // month holding the worst balance ahead; null iff monthly is 0
   // Earliest month already underwater. Non-null implies `monthly === 0`, since a
   // red month zeroes every budget; that zero is the card's empty state.
