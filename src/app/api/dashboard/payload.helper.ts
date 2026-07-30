@@ -44,12 +44,6 @@ export function buildPayload({
     balance: stats((point) => point.balance),
     ceiling,
     pace,
-    // The ceiling runs from the current month to the range end, so its length
-    // is exactly how many months are left to save in — never 0.
-    goals: projectGoals(goals, {
-      pace,
-      monthsAhead: ceiling.months.length,
-      current: range.current,
-    }),
+    goals: projectGoals(goals, { pace, current: range.current }),
   };
 }

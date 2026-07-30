@@ -48,18 +48,23 @@ export type Ceiling = {
   months: CeilingMonth[];
 };
 
-// A goal measured against what the global period can actually put aside.
-// `doneMonth` is the single flag the card leans on: it is non-null exactly when
-// `accruedCents >= targetCents`, so the completion date, the meter's length and
-// its colour can never tell three different stories.
+// How long one goal takes under one funding assumption, and the month it lands
+// in. Null exactly when the saving pace is 0 — no rate reaches any target, and
+// the card says so in words rather than printing a date it cannot support.
+// The date is NOT clamped to the range end (owner's decision, 2026-07-30): a
+// goal that closes after the period still names its month.
+export type GoalPace = { months: number; doneMonth: number } | null;
+
+// The same goal read three ways. They differ only in how much of the monthly
+// capacity this goal is assumed to get: all of it, an even share of it, or all
+// of it but only once every cheaper goal ahead of it in the queue is funded.
 export type GoalProjection = {
   id: string;
   name: string;
   targetCents: number;
-  months: number | null; // null when the saving pace is 0
-  doneMonth: number | null; // YYYYMM; null when the period never funds it
-  accruedCents: number; // pace * months left in the period
-  neededCents: number; // per month, to close inside the period
+  dedicated: GoalPace; // the whole capacity, this goal alone
+  parallel: GoalPace; // capacity split evenly across every goal
+  serialized: GoalPace; // whole capacity, one goal at a time, cheapest first
 };
 
 export type DashboardRange = { start: number; end: number; current: number };

@@ -30,5 +30,5 @@ every other goal, and queued one at a time.
 - [x] tasks/01-remove-monthly-goal.md — delete "Meta mensal" from UI, payload, API and schema
 - [x] tasks/02-flatten-dashboard.md — drop the tab bar, render one column in the agreed order
 - [x] tasks/03-capacity-from-ceiling-average.md — pace becomes 25% of the mean monthly ceiling
-- [ ] tasks/04-goal-time-metrics.md — three time-to-complete metrics per goal, in payload and on the card
+- [x] tasks/04-goal-time-metrics.md — three time-to-complete metrics per goal, in payload and on the card
 - [ ] tasks/05-e2e-goal-metrics.md — a spec that pins the three metrics against each other
