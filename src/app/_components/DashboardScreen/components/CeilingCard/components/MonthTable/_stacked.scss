@@ -50,8 +50,10 @@
     .table tbody td {
       display: flex;
       align-items: baseline;
+      // No `gap`: the label's auto margin below already separates it from the
+      // value, and a gap here would apply between the value's OWN parts too,
+      // prising the minus and the marker off the figure they belong to.
       justify-content: space-between;
-      gap: var(--space-3);
       padding-inline: 0;
       padding-block: var(--space-1);
       border-bottom: 0;
@@ -59,8 +61,15 @@
 
     // Six figures stacked in one column are unreadable without their headers,
     // which is why the owner asked for the labels to repeat per row.
+    //
+    // `margin-inline-end: auto`, not `space-between` alone: a spend cell and a
+    // negative leftover have THREE flex children — the presentational minus and
+    // the red square are their own spans — and spread evenly the square marking
+    // a negative sat ~135px from its figure, which is not a marker on it (styles
+    // README rule 7c). The label absorbs the free space instead.
     .table tbody td::before {
       content: attr(data-label);
+      margin-inline-end: auto;
       color: var(--color-text-muted);
       font-size: var(--text-2xs);
       letter-spacing: var(--tracking-wide);
