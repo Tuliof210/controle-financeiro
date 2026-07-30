@@ -12,7 +12,7 @@ export function GoalCard(props: GoalCardProps) {
             itself through SectionCard's h2, and without these the goals offered
             heading navigation nothing but the page h1. */}
         <h3 className={styles.name}>
-          <Target size={15} aria-hidden className={styles.icon} />
+          <Target size={16} aria-hidden className={styles.icon} />
           {name}
         </h3>
         <span className={styles.target}>{target}</span>

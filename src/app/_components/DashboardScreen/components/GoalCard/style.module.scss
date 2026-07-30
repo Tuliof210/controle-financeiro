@@ -28,7 +28,7 @@
   overflow-wrap: anywhere;
 }
 
-// flex-shrink: 0 so the icon keeps its 15px next to a name that wraps.
+// flex-shrink: 0 so the icon keeps its 16px next to a name that wraps.
 .icon {
   flex-shrink: 0;
   color: var(--color-brand);
