@@ -29,7 +29,7 @@ month can actually carry.
       the payload, and green again when restored
 
 ## Tasks
-- [ ] tasks/01-suffix-minimum-budget.md — replace the flat-rate ceiling with a
+- [x] tasks/01-suffix-minimum-budget.md — replace the flat-rate ceiling with a
       suffix minimum plus a running accumulator, in the payload
 - [ ] tasks/02-per-month-budget-card.md — the card lists each month's own figure
       and the hint explains the running formula

@@ -23,25 +23,31 @@ export type Stats = {
   median: number;
 };
 
-// The one figure the remaining period can sustain: how much can be spent EXTRA
-// every month, from the current month to the range end, without any month's
+// What the remaining period can carry as EXTRA spending, month by month: each
+// month gets its own figure, already net of everything the earlier months
+// authorised, so the whole column can be spent in order without any month's
 // projected balance going under. Arithmetic in ceiling.helper.ts.
 export type CeilingMonth = {
   month: number;
-  cumulative: number; // the month's projected balance before the ceiling
-  remaining: number; // what survives the ceiling being spent every month
+  budget: number; // cents, >= 0 — this month's own extra-spending figure
+  worstAhead: number; // worst projected balance from this month to the range end
+  remaining: number; // worstAhead, less every budget up to and including this one
 };
 
 export type Ceiling = {
-  monthly: number; // cents, >= 0
+  monthly: number; // cents, >= 0 — the CURRENT month's budget
   weekly: number; // floor(monthly / 4)
   daily: number; // floor(monthly / 30)
-  tightest: number | null; // the month that pins `monthly`; null when it is 0
-  // Earliest month already underwater. Non-null implies `monthly === 0`.
+  // The flat rate that survives being spent in every remaining month. Never
+  // displayed: it exists so savingPace can multiply it by the months left.
+  sustainable: number; // cents, >= 0
+  tightest: number | null; // month holding the worst balance ahead; null iff monthly is 0
+  // Earliest month already underwater. Non-null implies `monthly === 0`, since a
+  // red month zeroes every budget; that zero is the card's empty state.
   firstRed: { month: number; shortfall: number } | null;
   // Current month .. range end, never empty. `monthly > 0` requires every
-  // `cumulative` here to be positive, so the card's `remaining / cumulative`
-  // bar can never divide by zero nor go negative.
+  // `worstAhead` here to be positive, so the card's `remaining / worstAhead` bar
+  // can never divide by zero nor go negative.
   months: CeilingMonth[];
 };
 

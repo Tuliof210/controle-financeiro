@@ -18,11 +18,11 @@ export function useCeilingCard({ ceiling, current }: CeilingCardProps) {
   const rows = months.map((month) => {
     const label = formatYyyymm(month.month);
     const remaining = formatMoney(month.remaining);
-    const of = formatMoney(month.cumulative);
+    const of = formatMoney(month.worstAhead);
     return {
       key: month.month,
       label,
-      percent: sharePercent(month.remaining, month.cumulative),
+      percent: sharePercent(month.remaining, month.worstAhead),
       projected: month.month > current,
       remaining,
       of,

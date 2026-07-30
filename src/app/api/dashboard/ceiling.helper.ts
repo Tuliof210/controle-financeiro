@@ -1,27 +1,37 @@
-import type { Ceiling, MonthPoint } from "./types";
+import { sustainableRate } from "./sustainable.helper";
+import type { Ceiling, CeilingMonth, MonthPoint } from "./types";
 
-// 20% safety margin on the month that pins the ceiling.
-const MARGIN = 0.8;
-// A quarter of the ceiling is what the owner is willing to commit to a goal
-// every month.
+// A quarter of the sustainable rate is what the owner is willing to commit to a
+// goal every month.
 const PACE_SHARE = 0.25;
 
-// Spending X extra EVERY month from now on lowers the month sitting `j` places
-// ahead by X * (j + 1) — the withdrawals accumulate. Solvency is
-// `cumulative[j] - X * (j + 1) >= 0` for every j, so the ceiling is
-// `MARGIN * min(cumulative[j] / (j + 1))`: a minimum of RATIOS.
+// The worst projected balance from each month to the range end, right to left in
+// one pass. Seeded from the LAST balance rather than a sentinel: the formula this
+// replaces seeded POSITIVE_INFINITY, and Infinity - Infinity is NaN.
+function suffixMinimum(ahead: MonthPoint[]): number[] {
+  const worst = new Array<number>(ahead.length);
+  worst[worst.length - 1] = ahead[ahead.length - 1].cumulative;
+  for (let index = worst.length - 2; index >= 0; index -= 1) {
+    worst[index] = Math.min(ahead[index].cumulative, worst[index + 1]);
+  }
+  return worst;
+}
+
+// Spending extra in month k lowers the cumulative balance of k AND every month
+// after it, so k's headroom is never k's own balance: it is the WORST balance
+// from k to the range end — a suffix minimum.
 //
-// The divisor is the whole point. A minimum of plain balances prices ONE
-// hypothetical spend in isolation, so its per-month answers are mutually
-// exclusive — spending the first month's figure invalidates every later one,
-// which is exactly how the per-month figure it replaces misled.
+// That minimum alone is not an answer, and shipping it once proved it: it priced
+// each month's spend in isolation, so its per-month figures were mutually
+// exclusive and spending the first invalidated every later one. The accumulator
+// is the fix. Each month gets 80% of what is left of its worst balance AFTER the
+// earlier months have already been authorised, so the whole column can be spent
+// in order and no month closes under.
 //
-// `j` counts months from the current one, NOT positions in `points`. Past
-// months are baked into `cumulative` — it is a stock, the money in the bank —
-// but they must never contribute a position to the divisor.
-//
-// Math.floor everywhere: a spending allowance always rounds DOWN. Never
-// Math.trunc — it differs on negatives, and the pre-clamp value can be one.
+// `(4 * gap) / 5` floored, in that order, never leaves the integers. Writing it
+// as `0.8 * gap` and flooring per step would compound float error down a
+// recursion as deep as the range is long. Math.floor everywhere: a spending
+// allowance always rounds DOWN. Never Math.trunc — it differs on negatives.
 export function buildCeiling(
   points: MonthPoint[],
   currentMonth: number,
@@ -30,43 +40,56 @@ export function buildCeiling(
   // outside the range, and `points` is 1:1 with the months of that range.
   const ahead = points.filter((point) => point.month >= currentMonth);
 
-  // Ratios compared by cross-multiplication rather than division, so equal
-  // ratios compare equal and the earliest month keeps the pin. Cents are
-  // integers and a range is months long, so the products stay far inside
-  // MAX_SAFE_INTEGER.
-  let pin = 0;
-  for (let j = 1; j < ahead.length; j += 1) {
-    if (ahead[j].cumulative * (pin + 1) < ahead[pin].cumulative * (j + 1)) {
-      pin = j;
-    }
+  // A month already underwater zeroes the WHOLE ceiling, not merely the months
+  // up to it. The suffix minimum on its own would still hand out figures after
+  // the hole, and offering money to spend across a period that has one is not an
+  // answer — tape the hole first. Owner's decision (2026-07-29).
+  const red = ahead.find((point) => point.cumulative < 0);
+
+  const worst = suffixMinimum(ahead);
+  const months: CeilingMonth[] = [];
+  let authorised = 0;
+
+  for (let index = 0; index < ahead.length; index += 1) {
+    const worstAhead = worst[index];
+    // Defensive only: `worst` is non-decreasing and `remaining` stays >= 0 by
+    // induction, so a negative gap means one of those two broke.
+    const gap = Math.max(0, worstAhead - authorised);
+    const budget = red ? 0 : Math.floor((4 * gap) / 5);
+    authorised += budget;
+    months.push({
+      month: ahead[index].month,
+      budget,
+      worstAhead,
+      remaining: worstAhead - authorised,
+    });
   }
 
-  const monthly = Math.max(
-    0,
-    Math.floor((MARGIN * ahead[pin].cumulative) / (pin + 1)),
-  );
-
-  // A negative cumulative makes the minimum ratio negative, which the clamp
-  // above turns into 0 — so finding one here always means `monthly === 0`.
-  const red = ahead.find((point) => point.cumulative < 0);
+  const monthly = months[0].budget;
 
   return {
     monthly,
     weekly: Math.floor(monthly / 4),
     daily: Math.floor(monthly / 30),
-    tightest: monthly > 0 ? ahead[pin].month : null,
+    // Clamps itself to 0 on a red period, so `red` needs no branch here.
+    sustainable: sustainableRate(ahead),
+    // The month whose balance IS the worst ahead — what limits this month's
+    // figure, and the only month the card can honestly name.
+    tightest: monthly > 0 ? tightestMonth(ahead, worst[0]) : null,
     firstRed: red ? { month: red.month, shortfall: -red.cumulative } : null,
-    months: ahead.map((point, j) => ({
-      month: point.month,
-      cumulative: point.cumulative,
-      remaining: point.cumulative - monthly * (j + 1),
-    })),
+    months,
   };
 }
 
-// The ceiling is a rate that survives being spent every month, so a fixed share
-// of it survives being SAVED every month — which is what lets goals.helper
-// multiply it by the months left without overdrawing.
+// `worst[0]` is a minimum OVER these balances, so a match always exists; the
+// fallback is there to satisfy the type and is unreachable.
+function tightestMonth(ahead: MonthPoint[], floor: number): number {
+  return (ahead.find((point) => point.cumulative === floor) ?? ahead[0]).month;
+}
+
+// A share of the sustainable rate, never of the front-loaded figure: goals.helper
+// multiplies this by the months left, which only stays inside the balance for a
+// rate that survives being spent every month.
 export function savingPace(ceiling: Ceiling): number {
-  return Math.floor(PACE_SHARE * ceiling.monthly);
+  return Math.floor(PACE_SHARE * ceiling.sustainable);
 }
