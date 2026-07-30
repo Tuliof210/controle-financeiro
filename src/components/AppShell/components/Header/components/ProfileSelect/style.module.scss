@@ -1,24 +1,15 @@
-@use "theme" as t;
+@use "select";
 
 // Stays a native <select>: one control for one piece of state, and the browser
 // handles the popup, keyboard and mobile sheet for free.
 .select {
-  // A <select> is sized by its WIDEST option, not the selected one, so a long
-  // person name would push the 375px header past the viewport. Shrinkable
-  // rather than `flex: none` so the row always fits; it never grows.
+  @include select.skin;
+  // The skin sizes a field to fill its column (`width: 100%`), which is right in
+  // a form and wrong in the header's flex row. A <select> is sized by its WIDEST
+  // option, not the selected one, so a long person name would push the 375px
+  // header past the viewport: shrinkable rather than `flex: none` so the row
+  // always fits, and it never grows.
   flex: 0 1 auto;
+  width: auto;
   min-width: 0;
-  min-height: 44px;
-  padding: var(--space-2) var(--space-3);
-  background: var(--color-surface);
-  border: var(--border-2) solid var(--color-border);
-  border-radius: var(--radius-sm);
-  color: var(--color-text);
-  font-family: var(--font-mono);
-  font-size: var(--text-base);
-  cursor: pointer;
-
-  &:focus-visible {
-    @include t.focus-ring;
-  }
 }
