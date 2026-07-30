@@ -2,7 +2,9 @@ import { expect, test } from "@playwright/test";
 import {
   CEILING_PERSON,
   DEEPEST_RED_HOLE,
+  DIP_PERSON,
   FIRST_RED_HOLE,
+  horizonLabel,
   RED_PERSON,
   seedCeiling,
 } from "./ceiling.helper";
@@ -21,10 +23,13 @@ import { settle } from "./settle.helper";
 // single row reads the same under two wrong formulas, so every assertion here is
 // about the series — see expectAccumulator in ceiling-page.helper.ts.
 //
-// To prove this spec is not vacuous: drop the `- authorised` term from `gap` in
-// `buildCeiling` (src/app/api/dashboard/ceiling.helper.ts), which turns every
-// figure into 80% of its own worst balance in isolation, and the accumulator
-// assertions must fail from the second row on.
+// The formula has two halves and each has its own mutation, because a fixture
+// whose balance only rises cannot tell the second one apart from nothing:
+//  - accumulator: drop `- authorised` from `gap` in `buildCeiling`
+//    (src/app/api/dashboard/ceiling.helper.ts) and the accumulator assertions
+//    fail from the second row on.
+//  - suffix minimum: make `suffixMinimum` return `ahead.map((p) => p.cumulative)`
+//    and the DIP_PERSON test below fails. Nothing else catches that one.
 
 test.beforeAll(async () => {
   // Order matters, it is not politeness: the range is derived from EVERY entry
@@ -66,6 +71,29 @@ test("each month's figure discounts the months before it", async ({ page }) => {
   );
 });
 
+test("a later dip, not the month's own balance, caps the first month", async ({
+  page,
+}) => {
+  const card = await openProjection(page, DIP_PERSON);
+  const bars = card.getByRole("img");
+  await expect(bars.first()).toBeVisible(SLOW);
+
+  const months = await readMonths(bars);
+  expect(months.length).toBeGreaterThanOrEqual(3);
+  expectAccumulator(months);
+
+  // This fixture falls in its second month and recovers in its third. Under a
+  // suffix minimum the first two rows share ONE number — the dip — and the third
+  // is larger. Under each month's own balance the first row would be the largest
+  // of the three, so these two lines are what the identity mutation breaks.
+  expect(months[0].worstAhead).toBe(months[1].worstAhead);
+  expect(months[0].worstAhead).toBeLessThan(months[2].worstAhead);
+
+  // And the consequence the owner cares about: the first month is allowed less
+  // than its own balance would permit, because next month's dip is what binds.
+  expect(months[0].budget).toBeLessThan(months[2].budget);
+});
+
 test("with no ceiling, the card names the first month in the red", async ({
   page,
 }) => {
@@ -80,30 +108,9 @@ test("with no ceiling, the card names the first month in the red", async ({
   await expect(card.getByRole("img")).toHaveCount(0);
 });
 
-// Range end is the shared seed's SPLIT_FORECAST reach (202611, Nov/26 —
-// seed.helper.ts), computed here rather than hardcoded so this keeps reading
-// correctly whenever it runs, including the one month a year (November) that
-// exercises the singular branch — "1 mês restante", not "1 meses restantes",
-// the same rule GoalCard's timeline.helper.ts already enforces.
-const RANGE_END = 202611;
-const monthIndex = (yyyymm: number) =>
-  Math.floor(yyyymm / 100) * 12 + (yyyymm % 100) - 1;
-const now = new Date();
-const CURRENT = now.getFullYear() * 100 + now.getMonth() + 1;
-const REMAINING = monthIndex(RANGE_END) - monthIndex(CURRENT) + 1;
-// This fixture's balance only rises, so the worst balance ahead is the current
-// month's own — the headline is limited by itself. Formatted locally: the suite
-// drives the app from outside and owns no app code.
-const LABELS = "Jan Fev Mar Abr Mai Jun Jul Ago Set Out Nov Dez".split(" ");
-const TIGHTEST = `${LABELS[(CURRENT % 100) - 1]}/${String(Math.trunc(CURRENT / 100) % 100).padStart(2, "0")}`;
-
 test("names how many months remain, not the period's length", async ({
   page,
 }) => {
   const card = await openProjection(page, CEILING_PERSON);
-  const label =
-    REMAINING === 1
-      ? `1 mês restante. Este mês é limitado por ${TIGHTEST}.`
-      : `${REMAINING} meses restantes. Este mês é limitado por ${TIGHTEST}.`;
-  await expect(card.getByText(label)).toBeVisible(SLOW);
+  await expect(card.getByText(horizonLabel())).toBeVisible(SLOW);
 });

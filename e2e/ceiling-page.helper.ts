@@ -62,35 +62,30 @@ type CeilingMonth = Awaited<ReturnType<typeof readMonths>>[number];
 
 // The card's whole promise, checked as a SERIES rather than row by row: each
 // month's figure is 80% of what is left of its worst balance ahead once the
-// earlier months have been taken, and what survives never goes under.
-//
-// Row by row, two wrong formulas read identically to the right one — a flat rate,
-// and a bare suffix minimum that prices each month in isolation. Both fail here,
-// and the isolation one fails from the second row on, because by then the running
-// total already exceeds that month's worst balance.
+// earlier months have been taken, and what survives never goes under. Row by row,
+// a flat rate and a bare suffix minimum both read identically to the right
+// answer; here they do not. The suffix minimum can only RISE as months advance —
+// a per-month balance in its place would not have to.
 export function expectAccumulator(months: CeilingMonth[]) {
   let authorised = 0;
-  months.forEach((month, index) => {
+  months.forEach((month, at) => {
     const headroom = month.worstAhead - authorised;
-    expect(month.budget, `month ${index}: 80% of its remaining headroom`).toBe(
+    expect(month.budget, `month ${at}: 80% of its remaining headroom`).toBe(
       Math.floor((4 * headroom) / 5),
     );
     authorised += month.budget;
+    expect(month.remaining, `month ${at}: survives earlier figures`).toBe(
+      month.worstAhead - authorised,
+    );
     expect(
       month.remaining,
-      `month ${index}: survives every earlier figure`,
-    ).toBe(month.worstAhead - authorised);
-    expect(
-      month.remaining,
-      `month ${index}: does not close under`,
+      `month ${at}: does not close under`,
     ).toBeGreaterThanOrEqual(0);
-    // The worst balance ahead is a suffix minimum, so it can only rise as the
-    // months advance. A per-month balance in its place would not have to.
-    if (index > 0) {
+    if (at > 0) {
       expect(
         month.worstAhead,
-        `month ${index}: suffix minimum never falls`,
-      ).toBeGreaterThanOrEqual(months[index - 1].worstAhead);
+        `month ${at}: suffix minimum never falls`,
+      ).toBeGreaterThanOrEqual(months[at - 1].worstAhead);
     }
   });
 }
