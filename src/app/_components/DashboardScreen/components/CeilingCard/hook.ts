@@ -1,11 +1,10 @@
 import type { Ceiling, CeilingRates } from "@/app/api/dashboard/ceiling.types";
 import { formatMoney } from "@/lib/money";
 import { formatYyyymm } from "@/lib/months";
-import { sharePercent } from "../../list-cards.helper";
 import { useShowAll } from "../../show-all.hook";
 
-// `current` is the range's current month — the only thing that makes a row a
-// projection. It rides along in the same payload, so no extra fetch.
+// `current` is the range's current month — the only thing that makes a row the
+// current one. It rides along in the same payload, so no extra fetch.
 export type CeilingCardProps = { ceiling: Ceiling; current: number };
 
 // Both headlines carry the same secondary line, so it is written once. The
@@ -16,36 +15,36 @@ const splitsOf = (rates: CeilingRates) =>
 export function useCeilingCard({ ceiling, current }: CeilingCardProps) {
   const { monthly, tightest, firstRed, months, average } = ceiling;
 
-  // The bar is the month's OWN figure as a share of its own ceiling — so every
-  // row reads on the same 0..100 axis and the average can be drawn across it.
-  // `restam` rides along as text, not as the bar: it is a third quantity and a
-  // bar can only ever be one. All three go into the accessible name, so the bar
-  // can never be read as measuring whichever figure it sits nearest.
+  // The same figure on every row — that is the whole point of the second
+  // hypothesis — so it is formatted once, outside the map.
+  const averageSpend = formatMoney(average.monthly);
+
+  // Two readings of the same month, side by side. Nothing is computed here: the
+  // payload carries both balances and both leftovers precisely so the screen
+  // cannot arrive at a third answer.
   //
-  // The divisor guard lives in `sharePercent` (whole > 0 -> 0), and it is load
-  // bearing now rather than belt-and-braces: the card renders whenever ANY month
-  // has room, so a leading month with a `worstAhead` of 0 can reach here.
-  const rows = months.map((month) => {
-    const label = formatYyyymm(month.month);
-    const budget = formatMoney(month.budget);
-    const remaining = formatMoney(month.remaining);
-    const of = formatMoney(month.worstAhead);
-    return {
-      key: month.month,
-      label,
-      percent: sharePercent(month.budget, month.worstAhead),
-      mark: sharePercent(average.monthly, month.worstAhead),
-      projected: month.month > current,
-      isCurrent: month.month === current,
-      budget,
-      remaining,
-      of,
-      // "teto" is this card's word for the ALLOWANCE — its title, and what
-      // "Média dos tetos" averages. `worstAhead` is a projected balance, about
-      // 4.5× larger, so it is called `saldo` here and nowhere called teto.
-      srLabel: `${label}: gasto extra ${budget}, restam ${remaining}, saldo ${of}`,
-    };
-  });
+  // `negative` is asked of both sides even though only the average one can be
+  // true today (a ceiling is floored against a suffix minimum that is itself at
+  // or below the month's own balance). Both blocks render through one component,
+  // and special-casing a branch that costs one boolean is the more expensive of
+  // the two.
+  const rows = months.map((month) => ({
+    key: month.month,
+    label: formatYyyymm(month.month),
+    isCurrent: month.month === current,
+    ceiling: {
+      balance: formatMoney(month.ceilingBalance),
+      spend: formatMoney(month.budget),
+      left: formatMoney(month.ceilingLeft),
+      negative: month.ceilingLeft < 0,
+    },
+    average: {
+      balance: formatMoney(month.averageBalance),
+      spend: averageSpend,
+      left: formatMoney(month.averageLeft),
+      negative: month.averageLeft < 0,
+    },
+  }));
 
   const show = useShowAll(rows);
 
@@ -71,10 +70,10 @@ export function useCeilingCard({ ceiling, current }: CeilingCardProps) {
       // every month's budget is 0, the condition `empty` above short-circuits
       // on, so this is never built over a zero denominator.
       ratio: `${(monthly / average.monthly).toFixed(1).replace(".", ",")}× a média`,
-      average: formatMoney(average.monthly),
+      average: averageSpend,
       averageSplits: splitsOf(average),
       // `months` is the range's REMAINING months (current .. end, per
-      // `types.ts`), never its total length. It is also the average's
+      // `ceiling.types.ts`), never its total length. It is also the average's
       // denominator, which is why it is said beside the average.
       monthsLeft: `${months.length} ${months.length === 1 ? "mês restante" : "meses restantes"}`,
     },
@@ -82,15 +81,9 @@ export function useCeilingCard({ ceiling, current }: CeilingCardProps) {
     // the badge simply does not render in that state.
     limitedBy: tightest ? `Limitado por ${formatYyyymm(tightest)}` : null,
     currentLabel: formatYyyymm(current),
-    // What the dashed rule on every bar is, said once in words.
-    markLabel: `Média dos tetos: ${formatMoney(average.monthly)}/mês`,
     // How much of the list is on screen. The toggle beside it says the same
     // thing as an action; this says it as a fact, and survives the collapse.
     count: `${show.rows.length} de ${months.length} meses`,
-    // Each bar is measured against its own month's projected balance, not
-    // against the largest one in the period, so a small month still fills its
-    // bar. Same word as the row's third figure, and deliberately not "teto".
-    scaleNote: "Barras em % do saldo de cada mês",
     ...show,
   };
 }

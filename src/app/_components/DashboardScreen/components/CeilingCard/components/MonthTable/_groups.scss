@@ -1,0 +1,59 @@
+// The group row and the month column, split off `style.module.scss` under the
+// exception ARCHITECTURE.md grants `RowGrid/_tiers.scss`: a mixin that emits
+// nothing on its own, included once by the stylesheet beside it, so neither file
+// crosses the 100-line cap. Not a component — its markup is MonthTable's
+// `index.tsx`.
+@mixin groups {
+  // The group titles read left to right over three columns each, breaking the
+  // table's right alignment on purpose. No bottom rule: the row of real column
+  // headers under them carries it for both.
+  .group {
+    text-align: left;
+    font-family: var(--font-display);
+    color: var(--color-text);
+    border-bottom: 0;
+
+    & + & {
+      border-left: var(--border-2) solid var(--color-border-subtle);
+    }
+  }
+
+  // Square, never a circle: styles README rule 2 keeps --radius-full for avatars
+  // and status dots. Decoration only — the words beside it carry the meaning.
+  .dot {
+    display: inline-block;
+    width: var(--space-2);
+    height: var(--space-2);
+    margin-inline-end: var(--space-2);
+  }
+
+  .toCeiling {
+    background: var(--color-positive);
+  }
+
+  .toAverage {
+    background: var(--color-brand);
+  }
+
+  // The month reads as a label, so it keeps the workhorse face even in the head,
+  // where everything else is the display face.
+  .month {
+    text-align: left;
+    font-weight: var(--weight-regular);
+    text-transform: none;
+    letter-spacing: normal;
+    color: var(--color-text);
+  }
+
+  // Inverted like the card header's `.now` badge, for the same reason: the month
+  // in view is a state, not one more label in a column of them.
+  .current {
+    margin-inline-start: var(--space-2);
+    padding: 0 var(--space-2);
+    background: var(--color-positive);
+    color: var(--ink-900);
+    font-size: var(--text-2xs);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+  }
+}
