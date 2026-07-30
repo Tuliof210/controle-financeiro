@@ -33,4 +33,4 @@ that actually caps the figure is buried in a prose line under the headline.
 - [x] tasks/01-ceiling-average-payload.md — `buildCeiling` returns the mean of every month's budget
 - [x] tasks/02-header-badges-and-average-headline.md — SectionCard header slot, header badges, two-column hero
 - [x] tasks/03-rows-legend-footer.md — rebuilt rows with the average marker, legend strip, footer
-- [ ] tasks/04-e2e-average.md — end-to-end proof the average is the mean of the months on screen
+- [x] tasks/04-e2e-average.md — end-to-end proof the average is the mean of the months on screen

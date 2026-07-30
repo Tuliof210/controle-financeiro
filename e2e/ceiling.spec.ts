@@ -9,6 +9,7 @@ import {
   RED_PERSON,
   seedCeiling,
 } from "./ceiling.helper";
+import { expectAverage, readHero } from "./ceiling-average.helper";
 import {
   expectAccumulator,
   openCeiling,
@@ -16,6 +17,7 @@ import {
   readMonths,
   SLOW,
 } from "./ceiling-page.helper";
+import { expandCeiling } from "./goals-page.helper";
 import { seed } from "./seed.helper";
 import { settle } from "./settle.helper";
 
@@ -132,4 +134,27 @@ test("names how many months remain, and which one caps this month", async ({
   // because the bare month label also appears on the first row.
   await expect(card.getByText(`Limitado por ${monthLabel()}`)).toBeVisible();
   await expect(card.getByTitle("Mês em curso")).toHaveText(monthLabel());
+});
+
+test("the average is the mean of every month the card lists", async ({
+  page,
+}) => {
+  const card = await openCeiling(page, CEILING_PERSON);
+  // Expanded first, so the rows read here are every month the mean covers —
+  // `useShowAll` caps the list at 8 while the average takes all of them.
+  const budgets = (await readMonths(await expandCeiling(card))).map(
+    (month) => month.budget,
+  );
+  expect(budgets.length).toBeGreaterThanOrEqual(3);
+
+  const hero = await readHero(card);
+  // Which headline is which, proven rather than assumed: the first is this
+  // month's figure, so the second cannot also be it.
+  expect(hero.monthly).toBe(budgets[0]);
+  expectAverage(budgets, hero.average);
+
+  // And the chip beside this month's figure is that division, not a third
+  // number the card computed some other way.
+  const ratio = (hero.monthly / hero.average).toFixed(1).replace(".", ",");
+  await expect(card.getByText(`${ratio}× a média`)).toBeVisible();
 });
