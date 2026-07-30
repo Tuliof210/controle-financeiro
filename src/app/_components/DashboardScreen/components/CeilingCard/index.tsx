@@ -78,7 +78,7 @@ export function CeilingCard(props: CeilingCardProps) {
               >
                 <span className={styles.budget}>{row.budget}</span>
                 <span className={styles.of}>restam {row.remaining}</span>
-                <span className={styles.of}>teto {row.of}</span>
+                <span className={styles.of}>saldo {row.of}</span>
               </MeterRow>
             ))}
           </MeterList>

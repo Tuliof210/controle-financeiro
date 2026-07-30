@@ -40,7 +40,10 @@ export function useCeilingCard({ ceiling, current }: CeilingCardProps) {
       budget,
       remaining,
       of,
-      srLabel: `${label}: gasto extra ${budget}, restam ${remaining}, teto ${of}`,
+      // "teto" is this card's word for the ALLOWANCE — its title, and what
+      // "Média dos tetos" averages. `worstAhead` is a projected balance, about
+      // 4.5× larger, so it is called `saldo` here and nowhere called teto.
+      srLabel: `${label}: gasto extra ${budget}, restam ${remaining}, saldo ${of}`,
     };
   });
 
@@ -84,9 +87,10 @@ export function useCeilingCard({ ceiling, current }: CeilingCardProps) {
     // How much of the list is on screen. The toggle beside it says the same
     // thing as an action; this says it as a fact, and survives the collapse.
     count: `${show.rows.length} de ${months.length} meses`,
-    // Each bar is measured against its own month's ceiling, not against the
-    // largest one in the period, so a small month still fills its bar.
-    scaleNote: "Barras em % do teto de cada mês",
+    // Each bar is measured against its own month's projected balance, not
+    // against the largest one in the period, so a small month still fills its
+    // bar. Same word as the row's third figure, and deliberately not "teto".
+    scaleNote: "Barras em % do saldo de cada mês",
     ...show,
   };
 }
