@@ -35,6 +35,20 @@ export async function readCapacity(banner: Locator): Promise<number> {
   return parseCents(await banner.locator("p").first().innerText());
 }
 
+// Every month the ceiling covers, not just the rendered ones. `useShowAll` caps
+// the list at 8 rows behind a "Ver todos" chip, while the capacity averages ALL
+// of them — so a fixture that ever left more than 8 months ahead would have the
+// caller comparing a mean over 8 against a mean over more, and failing for a
+// reason that has nothing to do with the code under test. Expanding first is
+// what keeps the two sides of that comparison the same set.
+export async function expandCeiling(card: Locator) {
+  const chip = card.getByRole("button", { name: /^Ver todos/ });
+  if (await chip.isVisible()) await chip.click();
+  const bars = card.getByRole("img");
+  await expect(bars.first()).toBeVisible(SLOW);
+  return bars;
+}
+
 // "~37 meses · Jul/29" -> 37, and "ritmo zero" -> null. The month is captured
 // too so a test can assert the card names one at all.
 const parseMetric = (text: string) => {

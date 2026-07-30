@@ -45,13 +45,24 @@ export function expectParallelShare(goals: Goal[]) {
       shared,
       `${goal.name}: divided once, not rounded per goal`,
     ).toBeGreaterThanOrEqual(count * alone - (count - 1));
-    expect(shared, `${goal.name}: sharing is slower`).toBeGreaterThan(alone);
+    // Strict ONLY above one month. A goal cheaper than a single month of
+    // capacity has both ceils land on 1, and sharing genuinely costs it
+    // nothing — asserting `>` unconditionally would redden on a fixture
+    // amount with no defect behind it. The lower bound above already catches
+    // the collapse this line was guarding against, so the guard costs nothing.
+    if (alone > 1) {
+      expect(shared, `${goal.name}: sharing is slower`).toBeGreaterThan(alone);
+    }
   }
 }
 
 // The last goal is the one every other goal is queued ahead of, so it is where
-// dropping the running sum shows: without it, C would equal A there.
-export function expectQueue(goals: Goal[]) {
+// dropping the running sum shows: without it, C would equal A there. That is
+// the only assertion in this file that catches the missing-sum mutation, so it
+// stays strict — and its precondition is asserted rather than assumed, so a
+// fixture that stops meeting it fails by NAME instead of reddening the
+// inequality below with no defect behind it.
+export function expectQueue(goals: Goal[], capacityCents: number) {
   for (const goal of goals) {
     expect(
       Number(goal.serialized.months),
@@ -61,6 +72,11 @@ export function expectQueue(goals: Goal[]) {
   }
 
   const last = goals[goals.length - 1];
+  const ahead = goals.slice(0, -1).reduce((sum, goal) => sum + goal.target, 0);
+  expect(
+    ahead,
+    "FIXTURE: the goals queued ahead of the last must be worth at least one month of capacity, or waiting for them costs it no whole month and the check below is not a property of the formula",
+  ).toBeGreaterThanOrEqual(capacityCents);
   expect(
     Number(last.serialized.months),
     "the most expensive goal waits for all the others",
