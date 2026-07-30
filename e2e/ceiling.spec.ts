@@ -65,16 +65,17 @@ test("each month's figure discounts the months before it", async ({ page }) => {
     months[0].budget,
   );
 
-  // Front-loaded, and visibly so: nothing has been taken before the FIRST month,
-  // so it keeps exactly the 20% safety margin of its worst balance ahead. Every
-  // later month keeps less, because the earlier figures already spent into it —
-  // which is why this reads the first bar and not the last.
+  // The bar is the month's own figure against its own ceiling, so the FIRST
+  // month's is the fullest one on the card: nothing has been authorised before
+  // it, so it takes the whole 80% and leaves only the safety margin. Expected
+  // width recomputed from the payload rather than written down, so it survives
+  // a change of fixture; the fill is the track's first <div>.
   await settle(page, bars.first());
   const trackBox = await bars.first().boundingBox();
   const fillBox = await bars.first().locator("div").first().boundingBox();
   expect(trackBox && fillBox).toBeTruthy();
   expect(((fillBox?.width ?? 0) / (trackBox?.width ?? 1)) * 100).toBeCloseTo(
-    20,
+    (months[0].budget / months[0].worstAhead) * 100,
     0,
   );
 });

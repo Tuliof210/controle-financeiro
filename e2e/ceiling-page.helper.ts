@@ -39,17 +39,19 @@ export async function openCeiling(
   return card;
 }
 
-// Each bar announces itself as "Ago/26: gasto extra R$ 1,92, restam R$ 0,48 de
-// R$ 12,00" — the month's own figure first, then the pair the bar measures. All
-// three come off the accessible name rather than the cells, so the numbers under
-// assertion are the ones a screen reader is handed.
+// Each bar announces itself as "Ago/26: gasto extra R$ 1,92, restam R$ 0,48,
+// teto R$ 12,00" — the month's own figure, what survives it, and the ceiling the
+// bar measures it against. All three come off the accessible name rather than
+// the cells, so the numbers under assertion are the ones a screen reader is
+// handed. The separators here are the contract: reword `srLabel` in
+// CeilingCard/hook.ts and every value below silently parses to NaN.
 export async function readMonths(bars: Locator) {
   const labels = await bars.evaluateAll((nodes) =>
     nodes.map((node) => node.getAttribute("aria-label") ?? ""),
   );
   return labels.map((label) => {
     const [budget, remaining, worstAhead] = label
-      .split(/: gasto extra |, restam | de /)
+      .split(/: gasto extra |, restam |, teto /)
       .slice(1);
     return {
       budget: parseCents(budget),

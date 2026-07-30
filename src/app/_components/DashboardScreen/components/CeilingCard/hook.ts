@@ -16,11 +16,11 @@ const splitsOf = (rates: CeilingRates) =>
 export function useCeilingCard({ ceiling, current }: CeilingCardProps) {
   const { monthly, tightest, firstRed, months, average } = ceiling;
 
-  // Two quantities per row, and they are not the same one: `budget` is what that
-  // month may spend, the bar is what is left of the worst balance ahead once
-  // every budget up to it has been taken. Each carries its own label on screen
-  // and both go into the accessible name, so a bar can never be read as
-  // measuring the figure beside it.
+  // The bar is the month's OWN figure as a share of its own ceiling — so every
+  // row reads on the same 0..100 axis and the average can be drawn across it.
+  // `restam` rides along as text, not as the bar: it is a third quantity and a
+  // bar can only ever be one. All three go into the accessible name, so the bar
+  // can never be read as measuring whichever figure it sits nearest.
   //
   // The divisor guard lives in `sharePercent` (whole > 0 -> 0), and it is load
   // bearing now rather than belt-and-braces: the card renders whenever ANY month
@@ -33,14 +33,18 @@ export function useCeilingCard({ ceiling, current }: CeilingCardProps) {
     return {
       key: month.month,
       label,
-      percent: sharePercent(month.remaining, month.worstAhead),
+      percent: sharePercent(month.budget, month.worstAhead),
+      mark: sharePercent(average.monthly, month.worstAhead),
       projected: month.month > current,
+      isCurrent: month.month === current,
       budget,
       remaining,
       of,
-      srLabel: `${label}: gasto extra ${budget}, restam ${remaining} de ${of}`,
+      srLabel: `${label}: gasto extra ${budget}, restam ${remaining}, teto ${of}`,
     };
   });
+
+  const show = useShowAll(rows);
 
   return {
     // Empty means "nothing to offer anywhere in the period", NOT "nothing this
@@ -53,23 +57,36 @@ export function useCeilingCard({ ceiling, current }: CeilingCardProps) {
     note: firstRed
       ? `Sem teto: ${formatYyyymm(firstRed.month)} fecha ${formatMoney(firstRed.shortfall)} no vermelho.`
       : "Sem teto: o saldo acumulado projetado não cobre nenhum gasto extra recorrente.",
-    monthly: formatMoney(monthly),
-    splits: splitsOf(ceiling),
-    // What this month is worth NEXT TO the period — the one thing a bare figure
-    // cannot say. No divisor guard: `average.monthly` is 0 exactly when every
-    // month's budget is 0, which is the condition `empty` above short-circuits
-    // on, so this string is never built over a zero denominator.
-    ratio: `${(monthly / average.monthly).toFixed(1).replace(".", ",")}× a média`,
-    average: formatMoney(average.monthly),
-    averageSplits: splitsOf(average),
-    // `months` is the range's REMAINING months (current .. end, per `types.ts`),
-    // never its total length — a range read anywhere but its first month has
-    // fewer left than it is long. It is also the average's denominator.
-    monthsLeft: `${months.length} ${months.length === 1 ? "mês restante" : "meses restantes"}`,
+    // Grouped rather than spread flat, so the card can hand `<Hero>` its whole
+    // prop set without a rest spread that would silently adopt any field added
+    // here later.
+    hero: {
+      monthly: formatMoney(monthly),
+      splits: splitsOf(ceiling),
+      // What this month is worth NEXT TO the period — the one thing a bare
+      // figure cannot say. No divisor guard: `average.monthly` is 0 exactly when
+      // every month's budget is 0, the condition `empty` above short-circuits
+      // on, so this is never built over a zero denominator.
+      ratio: `${(monthly / average.monthly).toFixed(1).replace(".", ",")}× a média`,
+      average: formatMoney(average.monthly),
+      averageSplits: splitsOf(average),
+      // `months` is the range's REMAINING months (current .. end, per
+      // `types.ts`), never its total length. It is also the average's
+      // denominator, which is why it is said beside the average.
+      monthsLeft: `${months.length} ${months.length === 1 ? "mês restante" : "meses restantes"}`,
+    },
     // Null exactly when `monthly` is 0, i.e. exactly when `empty` is true, so
     // the badge simply does not render in that state.
     limitedBy: tightest ? `Limitado por ${formatYyyymm(tightest)}` : null,
     currentLabel: formatYyyymm(current),
-    ...useShowAll(rows),
+    // What the dashed rule on every bar is, said once in words.
+    markLabel: `Média dos tetos: ${formatMoney(average.monthly)}/mês`,
+    // How much of the list is on screen. The toggle beside it says the same
+    // thing as an action; this says it as a fact, and survives the collapse.
+    count: `${show.rows.length} de ${months.length} meses`,
+    // Each bar is measured against its own month's ceiling, not against the
+    // largest one in the period, so a small month still fills its bar.
+    scaleNote: "Barras em % do teto de cada mês",
+    ...show,
   };
 }
