@@ -41,19 +41,17 @@
 }
 
 .bubble {
-  position: absolute;
-  // Centred on the trigger and opening downward. Centring halves the overflow
-  // risk versus anchoring to either edge, and the viewport clamp keeps a long
-  // hint from pushing past the screen on a narrow card.
-  // ponytail: no collision detection — a very long card title on a very narrow
-  // screen can still clip. Swap for CSS anchor positioning (`position-try`)
-  // once Safari ships it, rather than adding a JS positioning library.
-  top: calc(100% + var(--space-2));
-  left: 50%;
-  transform: translateX(-50%);
+  // Below `md`, a strip pinned across the bottom of the viewport, not a box
+  // centred on its trigger. Centring is what put the dashboard into horizontal
+  // scroll: this element is `visibility: hidden` and never unmounted, and a
+  // hidden box still counts toward scrollWidth, so a trigger sitting far right
+  // pushed a 288px bubble to x=439 of 375 and the page rubber-banded sideways.
+  // Pinned it cannot overflow at ANY trigger position, and it gains room rather
+  // than losing it: 343px against 288px at 375px.
+  position: fixed;
+  inset: auto var(--space-4) var(--space-4);
   z-index: var(--z-dropdown);
-  width: max-content;
-  max-width: min(calc(var(--space-24) * 3), calc(100vw - var(--space-8)));
+  width: auto;
   padding: var(--space-3);
   background: var(--color-surface-raised);
   border: var(--border-2) solid var(--color-border);
@@ -63,9 +61,21 @@
   font-size: var(--text-xs);
   font-weight: var(--weight-regular);
   line-height: var(--leading-snug);
-  // The DS reserves the blur shadow for floating layers: menu, popover, modal,
-  // toast.
+  // The DS reserves the blur shadow for floating layers: menu, popover, modal.
   @include t.elevation(overlay);
+
+  // From `md` up there is room to centre on the trigger and open downward,
+  // keeping the hint beside what it explains.
+  // ponytail: still no collision detection at this size — see the debt entry,
+  // `/` overflows 12px at exactly 1024px. Swap for CSS anchor positioning
+  // (`position-try`) once Safari ships it, not a JS positioning library.
+  @include t.bp("md") {
+    position: absolute;
+    inset: calc(100% + var(--space-2)) auto auto 50%;
+    transform: translateX(-50%);
+    width: max-content;
+    max-width: min(calc(var(--space-24) * 3), calc(100vw - var(--space-8)));
+  }
 
   // Hidden, never unmounted, so aria-describedby always resolves. The duration
   // token already collapses to 0ms under prefers-reduced-motion.
