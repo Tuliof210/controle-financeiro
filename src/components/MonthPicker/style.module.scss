@@ -1,4 +1,4 @@
-@use "theme" as t;
+@use "select";
 
 .field {
   display: flex;
@@ -18,16 +18,11 @@
 }
 
 .select {
-  min-height: 44px;
-  padding: var(--space-2) var(--space-3);
-  background: var(--color-surface);
-  border: var(--border-2) solid var(--color-border);
-  border-radius: var(--radius-sm);
-  color: var(--color-text);
-  font-family: var(--font-mono);
-  font-size: var(--text-base);
-
-  &:focus-visible {
-    @include t.focus-ring;
-  }
+  @include select.skin;
+  // Two selects share the row, so each takes half rather than the skin's
+  // `width: 100%`. `min-width: 0` lets them shrink past their option text —
+  // without it a flex item refuses to go below its content width and the pair
+  // overflows the modal at 375px.
+  flex: 1;
+  min-width: 0;
 }

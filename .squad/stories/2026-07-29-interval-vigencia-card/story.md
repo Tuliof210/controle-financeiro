@@ -28,7 +28,7 @@ Design project "Seletor de Vigência" is the approved target.
 - [ ] Visual check in the browser pane, light and dark, at 375px and 1280px
 
 ## Tasks
-- [ ] tasks/01-select-skin.md — shared DS select skin (caret + sizing) for
+- [x] tasks/01-select-skin.md — shared DS select skin (caret + sizing) for
       `MonthPicker` and `SelectField`
 - [ ] tasks/02-vigencia-card.md — card shell, header with the `VIGÊNCIA` eyebrow,
       styled `Mês único` toggle, relocated remove control, dashed add button
