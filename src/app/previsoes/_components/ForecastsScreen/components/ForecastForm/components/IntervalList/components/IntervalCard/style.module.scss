@@ -1,5 +1,6 @@
 @use "theme" as t;
 @use "./checkbox";
+@use "./summary";
 
 // Same recipe as SectionCard, one tier up from the modal's --color-surface-raised
 // dialog. No `overflow: hidden`: it would clip the focus-ring outlines of the
@@ -53,6 +54,18 @@
 
 .checkbox {
   @include checkbox.box;
+}
+
+.summary {
+  @include summary.strip;
+}
+
+.range {
+  @include summary.range;
+}
+
+.duration {
+  @include summary.badge;
 }
 
 // Stacked below the "sm" breakpoint: two month pickers, each holding two

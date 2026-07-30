@@ -1,4 +1,4 @@
-import { addMonths } from "@/lib/months";
+import { addMonths, buildMonths, formatYyyymm } from "@/lib/months";
 import type { Interval } from "../../../../intervals.helper";
 import type { KeyedInterval } from "../../../../intervals.hook";
 
@@ -20,6 +20,8 @@ export function useIntervalCard({
   const { key, start, end } = interval;
   // Derived, never stored: one month selected means start and end coincide.
   const isLocked = start === end;
+  // 0 when the user has pushed Fim behind Início — buildMonths returns [] there.
+  const months = buildMonths(start, end).length;
 
   return {
     idPrefix: `forecast-interval-${key}`,
@@ -27,6 +29,13 @@ export function useIntervalCard({
     end,
     isLocked,
     canRemove,
+    rangeLabel: isLocked
+      ? formatYyyymm(start)
+      : `${formatYyyymm(start)} → ${formatYyyymm(end)}`,
+    // An inverted range gets the same "—" placeholder formatYyyymm uses for a
+    // missing value, rather than a "0 meses" that reads like a real duration.
+    durationLabel:
+      months === 0 ? "—" : months === 1 ? "1 mês" : `${months} meses`,
     removeLabel: `Remover intervalo ${index + 1}`,
     onStartChange: (value: number) => onUpdate(index, { start: value, end }),
     onEndChange: (value: number) => onUpdate(index, { start, end: value }),

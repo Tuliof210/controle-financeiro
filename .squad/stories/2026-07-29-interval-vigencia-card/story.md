@@ -32,6 +32,6 @@ Design project "Seletor de Vigência" is the approved target.
       `MonthPicker` and `SelectField`
 - [x] tasks/02-vigencia-card.md — card shell, header with the `VIGÊNCIA` eyebrow,
       styled `Mês único` toggle, relocated remove control, dashed add button
-- [ ] tasks/03-summary-strip.md — month range and inverted duration badge
+- [x] tasks/03-summary-strip.md — month range and inverted duration badge
 - [ ] tasks/04-e2e-vigencia-card.md — extend `interval-lock.spec.ts` with the
       card's visible read-outs, overflow and hit-target checks

@@ -12,6 +12,8 @@ export function IntervalCard(props: IntervalCardProps) {
     isLocked,
     canRemove,
     removeLabel,
+    rangeLabel,
+    durationLabel,
     onStartChange,
     onEndChange,
     onMonthChange,
@@ -69,6 +71,10 @@ export function IntervalCard(props: IntervalCardProps) {
             />
           </>
         )}
+      </div>
+      <div className={styles.summary}>
+        <span className={styles.range}>{rangeLabel}</span>
+        <span className={styles.duration}>{durationLabel}</span>
       </div>
     </div>
   );
