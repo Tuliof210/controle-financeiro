@@ -35,9 +35,6 @@ export function CeilingCard(props: CeilingCardProps) {
           {horizon ? <p className={styles.note}>{horizon}</p> : null}
           {/* SectionCard takes no header action; the chip right-aligns itself
               inside the card body instead of widening it for two call sites. */}
-          {hidden ? (
-            <ShowAllToggle label={label} expanded={all} onClick={toggle} />
-          ) : null}
           <MeterList>
             {rows.map((row) => (
               <MeterRow
@@ -54,6 +51,9 @@ export function CeilingCard(props: CeilingCardProps) {
               </MeterRow>
             ))}
           </MeterList>
+          {hidden ? (
+            <ShowAllToggle label={label} expanded={all} onClick={toggle} />
+          ) : null}
         </>
       )}
     </SectionCard>
