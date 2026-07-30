@@ -1,10 +1,10 @@
 import { type ShowAllToggleProps, useShowAllToggle } from "./hook";
 import styles from "./style.module.scss";
 
-// The `Ver todos (N)` / `Mostrar menos` chip CeilingCard and LimitCard share.
-// Extracted for the reason MeterRow and MeterList were: it is byte-identical in
-// both, and the 44px hit target and focus ring should not be able to drift
-// apart between two call sites.
+// The `Ver todos (N)` / `Mostrar menos` chip above CeilingCard's month list.
+// Extracted for the reason MeterRow and MeterList were: it was byte-identical
+// in the two cards that had one, and the 44px hit target and focus ring should
+// not be able to drift apart between call sites. Only this caller is left.
 //
 // aria-expanded, like every other disclosure button in this app (Aside's rail
 // collapse, Header's sidebar): the chip shows and hides the rows below it, and

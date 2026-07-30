@@ -23,7 +23,7 @@
   font-variant-numeric: tabular-nums;
 }
 
-// Inverted badge, the --color-text / --color-bg pair TabBar's active pill uses.
+// Inverted badge: the --color-text / --color-bg pair, swapped.
 // tabular-nums keeps the strip from reflowing as the count changes width.
 @mixin badge {
   padding: var(--space-1) var(--space-2);
