@@ -1,3 +1,5 @@
+import type { Ceiling } from "./ceiling.types";
+
 // The dashboard read model — the whole board in one payload. Imported by the
 // service that produces it and by the screen that renders it; a derived view,
 // not a persisted entity, so it lives here rather than in core/entities.
@@ -21,37 +23,6 @@ export type Stats = {
   mean: number;
   stdDev: number; // population (divided by N)
   median: number;
-};
-
-// What the remaining period can carry as EXTRA spending, month by month: each
-// month's figure is already net of everything the earlier months authorised, so
-// the column can be spent in order with no month closing under. Arithmetic in
-// ceiling.helper.ts.
-export type CeilingMonth = {
-  month: number;
-  budget: number; // cents, >= 0 — this month's own extra-spending figure
-  worstAhead: number; // worst projected balance from this month to the range end
-  remaining: number; // worstAhead, less every budget up to and including this one
-};
-
-// One figure at three cadences — the shape both of the card's headlines take.
-export type CeilingRates = {
-  monthly: number; // cents, >= 0
-  weekly: number; // floor(monthly / 4)
-  daily: number; // floor(monthly / 30)
-};
-
-// Spread, not nested: the top-level trio is the CURRENT month's budget.
-export type Ceiling = CeilingRates & {
-  // Raw mean over ALL of `months`, zeros included — never over the rendered rows.
-  average: CeilingRates;
-  tightest: number | null; // month holding the worst balance ahead; null iff monthly is 0
-  // Earliest month already underwater. Non-null implies `monthly === 0`, since a
-  // red month zeroes every budget; that zero is the card's empty state.
-  firstRed: { month: number; shortfall: number } | null;
-  // Current month .. range end, never empty. `monthly > 0` requires every
-  // `worstAhead` here to be positive, so the card's bars never divide by zero.
-  months: CeilingMonth[];
 };
 
 // How long one goal takes under one funding assumption, and the month it lands

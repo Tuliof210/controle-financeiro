@@ -1,4 +1,6 @@
-import type { Ceiling, CeilingMonth, CeilingRates, MonthPoint } from "./types";
+import type { Ceiling, CeilingRates } from "./ceiling.types";
+import { type CeilingSpend, withAverage } from "./ceiling-scenarios.helper";
+import type { MonthPoint } from "./types";
 
 // One figure at the three cadences the card shows. Both headlines floor the
 // same way, for the same reason the budget itself does: an allowance rounds
@@ -51,40 +53,43 @@ export function buildCeiling(
   const red = ahead.find((point) => point.cumulative < 0);
 
   const worst = suffixMinimum(ahead);
-  const months: CeilingMonth[] = [];
+  const spends: CeilingSpend[] = [];
   let authorised = 0;
 
   for (let index = 0; index < ahead.length; index += 1) {
-    const worstAhead = worst[index];
-    // Defensive only: `worst` is non-decreasing and `remaining` stays >= 0 by
+    // Defensive only: `worst` is non-decreasing and the gap stays >= 0 by
     // induction, so a negative gap means one of those two broke.
-    const gap = Math.max(0, worstAhead - authorised);
+    const gap = Math.max(0, worst[index] - authorised);
     const budget = red ? 0 : Math.floor((4 * gap) / 5);
+    const { month, cumulative } = ahead[index];
+    // Read BEFORE this month is authorised: the balance ARRIVING at the month.
+    const ceilingBalance = cumulative - authorised;
     authorised += budget;
-    months.push({
-      month: ahead[index].month,
+    spends.push({
+      month,
       budget,
-      worstAhead,
-      remaining: worstAhead - authorised,
+      cumulative,
+      ceilingBalance,
+      ceilingLeft: cumulative - authorised,
     });
   }
 
-  const monthly = months[0].budget;
-  const total = months.reduce((sum, month) => sum + month.budget, 0);
+  const monthly = spends[0].budget;
+  const total = spends.reduce((sum, spend) => sum + spend.budget, 0);
+  // Divided ONCE, off the raw sum. `spends` is never empty (see `ahead`), so the
+  // denominator needs no guard. savingPace deliberately keeps computing its own
+  // quotient rather than quartering this one: floor(average / 4) and
+  // floor(total / 4n) differ by up to a cent, and `pace` is pinned to the latter.
+  const average = rates(Math.floor(total / spends.length));
 
   return {
     ...rates(monthly),
-    // Divided ONCE, off the raw sum. `months` is never empty (see `ahead`), so
-    // the denominator needs no guard. savingPace deliberately keeps computing
-    // its own quotient rather than quartering this one: floor(average / 4) and
-    // floor(total / 4n) differ by up to a cent, and `pace` is pinned to the
-    // latter.
-    average: rates(Math.floor(total / months.length)),
+    average,
     // The month whose balance IS the worst ahead — what limits this month's
     // figure, and the only month the card can honestly name.
     tightest: monthly > 0 ? tightestMonth(ahead, worst[0]) : null,
     firstRed: red ? { month: red.month, shortfall: -red.cumulative } : null,
-    months,
+    months: withAverage(spends, average.monthly),
   };
 }
 

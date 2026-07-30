@@ -1,4 +1,4 @@
-import type { Ceiling, CeilingRates } from "@/app/api/dashboard/types";
+import type { Ceiling, CeilingRates } from "@/app/api/dashboard/ceiling.types";
 import { formatMoney } from "@/lib/money";
 import { formatYyyymm } from "@/lib/months";
 import { sharePercent } from "../../list-cards.helper";

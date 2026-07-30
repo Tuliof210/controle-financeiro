@@ -31,7 +31,7 @@ and the balance it arrives at if every month spends the average instead.
 - [ ] `wc -l` on every touched file, `.scss` included, is <= 100
 
 ## Tasks
-- [ ] tasks/01-ceiling-scenarios-payload.md — each ceiling month carries both
+- [x] tasks/01-ceiling-scenarios-payload.md — each ceiling month carries both
       cumulative scenarios; the bar-only fields go
 - [ ] tasks/02-scenario-table.md — delete the meters, render the two-scenario
       table inside the card
