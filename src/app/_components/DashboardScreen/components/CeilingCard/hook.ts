@@ -1,13 +1,27 @@
 import type { Ceiling } from "@/app/api/dashboard/ceiling.types";
+import type { CeilingCap } from "@/lib/ceiling-caps";
 import { formatMoney } from "@/lib/money";
 import { formatYyyymm } from "@/lib/months";
 import { useShowAll } from "../../show-all.hook";
 
 // `current` is the range's current month — the only thing that makes a row the
 // current one. It rides along in the same payload, so no extra fetch.
-export type CeilingCardProps = { ceiling: Ceiling; current: number };
+//
+// `cap` and `onCapChange` only pass through to the selector: the figures below
+// arrive already computed at that cap, so nothing here reads it.
+export type CeilingCardProps = {
+  ceiling: Ceiling;
+  current: number;
+  cap: CeilingCap;
+  onCapChange: (cap: CeilingCap) => void;
+};
 
-export function useCeilingCard({ ceiling, current }: CeilingCardProps) {
+export function useCeilingCard({
+  ceiling,
+  current,
+  cap,
+  onCapChange,
+}: CeilingCardProps) {
   const { monthly, weekly, daily, tightest, firstRed, months } = ceiling;
 
   // Nothing is computed here: the payload carries both the balance arriving at
@@ -49,6 +63,8 @@ export function useCeilingCard({ ceiling, current }: CeilingCardProps) {
     // How much of the list is on screen. The toggle beside it says the same
     // thing as an action; this says it as a fact, and survives the collapse.
     count: `${show.rows.length} de ${months.length} meses`,
+    cap,
+    onCapChange,
     ...show,
   };
 }

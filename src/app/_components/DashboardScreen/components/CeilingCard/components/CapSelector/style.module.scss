@@ -1,0 +1,84 @@
+@use "theme" as t;
+
+// One frame around the three segments, which share their edges — the divider
+// between them is each segment's own left border, not a gap. `overflow: hidden`
+// so the filled segment's corners are clipped by the frame's radius instead of
+// needing radii of their own.
+//
+// `min-inline-size: 0` and the reset padding/border/margin: a <fieldset> ships
+// with all three plus a default min-content sizing that ignores flex.
+.group {
+  display: flex;
+  min-inline-size: 0;
+  margin: 0;
+  padding: 0;
+  border: var(--border-2) solid var(--color-border);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+
+// Clipped, not `display: none`: a <legend> is the group's accessible name, and
+// hiding it would take that name with it.
+.legend {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.segment {
+  display: flex;
+  cursor: pointer;
+}
+
+// Clipped for the same reason as the legend: the radio still takes focus, still
+// answers the arrow keys, and still carries the checked state the paint reads.
+.input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
+.text {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  // src/styles/README.md rule 7(e)'s 44px floor. The design draws a shorter
+  // chip; the floor wins.
+  min-height: 44px;
+  padding: 0 var(--space-3);
+  background: var(--color-surface);
+  color: var(--color-text-muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-2xs);
+  letter-spacing: var(--tracking-wide);
+  white-space: nowrap;
+  transition:
+    background var(--duration-fast) var(--ease-snappy),
+    color var(--duration-fast) var(--ease-snappy);
+}
+
+.segment + .segment .text {
+  border-left: var(--border-1) solid var(--color-border-subtle);
+}
+
+.segment:hover .input:not(:checked) + .text {
+  background: var(--color-surface-raised);
+  color: var(--color-text);
+}
+
+// The card header's `.now` badge recipe, for the same reason: the selected cap
+// is a state, not one more label in a row of them.
+.input:checked + .text {
+  background: var(--color-text);
+  color: var(--color-surface);
+}
+
+.input:focus-visible + .text {
+  @include t.focus-ring;
+  // Inset, because the frame clips anything drawn outside the segment.
+  outline-offset: -4px;
+}

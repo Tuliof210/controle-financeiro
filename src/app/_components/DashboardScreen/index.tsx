@@ -9,7 +9,7 @@ import { useDashboardScreen } from "./hook";
 import styles from "./style.module.scss";
 
 export function DashboardScreen() {
-  const { data, error, loading } = useDashboardScreen();
+  const { data, error, loading, cap, setCap } = useDashboardScreen();
 
   return (
     <div className={styles.screen}>
@@ -47,7 +47,9 @@ export function DashboardScreen() {
         </Notice>
       ) : null}
 
-      {data?.status === "ok" ? <Board data={data} /> : null}
+      {data?.status === "ok" ? (
+        <Board data={data} cap={cap} onCapChange={setCap} />
+      ) : null}
     </div>
   );
 }

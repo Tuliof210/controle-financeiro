@@ -31,7 +31,7 @@ unreachable.
       end: payload, card, table, hint, e2e
 - [x] tasks/02-cap-parameter.md — `buildCeiling` takes a cap; `?cap=` reaches it
       through route → service → payload, validated, defaulting to 50
-- [ ] tasks/03-cap-selector.md — the segmented control, the header re-layout,
+- [x] tasks/03-cap-selector.md — the segmented control, the header re-layout,
       and the cap state driving the fetch
 - [ ] tasks/04-refetch-without-blanking.md — a cap change revalidates in place
       instead of unmounting the board

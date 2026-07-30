@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import type { DashboardData } from "@/app/api/dashboard/types";
 import { useProfile } from "@/components/ProfileProvider/hook";
 import { apiGet } from "@/lib/api";
+import { type CeilingCap, DEFAULT_CEILING_CAP } from "@/lib/ceiling-caps";
 
 export function useDashboardScreen() {
   // AppShell mounts ProfileProvider globally, so the context is already there.
@@ -13,6 +14,11 @@ export function useDashboardScreen() {
   const { profile } = useProfile();
   const [data, setData] = useState<DashboardData | null>(null);
   const [error, setError] = useState<string>();
+  // Deliberately not persisted (owner's decision, 2026-07-30): every reload
+  // starts on the default. It lives up here rather than in CeilingCard because
+  // `pace` and the goal projections move with it, and those render in
+  // SavingsSection.
+  const [cap, setCap] = useState<CeilingCap>(DEFAULT_CEILING_CAP);
 
   useEffect(() => {
     let current = true;
@@ -20,9 +26,10 @@ export function useDashboardScreen() {
     setError(undefined);
 
     apiGet<DashboardData>(
-      `/api/dashboard?owner=${encodeURIComponent(profile)}`,
+      `/api/dashboard?owner=${encodeURIComponent(profile)}&cap=${cap}`,
     ).then((result) => {
-      // A response for a profile we have already moved on from must not land.
+      // A response for a profile or cap we have already moved on from must not
+      // land.
       if (!current) return;
       // apiGet never rejects: every failure resolves to { error }, so an
       // unchecked result would render a failed load as an empty board. It also
@@ -38,7 +45,7 @@ export function useDashboardScreen() {
     return () => {
       current = false;
     };
-  }, [profile]);
+  }, [profile, cap]);
 
   // null data with no error is still loading — distinct from an empty board.
   // (EntrySection seeds its list to [] and flashes its empty state on every
@@ -47,5 +54,7 @@ export function useDashboardScreen() {
     data,
     error,
     loading: data === null && error === undefined,
+    cap,
+    setCap,
   };
 }

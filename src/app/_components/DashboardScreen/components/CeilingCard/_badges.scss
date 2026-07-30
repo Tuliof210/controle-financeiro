@@ -1,9 +1,20 @@
-// The two status badges in the card header, split off `style.module.scss` under
-// the exception ARCHITECTURE.md grants `RowGrid/_tiers.scss`: a mixin that emits
-// nothing on its own, included once by the stylesheet beside it, so neither file
-// crosses the 100-line cap. Not a component — its markup is this folder's
-// `index.tsx`, in SectionCard's `headerEnd` slot.
+// The two status badges, split off `style.module.scss` under the exception
+// ARCHITECTURE.md grants `RowGrid/_tiers.scss`: a mixin that emits nothing on
+// its own, included once by the stylesheet beside it, so neither file crosses
+// the 100-line cap. Not a component — its markup is this folder's `index.tsx`.
+//
+// They used to sit in SectionCard's `headerEnd`; the cap selector took that slot
+// and they moved to the first line of the card body.
 @mixin badges {
+  // Their own row, so they read as a caption on the card rather than as a
+  // continuation of the title.
+  .badges {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+  }
+
   // Shared shell. text-transform rather than uppercase strings, for the reason
   // SectionCard's `.title` gives: these are read aloud.
   .limit,
