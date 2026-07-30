@@ -1,47 +1,7 @@
-@use "theme" as t;
-
+// Cards stacked, then the dashed add button. Everything a row used to own now
+// lives in IntervalCard.
 .list {
   display: flex;
   flex-direction: column;
   gap: var(--space-3);
-}
-
-.row {
-  display: flex;
-  align-items: center;
-  gap: var(--space-2);
-}
-
-// The two pickers take the remaining width; the remove button sits beside it.
-.pickers {
-  display: flex;
-  flex-wrap: wrap;
-  flex: 1;
-  min-width: 0;
-  gap: var(--space-4);
-}
-
-// Locked rows show one MonthPicker; it takes the width the Início/Fim pair took.
-// MonthPicker's root is display:flex, a block-level box that fills this flex
-// item's width on its own — no extra sizing needed here.
-.locked {
-  flex: 1;
-}
-
-.lock {
-  display: flex;
-  align-items: center;
-  gap: var(--space-1);
-  min-height: 44px;
-  font-family: var(--font-mono);
-  font-size: var(--text-2xs);
-  color: var(--color-text-muted);
-  white-space: nowrap;
-  cursor: pointer;
-}
-
-.checkbox {
-  &:focus-visible {
-    @include t.focus-ring;
-  }
 }
