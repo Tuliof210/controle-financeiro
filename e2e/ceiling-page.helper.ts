@@ -41,16 +41,17 @@ export async function openCeiling(
   return card;
 }
 
-// Six figures per row, read positionally off the cells: cell 0 is the month
-// label, then the ceiling hypothesis (balance, spend, leftover) and the average
-// one. Positional and not by text, because four of the six column headers read
-// identically — telling them apart is what the column ORDER is for.
+// Three figures per row, read positionally off the cells: cell 0 is the month
+// label, then the balance ARRIVING at the month, that month's ceiling, and what
+// is left once it has been spent. Positional and not by text, because the
+// stacked tier repeats those same headers inside every cell as a `data-label`,
+// so a text match would find each header twice.
 //
 // `textContent` and not `innerText`: the stacked layout prints each cell's
 // column label through a `::before`, which innerText would fold into the value.
-// The two spend columns carry a presentational U+2212 that parseCents reads as a
-// sign, so they are taken as magnitudes — they are the amount subtracted, and
-// the subtraction already shows in the leftover beside them.
+// The spend column carries a presentational U+2212 that parseCents reads as a
+// sign, so it is taken as a magnitude — it is the amount subtracted, and the
+// subtraction already shows in the leftover beside it.
 export async function readMonths(rows: Locator) {
   const cells = await rows.evaluateAll((nodes) =>
     nodes.map((node) => [...node.children].map((c) => c.textContent ?? "")),
@@ -59,9 +60,6 @@ export async function readMonths(rows: Locator) {
     ceilingBalance: parseCents(row[1]),
     budget: Math.abs(parseCents(row[2])),
     ceilingLeft: parseCents(row[3]),
-    averageBalance: parseCents(row[4]),
-    average: Math.abs(parseCents(row[5])),
-    averageLeft: parseCents(row[6]),
   }));
 }
 

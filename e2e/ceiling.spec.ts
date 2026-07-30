@@ -6,23 +6,20 @@ import {
   seedCeiling,
 } from "./ceiling.helper";
 import {
-  expectAverageStory,
-  expectHeadlineIsFirstRow,
-} from "./ceiling-average.helper";
-import {
   expectHeaderBadges,
+  expectHeadlineIsFirstRow,
   expectNoCeiling,
   expectScenarios,
 } from "./ceiling-expect.helper";
 import { openCeiling, readMonths, rowsOf, SLOW } from "./ceiling-page.helper";
 import { seed } from "./seed.helper";
 
-// The "Teto de Gastos" card reads each month twice: the balance it arrives at if
-// every earlier month spent its own ceiling, and the balance it arrives at if
-// every earlier month spent the average instead. Any single row reads the same
-// under two wrong formulas, so every assertion here is about the series — see
-// expectScenarios in ceiling-expect.helper.ts, which also names the two mutations
-// the fixtures below are shaped to catch.
+// The "Teto de Gastos" card reads each month as one row: the balance it arrives
+// at once every earlier month has spent its own ceiling, that month's ceiling,
+// and what is left after. Any single row reads the same under two wrong
+// formulas, so every assertion here is about the series — see expectScenarios in
+// ceiling-expect.helper.ts, which also names the two mutations the fixtures below
+// are shaped to catch.
 
 test.beforeAll(async () => {
   // Order matters, it is not politeness: the range is derived from EVERY entry
@@ -77,10 +74,4 @@ test("names how many months remain, and which one caps this month", async ({
   page,
 }) => {
   await expectHeaderBadges(await openCeiling(page, CEILING_PERSON));
-});
-
-test("the average is the mean of every month the card lists", async ({
-  page,
-}) => {
-  await expectAverageStory(await openCeiling(page, CEILING_PERSON));
 });

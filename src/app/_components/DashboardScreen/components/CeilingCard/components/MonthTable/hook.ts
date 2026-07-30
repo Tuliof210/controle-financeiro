@@ -1,15 +1,12 @@
-import type { ScenarioCellsProps } from "./components/ScenarioCells/hook";
-
-// One month, both hypotheses, every figure already a formatted string: the
-// arithmetic belongs to the payload and the formatting to CeilingCard's hook.
-// The two labels are fixed per column, so they are supplied at the call site
-// rather than repeated on every row upstream.
+// One month, every figure already a formatted string: the arithmetic belongs to
+// the payload and the formatting to CeilingCard's hook.
 export type MonthRow = {
   key: number;
   label: string;
   isCurrent: boolean;
-  ceiling: Omit<ScenarioCellsProps, "spendLabel" | "blockLabel">;
-  average: Omit<ScenarioCellsProps, "spendLabel" | "blockLabel">;
+  balance: string; // the balance arriving at the month
+  spend: string; // this month's ceiling
+  left: string; // what is left once it has been spent
 };
 
 export type MonthTableProps = { rows: MonthRow[] };

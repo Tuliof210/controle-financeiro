@@ -1,10 +1,8 @@
-import type { Ceiling, CeilingRates } from "./ceiling.types";
-import { type CeilingSpend, withAverage } from "./ceiling-scenarios.helper";
+import type { Ceiling, CeilingMonth, CeilingRates } from "./ceiling.types";
 import type { MonthPoint } from "./types";
 
-// One figure at the three cadences the card shows. Both headlines floor the
-// same way, for the same reason the budget itself does: an allowance rounds
-// DOWN.
+// One figure at the three cadences the card shows. The headline floors the same
+// way, for the same reason the budget itself does: an allowance rounds DOWN.
 const rates = (monthly: number): CeilingRates => ({
   monthly,
   weekly: Math.floor(monthly / 4),
@@ -53,7 +51,7 @@ export function buildCeiling(
   const red = ahead.find((point) => point.cumulative < 0);
 
   const worst = suffixMinimum(ahead);
-  const spends: CeilingSpend[] = [];
+  const months: CeilingMonth[] = [];
   let authorised = 0;
 
   for (let index = 0; index < ahead.length; index += 1) {
@@ -65,31 +63,23 @@ export function buildCeiling(
     // Read BEFORE this month is authorised: the balance ARRIVING at the month.
     const ceilingBalance = cumulative - authorised;
     authorised += budget;
-    spends.push({
+    months.push({
       month,
       budget,
-      cumulative,
       ceilingBalance,
       ceilingLeft: cumulative - authorised,
     });
   }
 
-  const monthly = spends[0].budget;
-  const total = spends.reduce((sum, spend) => sum + spend.budget, 0);
-  // Divided ONCE, off the raw sum. `spends` is never empty (see `ahead`), so the
-  // denominator needs no guard. savingPace deliberately keeps computing its own
-  // quotient rather than quartering this one: floor(average / 4) and
-  // floor(total / 4n) differ by up to a cent, and `pace` is pinned to the latter.
-  const average = rates(Math.floor(total / spends.length));
+  const monthly = months[0].budget;
 
   return {
     ...rates(monthly),
-    average,
     // The month whose balance IS the worst ahead — what limits this month's
     // figure, and the only month the card can honestly name.
     tightest: monthly > 0 ? tightestMonth(ahead, worst[0]) : null,
     firstRed: red ? { month: red.month, shortfall: -red.cumulative } : null,
-    months: withAverage(spends, average.monthly),
+    months,
   };
 }
 

@@ -1,8 +1,8 @@
 import { Wallet } from "lucide-react";
 import { SectionCard } from "@/components/SectionCard";
 import { HINTS } from "../../hints";
+import { Headline } from "../Headline";
 import { ShowAllToggle } from "../ShowAllToggle";
-import { Hero } from "./components/Hero";
 import { MonthTable } from "./components/MonthTable";
 import { type CeilingCardProps, useCeilingCard } from "./hook";
 import styles from "./style.module.scss";
@@ -19,7 +19,9 @@ export function CeilingCard(props: CeilingCardProps) {
     hidden,
     all,
     toggle,
-    hero,
+    monthly,
+    splits,
+    monthsLeft,
   } = useCeilingCard(props);
 
   return (
@@ -44,9 +46,13 @@ export function CeilingCard(props: CeilingCardProps) {
         <p className={styles.note}>{note}</p>
       ) : (
         <>
-          {/* Hero stays the card's first child: the ceiling spec reads the two
-              headlines as the card's first and second <dd>. */}
-          <Hero {...hero} />
+          {/* The headline stays the card's first child: the ceiling spec reads
+              it as the card's first <dd>. */}
+          <Headline caption="Gasto extra este mês">
+            {monthly}
+            <span className={styles.chip}>{monthsLeft}</span>
+            <span className={styles.splits}>{splits}</span>
+          </Headline>
           <MonthTable rows={rows} />
           <div className={styles.footer}>
             <span>{count}</span>
