@@ -4,7 +4,8 @@ import {
   DEEPEST_RED_HOLE,
   DIP_PERSON,
   FIRST_RED_HOLE,
-  horizonLabel,
+  monthLabel,
+  monthsLeftLabel,
   RED_PERSON,
   seedCeiling,
 } from "./ceiling.helper";
@@ -54,8 +55,15 @@ test("each month's figure discounts the months before it", async ({ page }) => {
   // so it has to equal the first row. A big number measuring one thing while the
   // rows beneath it measure another is the failure `.squad/learnings.md` already
   // records once.
-  const headline = (await card.locator("dd").first().innerText()).split("\n");
-  expect(parseCents(headline[0])).toBe(months[0].budget);
+  // First `dd` on the card, and it stays the first: the average headline sits
+  // after it. Sliced to the leading money rather than to the first LINE — the
+  // "N× a média" chip is inline-block, so innerText runs it straight onto the
+  // figure ("R$ 800,002,7× A MÉDIA") and its digits would be parsed in. Anchored
+  // on the cents pair, not on a digit class, for the same reason.
+  const headline = await card.locator("dd").first().innerText();
+  expect(parseCents(headline.match(/^R\$ [\d.]*\d,\d\d/)?.[0] ?? "")).toBe(
+    months[0].budget,
+  );
 
   // Front-loaded, and visibly so: nothing has been taken before the FIRST month,
   // so it keeps exactly the 20% safety margin of its worst balance ahead. Every
@@ -108,9 +116,19 @@ test("with no ceiling, the card names the first month in the red", async ({
   await expect(card.getByRole("img")).toHaveCount(0);
 });
 
-test("names how many months remain, not the period's length", async ({
+test("names how many months remain, and which one caps this month", async ({
   page,
 }) => {
   const card = await openCeiling(page, CEILING_PERSON);
-  await expect(card.getByText(horizonLabel())).toBeVisible(SLOW);
+
+  // The count sits beside the average, because it IS the average's denominator:
+  // the months REMAINING, never the period's length.
+  await expect(card.getByText(monthsLeftLabel())).toBeVisible(SLOW);
+
+  // Two header badges. This fixture's balance only rises, so the month holding
+  // the worst balance ahead is the current one and both name it — by different
+  // routes, which is why the assertions are separate. Matched by `title`
+  // because the bare month label also appears on the first row.
+  await expect(card.getByText(`Limitado por ${monthLabel()}`)).toBeVisible();
+  await expect(card.getByTitle("Mês em curso")).toHaveText(monthLabel());
 });

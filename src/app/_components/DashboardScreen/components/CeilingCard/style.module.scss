@@ -1,14 +1,46 @@
+@use "theme" as t;
+@use "./badges" as *;
+
 // The headline itself lives in ../Headline, shared with StatCard. What is left
 // here is only what this card adds to it.
 
-// Muted prose: the empty state and the horizon line under the headline. Named
-// for the role, not for "empty", since it carries both.
+// The header badges live in `_badges.scss` — see the note there on why.
+@include badges;
+
+// Muted prose: the empty state and anything else this card says in words.
 .note {
   margin: 0;
   color: var(--color-text-muted);
   font-family: var(--font-mono);
   font-size: var(--text-sm);
   line-height: var(--leading-normal);
+}
+
+// Two headlines, this month's figure first. minmax(0, 1fr), never a bare 1fr:
+// `1fr` is minmax(auto, 1fr), so the track would refuse to shrink under the
+// longest figure and the page would scroll sideways at 375px.
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-4);
+
+  @include t.bp("md") {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-6);
+  }
+}
+
+// The rule between them turns with the layout: a line down the middle when they
+// sit side by side, a line above the second when they stack.
+.hero > :last-child {
+  padding-top: var(--space-4);
+  border-top: var(--border-2) solid var(--color-border-subtle);
+
+  @include t.bp("md") {
+    padding: 0 0 0 var(--space-6);
+    border-top: 0;
+    border-left: var(--border-2) solid var(--color-border-subtle);
+  }
 }
 
 // The weekly/daily split, on its own line under the big number and at the same
@@ -23,9 +55,27 @@
   opacity: 0.7;
 }
 
+// What the figure beside it is worth in context — a ratio, or a month count.
+// `white-space: nowrap` because .total sets `overflow-wrap: anywhere` for the
+// money, and a chip broken mid-word reads as two.
+.chip {
+  display: inline-block;
+  margin-left: var(--space-3);
+  padding: var(--space-1) var(--space-2);
+  background: var(--color-surface-raised);
+  color: var(--color-text-muted);
+  border: var(--border-1) solid var(--color-border-subtle);
+  border-radius: var(--radius-sm);
+  font-size: var(--text-2xs);
+  font-weight: var(--weight-regular);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
 // The month's own figure — the one number in the row that is an instruction
-// rather than a reading. It carries the weight because the two values beside it
-// belong to the bar, not to it, and only contrast tells them apart.
+// rather than a reading.
 .budget {
   font-weight: var(--weight-medium);
 }

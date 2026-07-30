@@ -14,7 +14,12 @@ export function CeilingCard(props: CeilingCardProps) {
     note,
     monthly,
     splits,
-    horizon,
+    ratio,
+    average,
+    averageSplits,
+    monthsLeft,
+    limitedBy,
+    currentLabel,
     rows,
     label,
     hidden,
@@ -23,16 +28,41 @@ export function CeilingCard(props: CeilingCardProps) {
   } = useCeilingCard(props);
 
   return (
-    <SectionCard title="Teto de Gastos" icon={Wallet} hint={HINTS.ceiling}>
+    <SectionCard
+      title="Teto de Gastos"
+      icon={Wallet}
+      hint={HINTS.ceiling}
+      headerEnd={
+        <>
+          {limitedBy ? (
+            <span className={styles.limit} title={`${limitedBy}.`}>
+              {limitedBy}
+            </span>
+          ) : null}
+          <span className={styles.now} title="Mês em curso">
+            {currentLabel}
+          </span>
+        </>
+      }
+    >
       {empty ? (
         <p className={styles.note}>{note}</p>
       ) : (
         <>
-          <Headline caption="Gasto extra este mês">
-            {monthly}
-            <span className={styles.splits}>{splits}</span>
-          </Headline>
-          {horizon ? <p className={styles.note}>{horizon}</p> : null}
+          {/* Two readings of the same quantity, side by side, so this month can
+              be judged against the period instead of on its own. */}
+          <div className={styles.hero}>
+            <Headline caption="Gasto extra este mês">
+              {monthly}
+              <span className={styles.chip}>{ratio}</span>
+              <span className={styles.splits}>{splits}</span>
+            </Headline>
+            <Headline caption="Média dos tetos">
+              {average}
+              <span className={styles.chip}>{monthsLeft}</span>
+              <span className={styles.splits}>{averageSplits}</span>
+            </Headline>
+          </div>
           <MeterList>
             {rows.map((row) => (
               <MeterRow

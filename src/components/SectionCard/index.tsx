@@ -3,7 +3,14 @@ import { type SectionCardProps, useSectionCard } from "./hook";
 import styles from "./style.module.scss";
 
 export function SectionCard(props: SectionCardProps) {
-  const { title, icon: Icon, tone, hint, children } = useSectionCard(props);
+  const {
+    title,
+    icon: Icon,
+    tone,
+    hint,
+    headerEnd,
+    children,
+  } = useSectionCard(props);
   const titleRowClassName = [styles.titleRow, tone && styles[tone]]
     .filter(Boolean)
     .join(" ");
@@ -19,6 +26,7 @@ export function SectionCard(props: SectionCardProps) {
           // generic label would list them all identically to a screen reader.
           <Tooltip text={hint} label={`Como ${title} é calculado`} />
         ) : null}
+        {headerEnd ? <div className={styles.headerEnd}>{headerEnd}</div> : null}
       </div>
       <div className={styles.body}>{children}</div>
     </section>

@@ -16,6 +16,20 @@
   align-items: center;
   gap: var(--space-2);
   color: var(--color-text);
+  // The one row on a card allowed to wrap: `headerEnd` carries badges, and at
+  // 375px they cannot share a line with the eyebrow.
+  flex-wrap: wrap;
+}
+
+// Trailing slot, hard right. `margin-left: auto` rather than
+// `justify-content: space-between`, so the 12 cards WITHOUT it keep icon, title
+// and tooltip packed together on the left exactly as before.
+.headerEnd {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-left: auto;
+  flex-wrap: wrap;
 }
 
 // `.positive`/`.negative` are reached by a CSS-Modules string lookup
