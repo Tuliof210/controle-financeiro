@@ -1,8 +1,17 @@
+import type { Metadata } from "next";
 import { AppShell } from "@/components/AppShell";
 import { jetBrainsMono, pressStart2P } from "@/styles/fonts";
 import "@/styles/globals.scss";
 
 const THEME_INIT = `(function(){try{var s=localStorage.getItem('theme');var t=s||(window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.setAttribute('data-theme',t);}catch(e){}})();`;
+
+export const metadata: Metadata = {
+  title: {
+    default: "Monevo",
+    template: "%s · Monevo",
+  },
+  description: "Controle financeiro pessoal.",
+};
 
 export default function RootLayout({
   children,
