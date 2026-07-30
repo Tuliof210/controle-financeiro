@@ -5,3 +5,18 @@
   flex-direction: column;
   gap: var(--space-6);
 }
+
+// A cap change replaces every figure on the board, so the board says so while it
+// waits: dimmed and inert, but still in place, still scrolled where the reader
+// left it. Opacity only — a height change here would move the control under the
+// cursor, which is the whole failure this replaced.
+//
+// Not `pointer-events: none` on its own: that would leave the segments looking
+// clickable while swallowing the click. `cursor: progress` on the container says
+// the state, and the radios stay operable so a second, corrective pick is not
+// blocked by the first one still loading.
+.refreshing {
+  opacity: 0.6;
+  cursor: progress;
+  transition: opacity var(--duration-base) var(--ease-snappy);
+}

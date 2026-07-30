@@ -33,6 +33,6 @@ unreachable.
       through route → service → payload, validated, defaulting to 50
 - [x] tasks/03-cap-selector.md — the segmented control, the header re-layout,
       and the cap state driving the fetch
-- [ ] tasks/04-refetch-without-blanking.md — a cap change revalidates in place
+- [x] tasks/04-refetch-without-blanking.md — a cap change revalidates in place
       instead of unmounting the board
 - [ ] tasks/05-e2e-cap.md — one e2e proving the cap reaches the numbers
