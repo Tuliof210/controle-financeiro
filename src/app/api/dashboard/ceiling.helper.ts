@@ -28,17 +28,19 @@ function suffixMinimum(ahead: MonthPoint[]): number[] {
 // That minimum alone is not an answer, and shipping it once proved it: it priced
 // each month's spend in isolation, so its per-month figures were mutually
 // exclusive and spending the first invalidated every later one. The accumulator
-// is the fix. Each month gets 80% of what is left of its worst balance AFTER the
-// earlier months have already been authorised, so the whole column can be spent
-// in order and no month closes under.
+// is the fix. Each month gets `cap` percent of what is left of its worst balance
+// AFTER the earlier months have already been authorised, so the whole column can
+// be spent in order and no month closes under.
 //
-// `(4 * gap) / 5` floored, in that order, never leaves the integers. Writing it
-// as `0.8 * gap` and flooring per step would compound float error down a
+// `(gap * cap) / 100` floored, in THAT order, never leaves the integers — `gap`
+// is a sum and difference of integer cents throughout. Writing it as
+// `gap * (cap / 100)` and flooring per step would compound float error down a
 // recursion as deep as the range is long. Math.floor everywhere: a spending
 // allowance always rounds DOWN. Never Math.trunc — it differs on negatives.
 export function buildCeiling(
   points: MonthPoint[],
   currentMonth: number,
+  cap: number,
 ): Ceiling {
   // Never empty: service.ts answers "out_of_range" when the current month is
   // outside the range, and `points` is 1:1 with the months of that range.
@@ -58,7 +60,7 @@ export function buildCeiling(
     // Defensive only: `worst` is non-decreasing and the gap stays >= 0 by
     // induction, so a negative gap means one of those two broke.
     const gap = Math.max(0, worst[index] - authorised);
-    const budget = red ? 0 : Math.floor((4 * gap) / 5);
+    const budget = red ? 0 : Math.floor((gap * cap) / 100);
     const { month, cumulative } = ahead[index];
     // Read BEFORE this month is authorised: the balance ARRIVING at the month.
     const ceilingBalance = cumulative - authorised;

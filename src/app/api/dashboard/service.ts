@@ -7,7 +7,10 @@ import { visibleFor } from "@/lib/ownership";
 import { buildPayload } from "./payload.helper";
 import type { DashboardData } from "./types";
 
-export async function getDashboard(owner: string): Promise<DashboardData> {
+export async function getDashboard(
+  owner: string,
+  cap: number,
+): Promise<DashboardData> {
   const [movements, forecasts, goals] = await Promise.all([
     movementRepository.list(),
     forecastRepository.list(),
@@ -34,5 +37,6 @@ export async function getDashboard(owner: string): Promise<DashboardData> {
     goals,
     movements: visibleFor(movements, owner),
     forecasts: visibleFor(forecasts, owner),
+    cap,
   });
 }

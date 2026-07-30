@@ -29,7 +29,7 @@ unreachable.
 ## Tasks
 - [x] tasks/01-drop-average-scenario.md — delete the second hypothesis end to
       end: payload, card, table, hint, e2e
-- [ ] tasks/02-cap-parameter.md — `buildCeiling` takes a cap; `?cap=` reaches it
+- [x] tasks/02-cap-parameter.md — `buildCeiling` takes a cap; `?cap=` reaches it
       through route → service → payload, validated, defaulting to 50
 - [ ] tasks/03-cap-selector.md — the segmented control, the header re-layout,
       and the cap state driving the fetch

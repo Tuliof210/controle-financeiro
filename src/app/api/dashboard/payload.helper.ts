@@ -15,6 +15,11 @@ type PayloadInput = {
   goals: Goal[];
   movements: Movement[];
   forecasts: Forecast[];
+  // Percent of each month's headroom released as spendable. Everything the
+  // ceiling feeds hangs off it — `pace` is a quotient of the budgets and the
+  // goal projections are a quotient of `pace` — so this one number reaching
+  // buildCeiling moves the whole payload, and nothing below has to know it.
+  cap: number;
 };
 
 // Assembles the "ok" payload from an already-validated range and
@@ -27,11 +32,12 @@ export function buildPayload({
   goals,
   movements,
   forecasts,
+  cap,
 }: PayloadInput): DashboardData {
   const points = buildSeries(months, movements, forecasts);
   const stats = (pick: (point: (typeof points)[number]) => number) =>
     computeStats(points.map(pick), currentIndex);
-  const ceiling = buildCeiling(points, range.current);
+  const ceiling = buildCeiling(points, range.current, cap);
   const pace = savingPace(ceiling);
 
   return {
