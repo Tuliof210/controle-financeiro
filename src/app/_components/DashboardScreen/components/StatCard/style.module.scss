@@ -33,46 +33,60 @@
   background: var(--color-border);
 }
 
-// Headline first, sparkline on its own full-width row under it. Sharing the row
-// gave the svg whatever width the headline left over, so the three cards side by
-// side drew three different-sized sparklines and the longest totals wrapped at
-// narrow viewports.
-.head {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-3);
-}
-
+// Cancels SectionCard's padding left, right and bottom so the strip sits on the
+// card's inner edge — the mirror of what the band does at the top, and the
+// reason the card still cannot take `overflow: hidden`. `display: block` because
+// an inline svg would leave a descender's worth of gap under itself.
 .spark {
+  display: block;
   // Overrides the 112px width attribute; preserveAspectRatio is "none", so the
-  // same shape draws into whatever box the card gives it.
-  width: 100%;
+  // same shape draws into whatever box the card gives it. Spelled out rather
+  // than left to `auto`: an <svg> carrying a viewBox has an intrinsic size, so
+  // `auto` would resolve to the 112px attribute instead of stretching.
+  width: calc(100% + var(--space-6) * 2);
+  // The design draws 56px, which is not a step on the 4px scale; 48 + 8 is.
+  height: calc(var(--space-12) + var(--space-2));
+  margin: 0 calc(var(--space-6) * -1) calc(var(--space-6) * -1);
+  border-top: var(--border-1) solid var(--color-border-subtle);
+  border-radius: 0 0 var(--radius-sm) var(--radius-sm);
 }
 
+// Two columns, never a bare `1fr`: `1fr` is `minmax(auto, 1fr)`, so a long
+// figure would refuse to shrink and the page would scroll sideways at 375px.
+// The rule above the group and the one between its two rows are the design's;
+// the outer cell borders are not, so only `.row:nth-child(n + 3)` carries one.
 .rows {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-2);
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 var(--space-4);
   margin: 0;
+  padding-top: var(--space-4);
+  border-top: var(--border-1) solid var(--color-border-subtle);
 }
 
 .row {
   display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: var(--space-3);
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-3) 0;
+}
+
+.row:nth-child(n + 3) {
+  border-top: var(--border-1) solid var(--color-border-subtle);
 }
 
 .label {
   color: var(--color-text-muted);
   font-family: var(--font-mono);
-  font-size: var(--text-sm);
+  font-size: var(--text-2xs);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
 }
 
 .value {
   margin: 0;
   color: var(--color-text);
   font-family: var(--font-mono);
-  font-size: var(--text-sm);
+  font-size: var(--text-base);
   font-variant-numeric: tabular-nums;
 }

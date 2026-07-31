@@ -1,0 +1,71 @@
+// The filled header band, split off `style.module.scss` under the exception
+// ARCHITECTURE.md grants `RowGrid/_tiers.scss`: a mixin that emits nothing on
+// its own, included once by the stylesheet beside it, so neither file crosses
+// the 100-line cap. Not a component — its markup is this folder's `index.tsx`.
+@use "theme" as t;
+
+@mixin band {
+  // The title row, turned into a strip. It cancels `.card`'s padding on three
+  // sides so the fill reaches the card's inner edge and pays its own back.
+  // The card cannot take `overflow: hidden` (it clips the hint's focus ring on
+  // all 13 cards), so the top corners are rounded by hand: the card's --radius-md
+  // outer radius minus its --border-2 border is exactly --radius-sm.
+  .band {
+    margin: calc(var(--space-6) * -1);
+    margin-bottom: 0;
+    padding: var(--space-3) var(--space-6);
+    border-bottom: var(--border-2) solid var(--color-border);
+    border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+  }
+
+  // The hint trigger hardcodes --color-text-muted, unreadable on every fill
+  // below. A type selector and not a class: `.trigger` lives in Tooltip's own
+  // module and no class of it is reachable from here.
+  .band button {
+    color: inherit;
+  }
+
+  // --color-focus is violet, and so is the brand band. The band's foreground is
+  // the one colour already measured against its own fill, so the ring takes it.
+  .band button:focus-visible {
+    outline-color: currentcolor;
+  }
+
+  // Measured, never inferred from the fill's hue — and the band text is
+  // --text-2xs, so 4.5:1 is the floor, not 3:1.
+  //   --color-positive vs --ink-900:  7.40:1 light, 11.43:1 dark
+  //   --color-negative vs --ink-900:  5.13:1 light,  6.23:1 dark
+  //   --color-text     vs --color-bg: 19.14:1 light, 16.40:1 dark
+  .bandPositive {
+    background: var(--color-positive);
+    color: var(--ink-900);
+  }
+
+  .bandNegative {
+    background: var(--color-negative);
+    color: var(--ink-900);
+  }
+
+  // --color-brand clears the floor with NEITHER candidate: --ink-900 measures
+  // 3.59:1 against violet-500 in light, --white 3.72:1 against violet-400 in
+  // dark. So this one band does not flip — --violet-600 reads 7.44:1 against
+  // --white in either theme. The design paints --white on --color-brand; that
+  // pair fails in the dark theme.
+  .bandBrand {
+    background: var(--violet-600);
+    color: var(--white);
+  }
+
+  .bandInk {
+    background: var(--color-text);
+    color: var(--color-bg);
+  }
+
+  // README rule 3, as amended: a card carrying a filled band is the third scope
+  // for the hard offset shadow. The design draws 5px 5px 0 — 5 is not on the 4px
+  // scale and no 5px token exists, so --elevation-press (3px) wins, the same way
+  // CapSelector's 44px floor beat the design's shorter chip.
+  .extruded {
+    @include t.elevation(press);
+  }
+}

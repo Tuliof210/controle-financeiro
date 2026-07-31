@@ -1,3 +1,5 @@
+@use "./band" as *;
+
 // No `overflow: hidden` here, ever: the Tooltip trigger inside .titleRow uses
 // t.focus-ring, an outline with outline-offset — an overflow-hidden ancestor
 // clips it on all 13 cards at once, and nothing tests focus rings.
@@ -60,3 +62,8 @@
   flex-direction: column;
   gap: var(--space-4);
 }
+
+// Last, so the band's own foreground wins over `.positive`/`.negative` above —
+// both are single classes, so this is decided by source order alone.
+// The band lives in `_band.scss` — see the note there on why.
+@include band;

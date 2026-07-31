@@ -28,11 +28,14 @@ file, plus the token layer next to it (`_tokens.scss`, `_theme.scss`,
    `--color-surface-raised`) and a border before reaching for a shadow.
    Blur-shadow (`--elevation-overlay`) is reserved for floating layers only
    — menu, popover, modal, toast. The three hard offset shadows are
-   blur-less, cast in `--color-border`, and scoped to exactly two things:
+   blur-less, cast in `--color-border`, and scoped to exactly three things:
    `--elevation-press` and `--elevation-press-active` on the **primary
-   action** (resting, then 2px-displaced while pressed), and
-   `--elevation-panel` on the **modal panel**. Nothing else gets a hard
-   offset shadow — everything else gets a border.
+   action** (resting, then 2px-displaced while pressed), `--elevation-panel`
+   on the **modal panel**, and `--elevation-press` on a **card carrying a
+   filled header band** — the band is what declares that card a headline
+   surface, and the extrusion is the fill's other half. A card with no band
+   does not get one. Nothing else gets a hard offset shadow — everything
+   else gets a border.
 4. **Typography has one display face and one workhorse face.**
    `--font-display` (Press Start 2P) is for short display/eyebrow text only
    — never body copy, never long numbers. Everything else, including every

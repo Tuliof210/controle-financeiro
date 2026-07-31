@@ -29,7 +29,7 @@ is the contract; cite it by line. No new data.
 - [ ] `npm test` green, with `/` in `e2e/row-overflow.spec.ts`'s `ROUTES`
 
 ## Tasks
-- [ ] tasks/01-card-band.md — SectionCard's filled band + hard shadow, rule 3's
+- [x] tasks/01-card-band.md — SectionCard's filled band + hard shadow, rule 3's
       third exception, proved on the three KPI cards
 - [ ] tasks/02-hero-band.md — the full-bleed hero absorbs PageHeader on `/`
 - [ ] tasks/03-chart-cards.md — ink bands, legends, projected band, bottleneck mark
