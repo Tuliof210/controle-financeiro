@@ -1,6 +1,16 @@
 import { Tooltip } from "@/components/Tooltip";
-import { type SectionCardProps, useSectionCard } from "./hook";
+import { type BandTone, type SectionCardProps, useSectionCard } from "./hook";
 import styles from "./style.module.scss";
+
+// An explicit map, not `styles[band]`: the tone lookup two lines down is already
+// the kind that dies silently when a class is renamed, and one of those in this
+// file is enough.
+const BAND_CLASS: Record<BandTone, string> = {
+  positive: styles.bandPositive,
+  negative: styles.bandNegative,
+  brand: styles.bandBrand,
+  ink: styles.bandInk,
+};
 
 export function SectionCard(props: SectionCardProps) {
   const {
@@ -9,14 +19,23 @@ export function SectionCard(props: SectionCardProps) {
     tone,
     hint,
     headerEnd,
+    band,
     children,
   } = useSectionCard(props);
-  const titleRowClassName = [styles.titleRow, tone && styles[tone]]
+  const cardClassName = [styles.card, band && styles.extruded]
+    .filter(Boolean)
+    .join(" ");
+  const titleRowClassName = [
+    styles.titleRow,
+    tone && styles[tone],
+    band && styles.band,
+    band && BAND_CLASS[band],
+  ]
     .filter(Boolean)
     .join(" ");
 
   return (
-    <section className={styles.card}>
+    <section className={cardClassName}>
       <div className={titleRowClassName}>
         {/* 16, not 18: the title next to it is now a --text-2xs eyebrow. */}
         {Icon ? <Icon size={16} aria-hidden /> : null}

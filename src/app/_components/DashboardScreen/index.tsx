@@ -1,9 +1,9 @@
 "use client";
 
 import { CalendarRange, LayoutDashboard, TriangleAlert } from "lucide-react";
-import { PageHeader } from "@/components/PageHeader";
 import { formatYyyymm } from "@/lib/months";
 import { Board } from "./components/Board";
+import { HeroBand } from "./components/HeroBand";
 import { Notice } from "./components/Notice";
 import { useDashboardScreen } from "./hook";
 import styles from "./style.module.scss";
@@ -14,11 +14,11 @@ export function DashboardScreen() {
 
   return (
     <div className={styles.screen}>
-      <PageHeader
-        eyebrow="PAINEL"
-        title="Dashboard"
-        subtitle="Onde o dinheiro da família está hoje e para onde ele vai."
-      />
+      {/* PageHeader's job on this route only. Its copy moved into the band
+          verbatim; the other five screens still render that component. The band
+          takes `data` only when the payload is ok — its title half renders in
+          every state, so the page never opens on a bare notice. */}
+      <HeroBand data={data?.status === "ok" ? data : undefined} />
 
       {loading ? (
         <Notice title="Carregando" icon={LayoutDashboard}>

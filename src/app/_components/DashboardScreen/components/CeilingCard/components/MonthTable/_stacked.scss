@@ -45,9 +45,12 @@
       white-space: nowrap;
     }
 
+    // No border-bottom: the share bar painted on `.row` in `style.module.scss`
+    // is this tier's separator too, and a rule under it would read as a second,
+    // thinner line hugging the first. The padding keeps the bar clear of the
+    // last figure.
     .table tbody tr {
       padding-block: var(--space-3);
-      border-bottom: var(--border-2) solid var(--color-border-subtle);
     }
 
     .table tbody th,

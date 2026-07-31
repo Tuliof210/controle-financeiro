@@ -18,7 +18,8 @@ import styles from "./style.module.scss";
 // card. Only the marks differ, so they come in as children rather than
 // through a generic.
 export function ChartFrame(props: ChartFrameProps) {
-  const { title, height, frame, children, formatYTick } = useChartFrame(props);
+  const { title, height, frame, background, children, formatYTick } =
+    useChartFrame(props);
   const {
     monthScale,
     valueScale,
@@ -60,6 +61,8 @@ export function ChartFrame(props: ChartFrameProps) {
         >
           <title>{title}</title>
           <Group top={MARGIN.top}>
+            {/* First, so the gridlines and every mark stay drawn over it. */}
+            {background}
             {gridValues.map((value) => (
               <line
                 key={value}

@@ -6,10 +6,17 @@ import styles from "./style.module.scss";
 // style.module.scss only and is read back from the measurement, so there is no
 // second copy of it in TypeScript to drift.
 export function ChartCard(props: ChartCardProps) {
-  const { title, icon, hint, children, ref, size } = useChartCard(props);
+  const { title, icon, hint, legend, children, ref, size } =
+    useChartCard(props);
 
   return (
-    <SectionCard title={title} icon={icon} hint={hint}>
+    <SectionCard
+      title={title}
+      icon={icon}
+      hint={hint}
+      band="ink"
+      headerEnd={legend}
+    >
       <div ref={ref} className={styles.plot}>
         {size.width > 0 && size.height > 0 ? children(size) : null}
       </div>

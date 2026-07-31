@@ -1,5 +1,6 @@
 import type { LucideIcon } from "lucide-react";
 import type { Stats } from "@/app/api/dashboard/types";
+import type { BandTone } from "@/components/SectionCard/hook";
 import { formatMoney } from "@/lib/money";
 import { spark } from "../../spark.helper";
 
@@ -31,6 +32,13 @@ export function useStatCard({
   const negative = signed && stats.total < 0;
   const glyph = signed ? (negative ? "▼" : "▲") : null;
 
+  // Annotated, not inferred: a bare "brand" in the object literal below widens
+  // to `string` and stops matching SectionCard's prop.
+  // Keyed on the FIXED tone, for the same reason `color` below is: Saldo's band
+  // names the card, so it must not flip green/red with the sign of a total the
+  // reader is still looking at.
+  const band: BandTone = tone ?? "brand";
+
   return {
     title,
     icon,
@@ -38,6 +46,7 @@ export function useStatCard({
     glyph,
     total: formatMoney(stats.total),
     tone: signed ? (negative ? "negative" : "positive") : tone,
+    band,
     spark: spark(series),
     // A literal token string handed to SVG as a presentation attribute, exactly
     // as chart.config.ts does: it resolves inside the SVG and follows the theme

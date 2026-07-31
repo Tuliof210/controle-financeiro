@@ -34,6 +34,15 @@ export function useCeilingCard({
     balance: formatMoney(month.ceilingBalance),
     spend: formatMoney(month.budget),
     left: formatMoney(month.ceilingLeft),
+    // How much of the balance ARRIVING at the month its ceiling takes — the two
+    // figures either side of it, as one proportion. Guarded because a zero
+    // balance is a real state (a month whose money has not arrived yet) and it
+    // is the divisor; clamped because the type says `budget: number`, not
+    // "at most the cap's share", even though the arithmetic guarantees it.
+    share:
+      month.ceilingBalance > 0
+        ? Math.min(1, Math.max(0, month.budget / month.ceilingBalance))
+        : 0,
   }));
 
   const show = useShowAll(rows);
@@ -51,7 +60,13 @@ export function useCeilingCard({
       : "Sem teto: o saldo acumulado projetado não cobre nenhum gasto extra recorrente.",
     monthly: formatMoney(monthly),
     // The divisions already happened in the payload; this only formats them.
-    splits: `${formatMoney(weekly)}/sem · ${formatMoney(daily)}/dia`,
+    // Two labelled figures rather than the one "x/sem · y/dia" string they used
+    // to be: the summary pane has the room, and a labelled figure is what the
+    // rest of this card is made of.
+    rates: [
+      { key: "weekly", label: "Por semana", value: formatMoney(weekly) },
+      { key: "daily", label: "Por dia", value: formatMoney(daily) },
+    ],
     // `months` is the range's REMAINING months (current .. end, per
     // `ceiling.types.ts`), never its total length — it is exactly what the
     // column under the headline lists, which is why it sits on the headline.

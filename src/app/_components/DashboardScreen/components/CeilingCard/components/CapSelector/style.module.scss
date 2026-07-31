@@ -12,7 +12,10 @@
   min-inline-size: 0;
   margin: 0;
   padding: 0;
-  border: var(--border-2) solid var(--color-border);
+  // Rides the card's inverted-ink band, so the frame is drawn in the band's own
+  // foreground rather than --color-border, which IS the band's fill and would
+  // vanish into it.
+  border: var(--border-2) solid currentcolor;
   border-radius: var(--radius-sm);
   overflow: hidden;
 }
@@ -50,8 +53,12 @@
   // chip; the floor wins.
   min-height: 44px;
   padding: 0 var(--space-3);
-  background: var(--color-surface);
-  color: var(--color-text-muted);
+  // On the band: transparent, inheriting the band's foreground. 0.7 of a
+  // 19.1:1 (light) / 16.4:1 (dark) pair still clears the 4.5:1 floor by a wide
+  // margin, and it is the same recipe ChartLegend uses on the same fill.
+  background: transparent;
+  color: inherit;
+  opacity: 0.7;
   font-family: var(--font-mono);
   font-size: var(--text-2xs);
   letter-spacing: var(--tracking-wide);
@@ -62,19 +69,21 @@
 }
 
 .segment + .segment .text {
-  border-left: var(--border-1) solid var(--color-border-subtle);
+  border-left: var(--border-1) solid currentcolor;
 }
 
 .segment:hover .input:not(:checked) + .text {
-  background: var(--color-surface-raised);
-  color: var(--color-text);
+  opacity: 1;
 }
 
-// The card header's `.now` badge recipe, for the same reason: the selected cap
-// is a state, not one more label in a row of them.
+// Inverted back OUT of the band: the selected cap is a state, not one more
+// label in a row of them, and on a filled band the only way left to say so is to
+// return to the page's own surface. --color-bg on --color-text is the same
+// 19.1:1 / 16.4:1 pair the band itself is built from, read the other way round.
 .input:checked + .text {
-  background: var(--color-text);
-  color: var(--color-surface);
+  background: var(--color-bg);
+  color: var(--color-text);
+  opacity: 1;
 }
 
 .input:focus-visible + .text {

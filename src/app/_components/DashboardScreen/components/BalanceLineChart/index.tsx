@@ -2,6 +2,7 @@ import { LinePath } from "@visx/shape";
 import { ChartFrame } from "../ChartFrame";
 import { ChartTooltip } from "../ChartTooltip";
 import { useChartTooltip } from "../ChartTooltip/hook";
+import { TightestMark } from "./components/TightestMark";
 import { type BalanceLineChartProps, useBalanceLineChart } from "./hook";
 
 const LINE = { stroke: "var(--color-brand)", strokeWidth: 2 };
@@ -10,8 +11,18 @@ const LINE = { stroke: "var(--color-brand)", strokeWidth: 2 };
 const HIT_RADIUS = 10;
 
 export function BalanceLineChart(props: BalanceLineChartProps) {
-  const { frame, solid, dashed, x, y, dots, zeroY, width, height } =
-    useBalanceLineChart(props);
+  const {
+    frame,
+    solid,
+    dashed,
+    x,
+    y,
+    dots,
+    zeroY,
+    tightestMark,
+    width,
+    height,
+  } = useBalanceLineChart(props);
   const { tooltip, showTooltip, hideTooltip } = useChartTooltip();
 
   return (
@@ -36,6 +47,11 @@ export function BalanceLineChart(props: BalanceLineChartProps) {
         <LinePath data={solid} x={x} y={y} {...LINE} />
         {/* Shares its first point with the solid path, so the seam connects. */}
         <LinePath data={dashed} x={x} y={y} {...LINE} strokeDasharray="6 4" />
+        {/* Drawn over the line and under the dots, so a dot on that month stays
+            hittable. */}
+        {tightestMark === null ? null : (
+          <TightestMark {...tightestMark} height={frame.innerHeight} />
+        )}
         {dots.map((dot) => (
           <g key={dot.key}>
             <circle

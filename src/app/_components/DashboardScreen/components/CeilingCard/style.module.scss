@@ -1,27 +1,16 @@
 @use "./badges" as *;
+@use "./split" as *;
 
 // The month list lives in `components/MonthTable`. What is left here is the
-// header badges, what hangs off the single headline, and the one line of footer
-// under the table.
+// two-pane split, the header badges, what hangs off the single headline, and
+// the one line of footer under the table.
 //
-// The headline itself is `../Headline`, shared with StatCard. There is no `Hero`
-// wrapper any more: it existed to lay TWO headlines side by side and to draw the
-// rule between them, and one headline needs neither.
+// The headline itself is `../Headline`, shared with StatCard.
 
-// The header badges live in `_badges.scss` — see the note there on why.
+// The header badges live in `_badges.scss` and the two-pane layout in
+// `_split.scss` — see the note in each on why they are split off.
 @include badges;
-
-// The weekly/daily split, on its own line under the big number and at the same
-// weight relationship as HeroCard's .factSub. `display: block` rather than a
-// flex column on the shared .total, so the two cards keep one headline rule
-// between them.
-.splits {
-  display: block;
-  margin-top: var(--space-1);
-  font-size: var(--text-xs);
-  font-weight: var(--weight-regular);
-  opacity: 0.7;
-}
+@include split;
 
 // What the figure beside it is worth in context — how many months the column
 // under it lists. `white-space: nowrap` because .total sets
@@ -31,7 +20,7 @@
   display: inline-block;
   margin-left: var(--space-3);
   padding: var(--space-1) var(--space-2);
-  background: var(--color-surface-raised);
+  background: var(--color-surface);
   color: var(--color-text-muted);
   border: var(--border-1) solid var(--color-border-subtle);
   border-radius: var(--radius-sm);

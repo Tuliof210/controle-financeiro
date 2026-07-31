@@ -1,0 +1,72 @@
+// The band's title column, split off `style.module.scss` for the same reason
+// `_figure.scss` beside it was: a mixin that emits nothing on its own, so the
+// stylesheet stays under the 100-line cap. Its markup is this folder's
+// `index.tsx`.
+@use "theme" as t;
+
+@mixin title {
+  .eyebrow {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: var(--text-2xs);
+    letter-spacing: var(--tracking-wide);
+    line-height: var(--leading-normal);
+    // 8.69:1 light / 6.71:1 dark against the band fill — measured, not assumed.
+    opacity: 0.7;
+  }
+
+  // The design paints both marks lime. This band INVERTS, so lime would land on
+  // near-white in the dark theme and all but disappear; --color-brand is the one
+  // accent visible on both fills (3.59:1 light, 3.19:1 dark — they are
+  // decorative, so the bar is 3:1 for non-text, not 4.5:1).
+  .mark,
+  .cursor {
+    flex: none;
+    background: var(--color-brand);
+  }
+
+  .mark {
+    width: var(--space-2);
+    height: var(--space-2);
+  }
+
+  // h1 inherits --font-display, --leading-tight and --tracking-display from
+  // _base.scss — but also `color: var(--color-text)`, which on this fill is
+  // near-black on near-black. `inherit` is what puts it back.
+  .title {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    color: inherit;
+    font-size: var(--text-2xl);
+
+    @include t.bp("md") {
+      font-size: var(--text-3xl);
+    }
+  }
+
+  // Static, never blinking: the design loops it at 1.1s, and anything blinking
+  // for more than five seconds has to be stoppable (WCAG 2.2.2) — which
+  // prefers-reduced-motion does not discharge.
+  .cursor {
+    width: var(--space-3);
+    height: var(--space-6);
+
+    @include t.bp("md") {
+      height: var(--space-8);
+    }
+  }
+
+  .subtitle {
+    max-width: 46ch;
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    line-height: var(--leading-normal);
+    text-wrap: pretty;
+    opacity: 0.7;
+  }
+}

@@ -2,15 +2,21 @@ import type { GoalPace, GoalProjection } from "@/app/api/dashboard/types";
 import { formatMoneyShort } from "@/lib/money";
 import { MONTH_LABELS } from "@/lib/months";
 
-export type GoalCardProps = { goal: GoalProjection };
+export type GoalCardProps = {
+  goal: GoalProjection;
+  // Months left in the projection — what each bar is measured against. A metric
+  // landing beyond it fills the bar, which is honest: completion dates are
+  // deliberately not clamped to the period, so "past the end" is a real answer.
+  horizon: number;
+};
 
 // The three funding assumptions, in the order they answer the question: what if
 // this goal had the whole capacity, what if it shared it with the others, what
 // if it had all of it but only once every cheaper goal was funded.
 const METRICS = [
-  ["dedicated", "DEDICADO"],
-  ["parallel", "EM PARALELO"],
-  ["serialized", "UM DE CADA VEZ"],
+  ["dedicated", "DEDICADO", "var(--color-brand)"],
+  ["parallel", "EM PARALELO", "var(--color-accent)"],
+  ["serialized", "UM DE CADA VEZ", "var(--color-caution)"],
 ] as const;
 
 // "~7 meses · Fev/2027", or the words that replace it when there is no capacity
@@ -32,17 +38,32 @@ function landing(pace: GoalPace): string {
 }
 
 // Calls no React hook, despite the `use` prefix the convention gives it.
-export function useGoalCard({ goal }: GoalCardProps) {
+export function useGoalCard({ goal, horizon }: GoalCardProps) {
   return {
     name: goal.name,
     target: formatMoneyShort(goal.targetCents),
     // Mapped rather than three near-identical blocks in the JSX: repeating one
     // <div><dt/><dd/></div> three times is what the recursion rule answers with
     // a whole child component folder, and a list is the smaller answer.
-    metrics: METRICS.map(([key, label]) => ({
-      key,
-      label,
-      value: landing(goal[key]),
-    })),
+    metrics: METRICS.map(([key, label, color]) => {
+      const pace = goal[key];
+
+      return {
+        key,
+        label,
+        value: landing(pace),
+        // Null exactly when the saving pace is zero, which is also when the
+        // value reads "ritmo zero" — there is no length to draw for a goal
+        // nothing is funding. `horizon` guards its own zero: an empty
+        // projection would make every bar NaN.
+        bar:
+          pace === null || horizon <= 0
+            ? null
+            : {
+                color,
+                width: `${Math.min(100, (pace.months / horizon) * 100)}%`,
+              },
+      };
+    }),
   };
 }

@@ -1,0 +1,63 @@
+// The band's right-hand figure, split off `style.module.scss` under the
+// exception ARCHITECTURE.md grants `RowGrid/_tiers.scss`: a mixin that emits
+// nothing on its own, included once by the stylesheet beside it, so neither
+// file crosses the 100-line cap. Not a component — its markup is this folder's
+// `index.tsx`. (The facts strip under it IS one: `components/Facts`.)
+
+@mixin figure {
+  .figures {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    min-width: 0;
+  }
+
+  .value {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: var(--text-2xl);
+    font-weight: var(--weight-bold);
+    font-variant-numeric: tabular-nums;
+    line-height: var(--leading-tight);
+    // The projected balance is the longest number on the screen; at 375px it
+    // has to be allowed to break rather than widen the page.
+    overflow-wrap: anywhere;
+  }
+
+  .deltaRow {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2);
+  }
+
+  // The tone is paired with a ▲/▼ glyph in index.tsx — rule 7(c), meaning is
+  // never colour-only.
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    padding: var(--space-1) var(--space-2);
+    border-radius: var(--radius-sm);
+    color: var(--ink-900);
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    font-weight: var(--weight-bold);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .up {
+    background: var(--color-positive);
+  }
+
+  .down {
+    background: var(--color-negative);
+  }
+
+  .vs {
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    font-variant-numeric: tabular-nums;
+    opacity: 0.7;
+  }
+}

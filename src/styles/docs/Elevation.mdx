@@ -11,10 +11,13 @@ only — menu, popover, modal, toast.
 
 The three hard offset shadows below are blur-less and cast in
 `--color-border`, so they read as the frame displaced rather than as depth.
-They are **scoped**, not general-purpose: `--elevation-press` and
-`--elevation-press-active` belong to the primary action (resting, then
-2px-displaced while pressed), `--elevation-panel` to the modal panel.
-Nothing else gets one.
+They are **scoped**, not general-purpose, to exactly three things:
+`--elevation-press` and `--elevation-press-active` belong to the primary
+action (resting, then 2px-displaced while pressed), `--elevation-panel` to the
+modal panel, and `--elevation-press` to a card carrying a filled surface —
+either a filled header band, or a fill across the whole card. The fill is what
+declares it a headline surface, and the extrusion is the fill's other half. A
+card with no fill does not get one; it gets a border. Nothing else gets one.
 
 <div style={{ display: "flex", gap: "var(--space-6)", flexWrap: "wrap", background: "var(--color-bg)", padding: "var(--space-6)" }}>
   <div style={{ width: "160px", height: "100px", background: "var(--color-surface)", border: "var(--border-1) solid var(--color-border)", boxShadow: "var(--elevation-flat)", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--font-mono)", fontSize: "var(--text-xs)" }}>

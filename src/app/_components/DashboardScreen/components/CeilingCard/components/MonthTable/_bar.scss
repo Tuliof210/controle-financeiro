@@ -1,0 +1,28 @@
+// The month row's share bar, split off `style.module.scss` under the exception
+// ARCHITECTURE.md grants `RowGrid/_tiers.scss`: a mixin that emits nothing on
+// its own, included once by the stylesheet beside it, so neither file crosses
+// the 100-line cap. Not a component — its markup is this folder's `index.tsx`.
+
+@mixin bar {
+  // The share bar: how much of the balance arriving at the month its ceiling
+  // takes. A background layer on the row, never a child — a <div> inside a <tr> is
+  // invalid, and the ceiling spec reads a row's cells positionally.
+  //
+  // `--share` is set inline, per row, by `hook.ts`. The two stops meet at exactly
+  // that percentage, so the bar is one gradient rather than two boxes. Nested
+  // under `.table` for the same specificity reason `.month` is: the cell rules
+  // above are nested, and a bare class loses to them.
+  //
+  // It restates the two figures either side of it and carries nothing on its own,
+  // which is why it needs no accessible name.
+  .table .row {
+    background-image: linear-gradient(
+      to right,
+      var(--color-caution) 0 var(--share),
+      var(--color-border-subtle) var(--share) 100%
+    );
+    background-repeat: no-repeat;
+    background-position: bottom;
+    background-size: 100% var(--border-3);
+  }
+}

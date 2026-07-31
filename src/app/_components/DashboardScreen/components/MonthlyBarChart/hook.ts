@@ -6,6 +6,12 @@ import { buildFrame } from "../../chart-frame.helper";
 
 export type MonthlyBarChartProps = {
   points: MonthPoint[];
+  // First month the payload calls a projection. The bars read per-point
+  // `incomeEstimated`/`expenseEstimated`; this is the one figure saying where
+  // the projected REGION starts, and it is deliberately NOT clamped to the
+  // current month — an under-recorded past month opens the band early, which is
+  // the intent.
+  dashedFrom: number | null;
   width: number;
   height: number;
 };
@@ -19,6 +25,7 @@ const SERIES = [
 
 export function useMonthlyBarChart({
   points,
+  dashedFrom,
   width,
   height,
 }: MonthlyBarChartProps) {
@@ -62,5 +69,20 @@ export function useMonthlyBarChart({
     }),
   );
 
-  return { frame, bars, width, height };
+  // The band starts at the leading edge of the first projected month's own band
+  // — not its centre — so the dashed rule lands where the month begins. Null
+  // whenever nothing is projected, or the month fell outside the range.
+  const bandStart =
+    dashedFrom === null ? null : (frame.monthScale(dashedFrom) ?? null);
+
+  return {
+    frame,
+    bars,
+    width,
+    height,
+    band:
+      bandStart === null
+        ? null
+        : { x: bandStart, width: Math.max(0, frame.innerWidth - bandStart) },
+  };
 }

@@ -3,7 +3,7 @@ import { formatMoney, formatMoneyShort } from "@/lib/money";
 import { addMonths, formatYyyymm } from "@/lib/months";
 import type { BoardData } from "../Board/hook";
 
-export type HeroCardProps = { data: BoardData };
+export type HeroBandProps = { data?: BoardData };
 
 const sum = (values: number[]): number =>
   values.reduce((total, value) => total + value, 0);
@@ -54,7 +54,14 @@ function buildFacts(points: MonthPoint[]) {
 }
 
 // Pure: it calls no React hook, despite the `use` prefix the convention gives it.
-export function useHeroCard({ data }: HeroCardProps) {
+//
+// `figures` is null in every state but `ok`. The band's title half is static
+// copy and renders while the payload is loading, missing or in error — only the
+// numbers wait for it, which is why they are one nullable object rather than
+// six independently nullable fields.
+export function useHeroBand({ data }: HeroBandProps) {
+  if (!data) return { figures: null };
+
   const { points, range } = data;
   const last = points[points.length - 1];
   // `current` can be missing when the payload and the clock disagree; falling
@@ -64,13 +71,15 @@ export function useHeroCard({ data }: HeroCardProps) {
     points.find((point) => point.month === range.current) ?? points[0];
 
   return {
-    endLabel: formatYyyymm(range.end),
-    value: formatMoney(last.cumulative),
-    now: formatMoney(current.cumulative),
-    delta: formatMoney(last.cumulative - current.cumulative),
-    // Drives the ▲/▼ glyph AND the badge tone, so the two can never disagree —
-    // README rule 7: meaning is never colour-only.
-    deltaUp: last.cumulative >= current.cumulative,
-    facts: buildFacts(points),
+    figures: {
+      endLabel: formatYyyymm(range.end),
+      value: formatMoney(last.cumulative),
+      now: formatMoney(current.cumulative),
+      delta: formatMoney(last.cumulative - current.cumulative),
+      // Drives the ▲/▼ glyph AND the badge tone, so the two can never disagree
+      // — README rule 7: meaning is never colour-only.
+      deltaUp: last.cumulative >= current.cumulative,
+      facts: buildFacts(points),
+    },
   };
 }

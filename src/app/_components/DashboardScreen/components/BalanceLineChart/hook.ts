@@ -7,6 +7,11 @@ import { buildFrame } from "../../chart-frame.helper";
 export type BalanceLineChartProps = {
   points: MonthPoint[];
   dashedFrom: number | null;
+  // The month the Teto card calls its bottleneck (`Ceiling.tightest`), NOT this
+  // curve's own minimum: that is the suffix minimum of `ceilingBalance`, a
+  // different series, and two marks naming two different months on one screen
+  // is the thing to avoid. Null when there is no ceiling at all.
+  tightest: number | null;
   width: number;
   height: number;
 };
@@ -14,6 +19,7 @@ export type BalanceLineChartProps = {
 export function useBalanceLineChart({
   points,
   dashedFrom,
+  tightest,
   width,
   height,
 }: BalanceLineChartProps) {
@@ -30,6 +36,13 @@ export function useBalanceLineChart({
   const y = (point: MonthPoint) => frame.valueScale(point.cumulative);
 
   const projectedFrom = dashedFrom ?? Number.POSITIVE_INFINITY;
+
+  // Anchored to the named month's OWN cumulative, not to the curve's minimum —
+  // the two need not coincide, and the label names the month, not the low point.
+  const tightestPoint =
+    tightest === null
+      ? undefined
+      : points.find((point) => point.month === tightest);
 
   return {
     frame,
@@ -50,5 +63,15 @@ export function useBalanceLineChart({
     // Only worth drawing when the series actually crosses zero; otherwise the
     // baseline coincides with the axis.
     zeroY: frame.valueScale.domain()[0] < 0 ? frame.valueScale(0) : null,
+    tightestMark:
+      tightestPoint === undefined
+        ? null
+        : {
+            x: x(tightestPoint),
+            y: y(tightestPoint),
+            // The tag would run off the trailing edge in the last third of the
+            // plot; past the midpoint it hangs to the left of its rule instead.
+            flip: x(tightestPoint) > frame.innerWidth / 2,
+          },
   };
 }

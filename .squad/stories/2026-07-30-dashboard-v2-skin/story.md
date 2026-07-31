@@ -29,12 +29,12 @@ is the contract; cite it by line. No new data.
 - [ ] `npm test` green, with `/` in `e2e/row-overflow.spec.ts`'s `ROUTES`
 
 ## Tasks
-- [ ] tasks/01-card-band.md — SectionCard's filled band + hard shadow, rule 3's
+- [x] tasks/01-card-band.md — SectionCard's filled band + hard shadow, rule 3's
       third exception, proved on the three KPI cards
-- [ ] tasks/02-hero-band.md — the full-bleed hero absorbs PageHeader on `/`
-- [ ] tasks/03-chart-cards.md — ink bands, legends, projected band, bottleneck mark
-- [ ] tasks/04-ceiling-split.md — Teto's ink band and its two-pane split
-- [ ] tasks/05-ceiling-row-bar.md — the per-row share bar in the month table
-- [ ] tasks/06-savings-block.md — the accent banner and the goal metric bars
-- [ ] tasks/07-overflow-guard.md — `/` joins the overflow spec; the 1024px
+- [x] tasks/02-hero-band.md — the full-bleed hero absorbs PageHeader on `/`
+- [x] tasks/03-chart-cards.md — ink bands, legends, projected band, bottleneck mark
+- [x] tasks/04-ceiling-split.md — Teto's ink band and its two-pane split
+- [x] tasks/05-ceiling-row-bar.md — the per-row share bar in the month table
+- [x] tasks/06-savings-block.md — the accent banner and the goal metric bars
+- [x] tasks/07-overflow-guard.md — `/` joins the overflow spec; the 1024px
       tooltip spill blocking it closes
