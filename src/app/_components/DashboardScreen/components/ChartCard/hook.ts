@@ -11,12 +11,21 @@ export type ChartCardProps = {
   title: string;
   icon: LucideIcon;
   hint: string;
+  // Rides the card's header band at its far end, through SectionCard's existing
+  // `headerEnd` slot — no new API on that component.
+  legend?: ReactNode;
   // Receives the measured pixel box of the card body, so the plot can build its
   // scales. Called again whenever the card reflows.
   children: (size: { width: number; height: number }) => ReactNode;
 };
 
-export function useChartCard({ title, icon, hint, children }: ChartCardProps) {
+export function useChartCard({
+  title,
+  icon,
+  hint,
+  legend,
+  children,
+}: ChartCardProps) {
   const ref = useRef<HTMLDivElement>(null);
   const [size, setSize] = useState({ width: 0, height: 0 });
 
@@ -47,5 +56,5 @@ export function useChartCard({ title, icon, hint, children }: ChartCardProps) {
     return () => observer.disconnect();
   }, [measure]);
 
-  return { title, icon, hint, children, ref, size };
+  return { title, icon, hint, legend, children, ref, size };
 }
