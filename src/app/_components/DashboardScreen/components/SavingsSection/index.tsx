@@ -6,13 +6,14 @@ import { type SavingsSectionProps, useSavingsSection } from "./hook";
 import styles from "./style.module.scss";
 
 export function SavingsSection(props: SavingsSectionProps) {
-  const { goals, empty, capacity, caption, goalCount, total } =
+  const { goals, empty, capacity, caption, goalCount, total, horizon } =
     useSavingsSection(props);
 
   // A fragment, not a wrapper — Board owns the column. See its comment.
   return (
     <>
       <section className={styles.banner}>
+        <div className={styles.stripes} aria-hidden />
         <div className={styles.capacity}>
           <div className={styles.eyebrowRow}>
             {/* The eyebrow already reads as this section's title, and it is
@@ -53,7 +54,7 @@ export function SavingsSection(props: SavingsSectionProps) {
       ) : (
         <div className={styles.grid}>
           {goals.map((goal) => (
-            <GoalCard key={goal.id} goal={goal} />
+            <GoalCard key={goal.id} goal={goal} horizon={horizon} />
           ))}
         </div>
       )}

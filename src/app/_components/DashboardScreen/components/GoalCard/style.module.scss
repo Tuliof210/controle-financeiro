@@ -1,3 +1,6 @@
+@use "theme" as t;
+@use "./bar" as *;
+
 .card {
   display: flex;
   flex-direction: column;
@@ -6,6 +9,9 @@
   background: var(--color-surface);
   border: var(--border-2) solid var(--color-border);
   border-radius: var(--radius-md);
+  // Repeated rather than inherited: this is a plain <section>, not a
+  // SectionCard, so README rule 3's amended scope has to be taken by hand.
+  @include t.elevation(press);
 }
 
 .head {
@@ -83,3 +89,6 @@
   font-variant-numeric: tabular-nums;
   line-height: var(--leading-normal);
 }
+
+// The metric bars live in `_bar.scss` — see the note there on why.
+@include bar;

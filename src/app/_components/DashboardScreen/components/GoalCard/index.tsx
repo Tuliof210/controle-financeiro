@@ -18,14 +18,26 @@ export function GoalCard(props: GoalCardProps) {
         <span className={styles.target}>{target}</span>
       </div>
 
-      {/* Every figure here is words and numbers, never a colour or a length —
-          so unlike the meter this replaces, none of it needs a second
-          announcement for a screen reader. */}
+      {/* The bar restates the months already written beside it, so it is the
+          only part here that says nothing on its own and needs no second
+          announcement. It is a plain <div>, never a <dt> or a <dd>: goals.spec
+          reads the labels and values as paired lists. */}
       <dl className={styles.metrics}>
         {metrics.map((metric) => (
           <div key={metric.key} className={styles.metric}>
             <dt className={styles.label}>{metric.label}</dt>
             <dd className={styles.value}>{metric.value}</dd>
+            {metric.bar ? (
+              <div className={styles.track} aria-hidden>
+                <div
+                  className={styles.fill}
+                  style={{
+                    width: metric.bar.width,
+                    background: metric.bar.color,
+                  }}
+                />
+              </div>
+            ) : null}
           </div>
         ))}
       </dl>

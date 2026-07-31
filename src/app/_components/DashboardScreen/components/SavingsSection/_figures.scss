@@ -1,0 +1,54 @@
+// The banner's capacity figure and its two facts, split off `_banner.scss` for
+// the same reason that file was split off `style.module.scss`: a mixin emitting
+// nothing on its own, so no file crosses the 100-line cap. Every colour here is
+// `inherit` or an alpha of it — the fill is --color-accent and its foreground is
+// pinned to --ink-900 one file over, measured there.
+
+@mixin figures {
+  .value {
+    margin: var(--space-3) 0 0;
+    color: inherit;
+    font-family: var(--font-mono);
+    font-size: var(--text-2xl);
+    font-weight: var(--weight-bold);
+    font-variant-numeric: tabular-nums;
+    line-height: var(--leading-tight);
+    overflow-wrap: anywhere;
+  }
+
+  .per {
+    font-size: var(--text-sm);
+    font-weight: var(--weight-regular);
+    opacity: 0.7;
+  }
+
+  .caption {
+    margin: var(--space-2) 0 0;
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    line-height: var(--leading-normal);
+    opacity: 0.7;
+  }
+
+  .facts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-6);
+    margin: 0;
+  }
+
+  .factLabel {
+    font-family: var(--font-display);
+    font-size: var(--text-2xs);
+    letter-spacing: var(--tracking-wide);
+    line-height: var(--leading-normal);
+    opacity: 0.7;
+  }
+
+  .factValue {
+    margin: var(--space-2) 0 0;
+    font-family: var(--font-mono);
+    font-size: var(--text-lg);
+    font-variant-numeric: tabular-nums;
+  }
+}

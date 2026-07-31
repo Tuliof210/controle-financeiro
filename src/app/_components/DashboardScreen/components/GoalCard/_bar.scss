@@ -1,0 +1,22 @@
+// The metric bars, split off `style.module.scss` under the exception
+// ARCHITECTURE.md grants `RowGrid/_tiers.scss`: a mixin that emits nothing on
+// its own, included once by the stylesheet beside it, so neither file crosses
+// the 100-line cap. Not a component — its markup is this folder's `index.tsx`.
+
+@mixin bar {
+  // The metric's own length, against the months the projection has left. It says
+  // nothing the value beside it does not, which is why it is aria-hidden and why
+  // a metric with no pace simply omits it rather than drawing an empty track.
+  // The design draws 6px; --space-1 is the nearest step on the 4px scale.
+  .track {
+    // Its own line under the label/value pair, which share the one above.
+    flex: 0 0 100%;
+    height: var(--space-1);
+    margin-top: var(--space-2);
+    background: var(--color-border-subtle);
+  }
+
+  .fill {
+    height: 100%;
+  }
+}
