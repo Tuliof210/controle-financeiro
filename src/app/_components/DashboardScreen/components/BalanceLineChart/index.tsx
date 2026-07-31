@@ -1,13 +1,8 @@
 import { LinePath } from "@visx/shape";
-import {
-  TAG_HEIGHT,
-  TAG_TONES,
-  TIGHTEST_RULE_DASHARRAY,
-} from "../../chart.config";
 import { ChartFrame } from "../ChartFrame";
-import { ChartTag } from "../ChartTag";
 import { ChartTooltip } from "../ChartTooltip";
 import { useChartTooltip } from "../ChartTooltip/hook";
+import { TightestMark } from "./components/TightestMark";
 import { type BalanceLineChartProps, useBalanceLineChart } from "./hook";
 
 const LINE = { stroke: "var(--color-brand)", strokeWidth: 2 };
@@ -52,27 +47,10 @@ export function BalanceLineChart(props: BalanceLineChartProps) {
         <LinePath data={solid} x={x} y={y} {...LINE} />
         {/* Shares its first point with the solid path, so the seam connects. */}
         <LinePath data={dashed} x={x} y={y} {...LINE} strokeDasharray="6 4" />
-        {/* The month the Teto card names as its bottleneck. Drawn over the line
-            and under the dots, so a dot on that month stays hittable. */}
+        {/* Drawn over the line and under the dots, so a dot on that month stays
+            hittable. */}
         {tightestMark === null ? null : (
-          <g>
-            <line
-              x1={tightestMark.x}
-              x2={tightestMark.x}
-              y1={tightestMark.y}
-              y2={frame.innerHeight}
-              stroke={TAG_TONES.caution.fill}
-              strokeWidth={2}
-              strokeDasharray={TIGHTEST_RULE_DASHARRAY}
-            />
-            <ChartTag
-              x={tightestMark.x}
-              y={Math.max(0, tightestMark.y - TAG_HEIGHT * 2)}
-              label="MÊS MAIS APERTADO"
-              tone="caution"
-              flip={tightestMark.flip}
-            />
-          </g>
+          <TightestMark {...tightestMark} height={frame.innerHeight} />
         )}
         {dots.map((dot) => (
           <g key={dot.key}>
