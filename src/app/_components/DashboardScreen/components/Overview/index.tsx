@@ -8,7 +8,6 @@ import {
 import { HINTS } from "../../hints";
 import { BalanceLineChart } from "../BalanceLineChart";
 import { ChartCard } from "../ChartCard";
-import { HeroCard } from "../HeroCard";
 import { MonthlyBarChart } from "../MonthlyBarChart";
 import { StatCard } from "../StatCard";
 import { type OverviewProps, useOverview } from "./hook";
@@ -21,8 +20,6 @@ export function Overview(props: OverviewProps) {
   // would only be a second place for the card spacing to be decided.
   return (
     <>
-      <HeroCard data={data} />
-
       <div className={styles.kpis}>
         <StatCard
           title="Entradas"

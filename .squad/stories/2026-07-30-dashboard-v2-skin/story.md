@@ -31,7 +31,7 @@ is the contract; cite it by line. No new data.
 ## Tasks
 - [x] tasks/01-card-band.md — SectionCard's filled band + hard shadow, rule 3's
       third exception, proved on the three KPI cards
-- [ ] tasks/02-hero-band.md — the full-bleed hero absorbs PageHeader on `/`
+- [x] tasks/02-hero-band.md — the full-bleed hero absorbs PageHeader on `/`
 - [ ] tasks/03-chart-cards.md — ink bands, legends, projected band, bottleneck mark
 - [ ] tasks/04-ceiling-split.md — Teto's ink band and its two-pane split
 - [ ] tasks/05-ceiling-row-bar.md — the per-row share bar in the month table

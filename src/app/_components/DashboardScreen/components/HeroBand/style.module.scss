@@ -1,0 +1,91 @@
+@use "theme" as t;
+@use "./figure" as *;
+@use "./title" as *;
+
+// Inverted on purpose: near-black in the light theme, near-white in the dark
+// one. It is the only surface on the dashboard that flips, which is what makes
+// it read as the headline rather than a fourth card.
+//
+// Full-bleed: the negative margins cancel AppShell's <main> padding — --space-4,
+// and --space-10 from `md` up — and the padding pays the horizontal half back so
+// the band's content still lines up with the cards below. It bleeds to the
+// CONTENT COLUMN, not the viewport: above ~1640px `.page`'s max-width centres
+// that column and its margin stays visible either side.
+.band {
+  position: relative;
+  overflow: hidden;
+  margin: calc(var(--space-4) * -1);
+  margin-bottom: 0;
+  padding: var(--space-8) var(--space-4);
+  background: var(--color-text);
+  color: var(--color-bg);
+  border-bottom: var(--border-2) solid var(--color-border);
+
+  @include t.bp("md") {
+    margin: calc(var(--space-10) * -1);
+    margin-bottom: 0;
+    padding: var(--space-12) var(--space-10);
+  }
+}
+
+// The design's 6px top rule, now running the band's full width rather than the
+// 64px bar it used to be. 6px is not on the 4px scale; --space-1 is one step
+// thinner.
+.edge {
+  position: absolute;
+  inset: 0 0 auto;
+  height: var(--space-1);
+  background: var(--gradient-toxic);
+}
+
+// The design writes the scanline as a raw white at 4.5% alpha — a hardcoded
+// colour that breaks rule 1 and never flips with the theme. color-mix over
+// --color-bg is the same effect, theme-aware, and the pattern Modal's
+// ::backdrop already uses. The 3px transparent / 1px line stops are derived
+// from --space-1 and --border-1, so no raw pixel enters the file either.
+.scan {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: repeating-linear-gradient(
+    0deg,
+    transparent 0 calc(var(--space-1) - var(--border-1)),
+    color-mix(in srgb, var(--color-bg) 5%, transparent)
+      calc(var(--space-1) - var(--border-1)) var(--space-1)
+  );
+}
+
+// Above the scanline overlay.
+.inner {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+
+// The design splits at 1180px; `xl` is the nearest stop in this repo's closed
+// breakpoint map, and the safer side of it — at `lg` the rail has already taken
+// its column and the figure would be sharing ~680px with the title.
+.head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-8);
+  align-items: end;
+
+  @include t.bp("xl") {
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: var(--space-16);
+  }
+}
+
+.titleCol {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  min-width: 0;
+}
+
+// The title column lives in `_title.scss` and the figure in `_figure.scss` —
+// see the note in each on why they are split off.
+@include title;
+@include figure;
