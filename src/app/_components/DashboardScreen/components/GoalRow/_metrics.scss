@@ -1,0 +1,71 @@
+@use "theme" as t;
+
+// The three metric cells, split off `style.module.scss` under the exception
+// ARCHITECTURE.md grants `RowGrid/_tiers.scss`: a mixin that emits nothing on
+// its own, included once by the stylesheet beside it, so neither file crosses
+// the 100-line cap. Not a component — its markup is this folder's `index.tsx`.
+//
+// Every selector here is a bare class, exactly as it was before the split, and
+// it is included at the including file's top level — same nesting, same
+// specificity. Lifting a rule OUT of an ancestor is what silently changes it.
+@mixin metrics {
+  // Below `lg` the row is one column and this is a plain stack — today's shape,
+  // label left and value right on each line.
+  .metrics {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    margin: 0;
+
+    // From `lg` it spans the three metric tracks and INHERITS them via subgrid,
+    // so a value sits under its own column header rather than under a track
+    // this row invented. Two grids each declaring `repeat(3, ...)` would be two
+    // ways to disagree about where a column starts.
+    @include t.bp("lg") {
+      display: grid;
+      grid-column: 2 / -1;
+      grid-template-columns: subgrid;
+      gap: 0 var(--space-4);
+    }
+  }
+
+  // Label and figure wrap onto two lines rather than colliding: "UM DE CADA
+  // VEZ" beside "~18 meses · Dez/27" does not fit one column at 375px. From
+  // `lg` the label is gone and the figure sits hard right, under its header.
+  .metric {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-1) var(--space-3);
+
+    @include t.bp("lg") {
+      justify-content: flex-end;
+    }
+  }
+
+  // `display: none`, not a clipped label: from `lg` up the column header states
+  // the same word once for the whole table, and repeating it per row is what
+  // the header exists to stop. Owner's call, 2026-07-31 — it leaves the
+  // accessibility tree there, which is the accepted cost of the design.
+  .label {
+    color: var(--color-text-muted);
+    font-family: var(--font-display);
+    font-size: var(--text-2xs);
+    letter-spacing: var(--tracking-wide);
+    line-height: var(--leading-normal);
+
+    @include t.bp("lg") {
+      display: none;
+    }
+  }
+
+  .value {
+    margin: 0;
+    color: var(--color-text);
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    font-variant-numeric: tabular-nums;
+    line-height: var(--leading-normal);
+  }
+}

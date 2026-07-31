@@ -87,6 +87,14 @@ design's 820 max-width. `$breakpoints` is Sass and compile-time
 - On screen at 1440, 1024, 1023 and 375: the four columns align header-to-row above
   the threshold; below it the header row is gone and the labels are back.
 
+MEASURED AT RUN TIME (2026-07-31), card inline size and metric track by viewport:
+`1440 → 1096 / 237px`, `1280 → 936 / 199px`, `1024 → 680 / 133px`. A value reads
+`~10 meses · Abr/2027`; it sits on ONE line at 199px and wraps to two at 133px. So the
+table is clean from `xl` up and correct-but-wrapped across `lg..xl` — header and value
+right edges still coincide to 0.1px at 1024, and doc overflow is 0 at every width.
+The owner picked `lg` to avoid exactly that wrap, and `lg` does not deliver it; `xl`
+would. Left at `lg` as chosen — the change is one token in `.card`'s `t.bp(...)`.
+
 ## Forbidden
 - No hardcoded colour, length, radius or duration — tokens only
   (`src/styles/README.md` rules 1 and 5, 4px scale; there is no `--space-7`/`--space-9`).

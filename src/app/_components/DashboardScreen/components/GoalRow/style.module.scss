@@ -1,0 +1,77 @@
+@use "theme" as t;
+@use "./metrics" as *;
+@use "./bar" as *;
+
+// A row of SavingsSection's table, not a card of its own: no border box, no
+// fill, no shadow. `--goal-cols` comes from that card — the header row and every
+// row here read the same custom property, which is the only way the two halves
+// of a table split across two component folders can agree on where a column is.
+.row {
+  display: grid;
+  grid-template-columns: var(--goal-cols);
+  gap: var(--space-4);
+  align-items: center;
+  padding: var(--space-4) var(--space-6);
+  border-bottom: var(--border-1) solid var(--color-border-subtle);
+  transition: background var(--duration-fast) var(--ease-snappy);
+
+  &:hover {
+    background: var(--color-surface-raised);
+  }
+
+  // The last row has no rule under it — the card's own --border-2 is already
+  // there, and two borders one pixel apart read as a mistake. Its corners are
+  // rounded by hand for the same reason the band's top ones are: the card
+  // cannot take `overflow: hidden` (SavingsSection/style.module.scss), so a
+  // hover fill would otherwise square off the card's rounded bottom.
+  &:last-child {
+    border-bottom: 0;
+    border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+  }
+}
+
+// The first column: icon, name, and the target pushed hard right against the
+// metric columns. min-inline-size: 0 so a long name cannot widen the track.
+.head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-inline-size: 0;
+}
+
+// The design ellipsises a long name. This wraps it instead: the row is free to
+// grow taller, and a truncated goal name with no tooltip to recover it is
+// information the reader cannot get back. `anywhere` is what keeps the seeded
+// 63-character unbroken name inside the track at 375px.
+.name {
+  color: var(--color-text);
+  font-family: var(--font-mono);
+  font-size: var(--text-base);
+  overflow-wrap: anywhere;
+}
+
+// flex-shrink: 0 so the icon keeps its 16px next to a name that wraps.
+.icon {
+  flex-shrink: 0;
+  color: var(--color-brand);
+}
+
+// flex: none because a figure that wrapped mid-number would read as two.
+.target {
+  flex: none;
+  margin-inline-start: auto;
+  padding: var(--space-1) var(--space-2);
+  background: var(--color-surface-raised);
+  color: var(--color-text-muted);
+  border: var(--border-1) solid var(--color-border-subtle);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-mono);
+  font-size: var(--text-2xs);
+  font-weight: var(--weight-bold);
+  font-variant-numeric: tabular-nums;
+}
+
+// The metric cells live in `_metrics.scss` and their bars in `_bar.scss` — see
+// the notes there on why each is split off.
+@include metrics;
+@include bar;

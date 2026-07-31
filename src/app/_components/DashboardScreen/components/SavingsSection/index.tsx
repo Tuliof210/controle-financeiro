@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Tooltip } from "@/components/Tooltip";
 import { HINTS } from "../../hints";
-import { GoalCard } from "../GoalCard";
+import { GoalRow } from "../GoalRow";
 import { type SavingsSectionProps, useSavingsSection } from "./hook";
 import styles from "./style.module.scss";
 
@@ -54,11 +54,23 @@ export function SavingsSection(props: SavingsSectionProps) {
           <Link href="/configuracoes">Configurações</Link>.
         </p>
       ) : (
-        <div className={styles.grid}>
-          {goals.map((goal) => (
-            <GoalCard key={goal.id} goal={goal} horizon={horizon} />
-          ))}
-        </div>
+        <>
+          {/* Drawn once for the whole table, and only from `lg` — below it
+              every row states its own labels. No table ARIA role on any of
+              this: Biome's noRedundantRoles/useSemanticElements pincer means a
+              grid that reflows cannot declare the roles the reflow destroys. */}
+          <div className={styles.columns}>
+            <span>META</span>
+            <span>DEDICADO</span>
+            <span>EM PARALELO</span>
+            <span>UM DE CADA VEZ</span>
+          </div>
+          <ul className={styles.list}>
+            {goals.map((goal) => (
+              <GoalRow key={goal.id} goal={goal} horizon={horizon} />
+            ))}
+          </ul>
+        </>
       )}
     </section>
   );

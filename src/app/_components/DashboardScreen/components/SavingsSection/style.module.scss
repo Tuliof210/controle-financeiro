@@ -2,46 +2,78 @@
 @use "./banner" as *;
 
 // One card, not four: the capacity band is this card's header strip and the
-// goals sit under it, so a reader compares them inside one border instead of
-// across three. No `overflow: hidden` on it, ever — the band holds a Tooltip
+// goals are rows under it, so a reader compares them inside one border instead
+// of across three. No `overflow: hidden` on it, ever — the band holds a Tooltip
 // trigger, and t.focus-ring is an outline with outline-offset that an
 // overflow-hidden ancestor clips. SectionCard/style.module.scss:3-5 refuses it
-// for the same reason on all 13 of its cards; the band rounds its own top
-// corners by hand instead.
+// for the same reason on all 13 of its cards; the band and the last row round
+// their own outer corners by hand instead.
+//
+// It carries no padding: the band, the header row and every goal row each run
+// edge to edge and pay their own inset, which is what lets a row's hover fill
+// reach the card's border rather than stopping short of it.
 .card {
+  // The four columns the header row and every goal row line up on. It crosses a
+  // module boundary on purpose — the header lives here and the rows live in
+  // GoalRow, and two halves of one table each declaring their own tracks would
+  // be two ways to disagree about where a column starts.
+  --goal-cols: minmax(0, 1fr);
+
   display: flex;
   flex-direction: column;
-  gap: var(--space-6);
-  padding: var(--space-6);
   background: var(--color-surface);
   border: var(--border-2) solid var(--color-border);
   border-radius: var(--radius-md);
   // README rule 3, as amended: a card carrying a filled BAND is the third scope
   // for the hard offset shadow. The fill moved from the whole card to its header
-  // here, which is the rule's other admitted shape — so the extrusion moves with
-  // it rather than being lost.
+  // here, which is the rule's other admitted shape — the extrusion moves with it
+  // rather than being lost.
   @include t.elevation(press);
+
+  @include t.bp("lg") {
+    --goal-cols: minmax(180px, 1.2fr) repeat(3, minmax(0, 1fr));
+  }
 }
 
 // The filled header strip lives in `_banner.scss` — see the note there on why
-// it is split off. What the goal cards below it sit in stays here.
+// it is split off. What sits under it stays here.
 @include banner;
 
-// minmax(0, 1fr), never a bare 1fr: `1fr` is minmax(auto, 1fr), so the track
-// never shrinks below a card's min-content width and the page scrolls sideways
-// at 375px. Same reason Overview's `.kpis` spells it out.
-.grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: var(--space-6);
+// The column header, drawn once for the whole table. Gone below `lg`, where
+// every row carries its own labels instead — see GoalRow/_metrics.scss.
+.columns {
+  display: none;
 
-  @include t.bp("md") {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+  @include t.bp("lg") {
+    display: grid;
+    grid-template-columns: var(--goal-cols);
+    gap: var(--space-4);
+    padding: var(--space-3) var(--space-6);
+    background: var(--color-surface-raised);
+    color: var(--color-text-muted);
+    border-bottom: var(--border-2) solid var(--color-border);
+    font-family: var(--font-display);
+    font-size: var(--text-2xs);
+    letter-spacing: var(--tracking-wide);
+    line-height: var(--leading-normal);
+
+    // Every column but the first states a figure, and a figure is read from its
+    // right edge.
+    > * + * {
+      text-align: right;
+    }
   }
+}
+
+.list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
 .empty {
   margin: 0;
+  padding: var(--space-6);
   color: var(--color-text-muted);
   font-family: var(--font-mono);
   font-size: var(--text-sm);

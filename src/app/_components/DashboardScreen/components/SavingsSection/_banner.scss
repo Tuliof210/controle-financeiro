@@ -18,16 +18,14 @@
   // (dark), and at the 0.7 the muted lines below take, 6.11:1 and 6.74:1.
   //
   // It carries no border, radius or shadow of its own any more: `.card` owns all
-  // three, and this cancels that card's padding on three sides so the fill
-  // reaches its inner edge and pays its own back — SectionCard/_band.scss:8-19,
-  // down to why the top corners are --radius-sm and not --radius-md.
+  // three. Its top corners are --radius-sm rather than --radius-md because that
+  // is the card's outer radius minus its --border-2 border — SectionCard's
+  // `_band.scss` rounds a band by hand for the same reason.
   .banner {
     position: relative;
     display: grid;
     grid-template-columns: minmax(0, 1fr);
     gap: var(--space-6);
-    margin: calc(var(--space-6) * -1);
-    margin-bottom: 0;
     padding: var(--space-6);
     background: var(--color-accent);
     color: var(--ink-900);
