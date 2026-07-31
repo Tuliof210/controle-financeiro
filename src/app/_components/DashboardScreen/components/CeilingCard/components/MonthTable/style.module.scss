@@ -1,9 +1,5 @@
+@use "./bar" as *;
 @use "./stacked" as *;
-
-// `_groups.scss` is gone: it held the two group-title strips and the dots that
-// told the two spending hypotheses apart. With one hypothesis there is nothing
-// to tell apart, and what survived it — the month column and the "Atual" chip —
-// fits here under the 100-line cap without a partial.
 
 // The container, not a media query: this card sits inside Overview's `lg` grid,
 // so it is at its NARROWEST exactly when the viewport is at its widest. A
@@ -34,7 +30,10 @@
     text-align: right;
     white-space: nowrap;
     font-variant-numeric: tabular-nums;
-    border-bottom: var(--border-1) solid var(--color-border-subtle);
+    // No bottom rule here any more: `.row`'s share bar REPLACES it rather than
+    // sitting above it. Its unspent remainder is drawn in the same
+    // --color-border-subtle the rule used to be, so a month with no ceiling
+    // still reads as a plain separator — only thicker.
   }
 
   // Mono, not the display face. Not cosmetic: measured in the browser, the pixel
@@ -91,5 +90,9 @@
   color: var(--color-text);
   font-weight: var(--weight-medium);
 }
+
+// The share bar lives in `_bar.scss` — see the note there. Before `stacked`,
+// which is the collapsed tier and has to win.
+@include bar;
 
 @include stacked;

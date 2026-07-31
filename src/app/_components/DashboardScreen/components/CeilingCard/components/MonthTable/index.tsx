@@ -36,7 +36,7 @@ export function MonthTable(props: MonthTableProps) {
         </thead>
         <tbody>
           {rows.map((row) => (
-            <tr key={row.key}>
+            <tr key={row.key} className={styles.row} style={row.style}>
               <th scope="row" className={styles.month}>
                 {row.label}
                 {row.isCurrent ? (

@@ -34,6 +34,15 @@ export function useCeilingCard({
     balance: formatMoney(month.ceilingBalance),
     spend: formatMoney(month.budget),
     left: formatMoney(month.ceilingLeft),
+    // How much of the balance ARRIVING at the month its ceiling takes — the two
+    // figures either side of it, as one proportion. Guarded because a zero
+    // balance is a real state (a month whose money has not arrived yet) and it
+    // is the divisor; clamped because the type says `budget: number`, not
+    // "at most the cap's share", even though the arithmetic guarantees it.
+    share:
+      month.ceilingBalance > 0
+        ? Math.min(1, Math.max(0, month.budget / month.ceilingBalance))
+        : 0,
   }));
 
   const show = useShowAll(rows);

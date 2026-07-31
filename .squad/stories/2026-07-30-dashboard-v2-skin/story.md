@@ -34,7 +34,7 @@ is the contract; cite it by line. No new data.
 - [x] tasks/02-hero-band.md — the full-bleed hero absorbs PageHeader on `/`
 - [x] tasks/03-chart-cards.md — ink bands, legends, projected band, bottleneck mark
 - [x] tasks/04-ceiling-split.md — Teto's ink band and its two-pane split
-- [ ] tasks/05-ceiling-row-bar.md — the per-row share bar in the month table
+- [x] tasks/05-ceiling-row-bar.md — the per-row share bar in the month table
 - [ ] tasks/06-savings-block.md — the accent banner and the goal metric bars
 - [ ] tasks/07-overflow-guard.md — `/` joins the overflow spec; the 1024px
       tooltip spill blocking it closes
