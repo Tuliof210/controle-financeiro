@@ -9,16 +9,18 @@ export function SavingsSection(props: SavingsSectionProps) {
   const { goals, empty, capacity, caption, goalCount, total, horizon } =
     useSavingsSection(props);
 
-  // A fragment, not a wrapper — Board owns the column. See its comment.
+  // One <section>, and exactly one: the band is a <div> inside it now. A second
+  // nested <section> here would be a Playwright strict-mode violation — the
+  // goals suite reaches this block as THE section carrying the heading below.
   return (
-    <>
-      <section className={styles.banner}>
+    <section className={styles.card}>
+      <div className={styles.banner}>
         <div className={styles.stripes} aria-hidden />
         <div className={styles.capacity}>
           <div className={styles.eyebrowRow}>
-            {/* The eyebrow already reads as this section's title, and it is
-                the only one the banner has — so it IS the h2, matching the
-                one SectionCard renders on every other card in the shell. */}
+            {/* The eyebrow already reads as this card's title, and it is the
+                only one the card has — so it IS the h2, matching the one
+                SectionCard renders on every other card in the shell. */}
             <h2 className={styles.eyebrow}>CAPACIDADE DE POUPANÇA</h2>
             <Tooltip
               text={HINTS.goals}
@@ -44,7 +46,7 @@ export function SavingsSection(props: SavingsSectionProps) {
             <dd className={styles.factValue}>{total}</dd>
           </div>
         </dl>
-      </section>
+      </div>
 
       {empty ? (
         <p className={styles.empty}>
@@ -58,6 +60,6 @@ export function SavingsSection(props: SavingsSectionProps) {
           ))}
         </div>
       )}
-    </>
+    </section>
   );
 }
