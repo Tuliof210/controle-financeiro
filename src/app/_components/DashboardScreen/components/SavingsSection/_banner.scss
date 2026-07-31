@@ -26,8 +26,9 @@
     color: var(--ink-900);
     border: var(--border-2) solid var(--color-border);
     border-radius: var(--radius-md);
-    // README rule 3, as amended: this block carries a filled surface for the
-    // same reason a banded card does, so it takes the same extrusion.
+    // README rule 3's second shape: a fill across the whole card, rather than a
+    // band across its header. Either one earns the extrusion; an unfilled card
+    // gets a border and nothing else.
     @include t.elevation(press);
 
     @include t.bp("md") {

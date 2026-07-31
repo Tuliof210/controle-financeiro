@@ -9,16 +9,22 @@
   background: var(--color-surface);
   border: var(--border-2) solid var(--color-border);
   border-radius: var(--radius-md);
-  // Repeated rather than inherited: this is a plain <section>, not a
-  // SectionCard, so README rule 3's amended scope has to be taken by hand.
-  @include t.elevation(press);
+  // No hard offset shadow: README rule 3 scopes it to a card carrying a FILLED
+  // surface, and this one has neither a filled band nor a filled body. Its
+  // header is a rule, not a fill — which is what design.html:571 draws too.
 }
 
+// Edge to edge by the same mechanism a SectionCard's band uses — the card's
+// padding negated on three sides, paid back here.
 .head {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
   gap: var(--space-3);
+  margin: calc(var(--space-6) * -1);
+  margin-bottom: 0;
+  padding: var(--space-6);
+  border-bottom: var(--border-2) solid var(--color-border);
 }
 
 .name {
