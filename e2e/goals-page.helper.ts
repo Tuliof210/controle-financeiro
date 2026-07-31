@@ -1,38 +1,45 @@
 // Not a spec — playwright only collects `*.spec.ts`. Everything the goals spec
-// needs to reach the cards and read them, kept here so the spec itself stays
+// needs to reach the savings card and read its rows, kept here so the spec stays
 // assertions, and so neither file crosses the 100-line cap.
 //
 // Nothing here measures a box. `fullyParallel` is unset, so workers scale with
 // spec FILE count and an eighth file loads every other spec harder — a spec that
-// reads only text cannot redden someone else's geometry assertion, and cannot be
+// reads only text cannot redden someone else's geometry assertion, nor be
 // reddened by the load it adds.
 
 import { expect, type Locator, type Page } from "@playwright/test";
 import { parseCents, rowsOf, SLOW } from "./ceiling-page.helper";
 
-// The three metric labels, in the order the card renders them.
+// The three metric labels, in the order a goal row renders them.
 export const METRIC_LABELS = [
   "DEDICADO",
   "EM PARALELO",
   "UM DE CADA VEZ",
 ] as const;
 
-// The banner is a plain <section> like SectionCard's, so its heading is the only
-// handle. The dashboard is one scroll — no tab to click on the way.
+// The savings card is a plain <section> like SectionCard's, so its heading is
+// the only handle. The capacity band stopped being a <section> of its own when
+// the block became one card, so this resolves to exactly one element.
+const cardOf = (page: Page) =>
+  page.locator("section").filter({
+    has: page.getByRole("heading", { name: "CAPACIDADE DE POUPANÇA" }),
+  });
+
 export async function openGoals(page: Page, person: string): Promise<Locator> {
   await page.goto("/");
   await page.getByRole("combobox").selectOption({ label: person });
-  const banner = page.locator("section").filter({
-    has: page.getByRole("heading", { name: "CAPACIDADE DE POUPANÇA" }),
-  });
-  await expect(banner).toBeVisible(SLOW);
-  return banner;
+  const card = cardOf(page);
+  await expect(card).toBeVisible(SLOW);
+  return card;
 }
 
-// "R$ 1.383,38 /mês" -> 138338. parseCents keeps only digits and the decimal
-// comma, so the "/mês" it is glued to costs nothing.
-export async function readCapacity(banner: Locator): Promise<number> {
-  return parseCents(await banner.locator("p").first().innerText());
+// "R$ 1.383,38 /mês" -> 138338. Picked BY that suffix, never as the card's first
+// <p>: the caption and the empty state are paragraphs too, and reading one would
+// not redden — parseCents of prose is 0, and expectQueue's FIXTURE guard passes
+// vacuously against a zero capacity.
+export async function readCapacity(card: Locator): Promise<number> {
+  const perMonth = card.locator("p").filter({ hasText: /\/mês$/ });
+  return parseCents(await perMonth.innerText());
 }
 
 // Every month the ceiling covers, not just the rendered ones. `useShowAll` caps
@@ -49,8 +56,8 @@ export async function expandCeiling(card: Locator) {
   return rows;
 }
 
-// "~37 meses · Jul/29" -> 37, and "ritmo zero" -> null. The month is captured
-// too so a test can assert the card names one at all.
+// "~37 meses · Jul/29" -> 37, "ritmo zero" -> null. The month is captured too,
+// so a test can assert the row names one at all.
 const parseMetric = (text: string) => {
   const match = text.match(/~(\d+)\s+m[êe]s(?:es)?\s+·\s+(\S+)/);
   return match
@@ -58,17 +65,19 @@ const parseMetric = (text: string) => {
     : { months: null, done: null };
 };
 
-// A goal card is the only <section> on this page carrying an <h3>. Read through
-// the DOM's own structure — the target is the heading's next sibling — rather
-// than through a CSS-module class, whose hashed name is not a contract.
+// A goal is a row of that card's table: an <li> in its one <ul>, name and target
+// marked by `data-cell` — the DOM's own structure, never a hashed CSS-module
+// class. Scoped to the card, not `getByRole("list")`: the nav drawer is a list
+// too. And `evaluateAll` is not strict-mode-checked, so a handle matching
+// nothing returns [] and reads as `expected >= 2, received 0` in the spec.
 export async function readGoals(page: Page) {
-  const raw = await page
-    .locator("section")
-    .filter({ has: page.locator("h3") })
+  const raw = await cardOf(page)
+    .getByRole("listitem")
     .evaluateAll((nodes) =>
       nodes.map((node) => ({
-        name: node.querySelector("h3")?.textContent?.trim() ?? "",
-        target: node.querySelector("h3")?.nextElementSibling?.textContent ?? "",
+        name:
+          node.querySelector('[data-cell="name"]')?.textContent?.trim() ?? "",
+        target: node.querySelector('[data-cell="target"]')?.textContent ?? "",
         labels: [...node.querySelectorAll("dt")].map((dt) =>
           (dt.textContent ?? "").trim(),
         ),
@@ -77,16 +86,15 @@ export async function readGoals(page: Page) {
         ),
       })),
     );
-
-  return raw.map((card) => ({
-    name: card.name,
-    labels: card.labels,
+  return raw.map((row) => ({
+    name: row.name,
+    labels: row.labels,
     // formatMoneyShort drops the cents, so this is the target truncated to
     // whole reais — enough to order two goals, never enough to reproduce a
     // month count. No assertion here recomputes one from it.
-    target: parseCents(card.target),
-    dedicated: parseMetric(card.values[0] ?? ""),
-    parallel: parseMetric(card.values[1] ?? ""),
-    serialized: parseMetric(card.values[2] ?? ""),
+    target: parseCents(row.target),
+    dedicated: parseMetric(row.values[0] ?? ""),
+    parallel: parseMetric(row.values[1] ?? ""),
+    serialized: parseMetric(row.values[2] ?? ""),
   }));
 }

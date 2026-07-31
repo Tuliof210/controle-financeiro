@@ -1,13 +1,13 @@
 @use "theme" as t;
 @use "./figures" as *;
 
-// The accent-filled header block, split off `style.module.scss` under the
+// The accent-filled header strip, split off `style.module.scss` under the
 // exception ARCHITECTURE.md grants `RowGrid/_tiers.scss`: a mixin that emits
 // nothing on its own, included once by the stylesheet beside it, so neither file
 // crosses the 100-line cap. Not a component — its markup is this folder's
 // `index.tsx`.
 @mixin banner {
-  // The one filled surface on the dashboard: it frames the number every card
+  // The one filled surface on the dashboard: it frames the number every row
   // below it is derived from. A grid, not a wrapping flex row — forcing that
   // wrap would need a raw `min-width`, which the token rules do not allow.
   //
@@ -16,6 +16,11 @@
   // Pinned to the primitive and measured, the way EntryRow's own fills are —
   // --ink-900 reads 13.40:1 on --lime-400 (light) and 16.26:1 on --lime-300
   // (dark), and at the 0.7 the muted lines below take, 6.11:1 and 6.74:1.
+  //
+  // It carries no border, radius or shadow of its own any more: `.card` owns all
+  // three. Its top corners are --radius-sm rather than --radius-md because that
+  // is the card's outer radius minus its --border-2 border — SectionCard's
+  // `_band.scss` rounds a band by hand for the same reason.
   .banner {
     position: relative;
     display: grid;
@@ -24,12 +29,8 @@
     padding: var(--space-6);
     background: var(--color-accent);
     color: var(--ink-900);
-    border: var(--border-2) solid var(--color-border);
-    border-radius: var(--radius-md);
-    // README rule 3's second shape: a fill across the whole card, rather than a
-    // band across its header. Either one earns the extrusion; an unfilled card
-    // gets a border and nothing else.
-    @include t.elevation(press);
+    border-bottom: var(--border-2) solid var(--color-border);
+    border-radius: var(--radius-sm) var(--radius-sm) 0 0;
 
     @include t.bp("md") {
       grid-template-columns: minmax(0, 1fr) auto;

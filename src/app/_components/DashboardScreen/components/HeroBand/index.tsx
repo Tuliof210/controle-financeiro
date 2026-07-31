@@ -20,8 +20,8 @@ export function HeroBand(props: HeroBandProps) {
               <span className={styles.mark} aria-hidden />
               PAINEL
             </p>
-            {/* An <h1>, and no <h3> anywhere in this band: goals.spec.ts finds a
-                goal card as the only <section> on this page carrying one. */}
+            {/* An <h1>: the page's only one, above the <h2> every card on this
+                screen titles itself with. */}
             <h1 className={styles.title}>
               Dashboard
               <span className={styles.cursor} aria-hidden />

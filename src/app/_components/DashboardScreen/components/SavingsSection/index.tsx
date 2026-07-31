@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Tooltip } from "@/components/Tooltip";
 import { HINTS } from "../../hints";
-import { GoalCard } from "../GoalCard";
+import { GoalRow } from "../GoalRow";
 import { type SavingsSectionProps, useSavingsSection } from "./hook";
 import styles from "./style.module.scss";
 
@@ -9,16 +9,18 @@ export function SavingsSection(props: SavingsSectionProps) {
   const { goals, empty, capacity, caption, goalCount, total, horizon } =
     useSavingsSection(props);
 
-  // A fragment, not a wrapper — Board owns the column. See its comment.
+  // One <section>, and exactly one: the band is a <div> inside it now. A second
+  // nested <section> here would be a Playwright strict-mode violation — the
+  // goals suite reaches this block as THE section carrying the heading below.
   return (
-    <>
-      <section className={styles.banner}>
+    <section className={styles.card}>
+      <div className={styles.banner}>
         <div className={styles.stripes} aria-hidden />
         <div className={styles.capacity}>
           <div className={styles.eyebrowRow}>
-            {/* The eyebrow already reads as this section's title, and it is
-                the only one the banner has — so it IS the h2, matching the
-                one SectionCard renders on every other card in the shell. */}
+            {/* The eyebrow already reads as this card's title, and it is the
+                only one the card has — so it IS the h2, matching the one
+                SectionCard renders on every other card in the shell. */}
             <h2 className={styles.eyebrow}>CAPACIDADE DE POUPANÇA</h2>
             <Tooltip
               text={HINTS.goals}
@@ -44,7 +46,7 @@ export function SavingsSection(props: SavingsSectionProps) {
             <dd className={styles.factValue}>{total}</dd>
           </div>
         </dl>
-      </section>
+      </div>
 
       {empty ? (
         <p className={styles.empty}>
@@ -52,12 +54,24 @@ export function SavingsSection(props: SavingsSectionProps) {
           <Link href="/configuracoes">Configurações</Link>.
         </p>
       ) : (
-        <div className={styles.grid}>
-          {goals.map((goal) => (
-            <GoalCard key={goal.id} goal={goal} horizon={horizon} />
-          ))}
-        </div>
+        <>
+          {/* Drawn once for the whole table, and only from `lg` — below it
+              every row states its own labels. No table ARIA role on any of
+              this: Biome's noRedundantRoles/useSemanticElements pincer means a
+              grid that reflows cannot declare the roles the reflow destroys. */}
+          <div className={styles.columns}>
+            <span>META</span>
+            <span>DEDICADO</span>
+            <span>EM PARALELO</span>
+            <span>UM DE CADA VEZ</span>
+          </div>
+          <ul className={styles.list}>
+            {goals.map((goal) => (
+              <GoalRow key={goal.id} goal={goal} horizon={horizon} />
+            ))}
+          </ul>
+        </>
       )}
-    </>
+    </section>
   );
 }

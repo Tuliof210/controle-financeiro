@@ -2,7 +2,7 @@ import type { GoalPace, GoalProjection } from "@/app/api/dashboard/types";
 import { formatMoneyShort } from "@/lib/money";
 import { MONTH_LABELS } from "@/lib/months";
 
-export type GoalCardProps = {
+export type GoalRowProps = {
   goal: GoalProjection;
   // Months left in the projection — what each bar is measured against. A metric
   // landing beyond it fills the bar, which is honest: completion dates are
@@ -38,7 +38,7 @@ function landing(pace: GoalPace): string {
 }
 
 // Calls no React hook, despite the `use` prefix the convention gives it.
-export function useGoalCard({ goal, horizon }: GoalCardProps) {
+export function useGoalRow({ goal, horizon }: GoalRowProps) {
   return {
     name: goal.name,
     target: formatMoneyShort(goal.targetCents),
