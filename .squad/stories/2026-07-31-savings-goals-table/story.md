@@ -34,4 +34,4 @@ its header, then a table whose three columns line every goal up against the same
 - [x] tasks/01-one-card-shell.md — the banner stops being its own card and becomes the
       header strip of a single card wrapping the goals
 - [x] tasks/02-goals-table.md — column-header row + `GoalCard` becomes a grid row
-- [ ] tasks/03-goals-e2e-handles.md — realign the goals e2e helpers to the new DOM
+- [x] tasks/03-goals-e2e-handles.md — realign the goals e2e helpers to the new DOM
