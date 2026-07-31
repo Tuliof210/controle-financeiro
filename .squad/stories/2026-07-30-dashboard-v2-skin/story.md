@@ -36,5 +36,5 @@ is the contract; cite it by line. No new data.
 - [x] tasks/04-ceiling-split.md — Teto's ink band and its two-pane split
 - [x] tasks/05-ceiling-row-bar.md — the per-row share bar in the month table
 - [x] tasks/06-savings-block.md — the accent banner and the goal metric bars
-- [ ] tasks/07-overflow-guard.md — `/` joins the overflow spec; the 1024px
+- [x] tasks/07-overflow-guard.md — `/` joins the overflow spec; the 1024px
       tooltip spill blocking it closes
