@@ -8,7 +8,7 @@ export function useSavingsSection({ data }: SavingsSectionProps) {
 
   return {
     goals,
-    // What a goal card's bars are measured against: the months the projection
+    // What a goal row's bars are measured against: the months the projection
     // still has left. The same count the Teto card prints as "N meses
     // restantes", so a bar that fills means "lands after the period ends" and
     // the reader can check that claim one card up.

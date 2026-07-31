@@ -17,8 +17,17 @@ BASE=${BASE:-main}
 CAP=100
 fail=0
 
+# Two lists, because `$BASE...HEAD` only sees what is COMMITTED: running this on a
+# working tree, which is when it is most useful, it happily passed a 101-line file
+# in 2026-07-31-savings-goals-table and only `wc -l` by hand caught it. The second
+# `git diff` adds the working tree and the index against HEAD, so a file is checked
+# while it can still be split rather than one commit too late.
+#
 # --diff-filter=d: a file deleted on this branch has no lines left to count.
-files=$(git diff --name-only --diff-filter=d "$BASE"...HEAD -- src e2e 2>/dev/null |
+files=$( { git diff --name-only --diff-filter=d "$BASE"...HEAD -- src e2e 2>/dev/null
+  git diff --name-only --diff-filter=d HEAD -- src e2e 2>/dev/null
+  git ls-files --others --exclude-standard -- src e2e 2>/dev/null; } |
+  sort -u |
   grep -E '\.(ts|tsx|scss)$' |
   grep -v '^src/generated/')
 

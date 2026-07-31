@@ -9,7 +9,7 @@
 // The ink is `--ink-900`, a PRIMITIVE, never `--color-text`: the seven fills
 // are theme-independent `-400` tokens, so a themed ink flips in dark mode to
 // 1.22:1 on lime. Measured on all seven, `--ink-900`'s worst pair is violet at
-// 5.15:1 — what GoalCard and HeroCard already state. --radius-sm, not
+// 5.15:1 — what GoalRow and HeroBand already state. --radius-sm, not
 // --radius-full, which the tokens scope to status dots. ponytail: raw 26px.
 .chip {
   display: flex;

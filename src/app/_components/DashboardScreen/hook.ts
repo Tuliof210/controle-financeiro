@@ -30,7 +30,7 @@ export function useDashboardScreen() {
   // Two questions `data === null` used to answer at once: "nothing to show" and
   // "a request is in flight". Only the first belongs to the data. Every cap
   // change re-runs this effect, and blanking unmounted the whole board — both
-  // charts, the goal cards, an expanded month table, and the very button that
+  // charts, the goal rows, an expanded month table, and the very button that
   // had just been clicked.
   const [pending, setPending] = useState(true);
 

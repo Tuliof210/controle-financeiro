@@ -185,6 +185,32 @@ if [ -f .squad/debt.md ]; then
     case $line in *' until '*) ;; *) why="${why:+$why, and }no 'until' — say what earns it a fix" ;; esac
     [ -z "$why" ] || { printf '  !   %s — %s\n' "$p" "$why"; bad=$((bad + 1)); }
   done < .squad/debt.md
+
+  # The loop above cuts each entry at its first `:` and checks only that ONE path.
+  # Everything an entry cites in its BODY went unchecked, so a story that deleted a
+  # component folder left its citations pointing at nothing while this reported
+  # `0 to sweep` — twice for `GoalCard` in PR #95. This pass reads the bodies.
+  #
+  # Driven by the DIFF, not by parsing debt.md. Parsing was tried first and does not
+  # work: entries cite paths in free prose (`Foo/bar.scss:.class`, `Foo/`, bare
+  # `Foo`), an `until` clause deliberately names a file that does not exist yet, and
+  # some entries are ABOUT a deleted thing. Every one of those reads as a dangling
+  # pointer. What is mechanical is the other side — a name this branch deleted, still
+  # cited by a surviving entry, which is exactly the case the sweep above misses
+  # because it cuts each entry at its first `:` and checks only that one path.
+  # A deleted folder yields one line per file it held, so the names are uniqued
+  # before anything is reported.
+  for comp in $(git diff --name-only --diff-filter=D "${BASE:-main}"...HEAD -- src e2e 2>/dev/null |
+    while IFS= read -r gone; do
+      dir=${gone%/*}
+      # Renamed rather than removed? Then the name still resolves, nothing dangles.
+      [ -d "$dir" ] || printf '%s\n' "${dir##*/}"
+    done | sort -u); do
+    grep -q "$comp" .squad/debt.md || continue
+    printf '  !   %s — deleted by this branch, still named in debt.md\n' "$comp"
+    bad=$((bad + 1))
+  done
+
   printf '  %s  %s entries, %s to sweep\n' "$([ "$bad" -eq 0 ] && echo ok || echo '! ')" "$n" "$bad"
   LEFT=$((LEFT + bad))
 else
