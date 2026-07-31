@@ -93,7 +93,20 @@ MEASURED AT RUN TIME (2026-07-31), card inline size and metric track by viewport
 table is clean from `xl` up and correct-but-wrapped across `lg..xl` — header and value
 right edges still coincide to 0.1px at 1024, and doc overflow is 0 at every width.
 The owner picked `lg` to avoid exactly that wrap, and `lg` does not deliver it; `xl`
-would. Left at `lg` as chosen — the change is one token in `.card`'s `t.bp(...)`.
+would. Left at `lg` as chosen.
+
+MOVING THE THRESHOLD IS NOT A ONE-TOKEN CHANGE. `t.bp` takes a breakpoint NAME, so
+the collapse point is written out at five sites across two folders, and changing fewer
+than five leaves the table half-collapsed with no lint error, no spec failure and no
+document overflow for anything to catch:
+- `SavingsSection/style.module.scss` — in `.card` (sets `--goal-cols`) and in
+  `.columns` (turns the header row on)
+- `GoalRow/_metrics.scss` — in `.metrics` (subgrid), `.metric` (right-align) and
+  `.label` (hide)
+Confirm with `grep -rn 't.bp("lg")' src/app/_components/DashboardScreen/components/`
+before and after: five hits, all five moved together. Sharing one Sass value out of
+`_theme.scss` the way `$row-one-line-floor` is shared would remove the hazard, at the
+cost of a mixin that takes a length rather than a breakpoint name.
 
 ## Forbidden
 - No hardcoded colour, length, radius or duration — tokens only
