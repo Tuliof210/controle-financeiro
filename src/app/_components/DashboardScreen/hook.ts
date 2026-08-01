@@ -3,6 +3,7 @@ import type { DashboardData } from "@/app/api/dashboard/types";
 import { useProfile } from "@/components/ProfileProvider/hook";
 import { apiGet } from "@/lib/api";
 import { type CeilingCap, DEFAULT_CEILING_CAP } from "@/lib/ceiling-caps";
+import { useSimulationView } from "./simulation.hook";
 
 export function useDashboardScreen() {
   // AppShell mounts ProfileProvider globally, so the context is already there.
@@ -27,6 +28,8 @@ export function useDashboardScreen() {
   // `pace` and the goal projections move with it, and those render in
   // SavingsSection.
   const [cap, setCap] = useState<CeilingCap>(DEFAULT_CEILING_CAP);
+  // Persisted, and so held in its own hook — see simulation.hook.ts.
+  const { view: simulation, choose: setSimulation } = useSimulationView();
   // Two questions `data === null` used to answer at once: "nothing to show" and
   // "a request is in flight". Only the first belongs to the data. Every cap
   // change re-runs this effect, and blanking unmounted the whole board — both
@@ -40,7 +43,7 @@ export function useDashboardScreen() {
     setError(undefined);
 
     apiGet<DashboardData>(
-      `/api/dashboard?owner=${encodeURIComponent(profile)}&cap=${cap}`,
+      `/api/dashboard?owner=${encodeURIComponent(profile)}&cap=${cap}&simulation=${simulation}`,
     ).then((result) => {
       // A response for a profile or cap we have already moved on from must not
       // land. This is also what makes serving the last-good `data` while a
@@ -61,7 +64,7 @@ export function useDashboardScreen() {
     return () => {
       current = false;
     };
-  }, [profile, cap]);
+  }, [profile, cap, simulation]);
 
   // Nothing held for the profile on screen means nothing honest to show, so the
   // board goes and the notice takes over.
@@ -80,5 +83,7 @@ export function useDashboardScreen() {
     refreshing: pending && data !== null,
     cap,
     setCap,
+    simulation,
+    setSimulation,
   };
 }

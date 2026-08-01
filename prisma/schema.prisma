@@ -35,6 +35,10 @@ model Forecast {
   type       String
   owner      Person          @relation(fields: [ownerId], references: [id])
   ownerId    String
+  // A what-if: registered exactly like any other forecast, but the dashboard
+  // leaves it out unless the reader asks for it. Not a separate model — nothing
+  // about it differs beyond this flag.
+  simulated  Boolean         @default(false)
   months     ForecastMonth[]
   createdAt  DateTime        @default(now())
 }

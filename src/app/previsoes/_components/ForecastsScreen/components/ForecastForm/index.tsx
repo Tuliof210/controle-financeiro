@@ -3,6 +3,7 @@
 import { EntryForm } from "@/components/EntryForm";
 import { IntervalList } from "./components/IntervalList";
 import { type ForecastFormProps, useForecastForm } from "./hook";
+import styles from "./style.module.scss";
 
 export function ForecastForm(props: ForecastFormProps) {
   const { error, submitLabel, people } = props;
@@ -12,6 +13,8 @@ export function ForecastForm(props: ForecastFormProps) {
     updateInterval,
     addInterval,
     removeInterval,
+    simulated,
+    toggleSimulated,
     localError,
     canSubmit,
     handleSubmit,
@@ -22,13 +25,32 @@ export function ForecastForm(props: ForecastFormProps) {
       idPrefix="forecast"
       people={people}
       fields={fields}
+      // EntryForm's `period` is the slot for whatever a forecast has and a
+      // movement does not. That is two things now, so it takes a fragment.
       period={
-        <IntervalList
-          intervals={intervals}
-          onUpdate={updateInterval}
-          onAdd={addInterval}
-          onRemove={removeInterval}
-        />
+        <div className={styles.period}>
+          <IntervalList
+            intervals={intervals}
+            onUpdate={updateInterval}
+            onAdd={addInterval}
+            onRemove={removeInterval}
+          />
+          <div>
+            <label className={styles.simulated} htmlFor="forecast-simulated">
+              <input
+                type="checkbox"
+                className={styles.checkbox}
+                id="forecast-simulated"
+                checked={simulated}
+                onChange={toggleSimulated}
+              />
+              Simulação
+            </label>
+            <p className={styles.hint}>
+              O dashboard só soma simulações quando você pedir.
+            </p>
+          </div>
+        </div>
       }
       error={localError ?? error}
       submitLabel={submitLabel}

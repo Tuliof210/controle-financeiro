@@ -7,6 +7,7 @@ export type ForecastInput = {
   type: EntryType;
   ownerId: string;
   months: number[]; // active YYYYMM months
+  simulated: boolean;
 };
 
 export type ForecastRepository = {

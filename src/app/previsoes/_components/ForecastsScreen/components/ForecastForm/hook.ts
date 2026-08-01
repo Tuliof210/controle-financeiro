@@ -1,10 +1,14 @@
+import { useState } from "react";
 import type { EntryFormBase } from "@/components/EntryForm/entry-form.helper";
 import { useEntryForm } from "@/components/EntryForm/entry-form.hook";
 import type { Person } from "@/core/entities/person.entity";
 import { intervalsToMonths } from "./intervals.helper";
 import { useForecastIntervals } from "./intervals.hook";
 
-export type ForecastFormValues = EntryFormBase & { months: number[] };
+export type ForecastFormValues = EntryFormBase & {
+  months: number[];
+  simulated: boolean;
+};
 
 export type ForecastFormProps = {
   initial?: Partial<ForecastFormValues>;
@@ -22,6 +26,10 @@ export function useForecastForm({
   const entry = useEntryForm(initial, people);
   const { intervals, updateInterval, addInterval, removeInterval } =
     useForecastIntervals(initial?.months);
+  // Held here and not in useEntryForm: `simulated` is a forecast's own field,
+  // the way `months` is. A movement cannot be a simulation — it already
+  // happened.
+  const [simulated, setSimulated] = useState(initial?.simulated ?? false);
 
   const selectedMonths = intervalsToMonths(intervals);
   const canSubmit = entry.isValid && selectedMonths.length >= 1;
@@ -32,7 +40,9 @@ export function useForecastForm({
       return;
     }
     entry.setLocalError(undefined);
-    onSubmit({ ...entry.base(), months: selectedMonths });
+    // entry.base() is typed exactly EntryFormBase, so it carries neither of the
+    // forecast's own fields through — both are merged here.
+    onSubmit({ ...entry.base(), months: selectedMonths, simulated });
   };
 
   return {
@@ -42,6 +52,8 @@ export function useForecastForm({
     updateInterval,
     addInterval,
     removeInterval,
+    simulated,
+    toggleSimulated: () => setSimulated((value) => !value),
     canSubmit,
     handleSubmit,
   };

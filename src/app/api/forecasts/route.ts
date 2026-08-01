@@ -22,6 +22,9 @@ const forecastShape = {
     .array(z.number().int().min(200001).max(209912))
     .min(1)
     .transform((m) => [...new Set(m)].sort((a, b) => a - b)),
+  // Defaulted rather than required: a body that predates simulations — the e2e
+  // seeds, a saved curl — is a real forecast, not a validation error.
+  simulated: z.boolean().default(false),
 };
 
 const createSchema = z.object(forecastShape);

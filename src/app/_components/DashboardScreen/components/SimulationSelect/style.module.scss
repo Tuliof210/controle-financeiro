@@ -1,0 +1,17 @@
+@use "select";
+
+// Stays a native <select>, for the reason ProfileSelect gives: one control for
+// one piece of state, and the browser handles the popup, keyboard and mobile
+// sheet for free.
+.select {
+  @include select.skin;
+  // `.screen` above is a flex column, so this rides its own line, right-aligned
+  // over the hero band rather than needing a wrapper row.
+  align-self: flex-end;
+  // The skin sizes a field to fill its column (`width: 100%`), which is right in
+  // a form and wrong here. A <select> is sized by its WIDEST option, so the cap
+  // is what keeps "Incluir simulações" from setting a min-content wider than a
+  // 375px page.
+  width: auto;
+  max-width: 100%;
+}

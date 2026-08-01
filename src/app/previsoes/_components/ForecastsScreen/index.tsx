@@ -6,6 +6,7 @@ import { CoverageBar } from "./components/CoverageBar";
 import { ForecastForm } from "./components/ForecastForm";
 import type { ForecastFormValues } from "./components/ForecastForm/hook";
 import { formatMonths } from "./forecast-range.helper";
+import styles from "./style.module.scss";
 
 export function ForecastsScreen() {
   return (
@@ -34,7 +35,19 @@ export function ForecastsScreen() {
       }}
       // The two halves of a forecast's period now land in two places: the
       // intervals read in the row's metadata line, the band under the row.
-      renderPeriod={(forecast) => formatMonths(forecast.months)}
+      //
+      // The badge rides in here rather than in EntryRow because EntryRow types
+      // its entry as the shared `Entry` and cannot see `simulated` at all. This
+      // callback is the one place the item is known to be a Forecast, and it is
+      // forecast-only code — Movimentações passes its own.
+      renderPeriod={(forecast) => (
+        <span className={styles.period}>
+          {forecast.simulated ? (
+            <span className={styles.badge}>Simulado</span>
+          ) : null}
+          <span className={styles.months}>{formatMonths(forecast.months)}</span>
+        </span>
+      )}
       renderBand={(forecast, period) =>
         period ? <CoverageBar months={forecast.months} period={period} /> : null
       }

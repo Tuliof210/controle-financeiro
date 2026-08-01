@@ -1,8 +1,13 @@
-// The "Mês único" box, split off style.module.scss to keep it under the
-// 100-line cap. A mixin definition only — emits no CSS of its own.
+// The app's checkbox. A mixin rather than a class, for the reason _select.scss
+// gives: every consumer is a .module.scss file owning its own scoped class
+// names. It sits here rather than beside its first consumer because it has two
+// now — IntervalCard's "Mês único" and ForecastForm's "Simulação".
 //
 // The native checkbox is restyled, not replaced: a <button> with a fake box
-// would lose role="checkbox" and break the spec's .check()/.uncheck() calls.
+// would lose role="checkbox" and break the specs' .check()/.uncheck() calls.
+//
+// The 44px hit target is NOT here. It belongs to the <label> wrapping this box,
+// which is what a reader actually presses — see IntervalCard's `.lock`.
 @use "theme" as t;
 
 @mixin box {

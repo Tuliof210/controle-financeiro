@@ -8,6 +8,7 @@ type ForecastRow = {
   valueCents: number;
   type: string;
   ownerId: string;
+  simulated: boolean;
   createdAt: Date;
   months: { month: number }[];
 };
@@ -23,6 +24,7 @@ function toEntity(row: ForecastRow): Forecast {
     type: row.type as Forecast["type"],
     ownerId: row.ownerId,
     months: row.months.map((m) => m.month).sort((a, b) => a - b),
+    simulated: row.simulated,
     createdAt: row.createdAt,
   };
 }
