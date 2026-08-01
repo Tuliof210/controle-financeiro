@@ -33,6 +33,6 @@ way to try a scenario without polluting the numbers the household relies on.
 - [x] tasks/01-simulated-flag-data-layer.md — the `simulated` column, end to end through the forecasts API
 - [x] tasks/02-simulation-checkbox.md — the styled checkbox in the forecast form
 - [x] tasks/03-simulated-badge.md — the "SIMULADO" mark on a forecast row
-- [ ] tasks/04-dashboard-api-simulation-filter.md — `/api/dashboard` learns to exclude simulated forecasts
+- [x] tasks/04-dashboard-api-simulation-filter.md — `/api/dashboard` learns to exclude simulated forecasts
 - [ ] tasks/05-dashboard-simulation-select.md — the selector above the hero band, persisted
 - [ ] tasks/06-e2e-simulated-forecasts.md — one spec covering the round trip and the dashboard swing
