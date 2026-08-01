@@ -1,0 +1,36 @@
+// The row draws its period cell as one ellipsising line (EntryRow/_meta.scss:
+// `.period { overflow: hidden; min-width: 0; text-overflow: ellipsis }`). A
+// simulated forecast puts a word in front of the months, so the cell becomes a
+// two-part row: the badge holds its width and the months are what gives way.
+// Inheriting the mono face, 2xs size and muted colour from `.meta` above it.
+.period {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-width: 0;
+}
+
+.months {
+  overflow: hidden;
+  min-width: 0;
+  text-overflow: ellipsis;
+}
+
+// The word is the signal; the border only makes it findable. Meaning is never
+// colour-only (styles README rule 7c), and a reader who cannot tell violet from
+// grey still reads "SIMULADO".
+//
+// Outlined rather than filled, and --color-text rather than a paired ink:
+// --color-brand as a fill admits no foreground that clears 4.5:1 in both themes
+// (--ink-900 measures 3.59:1 light, --white 3.72:1 dark). On the row's own
+// surface, the inherited text colour is already known-good.
+.badge {
+  flex: none;
+  padding: 0 var(--space-1);
+  border: var(--border-1) solid var(--color-brand);
+  border-radius: var(--radius-sm);
+  color: var(--color-text);
+  font-weight: var(--weight-bold);
+  // Uppercased in CSS, not in the copy, so the accessible text stays "Simulado".
+  text-transform: uppercase;
+}
