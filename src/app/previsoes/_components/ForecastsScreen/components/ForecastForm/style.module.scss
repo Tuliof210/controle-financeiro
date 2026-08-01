@@ -1,0 +1,39 @@
+@use "checkbox";
+
+// The two halves of the form's forecast-only slot: the vigência card, then the
+// simulation switch under it. The gap matches EntryForm's own field rhythm.
+.period {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+// Carries the 44px hit target, not the 20px box inside it — pressing the words
+// is how most readers tick this. Same recipe as IntervalCard's `.lock`.
+.simulated {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 44px;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-wide);
+  color: var(--color-text-muted);
+  // Uppercased in CSS, not in the copy, so the accessible name stays
+  // "Simulação" — that is the string the spec asks for by role and name.
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.checkbox {
+  @include checkbox.box;
+}
+
+// The one line of copy that explains what ticking the box actually does. Muted
+// and small: it is a footnote to the label, not a second label.
+.hint {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: var(--text-2xs);
+  color: var(--color-text-muted);
+}

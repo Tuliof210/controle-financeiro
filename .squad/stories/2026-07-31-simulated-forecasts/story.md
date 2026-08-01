@@ -31,7 +31,7 @@ way to try a scenario without polluting the numbers the household relies on.
 
 ## Tasks
 - [x] tasks/01-simulated-flag-data-layer.md — the `simulated` column, end to end through the forecasts API
-- [ ] tasks/02-simulation-checkbox.md — the styled checkbox in the forecast form
+- [x] tasks/02-simulation-checkbox.md — the styled checkbox in the forecast form
 - [ ] tasks/03-simulated-badge.md — the "SIMULADO" mark on a forecast row
 - [ ] tasks/04-dashboard-api-simulation-filter.md — `/api/dashboard` learns to exclude simulated forecasts
 - [ ] tasks/05-dashboard-simulation-select.md — the selector above the hero band, persisted
