@@ -5,12 +5,21 @@ import { formatYyyymm } from "@/lib/months";
 import { Board } from "./components/Board";
 import { HeroBand } from "./components/HeroBand";
 import { Notice } from "./components/Notice";
+import { SimulationSelect } from "./components/SimulationSelect";
 import { useDashboardScreen } from "./hook";
 import styles from "./style.module.scss";
 
 export function DashboardScreen() {
-  const { data, error, loading, refreshing, cap, setCap } =
-    useDashboardScreen();
+  const {
+    data,
+    error,
+    loading,
+    refreshing,
+    cap,
+    setCap,
+    simulation,
+    setSimulation,
+  } = useDashboardScreen();
 
   return (
     <div className={styles.screen}>
@@ -19,6 +28,14 @@ export function DashboardScreen() {
           takes `data` only when the payload is ok — its title half renders in
           every state, so the page never opens on a bare notice. */}
       <HeroBand data={data?.status === "ok" ? data : undefined} />
+
+      {/* Under the band, not over it: the band is full-bleed and cancels
+          <main>'s padding with a negative margin on all four sides, so anything
+          placed above it gets overlapped by 16px (40px from `md` up). Here it
+          sits where the figures it governs begin. Outside every status branch
+          below, because reaching a range at all can be the reason someone turns
+          simulations on — it must still be there on no_range/out_of_range. */}
+      <SimulationSelect value={simulation} onChange={setSimulation} />
 
       {loading ? (
         <Notice title="Carregando" icon={LayoutDashboard}>

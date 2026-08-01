@@ -27,7 +27,7 @@ const cardOf = (page: Page) =>
 
 export async function openGoals(page: Page, person: string): Promise<Locator> {
   await page.goto("/");
-  await page.getByRole("combobox").selectOption({ label: person });
+  await page.getByLabel("Perfil ativo").selectOption({ label: person });
   const card = cardOf(page);
   await expect(card).toBeVisible(SLOW);
   return card;

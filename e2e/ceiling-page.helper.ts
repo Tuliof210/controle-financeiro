@@ -33,7 +33,10 @@ export async function openCeiling(
   person: string,
 ): Promise<Locator> {
   await page.goto("/");
-  await page.getByRole("combobox").selectOption({ label: person });
+  // By its accessible name, not by role alone: the dashboard has a second
+  // combobox now (the simulation view), and the bare role is a strict-mode
+  // violation the moment a screen grows one more select.
+  await page.getByLabel("Perfil ativo").selectOption({ label: person });
   const card = cardOf(page);
   await expect(
     card.getByRole("heading", { name: "Teto de Gastos" }),
