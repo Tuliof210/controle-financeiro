@@ -1,10 +1,24 @@
 // The row draws its period cell as one ellipsising line (EntryRow/_meta.scss:
-// `.period { overflow: hidden; min-width: 0; text-overflow: ellipsis }`). A
-// simulated forecast puts a word in front of the months, so the cell becomes a
-// two-part row: the badge holds its width and the months are what gives way.
+// `.period { overflow: hidden; min-width: 0; text-overflow: ellipsis }`), so a
+// simulated forecast turns that cell into a two-part flex row.
 // Inheriting the mono face, 2xs size and muted colour from `.meta` above it.
+//
+// `wrap`, and it is load-bearing rather than defensive. The metadata line is
+// `nowrap` and splits its width between the owner and this cell. At 375px the
+// owner is already floored at its 3ch minimum, the badge is 64px, and an
+// unwrapping cell left the months 18.6px of a natural 88px — they rendered as a
+// single letter, so the row said a forecast was hypothetical without ever
+// saying WHEN. Wrapping lets the badge fall to its own line instead of taking
+// the width out of the months: measured, the months then get 88.4px against the
+// identical real row's 88.3px at 375, 480, 768 and 1280.
+//
+// It costs ~19px of row height whenever it does wrap, and for the worst-case
+// row (a 3ch-floored owner and a 17-month range) that is most widths — 375
+// through 900, and 1440 again once RowGrid's container query hands the cell a
+// narrower column. A row with room for both stays on one line.
 .period {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: var(--space-2);
   min-width: 0;
