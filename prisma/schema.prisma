@@ -77,3 +77,18 @@ model OfxImport {
   fileName   String
   importedAt DateTime @default(now())
 }
+
+// The monthly spending goal, back after 20260730120000_drop_settings removed it:
+// that drop was right at the time — the field had no consumer — and this is what
+// gives it one. The "Meta" target of the Teto de Gastos caps each month's budget
+// at this value.
+//
+// A singleton, and only `monthlyGoalCents` this time. `rangeStart`/`rangeEnd`
+// stay dead: the period is derived from the entries, never configured. The row
+// is pinned to id 1 and only ever written by upsert (settings.prisma.repository),
+// so there is no code path that creates a second one; the goal is family-wide,
+// which is why it carries no ownerId.
+model Settings {
+  id               Int @id @default(1)
+  monthlyGoalCents Int
+}
