@@ -1,4 +1,4 @@
-import { CEILING_CAPS, type CeilingCap } from "@/lib/ceiling-caps";
+import { CEILING_CAPS, type CeilingCap, META_CAP } from "@/lib/ceiling-caps";
 
 export type CapSelectorProps = {
   value: CeilingCap;
@@ -9,10 +9,11 @@ export function useCapSelector({ value, onChange }: CapSelectorProps) {
   return {
     // `checked` is resolved here rather than in the JSX so the markup stays one
     // expression per segment. The percent sign is display only — the value that
-    // travels is the bare number, which is what the API's enum accepts.
+    // travels is the bare string, which is what the API's enum accepts. Meta is
+    // not a percentage, so it is the one segment labelled by name.
     segments: CEILING_CAPS.map((cap) => ({
       cap,
-      label: `${cap}%`,
+      label: cap === META_CAP ? "Meta" : `${cap}%`,
       checked: cap === value,
     })),
     onChange,

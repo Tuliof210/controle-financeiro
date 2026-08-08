@@ -16,10 +16,11 @@ import { getDashboard } from "./service";
 // `src/lib/api.ts` renders any error envelope as the screen's red notice — a
 // typo in a hand-edited URL would look exactly like an outage. An unusable cap
 // falls back to the default the selector itself starts on.
-const capSchema = z
-  .enum(CEILING_CAPS)
-  .catch(DEFAULT_CEILING_CAP)
-  .transform(Number);
+//
+// No `.transform(Number)` any more: the tuple now holds a target that is not a
+// percentage, and Number("meta") is NaN. The string reaches the service, which
+// is also what lets it tell the Meta target apart from a plain 100.
+const capSchema = z.enum(CEILING_CAPS).catch(DEFAULT_CEILING_CAP);
 
 // Same closed set, same selector, so the same `.catch` reasoning applies —
 // including the absent case, which is every caller written before simulations

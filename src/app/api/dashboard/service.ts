@@ -2,6 +2,7 @@ import { derivePeriod } from "@/core/use-cases/period.service";
 import { forecastRepository } from "@/infra/repositories/forecast.prisma.repository";
 import { goalRepository } from "@/infra/repositories/goal.prisma.repository";
 import { movementRepository } from "@/infra/repositories/movement.prisma.repository";
+import { type CeilingCap, capPercent } from "@/lib/ceiling-caps";
 import { buildMonths, currentYYYYMM } from "@/lib/months";
 import { visibleFor } from "@/lib/ownership";
 import type { SimulationView } from "@/lib/simulation";
@@ -10,7 +11,7 @@ import type { DashboardData } from "./types";
 
 export async function getDashboard(
   owner: string,
-  cap: number,
+  cap: CeilingCap,
   simulation: SimulationView,
 ): Promise<DashboardData> {
   const [movements, all, goals] = await Promise.all([
@@ -47,6 +48,6 @@ export async function getDashboard(
     goals,
     movements: visibleFor(movements, owner),
     forecasts: visibleFor(forecasts, owner),
-    cap,
+    cap: capPercent(cap),
   });
 }
