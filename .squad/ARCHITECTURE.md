@@ -7,6 +7,11 @@ user's own machine.
 
 ## Conventions
 
+### Language
+UI copy and route paths are pt-BR (`/movimentacoes`, `/previsoes`,
+`/configuracoes`, `/leitor-ofx`; month labels in `src/lib/months.ts`). Code
+identifiers, comments and these docs are English. A new screen follows both.
+
 ### Path alias
 `@/` → `src/`. One alias only — no `@components`, `@utils`, etc.
 
@@ -98,13 +103,34 @@ implements the interfaces `core/` declares. `route.ts`/`service.ts` wire the
 concrete repository in by hand (plain constructor/function injection — no DI
 framework needed at this scale).
 
+### Persistence — Prisma over SQLite
+`prisma/schema.prisma` is the schema; migrations are committed under
+`prisma/migrations/` and applied by `npm run db:setup`. The generated client
+lands in `src/generated/prisma` (gitignored, never hand-edited, excluded from
+the line cap). `src/infra/db/client.ts` holds the single `PrismaClient` —
+built on `PrismaBetterSqlite3` and cached on `globalThis` outside production so
+dev hot-reload doesn't open a new connection per edit.
+
+`infra/repositories/<entity>.prisma.repository.ts` is the only place Prisma
+types are allowed; it implements the interface in `core/repositories/` and
+returns `core/entities/` types. The OFX flow (`app/api/ofx/` parses,
+`app/api/ofx-imports/` records) dedupes by SHA-256 of the uploaded bytes; the
+import row is free-standing on purpose — no relation back to the movements it
+produced, because there is no undo (the reason is written in the schema).
+
 ### File size
 Max 100 lines, no exceptions — split into more components, extract a helper,
-or pull hook logic into a `*.helper.ts`. Enforced by Biome's
-`noExcessiveLinesPerFile` (nursery rule, not on by default — enable in
-`biome.json` with `maxLines: 100`). Paired with `noExcessiveLinesPerFunction`
-so one bloated function can't hide under the file cap. A task/PR isn't
-review-ready until `biome check` is all-green — front and back alike.
+or pull hook logic into a `*.helper.ts`.
+
+Enforced by `scripts/check-line-cap.sh` (`npm run lint:lines`), counting
+**plain** lines on the files the current branch touched under `src`/`e2e`,
+working tree included. Biome is *not* this check and cannot be made into it:
+`noExcessiveLinesPerFile` never reads `.scss`, and on `.ts`/`.tsx` it skips
+comment-only lines — a 105-line file can sit there with Biome silent, which is
+exactly how one shipped. Both rules are still on in `biome.json`
+(`noExcessiveLinesPerFile` + `noExcessiveLinesPerFunction`, `maxLines: 100`) so
+a bloated function can't hide under the file cap. A task/PR isn't review-ready
+until `npm run lint` — both gates — is all-green, front and back alike.
 
 ### SOLID / Clean Architecture, operationalized
 - SRP: the 100-line cap forces it mechanically on both `hook.ts` and
