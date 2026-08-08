@@ -36,6 +36,10 @@ export async function expectMetaCapsEveryMonth(card: Locator) {
   const first = async () => (await readMonths(rowsOf(card)))[0].budget;
   await expect.poll(first, SLOW).not.toBe(was);
 
+  // The badge has to explain the figure it sits next to: with the goal binding,
+  // naming the tightest month would name a month that would have allowed more.
+  await expect(card.getByText("Limitado pela meta")).toBeVisible();
+
   const months = await readMonths(rowsOf(card));
   expectScenarios(months);
   for (const month of months) {
