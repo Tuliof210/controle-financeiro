@@ -1,169 +1,105 @@
 # Architecture
 
-Single Next.js application (App Router) providing both the UI and the API
-(via Route Handlers) in one deployable unit, backed by a local SQLite
-database file — no separate backend service, no hosted DB. Runs on the
-user's own machine.
+Single Next.js app (App Router) serving both the UI and the API (Route Handlers)
+in one unit, over a local SQLite file. No backend service, no hosted DB, not
+deployed — it runs on the user's own machine.
+
+## Stack
+Next 16 · React 19 · TypeScript · Prisma 7 over SQLite
+(`@prisma/adapter-better-sqlite3`) · Sass Modules · visx (charts) ·
+lucide-react (icons) · Zod (validation) · Biome (lint + format) · Playwright
+(e2e, the only test runner) · Storybook 10 (DS Foundations docs).
+
+## Commands
+- `npm run db:setup` — `prisma generate` + `migrate deploy`; creates the local
+  tables. Idempotent; run once on a fresh checkout, plus `npx playwright
+  install chromium`.
+- `npm run dev` · `npm run build` · `npm run start`
+- `npm run lint` — **two** gates: `biome check .` then `npm run lint:lines`
+  (`scripts/check-line-cap.sh`). Both must pass. `lint:fix`, `format` write.
+- `npm run test:e2e` (alias `npm run test`) — the whole suite.
+- `npm run db:clean` — DELETE every row from `dev.db`.
+- `npm run storybook` (:6006) · `npm run build-storybook`
+
+## Do-not-touch
+`src/generated/prisma/` (regenerated, never hand-edited, exempt from the line
+cap) · `prisma/migrations/` (applied history — add one, never edit one).
 
 ## Conventions
 
-### Language
-UI copy and route paths are pt-BR (`/movimentacoes`, `/previsoes`,
-`/configuracoes`, `/leitor-ofx`; month labels in `src/lib/months.ts`). Code
-identifiers, comments and these docs are English. A new screen follows both.
+**Language** — UI copy and route paths are pt-BR (`/movimentacoes`,
+`/previsoes`, `/configuracoes`, `/leitor-ofx`; `src/lib/months.ts`). Code,
+comments and docs are English. New screens follow both.
 
-### Path alias
-`@/` → `src/`. One alias only — no `@components`, `@utils`, etc.
+**Path alias** — `@/` → `src/`, the only one. **Naming** — component folders
+PascalCase (`Button/`); other files suffixed by role
+(`person.repository.ts`, `ceiling.helper.ts`).
 
-### Naming
-Component folders: PascalCase, matching the component name (`Button/`,
-`MonthlySummaryCard/`). Non-component files: suffixed by role
-(`entry.repository.ts`, `calculate-delta.helper.ts`).
+**Components** — a folder of exactly three files: `index.tsx` (blindly calls
+the folder's `hook.ts` and renders its return — no logic, state or effects),
+`hook.ts` (everything else), `style.module.scss` (the suffix is mandatory —
+Next scopes only `.module.scss`; a plain `.scss` leaks globally). A `_*.scss`
+partial may join them when the line cap forces a split off the styles
+(`RowGrid/_tiers.scss`). No barrel files — `@/components/Button` resolves via
+folder→index. **Recursion**: JSX repeated twice inside a component becomes a
+child in a nested `components/`, same three files, at every depth.
+**Promotion**: used from outside its parent's scope, it moves to the nearest
+shared `components/` (`src/components/` at the top). Next's mandated files
+(`page.tsx`, `layout.tsx`, `error.tsx`, …) stay two lines that render a real
+component from a sibling `components/` or route-local `_components/`.
 
-### Frontend — component structure
-Every component is a folder with exactly three files:
-- `index.tsx` — blindly instantiates the folder's `hook.ts` (passing props
-  through) and renders JSX from whatever it returns. No logic, no state, no
-  effects.
-- `hook.ts` — everything else: props handling, state, effects, handlers,
-  derived consts, business logic.
-- `style.module.scss` — Sass Module. `.module.scss` suffix is mandatory —
-  Next.js only scopes styles for files named that way; plain `style.scss`
-  would leak globally. Requires the `sass` package as a dependency.
+**Design system** — tokens are CSS custom properties in `src/styles/*.scss`
+(`_tokens.scss`, `_theme.scss`, `_base.scss` → `globals.scss`), not Sass
+`$variables`, because they must switch at runtime via `[data-theme="dark"]`
+(defaulting to `prefers-color-scheme`). Consume with `@use "theme" as t;` (the
+folder is on the Sass load path, `next.config.ts`) and `var(--token)` — never
+hardcode a colour, space, radius, shadow or duration. **The full
+non-negotiable ruleset is `src/styles/README.md`.** Documented as Storybook
+Foundations (`src/styles/docs/*.mdx`); the stories glob is `*.mdx`, so no DS
+component can land until a story adds one.
 
-**Exception**: a `_*.scss` Sass partial may sit alongside `style.module.scss`
-when the File size cap (below) forces a split off it — it is a mixin
-definition, not a component, and emits no CSS of its own (e.g.
-`RowGrid/_tiers.scss`, `EntryRow/_meta.scss`).
+**API** — `route.ts` is a thin controller (parse, call one service, map to a
+response; no business logic); `service.ts` is the use case (validation, rules,
+orchestration) and never imports `NextRequest`/`NextResponse`. Colocated in
+`app/api/<resource>/`; a service promotes to `src/core/use-cases/` on its
+second consumer. Every route returns the same envelope — `{ data }` or
+`{ error: { message, code } }` (`src/lib/http.ts`) — so the frontend never
+special-cases an endpoint's failure shape. Handlers are a trust boundary: the
+body is parsed through a Zod schema before reaching the service.
 
-Because the component is `index.tsx`, `@/components/Button` resolves on its
-own (default folder→index resolution) — no barrel files anywhere.
+**Layers** — `core/entities` (domain types, no framework imports),
+`core/repositories` (interfaces only), `core/use-cases` (promoted services),
+`infra/repositories` (implementations), `lib/` (pure helpers). `core/` never
+imports `infra/` or `app/`; `route.ts`/`service.ts` wire the concrete
+repository by hand — no DI framework at this scale. SRP comes from the line
+cap, DIP from the interfaces, ISP from one narrow repository per entity.
+Layering is not mechanically checked (Biome has no boundary rule); wiring
+`noRestrictedImports` isn't worth it until `core`/`infra` are bigger.
 
-**Recursion**: any internal JSX structure repeated more than once inside a
-component becomes a child component in a `components/` folder inside the
-parent, same three-file structure. Applies at every depth.
-
-**Promotion**: the moment a component is used from outside its current
-parent's scope, it moves up to the nearest shared `components/` folder
-(`src/components/` at the top). Every future importer then follows the same
-predictable path.
-
-**Next.js special files** (`page.tsx`, `layout.tsx`, `loading.tsx`,
-`error.tsx`, `not-found.tsx`) are framework-mandated names — they can't
-become `index.tsx`. Keep them to a couple of lines that just render a real
-component living in a sibling `components/` (or route-local `_components/`)
-folder, which does follow the standard structure.
-
-### Design System — styling tokens
-Tokens live in `src/styles/*.scss` (`_tokens.scss`, `_theme.scss`,
-`_base.scss`, aggregated by `globals.scss`) as CSS custom properties — the
-single source of truth, runtime-themeable via `[data-theme="dark"]` (default
-follows `prefers-color-scheme`). Sass `$variables` are compile-time and can't
-switch themes at runtime, which is why tokens are custom properties, not Sass
-variables. `.module.scss` files consume them via `@use "theme" as t;`
-(resolved through the `src/styles` Sass load path in `next.config.ts`) plus
-`var(--token-name)` — never hardcode a color/space/radius/shadow/duration
-value. The full non-negotiable ruleset lives in `src/styles/README.md`.
-
-The tokens are documented as Storybook **Foundations** MDX docs (`npm run
-storybook`) — `.storybook/` holds the config, `src/styles/docs/*.mdx` the
-pages. Foundations-only for now: the stories glob is `*.mdx`, so no DS
-component or `*.stories.tsx` can land until a later story adds one.
-
-### Backend — Route Handler structure
-Same split, mirrored:
-- `route.ts` (Next.js-mandated name) — thin controller: parse the request,
-  call one service function, map the result/error to an HTTP response. No
-  business logic.
-- `service.ts` — the use case: validation, business rules, orchestration.
-  Framework-agnostic — never imports `NextRequest`/`NextResponse`.
-
-Colocate `route.ts` + `service.ts` in the same `app/api/<resource>/` folder.
-**Same promotion rule as the frontend**: a service stays colocated until a
-second consumer (another route, a script, a cron) needs it — then it
-promotes to `src/core/use-cases/`.
-
-### Domain layer (Clean Architecture)
-```
-src/
-  app/
-    api/<resource>/route.ts, service.ts   # thin controller + colocated use case
-    <routes>/page.tsx                     # thin, renders a real component
-  components/                             # shared/common components (promoted)
-  core/
-    entities/                             # domain types — no framework/SQLite imports
-    repositories/                         # repository interfaces only
-    use-cases/                            # promoted services (used by >1 caller)
-  infra/
-    repositories/                         # SQLite implementations of core/repositories
-  lib/                                    # small, pure, framework-agnostic helpers
-```
-Dependency rule: `core/` never imports `infra/` or `app/`. `infra/`
-implements the interfaces `core/` declares. `route.ts`/`service.ts` wire the
-concrete repository in by hand (plain constructor/function injection — no DI
-framework needed at this scale).
-
-### Persistence — Prisma over SQLite
-`prisma/schema.prisma` is the schema; migrations are committed under
-`prisma/migrations/` and applied by `npm run db:setup`. The generated client
-lands in `src/generated/prisma` (gitignored, never hand-edited, excluded from
-the line cap). `src/infra/db/client.ts` holds the single `PrismaClient` —
-built on `PrismaBetterSqlite3` and cached on `globalThis` outside production so
-dev hot-reload doesn't open a new connection per edit.
-
+**Persistence** — `prisma/schema.prisma`, migrations committed and applied by
+`db:setup`, client generated to `src/generated/prisma`. `src/infra/db/client.ts`
+holds the one `PrismaClient`, cached on `globalThis` outside production so hot
+reload doesn't open a connection per edit.
 `infra/repositories/<entity>.prisma.repository.ts` is the only place Prisma
-types are allowed; it implements the interface in `core/repositories/` and
-returns `core/entities/` types. The OFX flow (`app/api/ofx/` parses,
-`app/api/ofx-imports/` records) dedupes by SHA-256 of the uploaded bytes; the
-import row is free-standing on purpose — no relation back to the movements it
-produced, because there is no undo (the reason is written in the schema).
+types may appear; it implements the `core/repositories` interface and returns
+`core/entities` types. The OFX flow (`app/api/ofx/` parses,
+`app/api/ofx-imports/` records) dedupes on SHA-256 of the bytes; the import row
+deliberately has no relation back to the movements it created, because there is
+no undo (reason in the schema).
 
-### File size
-Max 100 lines, no exceptions — split into more components, extract a helper,
-or pull hook logic into a `*.helper.ts`.
+**File size** — 100 lines, no exceptions: split the component, extract a
+`*.helper.ts`. Enforced by `scripts/check-line-cap.sh`, counting **plain**
+lines on files this branch touched under `src`/`e2e`, working tree included.
+Biome is not that check and cannot be: `noExcessiveLinesPerFile` never reads
+`.scss` and skips comment-only lines in `.ts`/`.tsx` — a 105-line file shipped
+under it. Both Biome rules stay on anyway (`maxLines: 100`, file + function) so
+a bloated function can't hide under the file cap.
 
-Enforced by `scripts/check-line-cap.sh` (`npm run lint:lines`), counting
-**plain** lines on the files the current branch touched under `src`/`e2e`,
-working tree included. Biome is *not* this check and cannot be made into it:
-`noExcessiveLinesPerFile` never reads `.scss`, and on `.ts`/`.tsx` it skips
-comment-only lines — a 105-line file can sit there with Biome silent, which is
-exactly how one shipped. Both rules are still on in `biome.json`
-(`noExcessiveLinesPerFile` + `noExcessiveLinesPerFunction`, `maxLines: 100`) so
-a bloated function can't hide under the file cap. A task/PR isn't review-ready
-until `npm run lint` — both gates — is all-green, front and back alike.
-
-### SOLID / Clean Architecture, operationalized
-- SRP: the 100-line cap forces it mechanically on both `hook.ts` and
-  `service.ts`.
-- DIP: services/use-cases depend on a `core/repositories` interface, never on
-  the SQLite driver directly — swapping storage later means a new `infra/`
-  implementation, zero changes to `core/` or `app/`.
-- ISP: one narrow repository interface per entity, not one god-repository.
-- Layering itself isn't mechanically checked yet — Biome has no Nx-style
-  boundary rule. `noRestrictedImports` + per-folder `overrides` can
-  approximate it once `core/infra` actually have enough files to police; not
-  worth wiring before then.
-
-### Consistent API shape
-Every route returns the same success/error envelope (e.g. `{ data }` /
-`{ error: { message, code } }`), so the frontend never special-cases a given
-endpoint's failure shape.
-
-### Testing
-End to end, by behaviour, and nothing else. What is tested is what a user can
-see: a spec drives the real app in a real browser and asserts on the screen.
-What is **not** tested is anything in isolation — no file, helper, hook,
-service or component has its own test, and there is no unit runner left to
-write one with. Renaming a helper or moving it between folders must never turn
-a test red; if it could, the test was pinning implementation detail, which is
-exactly what this repo stopped paying for.
-
-`npm run test:e2e` — aliased as `npm run test` — is the whole suite
-(Playwright, `playwright.config.ts`). Specs live in `e2e/`. The run boots its
-own `next dev` on :3100 (never reusing a running one) against a throwaway
-`e2e.db` that it deletes and re-migrates via `db:setup` every time — `dev.db`
-is never touched.
-
-### Request validation
-Zod. Route handlers are a trust boundary — the request body is parsed
-through a Zod schema before it reaches the service.
+**Testing** — end to end, by behaviour, and nothing else: a spec drives the
+real app in a real browser and asserts on the screen. Nothing is tested in
+isolation — no helper, hook, service or component has its own test, and there
+is no unit runner to write one with. Renaming or moving a helper must never
+redden a test; if it could, the test was pinning implementation detail. Specs
+in `e2e/` (Playwright). The run boots its own `next dev` on :3100, never
+reusing a running one, against a throwaway `e2e.db` it deletes and re-migrates
+every time — `dev.db` is never touched.
