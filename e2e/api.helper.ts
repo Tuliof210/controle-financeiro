@@ -17,6 +17,15 @@ export async function post(path: string, body: unknown) {
   return (await res.json()).data;
 }
 
+export async function put(path: string, body: unknown) {
+  const res = await fetch(`${BASE_URL}${path}`, {
+    method: "PUT",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify(body),
+  });
+  return (await res.json()).data;
+}
+
 export async function list(path: string): Promise<Named[]> {
   return (await fetch(`${BASE_URL}${path}`).then((r) => r.json())).data ?? [];
 }

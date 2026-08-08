@@ -12,6 +12,7 @@ import {
   expectNoCeiling,
   expectScenarios,
 } from "./ceiling-expect.helper";
+import { expectMetaCapsEveryMonth, seedMeta } from "./ceiling-meta.helper";
 import { openCeiling, readMonths, rowsOf, SLOW } from "./ceiling-page.helper";
 import { seed } from "./seed.helper";
 
@@ -28,6 +29,7 @@ test.beforeAll(async () => {
   // before this fixture's months mean anything.
   await seed();
   await seedCeiling();
+  await seedMeta();
 });
 
 test("each month's figure discounts the months before it", async ({ page }) => {
@@ -84,4 +86,12 @@ test("the cap selector moves the figures, and never under", async ({
   page,
 }) => {
   await expectCapMovesTheFigures(page, await openCeiling(page, DIP_PERSON));
+});
+
+// Same fixture and same reason as the cap test above, one target further: the
+// dip is what makes "the goal binds" and "the headroom binds" different
+// numbers. The card is reopened rather than shared, so the goal is saved before
+// the payload that has to offer the segment is fetched.
+test("the Meta target never hands out more than the goal", async ({ page }) => {
+  await expectMetaCapsEveryMonth(await openCeiling(page, DIP_PERSON));
 });

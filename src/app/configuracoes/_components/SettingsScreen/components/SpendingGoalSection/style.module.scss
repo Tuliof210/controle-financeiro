@@ -1,0 +1,15 @@
+.help {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+}
+
+// Same shape as GoalForm's error, for the same reason: it is the one thing on
+// the card that must not read as ordinary copy.
+.error {
+  margin: 0;
+  color: var(--color-negative);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+}

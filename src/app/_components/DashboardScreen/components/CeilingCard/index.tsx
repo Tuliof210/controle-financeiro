@@ -24,6 +24,7 @@ export function CeilingCard(props: CeilingCardProps) {
     rates,
     monthsLeft,
     cap,
+    hasMeta,
     onCapChange,
   } = useCeilingCard(props);
 
@@ -33,7 +34,9 @@ export function CeilingCard(props: CeilingCardProps) {
       icon={Wallet}
       hint={HINTS.ceiling}
       band="ink"
-      headerEnd={<CapSelector value={cap} onChange={onCapChange} />}
+      headerEnd={
+        <CapSelector value={cap} hasMeta={hasMeta} onChange={onCapChange} />
+      }
     >
       <div className={`${styles.split} ${empty ? styles.alone : ""}`}>
         <div className={styles.summary}>

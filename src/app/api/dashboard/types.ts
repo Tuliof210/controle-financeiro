@@ -66,6 +66,11 @@ export type DashboardData =
       expense: Stats;
       balance: Stats;
       ceiling: Ceiling;
+      // The monthly spending goal saved in /configuracoes, or null when there
+      // is none. A setting and not a ceiling output, which is why it rides on
+      // the payload rather than inside `ceiling`: the cap selector needs it to
+      // decide whether to offer the Meta segment, whatever target is active.
+      meta: number | null;
       pace: number;
       goals: GoalProjection[];
     };

@@ -2,6 +2,13 @@ import { derivePeriod } from "@/core/use-cases/period.service";
 import { forecastRepository } from "@/infra/repositories/forecast.prisma.repository";
 import { goalRepository } from "@/infra/repositories/goal.prisma.repository";
 import { movementRepository } from "@/infra/repositories/movement.prisma.repository";
+import { settingsRepository } from "@/infra/repositories/settings.prisma.repository";
+import {
+  type CeilingCap,
+  capPercent,
+  DEFAULT_CEILING_CAP,
+  META_CAP,
+} from "@/lib/ceiling-caps";
 import { buildMonths, currentYYYYMM } from "@/lib/months";
 import { visibleFor } from "@/lib/ownership";
 import type { SimulationView } from "@/lib/simulation";
@@ -10,14 +17,23 @@ import type { DashboardData } from "./types";
 
 export async function getDashboard(
   owner: string,
-  cap: number,
+  cap: CeilingCap,
   simulation: SimulationView,
 ): Promise<DashboardData> {
-  const [movements, all, goals] = await Promise.all([
+  const [movements, all, goals, settings] = await Promise.all([
     movementRepository.list(),
     forecastRepository.list(),
     goalRepository.list(),
+    settingsRepository.get(),
   ]);
+
+  // Zero reads as unset, exactly as it does on the settings screen: clearing
+  // the field is how the goal is removed, there being no DELETE for it.
+  const meta = settings?.monthlyGoalCents ? settings.monthlyGoalCents : null;
+  // Asking for Meta without one falls back to the default target — the same
+  // doctrine as route.ts's `.catch`, one step later: an unusable value on this
+  // parameter must never turn into an error notice over an honest board.
+  const target = cap === META_CAP && meta === null ? DEFAULT_CEILING_CAP : cap;
 
   // Filtered here rather than beside visibleFor below, because "as if they had
   // never been registered" has to include the range: derivePeriod reads this
@@ -47,6 +63,8 @@ export async function getDashboard(
     goals,
     movements: visibleFor(movements, owner),
     forecasts: visibleFor(forecasts, owner),
-    cap,
+    cap: capPercent(target),
+    limit: target === META_CAP ? meta : null,
+    meta,
   });
 }
