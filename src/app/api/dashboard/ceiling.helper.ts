@@ -1,25 +1,6 @@
-import type { Ceiling, CeilingMonth, CeilingRates } from "./ceiling.types";
+import type { Ceiling, CeilingMonth } from "./ceiling.types";
+import { rates, suffixMinimum, tightestMonth } from "./ceiling-math.helper";
 import type { MonthPoint } from "./types";
-
-// One figure at the three cadences the card shows. The headline floors the same
-// way, for the same reason the budget itself does: an allowance rounds DOWN.
-const rates = (monthly: number): CeilingRates => ({
-  monthly,
-  weekly: Math.floor(monthly / 4),
-  daily: Math.floor(monthly / 30),
-});
-
-// The worst projected balance from each month to the range end, right to left in
-// one pass. Seeded from the LAST balance rather than a sentinel: the formula this
-// replaces seeded POSITIVE_INFINITY, and Infinity - Infinity is NaN.
-function suffixMinimum(ahead: MonthPoint[]): number[] {
-  const worst = new Array<number>(ahead.length);
-  worst[worst.length - 1] = ahead[ahead.length - 1].cumulative;
-  for (let index = worst.length - 2; index >= 0; index -= 1) {
-    worst[index] = Math.min(ahead[index].cumulative, worst[index + 1]);
-  }
-  return worst;
-}
 
 // Spending extra in month k lowers the cumulative balance of k AND every month
 // after it, so k's headroom is never k's own balance: it is the WORST balance
@@ -44,10 +25,20 @@ function suffixMinimum(ahead: MonthPoint[]): number[] {
 // `gap * (cap / 100)` and flooring per step would compound float error down a
 // recursion as deep as the range is long. Math.floor everywhere: a spending
 // allowance always rounds DOWN. Never Math.trunc — it differs on negatives.
+//
+// `limit` is the Meta target and nothing else: a hard ceiling in cents on what
+// any single month may hand out, applied AFTER the percentage. Null for the
+// percentage targets, which have no such ceiling. It changes no rule above —
+// the suffix minimum, the accumulator and the `red ? 0` all still decide what
+// is available; the limit only declines part of what was offered, and what it
+// declines stays in `worst` for the months that follow. That is the whole
+// "sobra para o mês seguinte" behaviour, and it is the accumulator's, not new
+// arithmetic here.
 export function buildCeiling(
   points: MonthPoint[],
   currentMonth: number,
   cap: number,
+  limit: number | null,
 ): Ceiling {
   // Never empty: service.ts answers "out_of_range" when the current month is
   // outside the range, and `points` is 1:1 with the months of that range.
@@ -67,7 +58,11 @@ export function buildCeiling(
     // Defensive only: `worst` is non-decreasing and the gap stays >= 0 by
     // induction, so a negative gap means one of those two broke.
     const gap = Math.max(0, worst[index] - authorised);
-    const budget = red ? 0 : Math.floor((gap * cap) / 100);
+    const offered = red ? 0 : Math.floor((gap * cap) / 100);
+    // Math.min against a null-checked number rather than `limit ?? Infinity`:
+    // Infinity is what the seed of `suffixMinimum` above had to be rewritten to
+    // avoid, and there is no reason to reintroduce it one loop away.
+    const budget = limit === null ? offered : Math.min(offered, limit);
     const { month, cumulative } = ahead[index];
     // Read BEFORE this month is authorised: the balance ARRIVING at the month.
     const ceilingBalance = cumulative - authorised;
@@ -90,10 +85,4 @@ export function buildCeiling(
     firstRed: red ? { month: red.month, shortfall: -red.cumulative } : null,
     months,
   };
-}
-
-// `worst[0]` is a minimum OVER these balances, so a match always exists; the
-// fallback is there to satisfy the type and is unreachable.
-function tightestMonth(ahead: MonthPoint[], floor: number): number {
-  return (ahead.find((point) => point.cumulative === floor) ?? ahead[0]).month;
 }

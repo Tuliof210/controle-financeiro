@@ -16,7 +16,7 @@ export function CapSelector(props: CapSelectorProps) {
 
   return (
     <fieldset className={styles.group}>
-      <legend className={styles.legend}>Percentual do saldo liberado</legend>
+      <legend className={styles.legend}>Quanto do saldo é liberado</legend>
       {segments.map(({ cap, label, checked }) => (
         <label key={cap} className={styles.segment}>
           <input

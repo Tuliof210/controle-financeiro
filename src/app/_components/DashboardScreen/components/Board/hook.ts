@@ -20,6 +20,7 @@ export function useBoard({ data, cap, onCapChange }: BoardProps) {
     cap,
     onCapChange,
     ceiling: data.ceiling,
+    meta: data.meta,
     // CeilingCard marks a month as projected by comparing it to this. It lives
     // on the range, not on the rows, so the board is the one place reading it.
     current: data.range.current,

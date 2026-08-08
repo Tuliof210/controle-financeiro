@@ -12,13 +12,14 @@ import styles from "./style.module.scss";
 // card — its own <section> — so that same --space-6 reaches it from this
 // column's gap alone.
 export function Board(props: BoardProps) {
-  const { data, ceiling, current, cap, onCapChange } = useBoard(props);
+  const { data, ceiling, meta, current, cap, onCapChange } = useBoard(props);
 
   return (
     <div className={styles.board}>
       <Overview data={data} />
       <CeilingCard
         ceiling={ceiling}
+        meta={meta}
         current={current}
         cap={cap}
         onCapChange={onCapChange}

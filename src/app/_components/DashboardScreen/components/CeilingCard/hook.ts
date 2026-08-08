@@ -11,6 +11,9 @@ import { useShowAll } from "../../show-all.hook";
 // arrive already computed at that cap, so nothing here reads it.
 export type CeilingCardProps = {
   ceiling: Ceiling;
+  // Only ever asked whether it exists: the amount itself is already baked into
+  // the figures below, so the card never prints it.
+  meta: number | null;
   current: number;
   cap: CeilingCap;
   onCapChange: (cap: CeilingCap) => void;
@@ -18,6 +21,7 @@ export type CeilingCardProps = {
 
 export function useCeilingCard({
   ceiling,
+  meta,
   current,
   cap,
   onCapChange,
@@ -79,6 +83,7 @@ export function useCeilingCard({
     // thing as an action; this says it as a fact, and survives the collapse.
     count: `${show.rows.length} de ${months.length} meses`,
     cap,
+    hasMeta: meta !== null,
     onCapChange,
     ...show,
   };
