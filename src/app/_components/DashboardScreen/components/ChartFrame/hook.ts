@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { formatYyyymm } from "@/lib/months.ts";
 import { tickFormatterFor } from "../../chart.config.ts";
 import type { buildFrame } from "../../chart-frame.helper.ts";
 
@@ -33,7 +34,11 @@ export function useChartFrame({
     children,
     // Same measured width buildFrame used to pick the 12/6-month window — the
     // narrower mobile window is also where the full grouped format ("R$
-    // 12.345") gets too wide for the axis gutter.
-    formatTick: tickFormatterFor(width),
+    // 12.345") gets too wide for the axis gutter. Both formatters take visx's
+    // own tick value, so index.tsx hands them over as plain references.
+    formatTick: (value: { valueOf: () => number }) =>
+      tickFormatterFor(width)(Number(value)),
+    formatMonthTick: (value: { valueOf: () => number }) =>
+      formatYyyymm(Number(value)),
   };
 }

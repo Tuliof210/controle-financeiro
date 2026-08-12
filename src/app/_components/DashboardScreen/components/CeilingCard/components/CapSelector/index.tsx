@@ -12,12 +12,12 @@ import styles from "./style.module.scss";
 // hangs off `:checked` on the sibling span — the state and its appearance are
 // one declaration, so they cannot drift.
 export function CapSelector(props: CapSelectorProps) {
-  const { segments, onChange } = useCapSelector(props);
+  const { segments } = useCapSelector(props);
 
   return (
     <fieldset className={styles.group}>
       <legend className={styles.legend}>Quanto do saldo é liberado</legend>
-      {segments.map(({ cap, label, checked }) => (
+      {segments.map(({ cap, label, checked, select }) => (
         <label key={cap} className={styles.segment}>
           <input
             className={styles.input}
@@ -25,7 +25,7 @@ export function CapSelector(props: CapSelectorProps) {
             name="ceiling-cap"
             value={cap}
             checked={checked}
-            onChange={() => onChange(cap)}
+            onChange={select}
           />
           <span className={styles.text}>{label}</span>
         </label>

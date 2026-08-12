@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { type ChangeEvent, useEffect } from "react";
 import {
   composeYyyymm,
   currentYyyymm,
@@ -35,9 +35,11 @@ export function useMonthPicker({
     month,
     months: MONTH_LABELS,
     years: yearOptions(),
-    onMonthChange: (nextMonth: number) =>
-      onChange(composeYyyymm(year, nextMonth)),
-    onYearChange: (nextYear: number) =>
-      onChange(composeYyyymm(nextYear, month)),
+    // The <select> event is unwrapped here so index.tsx passes a plain
+    // reference instead of building a closure in the JSX.
+    onMonthChange: (event: ChangeEvent<HTMLSelectElement>) =>
+      onChange(composeYyyymm(year, Number(event.target.value))),
+    onYearChange: (event: ChangeEvent<HTMLSelectElement>) =>
+      onChange(composeYyyymm(Number(event.target.value), month)),
   };
 }

@@ -17,7 +17,9 @@ export function PeopleSection() {
     error,
     modal,
     target,
-    open,
+    openAdd,
+    openEdit,
+    openDelete,
     close,
     onAdd,
     onUpdate,
@@ -34,13 +36,13 @@ export function PeopleSection() {
             <PersonRow
               key={person.id}
               person={person}
-              onEdit={() => open("edit", person)}
-              onDelete={() => open("delete", person)}
+              onEdit={openEdit}
+              onDelete={openDelete}
             />
           ))}
         </RowGrid>
       )}
-      <Button variant="dashed" onClick={() => open("add")}>
+      <Button variant="dashed" onClick={openAdd}>
         <Plus size={16} aria-hidden={true} />
         Adicionar pessoa
       </Button>

@@ -35,8 +35,8 @@ export function GoalsSection() {
             <GoalRow
               key={goal.id}
               goal={goal}
-              onEdit={() => openEdit(goal)}
-              onDelete={() => openDelete(goal)}
+              onEdit={openEdit}
+              onDelete={openDelete}
             />
           ))}
         </RowGrid>

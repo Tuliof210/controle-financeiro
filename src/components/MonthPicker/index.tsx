@@ -14,7 +14,7 @@ export function MonthPicker(props: MonthPickerProps) {
           aria-label={`${label} - mês`}
           className={styles.select}
           value={month}
-          onChange={(event) => onMonthChange(Number(event.target.value))}
+          onChange={onMonthChange}
         >
           {months.map((monthLabel, index) => (
             <option key={monthLabel} value={index + 1}>
@@ -27,7 +27,7 @@ export function MonthPicker(props: MonthPickerProps) {
           aria-label={`${label} - ano`}
           className={styles.select}
           value={year}
-          onChange={(event) => onYearChange(Number(event.target.value))}
+          onChange={onYearChange}
         >
           {years.map((yearOption) => (
             <option key={yearOption} value={yearOption}>

@@ -23,7 +23,7 @@ export function useCapSelector({ value, hasMeta, onChange }: CapSelectorProps) {
       cap,
       label: cap === META_CAP ? "Meta" : `${cap}%`,
       checked: cap === value,
+      select: () => onChange(cap),
     })),
-    onChange,
   };
 }

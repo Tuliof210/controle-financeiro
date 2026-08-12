@@ -17,7 +17,8 @@ export function useColorPicker({ value, onChange }: ColorPickerProps) {
     ]
       .filter(Boolean)
       .join(" "),
+    select: () => onChange(key),
   }));
 
-  return { swatches, onChange };
+  return { swatches };
 }

@@ -2,17 +2,11 @@ import { LinePath } from "@visx/shape";
 import { ChartFrame } from "../ChartFrame/index.tsx";
 import { useChartTooltip } from "../ChartTooltip/hook.ts";
 import { ChartTooltip } from "../ChartTooltip/index.tsx";
+import { DotMark } from "./components/DotMark/index.tsx";
 import { TightestMark } from "./components/TightestMark/index.tsx";
 import { type BalanceLineChartProps, useBalanceLineChart } from "./hook.ts";
 
 const LINE = { stroke: "var(--color-brand)", strokeWidth: 2 };
-// The actual pointer target: bigger than the visible r=3 dot, so landing
-// near a point is as reliable as landing exactly on its 6px face.
-const HIT_RADIUS = 10;
-
-// The dot is 3px and a projected point draws at half opacity.
-const DOT_RADIUS = 3;
-const PROJECTED_OPACITY = 0.5;
 
 export function BalanceLineChart(props: BalanceLineChartProps) {
   const {
@@ -57,28 +51,15 @@ export function BalanceLineChart(props: BalanceLineChartProps) {
           <TightestMark {...tightestMark} height={frame.innerHeight} />
         )}
         {dots.map((dot) => (
-          <g key={dot.key}>
-            <circle
-              cx={dot.cx}
-              cy={dot.cy}
-              r={DOT_RADIUS}
-              fill="var(--color-brand)"
-              fillOpacity={dot.projected ? PROJECTED_OPACITY : 1}
-            />
-            {/* Invisible hit target, not the <title> this replaces — a
-                native title tooltip is slow to open and tied to the tiny
-                visible dot. aria-label keeps the accessible name. */}
-            <circle
-              cx={dot.cx}
-              cy={dot.cy}
-              r={HIT_RADIUS}
-              fill="transparent"
-              aria-label={dot.title}
-              onPointerEnter={(event) => showTooltip(event, dot.title)}
-              onPointerMove={(event) => showTooltip(event, dot.title)}
-              onPointerLeave={hideTooltip}
-            />
-          </g>
+          <DotMark
+            key={dot.key}
+            cx={dot.cx}
+            cy={dot.cy}
+            title={dot.title}
+            projected={dot.projected}
+            showTooltip={showTooltip}
+            hideTooltip={hideTooltip}
+          />
         ))}
       </ChartFrame>
       <ChartTooltip tooltip={tooltip} />

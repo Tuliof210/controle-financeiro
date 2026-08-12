@@ -4,11 +4,7 @@ import { Button } from "@/components/Button/index.tsx";
 import { MoneyInput } from "@/components/MoneyInput/index.tsx";
 import { SelectField } from "@/components/SelectField/index.tsx";
 import { TextField } from "@/components/TextField/index.tsx";
-import {
-  ENTRY_TYPES,
-  SELECTED_VARIANT,
-  TYPE_LABELS,
-} from "@/lib/entry-types.ts";
+import { TypeToggle } from "./components/TypeToggle/index.tsx";
 import type { EntryFormProps } from "./entry-form.helper.ts";
 import styles from "./style.module.scss";
 
@@ -46,17 +42,7 @@ export function EntryForm({
         onChange={setValueCents}
         ariaLabel="Valor"
       />
-      <div className={styles.typeToggle}>
-        {ENTRY_TYPES.map((kind) => (
-          <Button
-            key={kind}
-            variant={type === kind ? SELECTED_VARIANT[kind] : "ghost"}
-            onClick={() => setType(kind)}
-          >
-            {TYPE_LABELS[kind]}
-          </Button>
-        ))}
-      </div>
+      <TypeToggle value={type} onChange={setType} />
       <SelectField
         id={`${idPrefix}-owner`}
         label="Responsável"

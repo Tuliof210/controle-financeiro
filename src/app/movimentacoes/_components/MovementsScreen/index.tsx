@@ -6,6 +6,8 @@ import { formatYyyymm } from "@/lib/months.ts";
 import type { MovementFormValues } from "./components/MovementForm/hook.ts";
 import { MovementForm } from "./components/MovementForm/index.tsx";
 
+const renderPeriod = (movement: Movement) => formatYyyymm(movement.month);
+
 export function MovementsScreen() {
   return (
     <EntryScreen<Movement, MovementFormValues>
@@ -34,7 +36,7 @@ export function MovementsScreen() {
           emptyHint: "Mês limpo — ou o filtro está estreito demais.",
         },
       }}
-      renderPeriod={(movement) => formatYyyymm(movement.month)}
+      renderPeriod={renderPeriod}
       form={MovementForm}
     />
   );
