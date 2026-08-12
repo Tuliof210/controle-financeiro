@@ -121,6 +121,19 @@
       }
     },
     {
+      "includes": ["src/**/tests/**"],
+      "javascript": {
+        "globals": ["jest"]
+      },
+      "linter": {
+        "rules": {
+          "style": {
+            "noMagicNumbers": "off"
+          }
+        }
+      }
+    },
+    {
       "includes": [".design-sync/gen-cards.mjs"],
       "linter": {
         "rules": {
