@@ -25,7 +25,7 @@
   "linter": {
     "enabled": true,
     "rules": {
-      "recommended": true,
+      "preset": "all",
       "complexity": {
         "noExcessiveLinesPerFunction": {
           "level": "on",
@@ -40,8 +40,19 @@
       }
     },
     "domains": {
-      "next": "recommended",
-      "react": "recommended"
+      "next": "all",
+      "react": "all",
+      "types": "all",
+      "test": "all",
+      "solid": "none",
+      "qwik": "none",
+      "vue": "none",
+      "svelte": "none",
+      "reactNative": "none",
+      "drizzle": "none",
+      "tailwind": "none",
+      "turborepo": "none",
+      "playwright": "none"
     }
   },
   "assist": {
