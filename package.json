@@ -13,8 +13,6 @@
     "lint:lines": "sh scripts/check-line-cap.sh",
     "lint:fix": "biome check --write .",
     "format": "biome format --write",
-    "test": "npm run test:e2e",
-    "test:e2e": "playwright test",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },
@@ -34,7 +32,6 @@
   },
   "devDependencies": {
     "@biomejs/biome": "^2.5.5",
-    "@playwright/test": "^1.62.0",
     "@storybook/addon-docs": "10.5.3",
     "@storybook/nextjs-vite": "10.5.3",
     "@types/node": "^20",
