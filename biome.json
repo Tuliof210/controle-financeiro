@@ -36,6 +36,14 @@
       },
       "style": {
         "noExcessiveLinesPerFile": "off"
+      },
+      "security": {
+        "noSecrets": {
+          "level": "on",
+          "options": {
+            "entropyThreshold": 43
+          }
+        }
       }
     },
     "domains": {
@@ -93,6 +101,43 @@
                 "maxLines": 100
               }
             }
+          }
+        }
+      }
+    },
+    {
+      "includes": ["prisma.config.ts", "src/infra/db/client.ts"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noProcessEnv": "off"
+          },
+          "correctness": {
+            "noProcessGlobal": "off"
+          }
+        }
+      }
+    },
+    {
+      "includes": ["src/app/api/ofx/service.ts"],
+      "linter": {
+        "rules": {
+          "correctness": {
+            "noNodejsModules": "off"
+          }
+        }
+      }
+    },
+    {
+      "includes": [".design-sync/gen-cards.mjs"],
+      "linter": {
+        "rules": {
+          "correctness": {
+            "noNodejsModules": "off",
+            "noProcessGlobal": "off"
+          },
+          "suspicious": {
+            "noConsole": "off"
           }
         }
       }
