@@ -22,9 +22,10 @@ export function readOfx(bytes: Uint8Array, fileName: string): ReadOfxResult {
 
   const parse = parseOfx(text);
   if (parse.statements.length === 0) {
-    return parse.cardBlocks > 0
-      ? { status: "cardOnly" }
-      : { status: "noStatement" };
+    if (parse.cardBlocks > 0) {
+      return { status: "cardOnly" };
+    }
+    return { status: "noStatement" };
   }
 
   // Over the RAW bytes, not the decoded text: decodeOfx normalises encodings,
@@ -34,7 +35,8 @@ export function readOfx(bytes: Uint8Array, fileName: string): ReadOfxResult {
   const report = buildReport(parse, fileName, fileHash);
   // A statement whose every row is zero renders a table that answers nothing —
   // "empty" is the honest response, not a valid report.
-  return report.totals.count === 0
-    ? { status: "empty" }
-    : { status: "ok", report };
+  if (report.totals.count === 0) {
+    return { status: "empty" };
+  }
+  return { status: "ok", report };
 }

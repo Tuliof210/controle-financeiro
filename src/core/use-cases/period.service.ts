@@ -23,7 +23,8 @@ export function derivePeriod(
     ...movements.map((movement) => movement.month),
     ...forecasts.flatMap((forecast) => forecast.months),
   ];
-  return months.length === 0
-    ? null
-    : { start: Math.min(...months), end: Math.max(...months) };
+  if (months.length === 0) {
+    return null;
+  }
+  return { start: Math.min(...months), end: Math.max(...months) };
 }

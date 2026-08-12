@@ -7,12 +7,15 @@ import styles from "./style.module.scss";
 export function TagNode(props: TagNodeProps) {
   const node = useTagNode(props);
 
-  return "value" in node ? (
-    <li className={styles.leaf}>
-      <span className={styles.tag}>{node.tag}</span>
-      <span className={styles.value}>{node.value}</span>
-    </li>
-  ) : (
+  if ("value" in node) {
+    return (
+      <li className={styles.leaf}>
+        <span className={styles.tag}>{node.tag}</span>
+        <span className={styles.value}>{node.value}</span>
+      </li>
+    );
+  }
+  return (
     <li>
       <details open={true}>
         <summary className={styles.tag}>{node.tag}</summary>

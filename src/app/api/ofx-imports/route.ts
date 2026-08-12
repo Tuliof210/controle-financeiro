@@ -53,9 +53,14 @@ async function POST(request: NextRequest) {
 
   try {
     const imported = await importOfx(parsed.data);
-    return imported === null
-      ? fail("Este arquivo já foi importado", "already_imported", CONFLICT)
-      : ok({ imported }, CREATED);
+    if (imported === null) {
+      return fail(
+        "Este arquivo já foi importado",
+        "already_imported",
+        CONFLICT,
+      );
+    }
+    return ok({ imported }, CREATED);
   } catch (error) {
     return fail(...refusal(error));
   }

@@ -25,7 +25,10 @@ interface OfxParse {
 // A leaf whose value has to be a month, e.g. <DTSTART> or <DTASOF>.
 const monthLeaf = (block: string, tag: string): number | null => {
   const raw = leaf(block, tag);
-  return raw ? dateToMonth(raw) : null;
+  if (raw) {
+    return dateToMonth(raw);
+  }
+  return null;
 };
 
 function readTransactions(block: string): OfxTransaction[] {

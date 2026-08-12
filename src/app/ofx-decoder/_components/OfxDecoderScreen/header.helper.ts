@@ -22,9 +22,10 @@ function skipWs(text: string, at: number): number {
 }
 
 function splitEntry(text: string, at: number): HeaderEntry {
-  return at === -1
-    ? { key: text, value: "" }
-    : { key: text.slice(0, at), value: text.slice(at + 1) };
+  if (at === -1) {
+    return { key: text, value: "" };
+  }
+  return { key: text.slice(0, at), value: text.slice(at + 1) };
 }
 
 // 1.x: "KEY:VALUE" lines in the prefix before the first tag. 2.x's prefix is

@@ -9,9 +9,10 @@ export function visibleFor<T extends { ownerId: string }>(
   all: T[],
   profile: string,
 ): T[] {
-  return profile === FAMILY_PROFILE
-    ? all
-    : all.filter((item) => item.ownerId === profile);
+  if (profile === FAMILY_PROFILE) {
+    return all;
+  }
+  return all.filter((item) => item.ownerId === profile);
 }
 
 export function splitByType<T extends { type: EntryType }>(items: T[]) {

@@ -41,7 +41,8 @@ export async function POST(request: NextRequest) {
   }
 
   const result = readOfx(new Uint8Array(await file.arrayBuffer()), file.name);
-  return result.status === "ok"
-    ? ok(result.report)
-    : fail(MESSAGES[result.status], result.status, UNPROCESSABLE);
+  if (result.status === "ok") {
+    return ok(result.report);
+  }
+  return fail(MESSAGES[result.status], result.status, UNPROCESSABLE);
 }

@@ -36,7 +36,10 @@ export function amountToCents(raw: string): number | null {
   if (Math.abs(cents) > MAX_CENTS) {
     return null;
   }
-  return sign === "-" ? -cents : cents;
+  if (sign === "-") {
+    return -cents;
+  }
+  return cents;
 }
 
 // <DTPOSTED> is YYYYMMDD[HHMMSS][[-3:BRT]] — the first six digits already ARE
@@ -50,5 +53,8 @@ export function dateToMonth(raw: string): number | null {
   const month = Number(digits);
   const inYear =
     month % YEAR_SHIFT >= FIRST_MONTH && month % YEAR_SHIFT <= LAST_MONTH;
-  return inYear && month >= MONTH_MIN && month <= MONTH_MAX ? month : null;
+  if (inYear && month >= MONTH_MIN && month <= MONTH_MAX) {
+    return month;
+  }
+  return null;
 }

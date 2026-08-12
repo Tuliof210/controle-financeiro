@@ -11,9 +11,10 @@ const JANUARY = 1;
 // Next YYYYMM, rolling the year over after December.
 function nextMonth(yyyymm: number): number {
   const { year, month } = splitYyyymm(yyyymm);
-  return month === DECEMBER
-    ? composeYyyymm(year + 1, JANUARY)
-    : composeYyyymm(year, month + 1);
+  if (month === DECEMBER) {
+    return composeYyyymm(year + 1, JANUARY);
+  }
+  return composeYyyymm(year, month + 1);
 }
 
 // Intervals -> the flat, de-duped, sorted set of active YYYYMM months. This is

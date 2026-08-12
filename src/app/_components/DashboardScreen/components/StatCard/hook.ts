@@ -4,7 +4,7 @@ import type { BandTone } from "@/components/SectionCard/hook.ts";
 import { formatMoney } from "@/lib/money.ts";
 import { spark } from "../../spark.helper.ts";
 
-export interface StatCardProps {
+interface StatCardProps {
   title: string;
   icon: LucideIcon;
   hint: string;
@@ -17,7 +17,45 @@ export interface StatCardProps {
   signed?: boolean;
 }
 
-export function useStatCard({
+// src/styles/README.md rule 7: meaning is never colour-only — the glyph is what
+// makes the accent readable without colour vision. Only a signed card draws one.
+function signGlyph(signed: boolean | undefined, negative: boolean) {
+  if (signed !== true) {
+    return null;
+  }
+  if (negative) {
+    return "▼";
+  }
+  return "▲";
+}
+
+// A signed card derives its accent from the sign; the fixed-tone cards keep the
+// tone they were given.
+function signedTone(
+  signed: boolean | undefined,
+  negative: boolean,
+  tone: StatCardProps["tone"],
+) {
+  if (signed !== true) {
+    return tone;
+  }
+  if (negative) {
+    return "negative" as const;
+  }
+  return "positive" as const;
+}
+
+// A literal token string handed to SVG as a presentation attribute, exactly as
+// chart.config.ts does: it resolves inside the SVG and follows the theme switch
+// with no JS. Keyed on the FIXED tone, so Saldo's line keeps one colour instead
+// of flipping green/red with the sign of its total.
+const TONE_COLOR = {
+  positive: "var(--color-positive)",
+  negative: "var(--color-negative)",
+  brand: "var(--color-brand)",
+} as const;
+
+function useStatCard({
   title,
   icon,
   hint,
@@ -26,11 +64,8 @@ export function useStatCard({
   tone,
   signed,
 }: StatCardProps) {
-  // src/styles/README.md rule 7: meaning is never colour-only — money pairs
-  // colour with a sign and a ▲/▼ glyph. formatMoney already carries the sign;
-  // the glyph is what makes the accent readable without colour vision.
-  const negative = signed && stats.total < 0;
-  const glyph = signed ? (negative ? "▼" : "▲") : null;
+  const negative = signed === true && stats.total < 0;
+  const glyph = signGlyph(signed, negative);
 
   // Annotated, not inferred: a bare "brand" in the object literal below widens
   // to `string` and stops matching SectionCard's prop.
@@ -45,19 +80,10 @@ export function useStatCard({
     hint,
     glyph,
     total: formatMoney(stats.total),
-    tone: signed ? (negative ? "negative" : "positive") : tone,
+    tone: signedTone(signed, negative, tone),
     band,
     spark: spark(series),
-    // A literal token string handed to SVG as a presentation attribute, exactly
-    // as chart.config.ts does: it resolves inside the SVG and follows the theme
-    // switch with no JS. Keyed on the FIXED tone, so Saldo's line keeps one
-    // colour instead of flipping green/red with the sign of its total.
-    color:
-      tone === "positive"
-        ? "var(--color-positive)"
-        : tone === "negative"
-          ? "var(--color-negative)"
-          : "var(--color-brand)",
+    color: TONE_COLOR[tone ?? "brand"],
     // Secondary rows stay neutral: formatMoney's minus sign carries the
     // meaning, so they need no glyph to go with an accent colour.
     rows: [
@@ -68,3 +94,6 @@ export function useStatCard({
     ].map((row) => ({ ...row, value: formatMoney(row.value) })),
   };
 }
+
+export type { StatCardProps };
+export { useStatCard };

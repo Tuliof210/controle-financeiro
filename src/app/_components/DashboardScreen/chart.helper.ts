@@ -6,7 +6,10 @@ import type { MonthPoint } from "@/app/api/dashboard/types.ts";
 export function yDomain(values: number[]): [number, number] {
   const low = Math.min(0, ...values);
   const high = Math.max(0, ...values);
-  return low === high ? [0, 1] : [low, high];
+  if (low === high) {
+    return [0, 1];
+  }
+  return [low, high];
 }
 
 // Splits the balance series where history stops and projection starts. The two

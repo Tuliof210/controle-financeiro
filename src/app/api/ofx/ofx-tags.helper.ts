@@ -14,7 +14,10 @@ export function leaf(block: string, tag: string): string | null {
     return null;
   }
   const value = match[1].trim();
-  return value ? value : null;
+  if (value) {
+    return value;
+  }
+  return null;
 }
 
 // Every occurrence of an aggregate's inner text. Aggregates ARE closed in both

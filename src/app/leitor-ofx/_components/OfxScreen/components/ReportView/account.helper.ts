@@ -12,7 +12,10 @@ import { formatMoney } from "@/lib/money.ts";
 export const accountLabel = (accounts: OfxAccount[]): string => {
   const first = accounts.find((account) => account.accountId)?.accountId;
   const others = accounts.length - 1;
-  return first ? `${first}${others > 0 ? ` +${others}` : ""}` : "—";
+  if (first) {
+    return `${first}${others > 0 ? ` +${others}` : ""}`;
+  }
+  return "—";
 };
 
 // Every OfxAccount field is nullable, so this walks to the LAST account that
@@ -23,5 +26,8 @@ export const finalBalance = (accounts: OfxAccount[]): string => {
     (last, account) => account.balanceCents ?? last,
     null,
   );
-  return cents === null ? "—" : formatMoney(cents);
+  if (cents === null) {
+    return "—";
+  }
+  return formatMoney(cents);
 };
