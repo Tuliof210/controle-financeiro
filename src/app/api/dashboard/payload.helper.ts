@@ -1,12 +1,12 @@
-import type { Forecast } from "@/core/entities/forecast.entity";
-import type { Goal } from "@/core/entities/goal.entity";
-import type { Movement } from "@/core/entities/movement.entity";
-import { buildCeiling } from "./ceiling.helper";
-import { projectGoals } from "./goals.helper";
-import { savingPace } from "./pace.helper";
-import { buildSeries, firstEstimatedMonth } from "./series.helper";
-import { computeStats } from "./stats.helper";
-import type { DashboardData, DashboardRange } from "./types";
+import type { Forecast } from "@/core/entities/forecast.entity.ts";
+import type { Goal } from "@/core/entities/goal.entity.ts";
+import type { Movement } from "@/core/entities/movement.entity.ts";
+import { buildCeiling } from "./ceiling.helper.ts";
+import { projectGoals } from "./goals.helper.ts";
+import { savingPace } from "./pace.helper.ts";
+import { buildSeries, firstEstimatedMonth } from "./series.helper.ts";
+import { computeStats } from "./stats.helper.ts";
+import type { DashboardData, DashboardRange } from "./types.ts";
 
 type PayloadInput = {
   range: DashboardRange;

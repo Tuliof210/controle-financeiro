@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { flipTheme, normalizeTheme, type Theme } from "./theme.helper";
+import { flipTheme, normalizeTheme, type Theme } from "./theme.helper.ts";
 
 export function useThemeToggle() {
   const [theme, setTheme] = useState<Theme | null>(null);

@@ -1,4 +1,4 @@
-import { formatMoneyShort, formatMoneyShortK } from "@/lib/money";
+import { formatMoneyShort, formatMoneyShortK } from "@/lib/money.ts";
 
 // Geometry and styling shared by both charts, so the two line up on the same
 // month positions and read as one component rather than two.

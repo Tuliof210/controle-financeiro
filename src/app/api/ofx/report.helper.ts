@@ -1,7 +1,7 @@
-import { buildMonths } from "@/lib/months";
-import type { OfxParse, OfxTransaction } from "./parse.helper";
-import { periodOf } from "./period.helper";
-import type { OfxMonth, OfxReport } from "./types";
+import { buildMonths } from "@/lib/months.ts";
+import type { OfxParse, OfxTransaction } from "./parse.helper.ts";
+import { periodOf } from "./period.helper.ts";
+import type { OfxMonth, OfxReport } from "./types.ts";
 
 const blank = (month: number): OfxMonth => ({
   month,

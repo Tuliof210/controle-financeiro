@@ -1,5 +1,5 @@
-import type { OfxMonth } from "@/app/api/ofx/types";
-import type { TotalsRowProps } from "./components/TotalsRow/hook";
+import type { OfxMonth } from "@/app/api/ofx/types.ts";
+import type { TotalsRowProps } from "./components/TotalsRow/hook.ts";
 
 export type MonthTableProps = {
   rows: OfxMonth[];

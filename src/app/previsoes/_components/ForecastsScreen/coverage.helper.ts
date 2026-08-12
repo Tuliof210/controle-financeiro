@@ -1,6 +1,6 @@
-import type { Period } from "@/core/use-cases/period.service";
-import { buildMonths } from "@/lib/months";
-import { monthsToIntervals } from "./components/ForecastForm/intervals.helper";
+import type { Period } from "@/core/use-cases/period.service.ts";
+import { buildMonths } from "@/lib/months.ts";
+import { monthsToIntervals } from "./components/ForecastForm/intervals.helper.ts";
 
 // One positioned span per contiguous run of covered months, as percentages of
 // the global projection range, so the bar can be laid out with left/width.

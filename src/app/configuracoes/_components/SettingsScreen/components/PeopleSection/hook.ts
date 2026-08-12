@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
-import type { Person } from "@/core/entities/person.entity";
-import { apiDelete, apiGet, apiPost, apiPut } from "@/lib/api";
-import type { PersonDraft } from "./components/PersonForm/hook";
+import type { Person } from "@/core/entities/person.entity.ts";
+import { apiDelete, apiGet, apiPost, apiPut } from "@/lib/api.ts";
+import type { PersonDraft } from "./components/PersonForm/hook.ts";
 
 type ModalKind = "none" | "add" | "edit" | "delete";
 

@@ -1,5 +1,5 @@
-import type { Person } from "@/core/entities/person.entity";
-import type { EntryType } from "@/lib/entry-types";
+import type { Person } from "@/core/entities/person.entity.ts";
+import type { EntryType } from "@/lib/entry-types.ts";
 
 // The ProfileProvider sentinel meaning "show every owner".
 export const FAMILY_PROFILE = "familia";

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { OfxScreen } from "./_components/OfxScreen";
+import { OfxScreen } from "./_components/OfxScreen/index.tsx";
 
 export const metadata: Metadata = { title: "Leitor OFX" };
 

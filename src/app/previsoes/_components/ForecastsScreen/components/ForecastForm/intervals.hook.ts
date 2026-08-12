@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
-import { currentYYYYMM } from "@/lib/months";
-import { type Interval, monthsToIntervals } from "./intervals.helper";
+import { currentYYYYMM } from "@/lib/months.ts";
+import { type Interval, monthsToIntervals } from "./intervals.helper.ts";
 
 // A stable per-row key so React reconciles rows correctly across add/remove
 // (index keys would mis-associate rows). Not persisted — UI-only.

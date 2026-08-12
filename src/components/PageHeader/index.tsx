@@ -1,4 +1,4 @@
-import { type PageHeaderProps, usePageHeader } from "./hook";
+import { type PageHeaderProps, usePageHeader } from "./hook.ts";
 import styles from "./style.module.scss";
 
 // The one page-title block, shared by all five screens. No action button: on

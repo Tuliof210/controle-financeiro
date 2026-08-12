@@ -1,5 +1,5 @@
-import type { OfxImport } from "@/core/entities/ofx-import.entity";
-import type { MovementInput } from "@/core/repositories/movement.repository";
+import type { OfxImport } from "@/core/entities/ofx-import.entity.ts";
+import type { MovementInput } from "@/core/repositories/movement.repository.ts";
 
 export type OfxImportInput = {
   fileHash: string;

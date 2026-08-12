@@ -1,4 +1,4 @@
-import { PALETTE } from "@/lib/palette";
+import { PALETTE } from "@/lib/palette.ts";
 import styles from "./style.module.scss";
 
 export type ColorPickerProps = {

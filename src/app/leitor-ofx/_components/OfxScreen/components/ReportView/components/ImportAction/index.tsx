@@ -1,9 +1,9 @@
-import { Button } from "@/components/Button";
-import { Modal } from "@/components/Modal";
-import { SelectField } from "@/components/SelectField";
-import { TextField } from "@/components/TextField";
-import { Tooltip } from "@/components/Tooltip";
-import { type ImportActionProps, useImportAction } from "./hook";
+import { Button } from "@/components/Button/index.tsx";
+import { Modal } from "@/components/Modal/index.tsx";
+import { SelectField } from "@/components/SelectField/index.tsx";
+import { TextField } from "@/components/TextField/index.tsx";
+import { Tooltip } from "@/components/Tooltip/index.tsx";
+import { type ImportActionProps, useImportAction } from "./hook.ts";
 import styles from "./style.module.scss";
 
 export function ImportAction(props: ImportActionProps) {

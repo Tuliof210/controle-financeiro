@@ -1,8 +1,8 @@
 import type { ComponentType, ReactNode } from "react";
-import type { PageHeaderProps } from "@/components/PageHeader/hook";
-import type { Person } from "@/core/entities/person.entity";
-import type { Period } from "@/core/use-cases/period.service";
-import type { Entry, EntryType } from "@/lib/entry-types";
+import type { PageHeaderProps } from "@/components/PageHeader/hook.ts";
+import type { Person } from "@/core/entities/person.entity.ts";
+import type { Period } from "@/core/use-cases/period.service.ts";
+import type { Entry, EntryType } from "@/lib/entry-types.ts";
 
 export type ModalState<T> =
   | { type: "none" }

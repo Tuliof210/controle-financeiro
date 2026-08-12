@@ -1,4 +1,4 @@
-import { type MonthPickerProps, useMonthPicker } from "./hook";
+import { type MonthPickerProps, useMonthPicker } from "./hook.ts";
 import styles from "./style.module.scss";
 
 export function MonthPicker(props: MonthPickerProps) {

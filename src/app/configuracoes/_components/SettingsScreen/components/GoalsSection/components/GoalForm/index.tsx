@@ -1,9 +1,9 @@
 "use client";
 
-import { Button } from "@/components/Button";
-import { MoneyInput } from "@/components/MoneyInput";
-import { TextField } from "@/components/TextField";
-import { type GoalFormProps, useGoalForm } from "./hook";
+import { Button } from "@/components/Button/index.tsx";
+import { MoneyInput } from "@/components/MoneyInput/index.tsx";
+import { TextField } from "@/components/TextField/index.tsx";
+import { type GoalFormProps, useGoalForm } from "./hook.ts";
 import styles from "./style.module.scss";
 
 export function GoalForm({

@@ -1,8 +1,8 @@
 import { scaleBand } from "@visx/scale";
-import type { MonthPoint } from "@/app/api/dashboard/types";
-import { formatMoney } from "@/lib/money";
-import { formatYyyymm } from "@/lib/months";
-import { buildFrame } from "../../chart-frame.helper";
+import type { MonthPoint } from "@/app/api/dashboard/types.ts";
+import { formatMoney } from "@/lib/money.ts";
+import { formatYyyymm } from "@/lib/months.ts";
+import { buildFrame } from "../../chart-frame.helper.ts";
 
 export type MonthlyBarChartProps = {
   points: MonthPoint[];

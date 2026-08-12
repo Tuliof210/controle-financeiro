@@ -1,6 +1,6 @@
-import type { Forecast } from "@/core/entities/forecast.entity";
-import type { Movement } from "@/core/entities/movement.entity";
-import type { MonthPoint } from "./types";
+import type { Forecast } from "@/core/entities/forecast.entity.ts";
+import type { Movement } from "@/core/entities/movement.entity.ts";
+import type { MonthPoint } from "./types.ts";
 
 // The four raw sums a month accumulates before the two sides are reconciled.
 // Local to this file: the payload only ever carries the reconciled result.

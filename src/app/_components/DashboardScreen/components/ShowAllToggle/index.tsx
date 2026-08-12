@@ -1,5 +1,5 @@
 import { ChevronDown, ChevronUp } from "lucide-react";
-import { type ShowAllToggleProps, useShowAllToggle } from "./hook";
+import { type ShowAllToggleProps, useShowAllToggle } from "./hook.ts";
 import styles from "./style.module.scss";
 
 // The `Ver todos (N)` / `Mostrar menos` row under CeilingCard's month list.

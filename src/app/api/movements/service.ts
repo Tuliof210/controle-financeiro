@@ -1,5 +1,5 @@
-import type { MovementInput } from "@/core/repositories/movement.repository";
-import { movementRepository } from "@/infra/repositories/movement.prisma.repository";
+import type { MovementInput } from "@/core/repositories/movement.repository.ts";
+import { movementRepository } from "@/infra/repositories/movement.prisma.repository.ts";
 
 export function listMovements() {
   return movementRepository.list();

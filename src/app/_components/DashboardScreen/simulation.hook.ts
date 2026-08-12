@@ -3,7 +3,7 @@ import {
   DEFAULT_SIMULATION_VIEW,
   SIMULATION_VIEWS,
   type SimulationView,
-} from "@/lib/simulation";
+} from "@/lib/simulation.ts";
 
 const KEY = "simulation";
 

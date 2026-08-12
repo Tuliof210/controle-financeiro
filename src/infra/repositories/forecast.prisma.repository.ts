@@ -1,6 +1,6 @@
-import type { Forecast } from "@/core/entities/forecast.entity";
-import type { ForecastRepository } from "@/core/repositories/forecast.repository";
-import { prisma } from "@/infra/db/client";
+import type { Forecast } from "@/core/entities/forecast.entity.ts";
+import type { ForecastRepository } from "@/core/repositories/forecast.repository.ts";
+import { prisma } from "@/infra/db/client.ts";
 
 type ForecastRow = {
   id: string;

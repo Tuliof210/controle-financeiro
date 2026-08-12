@@ -1,5 +1,5 @@
 import { Info } from "lucide-react";
-import { type TooltipProps, useTooltip } from "./hook";
+import { type TooltipProps, useTooltip } from "./hook.ts";
 import styles from "./style.module.scss";
 
 export function Tooltip(props: TooltipProps) {

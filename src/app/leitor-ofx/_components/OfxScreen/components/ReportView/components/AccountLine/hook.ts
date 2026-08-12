@@ -1,6 +1,6 @@
-import type { OfxAccount } from "@/app/api/ofx/types";
-import { formatMoney } from "@/lib/money";
-import { formatYyyymm } from "@/lib/months";
+import type { OfxAccount } from "@/app/api/ofx/types.ts";
+import { formatMoney } from "@/lib/money.ts";
+import { formatYyyymm } from "@/lib/months.ts";
 
 export type AccountLineProps = { account: OfxAccount };
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { useMoneyInput } from "./hook";
+import { useMoneyInput } from "./hook.ts";
 import styles from "./style.module.scss";
 
 type MoneyInputProps = {

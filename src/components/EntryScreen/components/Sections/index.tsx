@@ -1,6 +1,6 @@
-import { EntrySection } from "@/components/EntrySection";
-import type { Entry } from "@/lib/entry-types";
-import { type SectionsProps, useSections } from "./hook";
+import { EntrySection } from "@/components/EntrySection/index.tsx";
+import type { Entry } from "@/lib/entry-types.ts";
+import { type SectionsProps, useSections } from "./hook.ts";
 import styles from "./style.module.scss";
 
 export function Sections<T extends Entry>(props: SectionsProps<T>) {

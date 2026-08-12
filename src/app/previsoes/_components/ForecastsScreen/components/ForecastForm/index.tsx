@@ -1,8 +1,8 @@
 "use client";
 
-import { EntryForm } from "@/components/EntryForm";
-import { IntervalList } from "./components/IntervalList";
-import { type ForecastFormProps, useForecastForm } from "./hook";
+import { EntryForm } from "@/components/EntryForm/index.tsx";
+import { IntervalList } from "./components/IntervalList/index.tsx";
+import { type ForecastFormProps, useForecastForm } from "./hook.ts";
 import styles from "./style.module.scss";
 
 export function ForecastForm(props: ForecastFormProps) {

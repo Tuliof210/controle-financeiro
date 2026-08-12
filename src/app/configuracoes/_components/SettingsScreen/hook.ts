@@ -1,4 +1,4 @@
-import type { PageHeaderProps } from "@/components/PageHeader/hook";
+import type { PageHeaderProps } from "@/components/PageHeader/hook.ts";
 
 export function useSettingsScreen(): PageHeaderProps {
   return {

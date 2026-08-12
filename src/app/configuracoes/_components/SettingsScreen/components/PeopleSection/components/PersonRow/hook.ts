@@ -1,4 +1,4 @@
-import type { Person } from "@/core/entities/person.entity";
+import type { Person } from "@/core/entities/person.entity.ts";
 import styles from "./style.module.scss";
 
 export type PersonRowProps = {

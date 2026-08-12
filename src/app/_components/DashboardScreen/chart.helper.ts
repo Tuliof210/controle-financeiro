@@ -1,4 +1,4 @@
-import type { MonthPoint } from "@/app/api/dashboard/types";
+import type { MonthPoint } from "@/app/api/dashboard/types.ts";
 
 // The y domain always includes 0 so the baseline is a real line rather than the
 // bottom edge, and it handles an all-negative cumulative balance. A degenerate

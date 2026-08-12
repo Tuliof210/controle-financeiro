@@ -1,5 +1,5 @@
 import type { ChangeEvent } from "react";
-import { useProfile } from "@/components/ProfileProvider/hook";
+import { useProfile } from "@/components/ProfileProvider/hook.ts";
 
 export function useProfileSelect() {
   const { profile, people, setProfile } = useProfile();

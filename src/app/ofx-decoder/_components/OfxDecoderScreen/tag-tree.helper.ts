@@ -4,7 +4,7 @@
 // An indexOf walk, not a lazy `([\s\S]*?)` regex: the same hazard `blocks()`
 // in src/app/api/ofx/ofx-tags.helper.ts avoids, quadratic on a file full of
 // unclosed tags. Every index below only moves forward, so this stays linear.
-import { readHeader, skipWs } from "./header.helper";
+import { readHeader, skipWs } from "./header.helper.ts";
 
 let nextId = 0;
 

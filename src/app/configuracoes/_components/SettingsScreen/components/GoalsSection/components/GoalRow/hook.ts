@@ -1,5 +1,5 @@
-import type { Goal } from "@/core/entities/goal.entity";
-import { formatMoney } from "@/lib/money";
+import type { Goal } from "@/core/entities/goal.entity.ts";
+import { formatMoney } from "@/lib/money.ts";
 
 export type GoalRowProps = {
   goal: Goal;

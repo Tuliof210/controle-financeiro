@@ -1,5 +1,5 @@
-import { SectionCard } from "@/components/SectionCard";
-import { type NoticeProps, useNotice } from "./hook";
+import { SectionCard } from "@/components/SectionCard/index.tsx";
+import { type NoticeProps, useNotice } from "./hook.ts";
 import styles from "./style.module.scss";
 
 // The whole-screen states — loading, a failed fetch, and the two the payload

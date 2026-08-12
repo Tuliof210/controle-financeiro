@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import type { OfxReport } from "@/app/api/ofx/types";
-import { apiUpload } from "@/lib/api";
-import { parseSession, SESSION_KEY } from "./session.helper";
+import type { OfxReport } from "@/app/api/ofx/types.ts";
+import { apiUpload } from "@/lib/api.ts";
+import { parseSession, SESSION_KEY } from "./session.helper.ts";
 
 // Every storage call is wrapped and swallowed, matching ThemeToggle and
 // ProfileProvider: a browser with storage disabled loses the cache across a

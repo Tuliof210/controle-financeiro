@@ -1,7 +1,7 @@
-import { Button } from "@/components/Button";
-import { ColorPicker } from "@/components/ColorPicker";
-import { TextField } from "@/components/TextField";
-import { type PersonFormProps, usePersonForm } from "./hook";
+import { Button } from "@/components/Button/index.tsx";
+import { ColorPicker } from "@/components/ColorPicker/index.tsx";
+import { TextField } from "@/components/TextField/index.tsx";
+import { type PersonFormProps, usePersonForm } from "./hook.ts";
 import styles from "./style.module.scss";
 
 export function PersonForm({

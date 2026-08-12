@@ -1,14 +1,14 @@
 "use client";
 
 import { Plus, Users } from "lucide-react";
-import { Button } from "@/components/Button";
-import { ConfirmDialog } from "@/components/ConfirmDialog";
-import { Modal } from "@/components/Modal";
-import { RowGrid } from "@/components/RowGrid";
-import { SectionCard } from "@/components/SectionCard";
-import { PersonForm } from "./components/PersonForm";
-import { PersonRow } from "./components/PersonRow";
-import { usePeopleSection } from "./hook";
+import { Button } from "@/components/Button/index.tsx";
+import { ConfirmDialog } from "@/components/ConfirmDialog/index.tsx";
+import { Modal } from "@/components/Modal/index.tsx";
+import { RowGrid } from "@/components/RowGrid/index.tsx";
+import { SectionCard } from "@/components/SectionCard/index.tsx";
+import { PersonForm } from "./components/PersonForm/index.tsx";
+import { PersonRow } from "./components/PersonRow/index.tsx";
+import { usePeopleSection } from "./hook.ts";
 import styles from "./style.module.scss";
 
 export function PeopleSection() {

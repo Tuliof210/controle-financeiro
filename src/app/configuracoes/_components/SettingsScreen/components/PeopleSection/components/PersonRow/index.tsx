@@ -1,6 +1,6 @@
 import { Pencil, Trash2 } from "lucide-react";
-import { IconButton } from "@/components/IconButton";
-import { type PersonRowProps, usePersonRow } from "./hook";
+import { IconButton } from "@/components/IconButton/index.tsx";
+import { type PersonRowProps, usePersonRow } from "./hook.ts";
 import styles from "./style.module.scss";
 
 // The same cells an entry row uses, tagged with the same grid areas, so RowGrid

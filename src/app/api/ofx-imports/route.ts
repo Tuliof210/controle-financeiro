@@ -1,9 +1,9 @@
 import type { NextRequest } from "next/server";
 import { z } from "zod";
-import { Prisma } from "@/generated/prisma/client";
-import { fail, ok, safeJson } from "@/lib/http";
-import { movementRowSchema } from "@/lib/movement-schema";
-import { importOfx, isOfxImported } from "./service";
+import { Prisma } from "@/generated/prisma/client.ts";
+import { fail, ok, safeJson } from "@/lib/http.ts";
+import { movementRowSchema } from "@/lib/movement-schema.ts";
+import { importOfx, isOfxImported } from "./service.ts";
 
 const createSchema = z.object({
   // The reader's SHA-256, not a free-form label: a 64-char lowercase hex digest.

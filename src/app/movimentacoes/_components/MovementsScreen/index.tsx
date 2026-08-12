@@ -1,10 +1,10 @@
 "use client";
 
-import { EntryScreen } from "@/components/EntryScreen";
-import type { Movement } from "@/core/entities/movement.entity";
-import { formatYyyymm } from "@/lib/months";
-import { MovementForm } from "./components/MovementForm";
-import type { MovementFormValues } from "./components/MovementForm/hook";
+import { EntryScreen } from "@/components/EntryScreen/index.tsx";
+import type { Movement } from "@/core/entities/movement.entity.ts";
+import { formatYyyymm } from "@/lib/months.ts";
+import { MovementForm } from "./components/MovementForm/index.tsx";
+import type { MovementFormValues } from "./components/MovementForm/hook.ts";
 
 export function MovementsScreen() {
   return (

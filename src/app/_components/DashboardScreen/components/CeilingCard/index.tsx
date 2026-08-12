@@ -1,11 +1,11 @@
 import { Wallet } from "lucide-react";
-import { SectionCard } from "@/components/SectionCard";
-import { HINTS } from "../../hints";
-import { Headline } from "../Headline";
-import { ShowAllToggle } from "../ShowAllToggle";
-import { CapSelector } from "./components/CapSelector";
-import { MonthTable } from "./components/MonthTable";
-import { type CeilingCardProps, useCeilingCard } from "./hook";
+import { SectionCard } from "@/components/SectionCard/index.tsx";
+import { HINTS } from "../../hints.ts";
+import { Headline } from "../Headline/index.tsx";
+import { ShowAllToggle } from "../ShowAllToggle/index.tsx";
+import { CapSelector } from "./components/CapSelector/index.tsx";
+import { MonthTable } from "./components/MonthTable/index.tsx";
+import { type CeilingCardProps, useCeilingCard } from "./hook.ts";
 import styles from "./style.module.scss";
 
 export function CeilingCard(props: CeilingCardProps) {

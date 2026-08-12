@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { PALETTE } from "@/lib/palette";
+import { PALETTE } from "@/lib/palette.ts";
 
 export type PersonDraft = { name: string; color: string };
 

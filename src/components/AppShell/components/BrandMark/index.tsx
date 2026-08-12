@@ -1,4 +1,4 @@
-import { useBrandMark } from "./hook";
+import { useBrandMark } from "./hook.ts";
 import styles from "./style.module.scss";
 
 // The Monevo mark: a four-column ascending bar chart in pixel blocks, tallest

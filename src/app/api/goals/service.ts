@@ -1,4 +1,4 @@
-import { goalRepository } from "@/infra/repositories/goal.prisma.repository";
+import { goalRepository } from "@/infra/repositories/goal.prisma.repository.ts";
 
 export function listGoals() {
   return goalRepository.list();

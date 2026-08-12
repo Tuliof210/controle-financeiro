@@ -8,7 +8,7 @@ import {
   formatMoneyShort,
   formatMoneyShortK,
   MAX_CENTS,
-} from "@/lib/money";
+} from "@/lib/money.ts";
 
 const ZERO = 0;
 const ONE_CENT = 1;

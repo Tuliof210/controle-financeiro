@@ -1,8 +1,8 @@
 import Link from "next/link";
-import { Tooltip } from "@/components/Tooltip";
-import { HINTS } from "../../hints";
-import { GoalRow } from "../GoalRow";
-import { type SavingsSectionProps, useSavingsSection } from "./hook";
+import { Tooltip } from "@/components/Tooltip/index.tsx";
+import { HINTS } from "../../hints.ts";
+import { GoalRow } from "../GoalRow/index.tsx";
+import { type SavingsSectionProps, useSavingsSection } from "./hook.ts";
 import styles from "./style.module.scss";
 
 export function SavingsSection(props: SavingsSectionProps) {

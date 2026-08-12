@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { apiGet } from "@/lib/api";
+import { apiGet } from "@/lib/api.ts";
 
 export type ImportedState = { imported: boolean; importedAt: string | null };
 

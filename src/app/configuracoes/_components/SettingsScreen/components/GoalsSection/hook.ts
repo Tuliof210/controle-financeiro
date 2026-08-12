@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
-import type { Goal } from "@/core/entities/goal.entity";
-import { apiDelete, apiGet, apiPost, apiPut } from "@/lib/api";
-import type { GoalFormValues } from "./components/GoalForm/hook";
+import type { Goal } from "@/core/entities/goal.entity.ts";
+import { apiDelete, apiGet, apiPost, apiPut } from "@/lib/api.ts";
+import type { GoalFormValues } from "./components/GoalForm/hook.ts";
 
 type ModalState =
   | { type: "none" }

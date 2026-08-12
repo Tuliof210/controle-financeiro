@@ -1,4 +1,4 @@
-import { type HeadlineProps, useHeadline } from "./hook";
+import { type HeadlineProps, useHeadline } from "./hook.ts";
 import styles from "./style.module.scss";
 
 export function Headline(props: HeadlineProps) {

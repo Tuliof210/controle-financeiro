@@ -1,5 +1,5 @@
-import type { Forecast } from "@/core/entities/forecast.entity";
-import type { Movement } from "@/core/entities/movement.entity";
+import type { Forecast } from "@/core/entities/forecast.entity.ts";
+import type { Movement } from "@/core/entities/movement.entity.ts";
 
 export type Period = { start: number; end: number };
 

@@ -1,5 +1,5 @@
-import { formatMoney, formatMoneyShort } from "@/lib/money";
-import type { BoardData } from "../Board/hook";
+import { formatMoney, formatMoneyShort } from "@/lib/money.ts";
+import type { BoardData } from "../Board/hook.ts";
 
 export type SavingsSectionProps = { data: BoardData };
 

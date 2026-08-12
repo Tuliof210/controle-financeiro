@@ -1,6 +1,6 @@
 import { FileUp } from "lucide-react";
-import { SectionCard } from "@/components/SectionCard";
-import { type LoadingCardProps, useLoadingCard } from "./hook";
+import { SectionCard } from "@/components/SectionCard/index.tsx";
+import { type LoadingCardProps, useLoadingCard } from "./hook.ts";
 import styles from "./style.module.scss";
 
 export function LoadingCard(props: LoadingCardProps) {

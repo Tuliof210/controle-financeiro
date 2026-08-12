@@ -1,6 +1,6 @@
-import type { Ceiling, CeilingMonth } from "./ceiling.types";
-import { rates, suffixMinimum, tightestMonth } from "./ceiling-math.helper";
-import type { MonthPoint } from "./types";
+import type { Ceiling, CeilingMonth } from "./ceiling.types.ts";
+import { rates, suffixMinimum, tightestMonth } from "./ceiling-math.helper.ts";
+import type { MonthPoint } from "./types.ts";
 
 // Spending extra in month k lowers the cumulative balance of k AND every month
 // after it, so k's headroom is never k's own balance: it is the WORST balance

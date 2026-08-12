@@ -1,8 +1,8 @@
 "use client";
 
-import { EntryForm } from "@/components/EntryForm";
-import { MonthPicker } from "@/components/MonthPicker";
-import { type MovementFormProps, useMovementForm } from "./hook";
+import { EntryForm } from "@/components/EntryForm/index.tsx";
+import { MonthPicker } from "@/components/MonthPicker/index.tsx";
+import { type MovementFormProps, useMovementForm } from "./hook.ts";
 
 export function MovementForm(props: MovementFormProps) {
   const { error, submitLabel, people } = props;

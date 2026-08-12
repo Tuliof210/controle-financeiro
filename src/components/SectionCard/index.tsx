@@ -1,5 +1,9 @@
-import { Tooltip } from "@/components/Tooltip";
-import { type BandTone, type SectionCardProps, useSectionCard } from "./hook";
+import { Tooltip } from "@/components/Tooltip/index.tsx";
+import {
+  type BandTone,
+  type SectionCardProps,
+  useSectionCard,
+} from "./hook.ts";
 import styles from "./style.module.scss";
 
 // An explicit map, not `styles[band]`: the tone lookup two lines down is already

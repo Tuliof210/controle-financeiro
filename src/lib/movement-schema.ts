@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { ENTRY_TYPES } from "./entry-types";
+import { ENTRY_TYPES } from "./entry-types.ts";
 
 // The fields every movement carries, wherever it enters the system: one at a
 // time through /api/movements, or a whole statement's worth through

@@ -1,13 +1,13 @@
 import { scaleBand, scaleLinear } from "@visx/scale";
-import type { MonthPoint } from "@/app/api/dashboard/types";
+import type { MonthPoint } from "@/app/api/dashboard/types.ts";
 import {
   BAND_PADDING,
   formatYTickFor,
   MARGIN,
   monthWindowSize,
   Y_TICKS,
-} from "./chart.config";
-import { yDomain } from "./chart.helper";
+} from "./chart.config.ts";
+import { yDomain } from "./chart.helper.ts";
 
 // JetBrains Mono at --text-2xs is ~6px per character; the gutter covers the
 // tick mark plus its gap to the axis. Derived rather than fixed because a

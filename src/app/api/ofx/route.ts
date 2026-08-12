@@ -1,6 +1,6 @@
 import type { NextRequest } from "next/server";
-import { fail, ok, safeFormData } from "@/lib/http";
-import { type ReadOfxResult, readOfx } from "./service";
+import { fail, ok, safeFormData } from "@/lib/http.ts";
+import { type ReadOfxResult, readOfx } from "./service.ts";
 
 // next.config.ts sets no body limit for Route Handlers, so the cap lives here.
 // A year of OFX is tens of KB, so this is generous by a hundredfold.

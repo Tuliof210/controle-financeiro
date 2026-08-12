@@ -1,11 +1,11 @@
 import type { ComponentType } from "react";
-import type { Person } from "@/core/entities/person.entity";
-import type { Entry, EntryType } from "@/lib/entry-types";
+import type { Person } from "@/core/entities/person.entity.ts";
+import type { Entry, EntryType } from "@/lib/entry-types.ts";
 import type {
   EntryFormSlotProps,
   EntryScreenLabels,
   ModalState,
-} from "../../types";
+} from "../../types.ts";
 
 export type ModalsProps<T extends Entry, V extends { type: EntryType }> = {
   labels: Pick<EntryScreenLabels, "addTitle" | "editTitle">;

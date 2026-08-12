@@ -1,5 +1,5 @@
-import type { Period } from "@/core/use-cases/period.service";
-import { coverage } from "../../coverage.helper";
+import type { Period } from "@/core/use-cases/period.service.ts";
+import { coverage } from "../../coverage.helper.ts";
 
 export type CoverageBarProps = {
   months: number[];

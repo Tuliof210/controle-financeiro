@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import { AppShell } from "@/components/AppShell";
-import { jetBrainsMono, pressStart2P } from "@/styles/fonts";
+import { AppShell } from "@/components/AppShell/index.tsx";
+import { jetBrainsMono, pressStart2P } from "@/styles/fonts.ts";
 import "@/styles/globals.scss";
 
 const THEME_INIT = `(function(){try{var s=localStorage.getItem('theme');var t=s||(window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.setAttribute('data-theme',t);}catch(e){}})();`;

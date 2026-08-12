@@ -1,6 +1,6 @@
-import type { MovementInput } from "@/core/repositories/movement.repository";
-import { ofxImportRepository } from "@/infra/repositories/ofx-import.prisma.repository";
-import type { MovementRow } from "@/lib/movement-schema";
+import type { MovementInput } from "@/core/repositories/movement.repository.ts";
+import { ofxImportRepository } from "@/infra/repositories/ofx-import.prisma.repository.ts";
+import type { MovementRow } from "@/lib/movement-schema.ts";
 
 export type ImportOfxInput = {
   fileHash: string;

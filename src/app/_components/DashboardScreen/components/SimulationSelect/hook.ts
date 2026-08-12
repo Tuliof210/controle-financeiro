@@ -1,5 +1,5 @@
 import type { ChangeEvent } from "react";
-import type { SimulationView } from "@/lib/simulation";
+import type { SimulationView } from "@/lib/simulation.ts";
 
 export type SimulationSelectProps = {
   value: SimulationView;

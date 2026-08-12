@@ -1,9 +1,9 @@
 import { LinePath } from "@visx/shape";
-import { ChartFrame } from "../ChartFrame";
-import { ChartTooltip } from "../ChartTooltip";
-import { useChartTooltip } from "../ChartTooltip/hook";
-import { TightestMark } from "./components/TightestMark";
-import { type BalanceLineChartProps, useBalanceLineChart } from "./hook";
+import { ChartFrame } from "../ChartFrame/index.tsx";
+import { ChartTooltip } from "../ChartTooltip/index.tsx";
+import { useChartTooltip } from "../ChartTooltip/hook.ts";
+import { TightestMark } from "./components/TightestMark/index.tsx";
+import { type BalanceLineChartProps, useBalanceLineChart } from "./hook.ts";
 
 const LINE = { stroke: "var(--color-brand)", strokeWidth: 2 };
 // The actual pointer target: bigger than the visible r=3 dot, so landing

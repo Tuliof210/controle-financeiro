@@ -1,4 +1,4 @@
-import { type CapSelectorProps, useCapSelector } from "./hook";
+import { type CapSelectorProps, useCapSelector } from "./hook.ts";
 import styles from "./style.module.scss";
 
 // How much of each month's headroom the ceiling hands out. Native radios inside

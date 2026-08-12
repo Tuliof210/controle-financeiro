@@ -1,14 +1,14 @@
 import type { NextRequest } from "next/server";
 import { z } from "zod";
-import { Prisma } from "@/generated/prisma/client";
-import { fail, ok, safeJson } from "@/lib/http";
-import { PALETTE } from "@/lib/palette";
+import { Prisma } from "@/generated/prisma/client.ts";
+import { fail, ok, safeJson } from "@/lib/http.ts";
+import { PALETTE } from "@/lib/palette.ts";
 import {
   createPerson,
   deletePerson,
   listPeople,
   updatePerson,
-} from "./service";
+} from "./service.ts";
 
 const createSchema = z.object({
   name: z.string().trim().min(1).max(60),

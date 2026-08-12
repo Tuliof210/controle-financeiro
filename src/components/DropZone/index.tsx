@@ -1,6 +1,6 @@
 import { Upload } from "lucide-react";
-import { FilePicker } from "../FilePicker";
-import { type DropZoneProps, useDropZone } from "./hook";
+import { FilePicker } from "../FilePicker/index.tsx";
+import { type DropZoneProps, useDropZone } from "./hook.ts";
 import styles from "./style.module.scss";
 
 export function DropZone(props: DropZoneProps) {

@@ -1,10 +1,10 @@
 "use client";
 
 import { Menu } from "lucide-react";
-import { Avatar } from "./components/Avatar";
-import { ProfileSelect } from "./components/ProfileSelect";
-import { ThemeToggle } from "./components/ThemeToggle";
-import { useHeader } from "./hook";
+import { Avatar } from "./components/Avatar/index.tsx";
+import { ProfileSelect } from "./components/ProfileSelect/index.tsx";
+import { ThemeToggle } from "./components/ThemeToggle/index.tsx";
+import { useHeader } from "./hook.ts";
 import styles from "./style.module.scss";
 
 type HeaderProps = {

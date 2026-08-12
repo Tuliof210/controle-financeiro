@@ -1,14 +1,14 @@
 import type { NextRequest } from "next/server";
 import { z } from "zod";
-import { Prisma } from "@/generated/prisma/client";
-import { fail, ok, safeJson } from "@/lib/http";
-import { movementRowShape } from "@/lib/movement-schema";
+import { Prisma } from "@/generated/prisma/client.ts";
+import { fail, ok, safeJson } from "@/lib/http.ts";
+import { movementRowShape } from "@/lib/movement-schema.ts";
 import {
   createMovement,
   deleteMovement,
   listMovements,
   updateMovement,
-} from "./service";
+} from "./service.ts";
 
 // One row's fields plus its own owner. /api/ofx-imports validates the same
 // shape in bulk, with a single owner for the whole batch.

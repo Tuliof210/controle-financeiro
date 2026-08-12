@@ -1,13 +1,13 @@
 "use client";
 
-import { ConfirmDialog } from "@/components/ConfirmDialog";
-import { PageHeader } from "@/components/PageHeader";
-import type { Entry, EntryType } from "@/lib/entry-types";
-import { Modals } from "./components/Modals";
-import { Sections } from "./components/Sections";
-import { useEntryScreen } from "./hook";
+import { ConfirmDialog } from "@/components/ConfirmDialog/index.tsx";
+import { PageHeader } from "@/components/PageHeader/index.tsx";
+import type { Entry, EntryType } from "@/lib/entry-types.ts";
+import { Modals } from "./components/Modals/index.tsx";
+import { Sections } from "./components/Sections/index.tsx";
+import { useEntryScreen } from "./hook.ts";
 import styles from "./style.module.scss";
-import type { EntryScreenConfig } from "./types";
+import type { EntryScreenConfig } from "./types.ts";
 
 export function EntryScreen<T extends Entry, V extends { type: EntryType }>(
   config: EntryScreenConfig<T, V>,

@@ -1,11 +1,11 @@
 import { useCallback, useEffect, useState } from "react";
-import { useProfile } from "@/components/ProfileProvider/hook";
-import type { Person } from "@/core/entities/person.entity";
-import type { Period } from "@/core/use-cases/period.service";
-import { apiDelete, apiGet, apiPost, apiPut } from "@/lib/api";
-import type { Entry, EntryType } from "@/lib/entry-types";
-import { splitByType, visibleFor } from "@/lib/ownership";
-import type { EntryScreenConfig, ModalState } from "./types";
+import { useProfile } from "@/components/ProfileProvider/hook.ts";
+import type { Person } from "@/core/entities/person.entity.ts";
+import type { Period } from "@/core/use-cases/period.service.ts";
+import { apiDelete, apiGet, apiPost, apiPut } from "@/lib/api.ts";
+import type { Entry, EntryType } from "@/lib/entry-types.ts";
+import { splitByType, visibleFor } from "@/lib/ownership.ts";
+import type { EntryScreenConfig, ModalState } from "./types.ts";
 
 // `T` is the entity; `V` is its form-values shape. Seeding the form from either
 // a `T` (edit) or a bare `{ type }` (add) is handled by EntryFormSlotProps.initial.

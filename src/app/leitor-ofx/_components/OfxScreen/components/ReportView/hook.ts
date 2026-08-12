@@ -1,7 +1,7 @@
-import type { OfxReport } from "@/app/api/ofx/types";
-import { formatMoney } from "@/lib/money";
-import { formatYyyymm } from "@/lib/months";
-import { accountLabel, finalBalance } from "./account.helper";
+import type { OfxReport } from "@/app/api/ofx/types.ts";
+import { formatMoney } from "@/lib/money.ts";
+import { formatYyyymm } from "@/lib/months.ts";
+import { accountLabel, finalBalance } from "./account.helper.ts";
 
 export type ReportViewProps = {
   report: OfxReport;

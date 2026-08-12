@@ -1,7 +1,7 @@
-import { CeilingCard } from "../CeilingCard";
-import { Overview } from "../Overview";
-import { SavingsSection } from "../SavingsSection";
-import { type BoardProps, useBoard } from "./hook";
+import { CeilingCard } from "../CeilingCard/index.tsx";
+import { Overview } from "../Overview/index.tsx";
+import { SavingsSection } from "../SavingsSection/index.tsx";
+import { type BoardProps, useBoard } from "./hook.ts";
 import styles from "./style.module.scss";
 
 // One scroll, no tabs. Overview renders a fragment rather than a wrapper of its

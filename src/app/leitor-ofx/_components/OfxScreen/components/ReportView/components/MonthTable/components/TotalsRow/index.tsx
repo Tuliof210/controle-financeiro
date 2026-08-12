@@ -1,4 +1,4 @@
-import { type TotalsRowProps, useTotalsRow } from "./hook";
+import { type TotalsRowProps, useTotalsRow } from "./hook.ts";
 import styles from "./style.module.scss";
 
 export function TotalsRow(props: TotalsRowProps) {

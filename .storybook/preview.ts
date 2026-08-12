@@ -1,6 +1,6 @@
 import type { Preview } from "@storybook/nextjs-vite";
 import { addons } from "storybook/preview-api";
-import { jetBrainsMono, pressStart2P } from "../src/styles/fonts";
+import { jetBrainsMono, pressStart2P } from "../src/styles/fonts.ts";
 import "../src/styles/globals.scss";
 
 document.documentElement.classList.add(

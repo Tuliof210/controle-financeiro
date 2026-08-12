@@ -1,14 +1,14 @@
 import type { NextRequest } from "next/server";
 import { z } from "zod";
-import { Prisma } from "@/generated/prisma/client";
-import { ENTRY_TYPES } from "@/lib/entry-types";
-import { fail, ok, safeJson } from "@/lib/http";
+import { Prisma } from "@/generated/prisma/client.ts";
+import { ENTRY_TYPES } from "@/lib/entry-types.ts";
+import { fail, ok, safeJson } from "@/lib/http.ts";
 import {
   createForecast,
   deleteForecast,
   listForecasts,
   updateForecast,
-} from "./service";
+} from "./service.ts";
 
 const forecastShape = {
   name: z.string().trim().min(1).max(80),

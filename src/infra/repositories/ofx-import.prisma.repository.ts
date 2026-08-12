@@ -1,5 +1,5 @@
-import type { OfxImportRepository } from "@/core/repositories/ofx-import.repository";
-import { prisma } from "@/infra/db/client";
+import type { OfxImportRepository } from "@/core/repositories/ofx-import.repository.ts";
+import { prisma } from "@/infra/db/client.ts";
 
 export const ofxImportRepository: OfxImportRepository = {
   findByHash(fileHash) {

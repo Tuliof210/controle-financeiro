@@ -1,4 +1,4 @@
-import { buildMonths, composeYYYYMM, splitYYYYMM } from "@/lib/months";
+import { buildMonths, composeYYYYMM, splitYYYYMM } from "@/lib/months.ts";
 
 export type Interval = { start: number; end: number };
 

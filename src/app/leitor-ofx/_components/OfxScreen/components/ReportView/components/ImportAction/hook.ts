@@ -1,8 +1,8 @@
 import { useState } from "react";
-import type { OfxReport } from "@/app/api/ofx/types";
-import { useProfile } from "@/components/ProfileProvider/hook";
-import { apiPost } from "@/lib/api";
-import { resolveOwnerId } from "@/lib/ownership";
+import type { OfxReport } from "@/app/api/ofx/types.ts";
+import { useProfile } from "@/components/ProfileProvider/hook.ts";
+import { apiPost } from "@/lib/api.ts";
+import { resolveOwnerId } from "@/lib/ownership.ts";
 import {
   buildImportRows,
   IDENTIFIER_MAX,
@@ -10,8 +10,8 @@ import {
   ownerOptions,
   prefillIdentifier,
   summaryOf,
-} from "./import-rows.helper";
-import { useImportedRecord } from "./imported.hook";
+} from "./import-rows.helper.ts";
+import { useImportedRecord } from "./imported.hook.ts";
 
 export type ImportActionProps = { report: OfxReport };
 

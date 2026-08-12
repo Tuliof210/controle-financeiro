@@ -1,6 +1,6 @@
 import { Pencil, Trash2 } from "lucide-react";
-import { IconButton } from "@/components/IconButton";
-import { type EntryRowProps, useEntryRow } from "./hook";
+import { IconButton } from "@/components/IconButton/index.tsx";
+import { type EntryRowProps, useEntryRow } from "./hook.ts";
 import styles from "./style.module.scss";
 
 // Four cells, each tagged with the grid area RowGrid places it in: the owner

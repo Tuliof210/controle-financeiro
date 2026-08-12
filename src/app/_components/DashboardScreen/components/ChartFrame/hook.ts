@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
-import { formatYTickFor } from "../../chart.config";
-import type { buildFrame } from "../../chart-frame.helper";
+import { formatYTickFor } from "../../chart.config.ts";
+import type { buildFrame } from "../../chart-frame.helper.ts";
 
 export type ChartFrameProps = {
   // Accessible name for the plot as a whole; the marks carry their own <title>s

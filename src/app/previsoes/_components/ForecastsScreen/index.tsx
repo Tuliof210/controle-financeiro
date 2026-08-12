@@ -1,11 +1,11 @@
 "use client";
 
-import { EntryScreen } from "@/components/EntryScreen";
-import type { Forecast } from "@/core/entities/forecast.entity";
-import { CoverageBar } from "./components/CoverageBar";
-import { ForecastForm } from "./components/ForecastForm";
-import type { ForecastFormValues } from "./components/ForecastForm/hook";
-import { formatMonths } from "./forecast-range.helper";
+import { EntryScreen } from "@/components/EntryScreen/index.tsx";
+import type { Forecast } from "@/core/entities/forecast.entity.ts";
+import { CoverageBar } from "./components/CoverageBar/index.tsx";
+import { ForecastForm } from "./components/ForecastForm/index.tsx";
+import type { ForecastFormValues } from "./components/ForecastForm/hook.ts";
+import { formatMonths } from "./forecast-range.helper.ts";
 import styles from "./style.module.scss";
 
 export function ForecastsScreen() {

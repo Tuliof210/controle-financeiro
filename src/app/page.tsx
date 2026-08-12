@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { DashboardScreen } from "./_components/DashboardScreen";
+import { DashboardScreen } from "./_components/DashboardScreen/index.tsx";
 
 export const metadata: Metadata = { title: "Dashboard · Monevo" };
 

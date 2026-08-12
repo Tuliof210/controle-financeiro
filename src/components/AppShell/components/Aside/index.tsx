@@ -1,6 +1,6 @@
-import { BrandMark } from "../BrandMark";
-import { NavItem } from "./components/NavItem";
-import { useAside } from "./hook";
+import { BrandMark } from "../BrandMark/index.tsx";
+import { NavItem } from "./components/NavItem/index.tsx";
+import { useAside } from "./hook.ts";
 import styles from "./style.module.scss";
 
 type AsideProps = {

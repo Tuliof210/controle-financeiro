@@ -1,13 +1,13 @@
 import { useState } from "react";
-import { useProfile } from "@/components/ProfileProvider/hook";
-import type { Person } from "@/core/entities/person.entity";
-import type { EntryType } from "@/lib/entry-types";
-import { resolveOwnerId } from "@/lib/ownership";
+import { useProfile } from "@/components/ProfileProvider/hook.ts";
+import type { Person } from "@/core/entities/person.entity.ts";
+import type { EntryType } from "@/lib/entry-types.ts";
+import { resolveOwnerId } from "@/lib/ownership.ts";
 import {
   type EntryFormBase,
   isEntryValid,
   toEntryBase,
-} from "./entry-form.helper";
+} from "./entry-form.helper.ts";
 
 // Role-suffixed rather than a plain `hook.ts`: this is consumed by each
 // feature's own form hook, not by EntryForm/index.tsx, which is presentational.

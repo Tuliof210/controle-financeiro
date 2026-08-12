@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import type { Settings } from "@/core/entities/settings.entity";
-import { apiGet, apiPut } from "@/lib/api";
+import type { Settings } from "@/core/entities/settings.entity.ts";
+import { apiGet, apiPut } from "@/lib/api.ts";
 
 // No modal and no refetch, unlike its two neighbours: this section is one row
 // that always exists, so there is nothing to open and nothing to re-list. The

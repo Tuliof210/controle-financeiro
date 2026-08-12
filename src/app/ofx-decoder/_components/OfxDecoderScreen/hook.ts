@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { decodeOfx } from "@/lib/decode";
-import { type OfxNode, parseOfxTags } from "./tag-tree.helper";
+import { decodeOfx } from "@/lib/decode.ts";
+import { type OfxNode, parseOfxTags } from "./tag-tree.helper.ts";
 
 type Parsed = { header: OfxNode[]; root: OfxNode };
 

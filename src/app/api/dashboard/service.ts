@@ -1,19 +1,19 @@
-import { derivePeriod } from "@/core/use-cases/period.service";
-import { forecastRepository } from "@/infra/repositories/forecast.prisma.repository";
-import { goalRepository } from "@/infra/repositories/goal.prisma.repository";
-import { movementRepository } from "@/infra/repositories/movement.prisma.repository";
-import { settingsRepository } from "@/infra/repositories/settings.prisma.repository";
+import { derivePeriod } from "@/core/use-cases/period.service.ts";
+import { forecastRepository } from "@/infra/repositories/forecast.prisma.repository.ts";
+import { goalRepository } from "@/infra/repositories/goal.prisma.repository.ts";
+import { movementRepository } from "@/infra/repositories/movement.prisma.repository.ts";
+import { settingsRepository } from "@/infra/repositories/settings.prisma.repository.ts";
 import {
   type CeilingCap,
   capPercent,
   DEFAULT_CEILING_CAP,
   META_CAP,
-} from "@/lib/ceiling-caps";
-import { buildMonths, currentYYYYMM } from "@/lib/months";
-import { visibleFor } from "@/lib/ownership";
-import type { SimulationView } from "@/lib/simulation";
-import { buildPayload } from "./payload.helper";
-import type { DashboardData } from "./types";
+} from "@/lib/ceiling-caps.ts";
+import { buildMonths, currentYYYYMM } from "@/lib/months.ts";
+import { visibleFor } from "@/lib/ownership.ts";
+import type { SimulationView } from "@/lib/simulation.ts";
+import { buildPayload } from "./payload.helper.ts";
+import type { DashboardData } from "./types.ts";
 
 export async function getDashboard(
   owner: string,

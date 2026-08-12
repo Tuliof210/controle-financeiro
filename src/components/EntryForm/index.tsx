@@ -1,13 +1,17 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { Button } from "@/components/Button";
-import { MoneyInput } from "@/components/MoneyInput";
-import { SelectField } from "@/components/SelectField";
-import { TextField } from "@/components/TextField";
-import type { Person } from "@/core/entities/person.entity";
-import { ENTRY_TYPES, SELECTED_VARIANT, TYPE_LABELS } from "@/lib/entry-types";
-import type { EntryFormBase } from "./entry-form.helper";
+import { Button } from "@/components/Button/index.tsx";
+import { MoneyInput } from "@/components/MoneyInput/index.tsx";
+import { SelectField } from "@/components/SelectField/index.tsx";
+import { TextField } from "@/components/TextField/index.tsx";
+import type { Person } from "@/core/entities/person.entity.ts";
+import {
+  ENTRY_TYPES,
+  SELECTED_VARIANT,
+  TYPE_LABELS,
+} from "@/lib/entry-types.ts";
+import type { EntryFormBase } from "./entry-form.helper.ts";
 import styles from "./style.module.scss";
 
 export type EntryFormFields = EntryFormBase & {

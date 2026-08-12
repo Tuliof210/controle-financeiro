@@ -1,4 +1,4 @@
-import { type TagNodeProps, useTagNode } from "./hook";
+import { type TagNodeProps, useTagNode } from "./hook.ts";
 import styles from "./style.module.scss";
 
 // Recurses on itself: an aggregate's <ul> is one of these per child, however

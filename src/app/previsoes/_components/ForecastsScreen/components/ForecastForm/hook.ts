@@ -1,9 +1,9 @@
 import { useState } from "react";
-import type { EntryFormBase } from "@/components/EntryForm/entry-form.helper";
-import { useEntryForm } from "@/components/EntryForm/entry-form.hook";
-import type { Person } from "@/core/entities/person.entity";
-import { intervalsToMonths } from "./intervals.helper";
-import { useForecastIntervals } from "./intervals.hook";
+import type { EntryFormBase } from "@/components/EntryForm/entry-form.helper.ts";
+import { useEntryForm } from "@/components/EntryForm/entry-form.hook.ts";
+import type { Person } from "@/core/entities/person.entity.ts";
+import { intervalsToMonths } from "./intervals.helper.ts";
+import { useForecastIntervals } from "./intervals.hook.ts";
 
 export type ForecastFormValues = EntryFormBase & {
   months: number[];

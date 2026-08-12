@@ -1,9 +1,9 @@
-import type { OfxMonth, OfxReport } from "@/app/api/ofx/types";
-import type { Person } from "@/core/entities/person.entity";
-import { type EntryType, TYPE_LABELS } from "@/lib/entry-types";
-import { formatYyyymm } from "@/lib/months";
-import type { MovementRow } from "@/lib/movement-schema";
-import { accountLabel } from "../../account.helper";
+import type { OfxMonth, OfxReport } from "@/app/api/ofx/types.ts";
+import type { Person } from "@/core/entities/person.entity.ts";
+import { type EntryType, TYPE_LABELS } from "@/lib/entry-types.ts";
+import { formatYyyymm } from "@/lib/months.ts";
+import type { MovementRow } from "@/lib/movement-schema.ts";
+import { accountLabel } from "../../account.helper.ts";
 
 // The identifier field's cap, and the reason nothing here truncates a NAME:
 // the longest one this can build is "Entrada " + 40 + " " + "Ago/26" = 55

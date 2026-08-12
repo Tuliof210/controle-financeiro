@@ -1,4 +1,4 @@
-import type { OfxReport } from "@/app/api/ofx/types";
+import type { OfxReport } from "@/app/api/ofx/types.ts";
 
 export const SESSION_KEY = "ofx-report";
 

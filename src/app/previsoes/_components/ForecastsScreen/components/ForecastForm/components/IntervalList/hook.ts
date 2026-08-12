@@ -1,5 +1,5 @@
-import type { Interval } from "../../intervals.helper";
-import type { KeyedInterval } from "../../intervals.hook";
+import type { Interval } from "../../intervals.helper.ts";
+import type { KeyedInterval } from "../../intervals.hook.ts";
 
 export type IntervalListProps = {
   intervals: KeyedInterval[];

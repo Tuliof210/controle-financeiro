@@ -1,5 +1,5 @@
-import { amountToCents, blocks, dateToMonth, leaf } from "./ofx-tags.helper";
-import type { OfxAccount } from "./types";
+import { amountToCents, blocks, dateToMonth, leaf } from "./ofx-tags.helper.ts";
+import type { OfxAccount } from "./types.ts";
 
 export type OfxTransaction = { month: number; cents: number };
 

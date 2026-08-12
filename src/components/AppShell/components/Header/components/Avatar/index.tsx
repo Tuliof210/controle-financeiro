@@ -1,6 +1,6 @@
 "use client";
 
-import { useAvatar } from "./hook";
+import { useAvatar } from "./hook.ts";
 import styles from "./style.module.scss";
 
 // Decorative only: the active profile is already announced by ProfileSelect's

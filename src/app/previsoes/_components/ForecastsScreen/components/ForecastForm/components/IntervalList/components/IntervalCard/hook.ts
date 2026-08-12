@@ -1,6 +1,6 @@
-import { addMonths, buildMonths, formatYyyymm } from "@/lib/months";
-import type { Interval } from "../../../../intervals.helper";
-import type { KeyedInterval } from "../../../../intervals.hook";
+import { addMonths, buildMonths, formatYyyymm } from "@/lib/months.ts";
+import type { Interval } from "../../../../intervals.helper.ts";
+import type { KeyedInterval } from "../../../../intervals.hook.ts";
 
 export type IntervalCardProps = {
   interval: KeyedInterval;

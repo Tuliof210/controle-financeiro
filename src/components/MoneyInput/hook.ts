@@ -5,7 +5,7 @@ import {
   useLayoutEffect,
   useRef,
 } from "react";
-import { digitsToCents, formatCents } from "@/lib/money";
+import { digitsToCents, formatCents } from "@/lib/money.ts";
 
 type UseMoneyInputProps = {
   valueCents: number;

@@ -1,5 +1,5 @@
-import type { DashboardData } from "@/app/api/dashboard/types";
-import type { CeilingCap } from "@/lib/ceiling-caps";
+import type { DashboardData } from "@/app/api/dashboard/types.ts";
+import type { CeilingCap } from "@/lib/ceiling-caps.ts";
 
 // The "ok" variant only — the screen resolves the other states before rendering
 // a board at all, so this component never sees a nullable range.

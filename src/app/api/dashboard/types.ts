@@ -1,4 +1,4 @@
-import type { Ceiling } from "./ceiling.types";
+import type { Ceiling } from "./ceiling.types.ts";
 
 // The dashboard read model — the whole board in one payload. Imported by the
 // service that produces it and by the screen that renders it; a derived view,

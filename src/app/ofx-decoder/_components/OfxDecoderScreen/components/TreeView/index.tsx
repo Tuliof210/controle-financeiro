@@ -1,9 +1,9 @@
 import { ListTree } from "lucide-react";
-import { Button } from "@/components/Button";
-import { FilePicker } from "@/components/FilePicker";
-import { SectionCard } from "@/components/SectionCard";
-import { TagNode } from "./components/TagNode";
-import { type TreeViewProps, useTreeView } from "./hook";
+import { Button } from "@/components/Button/index.tsx";
+import { FilePicker } from "@/components/FilePicker/index.tsx";
+import { SectionCard } from "@/components/SectionCard/index.tsx";
+import { TagNode } from "./components/TagNode/index.tsx";
+import { type TreeViewProps, useTreeView } from "./hook.ts";
 import styles from "./style.module.scss";
 
 export function TreeView(props: TreeViewProps) {

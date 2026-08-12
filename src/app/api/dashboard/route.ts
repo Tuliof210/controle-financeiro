@@ -1,9 +1,9 @@
 import type { NextRequest } from "next/server";
 import { z } from "zod";
-import { CEILING_CAPS, DEFAULT_CEILING_CAP } from "@/lib/ceiling-caps";
-import { fail, ok } from "@/lib/http";
-import { DEFAULT_SIMULATION_VIEW, SIMULATION_VIEWS } from "@/lib/simulation";
-import { getDashboard } from "./service";
+import { CEILING_CAPS, DEFAULT_CEILING_CAP } from "@/lib/ceiling-caps.ts";
+import { fail, ok } from "@/lib/http.ts";
+import { DEFAULT_SIMULATION_VIEW, SIMULATION_VIEWS } from "@/lib/simulation.ts";
+import { getDashboard } from "./service.ts";
 
 // `cap` is validated and `owner` is not, and the asymmetry is the point. `owner`
 // is a single free-form string (a person id or the "familia" sentinel) that

@@ -1,4 +1,4 @@
-import { type ColorPickerProps, useColorPicker } from "./hook";
+import { type ColorPickerProps, useColorPicker } from "./hook.ts";
 import styles from "./style.module.scss";
 
 export function ColorPicker(props: ColorPickerProps) {

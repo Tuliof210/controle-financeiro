@@ -1,6 +1,6 @@
-import { MonthRow } from "./components/MonthRow";
-import { TotalsRow } from "./components/TotalsRow";
-import { type MonthTableProps, useMonthTable } from "./hook";
+import { MonthRow } from "./components/MonthRow/index.tsx";
+import { TotalsRow } from "./components/TotalsRow/index.tsx";
+import { type MonthTableProps, useMonthTable } from "./hook.ts";
 import styles from "./style.module.scss";
 
 export function MonthTable(props: MonthTableProps) {

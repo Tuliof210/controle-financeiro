@@ -1,5 +1,5 @@
-import type { Person } from "@/core/entities/person.entity";
-import { FAMILY_PROFILE } from "@/lib/ownership";
+import type { Person } from "@/core/entities/person.entity.ts";
+import { FAMILY_PROFILE } from "@/lib/ownership.ts";
 
 export function resolveLabel(profile: string, people: Person[]): string {
   if (profile === FAMILY_PROFILE) return "Família";

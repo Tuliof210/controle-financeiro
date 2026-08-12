@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
-import type { Person } from "@/core/entities/person.entity";
-import type { Entry } from "@/lib/entry-types";
-import { formatMoney } from "@/lib/money";
+import type { Person } from "@/core/entities/person.entity.ts";
+import type { Entry } from "@/lib/entry-types.ts";
+import { formatMoney } from "@/lib/money.ts";
 import styles from "./style.module.scss";
 
 export type EntryRowProps = {

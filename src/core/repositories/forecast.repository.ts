@@ -1,5 +1,5 @@
-import type { Forecast } from "@/core/entities/forecast.entity";
-import type { EntryType } from "@/lib/entry-types";
+import type { Forecast } from "@/core/entities/forecast.entity.ts";
+import type { EntryType } from "@/lib/entry-types.ts";
 
 export type ForecastInput = {
   name: string;

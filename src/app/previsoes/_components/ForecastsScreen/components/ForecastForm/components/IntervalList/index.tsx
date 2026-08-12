@@ -1,9 +1,9 @@
 "use client";
 
 import { Plus } from "lucide-react";
-import { Button } from "@/components/Button";
-import { IntervalCard } from "./components/IntervalCard";
-import { type IntervalListProps, useIntervalList } from "./hook";
+import { Button } from "@/components/Button/index.tsx";
+import { IntervalCard } from "./components/IntervalCard/index.tsx";
+import { type IntervalListProps, useIntervalList } from "./hook.ts";
 import styles from "./style.module.scss";
 
 export function IntervalList(props: IntervalListProps) {

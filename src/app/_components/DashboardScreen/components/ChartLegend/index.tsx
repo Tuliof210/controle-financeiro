@@ -1,4 +1,4 @@
-import { type ChartLegendProps, useChartLegend } from "./hook";
+import { type ChartLegendProps, useChartLegend } from "./hook.ts";
 import styles from "./style.module.scss";
 
 // Rides a chart card's header band. Not aria-hidden: it is the only place the

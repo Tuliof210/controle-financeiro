@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { useProfile } from "@/components/ProfileProvider/hook";
-import { getGreeting } from "./greeting.helper";
-import { formatToday } from "./today.helper";
+import { useProfile } from "@/components/ProfileProvider/hook.ts";
+import { getGreeting } from "./greeting.helper.ts";
+import { formatToday } from "./today.helper.ts";
 
 type UseHeaderProps = {
   sidebarExpanded: boolean;

@@ -1,4 +1,4 @@
-import { type CoverageBarProps, useCoverageBar } from "./hook";
+import { type CoverageBarProps, useCoverageBar } from "./hook.ts";
 import styles from "./style.module.scss";
 
 // The band alone. Its interval text used to sit right under it and now reads in

@@ -1,8 +1,8 @@
 import { createHash } from "node:crypto";
-import { decodeOfx } from "@/lib/decode";
-import { parseOfx } from "./parse.helper";
-import { buildReport } from "./report.helper";
-import type { OfxReport } from "./types";
+import { decodeOfx } from "@/lib/decode.ts";
+import { parseOfx } from "./parse.helper.ts";
+import { buildReport } from "./report.helper.ts";
+import type { OfxReport } from "./types.ts";
 
 export type ReadOfxResult =
   | { status: "ok"; report: OfxReport }

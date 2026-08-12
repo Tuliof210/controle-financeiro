@@ -1,5 +1,5 @@
-import type { CeilingRates } from "./ceiling.types";
-import type { MonthPoint } from "./types";
+import type { CeilingRates } from "./ceiling.types.ts";
+import type { MonthPoint } from "./types.ts";
 
 // The pure arithmetic behind buildCeiling, split off it for the 100-line cap.
 // Nothing here knows about caps, limits or the Meta target — that is exactly

@@ -1,6 +1,6 @@
-import type { Goal } from "@/core/entities/goal.entity";
-import { addMonths } from "@/lib/months";
-import type { GoalPace, GoalProjection } from "./types";
+import type { Goal } from "@/core/entities/goal.entity.ts";
+import { addMonths } from "@/lib/months.ts";
+import type { GoalPace, GoalProjection } from "./types.ts";
 
 type Horizon = {
   pace: number; // cents put aside per month — the whole monthly capacity

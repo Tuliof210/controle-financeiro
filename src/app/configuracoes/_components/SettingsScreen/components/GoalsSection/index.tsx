@@ -1,14 +1,14 @@
 "use client";
 
 import { Plus, Target } from "lucide-react";
-import { Button } from "@/components/Button";
-import { ConfirmDialog } from "@/components/ConfirmDialog";
-import { Modal } from "@/components/Modal";
-import { RowGrid } from "@/components/RowGrid";
-import { SectionCard } from "@/components/SectionCard";
-import { GoalForm } from "./components/GoalForm";
-import { GoalRow } from "./components/GoalRow";
-import { useGoalsSection } from "./hook";
+import { Button } from "@/components/Button/index.tsx";
+import { ConfirmDialog } from "@/components/ConfirmDialog/index.tsx";
+import { Modal } from "@/components/Modal/index.tsx";
+import { RowGrid } from "@/components/RowGrid/index.tsx";
+import { SectionCard } from "@/components/SectionCard/index.tsx";
+import { GoalForm } from "./components/GoalForm/index.tsx";
+import { GoalRow } from "./components/GoalRow/index.tsx";
+import { useGoalsSection } from "./hook.ts";
 import styles from "./style.module.scss";
 
 export function GoalsSection() {

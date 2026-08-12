@@ -1,5 +1,5 @@
-import type { SettingsRepository } from "@/core/repositories/settings.repository";
-import { prisma } from "@/infra/db/client";
+import type { SettingsRepository } from "@/core/repositories/settings.repository.ts";
+import { prisma } from "@/infra/db/client.ts";
 
 // The whole singleton, in one constant. Every read and every write goes through
 // this id, which is what keeps the table to one row without a DB constraint the

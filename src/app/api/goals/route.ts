@@ -1,8 +1,8 @@
 import type { NextRequest } from "next/server";
 import { z } from "zod";
-import { Prisma } from "@/generated/prisma/client";
-import { fail, ok, safeJson } from "@/lib/http";
-import { createGoal, deleteGoal, listGoals, updateGoal } from "./service";
+import { Prisma } from "@/generated/prisma/client.ts";
+import { fail, ok, safeJson } from "@/lib/http.ts";
+import { createGoal, deleteGoal, listGoals, updateGoal } from "./service.ts";
 
 const createSchema = z.object({
   name: z.string().trim().min(1).max(80),

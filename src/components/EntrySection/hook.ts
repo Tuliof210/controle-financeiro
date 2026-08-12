@@ -1,10 +1,10 @@
 import type { LucideIcon } from "lucide-react";
 import type { ReactNode } from "react";
-import type { EntrySectionLabels } from "@/components/EntryScreen/types";
-import type { Person } from "@/core/entities/person.entity";
-import type { Period } from "@/core/use-cases/period.service";
-import type { Entry } from "@/lib/entry-types";
-import { formatMoney } from "@/lib/money";
+import type { EntrySectionLabels } from "@/components/EntryScreen/types.ts";
+import type { Person } from "@/core/entities/person.entity.ts";
+import type { Period } from "@/core/use-cases/period.service.ts";
+import type { Entry } from "@/lib/entry-types.ts";
+import { formatMoney } from "@/lib/money.ts";
 
 export type EntrySectionProps<T extends Entry> = {
   title: string;

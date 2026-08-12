@@ -1,11 +1,11 @@
 "use client";
 
 import { FileUp } from "lucide-react";
-import { DropZone } from "@/components/DropZone";
-import { PageHeader } from "@/components/PageHeader";
-import { SectionCard } from "@/components/SectionCard";
-import { TreeView } from "./components/TreeView";
-import { useOfxDecoderScreen } from "./hook";
+import { DropZone } from "@/components/DropZone/index.tsx";
+import { PageHeader } from "@/components/PageHeader/index.tsx";
+import { SectionCard } from "@/components/SectionCard/index.tsx";
+import { TreeView } from "./components/TreeView/index.tsx";
+import { useOfxDecoderScreen } from "./hook.ts";
 import styles from "./style.module.scss";
 
 export function OfxDecoderScreen() {

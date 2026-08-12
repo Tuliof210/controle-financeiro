@@ -1,4 +1,4 @@
-import { TAG_HEIGHT } from "../../../../chart.config";
+import { TAG_HEIGHT } from "../../../../chart.config.ts";
 
 export type TightestMarkProps = {
   // Where the marked month sits in the plot, and its own cumulative — not the

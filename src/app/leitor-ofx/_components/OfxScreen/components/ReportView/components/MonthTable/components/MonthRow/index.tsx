@@ -1,4 +1,4 @@
-import { type MonthRowProps, useMonthRow } from "./hook";
+import { type MonthRowProps, useMonthRow } from "./hook.ts";
 import styles from "./style.module.scss";
 
 export function MonthRow(props: MonthRowProps) {

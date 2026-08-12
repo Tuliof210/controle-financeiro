@@ -1,11 +1,11 @@
 import { Check, FileText } from "lucide-react";
-import { Button } from "@/components/Button";
-import { FilePicker } from "@/components/FilePicker";
-import { SectionCard } from "@/components/SectionCard";
-import { AccountLine } from "./components/AccountLine";
-import { ImportAction } from "./components/ImportAction";
-import { MonthTable } from "./components/MonthTable";
-import { type ReportViewProps, useReportView } from "./hook";
+import { Button } from "@/components/Button/index.tsx";
+import { FilePicker } from "@/components/FilePicker/index.tsx";
+import { SectionCard } from "@/components/SectionCard/index.tsx";
+import { AccountLine } from "./components/AccountLine/index.tsx";
+import { ImportAction } from "./components/ImportAction/index.tsx";
+import { MonthTable } from "./components/MonthTable/index.tsx";
+import { type ReportViewProps, useReportView } from "./hook.ts";
 import styles from "./style.module.scss";
 
 export function ReportView(props: ReportViewProps) {

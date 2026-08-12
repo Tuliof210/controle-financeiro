@@ -1,7 +1,7 @@
 import { PanelLeftClose, PanelLeftOpen } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { type MouseEvent, useEffect, useRef } from "react";
-import { useNavActive } from "../../nav.hook";
+import { useNavActive } from "../../nav.hook.ts";
 import styles from "./style.module.scss";
 
 type UseAsideProps = {

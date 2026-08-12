@@ -1,8 +1,8 @@
 import type { LucideIcon } from "lucide-react";
-import type { Stats } from "@/app/api/dashboard/types";
-import type { BandTone } from "@/components/SectionCard/hook";
-import { formatMoney } from "@/lib/money";
-import { spark } from "../../spark.helper";
+import type { Stats } from "@/app/api/dashboard/types.ts";
+import type { BandTone } from "@/components/SectionCard/hook.ts";
+import { formatMoney } from "@/lib/money.ts";
+import { spark } from "../../spark.helper.ts";
 
 export type StatCardProps = {
   title: string;

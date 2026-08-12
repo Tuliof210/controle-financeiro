@@ -1,12 +1,12 @@
 "use client";
 
 import { CalendarRange, LayoutDashboard, TriangleAlert } from "lucide-react";
-import { formatYyyymm } from "@/lib/months";
-import { Board } from "./components/Board";
-import { HeroBand } from "./components/HeroBand";
-import { Notice } from "./components/Notice";
-import { SimulationSelect } from "./components/SimulationSelect";
-import { useDashboardScreen } from "./hook";
+import { formatYyyymm } from "@/lib/months.ts";
+import { Board } from "./components/Board/index.tsx";
+import { HeroBand } from "./components/HeroBand/index.tsx";
+import { Notice } from "./components/Notice/index.tsx";
+import { SimulationSelect } from "./components/SimulationSelect/index.tsx";
+import { useDashboardScreen } from "./hook.ts";
 import styles from "./style.module.scss";
 
 export function DashboardScreen() {

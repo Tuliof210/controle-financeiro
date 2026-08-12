@@ -1,14 +1,14 @@
 import { AxisBottom, AxisLeft } from "@visx/axis";
 import { Group } from "@visx/group";
-import { formatYyyymm } from "@/lib/months";
+import { formatYyyymm } from "@/lib/months.ts";
 import {
   axisProps,
   GRID_COLOR,
   MARGIN,
   TICK_LABEL_PROPS,
   Y_TICKS,
-} from "../../chart.config";
-import { type ChartFrameProps, useChartFrame } from "./hook";
+} from "../../chart.config.ts";
+import { type ChartFrameProps, useChartFrame } from "./hook.ts";
 import styles from "./style.module.scss";
 
 // Everything the two charts have in common: the Y axis pinned in its own

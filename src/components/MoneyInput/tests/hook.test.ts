@@ -1,5 +1,5 @@
 import { act, renderHook } from "@testing-library/react";
-import { useMoneyInput } from "@/components/MoneyInput/hook";
+import { useMoneyInput } from "@/components/MoneyInput/hook.ts";
 
 const REAIS_1234_56 = 123_456;
 

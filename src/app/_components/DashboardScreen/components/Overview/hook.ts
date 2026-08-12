@@ -1,4 +1,4 @@
-import type { BoardData } from "../Board/hook";
+import type { BoardData } from "../Board/hook.ts";
 
 export type OverviewProps = { data: BoardData };
 

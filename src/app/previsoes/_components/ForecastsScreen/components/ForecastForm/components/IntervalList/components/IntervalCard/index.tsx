@@ -1,7 +1,7 @@
 import { X } from "lucide-react";
-import { IconButton } from "@/components/IconButton";
-import { MonthPicker } from "@/components/MonthPicker";
-import { type IntervalCardProps, useIntervalCard } from "./hook";
+import { IconButton } from "@/components/IconButton/index.tsx";
+import { MonthPicker } from "@/components/MonthPicker/index.tsx";
+import { type IntervalCardProps, useIntervalCard } from "./hook.ts";
 import styles from "./style.module.scss";
 
 export function IntervalCard(props: IntervalCardProps) {

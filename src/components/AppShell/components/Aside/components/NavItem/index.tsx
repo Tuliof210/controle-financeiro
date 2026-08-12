@@ -1,6 +1,6 @@
 import type { LucideIcon } from "lucide-react";
 import Link from "next/link";
-import { useNavItem } from "./hook";
+import { useNavItem } from "./hook.ts";
 import styles from "./style.module.scss";
 
 type NavItemProps = {

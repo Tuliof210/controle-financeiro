@@ -1,6 +1,6 @@
 "use client";
 
-import { type SimulationSelectProps, useSimulationSelect } from "./hook";
+import { type SimulationSelectProps, useSimulationSelect } from "./hook.ts";
 import styles from "./style.module.scss";
 
 export function SimulationSelect(props: SimulationSelectProps) {

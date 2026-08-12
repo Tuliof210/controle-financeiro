@@ -1,4 +1,4 @@
-import { addMonths } from "@/lib/months";
+import { addMonths } from "@/lib/months.ts";
 
 const MAX_SPAN = 240; // 20 years of rows
 

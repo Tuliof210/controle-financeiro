@@ -1,6 +1,6 @@
-import type { GoalPace, GoalProjection } from "@/app/api/dashboard/types";
-import { formatMoneyShort } from "@/lib/money";
-import { MONTH_LABELS } from "@/lib/months";
+import type { GoalPace, GoalProjection } from "@/app/api/dashboard/types.ts";
+import { formatMoneyShort } from "@/lib/money.ts";
+import { MONTH_LABELS } from "@/lib/months.ts";
 
 export type GoalRowProps = {
   goal: GoalProjection;

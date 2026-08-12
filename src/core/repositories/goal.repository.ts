@@ -1,4 +1,4 @@
-import type { Goal } from "@/core/entities/goal.entity";
+import type { Goal } from "@/core/entities/goal.entity.ts";
 
 export type GoalRepository = {
   list(): Promise<Goal[]>;

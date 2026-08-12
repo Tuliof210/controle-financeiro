@@ -1,4 +1,4 @@
-import type { OfxNode } from "@/app/ofx-decoder/_components/OfxDecoderScreen/tag-tree.helper";
+import type { OfxNode } from "@/app/ofx-decoder/_components/OfxDecoderScreen/tag-tree.helper.ts";
 
 export type TagNodeProps = { node: OfxNode };
 

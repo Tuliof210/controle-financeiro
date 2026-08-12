@@ -1,4 +1,4 @@
-import { type TextFieldProps, useTextField } from "./hook";
+import { type TextFieldProps, useTextField } from "./hook.ts";
 import styles from "./style.module.scss";
 
 export function TextField(props: TextFieldProps) {

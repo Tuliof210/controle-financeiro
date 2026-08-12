@@ -1,4 +1,4 @@
-import type { EntryType } from "@/lib/entry-types";
+import type { EntryType } from "@/lib/entry-types.ts";
 
 export type Movement = {
   id: string;

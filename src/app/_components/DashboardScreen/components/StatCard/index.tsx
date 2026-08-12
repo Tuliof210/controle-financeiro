@@ -1,7 +1,7 @@
-import { SectionCard } from "@/components/SectionCard";
-import { SPARK_H, SPARK_W } from "../../spark.helper";
-import { Headline } from "../Headline";
-import { type StatCardProps, useStatCard } from "./hook";
+import { SectionCard } from "@/components/SectionCard/index.tsx";
+import { SPARK_H, SPARK_W } from "../../spark.helper.ts";
+import { Headline } from "../Headline/index.tsx";
+import { type StatCardProps, useStatCard } from "./hook.ts";
 import styles from "./style.module.scss";
 
 export function StatCard(props: StatCardProps) {

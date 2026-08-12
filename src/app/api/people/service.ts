@@ -1,4 +1,4 @@
-import { personRepository } from "@/infra/repositories/person.prisma.repository";
+import { personRepository } from "@/infra/repositories/person.prisma.repository.ts";
 
 export function listPeople() {
   return personRepository.list();

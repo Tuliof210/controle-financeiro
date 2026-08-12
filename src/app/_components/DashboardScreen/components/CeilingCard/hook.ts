@@ -1,8 +1,8 @@
-import type { Ceiling } from "@/app/api/dashboard/ceiling.types";
-import { type CeilingCap, META_CAP } from "@/lib/ceiling-caps";
-import { formatMoney } from "@/lib/money";
-import { formatYyyymm } from "@/lib/months";
-import { useShowAll } from "../../show-all.hook";
+import type { Ceiling } from "@/app/api/dashboard/ceiling.types.ts";
+import { type CeilingCap, META_CAP } from "@/lib/ceiling-caps.ts";
+import { formatMoney } from "@/lib/money.ts";
+import { formatYyyymm } from "@/lib/months.ts";
+import { useShowAll } from "../../show-all.hook.ts";
 
 // `current` is the range's current month — the only thing that makes a row the
 // current one. It rides along in the same payload, so no extra fetch.

@@ -1,6 +1,6 @@
 import { X } from "lucide-react";
-import { IconButton } from "../IconButton";
-import { type ModalProps, useModal } from "./hook";
+import { IconButton } from "../IconButton/index.tsx";
+import { type ModalProps, useModal } from "./hook.ts";
 import styles from "./style.module.scss";
 
 export type { ModalProps };

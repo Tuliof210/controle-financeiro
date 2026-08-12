@@ -1,5 +1,5 @@
-import type { Movement } from "@/core/entities/movement.entity";
-import type { EntryType } from "@/lib/entry-types";
+import type { Movement } from "@/core/entities/movement.entity.ts";
+import type { EntryType } from "@/lib/entry-types.ts";
 
 export type MovementInput = {
   name: string;

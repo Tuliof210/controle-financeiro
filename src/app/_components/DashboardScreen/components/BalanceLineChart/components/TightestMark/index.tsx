@@ -1,6 +1,9 @@
-import { TAG_TONES, TIGHTEST_RULE_DASHARRAY } from "../../../../chart.config";
-import { ChartTag } from "../../../ChartTag";
-import { type TightestMarkProps, useTightestMark } from "./hook";
+import {
+  TAG_TONES,
+  TIGHTEST_RULE_DASHARRAY,
+} from "../../../../chart.config.ts";
+import { ChartTag } from "../../../ChartTag/index.tsx";
+import { type TightestMarkProps, useTightestMark } from "./hook.ts";
 
 // The month the Teto card names as its bottleneck: a dashed drop from the point
 // to the axis, and a filled tag above it. Its own folder because the chart's

@@ -5,7 +5,7 @@ import {
   MONTH_LABELS,
   splitYYYYMM,
   yearOptions,
-} from "@/lib/months";
+} from "@/lib/months.ts";
 
 export type MonthPickerProps = {
   label: string;

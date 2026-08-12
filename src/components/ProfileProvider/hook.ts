@@ -6,10 +6,10 @@ import {
   useEffect,
   useState,
 } from "react";
-import type { Person } from "@/core/entities/person.entity";
-import { apiGet } from "@/lib/api";
-import { FAMILY_PROFILE } from "@/lib/ownership";
-import { isStaleProfile, resolveLabel } from "./profile.helper";
+import type { Person } from "@/core/entities/person.entity.ts";
+import { apiGet } from "@/lib/api.ts";
+import { FAMILY_PROFILE } from "@/lib/ownership.ts";
+import { isStaleProfile, resolveLabel } from "./profile.helper.ts";
 
 export type ProfileProviderProps = {
   children: ReactNode;

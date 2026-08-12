@@ -1,8 +1,8 @@
-import type { MonthPoint } from "@/app/api/dashboard/types";
-import { formatMoney } from "@/lib/money";
-import { formatYyyymm } from "@/lib/months";
-import { dashSplit } from "../../chart.helper";
-import { buildFrame } from "../../chart-frame.helper";
+import type { MonthPoint } from "@/app/api/dashboard/types.ts";
+import { formatMoney } from "@/lib/money.ts";
+import { formatYyyymm } from "@/lib/months.ts";
+import { dashSplit } from "../../chart.helper.ts";
+import { buildFrame } from "../../chart-frame.helper.ts";
 
 export type BalanceLineChartProps = {
   points: MonthPoint[];

@@ -1,7 +1,7 @@
 import { FileUp } from "lucide-react";
-import { DropZone } from "@/components/DropZone";
-import { SectionCard } from "@/components/SectionCard";
-import { type UploadCardProps, useUploadCard } from "./hook";
+import { DropZone } from "@/components/DropZone/index.tsx";
+import { SectionCard } from "@/components/SectionCard/index.tsx";
+import { type UploadCardProps, useUploadCard } from "./hook.ts";
 import styles from "./style.module.scss";
 
 // The wrapper owns the card chrome and the error line; the drag behaviour lives

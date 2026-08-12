@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import type { DashboardData } from "@/app/api/dashboard/types";
-import { useProfile } from "@/components/ProfileProvider/hook";
-import { apiGet } from "@/lib/api";
-import { type CeilingCap, DEFAULT_CEILING_CAP } from "@/lib/ceiling-caps";
-import { useSimulationView } from "./simulation.hook";
+import type { DashboardData } from "@/app/api/dashboard/types.ts";
+import { useProfile } from "@/components/ProfileProvider/hook.ts";
+import { apiGet } from "@/lib/api.ts";
+import { type CeilingCap, DEFAULT_CEILING_CAP } from "@/lib/ceiling-caps.ts";
+import { useSimulationView } from "./simulation.hook.ts";
 
 export function useDashboardScreen() {
   // AppShell mounts ProfileProvider globally, so the context is already there.

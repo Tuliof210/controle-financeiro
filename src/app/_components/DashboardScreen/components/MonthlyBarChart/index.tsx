@@ -1,9 +1,9 @@
-import { PROJECTED_BAND_FILL, projectedRuleProps } from "../../chart.config";
-import { ChartFrame } from "../ChartFrame";
-import { ChartTag } from "../ChartTag";
-import { ChartTooltip } from "../ChartTooltip";
-import { useChartTooltip } from "../ChartTooltip/hook";
-import { type MonthlyBarChartProps, useMonthlyBarChart } from "./hook";
+import { PROJECTED_BAND_FILL, projectedRuleProps } from "../../chart.config.ts";
+import { ChartFrame } from "../ChartFrame/index.tsx";
+import { ChartTag } from "../ChartTag/index.tsx";
+import { ChartTooltip } from "../ChartTooltip/index.tsx";
+import { useChartTooltip } from "../ChartTooltip/hook.ts";
+import { type MonthlyBarChartProps, useMonthlyBarChart } from "./hook.ts";
 
 export function MonthlyBarChart(props: MonthlyBarChartProps) {
   const { frame, bars, band, width, height } = useMonthlyBarChart(props);

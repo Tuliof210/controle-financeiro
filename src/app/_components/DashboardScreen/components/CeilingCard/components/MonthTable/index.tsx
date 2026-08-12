@@ -1,4 +1,4 @@
-import { type MonthTableProps, useMonthTable } from "./hook";
+import { type MonthTableProps, useMonthTable } from "./hook.ts";
 import styles from "./style.module.scss";
 
 // Three figures per month is a grid, not a chart — which is why the bars this

@@ -1,4 +1,4 @@
-import { CEILING_CAPS, type CeilingCap, META_CAP } from "@/lib/ceiling-caps";
+import { CEILING_CAPS, type CeilingCap, META_CAP } from "@/lib/ceiling-caps.ts";
 
 export type CapSelectorProps = {
   value: CeilingCap;

@@ -1,8 +1,8 @@
 import { useState } from "react";
-import type { EntryFormBase } from "@/components/EntryForm/entry-form.helper";
-import { useEntryForm } from "@/components/EntryForm/entry-form.hook";
-import type { Person } from "@/core/entities/person.entity";
-import { currentYYYYMM } from "@/lib/months";
+import type { EntryFormBase } from "@/components/EntryForm/entry-form.helper.ts";
+import { useEntryForm } from "@/components/EntryForm/entry-form.hook.ts";
+import type { Person } from "@/core/entities/person.entity.ts";
+import { currentYYYYMM } from "@/lib/months.ts";
 
 export type MovementFormValues = EntryFormBase & { month: number };
 

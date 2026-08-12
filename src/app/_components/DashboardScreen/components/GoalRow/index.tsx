@@ -1,5 +1,5 @@
 import { Target } from "lucide-react";
-import { type GoalRowProps, useGoalRow } from "./hook";
+import { type GoalRowProps, useGoalRow } from "./hook.ts";
 import styles from "./style.module.scss";
 
 export function GoalRow(props: GoalRowProps) {

@@ -1,5 +1,5 @@
-import { Facts } from "./components/Facts";
-import { type HeroBandProps, useHeroBand } from "./hook";
+import { Facts } from "./components/Facts/index.tsx";
+import { type HeroBandProps, useHeroBand } from "./hook.ts";
 import styles from "./style.module.scss";
 
 // The page's title block and its headline figure, in one band. It replaces

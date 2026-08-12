@@ -1,4 +1,4 @@
-import { type RowGridProps, useRowGrid } from "./hook";
+import { type RowGridProps, useRowGrid } from "./hook.ts";
 import styles from "./style.module.scss";
 
 // The LIST owns the row's box and decides when it collapses; the ROW owns its

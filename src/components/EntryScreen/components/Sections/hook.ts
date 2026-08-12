@@ -1,9 +1,9 @@
 import { ArrowDownCircle, ArrowUpCircle } from "lucide-react";
 import type { ReactNode } from "react";
-import type { Person } from "@/core/entities/person.entity";
-import type { Period } from "@/core/use-cases/period.service";
-import type { Entry, EntryType } from "@/lib/entry-types";
-import type { EntryScreenLabels } from "../../types";
+import type { Person } from "@/core/entities/person.entity.ts";
+import type { Period } from "@/core/use-cases/period.service.ts";
+import type { Entry, EntryType } from "@/lib/entry-types.ts";
+import type { EntryScreenLabels } from "../../types.ts";
 
 export type SectionsProps<T extends Entry> = {
   labels: EntryScreenLabels;

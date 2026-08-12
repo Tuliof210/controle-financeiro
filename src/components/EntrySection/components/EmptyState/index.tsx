@@ -1,4 +1,4 @@
-import { type EmptyStateProps, useEmptyState } from "./hook";
+import { type EmptyStateProps, useEmptyState } from "./hook.ts";
 import styles from "./style.module.scss";
 
 export function EmptyState(props: EmptyStateProps) {

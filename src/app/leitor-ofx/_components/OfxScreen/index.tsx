@@ -1,10 +1,10 @@
 "use client";
 
-import { PageHeader } from "@/components/PageHeader";
-import { LoadingCard } from "./components/LoadingCard";
-import { ReportView } from "./components/ReportView";
-import { UploadCard } from "./components/UploadCard";
-import { useOfxScreen } from "./hook";
+import { PageHeader } from "@/components/PageHeader/index.tsx";
+import { LoadingCard } from "./components/LoadingCard/index.tsx";
+import { ReportView } from "./components/ReportView/index.tsx";
+import { UploadCard } from "./components/UploadCard/index.tsx";
+import { useOfxScreen } from "./hook.ts";
 import styles from "./style.module.scss";
 
 export function OfxScreen() {

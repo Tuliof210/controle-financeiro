@@ -1,7 +1,7 @@
-import type { MonthPoint } from "@/app/api/dashboard/types";
-import { formatMoney, formatMoneyShort } from "@/lib/money";
-import { addMonths, formatYyyymm } from "@/lib/months";
-import type { BoardData } from "../Board/hook";
+import type { MonthPoint } from "@/app/api/dashboard/types.ts";
+import { formatMoney, formatMoneyShort } from "@/lib/money.ts";
+import { addMonths, formatYyyymm } from "@/lib/months.ts";
+import type { BoardData } from "../Board/hook.ts";
 
 export type HeroBandProps = { data?: BoardData };
 

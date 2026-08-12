@@ -1,10 +1,10 @@
 "use client";
 
 import { Wallet } from "lucide-react";
-import { Button } from "@/components/Button";
-import { MoneyInput } from "@/components/MoneyInput";
-import { SectionCard } from "@/components/SectionCard";
-import { useSpendingGoalSection } from "./hook";
+import { Button } from "@/components/Button/index.tsx";
+import { MoneyInput } from "@/components/MoneyInput/index.tsx";
+import { SectionCard } from "@/components/SectionCard/index.tsx";
+import { useSpendingGoalSection } from "./hook.ts";
 import styles from "./style.module.scss";
 
 export function SpendingGoalSection() {

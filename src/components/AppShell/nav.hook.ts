@@ -1,5 +1,5 @@
 import { usePathname } from "next/navigation";
-import { isActiveNav, NAV } from "./nav";
+import { isActiveNav, NAV } from "./nav.ts";
 
 // Role-suffixed, not `hook.ts`: a folder's hook.ts is called by its own
 // index.tsx, and this one is called by Aside's hook.

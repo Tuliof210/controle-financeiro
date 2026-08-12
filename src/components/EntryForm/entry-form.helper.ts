@@ -1,4 +1,4 @@
-import type { EntryType } from "@/lib/entry-types";
+import type { EntryType } from "@/lib/entry-types.ts";
 
 // The half of an entry that never varies between entities. The period — the
 // half that does — stays in each feature's own form hook, so no generic is

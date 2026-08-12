@@ -4,7 +4,7 @@ import {
   TAG_LABEL_PROPS,
   TAG_PAD_X,
   TAG_TONES,
-} from "../../chart.config";
+} from "../../chart.config.ts";
 
 export type ChartTagProps = {
   // Top-left corner of the tag, in the plot's own coordinate space.

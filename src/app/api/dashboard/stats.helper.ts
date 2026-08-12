@@ -1,4 +1,4 @@
-import type { Stats } from "./types";
+import type { Stats } from "./types.ts";
 
 const sum = (values: number[]) => values.reduce((acc, v) => acc + v, 0);
 

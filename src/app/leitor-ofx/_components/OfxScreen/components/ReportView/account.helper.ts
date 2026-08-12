@@ -1,5 +1,5 @@
-import type { OfxAccount } from "@/app/api/ofx/types";
-import { formatMoney } from "@/lib/money";
+import type { OfxAccount } from "@/app/api/ofx/types.ts";
+import { formatMoney } from "@/lib/money.ts";
 
 // The two metadata values derived from the account list. Pulled out of hook.ts,
 // which already sat at the 100-line cap.
