@@ -80,3 +80,14 @@ export const ownerOptions = (people: Person[]) => {
   }
   return people.map((person) => ({ value: person.id, label: person.name }));
 };
+
+// The hint only exists once the file is known to be a repeat.
+export const tooltipFor = (record: {
+  imported: boolean;
+  importedAt: string | null;
+}): string | null => {
+  if (!record.imported) {
+    return null;
+  }
+  return importedHint(record.importedAt);
+};

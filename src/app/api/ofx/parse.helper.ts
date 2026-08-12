@@ -2,6 +2,15 @@ import { amountToCents, dateToMonth } from "./amount.helper.ts";
 import { blocks, leaf } from "./ofx-tags.helper.ts";
 import type { OfxAccount } from "./types.ts";
 
+// amountToCents returns null rather than 0 for an unusable amount, and this
+// keeps that null rather than turning an absent field into a zero row.
+const centsOf = (amount: string | null): number | null => {
+  if (!amount) {
+    return null;
+  }
+  return amountToCents(amount);
+};
+
 interface OfxTransaction {
   month: number;
   cents: number;
@@ -36,7 +45,7 @@ function readTransactions(block: string): OfxTransaction[] {
   for (const entry of blocks(block, "STMTTRN")) {
     const posted = monthLeaf(entry, "DTPOSTED");
     const raw = leaf(entry, "TRNAMT");
-    const cents = raw ? amountToCents(raw) : null;
+    const cents = centsOf(raw);
     // A row with no usable date or amount cannot be summed into a month, so
     // it is dropped — which is exactly why amountToCents returns null rather
     // than 0, a value that would land in a total as a transaction of nothing.
@@ -55,7 +64,7 @@ function readStatement(block: string): OfxStatement {
       bankId: leaf(block, "BANKID"),
       accountId: leaf(block, "ACCTID"),
       accountType: leaf(block, "ACCTTYPE"),
-      balanceCents: amount ? amountToCents(amount) : null,
+      balanceCents: centsOf(amount),
       balanceMonth: monthLeaf(balance, "DTASOF"),
       start: monthLeaf(block, "DTSTART"),
       end: monthLeaf(block, "DTEND"),

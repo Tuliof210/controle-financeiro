@@ -35,5 +35,14 @@ export function useSpendingGoalSection() {
     setSaved(!result.error);
   };
 
-  return { cents, error, saved, onChange, onSave };
+  return {
+    cents,
+    error,
+    onChange,
+    onSave,
+    // The button reports the last save rather than offering the same action
+    // twice, so the label and the variant move together.
+    saveVariant: saved ? ("success" as const) : ("primary" as const),
+    saveLabel: saved ? "Salvo" : "Salvar",
+  };
 }

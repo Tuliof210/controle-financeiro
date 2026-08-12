@@ -8,6 +8,7 @@ import { RowGrid } from "@/components/RowGrid/index.tsx";
 import { SectionCard } from "@/components/SectionCard/index.tsx";
 import { GoalForm } from "./components/GoalForm/index.tsx";
 import { GoalRow } from "./components/GoalRow/index.tsx";
+import { deleteTitle } from "./goals-copy.helper.ts";
 import { useGoalsSection } from "./hook.ts";
 import styles from "./style.module.scss";
 
@@ -88,11 +89,7 @@ export function GoalsSection() {
         onConfirm={onConfirmDelete}
         error={error}
         title="Excluir objetivo"
-        message={
-          modal.type === "delete"
-            ? `Excluir o objetivo "${modal.goal.name}"?`
-            : ""
-        }
+        message={deleteTitle(modal)}
       />
     </SectionCard>
   );

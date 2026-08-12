@@ -10,6 +10,7 @@ import {
   ownerOptions,
   prefillIdentifier,
   summaryOf,
+  tooltipFor,
 } from "./import-rows.helper.ts";
 import { useImportedRecord } from "./imported.hook.ts";
 
@@ -91,7 +92,7 @@ export function useImportAction({ report }: ImportActionProps) {
     submit,
     maxLength: IDENTIFIER_MAX,
     imported: record.imported,
-    tooltip: record.imported ? importedHint(record.importedAt) : null,
+    tooltip: tooltipFor(record),
     summary: summaryOf(rows.length),
     options: ownerOptions(people),
   };

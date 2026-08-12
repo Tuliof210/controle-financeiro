@@ -13,13 +13,21 @@ const MONTH_MAX = 999_912;
 
 const AMOUNT = /^([+-]?)(\d+)(?:\.(\d*))?$/;
 
+// Everything left of the last separator is grouping and goes; the separator
+// itself becomes the decimal point.
+const GROUPING = /[.,]/g;
+const normalize = (cleaned: string, cut: number): string => {
+  if (cut < 0) {
+    return cleaned;
+  }
+  const whole = cleaned.slice(0, cut).replace(GROUPING, "");
+  return `${whole}.${cleaned.slice(cut + 1)}`;
+};
+
 export function amountToCents(raw: string): number | null {
   const cleaned = raw.replace(/\s/g, "");
   const cut = Math.max(cleaned.lastIndexOf("."), cleaned.lastIndexOf(","));
-  const normalized =
-    cut < 0
-      ? cleaned
-      : `${cleaned.slice(0, cut).replace(/[.,]/g, "")}.${cleaned.slice(cut + 1)}`;
+  const normalized = normalize(cleaned, cut);
   const match = AMOUNT.exec(normalized);
   if (!match) {
     return null;

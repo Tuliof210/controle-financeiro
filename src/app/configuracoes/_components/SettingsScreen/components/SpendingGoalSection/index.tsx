@@ -17,7 +17,8 @@ const COPY = {
 } as const;
 
 export function SpendingGoalSection() {
-  const { cents, error, saved, onChange, onSave } = useSpendingGoalSection();
+  const { cents, error, onChange, onSave, saveVariant, saveLabel } =
+    useSpendingGoalSection();
 
   return (
     <SectionCard title="Meta mensal" icon={Wallet}>
@@ -35,8 +36,8 @@ export function SpendingGoalSection() {
           <span aria-hidden={true}>{ERROR_GLYPH}</span> {error}
         </p>
       )}
-      <Button variant={saved ? "success" : "primary"} onClick={onSave}>
-        {saved ? "Salvo" : "Salvar"}
+      <Button variant={saveVariant} onClick={onSave}>
+        {saveLabel}
       </Button>
     </SectionCard>
   );

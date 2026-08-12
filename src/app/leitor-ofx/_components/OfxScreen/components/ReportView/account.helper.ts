@@ -1,6 +1,14 @@
 import type { OfxAccount } from "@/app/api/ofx/types.ts";
 import { formatMoney } from "@/lib/money.ts";
 
+// "+2" only when there are more accounts than the one named.
+const more = (others: number): string => {
+  if (others > 0) {
+    return ` +${others}`;
+  }
+  return "";
+};
+
 // The two metadata values derived from the account list. Pulled out of hook.ts,
 // which already sat at the 100-line cap.
 
@@ -13,7 +21,7 @@ export const accountLabel = (accounts: OfxAccount[]): string => {
   const first = accounts.find((account) => account.accountId)?.accountId;
   const others = accounts.length - 1;
   if (first) {
-    return `${first}${others > 0 ? ` +${others}` : ""}`;
+    return `${first}${more(others)}`;
   }
   return "—";
 };

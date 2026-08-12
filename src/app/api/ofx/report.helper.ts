@@ -3,6 +3,20 @@ import type { OfxParse, OfxTransaction } from "./parse.helper.ts";
 import { periodOf } from "./period.helper.ts";
 import type { OfxMonth, OfxReport } from "./types.ts";
 
+// A statement with no dated transaction spans no period, so it lists no months
+// rather than one blank row.
+const monthsFor = (
+  period: [number, number] | null,
+  byMonth: Map<number, OfxMonth>,
+): OfxMonth[] => {
+  if (period === null) {
+    return [];
+  }
+  return buildMonths(period[0], period[1]).map(
+    (month) => byMonth.get(month) ?? blank(month),
+  );
+};
+
 const blank = (month: number): OfxMonth => ({
   month,
   incomeCents: 0,
@@ -59,11 +73,7 @@ export function buildReport(
   );
   // Gap-free and zero-filled: a month the statement covers but never posted to
   // is a row of zeros, so the hole is visible rather than absent.
-  const months = period
-    ? buildMonths(period[0], period[1]).map(
-        (month) => byMonth.get(month) ?? blank(month),
-      )
-    : [];
+  const months = monthsFor(period, byMonth);
 
   return {
     // Comes from the upload and is rendered in the UI; no reason to carry an
