@@ -19,7 +19,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      suppressHydrationWarning
+      suppressHydrationWarning={true}
       className={`${pressStart2P.variable} ${jetBrainsMono.variable}`}
     >
       <body>

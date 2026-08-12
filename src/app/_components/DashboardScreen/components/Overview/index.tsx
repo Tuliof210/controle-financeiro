@@ -52,7 +52,7 @@ export function Overview(props: OverviewProps) {
           hint={HINTS.balance}
           stats={data.balance}
           series={balance}
-          signed
+          signed={true}
         />
       </div>
 

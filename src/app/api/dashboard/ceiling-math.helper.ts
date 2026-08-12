@@ -17,8 +17,13 @@ export const rates = (monthly: number): CeilingRates => ({
 // one pass. Seeded from the LAST balance rather than a sentinel: the formula this
 // replaces seeded POSITIVE_INFINITY, and Infinity - Infinity is NaN.
 export function suffixMinimum(ahead: MonthPoint[]): number[] {
+  const last = ahead.at(-1);
+  if (!last) {
+    return [];
+  }
+
   const worst = new Array<number>(ahead.length);
-  worst[worst.length - 1] = ahead[ahead.length - 1].cumulative;
+  worst[worst.length - 1] = last.cumulative;
   for (let index = worst.length - 2; index >= 0; index -= 1) {
     worst[index] = Math.min(ahead[index].cumulative, worst[index + 1]);
   }

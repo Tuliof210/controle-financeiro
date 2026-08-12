@@ -17,10 +17,14 @@ export function dashSplit(
   points: MonthPoint[],
   dashedFrom: number | null,
 ): { solid: MonthPoint[]; dashed: MonthPoint[] } {
-  if (dashedFrom === null) return { solid: points, dashed: [] };
+  if (dashedFrom === null) {
+    return { solid: points, dashed: [] };
+  }
 
   const index = points.findIndex((point) => point.month >= dashedFrom);
-  if (index === -1) return { solid: points, dashed: [] };
+  if (index === -1) {
+    return { solid: points, dashed: [] };
+  }
 
   return {
     solid: index === 0 ? [] : points.slice(0, index + 1),

@@ -15,7 +15,7 @@ export function SavingsSection(props: SavingsSectionProps) {
   return (
     <section className={styles.card}>
       <div className={styles.banner}>
-        <div className={styles.stripes} aria-hidden />
+        <div className={styles.stripes} aria-hidden={true} />
         <div className={styles.capacity}>
           <div className={styles.eyebrowRow}>
             {/* The eyebrow already reads as this card's title, and it is the

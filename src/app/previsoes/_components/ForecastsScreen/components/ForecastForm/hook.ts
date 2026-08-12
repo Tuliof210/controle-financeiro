@@ -32,7 +32,7 @@ export function useForecastForm({
   const [simulated, setSimulated] = useState(initial?.simulated ?? false);
 
   const selectedMonths = intervalsToMonths(intervals);
-  const canSubmit = entry.isValid && selectedMonths.length >= 1;
+  const canSubmit = entry.isValid && selectedMonths.length > 0;
 
   const handleSubmit = () => {
     if (!canSubmit) {

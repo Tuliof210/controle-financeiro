@@ -65,7 +65,7 @@ export function buildMonths(start: number, end: number): number[] {
 // YYYYMM -> "Ago/26" (2-digit year). null -> muted placeholder, for a caller
 // that may not have a value yet.
 export function formatYyyymm(value: number | null): string {
-  if (value == null) {
+  if (value === null) {
     return "—";
   }
   const year = Math.trunc(value / 100);

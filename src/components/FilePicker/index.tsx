@@ -14,7 +14,7 @@ export function FilePicker(props: FilePickerProps) {
         type="file"
         accept=".ofx,text/plain"
         onChange={change}
-        hidden
+        hidden={true}
       />
       <Button onClick={open} disabled={disabled}>
         {label}

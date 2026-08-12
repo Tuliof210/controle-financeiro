@@ -31,7 +31,9 @@ export function useChartCard({
 
   const measure = useCallback(() => {
     const node = ref.current;
-    if (!node) return;
+    if (!node) {
+      return;
+    }
     const { width, height } = node.getBoundingClientRect();
     // Commit only a real change, or this loops.
     setSize((prev) =>
@@ -50,7 +52,9 @@ export function useChartCard({
   // Still observed, for resizes React never re-renders for (the window itself).
   useLayoutEffect(() => {
     const node = ref.current;
-    if (!node) return;
+    if (!node) {
+      return;
+    }
     const observer = new ResizeObserver(measure);
     observer.observe(node);
     return () => observer.disconnect();

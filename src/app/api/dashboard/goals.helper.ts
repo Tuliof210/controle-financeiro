@@ -19,7 +19,9 @@ interface Horizon {
 // the one guard the three metrics need, and it is shared: pace is payload-global,
 // so all three are null for every goal or for none.
 function paceOf(cents: number, pace: number, current: number): GoalPace {
-  if (pace <= 0) return null;
+  if (pace <= 0) {
+    return null;
+  }
   const months = Math.ceil(cents / pace);
   return { months, doneMonth: addMonths(current, months - 1) };
 }

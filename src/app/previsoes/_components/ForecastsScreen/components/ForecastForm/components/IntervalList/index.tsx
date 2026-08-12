@@ -23,7 +23,7 @@ export function IntervalList(props: IntervalListProps) {
         />
       ))}
       <Button variant="dashed" onClick={onAdd}>
-        <Plus size={16} aria-hidden /> Adicionar intervalo
+        <Plus size={16} aria-hidden={true} /> Adicionar intervalo
       </Button>
     </div>
   );

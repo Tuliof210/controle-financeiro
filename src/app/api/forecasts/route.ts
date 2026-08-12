@@ -19,7 +19,7 @@ const forecastShape = {
   // 2000-2099: the picker's own domain — the derived period feeds
   // buildMonths, so a wider bound risks a corrupt row enumerating ~950k rows.
   months: z
-    .array(z.number().int().min(200001).max(209912))
+    .array(z.number().int().min(200_001).max(209_912))
     .min(1)
     .transform((m) => [...new Set(m)].sort((a, b) => a - b)),
   // Defaulted rather than required: a body that predates simulations — the e2e

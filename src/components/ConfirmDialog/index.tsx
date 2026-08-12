@@ -39,7 +39,7 @@ export function ConfirmDialog({
       <p className={styles.message}>{message}</p>
       {error ? (
         <p className={styles.error}>
-          <span aria-hidden>▲</span> {error}
+          <span aria-hidden={true}>▲</span> {error}
         </p>
       ) : null}
     </Modal>

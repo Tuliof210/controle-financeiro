@@ -32,7 +32,9 @@ export function useProfileState(): ProfileContextValue {
   useEffect(() => {
     try {
       const stored = localStorage.getItem("profile");
-      if (stored) setProfileRaw(stored);
+      if (stored) {
+        setProfileRaw(stored);
+      }
     } catch {}
   }, []);
 

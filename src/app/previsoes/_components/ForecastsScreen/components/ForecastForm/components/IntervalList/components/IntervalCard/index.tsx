@@ -42,7 +42,7 @@ export function IntervalCard(props: IntervalCardProps) {
               aria-label={removeLabel}
               onClick={onRemove}
             >
-              <X size={16} aria-hidden />
+              <X size={16} aria-hidden={true} />
             </IconButton>
           ) : null}
         </div>

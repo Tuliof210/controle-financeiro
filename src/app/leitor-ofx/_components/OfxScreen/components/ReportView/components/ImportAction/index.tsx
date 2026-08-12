@@ -65,7 +65,7 @@ export function ImportAction(props: ImportActionProps) {
             <p className={styles.summary}>{view.summary}</p>
             {view.error ? (
               <p className={styles.error}>
-                <span aria-hidden>▲</span> {view.error}
+                <span aria-hidden={true}>▲</span> {view.error}
               </p>
             ) : null}
           </div>

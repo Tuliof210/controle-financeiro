@@ -19,12 +19,14 @@ export function useForecastIntervals(initialMonths: number[] | undefined) {
   const withKeys = (list: Interval[]): KeyedInterval[] =>
     list.map((it) => ({ ...it, key: nextKey.current++ }));
 
+  const seed = () => {
+    if (initialMonths && initialMonths.length > 0) {
+      return monthsToIntervals(initialMonths);
+    }
+    return [defaultInterval()];
+  };
   const [intervals, setIntervals] = useState<KeyedInterval[]>(() =>
-    withKeys(
-      initialMonths?.length
-        ? monthsToIntervals(initialMonths)
-        : [defaultInterval()],
-    ),
+    withKeys(seed()),
   );
 
   const updateInterval = (index: number, next: Interval) =>

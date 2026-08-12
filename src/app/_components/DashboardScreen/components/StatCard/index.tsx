@@ -17,7 +17,7 @@ export function StatCard(props: StatCardProps) {
           `tone` still reaches Headline, where it colours the figure. */}
       <SectionCard title={title} icon={icon} band={band} hint={hint}>
         <Headline caption="Valor total no período" tone={tone}>
-          {glyph ? <span aria-hidden>{glyph} </span> : null}
+          {glyph ? <span aria-hidden={true}>{glyph} </span> : null}
           {total}
         </Headline>
 

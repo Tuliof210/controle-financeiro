@@ -10,21 +10,21 @@ export function HeroBand(props: HeroBandProps) {
 
   return (
     <section className={styles.band}>
-      <div className={styles.edge} aria-hidden />
-      <div className={styles.scan} aria-hidden />
+      <div className={styles.edge} aria-hidden={true} />
+      <div className={styles.scan} aria-hidden={true} />
 
       <div className={styles.inner}>
         <div className={styles.head}>
           <div className={styles.titleCol}>
             <p className={styles.eyebrow}>
-              <span className={styles.mark} aria-hidden />
+              <span className={styles.mark} aria-hidden={true} />
               PAINEL
             </p>
             {/* An <h1>: the page's only one, above the <h2> every card on this
                 screen titles itself with. */}
             <h1 className={styles.title}>
               Dashboard
-              <span className={styles.cursor} aria-hidden />
+              <span className={styles.cursor} aria-hidden={true} />
             </h1>
             <p className={styles.subtitle}>
               Onde o dinheiro da família está hoje e para onde ele vai.
@@ -41,7 +41,7 @@ export function HeroBand(props: HeroBandProps) {
                 <span
                   className={`${styles.badge} ${figures.deltaUp ? styles.up : styles.down}`}
                 >
-                  <span aria-hidden>{figures.deltaUp ? "▲" : "▼"}</span>{" "}
+                  <span aria-hidden={true}>{figures.deltaUp ? "▲" : "▼"}</span>{" "}
                   {figures.delta}
                 </span>
                 <span className={styles.vs}>

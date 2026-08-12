@@ -70,7 +70,11 @@ export function Aside(props: AsideProps) {
           aria-expanded={!collapsed}
           onClick={onToggle}
         >
-          <ToggleIcon className={styles.collapseIcon} size={18} aria-hidden />
+          <ToggleIcon
+            className={styles.collapseIcon}
+            size={18}
+            aria-hidden={true}
+          />
           <span className={styles.collapseLabel}>{toggleLabel}</span>
         </button>
       </div>

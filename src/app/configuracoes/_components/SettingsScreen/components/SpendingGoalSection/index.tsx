@@ -24,7 +24,7 @@ export function SpendingGoalSection() {
       />
       {error ? (
         <p className={styles.error}>
-          <span aria-hidden>▲</span> {error}
+          <span aria-hidden={true}>▲</span> {error}
         </p>
       ) : null}
       <Button variant={saved ? "success" : "primary"} onClick={onSave}>

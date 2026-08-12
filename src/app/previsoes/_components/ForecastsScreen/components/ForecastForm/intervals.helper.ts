@@ -18,7 +18,9 @@ function nextMonth(yyyymm: number): number {
 export function intervalsToMonths(intervals: Interval[]): number[] {
   const set = new Set<number>();
   for (const { start, end } of intervals) {
-    for (const m of buildMonths(start, end)) set.add(m);
+    for (const m of buildMonths(start, end)) {
+      set.add(m);
+    }
   }
   return [...set].sort((a, b) => a - b);
 }
@@ -31,7 +33,7 @@ export function monthsToIntervals(months: number[]): Interval[] {
   const sorted = [...new Set(months)].sort((a, b) => a - b);
   const intervals: Interval[] = [];
   for (const month of sorted) {
-    const last = intervals[intervals.length - 1];
+    const last = intervals.at(-1);
     if (last && nextMonth(last.end) === month) {
       last.end = month;
     } else {

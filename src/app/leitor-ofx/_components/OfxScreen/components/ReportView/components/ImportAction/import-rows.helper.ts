@@ -64,6 +64,6 @@ export const prefillIdentifier = (report: OfxReport): string => {
 // SelectField has no empty state of its own, so an account with nobody
 // registered would otherwise render a select with no options at all.
 export const ownerOptions = (people: Person[]) =>
-  people.length
+  people.length > 0
     ? people.map((person) => ({ value: person.id, label: person.name }))
     : [{ value: "", label: "Nenhuma pessoa cadastrada" }];

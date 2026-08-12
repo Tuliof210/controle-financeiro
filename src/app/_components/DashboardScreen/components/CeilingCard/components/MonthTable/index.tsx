@@ -50,7 +50,7 @@ export function MonthTable(props: MonthTableProps) {
                   from the balance beside it, and formatMoney never signs a
                   positive. */}
               <td className={styles.spend} data-label="Teto do mês">
-                <span aria-hidden>−</span>
+                <span aria-hidden={true}>−</span>
                 {row.spend}
               </td>
               <td className={styles.left} data-label="Sobra">

@@ -12,7 +12,7 @@ export async function safeJson(request: Request): Promise<unknown> {
   try {
     return await request.json();
   } catch {
-    return undefined;
+    return;
   }
 }
 
@@ -24,6 +24,6 @@ export async function safeFormData(
   try {
     return await request.formData();
   } catch {
-    return undefined;
+    return;
   }
 }

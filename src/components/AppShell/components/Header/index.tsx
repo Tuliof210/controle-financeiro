@@ -28,7 +28,7 @@ export function Header(props: HeaderProps) {
         aria-controls="app-sidebar"
         onClick={onToggleSidebar}
       >
-        <Menu size={20} aria-hidden />
+        <Menu size={20} aria-hidden={true} />
       </button>
 
       <div className={styles.greetingBlock}>

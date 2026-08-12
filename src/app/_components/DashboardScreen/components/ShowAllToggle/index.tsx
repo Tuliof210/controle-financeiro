@@ -25,7 +25,7 @@ export function ShowAllToggle(props: ShowAllToggleProps) {
       onClick={onClick}
     >
       {label}
-      <Chevron size={14} aria-hidden />
+      <Chevron size={14} aria-hidden={true} />
     </button>
   );
 }

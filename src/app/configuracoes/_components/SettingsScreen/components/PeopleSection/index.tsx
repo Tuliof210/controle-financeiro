@@ -41,7 +41,7 @@ export function PeopleSection() {
         </RowGrid>
       )}
       <Button variant="dashed" onClick={() => open("add")}>
-        <Plus size={16} aria-hidden />
+        <Plus size={16} aria-hidden={true} />
         Adicionar pessoa
       </Button>
 

@@ -27,9 +27,14 @@ export function useAside({
   // regardless of the native `open` attribute, so this never runs there.
   useEffect(() => {
     const dialog = ref.current;
-    if (!dialog) return;
-    if (drawerOpen && !dialog.open) dialog.showModal();
-    else if (!drawerOpen && dialog.open) dialog.close();
+    if (!dialog) {
+      return;
+    }
+    if (drawerOpen && !dialog.open) {
+      dialog.showModal();
+    } else if (!drawerOpen && dialog.open) {
+      dialog.close();
+    }
   }, [drawerOpen]);
 
   // Close on navigation — a link inside the drawer changes the route without
@@ -41,11 +46,15 @@ export function useAside({
   }, [pathname, onCloseDrawer]);
 
   const handleClose = () => {
-    if (drawerOpen) onCloseDrawer();
+    if (drawerOpen) {
+      onCloseDrawer();
+    }
   };
 
   const handleClick = (e: MouseEvent<HTMLDialogElement>) => {
-    if (e.target === ref.current) onCloseDrawer();
+    if (e.target === ref.current) {
+      onCloseDrawer();
+    }
   };
 
   return {

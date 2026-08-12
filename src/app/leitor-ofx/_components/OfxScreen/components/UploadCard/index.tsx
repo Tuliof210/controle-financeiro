@@ -20,7 +20,7 @@ export function UploadCard(props: UploadCardProps) {
       />
       {error ? (
         <p className={styles.error}>
-          <span aria-hidden>▲</span> {error}
+          <span aria-hidden={true}>▲</span> {error}
         </p>
       ) : null}
     </SectionCard>

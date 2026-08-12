@@ -12,7 +12,7 @@ export function GoalRow(props: GoalRowProps) {
   return (
     <li className={styles.row}>
       <div className={styles.head}>
-        <Target size={16} aria-hidden className={styles.icon} />
+        <Target size={16} aria-hidden={true} className={styles.icon} />
         <span data-cell="name" className={styles.name}>
           {name}
         </span>
@@ -33,7 +33,7 @@ export function GoalRow(props: GoalRowProps) {
             <dt className={styles.label}>{metric.label}</dt>
             <dd className={styles.value}>{metric.value}</dd>
             {metric.bar ? (
-              <div className={styles.track} aria-hidden>
+              <div className={styles.track} aria-hidden={true}>
                 <div
                   className={styles.fill}
                   style={{

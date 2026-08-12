@@ -30,7 +30,9 @@ const EMPTY: Stats = {
 // integer cents, so derived statistics are Math.round-ed — formatCents'
 // Math.trunc is a formatting concern, not a rounding policy.
 export function computeStats(values: number[], currentIndex: number): Stats {
-  if (values.length === 0) return EMPTY;
+  if (values.length === 0) {
+    return EMPTY;
+  }
 
   const total = sum(values);
   const mean = Math.round(total / values.length);

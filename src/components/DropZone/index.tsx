@@ -19,7 +19,7 @@ export function DropZone(props: DropZoneProps) {
       onDrop={onDrop}
     >
       <span className={styles.glyph}>
-        <Upload size={28} aria-hidden />
+        <Upload size={28} aria-hidden={true} />
       </span>
       <p className={styles.eyebrow}>Arraste o extrato .ofx</p>
       <p className={styles.note}>{note}</p>

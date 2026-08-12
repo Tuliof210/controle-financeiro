@@ -14,7 +14,7 @@ export function TagNode(props: TagNodeProps) {
     </li>
   ) : (
     <li>
-      <details open>
+      <details open={true}>
         <summary className={styles.tag}>{node.tag}</summary>
         <ul className={styles.children}>
           {node.children.map((child) => (

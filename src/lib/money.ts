@@ -42,8 +42,8 @@ export const formatMoneyShortK = (cents: number): string => {
 // any string -> cents, keeping ONLY 0-9 (mask/comma/paste-junk stripped).
 // Exported so a handler validating cents can reject at the same ceiling the
 // input itself enforces, instead of inventing a second one.
-export const MAX_CENTS = 1_000_000_000_00; // R$ 1 billion guard against overflow
+export const MAX_CENTS = 100_000_000_000; // R$ 1 billion guard against overflow
 export const digitsToCents = (raw: string): number => {
   const digits = raw.replace(/\D/g, "").slice(0, 15);
-  return Math.min(parseInt(digits || "0", 10), MAX_CENTS);
+  return Math.min(Number.parseInt(digits || "0", 10), MAX_CENTS);
 };

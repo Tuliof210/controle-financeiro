@@ -44,7 +44,7 @@ export function EntrySection<T extends Entry>(props: EntrySectionProps<T>) {
         className={`${styles.add} ${styles[tone]}`}
         onClick={onAdd}
       >
-        <Plus size={16} aria-hidden /> {labels.add}
+        <Plus size={16} aria-hidden={true} /> {labels.add}
       </Button>
     </SectionCard>
   );

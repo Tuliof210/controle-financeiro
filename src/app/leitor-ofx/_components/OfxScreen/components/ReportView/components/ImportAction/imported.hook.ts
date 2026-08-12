@@ -24,7 +24,9 @@ export function useImportedRecord(fileHash: string) {
     apiGet<ImportedState>(
       `/api/ofx-imports?hash=${encodeURIComponent(fileHash)}`,
     ).then((result) => {
-      if (alive && result.data) setRecord(result.data);
+      if (alive && result.data) {
+        setRecord(result.data);
+      }
     });
     return () => {
       alive = false;

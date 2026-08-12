@@ -16,7 +16,7 @@ export function MoneyInput(props: MoneyInputProps) {
 
   return (
     <div className={styles.field}>
-      <span className={styles.prefix} aria-hidden>
+      <span className={styles.prefix} aria-hidden={true}>
         R$
       </span>
       <input

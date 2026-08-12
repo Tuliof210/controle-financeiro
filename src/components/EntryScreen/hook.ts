@@ -25,7 +25,9 @@ export function useEntryScreen<T extends Entry, V extends { type: EntryType }>({
   const refetch = useCallback(
     () =>
       apiGet<T[]>(path).then((result) => {
-        if (result.error) return setError(result.error);
+        if (result.error) {
+          return setError(result.error);
+        }
         setItems(result.data ?? []);
       }),
     [path],
@@ -34,10 +36,14 @@ export function useEntryScreen<T extends Entry, V extends { type: EntryType }>({
   useEffect(() => {
     refetch();
     apiGet<Person[]>("/api/people").then((result) => {
-      if (!result.error) setPeople(result.data ?? []);
+      if (!result.error) {
+        setPeople(result.data ?? []);
+      }
     });
     apiGet<Period | null>("/api/period").then((result) => {
-      if (!result.error) setPeriod(result.data ?? null);
+      if (!result.error) {
+        setPeriod(result.data ?? null);
+      }
     });
   }, [refetch]);
 
@@ -53,7 +59,9 @@ export function useEntryScreen<T extends Entry, V extends { type: EntryType }>({
   const openDelete = (entry: T) => openModal({ type: "delete", entry });
 
   const persist = async (result: Awaited<ReturnType<typeof apiPost>>) => {
-    if (result.error) return setError(result.error);
+    if (result.error) {
+      return setError(result.error);
+    }
     close();
     refetch();
   };

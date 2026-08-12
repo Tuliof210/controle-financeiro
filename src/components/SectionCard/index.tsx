@@ -42,7 +42,7 @@ export function SectionCard(props: SectionCardProps) {
     <section className={cardClassName}>
       <div className={titleRowClassName}>
         {/* 16, not 18: the title next to it is now a --text-2xs eyebrow. */}
-        {Icon ? <Icon size={16} aria-hidden /> : null}
+        {Icon ? <Icon size={16} aria-hidden={true} /> : null}
         <h2 className={styles.title}>{title}</h2>
         {hint ? (
           // Named after the card: a dashboard renders many of these, and a

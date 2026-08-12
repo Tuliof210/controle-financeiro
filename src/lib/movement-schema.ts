@@ -15,7 +15,7 @@ export const movementRowShape = {
   type: z.enum(ENTRY_TYPES),
   // 2000-2099: the picker's own domain — the derived period feeds buildMonths,
   // so a wider bound risks a corrupt row enumerating ~950k rows.
-  month: z.number().int().min(200001).max(209912),
+  month: z.number().int().min(200_001).max(209_912),
 };
 
 export const movementRowSchema = z.object(movementRowShape);

@@ -28,7 +28,9 @@ export function useSimulationView() {
   useEffect(() => {
     try {
       const stored = localStorage.getItem(KEY);
-      if (isView(stored)) setView(stored);
+      if (isView(stored)) {
+        setView(stored);
+      }
     } catch {}
   }, []);
 

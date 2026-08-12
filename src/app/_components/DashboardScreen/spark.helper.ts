@@ -18,7 +18,9 @@ const PLOT_H = SPARK_H - 8;
  * bug in others.
  */
 export function spark(values: number[]): { line: string; area: string } | null {
-  if (values.length === 0) return null;
+  if (values.length === 0) {
+    return null;
+  }
 
   const min = Math.min(...values);
   const max = Math.max(...values);

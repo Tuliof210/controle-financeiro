@@ -10,7 +10,7 @@ export function CoverageBar(props: CoverageBarProps) {
   const { segments } = useCoverageBar(props);
 
   return (
-    <span className={styles.track} aria-hidden>
+    <span className={styles.track} aria-hidden={true}>
       {segments.map(({ left, width }) => (
         <span key={left} className={styles.fill} style={{ left, width }} />
       ))}

@@ -10,7 +10,7 @@ export function Avatar() {
   const { initials } = useAvatar();
 
   return (
-    <span className={styles.avatar} aria-hidden>
+    <span className={styles.avatar} aria-hidden={true}>
       {initials}
     </span>
   );

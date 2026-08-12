@@ -47,12 +47,16 @@ export async function getDashboard(
   // start/end are a min/max over the same set, so this can never be inverted
   // the way a hand-saved range could.
   const period = derivePeriod(movements, forecasts);
-  if (period === null) return { status: "no_range" };
+  if (period === null) {
+    return { status: "no_range" };
+  }
 
   const months = buildMonths(period.start, period.end);
   const range = { ...period, current: currentYYYYMM(new Date()) };
   const currentIndex = months.indexOf(range.current);
-  if (currentIndex === -1) return { status: "out_of_range", range };
+  if (currentIndex === -1) {
+    return { status: "out_of_range", range };
+  }
 
   return buildPayload({
     range,

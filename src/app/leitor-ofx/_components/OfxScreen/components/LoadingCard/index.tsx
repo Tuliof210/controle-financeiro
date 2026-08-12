@@ -21,7 +21,7 @@ export function LoadingCard(props: LoadingCardProps) {
       </div>
       {/* aria-hidden on the whole block: the progressbar already announces the
           state, and five decorative bars announce nothing. */}
-      <div className={styles.skeleton} aria-hidden>
+      <div className={styles.skeleton} aria-hidden={true}>
         {widths.map((width) => (
           <div
             key={width}

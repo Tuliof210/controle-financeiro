@@ -2,7 +2,7 @@
 // parse.helper.ts so they can be unit-tested directly and so neither file
 // crosses the 100-line cap.
 
-const MAX_CENTS = 1_000_000_000_00; // R$ 1 billion, matching src/lib/money.ts
+const MAX_CENTS = 100_000_000_000; // R$ 1 billion, matching src/lib/money.ts
 
 // A leaf element's value. OFX 1.x omits leaf closing tags, so the value runs
 // to the next `<`; OFX 2.x closes them, and `[^<]*` stops in the same place.
@@ -85,5 +85,5 @@ export function dateToMonth(raw: string): number | null {
   }
   const month = Number(digits);
   const inYear = month % 100 >= 1 && month % 100 <= 12;
-  return inYear && month >= 190001 && month <= 999912 ? month : null;
+  return inYear && month >= 190_001 && month <= 999_912 ? month : null;
 }

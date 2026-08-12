@@ -32,7 +32,7 @@ export function GoalForm({
       />
       {shownError ? (
         <p className={styles.error}>
-          <span aria-hidden>▲</span> {shownError}
+          <span aria-hidden={true}>▲</span> {shownError}
         </p>
       ) : null}
       <Button onClick={handleSubmit}>{submitLabel}</Button>

@@ -20,7 +20,9 @@ export function useTooltip({
   const [dismissed, setDismissed] = useState(false);
 
   const onKeyDown = (event: KeyboardEvent<HTMLButtonElement>) => {
-    if (event.key !== "Escape" || dismissed) return;
+    if (event.key !== "Escape" || dismissed) {
+      return;
+    }
     // Consume it: this primitive is used inside cards that can sit in a native
     // <dialog>, where the same keypress would otherwise also close the modal.
     event.stopPropagation();

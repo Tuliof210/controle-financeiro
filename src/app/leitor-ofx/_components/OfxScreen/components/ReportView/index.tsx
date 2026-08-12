@@ -16,7 +16,7 @@ export function ReportView(props: ReportViewProps) {
       <div className={styles.head}>
         <p className={styles.file}>{view.fileName}</p>
         <p className={styles.badge}>
-          <Check size={12} aria-hidden /> {view.count}
+          <Check size={12} aria-hidden={true} /> {view.count}
         </p>
       </div>
       {/* No "Lançamentos" key here any more — the badge above carries it. */}
@@ -52,7 +52,7 @@ export function ReportView(props: ReportViewProps) {
 
       {view.error ? (
         <p className={styles.error}>
-          <span aria-hidden>▲</span> {view.error}
+          <span aria-hidden={true}>▲</span> {view.error}
         </p>
       ) : null}
 

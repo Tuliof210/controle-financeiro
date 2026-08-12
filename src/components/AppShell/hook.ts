@@ -18,7 +18,9 @@ export function useAppShell() {
       // A live resize across the stop must drop any open drawer, or it stays
       // a real top-layer modal (Aside/hook.ts's showModal()) blocking the
       // page behind what CSS now draws as the plain sticky rail.
-      if (mql.matches) setDrawerOpen(false);
+      if (mql.matches) {
+        setDrawerOpen(false);
+      }
     };
     sync();
     mql.addEventListener("change", sync);

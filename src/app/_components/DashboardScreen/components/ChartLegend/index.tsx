@@ -14,7 +14,7 @@ export function ChartLegend(props: ChartLegendProps) {
           <span
             className={styles.swatch}
             style={{ background: item.color }}
-            aria-hidden
+            aria-hidden={true}
           />
           {item.label}
         </span>

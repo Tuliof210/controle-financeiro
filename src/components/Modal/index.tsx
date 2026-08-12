@@ -38,7 +38,7 @@ export function Modal({
             className={styles.close}
             onClick={onClose}
           >
-            <X size={16} aria-hidden />
+            <X size={16} aria-hidden={true} />
           </IconButton>
         </header>
         <div className={styles.body}>{children}</div>

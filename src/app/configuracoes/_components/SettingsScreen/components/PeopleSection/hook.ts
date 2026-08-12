@@ -39,23 +39,33 @@ export function usePeopleSection() {
 
   const onAdd = async (draft: PersonDraft) => {
     const result = await apiPost("/api/people", draft);
-    if (result.error) return setError(result.error);
+    if (result.error) {
+      return setError(result.error);
+    }
     close();
     refetch();
   };
 
   const onUpdate = async (draft: PersonDraft) => {
-    if (!target) return;
+    if (!target) {
+      return;
+    }
     const result = await apiPut("/api/people", { id: target.id, ...draft });
-    if (result.error) return setError(result.error);
+    if (result.error) {
+      return setError(result.error);
+    }
     close();
     refetch();
   };
 
   const onConfirmDelete = async () => {
-    if (!target) return;
+    if (!target) {
+      return;
+    }
     const result = await apiDelete(`/api/people?id=${target.id}`);
-    if (result.error) return setError(result.error);
+    if (result.error) {
+      return setError(result.error);
+    }
     close();
     refetch();
   };

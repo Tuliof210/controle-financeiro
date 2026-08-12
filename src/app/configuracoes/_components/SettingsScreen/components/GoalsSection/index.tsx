@@ -42,7 +42,7 @@ export function GoalsSection() {
         </RowGrid>
       )}
       <Button variant="dashed" onClick={openAdd}>
-        <Plus size={16} aria-hidden />
+        <Plus size={16} aria-hidden={true} />
         Adicionar objetivo
       </Button>
 

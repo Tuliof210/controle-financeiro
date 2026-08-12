@@ -25,7 +25,7 @@ export function NavItem(props: NavItemProps) {
         aria-current={active ? "page" : undefined}
         aria-label={label}
       >
-        <Icon className={styles.icon} size={18} aria-hidden />
+        <Icon className={styles.icon} size={18} aria-hidden={true} />
         <span className={styles.label}>{label}</span>
       </Link>
     </li>

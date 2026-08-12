@@ -15,11 +15,15 @@ const sum = (values: number[]): number =>
 // always be, and a scattered run gets the vaguer line instead.
 function redSub(points: MonthPoint[]): string {
   const red = points.filter((point) => point.cumulative < 0);
-  if (red.length === 0) return "nenhum mês no vermelho";
+  const lastRed = red.at(-1);
+  if (!lastRed) {
+    return "nenhum mês no vermelho";
+  }
 
-  const lastRed = red[red.length - 1];
   const isPrefix = points.indexOf(lastRed) === red.length - 1;
-  if (!isPrefix) return "espalhados pelo período";
+  if (!isPrefix) {
+    return "espalhados pelo período";
+  }
 
   // addMonths rather than the next point's month: when the whole range is red
   // there is no next point, and the month after the last red one still reads
@@ -62,10 +66,16 @@ function buildFacts(points: MonthPoint[]) {
 // numbers wait for it, which is why they are one nullable object rather than
 // six independently nullable fields.
 export function useHeroBand({ data }: HeroBandProps) {
-  if (!data) return { figures: null };
+  if (!data) {
+    return { figures: null };
+  }
 
   const { points, range } = data;
-  const last = points[points.length - 1];
+  const last = points.at(-1);
+  if (!last) {
+    return { figures: null };
+  }
+
   // `current` can be missing when the payload and the clock disagree; falling
   // back to the first point keeps the card rendering instead of throwing on
   // `undefined.cumulative`.

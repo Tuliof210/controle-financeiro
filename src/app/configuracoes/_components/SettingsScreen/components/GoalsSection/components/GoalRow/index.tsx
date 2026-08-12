@@ -23,14 +23,14 @@ export function GoalRow(props: GoalRowProps) {
       </span>
       <span data-cell="act">
         <IconButton aria-label={`Editar ${name}`} onClick={onEdit}>
-          <Pencil size={14} aria-hidden />
+          <Pencil size={14} aria-hidden={true} />
         </IconButton>
         <IconButton
           variant="danger"
           aria-label={`Excluir ${name}`}
           onClick={onDelete}
         >
-          <Trash2 size={14} aria-hidden />
+          <Trash2 size={14} aria-hidden={true} />
         </IconButton>
       </span>
     </li>

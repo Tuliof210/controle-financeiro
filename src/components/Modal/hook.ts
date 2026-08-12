@@ -21,22 +21,31 @@ export function useModal({
   // trigger on close.
   useEffect(() => {
     const dialog = ref.current;
-    if (!dialog) return;
-    if (open && !dialog.open) dialog.showModal();
-    else if (!open && dialog.open) dialog.close();
+    if (!dialog) {
+      return;
+    }
+    if (open && !dialog.open) {
+      dialog.showModal();
+    } else if (!open && dialog.open) {
+      dialog.close();
+    }
   }, [open]);
 
   // Native `close` fires on Esc and on our programmatic close(). Only bubble it
   // up while still open, so the close() our own effect triggers doesn't re-fire
   // onClose in a loop.
   const handleClose = () => {
-    if (open) onClose();
+    if (open) {
+      onClose();
+    }
   };
 
   // Backdrop click lands on the <dialog> itself (the panel is an inner box), so
   // target === dialog means the click was outside the content.
   const handleClick = (e: MouseEvent<HTMLDialogElement>) => {
-    if (e.target === ref.current) onClose();
+    if (e.target === ref.current) {
+      onClose();
+    }
   };
 
   return { ref, handleClose, handleClick };

@@ -15,11 +15,11 @@ export function ThemeToggle() {
       aria-label={theme === "dark" ? "Ativar tema claro" : "Ativar tema escuro"}
     >
       {theme === null ? (
-        <span className={styles.slot} aria-hidden />
+        <span className={styles.slot} aria-hidden={true} />
       ) : theme === "dark" ? (
-        <Sun size={20} aria-hidden />
+        <Sun size={20} aria-hidden={true} />
       ) : (
-        <Moon size={20} aria-hidden />
+        <Moon size={20} aria-hidden={true} />
       )}
     </button>
   );

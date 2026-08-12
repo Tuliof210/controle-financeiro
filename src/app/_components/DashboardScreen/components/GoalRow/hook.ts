@@ -30,7 +30,9 @@ const METRICS = [
 // the goal count before dividing, so this is the one screen in the app that can
 // land past the century — where "Fev/26" would read as a month already gone.
 function landing(pace: GoalPace): string {
-  if (pace === null) return "ritmo zero";
+  if (pace === null) {
+    return "ritmo zero";
+  }
   const { months, doneMonth } = pace;
   const unit = months === 1 ? "mês" : "meses";
   const label = MONTH_LABELS[(doneMonth % 100) - 1];
