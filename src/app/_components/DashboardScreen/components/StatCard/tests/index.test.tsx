@@ -1,0 +1,47 @@
+import "@testing-library/jest-dom/jest-globals";
+import { describe, expect, it } from "@jest/globals";
+import { render, screen } from "@testing-library/react";
+import { Scale } from "lucide-react";
+import { StatCard } from "@/app/_components/DashboardScreen/components/StatCard/index.tsx";
+
+const stats = {
+  total: 1000,
+  current: 400,
+  mean: 500,
+  stdDev: 100,
+  median: 450,
+};
+
+const props = {
+  title: "Saldo",
+  icon: Scale,
+  hint: "Como o saldo sai",
+  stats,
+  series: [1, 2, 3],
+};
+
+describe("StatCard", () => {
+  it("heads the card with its own total and four secondary rows", () => {
+    render(<StatCard {...props} />);
+
+    expect(screen.getByRole("heading", { name: "Saldo" })).toBeInTheDocument();
+    expect(screen.getByText("R$ 10,00")).toBeInTheDocument();
+    expect(screen.getByText("Desvio padrão")).toBeInTheDocument();
+  });
+
+  it("draws the sign glyph only on a signed card", () => {
+    const { rerender } = render(<StatCard {...props} />);
+
+    expect(screen.queryByText("▲")).not.toBeInTheDocument();
+
+    rerender(<StatCard {...props} signed={true} />);
+
+    expect(screen.getByText(/▲/)).toBeInTheDocument();
+  });
+
+  it("draws no sparkline for an empty series", () => {
+    const { container } = render(<StatCard {...props} series={[]} />);
+
+    expect(container.querySelector("svg.spark")).toBeNull();
+  });
+});
