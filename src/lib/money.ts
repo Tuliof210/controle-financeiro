@@ -20,7 +20,12 @@ const group = (digits: string): string =>
   digits.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 
 // U+2212 MINUS SIGN, matching the DS money pattern in src/styles/docs/Colors.mdx.
-const sign = (cents: number): string => (cents < 0 ? "−" : "");
+const sign = (cents: number): string => {
+  if (cents < 0) {
+    return "−";
+  }
+  return "";
+};
 
 // cents -> "R$ 1.234,56" / "−R$ 640,00". The display formatter: signed and
 // grouped, unlike formatCents.
@@ -38,11 +43,19 @@ const formatMoneyShort = (cents: number): string =>
 // decimal, truncated (never rounded up, matching formatCents), the decimal
 // dropped when it is zero. For chart Y axis labels on mobile, where
 // formatMoneyShort's full grouped digits ("R$ 12.345") are too wide.
+// The decimal is dropped when it is zero: "R$ 20K", not "R$ 20,0K".
+const kFigure = (whole: number, tenth: number): string => {
+  if (tenth === 0) {
+    return String(whole);
+  }
+  return `${whole},${tenth}`;
+};
+
 const formatMoneyShortK = (cents: number): string => {
   const tenthsOfK = Math.trunc(Math.abs(cents) / CENTS_IN_TENTH_OF_K);
   const whole = Math.trunc(tenthsOfK / TENTHS);
   const tenth = tenthsOfK % TENTHS;
-  return `${sign(cents)}R$ ${tenth === 0 ? whole : `${whole},${tenth}`}K`;
+  return `${sign(cents)}R$ ${kFigure(whole, tenth)}K`;
 };
 
 // any string -> cents, keeping ONLY 0-9 (mask/comma/paste-junk stripped).

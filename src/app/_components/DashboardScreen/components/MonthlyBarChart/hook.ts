@@ -3,6 +3,7 @@ import type { MonthPoint } from "@/app/api/dashboard/types.ts";
 import { formatMoney } from "@/lib/money.ts";
 import { formatYyyymm } from "@/lib/months.ts";
 import { buildFrame } from "../../chart-frame.helper.ts";
+import { bandOf, estimatedFor } from "./bar-series.helper.ts";
 
 interface MonthlyBarChartProps {
   points: MonthPoint[];
@@ -47,10 +48,7 @@ function useMonthlyBarChart({
   const bars = points.flatMap((point) =>
     SERIES.map((series) => {
       const value = point[series.key];
-      const estimated =
-        series.key === "income"
-          ? point.incomeEstimated
-          : point.expenseEstimated;
+      const estimated = estimatedFor(point, series.key);
 
       return {
         key: `${point.month}-${series.key}`,
@@ -80,10 +78,7 @@ function useMonthlyBarChart({
     bars,
     width,
     height,
-    band:
-      bandStart === null
-        ? null
-        : { x: bandStart, width: Math.max(0, frame.innerWidth - bandStart) },
+    band: bandOf(bandStart, frame.innerWidth),
   };
 }
 

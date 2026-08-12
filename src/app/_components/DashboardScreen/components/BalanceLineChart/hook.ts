@@ -16,6 +16,18 @@ export interface BalanceLineChartProps {
   height: number;
 }
 
+// Only worth drawing when the series actually crosses zero; otherwise the
+// baseline coincides with the axis.
+function zeroLine(valueScale: {
+  domain: () => number[];
+  (value: number): number;
+}): number | null {
+  if (valueScale.domain()[0] >= 0) {
+    return null;
+  }
+  return valueScale(0);
+}
+
 export function useBalanceLineChart({
   points,
   dashedFrom,
@@ -39,10 +51,10 @@ export function useBalanceLineChart({
 
   // Anchored to the named month's OWN cumulative, not to the curve's minimum —
   // the two need not coincide, and the label names the month, not the low point.
-  const tightestPoint =
-    tightest === null
-      ? undefined
-      : points.find((point) => point.month === tightest);
+  let tightestPoint: MonthPoint | undefined;
+  if (tightest !== null) {
+    tightestPoint = points.find((point) => point.month === tightest);
+  }
 
   return {
     frame,
@@ -62,7 +74,7 @@ export function useBalanceLineChart({
     })),
     // Only worth drawing when the series actually crosses zero; otherwise the
     // baseline coincides with the axis.
-    zeroY: frame.valueScale.domain()[0] < 0 ? frame.valueScale(0) : null,
+    zeroY: zeroLine(frame.valueScale),
     tightestMark:
       tightestPoint === undefined
         ? null
