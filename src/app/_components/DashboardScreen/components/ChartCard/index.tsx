@@ -1,5 +1,5 @@
-import { SectionCard } from "@/components/SectionCard";
-import { type ChartCardProps, useChartCard } from "./hook";
+import { SectionCard } from "@/components/SectionCard/index.tsx";
+import { type ChartCardProps, useChartCard } from "./hook.ts";
 import styles from "./style.module.scss";
 
 // The SectionCard + measured-box wrapper both charts share. The height lives in
@@ -18,7 +18,7 @@ export function ChartCard(props: ChartCardProps) {
       headerEnd={legend}
     >
       <div ref={ref} className={styles.plot}>
-        {size.width > 0 && size.height > 0 ? children(size) : null}
+        {size.width > 0 && size.height > 0 && children(size)}
       </div>
     </SectionCard>
   );

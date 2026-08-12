@@ -1,6 +1,6 @@
 import type { Preview } from "@storybook/nextjs-vite";
 import { addons } from "storybook/preview-api";
-import { jetBrainsMono, pressStart2P } from "../src/styles/fonts";
+import { jetBrainsMono, pressStart2P } from "../src/styles/fonts.ts";
 import "../src/styles/globals.scss";
 
 document.documentElement.classList.add(
@@ -12,7 +12,7 @@ document.documentElement.classList.add(
 // attached CSF story — this project's Foundations pages are docs-only
 // `<Meta>` blocks (no components yet), so the toggle is wired directly
 // against the core globals/channel API instead, which applies to any page.
-const urlTheme = new URLSearchParams(window.location.search)
+const urlTheme = new URLSearchParams(globalThis.location.search)
   .get("globals")
   ?.match(/theme:(\w+)/)?.[1];
 document.documentElement.setAttribute("data-theme", urlTheme ?? "light");

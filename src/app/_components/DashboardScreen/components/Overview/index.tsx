@@ -5,13 +5,13 @@ import {
   Scale,
   TrendingUp,
 } from "lucide-react";
-import { HINTS } from "../../hints";
-import { BalanceLineChart } from "../BalanceLineChart";
-import { ChartCard } from "../ChartCard";
-import { ChartLegend } from "../ChartLegend";
-import { MonthlyBarChart } from "../MonthlyBarChart";
-import { StatCard } from "../StatCard";
-import { type OverviewProps, useOverview } from "./hook";
+import { HINTS } from "../../hints.ts";
+import { BalanceLineChart } from "../BalanceLineChart/index.tsx";
+import { ChartCard } from "../ChartCard/index.tsx";
+import { ChartLegend } from "../ChartLegend/index.tsx";
+import { MonthlyBarChart } from "../MonthlyBarChart/index.tsx";
+import { StatCard } from "../StatCard/index.tsx";
+import { type OverviewProps, useOverview } from "./hook.ts";
 import styles from "./style.module.scss";
 
 // The same two fills MonthlyBarChart's SERIES uses. Written out rather than
@@ -52,7 +52,7 @@ export function Overview(props: OverviewProps) {
           hint={HINTS.balance}
           stats={data.balance}
           series={balance}
-          signed
+          signed={true}
         />
       </div>
 

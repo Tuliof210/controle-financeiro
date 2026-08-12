@@ -1,5 +1,5 @@
-import type { GoalRepository } from "@/core/repositories/goal.repository";
-import { prisma } from "@/infra/db/client";
+import type { GoalRepository } from "@/core/repositories/goal.repository.ts";
+import { prisma } from "@/infra/db/client.ts";
 
 export const goalRepository: GoalRepository = {
   list() {

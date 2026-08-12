@@ -1,11 +1,12 @@
 "use client";
 
 import { FileUp } from "lucide-react";
-import { DropZone } from "@/components/DropZone";
-import { PageHeader } from "@/components/PageHeader";
-import { SectionCard } from "@/components/SectionCard";
-import { TreeView } from "./components/TreeView";
-import { useOfxDecoderScreen } from "./hook";
+import { DropZone } from "@/components/DropZone/index.tsx";
+import { PageHeader } from "@/components/PageHeader/index.tsx";
+import { SectionCard } from "@/components/SectionCard/index.tsx";
+import { ERROR_GLYPH } from "@/lib/glyphs.ts";
+import { TreeView } from "./components/TreeView/index.tsx";
+import { useOfxDecoderScreen } from "./hook.ts";
 import styles from "./style.module.scss";
 
 export function OfxDecoderScreen() {
@@ -18,7 +19,7 @@ export function OfxDecoderScreen() {
         title="OFX Decoder"
         subtitle="Veja a árvore completa de tags do arquivo, sem enviar nada."
       />
-      {parsed ? (
+      {parsed !== null && (
         <TreeView
           fileName={fileName}
           header={parsed.header}
@@ -26,14 +27,15 @@ export function OfxDecoderScreen() {
           onClose={close}
           onFile={upload}
         />
-      ) : (
+      )}
+      {parsed === null && (
         <SectionCard title="Enviar arquivo OFX" icon={FileUp}>
           <DropZone onFile={upload} />
-          {error ? (
+          {Boolean(error) && (
             <p className={styles.error}>
-              <span aria-hidden>▲</span> {error}
+              <span aria-hidden={true}>{ERROR_GLYPH}</span> {error}
             </p>
-          ) : null}
+          )}
         </SectionCard>
       )}
     </div>

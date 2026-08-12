@@ -1,14 +1,13 @@
 import { AxisBottom, AxisLeft } from "@visx/axis";
 import { Group } from "@visx/group";
-import { formatYyyymm } from "@/lib/months";
 import {
   axisProps,
   GRID_COLOR,
   MARGIN,
   TICK_LABEL_PROPS,
   Y_TICKS,
-} from "../../chart.config";
-import { type ChartFrameProps, useChartFrame } from "./hook";
+} from "../../chart.config.ts";
+import { type ChartFrameProps, useChartFrame } from "./hook.ts";
 import styles from "./style.module.scss";
 
 // Everything the two charts have in common: the Y axis pinned in its own
@@ -18,8 +17,15 @@ import styles from "./style.module.scss";
 // card. Only the marks differ, so they come in as children rather than
 // through a generic.
 export function ChartFrame(props: ChartFrameProps) {
-  const { title, height, frame, background, children, formatYTick } =
-    useChartFrame(props);
+  const {
+    title,
+    height,
+    frame,
+    background,
+    children,
+    formatTick,
+    formatMonthTick,
+  } = useChartFrame(props);
   const {
     monthScale,
     valueScale,
@@ -46,7 +52,7 @@ export function ChartFrame(props: ChartFrameProps) {
           <AxisLeft
             scale={valueScale}
             numTicks={Y_TICKS}
-            tickFormat={(value) => formatYTick(Number(value))}
+            tickFormat={formatTick}
             tickLabelProps={TICK_LABEL_PROPS}
             {...axisProps}
           />
@@ -78,7 +84,7 @@ export function ChartFrame(props: ChartFrameProps) {
               top={innerHeight}
               scale={monthScale}
               tickValues={tickValues}
-              tickFormat={(value) => formatYyyymm(Number(value))}
+              tickFormat={formatMonthTick}
               tickLabelProps={TICK_LABEL_PROPS}
               {...axisProps}
             />

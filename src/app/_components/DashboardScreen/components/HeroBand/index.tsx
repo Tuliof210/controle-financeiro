@@ -1,6 +1,15 @@
-import { Facts } from "./components/Facts";
-import { type HeroBandProps, useHeroBand } from "./hook";
+import { cx } from "@/lib/cx.ts";
+import { Facts } from "./components/Facts/index.tsx";
+import { type HeroBandProps, useHeroBand } from "./hook.ts";
 import styles from "./style.module.scss";
+
+const COPY = {
+  painel: "PAINEL",
+  dashboard: "Dashboard",
+  subtitle: "Onde o dinheiro da família está hoje e para onde ele vai.",
+  saldoProjetado: "SALDO PROJETADO ·",
+  vsSaldoAtual: "vs. saldo atual de",
+} as const;
 
 // The page's title block and its headline figure, in one band. It replaces
 // PageHeader on this route only: the other five screens still render that
@@ -10,49 +19,51 @@ export function HeroBand(props: HeroBandProps) {
 
   return (
     <section className={styles.band}>
-      <div className={styles.edge} aria-hidden />
-      <div className={styles.scan} aria-hidden />
+      <div className={styles.edge} aria-hidden={true} />
+      <div className={styles.scan} aria-hidden={true} />
 
       <div className={styles.inner}>
         <div className={styles.head}>
           <div className={styles.titleCol}>
             <p className={styles.eyebrow}>
-              <span className={styles.mark} aria-hidden />
-              PAINEL
+              <span className={styles.mark} aria-hidden={true} />
+              {COPY.painel}
             </p>
             {/* An <h1>: the page's only one, above the <h2> every card on this
                 screen titles itself with. */}
             <h1 className={styles.title}>
-              Dashboard
-              <span className={styles.cursor} aria-hidden />
+              {COPY.dashboard}
+              <span className={styles.cursor} aria-hidden={true} />
             </h1>
-            <p className={styles.subtitle}>
-              Onde o dinheiro da família está hoje e para onde ele vai.
-            </p>
+            <p className={styles.subtitle}>{COPY.subtitle}</p>
           </div>
 
-          {figures ? (
+          {figures !== null && (
             <div className={styles.figures}>
               <p className={styles.eyebrow}>
-                SALDO PROJETADO · {figures.endLabel}
+                {COPY.saldoProjetado} {figures.endLabel}
               </p>
               <p className={styles.value}>{figures.value}</p>
               <div className={styles.deltaRow}>
                 <span
-                  className={`${styles.badge} ${figures.deltaUp ? styles.up : styles.down}`}
+                  className={cx(
+                    styles.badge,
+                    figures.deltaUp && styles.up,
+                    !figures.deltaUp && styles.down,
+                  )}
                 >
-                  <span aria-hidden>{figures.deltaUp ? "▲" : "▼"}</span>{" "}
+                  <span aria-hidden={true}>{figures.deltaGlyph}</span>{" "}
                   {figures.delta}
                 </span>
                 <span className={styles.vs}>
-                  vs. saldo atual de {figures.now}
+                  {COPY.vsSaldoAtual} {figures.now}
                 </span>
               </div>
             </div>
-          ) : null}
+          )}
         </div>
 
-        {figures ? <Facts facts={figures.facts} /> : null}
+        {figures !== null && <Facts facts={figures.facts} />}
       </div>
     </section>
   );

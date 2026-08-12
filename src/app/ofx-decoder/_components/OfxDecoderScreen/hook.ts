@@ -1,8 +1,12 @@
 import { useEffect, useState } from "react";
-import { decodeOfx } from "@/lib/decode";
-import { type OfxNode, parseOfxTags } from "./tag-tree.helper";
+import { decodeOfx } from "@/lib/decode.ts";
+import type { OfxNode } from "./tag-node.helper.ts";
+import { parseOfxTags } from "./tag-tree.helper.ts";
 
-type Parsed = { header: OfxNode[]; root: OfxNode };
+interface Parsed {
+  header: OfxNode[];
+  root: OfxNode;
+}
 
 export function useOfxDecoderScreen() {
   const [fileName, setFileName] = useState("");
@@ -15,11 +19,11 @@ export function useOfxDecoderScreen() {
   // the SPA with it — so this has to be window-level, not DropZone's problem.
   useEffect(() => {
     const swallow = (event: Event) => event.preventDefault();
-    window.addEventListener("dragover", swallow);
-    window.addEventListener("drop", swallow);
+    globalThis.addEventListener("dragover", swallow);
+    globalThis.addEventListener("drop", swallow);
     return () => {
-      window.removeEventListener("dragover", swallow);
-      window.removeEventListener("drop", swallow);
+      globalThis.removeEventListener("dragover", swallow);
+      globalThis.removeEventListener("drop", swallow);
     };
   }, []);
 

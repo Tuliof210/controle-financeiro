@@ -4,7 +4,7 @@ import {
   ProfileContext,
   type ProfileProviderProps,
   useProfileState,
-} from "./hook";
+} from "./hook.ts";
 
 export function ProfileProvider({ children }: ProfileProviderProps) {
   return (

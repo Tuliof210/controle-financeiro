@@ -5,14 +5,14 @@ import {
   useLayoutEffect,
   useRef,
 } from "react";
-import { digitsToCents, formatCents } from "@/lib/money";
+import { digitsToCents, formatCents } from "@/lib/money.ts";
 
-type UseMoneyInputProps = {
+interface UseMoneyInputProps {
   valueCents: number;
   onChange: (cents: number) => void;
   id?: string;
   ariaLabel?: string;
-};
+}
 
 function caretToEnd(el: HTMLInputElement) {
   const end = el.value.length;

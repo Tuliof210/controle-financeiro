@@ -1,18 +1,18 @@
 import type { LucideIcon } from "lucide-react";
 import Link from "next/link";
-import { useNavItem } from "./hook";
+import { useNavItem } from "./hook.ts";
 import styles from "./style.module.scss";
 
-type NavItemProps = {
+interface NavItemProps {
   href: string;
   label: string;
   active: boolean;
   collapsed: boolean;
   icon: LucideIcon;
-};
+}
 
 export function NavItem(props: NavItemProps) {
-  const { href, label, active, icon: Icon, className } = useNavItem(props);
+  const { href, label, icon: Icon, className, currentPage } = useNavItem(props);
 
   return (
     <li>
@@ -22,10 +22,10 @@ export function NavItem(props: NavItemProps) {
       <Link
         href={href}
         className={className}
-        aria-current={active ? "page" : undefined}
+        aria-current={currentPage}
         aria-label={label}
       >
-        <Icon className={styles.icon} size={18} aria-hidden />
+        <Icon className={styles.icon} size={18} aria-hidden={true} />
         <span className={styles.label}>{label}</span>
       </Link>
     </li>

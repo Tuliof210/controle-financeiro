@@ -1,15 +1,20 @@
 "use client";
 
 import { Plus, Users } from "lucide-react";
-import { Button } from "@/components/Button";
-import { ConfirmDialog } from "@/components/ConfirmDialog";
-import { Modal } from "@/components/Modal";
-import { RowGrid } from "@/components/RowGrid";
-import { SectionCard } from "@/components/SectionCard";
-import { PersonForm } from "./components/PersonForm";
-import { PersonRow } from "./components/PersonRow";
-import { usePeopleSection } from "./hook";
+import { Button } from "@/components/Button/index.tsx";
+import { ConfirmDialog } from "@/components/ConfirmDialog/index.tsx";
+import { Modal } from "@/components/Modal/index.tsx";
+import { RowGrid } from "@/components/RowGrid/index.tsx";
+import { SectionCard } from "@/components/SectionCard/index.tsx";
+import { PersonForm } from "./components/PersonForm/index.tsx";
+import { PersonRow } from "./components/PersonRow/index.tsx";
+import { usePeopleSection } from "./hook.ts";
 import styles from "./style.module.scss";
+
+const COPY = {
+  nenhumaPessoaCadastradaAinda: "Nenhuma pessoa cadastrada ainda.",
+  adicionarPessoa: "Adicionar pessoa",
+} as const;
 
 export function PeopleSection() {
   const {
@@ -17,32 +22,37 @@ export function PeopleSection() {
     error,
     modal,
     target,
-    open,
+    openAdd,
+    openEdit,
+    openDelete,
     close,
     onAdd,
     onUpdate,
     onConfirmDelete,
   } = usePeopleSection();
 
+  const noPeople = people?.length === 0;
+
   return (
     <SectionCard title="Pessoas" icon={Users}>
-      {people?.length === 0 ? (
-        <p className={styles.empty}>Nenhuma pessoa cadastrada ainda.</p>
-      ) : (
+      {noPeople && (
+        <p className={styles.empty}>{COPY.nenhumaPessoaCadastradaAinda}</p>
+      )}
+      {!noPeople && (
         <RowGrid>
           {people?.map((person) => (
             <PersonRow
               key={person.id}
               person={person}
-              onEdit={() => open("edit", person)}
-              onDelete={() => open("delete", person)}
+              onEdit={openEdit}
+              onDelete={openDelete}
             />
           ))}
         </RowGrid>
       )}
-      <Button variant="dashed" onClick={() => open("add")}>
-        <Plus size={16} aria-hidden />
-        Adicionar pessoa
+      <Button variant="dashed" onClick={openAdd}>
+        <Plus size={16} aria-hidden={true} />
+        {COPY.adicionarPessoa}
       </Button>
 
       <Modal

@@ -6,25 +6,25 @@ import {
   useEffect,
   useState,
 } from "react";
-import type { Person } from "@/core/entities/person.entity";
-import { apiGet } from "@/lib/api";
-import { FAMILY_PROFILE } from "@/lib/ownership";
-import { isStaleProfile, resolveLabel } from "./profile.helper";
+import type { Person } from "@/core/entities/person.entity.ts";
+import { apiGet } from "@/lib/api.ts";
+import { FAMILY_PROFILE } from "@/lib/ownership.ts";
+import { isStaleProfile, resolveLabel } from "./profile.helper.ts";
 
-export type ProfileProviderProps = {
+interface ProfileProviderProps {
   children: ReactNode;
-};
+}
 
-type ProfileContextValue = {
+interface ProfileContextValue {
   profile: string;
   setProfile: (next: string) => void;
   label: string;
   people: Person[];
-};
+}
 
-export const ProfileContext = createContext<ProfileContextValue | null>(null);
+const ProfileContext = createContext<ProfileContextValue | null>(null);
 
-export function useProfileState(): ProfileContextValue {
+function useProfileState(): ProfileContextValue {
   const [profile, setProfileRaw] = useState<string>(FAMILY_PROFILE);
   const [people, setPeople] = useState<Person[]>([]);
   const [peopleLoaded, setPeopleLoaded] = useState(false);
@@ -32,8 +32,12 @@ export function useProfileState(): ProfileContextValue {
   useEffect(() => {
     try {
       const stored = localStorage.getItem("profile");
-      if (stored) setProfileRaw(stored);
-    } catch {}
+      if (stored) {
+        setProfileRaw(stored);
+      }
+    } catch {
+      // Storage blocked: fall back to the default profile.
+    }
   }, []);
 
   useEffect(() => {
@@ -49,7 +53,9 @@ export function useProfileState(): ProfileContextValue {
     setProfileRaw(next);
     try {
       localStorage.setItem("profile", next);
-    } catch {}
+    } catch {
+      // Storage blocked: the switch still applies to this session.
+    }
   }, []);
 
   // Self-heal: once people has actually loaded, a profile id that no
@@ -70,10 +76,13 @@ export function useProfileState(): ProfileContextValue {
   };
 }
 
-export function useProfile() {
+function useProfile() {
   const ctx = useContext(ProfileContext);
   if (!ctx) {
     throw new Error("useProfile must be used within a ProfileProvider");
   }
   return ctx;
 }
+
+export type { ProfileProviderProps };
+export { ProfileContext, useProfile, useProfileState };

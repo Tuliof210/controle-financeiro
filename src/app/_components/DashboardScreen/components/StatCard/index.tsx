@@ -1,7 +1,7 @@
-import { SectionCard } from "@/components/SectionCard";
-import { SPARK_H, SPARK_W } from "../../spark.helper";
-import { Headline } from "../Headline";
-import { type StatCardProps, useStatCard } from "./hook";
+import { SectionCard } from "@/components/SectionCard/index.tsx";
+import { SPARK_H, SPARK_W } from "../../spark.helper.ts";
+import { Headline } from "../Headline/index.tsx";
+import { type StatCardProps, useStatCard } from "./hook.ts";
 import styles from "./style.module.scss";
 
 export function StatCard(props: StatCardProps) {
@@ -17,7 +17,7 @@ export function StatCard(props: StatCardProps) {
           `tone` still reaches Headline, where it colours the figure. */}
       <SectionCard title={title} icon={icon} band={band} hint={hint}>
         <Headline caption="Valor total no período" tone={tone}>
-          {glyph ? <span aria-hidden>{glyph} </span> : null}
+          {Boolean(glyph) && <span aria-hidden={true}>{glyph} </span>}
           {total}
         </Headline>
 
@@ -33,7 +33,7 @@ export function StatCard(props: StatCardProps) {
         {/* Last child and full-bleed, so the strip sits on the card's bottom
             edge the way the band sits on its top one. aria-hidden: the four
             rows above already carry every number it draws. */}
-        {spark ? (
+        {spark !== null && (
           <svg
             width={SPARK_W}
             height={SPARK_H}
@@ -46,7 +46,7 @@ export function StatCard(props: StatCardProps) {
             <path d={spark.area} fill={color} opacity="0.14" />
             <path d={spark.line} stroke={color} strokeWidth="2" fill="none" />
           </svg>
-        ) : null}
+        )}
       </SectionCard>
     </div>
   );

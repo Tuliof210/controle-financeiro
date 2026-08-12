@@ -1,6 +1,22 @@
 import { useEffect, useState } from "react";
-import type { Settings } from "@/core/entities/settings.entity";
-import { apiGet, apiPut } from "@/lib/api";
+import type { Settings } from "@/core/entities/settings.entity.ts";
+import { apiGet, apiPut } from "@/lib/api.ts";
+
+// The button reports the last save rather than offering the same action twice,
+// so the label and the variant move together.
+const saveVariantFor = (saved: boolean) => {
+  if (saved) {
+    return "success" as const;
+  }
+  return "primary" as const;
+};
+
+const saveLabelFor = (saved: boolean): string => {
+  if (saved) {
+    return "Salvo";
+  }
+  return "Salvar";
+};
 
 // No modal and no refetch, unlike its two neighbours: this section is one row
 // that always exists, so there is nothing to open and nothing to re-list. The
@@ -35,5 +51,14 @@ export function useSpendingGoalSection() {
     setSaved(!result.error);
   };
 
-  return { cents, error, saved, onChange, onSave };
+  return {
+    cents,
+    error,
+    onChange,
+    onSave,
+    // The button reports the last save rather than offering the same action
+    // twice, so the label and the variant move together.
+    saveVariant: saveVariantFor(saved),
+    saveLabel: saveLabelFor(saved),
+  };
 }

@@ -1,19 +1,21 @@
 import { useState } from "react";
-import type { OfxReport } from "@/app/api/ofx/types";
-import { useProfile } from "@/components/ProfileProvider/hook";
-import { apiPost } from "@/lib/api";
-import { resolveOwnerId } from "@/lib/ownership";
+import type { OfxReport } from "@/app/api/ofx/types.ts";
+import { useProfile } from "@/components/ProfileProvider/hook.ts";
+import { apiPost } from "@/lib/api.ts";
+import { resolveOwnerId } from "@/lib/ownership.ts";
 import {
-  buildImportRows,
-  IDENTIFIER_MAX,
-  importedHint,
   ownerOptions,
   prefillIdentifier,
+  submitLabelFor,
   summaryOf,
-} from "./import-rows.helper";
-import { useImportedRecord } from "./imported.hook";
+  tooltipFor,
+} from "./import-copy.helper.ts";
+import { buildImportRows, IDENTIFIER_MAX } from "./import-rows.helper.ts";
+import { useImportedRecord } from "./imported.hook.ts";
 
-export type ImportActionProps = { report: OfxReport };
+export interface ImportActionProps {
+  report: OfxReport;
+}
 
 export function useImportAction({ report }: ImportActionProps) {
   // people comes from the provider, which already fetched /api/people for the
@@ -89,7 +91,8 @@ export function useImportAction({ report }: ImportActionProps) {
     submit,
     maxLength: IDENTIFIER_MAX,
     imported: record.imported,
-    tooltip: record.imported ? importedHint(record.importedAt) : null,
+    tooltip: tooltipFor(record),
+    submitLabel: submitLabelFor(busy),
     summary: summaryOf(rows.length),
     options: ownerOptions(people),
   };

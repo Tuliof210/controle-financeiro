@@ -1,6 +1,6 @@
 import type { ChangeEvent } from "react";
 
-export type TextFieldProps = {
+export interface TextFieldProps {
   label: string;
   value: string;
   onChange: (value: string) => void;
@@ -8,7 +8,7 @@ export type TextFieldProps = {
   placeholder?: string;
   error?: string;
   maxLength?: number;
-};
+}
 
 export function useTextField({ onChange, ...rest }: TextFieldProps) {
   return {

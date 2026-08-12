@@ -1,8 +1,11 @@
-import type { Person } from "@/core/entities/person.entity";
+import type { Person } from "@/core/entities/person.entity.ts";
 
-export type PersonRepository = {
-  list(): Promise<Person[]>;
-  create(input: { name: string; color: string }): Promise<Person>;
-  update(id: string, patch: { name: string; color: string }): Promise<Person>;
-  delete(id: string): Promise<void>;
-};
+export interface PersonRepository {
+  list: () => Promise<Person[]>;
+  create: (input: { name: string; color: string }) => Promise<Person>;
+  update: (
+    id: string,
+    patch: { name: string; color: string },
+  ) => Promise<Person>;
+  delete: (id: string) => Promise<void>;
+}

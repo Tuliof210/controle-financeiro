@@ -1,10 +1,16 @@
 import { scaleBand } from "@visx/scale";
-import type { MonthPoint } from "@/app/api/dashboard/types";
-import { formatMoney } from "@/lib/money";
-import { formatYyyymm } from "@/lib/months";
-import { buildFrame } from "../../chart-frame.helper";
+import type { MonthPoint } from "@/app/api/dashboard/types.ts";
+import { formatMoney } from "@/lib/money.ts";
+import { formatYyyymm } from "@/lib/months.ts";
+import { buildFrame } from "../../chart-frame.helper.ts";
+import {
+  bandOf,
+  bandStartOf,
+  estimatedFor,
+  estimatedWord,
+} from "./bar-series.helper.ts";
 
-export type MonthlyBarChartProps = {
+interface MonthlyBarChartProps {
   points: MonthPoint[];
   // First month the payload calls a projection. The bars read per-point
   // `incomeEstimated`/`expenseEstimated`; this is the one figure saying where
@@ -14,7 +20,7 @@ export type MonthlyBarChartProps = {
   dashedFrom: number | null;
   width: number;
   height: number;
-};
+}
 
 // One bar per type per month. `estimated` is read off the payload, never
 // re-derived by comparing numbers here — the API already resolved which side won.
@@ -23,7 +29,7 @@ const SERIES = [
   { key: "expense", label: "Saídas", fill: "var(--color-negative)" },
 ] as const;
 
-export function useMonthlyBarChart({
+function useMonthlyBarChart({
   points,
   dashedFrom,
   width,
@@ -47,10 +53,7 @@ export function useMonthlyBarChart({
   const bars = points.flatMap((point) =>
     SERIES.map((series) => {
       const value = point[series.key];
-      const estimated =
-        series.key === "income"
-          ? point.incomeEstimated
-          : point.expenseEstimated;
+      const estimated = estimatedFor(point, series.key);
 
       return {
         key: `${point.month}-${series.key}`,
@@ -64,7 +67,7 @@ export function useMonthlyBarChart({
         // carrying the same fact.
         title: `${formatYyyymm(point.month)} · ${series.label} · ${formatMoney(
           value,
-        )} · ${estimated ? "previsto" : "lançado"}`,
+        )} · ${estimatedWord(estimated)}`,
       };
     }),
   );
@@ -72,17 +75,16 @@ export function useMonthlyBarChart({
   // The band starts at the leading edge of the first projected month's own band
   // — not its centre — so the dashed rule lands where the month begins. Null
   // whenever nothing is projected, or the month fell outside the range.
-  const bandStart =
-    dashedFrom === null ? null : (frame.monthScale(dashedFrom) ?? null);
+  const bandStart = bandStartOf(dashedFrom, frame.monthScale);
 
   return {
     frame,
     bars,
     width,
     height,
-    band:
-      bandStart === null
-        ? null
-        : { x: bandStart, width: Math.max(0, frame.innerWidth - bandStart) },
+    band: bandOf(bandStart, frame.innerWidth),
   };
 }
+
+export type { MonthlyBarChartProps };
+export { useMonthlyBarChart };

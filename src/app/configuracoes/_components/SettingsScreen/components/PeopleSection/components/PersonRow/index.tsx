@@ -1,6 +1,6 @@
 import { Pencil, Trash2 } from "lucide-react";
-import { IconButton } from "@/components/IconButton";
-import { type PersonRowProps, usePersonRow } from "./hook";
+import { IconButton } from "@/components/IconButton/index.tsx";
+import { type PersonRowProps, usePersonRow } from "./hook.ts";
 import styles from "./style.module.scss";
 
 // The same cells an entry row uses, tagged with the same grid areas, so RowGrid
@@ -12,20 +12,20 @@ export function PersonRow(props: PersonRowProps) {
 
   return (
     <li>
-      <span data-cell="who" className={swatchClass} aria-hidden />
+      <span data-cell="who" className={swatchClass} aria-hidden={true} />
       <span data-cell="main" className={styles.name}>
         {name}
       </span>
       <span data-cell="act">
         <IconButton aria-label={`Editar ${name}`} onClick={onEdit}>
-          <Pencil size={14} aria-hidden />
+          <Pencil size={14} aria-hidden={true} />
         </IconButton>
         <IconButton
           variant="danger"
           aria-label={`Excluir ${name}`}
           onClick={onDelete}
         >
-          <Trash2 size={14} aria-hidden />
+          <Trash2 size={14} aria-hidden={true} />
         </IconButton>
       </span>
     </li>

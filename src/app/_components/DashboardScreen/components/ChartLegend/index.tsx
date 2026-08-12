@@ -1,4 +1,4 @@
-import { type ChartLegendProps, useChartLegend } from "./hook";
+import { type ChartLegendProps, useChartLegend } from "./hook.ts";
 import styles from "./style.module.scss";
 
 // Rides a chart card's header band. Not aria-hidden: it is the only place the
@@ -14,12 +14,12 @@ export function ChartLegend(props: ChartLegendProps) {
           <span
             className={styles.swatch}
             style={{ background: item.color }}
-            aria-hidden
+            aria-hidden={true}
           />
           {item.label}
         </span>
       ))}
-      {note ? <span className={styles.note}>{note}</span> : null}
+      {Boolean(note) && <span className={styles.note}>{note}</span>}
     </p>
   );
 }

@@ -1,15 +1,18 @@
-import type { Goal } from "@/core/entities/goal.entity";
-import { formatMoney } from "@/lib/money";
+import type { Goal } from "@/core/entities/goal.entity.ts";
+import { formatMoney } from "@/lib/money.ts";
 
-export type GoalRowProps = {
+export interface GoalRowProps {
   goal: Goal;
-  onEdit: () => void;
-  onDelete: () => void;
-};
+  // Take the goal back rather than a pre-bound thunk: binding it in the
+  // caller's JSX is a closure rebuilt on every render of the whole list.
+  onEdit: (goal: Goal) => void;
+  onDelete: (goal: Goal) => void;
+}
 
-export function useGoalRow({ goal, ...rest }: GoalRowProps) {
+export function useGoalRow({ goal, onEdit, onDelete }: GoalRowProps) {
   return {
-    ...rest,
+    onEdit: () => onEdit(goal),
+    onDelete: () => onDelete(goal),
     name: goal.name,
     value: formatMoney(goal.targetCents),
   };

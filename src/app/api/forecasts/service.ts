@@ -1,5 +1,5 @@
-import type { ForecastInput } from "@/core/repositories/forecast.repository";
-import { forecastRepository } from "@/infra/repositories/forecast.prisma.repository";
+import type { ForecastInput } from "@/core/repositories/forecast.repository.ts";
+import { forecastRepository } from "@/infra/repositories/forecast.prisma.repository.ts";
 
 export function listForecasts() {
   return forecastRepository.list();

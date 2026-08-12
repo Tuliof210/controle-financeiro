@@ -1,26 +1,24 @@
 "use client";
 
 import { Moon, Sun } from "lucide-react";
-import { useThemeToggle } from "./hook";
+import { useThemeToggle } from "./hook.ts";
 import styles from "./style.module.scss";
 
+const ICON_SIZE = 20;
+
 export function ThemeToggle() {
-  const { theme, toggle } = useThemeToggle();
+  const { toggle, ariaLabel, icon } = useThemeToggle();
 
   return (
     <button
       type="button"
       className={styles.toggle}
       onClick={toggle}
-      aria-label={theme === "dark" ? "Ativar tema claro" : "Ativar tema escuro"}
+      aria-label={ariaLabel}
     >
-      {theme === null ? (
-        <span className={styles.slot} aria-hidden />
-      ) : theme === "dark" ? (
-        <Sun size={20} aria-hidden />
-      ) : (
-        <Moon size={20} aria-hidden />
-      )}
+      {icon === "none" && <span className={styles.slot} aria-hidden={true} />}
+      {icon === "sun" && <Sun size={ICON_SIZE} aria-hidden={true} />}
+      {icon === "moon" && <Moon size={ICON_SIZE} aria-hidden={true} />}
     </button>
   );
 }

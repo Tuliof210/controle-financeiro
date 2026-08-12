@@ -1,15 +1,31 @@
 import { PanelLeftClose, PanelLeftOpen } from "lucide-react";
 import { usePathname } from "next/navigation";
-import { type MouseEvent, useEffect, useRef } from "react";
-import { useNavActive } from "../../nav.hook";
+import { useEffect, useRef } from "react";
+import { useNavActive } from "../../nav.hook.ts";
 import styles from "./style.module.scss";
 
-type UseAsideProps = {
+interface UseAsideProps {
   collapsed: boolean;
   drawerOpen: boolean;
   onToggle: () => void;
   onCloseDrawer: () => void;
-};
+}
+
+// The control says what it will DO, so both the glyph and the label name the
+// state it switches to.
+function toggleIconFor(collapsed: boolean) {
+  if (collapsed) {
+    return PanelLeftOpen;
+  }
+  return PanelLeftClose;
+}
+
+function toggleLabelFor(collapsed: boolean): string {
+  if (collapsed) {
+    return "Expandir menu";
+  }
+  return "Recolher menu";
+}
 
 export function useAside({
   collapsed,
@@ -27,9 +43,14 @@ export function useAside({
   // regardless of the native `open` attribute, so this never runs there.
   useEffect(() => {
     const dialog = ref.current;
-    if (!dialog) return;
-    if (drawerOpen && !dialog.open) dialog.showModal();
-    else if (!drawerOpen && dialog.open) dialog.close();
+    if (!dialog) {
+      return;
+    }
+    if (drawerOpen && !dialog.open) {
+      dialog.showModal();
+    } else if (!drawerOpen && dialog.open) {
+      dialog.close();
+    }
   }, [drawerOpen]);
 
   // Close on navigation — a link inside the drawer changes the route without
@@ -41,12 +62,27 @@ export function useAside({
   }, [pathname, onCloseDrawer]);
 
   const handleClose = () => {
-    if (drawerOpen) onCloseDrawer();
+    if (drawerOpen) {
+      onCloseDrawer();
+    }
   };
 
-  const handleClick = (e: MouseEvent<HTMLDialogElement>) => {
-    if (e.target === ref.current) onCloseDrawer();
-  };
+  // Backdrop click, bound through the ref for the same reason as
+  // src/components/Modal/hook.ts: an onClick prop on a non-interactive element
+  // is what a11y linting flags, and the drawer's keyboard path is Esc.
+  useEffect(() => {
+    const dialog = ref.current;
+    if (!dialog) {
+      return;
+    }
+    const onBackdrop = (event: MouseEvent) => {
+      if (event.target === dialog) {
+        onCloseDrawer();
+      }
+    };
+    dialog.addEventListener("click", onBackdrop);
+    return () => dialog.removeEventListener("click", onBackdrop);
+  }, [onCloseDrawer]);
 
   return {
     ref,
@@ -55,11 +91,10 @@ export function useAside({
     collapsed,
     onToggle,
     handleClose,
-    handleClick,
     className: [styles.aside, collapsed && styles.collapsed]
       .filter(Boolean)
       .join(" "),
-    ToggleIcon: collapsed ? PanelLeftOpen : PanelLeftClose,
-    toggleLabel: collapsed ? "Expandir menu" : "Recolher menu",
+    toggleIcon: toggleIconFor(collapsed),
+    toggleLabel: toggleLabelFor(collapsed),
   };
 }

@@ -1,19 +1,49 @@
-import type { OfxReport } from "@/app/api/ofx/types";
-import { formatMoney } from "@/lib/money";
-import { formatYyyymm } from "@/lib/months";
-import { accountLabel, finalBalance } from "./account.helper";
+import type { OfxReport } from "@/app/api/ofx/types.ts";
+import { formatMoney } from "@/lib/money.ts";
+import { formatYyyymm } from "@/lib/months.ts";
+import { accountLabel, finalBalance } from "./account.helper.ts";
 
-export type ReportViewProps = {
+// "—" while the statement spans no dated month at all.
+const periodLabel = (
+  first: { month: number } | undefined,
+  last: { month: number } | undefined,
+): string => {
+  if (!(first && last)) {
+    return "—";
+  }
+  return `${formatYyyymm(first.month)} – ${formatYyyymm(last.month)}`;
+};
+
+interface ReportViewProps {
   report: OfxReport;
   error: string | null;
   loading: boolean;
   onClose: () => void;
   onFile: (file: File) => void;
-};
+}
 
 // Pure: FilePicker owns the only ref on this screen, so nothing here calls a
 // React hook and the whole view model is directly testable.
-export function useReportView({
+// A bare "001" under the label "Instituição" names nothing a reader can use, so
+// a file with an id but no <ORG> falls back like any other.
+function orgLabel(org: string | null, fid: string | null): string {
+  if (!org) {
+    return "—";
+  }
+  return [org, fid].filter(Boolean).join(" · ");
+}
+
+// The whole badge phrase, not just the number: a one-transaction file is a
+// legitimate report and "1 lançamentos lidos" is wrong. index.tsx stays
+// logic-free, so the agreement has to be decided here.
+function readWord(count: number): string {
+  if (count === 1) {
+    return "lançamento lido";
+  }
+  return "lançamentos lidos";
+}
+
+function useReportView({
   report,
   error,
   loading,
@@ -22,7 +52,7 @@ export function useReportView({
 }: ReportViewProps) {
   const first = report.months.at(0);
   const last = report.months.at(-1);
-  const count = report.totals.count;
+  const { count } = report.totals;
 
   return {
     error,
@@ -36,20 +66,15 @@ export function useReportView({
     // <FID> is a suffix on the institution's name, never a value on its own —
     // a bare "001" under the label "Instituição" names nothing a reader can
     // use, so a file with an id but no <ORG> falls back like any other.
-    org: report.org
-      ? [report.org, report.fid].filter(Boolean).join(" · ")
-      : "—",
+    org: orgLabel(report.org, report.fid),
     currency: report.currency ?? "—",
     // The whole badge phrase, not just the number: a one-transaction file is a
     // legitimate report and "1 lançamentos lidos" is wrong. index.tsx stays
     // logic-free, so the agreement has to be decided here.
-    count: `${count} ${count === 1 ? "lançamento lido" : "lançamentos lidos"}`,
+    count: `${count} ${readWord(count)}`,
     account: accountLabel(report.accounts),
     finalBalance: finalBalance(report.accounts),
-    period:
-      first && last
-        ? `${formatYyyymm(first.month)} – ${formatYyyymm(last.month)}`
-        : "—",
+    period: periodLabel(first, last),
     accounts: report.accounts.map((account, index) => ({
       // No field is guaranteed unique or even present, so the index is part of
       // the key — a file may legitimately hold the same account twice.
@@ -66,3 +91,6 @@ export function useReportView({
     },
   };
 }
+
+export type { ReportViewProps };
+export { useReportView };

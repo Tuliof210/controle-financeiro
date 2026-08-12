@@ -1,13 +1,21 @@
 import type { LucideIcon } from "lucide-react";
 import styles from "./style.module.scss";
 
-type UseNavItemProps = {
+interface UseNavItemProps {
   href: string;
   label: string;
   active: boolean;
   collapsed: boolean;
   icon: LucideIcon;
-};
+}
+
+// `undefined` removes the attribute; "page" is only correct on the active link,
+// so the two states cannot be written as one boolean.
+function ariaCurrent(active: boolean): "page" | undefined {
+  if (active) {
+    return "page";
+  }
+}
 
 export function useNavItem({
   href,
@@ -17,6 +25,7 @@ export function useNavItem({
   icon,
 }: UseNavItemProps) {
   return {
+    currentPage: ariaCurrent(active),
     href,
     label,
     active,

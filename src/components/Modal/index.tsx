@@ -1,9 +1,8 @@
 import { X } from "lucide-react";
-import { IconButton } from "../IconButton";
-import { type ModalProps, useModal } from "./hook";
+import { IconButton } from "../IconButton/index.tsx";
+import type { ModalProps } from "./hook.ts";
+import { useModal } from "./hook.ts";
 import styles from "./style.module.scss";
-
-export type { ModalProps };
 
 export function Modal({
   open,
@@ -13,20 +12,14 @@ export function Modal({
   children,
   footer,
 }: ModalProps) {
-  const { ref, handleClose, handleClick } = useModal({ open, onClose });
+  const { ref, handleClose } = useModal({ open, onClose });
 
   return (
-    // biome-ignore lint/a11y/useKeyWithClickEvents: backdrop click is a mouse-only affordance; the native <dialog> already closes on Esc for keyboard users.
-    <dialog
-      ref={ref}
-      className={styles.dialog}
-      onClose={handleClose}
-      onClick={handleClick}
-    >
+    <dialog ref={ref} className={styles.dialog} onClose={handleClose}>
       <div className={styles.panel}>
         <header className={styles.header}>
           <div>
-            {eyebrow ? <p className={styles.eyebrow}>{eyebrow}</p> : null}
+            {Boolean(eyebrow) && <p className={styles.eyebrow}>{eyebrow}</p>}
             <h2 className={styles.title}>{title}</h2>
           </div>
           {/* `danger`, not the default ghost: the design's close control turns
@@ -38,11 +31,11 @@ export function Modal({
             className={styles.close}
             onClick={onClose}
           >
-            <X size={16} aria-hidden />
+            <X size={16} aria-hidden={true} />
           </IconButton>
         </header>
         <div className={styles.body}>{children}</div>
-        {footer ? <footer className={styles.footer}>{footer}</footer> : null}
+        {Boolean(footer) && <footer className={styles.footer}>{footer}</footer>}
       </div>
     </dialog>
   );

@@ -1,4 +1,4 @@
-import type { Ceiling } from "./ceiling.types";
+import type { Ceiling } from "./ceiling.types.ts";
 
 // A quarter of the average monthly ceiling is what the owner is willing to
 // commit to a goal every month. Owner's decision (2026-07-30).

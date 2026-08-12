@@ -1,14 +1,22 @@
 import type { NextRequest } from "next/server";
 import { z } from "zod";
-import { Prisma } from "@/generated/prisma/client";
-import { fail, ok, safeJson } from "@/lib/http";
-import { movementRowShape } from "@/lib/movement-schema";
+import { Prisma } from "@/generated/prisma/client.ts";
+import {
+  CREATED,
+  fail,
+  INTERNAL,
+  NOT_FOUND,
+  ok,
+  safeJson,
+  UNPROCESSABLE,
+} from "@/lib/http.ts";
+import { movementRowShape } from "@/lib/movement-schema.ts";
 import {
   createMovement,
   deleteMovement,
   listMovements,
   updateMovement,
-} from "./service";
+} from "./service.ts";
 
 // One row's fields plus its own owner. /api/ofx-imports validates the same
 // shape in bulk, with a single owner for the whole batch.
@@ -21,24 +29,24 @@ export async function GET() {
   try {
     return ok(await listMovements());
   } catch {
-    return fail("Erro ao carregar movimentações", "internal", 500);
+    return fail("Erro ao carregar movimentações", "internal", INTERNAL);
   }
 }
 
 export async function POST(request: NextRequest) {
   const parsed = createSchema.safeParse(await safeJson(request));
   if (!parsed.success) {
-    return fail("Dados inválidos", "validation", 422);
+    return fail("Dados inválidos", "validation", UNPROCESSABLE);
   }
 
   try {
-    return ok(await createMovement(parsed.data), 201);
+    return ok(await createMovement(parsed.data), CREATED);
   } catch (error) {
     if (
       error instanceof Prisma.PrismaClientKnownRequestError &&
       error.code === "P2003"
     ) {
-      return fail("Pessoa não encontrada", "not_found", 404);
+      return fail("Pessoa não encontrada", "not_found", NOT_FOUND);
     }
     throw error;
   }
@@ -47,7 +55,7 @@ export async function POST(request: NextRequest) {
 export async function PUT(request: NextRequest) {
   const parsed = updateSchema.safeParse(await safeJson(request));
   if (!parsed.success) {
-    return fail("Dados inválidos", "validation", 422);
+    return fail("Dados inválidos", "validation", UNPROCESSABLE);
   }
 
   try {
@@ -55,20 +63,20 @@ export async function PUT(request: NextRequest) {
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       if (error.code === "P2025") {
-        return fail("Movimentação não encontrada", "not_found", 404);
+        return fail("Movimentação não encontrada", "not_found", NOT_FOUND);
       }
       if (error.code === "P2003") {
-        return fail("Pessoa não encontrada", "not_found", 404);
+        return fail("Pessoa não encontrada", "not_found", NOT_FOUND);
       }
     }
-    return fail("Erro ao atualizar movimentação", "internal", 500);
+    return fail("Erro ao atualizar movimentação", "internal", INTERNAL);
   }
 }
 
 export async function DELETE(request: NextRequest) {
   const id = request.nextUrl.searchParams.get("id");
   if (!id) {
-    return fail("Parâmetro id é obrigatório", "validation", 422);
+    return fail("Parâmetro id é obrigatório", "validation", UNPROCESSABLE);
   }
 
   try {
@@ -79,7 +87,7 @@ export async function DELETE(request: NextRequest) {
       error instanceof Prisma.PrismaClientKnownRequestError &&
       error.code === "P2025"
     ) {
-      return fail("Movimentação não encontrada", "not_found", 404);
+      return fail("Movimentação não encontrada", "not_found", NOT_FOUND);
     }
     throw error;
   }

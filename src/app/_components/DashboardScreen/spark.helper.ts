@@ -1,13 +1,21 @@
+// The first point moves the pen; every later one draws to it.
+const command = (index: number): string => {
+  if (index === 0) {
+    return "M";
+  }
+  return "L";
+};
 // The inline sparkline every KPI card draws beside its headline. Pure geometry,
 // shared by every card that draws one.
 
-export const SPARK_W = 112;
-export const SPARK_H = 30;
+const SPARK_W = 112;
+const SPARK_H = 30;
 
 // The baseline sits 3px above the bottom edge and the plot is 8px shorter than
 // the box, so a 2px stroke never clips against either edge.
 const BASELINE = 3;
-const PLOT_H = SPARK_H - 8;
+const PLOT_INSET = 8;
+const PLOT_H = SPARK_H - PLOT_INSET;
 
 /**
  * An SVG path pair for a 112x30 inline sparkline: the line itself and the same
@@ -17,8 +25,10 @@ const PLOT_H = SPARK_H - 8;
  * an empty `d` attribute is a console warning in some browsers and an invisible
  * bug in others.
  */
-export function spark(values: number[]): { line: string; area: string } | null {
-  if (values.length === 0) return null;
+function spark(values: number[]): { line: string; area: string } | null {
+  if (values.length === 0) {
+    return null;
+  }
 
   const min = Math.min(...values);
   const max = Math.max(...values);
@@ -31,9 +41,11 @@ export function spark(values: number[]): { line: string; area: string } | null {
     .map((value, index) => {
       const x = index * dx;
       const y = SPARK_H - BASELINE - ((value - min) / span) * PLOT_H;
-      return `${index === 0 ? "M" : "L"} ${x.toFixed(1)} ${y.toFixed(1)}`;
+      return `${command(index)} ${x.toFixed(1)} ${y.toFixed(1)}`;
     })
     .join(" ");
 
   return { line, area: `${line} L ${SPARK_W} ${SPARK_H} L 0 ${SPARK_H} Z` };
 }
+
+export { SPARK_H, SPARK_W, spark };

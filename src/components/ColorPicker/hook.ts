@@ -1,23 +1,19 @@
-import { PALETTE } from "@/lib/palette";
+import { cx } from "@/lib/cx.ts";
+import { PALETTE } from "@/lib/palette.ts";
 import styles from "./style.module.scss";
 
-export type ColorPickerProps = {
+export interface ColorPickerProps {
   value: string;
   onChange: (key: string) => void;
-};
+}
 
 export function useColorPicker({ value, onChange }: ColorPickerProps) {
   const swatches = PALETTE.map((key) => ({
     key,
     selected: value === key,
-    className: [
-      styles.swatch,
-      styles[key],
-      value === key ? styles.selected : "",
-    ]
-      .filter(Boolean)
-      .join(" "),
+    className: cx(styles.swatch, styles[key], value === key && styles.selected),
+    select: () => onChange(key),
   }));
 
-  return { swatches, onChange };
+  return { swatches };
 }

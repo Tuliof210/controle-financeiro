@@ -1,4 +1,4 @@
-import { type FactsProps, useFacts } from "./hook";
+import { type FactsProps, useFacts } from "./hook.ts";
 import styles from "./style.module.scss";
 
 // A <dl>, not three divs: each figure is a labelled value, and the label is what

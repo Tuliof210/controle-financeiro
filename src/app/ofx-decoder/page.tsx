@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { OfxDecoderScreen } from "./_components/OfxDecoderScreen";
+import { OfxDecoderScreen } from "./_components/OfxDecoderScreen/index.tsx";
 
 export const metadata: Metadata = { title: "OFX Decoder" };
 

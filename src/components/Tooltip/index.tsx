@@ -1,5 +1,5 @@
 import { Info } from "lucide-react";
-import { type TooltipProps, useTooltip } from "./hook";
+import { type TooltipProps, useTooltip } from "./hook.ts";
 import styles from "./style.module.scss";
 
 export function Tooltip(props: TooltipProps) {
@@ -23,7 +23,7 @@ export function Tooltip(props: TooltipProps) {
         onKeyDown={onKeyDown}
         onBlur={rearm}
       >
-        <Info size={14} aria-hidden />
+        <Info size={14} aria-hidden={true} />
       </button>
       {/* Always in the DOM (hidden via opacity/visibility, never unmounted) so
           aria-describedby always resolves to a real element. */}

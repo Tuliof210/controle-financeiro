@@ -1,6 +1,6 @@
-import { TAG_HEIGHT } from "../../../../chart.config";
+import { TAG_HEIGHT } from "../../../../chart-marks.config.ts";
 
-export type TightestMarkProps = {
+export interface TightestMarkProps {
   // Where the marked month sits in the plot, and its own cumulative — not the
   // curve's minimum. The two need not coincide: this names the month the Teto
   // card calls its bottleneck.
@@ -11,7 +11,7 @@ export type TightestMarkProps = {
   // Past the plot's midpoint the tag hangs left of its rule instead of right,
   // or it would run off the trailing edge.
   flip: boolean;
-};
+}
 
 export function useTightestMark({ x, y, height, flip }: TightestMarkProps) {
   return {

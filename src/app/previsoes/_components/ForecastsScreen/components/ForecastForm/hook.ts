@@ -1,22 +1,22 @@
 import { useState } from "react";
-import type { EntryFormBase } from "@/components/EntryForm/entry-form.helper";
-import { useEntryForm } from "@/components/EntryForm/entry-form.hook";
-import type { Person } from "@/core/entities/person.entity";
-import { intervalsToMonths } from "./intervals.helper";
-import { useForecastIntervals } from "./intervals.hook";
+import type { EntryFormBase } from "@/components/EntryForm/entry-form.helper.ts";
+import { useEntryForm } from "@/components/EntryForm/entry-form.hook.ts";
+import type { Person } from "@/core/entities/person.entity.ts";
+import { intervalsToMonths } from "./intervals.helper.ts";
+import { useForecastIntervals } from "./intervals.hook.ts";
 
 export type ForecastFormValues = EntryFormBase & {
   months: number[];
   simulated: boolean;
 };
 
-export type ForecastFormProps = {
+export interface ForecastFormProps {
   initial?: Partial<ForecastFormValues>;
   error?: string;
   submitLabel: string;
   onSubmit: (values: ForecastFormValues) => void;
   people: Person[];
-};
+}
 
 export function useForecastForm({
   initial,
@@ -32,7 +32,7 @@ export function useForecastForm({
   const [simulated, setSimulated] = useState(initial?.simulated ?? false);
 
   const selectedMonths = intervalsToMonths(intervals);
-  const canSubmit = entry.isValid && selectedMonths.length >= 1;
+  const canSubmit = entry.isValid && selectedMonths.length > 0;
 
   const handleSubmit = () => {
     if (!canSubmit) {

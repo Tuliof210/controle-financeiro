@@ -4,13 +4,13 @@ export type EntryType = (typeof ENTRY_TYPES)[number];
 // What every entry (forecast, movement, ...) has in common. The generic
 // EntryRow/EntrySection/EntryScreen work off this shape; the period is the
 // only part that differs per entity, so it is injected by the caller.
-export type Entry = {
+export interface Entry {
   id: string;
   name: string;
   valueCents: number;
   type: EntryType;
   ownerId: string;
-};
+}
 
 // Shared UI mappings for the Entrada/Saída type of an entry.
 export const TYPE_LABELS: Record<EntryType, string> = {

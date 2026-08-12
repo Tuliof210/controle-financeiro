@@ -1,16 +1,17 @@
 "use client";
 
 import { Menu } from "lucide-react";
-import { Avatar } from "./components/Avatar";
-import { ProfileSelect } from "./components/ProfileSelect";
-import { ThemeToggle } from "./components/ThemeToggle";
-import { useHeader } from "./hook";
+import { SIDEBAR_ID } from "../../ids.ts";
+import { Avatar } from "./components/Avatar/index.tsx";
+import { ProfileSelect } from "./components/ProfileSelect/index.tsx";
+import { ThemeToggle } from "./components/ThemeToggle/index.tsx";
+import { useHeader } from "./hook.ts";
 import styles from "./style.module.scss";
 
-type HeaderProps = {
+interface HeaderProps {
   sidebarExpanded: boolean;
   onToggleSidebar: () => void;
-};
+}
 
 export function Header(props: HeaderProps) {
   const { greeting, today, sidebarExpanded, onToggleSidebar } =
@@ -25,10 +26,10 @@ export function Header(props: HeaderProps) {
         className={styles.toggle}
         aria-label="Alternar menu"
         aria-expanded={sidebarExpanded}
-        aria-controls="app-sidebar"
+        aria-controls={SIDEBAR_ID}
         onClick={onToggleSidebar}
       >
-        <Menu size={20} aria-hidden />
+        <Menu size={20} aria-hidden={true} />
       </button>
 
       <div className={styles.greetingBlock}>

@@ -1,7 +1,12 @@
 "use client";
 
-import { type SimulationSelectProps, useSimulationSelect } from "./hook";
+import { type SimulationSelectProps, useSimulationSelect } from "./hook.ts";
 import styles from "./style.module.scss";
+
+const COPY = {
+  apenasDadosReais: "Apenas dados reais",
+  incluirSimulacoes: "Incluir simulações",
+} as const;
 
 export function SimulationSelect(props: SimulationSelectProps) {
   const { value } = props;
@@ -17,8 +22,8 @@ export function SimulationSelect(props: SimulationSelectProps) {
       value={value}
       onChange={handleChange}
     >
-      <option value="real">Apenas dados reais</option>
-      <option value="all">Incluir simulações</option>
+      <option value="real">{COPY.apenasDadosReais}</option>
+      <option value="all">{COPY.incluirSimulacoes}</option>
     </select>
   );
 }

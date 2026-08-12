@@ -1,9 +1,16 @@
 "use client";
 
-import { EntryForm } from "@/components/EntryForm";
-import { IntervalList } from "./components/IntervalList";
-import { type ForecastFormProps, useForecastForm } from "./hook";
+import { EntryForm } from "@/components/EntryForm/index.tsx";
+import { IntervalList } from "./components/IntervalList/index.tsx";
+import { type ForecastFormProps, useForecastForm } from "./hook.ts";
 import styles from "./style.module.scss";
+
+const COPY = {
+  simulacao: "Simulação",
+  oDashboardSo: "O dashboard só soma simulações quando você pedir.",
+} as const;
+
+const SIMULATED_ID = "forecast-simulated";
 
 export function ForecastForm(props: ForecastFormProps) {
   const { error, submitLabel, people } = props;
@@ -36,19 +43,17 @@ export function ForecastForm(props: ForecastFormProps) {
             onRemove={removeInterval}
           />
           <div>
-            <label className={styles.simulated} htmlFor="forecast-simulated">
+            <label className={styles.simulated} htmlFor={SIMULATED_ID}>
               <input
                 type="checkbox"
                 className={styles.checkbox}
-                id="forecast-simulated"
+                id={SIMULATED_ID}
                 checked={simulated}
                 onChange={toggleSimulated}
               />
-              Simulação
+              {COPY.simulacao}
             </label>
-            <p className={styles.hint}>
-              O dashboard só soma simulações quando você pedir.
-            </p>
+            <p className={styles.hint}>{COPY.oDashboardSo}</p>
           </div>
         </div>
       }

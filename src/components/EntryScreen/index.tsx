@@ -1,18 +1,30 @@
 "use client";
 
-import { ConfirmDialog } from "@/components/ConfirmDialog";
-import { PageHeader } from "@/components/PageHeader";
-import type { Entry, EntryType } from "@/lib/entry-types";
-import { Modals } from "./components/Modals";
-import { Sections } from "./components/Sections";
-import { useEntryScreen } from "./hook";
+import { ConfirmDialog } from "@/components/ConfirmDialog/index.tsx";
+import { PageHeader } from "@/components/PageHeader/index.tsx";
+import type { Entry, EntryType } from "@/lib/entry-types.ts";
+import { Modals } from "./components/Modals/index.tsx";
+import { Sections } from "./components/Sections/index.tsx";
+import { useEntryScreen } from "./hook.ts";
 import styles from "./style.module.scss";
-import type { EntryScreenConfig } from "./types";
+import type { EntryScreenConfig } from "./types.ts";
+
+// The dialog keeps its DOM while closing, so the title has to survive a modal
+// state that no longer names an entry.
+const deleteTitle = (modal: {
+  type: string;
+  entry?: { name: string };
+}): string => {
+  if (modal.type !== "delete" || !modal.entry) {
+    return "";
+  }
+  return `Excluir "${modal.entry.name}"?`;
+};
 
 export function EntryScreen<T extends Entry, V extends { type: EntryType }>(
   config: EntryScreenConfig<T, V>,
 ) {
-  const { renderPeriod, renderBand, Form } = config;
+  const { renderPeriod, renderBand, form } = config;
   const {
     labels,
     income,
@@ -55,7 +67,7 @@ export function EntryScreen<T extends Entry, V extends { type: EntryType }>(
         people={people}
         onAdd={onAdd}
         onUpdate={onUpdate}
-        Form={Form}
+        form={form}
       />
 
       <ConfirmDialog
@@ -63,9 +75,7 @@ export function EntryScreen<T extends Entry, V extends { type: EntryType }>(
         onClose={close}
         onConfirm={onConfirmDelete}
         title={labels.deleteTitle}
-        message={
-          modal.type === "delete" ? `Excluir "${modal.entry.name}"?` : ""
-        }
+        message={deleteTitle(modal)}
         // persist() returns on failure WITHOUT closing, so a rejected delete
         // (a 404 from a stale second tab) leaves this dialog open. Without the
         // slot it sat silent and `Excluir` read as a dead button.

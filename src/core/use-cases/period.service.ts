@@ -1,7 +1,10 @@
-import type { Forecast } from "@/core/entities/forecast.entity";
-import type { Movement } from "@/core/entities/movement.entity";
+import type { Forecast } from "@/core/entities/forecast.entity.ts";
+import type { Movement } from "@/core/entities/movement.entity.ts";
 
-export type Period = { start: number; end: number };
+export interface Period {
+  start: number;
+  end: number;
+}
 
 // The projection period the app can offer: oldest -> newest month across
 // every forecast-active month and every movement's own month. null when
@@ -20,7 +23,8 @@ export function derivePeriod(
     ...movements.map((movement) => movement.month),
     ...forecasts.flatMap((forecast) => forecast.months),
   ];
-  return months.length === 0
-    ? null
-    : { start: Math.min(...months), end: Math.max(...months) };
+  if (months.length === 0) {
+    return null;
+  }
+  return { start: Math.min(...months), end: Math.max(...months) };
 }

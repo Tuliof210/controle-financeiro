@@ -1,21 +1,25 @@
 import { useState } from "react";
-import { PALETTE } from "@/lib/palette";
+import { PALETTE } from "@/lib/palette.ts";
 
-export type PersonDraft = { name: string; color: string };
+export interface PersonDraft {
+  name: string;
+  color: string;
+}
 
-export type PersonFormProps = {
+export interface PersonFormProps {
   initial?: PersonDraft;
   error?: string;
   onSubmit: (draft: PersonDraft) => void;
   submitLabel: string;
-};
+}
 
 export function usePersonForm({
   initial,
   onSubmit,
 }: Pick<PersonFormProps, "initial" | "onSubmit">) {
-  const [name, setName] = useState(initial?.name ?? "");
-  const [color, setColor] = useState(initial?.color ?? PALETTE[0]);
+  const { name: seedName = "", color: seedColor = PALETTE[0] } = initial ?? {};
+  const [name, setName] = useState(seedName);
+  const [color, setColor] = useState(seedColor);
 
   return {
     name,

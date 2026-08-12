@@ -1,8 +1,9 @@
 import type { ReactNode } from "react";
-import { formatYTickFor } from "../../chart.config";
-import type { buildFrame } from "../../chart-frame.helper";
+import { formatYyyymm } from "@/lib/months.ts";
+import { tickFormatterFor } from "../../chart.config.ts";
+import type { buildFrame } from "../../chart-frame.helper.ts";
 
-export type ChartFrameProps = {
+export interface ChartFrameProps {
   // Accessible name for the plot as a whole; the marks carry their own <title>s
   // for individual data points.
   title: string;
@@ -14,7 +15,7 @@ export type ChartFrameProps = {
   background?: ReactNode;
   // The marks, drawn between the gridlines and the axes.
   children: ReactNode;
-};
+}
 
 export function useChartFrame({
   title,
@@ -33,7 +34,11 @@ export function useChartFrame({
     children,
     // Same measured width buildFrame used to pick the 12/6-month window — the
     // narrower mobile window is also where the full grouped format ("R$
-    // 12.345") gets too wide for the axis gutter.
-    formatYTick: formatYTickFor(width),
+    // 12.345") gets too wide for the axis gutter. Both formatters take visx's
+    // own tick value, so index.tsx hands them over as plain references.
+    formatTick: (value: { valueOf: () => number }) =>
+      tickFormatterFor(width)(Number(value)),
+    formatMonthTick: (value: { valueOf: () => number }) =>
+      formatYyyymm(Number(value)),
   };
 }

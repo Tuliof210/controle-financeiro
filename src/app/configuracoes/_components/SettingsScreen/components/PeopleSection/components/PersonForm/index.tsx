@@ -1,8 +1,10 @@
-import { Button } from "@/components/Button";
-import { ColorPicker } from "@/components/ColorPicker";
-import { TextField } from "@/components/TextField";
-import { type PersonFormProps, usePersonForm } from "./hook";
+import { Button } from "@/components/Button/index.tsx";
+import { ColorPicker } from "@/components/ColorPicker/index.tsx";
+import { TextField } from "@/components/TextField/index.tsx";
+import { type PersonFormProps, usePersonForm } from "./hook.ts";
 import styles from "./style.module.scss";
+
+const NAME_ID = "person-name";
 
 export function PersonForm({
   initial,
@@ -18,7 +20,7 @@ export function PersonForm({
   return (
     <div className={styles.form}>
       <TextField
-        id="person-name"
+        id={NAME_ID}
         label="Nome"
         value={name}
         onChange={setName}

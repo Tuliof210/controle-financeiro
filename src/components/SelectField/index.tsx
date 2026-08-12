@@ -1,4 +1,4 @@
-import { type SelectFieldProps, useSelectField } from "./hook";
+import { type SelectFieldProps, useSelectField } from "./hook.ts";
 import styles from "./style.module.scss";
 
 export function SelectField(props: SelectFieldProps) {

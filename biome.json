@@ -25,25 +25,137 @@
   "linter": {
     "enabled": true,
     "rules": {
-      "recommended": true,
+      "preset": "all",
       "complexity": {
         "noExcessiveLinesPerFunction": {
           "level": "on",
-          "options": { "maxLines": 100 }
+          "options": {
+            "maxLines": 100
+          }
         }
       },
       "style": {
-        "noExcessiveLinesPerFile": {
-          "level": "on",
-          "options": { "maxLines": 100 }
-        }
+        "noExcessiveLinesPerFile": "off"
       }
     },
     "domains": {
-      "next": "recommended",
-      "react": "recommended"
+      "next": "all",
+      "react": "all",
+      "types": "all",
+      "test": "all",
+      "solid": "none",
+      "qwik": "none",
+      "vue": "none",
+      "svelte": "none",
+      "reactNative": "none",
+      "drizzle": "none",
+      "tailwind": "none",
+      "turborepo": "none",
+      "playwright": "none"
     }
   },
+  "overrides": [
+    {
+      "includes": [
+        "src/app/**/page.tsx",
+        "src/app/**/layout.tsx",
+        "next.config.ts",
+        "prisma.config.ts",
+        "jest.config.ts",
+        ".storybook/*.ts"
+      ],
+      "linter": {
+        "rules": {
+          "style": {
+            "noDefaultExport": "off"
+          }
+        }
+      }
+    },
+    {
+      "includes": ["src/app/**/page.tsx", "src/app/**/layout.tsx"],
+      "linter": {
+        "rules": {
+          "style": {
+            "useComponentExportOnlyModules": "off"
+          }
+        }
+      }
+    },
+    {
+      "includes": ["**/*.js", "**/*.jsx", "**/*.ts", "**/*.tsx"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noExcessiveLinesPerFile": {
+              "level": "on",
+              "options": {
+                "maxLines": 100
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "includes": ["prisma.config.ts", "src/infra/db/client.ts"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noProcessEnv": "off"
+          },
+          "correctness": {
+            "noProcessGlobal": "off"
+          }
+        }
+      }
+    },
+    {
+      "includes": ["src/app/api/ofx/service.ts"],
+      "linter": {
+        "rules": {
+          "correctness": {
+            "noNodejsModules": "off"
+          }
+        }
+      }
+    },
+    {
+      "includes": [".design-sync/gen-cards.mjs"],
+      "linter": {
+        "rules": {
+          "correctness": {
+            "noNodejsModules": "off",
+            "noProcessGlobal": "off"
+          },
+          "suspicious": {
+            "noConsole": "off"
+          }
+        }
+      }
+    },
+    {
+      "includes": [
+        "src/app/_components/DashboardScreen/components/SavingsSection/index.tsx",
+        "src/app/api/settings/route.ts",
+        "src/app/configuracoes/_components/SettingsScreen/hook.ts",
+        "src/app/configuracoes/page.tsx",
+        "src/components/AppShell/nav.ts"
+      ],
+      "linter": {
+        "rules": {
+          "security": {
+            "noSecrets": {
+              "level": "on",
+              "options": {
+                "entropyThreshold": 43
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
   "assist": {
     "actions": {
       "source": {

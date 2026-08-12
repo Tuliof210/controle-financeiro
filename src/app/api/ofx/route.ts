@@ -1,21 +1,43 @@
 import type { NextRequest } from "next/server";
-import { fail, ok, safeFormData } from "@/lib/http";
-import { type ReadOfxResult, readOfx } from "./service";
+import {
+  fail,
+  ok,
+  PAYLOAD_TOO_LARGE,
+  safeFormData,
+  UNPROCESSABLE,
+} from "@/lib/http.ts";
+import { type ReadOfxResult, readOfx } from "./service.ts";
 
 // next.config.ts sets no body limit for Route Handlers, so the cap lives here.
 // A year of OFX is tens of KB, so this is generous by a hundredfold.
-const MAX_BYTES = 5 * 1024 * 1024;
+const KILOBYTE = 1024;
+const MEGABYTE = KILOBYTE * KILOBYTE;
+const MAX_MEGABYTES = 5;
+const MAX_BYTES = MAX_MEGABYTES * MEGABYTE;
 
-// Keyed on the refusal statuses themselves, not on `string`: a status added to
-// ReadOfxResult without a message here becomes a compile error rather than an
-// `undefined` message that JSON.stringify drops, silently breaking the
+// Both maps are keyed on the refusal statuses themselves, not on `string`: a
+// status added to ReadOfxResult without an entry here becomes a compile error
+// rather than an `undefined` that JSON.stringify drops, silently breaking the
 // {error:{message,code}} envelope every other route upholds.
-const MESSAGES: Record<Exclude<ReadOfxResult["status"], "ok">, string> = {
-  not_ofx: "Arquivo não parece ser um OFX.",
-  card_only:
+type Refusal = Exclude<ReadOfxResult["status"], "ok">;
+
+const MESSAGES: Record<Refusal, string> = {
+  notOfx: "Arquivo não parece ser um OFX.",
+  cardOnly:
     "Este arquivo tem apenas fatura de cartão. O leitor processa extrato de conta corrente.",
-  no_statement: "Nenhum extrato de conta corrente encontrado no arquivo.",
+  noStatement: "Nenhum extrato de conta corrente encontrado no arquivo.",
   empty: "Nenhuma transação encontrada no extrato.",
+};
+
+// The status is internal and camelCase because it is a TS identifier; the code
+// that goes on the wire is snake_case like every other one this API emits
+// (`not_found`, `too_large`, `already_imported`). The two are not the same
+// string and this map is where they stop being confused for each other.
+const CODES: Record<Refusal, string> = {
+  notOfx: "not_ofx",
+  cardOnly: "card_only",
+  noStatement: "no_statement",
+  empty: "empty",
 };
 
 // No Zod: the body is a file, not a JSON shape. The trust-boundary checks are
@@ -25,14 +47,15 @@ export async function POST(request: NextRequest) {
   const form = await safeFormData(request);
   const file = form?.get("file");
   if (!(file instanceof File) || file.size === 0) {
-    return fail("Envie um arquivo OFX", "validation", 422);
+    return fail("Envie um arquivo OFX", "validation", UNPROCESSABLE);
   }
   if (file.size > MAX_BYTES) {
-    return fail("Arquivo maior que 5 MB", "too_large", 413);
+    return fail("Arquivo maior que 5 MB", "too_large", PAYLOAD_TOO_LARGE);
   }
 
   const result = readOfx(new Uint8Array(await file.arrayBuffer()), file.name);
-  return result.status === "ok"
-    ? ok(result.report)
-    : fail(MESSAGES[result.status], result.status, 422);
+  if (result.status === "ok") {
+    return ok(result.report);
+  }
+  return fail(MESSAGES[result.status], CODES[result.status], UNPROCESSABLE);
 }

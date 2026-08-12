@@ -1,10 +1,10 @@
 import { type ChangeEvent, useRef } from "react";
 
-export type FilePickerProps = {
+export interface FilePickerProps {
   label: string;
   disabled?: boolean;
   onFile: (file: File) => void;
-};
+}
 
 export function useFilePicker({ label, disabled, onFile }: FilePickerProps) {
   const inputRef = useRef<HTMLInputElement>(null);

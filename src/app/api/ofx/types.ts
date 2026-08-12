@@ -4,7 +4,7 @@
 
 // One checking account found in the file. Every field is nullable because OFX
 // exports in the wild omit tags the spec marks required.
-export type OfxAccount = {
+export interface OfxAccount {
   bankId: string | null;
   accountId: string | null;
   accountType: string | null; // CHECKING / SAVINGS / … verbatim from the file
@@ -12,17 +12,17 @@ export type OfxAccount = {
   balanceMonth: number | null; // YYYYMM of <DTASOF>
   start: number | null; // YYYYMM of <DTSTART>
   end: number | null; // YYYYMM of <DTEND>
-};
+}
 
-export type OfxMonth = {
+export interface OfxMonth {
   month: number; // YYYYMM
   incomeCents: number; // sum of positive <TRNAMT>, cents, >= 0
   expenseCents: number; // absolute sum of negative <TRNAMT>, cents, >= 0
   balanceCents: number; // income - expense, may be negative
   count: number; // transactions posted in this month
-};
+}
 
-export type OfxReport = {
+export interface OfxReport {
   fileName: string;
   // Hex SHA-256 of the uploaded bytes — the file's identity. Required, not
   // optional: it is what the import flow checks before offering to write, and
@@ -41,4 +41,4 @@ export type OfxReport = {
     balanceCents: number;
     count: number;
   };
-};
+}

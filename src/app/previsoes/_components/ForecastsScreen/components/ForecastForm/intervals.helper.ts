@@ -1,21 +1,30 @@
-import { buildMonths, composeYYYYMM, splitYYYYMM } from "@/lib/months";
+import { buildMonths, composeYyyymm, splitYyyymm } from "@/lib/months.ts";
 
-export type Interval = { start: number; end: number };
+interface Interval {
+  start: number;
+  end: number;
+}
+
+const DECEMBER = 12;
+const JANUARY = 1;
 
 // Next YYYYMM, rolling the year over after December.
 function nextMonth(yyyymm: number): number {
-  const { year, month } = splitYYYYMM(yyyymm);
-  return month === 12
-    ? composeYYYYMM(year + 1, 1)
-    : composeYYYYMM(year, month + 1);
+  const { year, month } = splitYyyymm(yyyymm);
+  if (month === DECEMBER) {
+    return composeYyyymm(year + 1, JANUARY);
+  }
+  return composeYyyymm(year, month + 1);
 }
 
 // Intervals -> the flat, de-duped, sorted set of active YYYYMM months. This is
 // the canonical shape the entity/API/storage speak.
-export function intervalsToMonths(intervals: Interval[]): number[] {
+function intervalsToMonths(intervals: Interval[]): number[] {
   const set = new Set<number>();
   for (const { start, end } of intervals) {
-    for (const m of buildMonths(start, end)) set.add(m);
+    for (const m of buildMonths(start, end)) {
+      set.add(m);
+    }
   }
   return [...set].sort((a, b) => a - b);
 }
@@ -24,11 +33,11 @@ export function intervalsToMonths(intervals: Interval[]): number[] {
 // boundary) collapse into one {start,end}; a gap starts a new interval — so
 // non-contiguous selections survive the round-trip, and adjacent ones merge
 // (semantically identical).
-export function monthsToIntervals(months: number[]): Interval[] {
+function monthsToIntervals(months: number[]): Interval[] {
   const sorted = [...new Set(months)].sort((a, b) => a - b);
   const intervals: Interval[] = [];
   for (const month of sorted) {
-    const last = intervals[intervals.length - 1];
+    const last = intervals.at(-1);
     if (last && nextMonth(last.end) === month) {
       last.end = month;
     } else {
@@ -37,3 +46,6 @@ export function monthsToIntervals(months: number[]): Interval[] {
   }
   return intervals;
 }
+
+export type { Interval };
+export { intervalsToMonths, monthsToIntervals };

@@ -1,12 +1,20 @@
-import { Modal } from "@/components/Modal";
-import type { Entry, EntryType } from "@/lib/entry-types";
-import { type ModalsProps, useModals } from "./hook";
+import { Modal } from "@/components/Modal/index.tsx";
+import type { Entry, EntryType } from "@/lib/entry-types.ts";
+import { type ModalsProps, useModals } from "./hook.ts";
 
 export function Modals<T extends Entry, V extends { type: EntryType }>(
   props: ModalsProps<T, V>,
 ) {
-  const { labels, modal, close, error, people, onAdd, onUpdate, Form } =
-    useModals(props);
+  const {
+    labels,
+    modal,
+    close,
+    error,
+    people,
+    onAdd,
+    onUpdate,
+    form: Form,
+  } = useModals(props);
 
   return (
     <>

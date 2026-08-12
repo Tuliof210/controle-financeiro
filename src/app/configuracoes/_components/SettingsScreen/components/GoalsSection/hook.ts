@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
-import type { Goal } from "@/core/entities/goal.entity";
-import { apiDelete, apiGet, apiPost, apiPut } from "@/lib/api";
-import type { GoalFormValues } from "./components/GoalForm/hook";
+import type { Goal } from "@/core/entities/goal.entity.ts";
+import { apiDelete, apiGet, apiPost, apiPut } from "@/lib/api.ts";
+import type { GoalFormValues } from "./components/GoalForm/hook.ts";
 
 type ModalState =
   | { type: "none" }
@@ -49,7 +49,7 @@ export function useGoalsSection() {
     setModal({ type: "delete", goal });
   };
 
-  const persist = async (result: Awaited<ReturnType<typeof apiPost>>) => {
+  const persist = (result: Awaited<ReturnType<typeof apiPost>>) => {
     if (result.error) {
       setError(result.error);
       return;
@@ -62,12 +62,16 @@ export function useGoalsSection() {
     apiPost("/api/goals", values).then(persist);
 
   const onUpdate = (values: GoalFormValues) => {
-    if (modal.type !== "edit") return;
+    if (modal.type !== "edit") {
+      return;
+    }
     return apiPut("/api/goals", { id: modal.goal.id, ...values }).then(persist);
   };
 
   const onConfirmDelete = () => {
-    if (modal.type !== "delete") return;
+    if (modal.type !== "delete") {
+      return;
+    }
     return apiDelete(`/api/goals?id=${modal.goal.id}`).then(persist);
   };
 

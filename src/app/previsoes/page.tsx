@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { ForecastsScreen } from "./_components/ForecastsScreen";
+import { ForecastsScreen } from "./_components/ForecastsScreen/index.tsx";
 
 export const metadata: Metadata = { title: "Previsões" };
 

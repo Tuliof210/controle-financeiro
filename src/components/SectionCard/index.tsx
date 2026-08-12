@@ -1,5 +1,9 @@
-import { Tooltip } from "@/components/Tooltip";
-import { type BandTone, type SectionCardProps, useSectionCard } from "./hook";
+import { Tooltip } from "@/components/Tooltip/index.tsx";
+import {
+  type BandTone,
+  type SectionCardProps,
+  useSectionCard,
+} from "./hook.ts";
 import styles from "./style.module.scss";
 
 // An explicit map, not `styles[band]`: the tone lookup two lines down is already
@@ -38,14 +42,16 @@ export function SectionCard(props: SectionCardProps) {
     <section className={cardClassName}>
       <div className={titleRowClassName}>
         {/* 16, not 18: the title next to it is now a --text-2xs eyebrow. */}
-        {Icon ? <Icon size={16} aria-hidden /> : null}
+        {Icon !== undefined && <Icon size={16} aria-hidden={true} />}
         <h2 className={styles.title}>{title}</h2>
-        {hint ? (
-          // Named after the card: a dashboard renders many of these, and a
-          // generic label would list them all identically to a screen reader.
+        {/* Named after the card: a dashboard renders many of these, and a
+            generic label would list them all identically to a screen reader. */}
+        {hint !== undefined && (
           <Tooltip text={hint} label={`Como ${title} é calculado`} />
-        ) : null}
-        {headerEnd ? <div className={styles.headerEnd}>{headerEnd}</div> : null}
+        )}
+        {Boolean(headerEnd) && (
+          <div className={styles.headerEnd}>{headerEnd}</div>
+        )}
       </div>
       <div className={styles.body}>{children}</div>
     </section>

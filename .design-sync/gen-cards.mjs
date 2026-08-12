@@ -11,7 +11,9 @@ const css = readFileSync(join(OUT, "tokens/tokens.css"), "utf8");
 // prefers-color-scheme / reduced-motion override, so first-wins = the light value.
 const vars = {};
 for (const m of css.matchAll(/(--[\w-]+):\s*([^;]+);/g)) {
-  if (!(m[1] in vars)) vars[m[1]] = m[2].trim();
+  if (!(m[1] in vars)) {
+    vars[m[1]] = m[2].trim();
+  }
 }
 
 const names = Object.keys(vars);
@@ -53,12 +55,15 @@ const cards = {};
   ) => `<div class="cell" style="display:flex;align-items:center;gap:var(--space-3)">
     <span style="width:34px;height:34px;flex:0 0 auto;border:var(--border-2) solid var(--color-border);background:var(${n})"></span>
     <span><code>${n}</code><br><span class="val">${vars[n]}</span></span></div>`;
-  const group = (label, ns) =>
-    ns.length
-      ? `<h2>${label}</h2>
+  // A group with nothing in it prints nothing, heading included.
+  const group = (label, ns) => {
+    if (ns.length === 0) {
+      return "";
+    }
+    return `<h2>${label}</h2>
     <div class="grid" style="grid-template-columns:repeat(auto-fill,minmax(180px,1fr));margin-bottom:var(--space-6)">
-    ${ns.map(swatch).join("\n")}</div>`
-      : "";
+    ${ns.map(swatch).join("\n")}</div>`;
+  };
   const semantic = pick(/^--color-/);
   const brand = [
     "--violet-300",

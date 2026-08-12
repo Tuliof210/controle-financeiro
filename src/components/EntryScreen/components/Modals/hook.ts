@@ -1,13 +1,13 @@
 import type { ComponentType } from "react";
-import type { Person } from "@/core/entities/person.entity";
-import type { Entry, EntryType } from "@/lib/entry-types";
+import type { Person } from "@/core/entities/person.entity.ts";
+import type { Entry, EntryType } from "@/lib/entry-types.ts";
 import type {
   EntryFormSlotProps,
   EntryScreenLabels,
   ModalState,
-} from "../../types";
+} from "../../types.ts";
 
-export type ModalsProps<T extends Entry, V extends { type: EntryType }> = {
+export interface ModalsProps<T extends Entry, V extends { type: EntryType }> {
   labels: Pick<EntryScreenLabels, "addTitle" | "editTitle">;
   modal: ModalState<T>;
   close: () => void;
@@ -15,8 +15,8 @@ export type ModalsProps<T extends Entry, V extends { type: EntryType }> = {
   people: Person[];
   onAdd: (values: V) => void;
   onUpdate: (values: V) => void;
-  Form: ComponentType<EntryFormSlotProps<V>>;
-};
+  form: ComponentType<EntryFormSlotProps<V>>;
+}
 
 // No state or effects of its own: the two <Modal>/<Form> pairs need the raw
 // discriminated `modal` in the JSX itself so TS can narrow `modal.kind` /

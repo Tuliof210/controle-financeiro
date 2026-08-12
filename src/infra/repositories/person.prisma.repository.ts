@@ -1,5 +1,5 @@
-import type { PersonRepository } from "@/core/repositories/person.repository";
-import { prisma } from "@/infra/db/client";
+import type { PersonRepository } from "@/core/repositories/person.repository.ts";
+import { prisma } from "@/infra/db/client.ts";
 
 export const personRepository: PersonRepository = {
   list() {

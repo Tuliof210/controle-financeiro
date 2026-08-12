@@ -1,5 +1,5 @@
 import { ChevronDown, ChevronUp } from "lucide-react";
-import { type ShowAllToggleProps, useShowAllToggle } from "./hook";
+import { type ShowAllToggleProps, useShowAllToggle } from "./hook.ts";
 import styles from "./style.module.scss";
 
 // The `Ver todos (N)` / `Mostrar menos` row under CeilingCard's month list.
@@ -13,9 +13,16 @@ import styles from "./style.module.scss";
 // chevron swaps rather than rotates — same convention as Aside's
 // PanelLeftOpen/Close and ThemeToggle's Sun/Moon; this app never animates an
 // icon in place.
+const chevronFor = (expanded: boolean) => {
+  if (expanded) {
+    return ChevronUp;
+  }
+  return ChevronDown;
+};
+
 export function ShowAllToggle(props: ShowAllToggleProps) {
   const { label, expanded, onClick } = useShowAllToggle(props);
-  const Chevron = expanded ? ChevronUp : ChevronDown;
+  const Chevron = chevronFor(expanded);
 
   return (
     <button
@@ -25,7 +32,7 @@ export function ShowAllToggle(props: ShowAllToggleProps) {
       onClick={onClick}
     >
       {label}
-      <Chevron size={14} aria-hidden />
+      <Chevron size={14} aria-hidden={true} />
     </button>
   );
 }

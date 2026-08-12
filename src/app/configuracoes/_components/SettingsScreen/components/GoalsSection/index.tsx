@@ -1,15 +1,21 @@
 "use client";
 
 import { Plus, Target } from "lucide-react";
-import { Button } from "@/components/Button";
-import { ConfirmDialog } from "@/components/ConfirmDialog";
-import { Modal } from "@/components/Modal";
-import { RowGrid } from "@/components/RowGrid";
-import { SectionCard } from "@/components/SectionCard";
-import { GoalForm } from "./components/GoalForm";
-import { GoalRow } from "./components/GoalRow";
-import { useGoalsSection } from "./hook";
+import { Button } from "@/components/Button/index.tsx";
+import { ConfirmDialog } from "@/components/ConfirmDialog/index.tsx";
+import { Modal } from "@/components/Modal/index.tsx";
+import { RowGrid } from "@/components/RowGrid/index.tsx";
+import { SectionCard } from "@/components/SectionCard/index.tsx";
+import { GoalForm } from "./components/GoalForm/index.tsx";
+import { GoalRow } from "./components/GoalRow/index.tsx";
+import { deleteTitle } from "./goals-copy.helper.ts";
+import { useGoalsSection } from "./hook.ts";
 import styles from "./style.module.scss";
+
+const COPY = {
+  nenhumObjetivoCadastradoAinda: "Nenhum objetivo cadastrado ainda.",
+  adicionarObjetivo: "Adicionar objetivo",
+} as const;
 
 export function GoalsSection() {
   const {
@@ -25,25 +31,28 @@ export function GoalsSection() {
     onConfirmDelete,
   } = useGoalsSection();
 
+  const noGoals = goals?.length === 0;
+
   return (
     <SectionCard title="Objetivos" icon={Target}>
-      {goals?.length === 0 ? (
-        <p className={styles.empty}>Nenhum objetivo cadastrado ainda.</p>
-      ) : (
+      {noGoals && (
+        <p className={styles.empty}>{COPY.nenhumObjetivoCadastradoAinda}</p>
+      )}
+      {!noGoals && (
         <RowGrid>
           {goals?.map((goal) => (
             <GoalRow
               key={goal.id}
               goal={goal}
-              onEdit={() => openEdit(goal)}
-              onDelete={() => openDelete(goal)}
+              onEdit={openEdit}
+              onDelete={openDelete}
             />
           ))}
         </RowGrid>
       )}
       <Button variant="dashed" onClick={openAdd}>
-        <Plus size={16} aria-hidden />
-        Adicionar objetivo
+        <Plus size={16} aria-hidden={true} />
+        {COPY.adicionarObjetivo}
       </Button>
 
       <Modal
@@ -82,11 +91,7 @@ export function GoalsSection() {
         onConfirm={onConfirmDelete}
         error={error}
         title="Excluir objetivo"
-        message={
-          modal.type === "delete"
-            ? `Excluir o objetivo "${modal.goal.name}"?`
-            : ""
-        }
+        message={deleteTitle(modal)}
       />
     </SectionCard>
   );

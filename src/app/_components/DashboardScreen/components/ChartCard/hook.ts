@@ -7,7 +7,7 @@ import {
   useState,
 } from "react";
 
-export type ChartCardProps = {
+interface ChartCardProps {
   title: string;
   icon: LucideIcon;
   hint: string;
@@ -17,26 +17,39 @@ export type ChartCardProps = {
   // Receives the measured pixel box of the card body, so the plot can build its
   // scales. Called again whenever the card reflows.
   children: (size: { width: number; height: number }) => ReactNode;
+}
+
+const sameSize = (
+  prev: { width: number; height: number },
+  width: number,
+  height: number,
+): boolean => prev.width === width && prev.height === height;
+
+// Returning the previous object when nothing moved keeps the state identity
+// stable, so a re-measure that agrees does not re-render.
+const nextSize = (
+  prev: { width: number; height: number },
+  width: number,
+  height: number,
+) => {
+  if (sameSize(prev, width, height)) {
+    return prev;
+  }
+  return { width, height };
 };
 
-export function useChartCard({
-  title,
-  icon,
-  hint,
-  legend,
-  children,
-}: ChartCardProps) {
+function useChartCard({ title, icon, hint, legend, children }: ChartCardProps) {
   const ref = useRef<HTMLDivElement>(null);
   const [size, setSize] = useState({ width: 0, height: 0 });
 
   const measure = useCallback(() => {
     const node = ref.current;
-    if (!node) return;
+    if (!node) {
+      return;
+    }
     const { width, height } = node.getBoundingClientRect();
     // Commit only a real change, or this loops.
-    setSize((prev) =>
-      prev.width === width && prev.height === height ? prev : { width, height },
-    );
+    setSize((prev) => nextSize(prev, width, height));
   }, []);
 
   // Deliberately no dependency array: re-measure after EVERY render, which
@@ -50,7 +63,9 @@ export function useChartCard({
   // Still observed, for resizes React never re-renders for (the window itself).
   useLayoutEffect(() => {
     const node = ref.current;
-    if (!node) return;
+    if (!node) {
+      return;
+    }
     const observer = new ResizeObserver(measure);
     observer.observe(node);
     return () => observer.disconnect();
@@ -58,3 +73,6 @@ export function useChartCard({
 
   return { title, icon, hint, legend, children, ref, size };
 }
+
+export type { ChartCardProps };
+export { useChartCard };

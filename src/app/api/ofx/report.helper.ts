@@ -1,7 +1,21 @@
-import { buildMonths } from "@/lib/months";
-import type { OfxParse, OfxTransaction } from "./parse.helper";
-import { periodOf } from "./period.helper";
-import type { OfxMonth, OfxReport } from "./types";
+import { buildMonths } from "@/lib/months.ts";
+import type { OfxParse, OfxTransaction } from "./parse.helper.ts";
+import { periodOf } from "./period.helper.ts";
+import type { OfxMonth, OfxReport } from "./types.ts";
+
+// A statement with no dated transaction spans no period, so it lists no months
+// rather than one blank row.
+const monthsFor = (
+  period: [number, number] | null,
+  byMonth: Map<number, OfxMonth>,
+): OfxMonth[] => {
+  if (period === null) {
+    return [];
+  }
+  return buildMonths(period[0], period[1]).map(
+    (month) => byMonth.get(month) ?? blank(month),
+  );
+};
 
 const blank = (month: number): OfxMonth => ({
   month,
@@ -41,6 +55,9 @@ const sum = (months: OfxMonth[]) =>
     { incomeCents: 0, expenseCents: 0, balanceCents: 0, count: 0 },
   );
 
+// Comes from the upload and is rendered in the UI; no unbounded string.
+const FILE_NAME_MAX = 120;
+
 export function buildReport(
   parse: OfxParse,
   fileName: string,
@@ -56,16 +73,12 @@ export function buildReport(
   );
   // Gap-free and zero-filled: a month the statement covers but never posted to
   // is a row of zeros, so the hole is visible rather than absent.
-  const months = period
-    ? buildMonths(period[0], period[1]).map(
-        (month) => byMonth.get(month) ?? blank(month),
-      )
-    : [];
+  const months = monthsFor(period, byMonth);
 
   return {
     // Comes from the upload and is rendered in the UI; no reason to carry an
     // unbounded string.
-    fileName: fileName.slice(0, 120),
+    fileName: fileName.slice(0, FILE_NAME_MAX),
     fileHash,
     org: parse.org,
     fid: parse.fid,

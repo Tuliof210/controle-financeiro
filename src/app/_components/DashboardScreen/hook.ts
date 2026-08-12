@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-import type { DashboardData } from "@/app/api/dashboard/types";
-import { useProfile } from "@/components/ProfileProvider/hook";
-import { apiGet } from "@/lib/api";
-import { type CeilingCap, DEFAULT_CEILING_CAP } from "@/lib/ceiling-caps";
-import { useSimulationView } from "./simulation.hook";
+import type { DashboardData } from "@/app/api/dashboard/types.ts";
+import { useProfile } from "@/components/ProfileProvider/hook.ts";
+import { apiGet } from "@/lib/api.ts";
+import { type CeilingCap, DEFAULT_CEILING_CAP } from "@/lib/ceiling-caps.ts";
+import { heldFor } from "./dashboard-held.helper.ts";
+import { useSimulationView } from "./simulation.hook.ts";
 
 export function useDashboardScreen() {
   // AppShell mounts ProfileProvider globally, so the context is already there.
@@ -48,7 +49,9 @@ export function useDashboardScreen() {
       // A response for a profile or cap we have already moved on from must not
       // land. This is also what makes serving the last-good `data` while a
       // request is in flight safe: an out-of-order response still cannot win.
-      if (!current) return;
+      if (!current) {
+        return;
+      }
       setPending(false);
       // apiGet never rejects: every failure resolves to { error }, so an
       // unchecked result would render a failed load as an empty board. It also
@@ -68,7 +71,7 @@ export function useDashboardScreen() {
 
   // Nothing held for the profile on screen means nothing honest to show, so the
   // board goes and the notice takes over.
-  const data = held?.owner === profile ? held.payload : null;
+  const data = heldFor(held, profile);
 
   return {
     data,

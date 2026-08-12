@@ -1,5 +1,5 @@
 import { Target } from "lucide-react";
-import { type GoalRowProps, useGoalRow } from "./hook";
+import { type GoalRowProps, useGoalRow } from "./hook.ts";
 import styles from "./style.module.scss";
 
 export function GoalRow(props: GoalRowProps) {
@@ -12,7 +12,7 @@ export function GoalRow(props: GoalRowProps) {
   return (
     <li className={styles.row}>
       <div className={styles.head}>
-        <Target size={16} aria-hidden className={styles.icon} />
+        <Target size={16} aria-hidden={true} className={styles.icon} />
         <span data-cell="name" className={styles.name}>
           {name}
         </span>
@@ -32,8 +32,8 @@ export function GoalRow(props: GoalRowProps) {
           <div key={metric.key} className={styles.metric}>
             <dt className={styles.label}>{metric.label}</dt>
             <dd className={styles.value}>{metric.value}</dd>
-            {metric.bar ? (
-              <div className={styles.track} aria-hidden>
+            {metric.bar !== null && (
+              <div className={styles.track} aria-hidden={true}>
                 <div
                   className={styles.fill}
                   style={{
@@ -42,7 +42,7 @@ export function GoalRow(props: GoalRowProps) {
                   }}
                 />
               </div>
-            ) : null}
+            )}
           </div>
         ))}
       </dl>

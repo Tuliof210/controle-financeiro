@@ -4,6 +4,19 @@ import { useCallback, useEffect, useState } from "react";
 // number too; kept in sync by hand, there is no shared source for both.
 const DESKTOP = "(min-width: 768px)";
 
+// The rail collapses at desktop width and the drawer opens below it, so
+// "expanded" reads from whichever control is actually on screen.
+function expandedOf(
+  isDesktop: boolean,
+  rawCollapsed: boolean,
+  drawerOpen: boolean,
+): boolean {
+  if (isDesktop) {
+    return !rawCollapsed;
+  }
+  return drawerOpen;
+}
+
 export function useAppShell() {
   const [rawCollapsed, setRawCollapsed] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -12,13 +25,15 @@ export function useAppShell() {
   const [isDesktop, setIsDesktop] = useState(false);
 
   useEffect(() => {
-    const mql = window.matchMedia(DESKTOP);
+    const mql = globalThis.matchMedia(DESKTOP);
     const sync = () => {
       setIsDesktop(mql.matches);
       // A live resize across the stop must drop any open drawer, or it stays
       // a real top-layer modal (Aside/hook.ts's showModal()) blocking the
       // page behind what CSS now draws as the plain sticky rail.
-      if (mql.matches) setDrawerOpen(false);
+      if (mql.matches) {
+        setDrawerOpen(false);
+      }
     };
     sync();
     mql.addEventListener("change", sync);
@@ -26,10 +41,13 @@ export function useAppShell() {
   }, []);
 
   const closeDrawer = useCallback(() => setDrawerOpen(false), []);
-  const toggle = useCallback(
-    () => (isDesktop ? setRawCollapsed((c) => !c) : setDrawerOpen((o) => !o)),
-    [isDesktop],
-  );
+  const toggle = useCallback(() => {
+    if (isDesktop) {
+      setRawCollapsed((collapsed) => !collapsed);
+      return;
+    }
+    setDrawerOpen((open) => !open);
+  }, [isDesktop]);
 
   return {
     // Only ever true at desktop width, so nothing downstream has to guard
@@ -37,7 +55,7 @@ export function useAppShell() {
     collapsed: isDesktop && rawCollapsed,
     drawerOpen,
     closeDrawer,
-    expanded: isDesktop ? !rawCollapsed : drawerOpen,
+    expanded: expandedOf(isDesktop, rawCollapsed, drawerOpen),
     toggle,
   };
 }

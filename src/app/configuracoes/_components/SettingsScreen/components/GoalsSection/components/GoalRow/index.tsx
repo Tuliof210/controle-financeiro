@@ -1,6 +1,6 @@
 import { Pencil, Trash2 } from "lucide-react";
-import { IconButton } from "@/components/IconButton";
-import { type GoalRowProps, useGoalRow } from "./hook";
+import { IconButton } from "@/components/IconButton/index.tsx";
+import { type GoalRowProps, useGoalRow } from "./hook.ts";
 import styles from "./style.module.scss";
 
 // The same cells an entry row uses, tagged with the same grid areas. A goal has
@@ -23,14 +23,14 @@ export function GoalRow(props: GoalRowProps) {
       </span>
       <span data-cell="act">
         <IconButton aria-label={`Editar ${name}`} onClick={onEdit}>
-          <Pencil size={14} aria-hidden />
+          <Pencil size={14} aria-hidden={true} />
         </IconButton>
         <IconButton
           variant="danger"
           aria-label={`Excluir ${name}`}
           onClick={onDelete}
         >
-          <Trash2 size={14} aria-hidden />
+          <Trash2 size={14} aria-hidden={true} />
         </IconButton>
       </span>
     </li>

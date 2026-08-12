@@ -1,4 +1,4 @@
-import { type TagNodeProps, useTagNode } from "./hook";
+import { type TagNodeProps, useTagNode } from "./hook.ts";
 import styles from "./style.module.scss";
 
 // Recurses on itself: an aggregate's <ul> is one of these per child, however
@@ -7,14 +7,17 @@ import styles from "./style.module.scss";
 export function TagNode(props: TagNodeProps) {
   const node = useTagNode(props);
 
-  return "value" in node ? (
-    <li className={styles.leaf}>
-      <span className={styles.tag}>{node.tag}</span>
-      <span className={styles.value}>{node.value}</span>
-    </li>
-  ) : (
+  if ("value" in node) {
+    return (
+      <li className={styles.leaf}>
+        <span className={styles.tag}>{node.tag}</span>
+        <span className={styles.value}>{node.value}</span>
+      </li>
+    );
+  }
+  return (
     <li>
-      <details open>
+      <details open={true}>
         <summary className={styles.tag}>{node.tag}</summary>
         <ul className={styles.children}>
           {node.children.map((child) => (

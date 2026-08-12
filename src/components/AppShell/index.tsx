@@ -1,15 +1,15 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { ProfileProvider } from "@/components/ProfileProvider";
-import { Aside } from "./components/Aside";
-import { Header } from "./components/Header";
-import { useAppShell } from "./hook";
+import { ProfileProvider } from "@/components/ProfileProvider/index.tsx";
+import { Aside } from "./components/Aside/index.tsx";
+import { Header } from "./components/Header/index.tsx";
+import { useAppShell } from "./hook.ts";
 import styles from "./style.module.scss";
 
-type AppShellProps = {
+interface AppShellProps {
   children: ReactNode;
-};
+}
 
 export function AppShell({ children }: AppShellProps) {
   const { collapsed, drawerOpen, closeDrawer, expanded, toggle } =

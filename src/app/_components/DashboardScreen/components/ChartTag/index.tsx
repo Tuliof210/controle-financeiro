@@ -1,4 +1,4 @@
-import { type ChartTagProps, useChartTag } from "./hook";
+import { type ChartTagProps, useChartTag } from "./hook.ts";
 
 // A filled label inside a plot — "PROJETADO" on the bar chart, "MÊS MAIS
 // APERTADO" on the line one. Here rather than in either chart because both draw

@@ -1,7 +1,8 @@
 import { FileUp } from "lucide-react";
-import { DropZone } from "@/components/DropZone";
-import { SectionCard } from "@/components/SectionCard";
-import { type UploadCardProps, useUploadCard } from "./hook";
+import { DropZone } from "@/components/DropZone/index.tsx";
+import { SectionCard } from "@/components/SectionCard/index.tsx";
+import { ERROR_GLYPH } from "@/lib/glyphs.ts";
+import { type UploadCardProps, useUploadCard } from "./hook.ts";
 import styles from "./style.module.scss";
 
 // The wrapper owns the card chrome and the error line; the drag behaviour lives
@@ -18,11 +19,11 @@ export function UploadCard(props: UploadCardProps) {
         onFile={onFile}
         note="O arquivo é lido e some quando você fecha a aba. Só os totais mensais que você confirmar na importação vão para o banco."
       />
-      {error ? (
+      {Boolean(error) && (
         <p className={styles.error}>
-          <span aria-hidden>▲</span> {error}
+          <span aria-hidden={true}>{ERROR_GLYPH}</span> {error}
         </p>
-      ) : null}
+      )}
     </SectionCard>
   );
 }

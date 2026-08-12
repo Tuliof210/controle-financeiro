@@ -1,8 +1,8 @@
 import type { NextRequest } from "next/server";
 import { z } from "zod";
-import { fail, ok, safeJson } from "@/lib/http";
-import { MAX_CENTS } from "@/lib/money";
-import { getSettings, saveSettings } from "./service";
+import { fail, INTERNAL, ok, safeJson, UNPROCESSABLE } from "@/lib/http.ts";
+import { MAX_CENTS } from "@/lib/money.ts";
+import { getSettings, saveSettings } from "./service.ts";
 
 // `min(0)` and not `min(1)` like a Goal's target: zero is how the owner CLEARS
 // the goal. There is no DELETE here, because "no goal" and "a goal of nothing"
@@ -19,18 +19,18 @@ export async function GET() {
   try {
     return ok(await getSettings());
   } catch {
-    return fail("Erro ao carregar configurações", "internal", 500);
+    return fail("Erro ao carregar configurações", "internal", INTERNAL);
   }
 }
 
 export async function PUT(request: NextRequest) {
   const parsed = saveSchema.safeParse(await safeJson(request));
   if (!parsed.success) {
-    return fail("Dados inválidos", "validation", 422);
+    return fail("Dados inválidos", "validation", UNPROCESSABLE);
   }
   try {
     return ok(await saveSettings(parsed.data));
   } catch {
-    return fail("Erro ao salvar configurações", "internal", 500);
+    return fail("Erro ao salvar configurações", "internal", INTERNAL);
   }
 }

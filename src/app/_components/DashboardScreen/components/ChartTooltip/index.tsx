@@ -1,8 +1,10 @@
-import type { TooltipState } from "./hook";
+import type { TooltipState } from "./hook.ts";
 import styles from "./style.module.scss";
 
 export function ChartTooltip({ tooltip }: { tooltip: TooltipState }) {
-  if (!tooltip) return null;
+  if (!tooltip) {
+    return null;
+  }
 
   return (
     <div

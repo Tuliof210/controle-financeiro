@@ -1,5 +1,5 @@
-import { useProfile } from "@/components/ProfileProvider/hook";
-import { getInitials } from "./initials.helper";
+import { useProfile } from "@/components/ProfileProvider/hook.ts";
+import { getInitials } from "./initials.helper.ts";
 
 export function useAvatar() {
   const { label } = useProfile();

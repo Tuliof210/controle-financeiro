@@ -1,4 +1,4 @@
-import type { OfxReport } from "@/app/api/ofx/types";
+import type { OfxReport } from "@/app/api/ofx/types.ts";
 
 export const SESSION_KEY = "ofx-report";
 
@@ -16,11 +16,14 @@ export function parseSession(raw: string | null): OfxReport | null {
     // fileHash is part of the test, not just the arrays: a report cached by a
     // build that predates it would otherwise flow on with an undefined hash,
     // leaving the import button with nothing to identify the file by.
-    return Array.isArray(parsed?.months) &&
+    if (
+      Array.isArray(parsed?.months) &&
       Array.isArray(parsed?.accounts) &&
       typeof parsed?.fileHash === "string"
-      ? (parsed as OfxReport)
-      : null;
+    ) {
+      return parsed as OfxReport;
+    }
+    return null;
   } catch {
     return null;
   }

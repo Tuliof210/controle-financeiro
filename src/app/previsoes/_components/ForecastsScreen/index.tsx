@@ -1,12 +1,40 @@
 "use client";
 
-import { EntryScreen } from "@/components/EntryScreen";
-import type { Forecast } from "@/core/entities/forecast.entity";
-import { CoverageBar } from "./components/CoverageBar";
-import { ForecastForm } from "./components/ForecastForm";
-import type { ForecastFormValues } from "./components/ForecastForm/hook";
-import { formatMonths } from "./forecast-range.helper";
+import { EntryScreen } from "@/components/EntryScreen/index.tsx";
+import type { Forecast } from "@/core/entities/forecast.entity.ts";
+import type { Period } from "@/core/use-cases/period.service.ts";
+import { CoverageBar } from "./components/CoverageBar/index.tsx";
+import type { ForecastFormValues } from "./components/ForecastForm/hook.ts";
+import { ForecastForm } from "./components/ForecastForm/index.tsx";
+import { formatMonths } from "./forecast-range.helper.ts";
 import styles from "./style.module.scss";
+
+const COPY = {
+  simulado: "Simulado",
+} as const;
+
+// Pure and free of component state, so they are module functions rather than
+// closures the JSX rebuilds on every render.
+//
+// The badge rides here rather than in EntryRow because EntryRow types its entry
+// as the shared `Entry` and cannot see `simulated` at all. This callback is the
+// one place the item is known to be a Forecast, and it is forecast-only code —
+// Movimentações passes its own.
+const renderPeriod = (forecast: Forecast) => (
+  <span className={styles.period}>
+    {Boolean(forecast.simulated) && (
+      <span className={styles.badge}>{COPY.simulado}</span>
+    )}
+    <span className={styles.months}>{formatMonths(forecast.months)}</span>
+  </span>
+);
+
+const renderBand = (forecast: Forecast, period: Period | null) => {
+  if (period === null) {
+    return null;
+  }
+  return <CoverageBar months={forecast.months} period={period} />;
+};
 
 export function ForecastsScreen() {
   return (
@@ -40,18 +68,9 @@ export function ForecastsScreen() {
       // its entry as the shared `Entry` and cannot see `simulated` at all. This
       // callback is the one place the item is known to be a Forecast, and it is
       // forecast-only code — Movimentações passes its own.
-      renderPeriod={(forecast) => (
-        <span className={styles.period}>
-          {forecast.simulated ? (
-            <span className={styles.badge}>Simulado</span>
-          ) : null}
-          <span className={styles.months}>{formatMonths(forecast.months)}</span>
-        </span>
-      )}
-      renderBand={(forecast, period) =>
-        period ? <CoverageBar months={forecast.months} period={period} /> : null
-      }
-      Form={ForecastForm}
+      renderPeriod={renderPeriod}
+      renderBand={renderBand}
+      form={ForecastForm}
     />
   );
 }

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import type { OfxReport } from "@/app/api/ofx/types";
-import { apiUpload } from "@/lib/api";
-import { parseSession, SESSION_KEY } from "./session.helper";
+import type { OfxReport } from "@/app/api/ofx/types.ts";
+import { apiUpload } from "@/lib/api.ts";
+import { parseSession, SESSION_KEY } from "./session.helper.ts";
 
 // Every storage call is wrapped and swallowed, matching ThemeToggle and
 // ProfileProvider: a browser with storage disabled loses the cache across a
@@ -17,13 +17,17 @@ const readStored = (): OfxReport | null => {
 const writeStored = (report: OfxReport) => {
   try {
     sessionStorage.setItem(SESSION_KEY, JSON.stringify(report));
-  } catch {}
+  } catch {
+    // Storage blocked: the report survives in React state either way.
+  }
 };
 
 const clearStored = () => {
   try {
     sessionStorage.removeItem(SESSION_KEY);
-  } catch {}
+  } catch {
+    // Nothing to clear if storage was never writable.
+  }
 };
 
 export function useOfxScreen() {
@@ -52,11 +56,11 @@ export function useOfxScreen() {
   // "Trocar arquivo" and has the most to lose from one landing off-target.
   useEffect(() => {
     const swallow = (event: Event) => event.preventDefault();
-    window.addEventListener("dragover", swallow);
-    window.addEventListener("drop", swallow);
+    globalThis.addEventListener("dragover", swallow);
+    globalThis.addEventListener("drop", swallow);
     return () => {
-      window.removeEventListener("dragover", swallow);
-      window.removeEventListener("drop", swallow);
+      globalThis.removeEventListener("dragover", swallow);
+      globalThis.removeEventListener("drop", swallow);
     };
   }, []);
 

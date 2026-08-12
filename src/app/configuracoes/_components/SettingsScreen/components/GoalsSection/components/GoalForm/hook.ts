@@ -1,20 +1,24 @@
 import { useState } from "react";
 
-export type GoalFormValues = { name: string; targetCents: number };
+export interface GoalFormValues {
+  name: string;
+  targetCents: number;
+}
 
-export type GoalFormProps = {
+export interface GoalFormProps {
   initial?: GoalFormValues;
   error?: string;
   submitLabel: string;
   onSubmit: (values: GoalFormValues) => void;
-};
+}
 
 export function useGoalForm({
   initial,
   onSubmit,
 }: Pick<GoalFormProps, "initial" | "onSubmit">) {
-  const [name, setName] = useState(initial?.name ?? "");
-  const [targetCents, setTargetCents] = useState(initial?.targetCents ?? 0);
+  const { name: seedName = "", targetCents: seedTarget = 0 } = initial ?? {};
+  const [name, setName] = useState(seedName);
+  const [targetCents, setTargetCents] = useState(seedTarget);
   const [localError, setLocalError] = useState<string>();
 
   const handleSubmit = () => {

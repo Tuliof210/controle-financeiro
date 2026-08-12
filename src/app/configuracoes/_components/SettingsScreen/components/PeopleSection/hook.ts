@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
-import type { Person } from "@/core/entities/person.entity";
-import { apiDelete, apiGet, apiPost, apiPut } from "@/lib/api";
-import type { PersonDraft } from "./components/PersonForm/hook";
+import type { Person } from "@/core/entities/person.entity.ts";
+import { apiDelete, apiGet, apiPost, apiPut } from "@/lib/api.ts";
+import type { PersonDraft } from "./components/PersonForm/hook.ts";
 
 type ModalKind = "none" | "add" | "edit" | "delete";
 
@@ -39,23 +39,33 @@ export function usePeopleSection() {
 
   const onAdd = async (draft: PersonDraft) => {
     const result = await apiPost("/api/people", draft);
-    if (result.error) return setError(result.error);
+    if (result.error) {
+      return setError(result.error);
+    }
     close();
     refetch();
   };
 
   const onUpdate = async (draft: PersonDraft) => {
-    if (!target) return;
+    if (!target) {
+      return;
+    }
     const result = await apiPut("/api/people", { id: target.id, ...draft });
-    if (result.error) return setError(result.error);
+    if (result.error) {
+      return setError(result.error);
+    }
     close();
     refetch();
   };
 
   const onConfirmDelete = async () => {
-    if (!target) return;
+    if (!target) {
+      return;
+    }
     const result = await apiDelete(`/api/people?id=${target.id}`);
-    if (result.error) return setError(result.error);
+    if (result.error) {
+      return setError(result.error);
+    }
     close();
     refetch();
   };
@@ -65,7 +75,9 @@ export function usePeopleSection() {
     error,
     modal,
     target,
-    open,
+    openAdd: () => open("add"),
+    openEdit: (person: Person) => open("edit", person),
+    openDelete: (person: Person) => open("delete", person),
     close,
     onAdd,
     onUpdate,

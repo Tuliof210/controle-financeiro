@@ -1,8 +1,13 @@
 import { X } from "lucide-react";
-import { IconButton } from "@/components/IconButton";
-import { MonthPicker } from "@/components/MonthPicker";
-import { type IntervalCardProps, useIntervalCard } from "./hook";
+import { IconButton } from "@/components/IconButton/index.tsx";
+import { MonthPicker } from "@/components/MonthPicker/index.tsx";
+import { type IntervalCardProps, useIntervalCard } from "./hook.ts";
 import styles from "./style.module.scss";
+
+const COPY = {
+  vigencia: "Vigência",
+  mesUnico: "Mês único",
+} as const;
 
 export function IntervalCard(props: IntervalCardProps) {
   const {
@@ -24,7 +29,7 @@ export function IntervalCard(props: IntervalCardProps) {
   return (
     <div className={styles.card}>
       <div className={styles.header}>
-        <span className={styles.eyebrow}>Vigência</span>
+        <span className={styles.eyebrow}>{COPY.vigencia}</span>
         <div className={styles.controls}>
           <label className={styles.lock} htmlFor={`${idPrefix}-lock`}>
             <input
@@ -34,28 +39,29 @@ export function IntervalCard(props: IntervalCardProps) {
               checked={isLocked}
               onChange={onLockToggle}
             />
-            Mês único
+            {COPY.mesUnico}
           </label>
-          {canRemove ? (
+          {Boolean(canRemove) && (
             <IconButton
               variant="danger"
               aria-label={removeLabel}
               onClick={onRemove}
             >
-              <X size={16} aria-hidden />
+              <X size={16} aria-hidden={true} />
             </IconButton>
-          ) : null}
+          )}
         </div>
       </div>
       <div className={styles.pickers}>
-        {isLocked ? (
+        {Boolean(isLocked) && (
           <MonthPicker
             id={`${idPrefix}-month`}
             label="Mês"
             value={start}
             onChange={onMonthChange}
           />
-        ) : (
+        )}
+        {!isLocked && (
           <>
             <MonthPicker
               id={`${idPrefix}-start`}

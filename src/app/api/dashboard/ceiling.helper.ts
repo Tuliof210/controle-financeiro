@@ -1,6 +1,11 @@
-import type { Ceiling, CeilingMonth } from "./ceiling.types";
-import { rates, suffixMinimum, tightestMonth } from "./ceiling-math.helper";
-import type { MonthPoint } from "./types";
+import type { Ceiling, CeilingMonth } from "./ceiling.types.ts";
+import {
+  firstRedOf,
+  rates,
+  suffixMinimum,
+  tightestOf,
+} from "./ceiling-math.helper.ts";
+import type { MonthPoint } from "./types.ts";
 
 // Spending extra in month k lowers the cumulative balance of k AND every month
 // after it, so k's headroom is never k's own balance: it is the WORST balance
@@ -34,6 +39,8 @@ import type { MonthPoint } from "./types";
 // declines stays in `worst` for the months that follow. That is the whole
 // "sobra para o mês seguinte" behaviour, and it is the accumulator's, not new
 // arithmetic here.
+const PERCENT = 100;
+
 export function buildCeiling(
   points: MonthPoint[],
   currentMonth: number,
@@ -58,11 +65,17 @@ export function buildCeiling(
     // Defensive only: `worst` is non-decreasing and the gap stays >= 0 by
     // induction, so a negative gap means one of those two broke.
     const gap = Math.max(0, worst[index] - authorised);
-    const offered = red ? 0 : Math.floor((gap * cap) / 100);
+    let offered = 0;
+    if (red === undefined) {
+      offered = Math.floor((gap * cap) / PERCENT);
+    }
     // Math.min against a null-checked number rather than `limit ?? Infinity`:
     // Infinity is what the seed of `suffixMinimum` above had to be rewritten to
     // avoid, and there is no reason to reintroduce it one loop away.
-    const budget = limit === null ? offered : Math.min(offered, limit);
+    let budget = offered;
+    if (limit !== null) {
+      budget = Math.min(offered, limit);
+    }
     const { month, cumulative } = ahead[index];
     // Read BEFORE this month is authorised: the balance ARRIVING at the month.
     const ceilingBalance = cumulative - authorised;
@@ -79,10 +92,8 @@ export function buildCeiling(
 
   return {
     ...rates(monthly),
-    // The month whose balance IS the worst ahead — what limits this month's
-    // figure, and the only month the card can honestly name.
-    tightest: monthly > 0 ? tightestMonth(ahead, worst[0]) : null,
-    firstRed: red ? { month: red.month, shortfall: -red.cumulative } : null,
+    tightest: tightestOf(monthly, ahead, worst),
+    firstRed: firstRedOf(red),
     months,
   };
 }

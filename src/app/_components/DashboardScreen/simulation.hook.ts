@@ -3,7 +3,7 @@ import {
   DEFAULT_SIMULATION_VIEW,
   SIMULATION_VIEWS,
   type SimulationView,
-} from "@/lib/simulation";
+} from "@/lib/simulation.ts";
 
 const KEY = "simulation";
 
@@ -28,16 +28,25 @@ export function useSimulationView() {
   useEffect(() => {
     try {
       const stored = localStorage.getItem(KEY);
-      if (isView(stored)) setView(stored);
-    } catch {}
+      if (isView(stored)) {
+        setView(stored);
+      }
+    } catch {
+      // Storage blocked: the remembered view is a convenience, not state.
+    }
   }, []);
 
   const choose = useCallback((next: string) => {
-    const value = isView(next) ? next : DEFAULT_SIMULATION_VIEW;
+    let value: SimulationView = DEFAULT_SIMULATION_VIEW;
+    if (isView(next)) {
+      value = next;
+    }
     setView(value);
     try {
       localStorage.setItem(KEY, value);
-    } catch {}
+    } catch {
+      // Storage blocked: the choice still applies to this session.
+    }
   }, []);
 
   return { view, choose };

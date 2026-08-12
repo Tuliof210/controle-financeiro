@@ -1,5 +1,5 @@
-import { Button } from "@/components/Button";
-import { type FilePickerProps, useFilePicker } from "./hook";
+import { Button } from "@/components/Button/index.tsx";
+import { type FilePickerProps, useFilePicker } from "./hook.ts";
 
 export function FilePicker(props: FilePickerProps) {
   const { label, disabled, inputRef, open, change } = useFilePicker(props);
@@ -14,7 +14,7 @@ export function FilePicker(props: FilePickerProps) {
         type="file"
         accept=".ofx,text/plain"
         onChange={change}
-        hidden
+        hidden={true}
       />
       <Button onClick={open} disabled={disabled}>
         {label}

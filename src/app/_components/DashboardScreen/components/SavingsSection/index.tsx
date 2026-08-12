@@ -1,9 +1,23 @@
 import Link from "next/link";
-import { Tooltip } from "@/components/Tooltip";
-import { HINTS } from "../../hints";
-import { GoalRow } from "../GoalRow";
-import { type SavingsSectionProps, useSavingsSection } from "./hook";
+import { Tooltip } from "@/components/Tooltip/index.tsx";
+import { HINTS } from "../../hints.ts";
+import { GoalRow } from "../GoalRow/index.tsx";
+import { type SavingsSectionProps, useSavingsSection } from "./hook.ts";
 import styles from "./style.module.scss";
+
+const COPY = {
+  capacidadeDePoupanca: "CAPACIDADE DE POUPANÇA",
+  mes: "/mês",
+  objetivos: "OBJETIVOS",
+  totalEmMetas: "TOTAL EM METAS",
+  configuracoes: "Configurações",
+  fullStop: ".",
+  meta: "META",
+  dedicado: "DEDICADO",
+  emParalelo: "EM PARALELO",
+  umDeCadaVez: "UM DE CADA VEZ",
+  nenhumObjetivoCadastrado: "Nenhum objetivo cadastrado ainda. Adicione um em",
+} as const;
 
 export function SavingsSection(props: SavingsSectionProps) {
   const { goals, empty, capacity, caption, goalCount, total, horizon } =
@@ -15,13 +29,13 @@ export function SavingsSection(props: SavingsSectionProps) {
   return (
     <section className={styles.card}>
       <div className={styles.banner}>
-        <div className={styles.stripes} aria-hidden />
+        <div className={styles.stripes} aria-hidden={true} />
         <div className={styles.capacity}>
           <div className={styles.eyebrowRow}>
             {/* The eyebrow already reads as this card's title, and it is the
                 only one the card has — so it IS the h2, matching the one
                 SectionCard renders on every other card in the shell. */}
-            <h2 className={styles.eyebrow}>CAPACIDADE DE POUPANÇA</h2>
+            <h2 className={styles.eyebrow}>{COPY.capacidadeDePoupanca}</h2>
             <Tooltip
               text={HINTS.goals}
               label="Como a capacidade de poupança é calculada"
@@ -29,7 +43,7 @@ export function SavingsSection(props: SavingsSectionProps) {
           </div>
           <p className={styles.value}>
             {capacity}
-            <span className={styles.per}> /mês</span>
+            <span className={styles.per}> {COPY.mes}</span>
           </p>
           <p className={styles.caption}>{caption}</p>
         </div>
@@ -38,32 +52,34 @@ export function SavingsSection(props: SavingsSectionProps) {
             spacing, and each <div> only keeps its dt/dd together. */}
         <dl className={styles.facts}>
           <div>
-            <dt className={styles.factLabel}>OBJETIVOS</dt>
+            <dt className={styles.factLabel}>{COPY.objetivos}</dt>
             <dd className={styles.factValue}>{goalCount}</dd>
           </div>
           <div>
-            <dt className={styles.factLabel}>TOTAL EM METAS</dt>
+            <dt className={styles.factLabel}>{COPY.totalEmMetas}</dt>
             <dd className={styles.factValue}>{total}</dd>
           </div>
         </dl>
       </div>
 
-      {empty ? (
+      {Boolean(empty) && (
         <p className={styles.empty}>
-          Nenhum objetivo cadastrado ainda. Adicione um em{" "}
-          <Link href="/configuracoes">Configurações</Link>.
+          {COPY.nenhumObjetivoCadastrado}{" "}
+          <Link href="/configuracoes">{COPY.configuracoes}</Link>
+          {COPY.fullStop}
         </p>
-      ) : (
+      )}
+      {!empty && (
         <>
           {/* Drawn once for the whole table, and only from `lg` — below it
               every row states its own labels. No table ARIA role on any of
               this: Biome's noRedundantRoles/useSemanticElements pincer means a
               grid that reflows cannot declare the roles the reflow destroys. */}
           <div className={styles.columns}>
-            <span>META</span>
-            <span>DEDICADO</span>
-            <span>EM PARALELO</span>
-            <span>UM DE CADA VEZ</span>
+            <span>{COPY.meta}</span>
+            <span>{COPY.dedicado}</span>
+            <span>{COPY.emParalelo}</span>
+            <span>{COPY.umDeCadaVez}</span>
           </div>
           <ul className={styles.list}>
             {goals.map((goal) => (

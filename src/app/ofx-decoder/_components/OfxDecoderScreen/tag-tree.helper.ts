@@ -4,34 +4,35 @@
 // An indexOf walk, not a lazy `([\s\S]*?)` regex: the same hazard `blocks()`
 // in src/app/api/ofx/ofx-tags.helper.ts avoids, quadratic on a file full of
 // unclosed tags. Every index below only moves forward, so this stays linear.
-import { readHeader, skipWs } from "./header.helper";
-
-let nextId = 0;
-
-export type OfxNode =
-  | { id: number; tag: string; value: string }
-  | { id: number; tag: string; children: OfxNode[] };
-
-export type OfxTagTree = { header: OfxNode[]; root: OfxNode | null };
-
-// Trimmed like src/app/api/ofx/ofx-tags.helper.ts's `leaf()`: the line break
-// and indentation a pretty-printed file puts before the NEXT tag land inside
-// `value` too (nothing about scanning for the next `<` can tell them apart
-// from real content), and that formatting isn't the value the file encodes.
-const leaf = (tag: string, value: string): OfxNode => ({
-  id: nextId++,
-  tag,
-  value: value.trim(),
-});
-const aggregate = (tag: string, children: OfxNode[]): OfxNode => ({
-  id: nextId++,
-  tag,
-  children,
-});
+import { readHeader, skipWs } from "./header.helper.ts";
+import {
+  aggregate,
+  leaf,
+  type OfxNode,
+  type OfxTagTree,
+  resetIds,
+} from "./tag-node.helper.ts";
 
 // One tag, open to matched close. `next` is always > `at` in every branch
 // below — that, not a depth limit, is what keeps thousands of unclosed
 // siblings from looping.
+// A tag that closes itself moves the cursor past its close; one that does not
+// leaves it on the `<` the caller is already looking at.
+function advance(at: number, closes: boolean, closeLength: number): number {
+  if (closes) {
+    return at + closeLength;
+  }
+  return at;
+}
+
+// A header with nothing after it has no root tag to parse.
+function rootOf(text: string, next: number): OfxNode | null {
+  if (next >= text.length) {
+    return null;
+  }
+  return parseNode(text, next).node;
+}
+
 function parseNode(text: string, at: number) {
   const gt = text.indexOf(">", at + 1);
   if (gt === -1) {
@@ -54,7 +55,7 @@ function parseNode(text: string, at: number) {
     const ownClose = text.startsWith(closeTag, nextLt);
     return {
       node: leaf(tag, between),
-      next: ownClose ? nextLt + closeTag.length : nextLt,
+      next: advance(nextLt, ownClose, closeTag.length),
     };
   }
 
@@ -72,21 +73,23 @@ function parseNode(text: string, at: number) {
   const closesHere = text.startsWith(closeTag, pos);
   return {
     node: aggregate(tag, children),
-    next: closesHere ? pos + closeTag.length : pos,
+    next: advance(pos, closesHere, closeTag.length),
   };
 }
 
 // Header entries from either dialect, then the tree rooted at whatever real
 // tag follows — `<OFX>` in every file this app will see, but nothing below
 // assumes that name.
-export function parseOfxTags(text: string): OfxTagTree {
-  nextId = 0;
+function parseOfxTags(text: string): OfxTagTree {
+  resetIds();
   const firstLt = text.indexOf("<");
   if (firstLt === -1) {
     return { header: [], root: null };
   }
   const { entries, next } = readHeader(text, firstLt);
   const header = entries.map(({ key, value }) => leaf(key, value));
-  const root = next < text.length ? parseNode(text, next).node : null;
+  const root = rootOf(text, next);
   return { header, root };
 }
+
+export { parseOfxTags };

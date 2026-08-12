@@ -1,8 +1,10 @@
-import type { OfxMonth } from "@/app/api/ofx/types";
-import { formatMoney } from "@/lib/money";
-import { formatYyyymm } from "@/lib/months";
+import type { OfxMonth } from "@/app/api/ofx/types.ts";
+import { formatMoney } from "@/lib/money.ts";
+import { formatYyyymm } from "@/lib/months.ts";
 
-export type MonthRowProps = { month: OfxMonth };
+export interface MonthRowProps {
+  month: OfxMonth;
+}
 
 export function useMonthRow({ month }: MonthRowProps) {
   return {

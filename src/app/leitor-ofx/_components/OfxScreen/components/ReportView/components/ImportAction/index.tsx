@@ -1,10 +1,19 @@
-import { Button } from "@/components/Button";
-import { Modal } from "@/components/Modal";
-import { SelectField } from "@/components/SelectField";
-import { TextField } from "@/components/TextField";
-import { Tooltip } from "@/components/Tooltip";
-import { type ImportActionProps, useImportAction } from "./hook";
+import { Button } from "@/components/Button/index.tsx";
+import { Modal } from "@/components/Modal/index.tsx";
+import { SelectField } from "@/components/SelectField/index.tsx";
+import { TextField } from "@/components/TextField/index.tsx";
+import { Tooltip } from "@/components/Tooltip/index.tsx";
+import { ERROR_GLYPH } from "@/lib/glyphs.ts";
+import { type ImportActionProps, useImportAction } from "./hook.ts";
 import styles from "./style.module.scss";
+
+const COPY = {
+  importar: "Importar",
+  cancelar: "Cancelar",
+} as const;
+
+const IDENTIFIER_ID = "ofx-import-identifier";
+const OWNER_ID = "ofx-import-owner";
 
 export function ImportAction(props: ImportActionProps) {
   const view = useImportAction(props);
@@ -20,14 +29,14 @@ export function ImportAction(props: ImportActionProps) {
         onClick={view.openDialog}
         disabled={view.imported}
       >
-        Importar
+        {COPY.importar}
       </Button>
       {/* Beside the button, never wrapping it: a disabled <button> fires no
           pointer or focus events, so a wrapper would hide the reason it is
           disabled. Tooltip brings its own focusable trigger. */}
-      {view.tooltip ? (
+      {view.tooltip !== null && (
         <Tooltip text={view.tooltip} label="Por que não posso importar" />
-      ) : null}
+      )}
 
       <Modal
         open={view.open}
@@ -37,18 +46,18 @@ export function ImportAction(props: ImportActionProps) {
         footer={
           <>
             <Button variant="ghost" onClick={view.close}>
-              Cancelar
+              {COPY.cancelar}
             </Button>
             <Button onClick={view.submit} disabled={!view.canSubmit}>
-              {view.busy ? "Importando…" : "Importar"}
+              {view.submitLabel}
             </Button>
           </>
         }
       >
-        {view.open && (
+        {Boolean(view.open) && (
           <div className={styles.form}>
             <TextField
-              id="ofx-import-identifier"
+              id={IDENTIFIER_ID}
               label="Identificador do documento"
               value={view.identifier}
               onChange={view.setIdentifier}
@@ -56,18 +65,18 @@ export function ImportAction(props: ImportActionProps) {
               placeholder="Ex.: 12345-6"
             />
             <SelectField
-              id="ofx-import-owner"
+              id={OWNER_ID}
               label="Responsável"
               value={view.ownerId}
               onChange={view.setOwnerId}
               options={view.options}
             />
             <p className={styles.summary}>{view.summary}</p>
-            {view.error ? (
+            {Boolean(view.error) && (
               <p className={styles.error}>
-                <span aria-hidden>▲</span> {view.error}
+                <span aria-hidden={true}>{ERROR_GLYPH}</span> {view.error}
               </p>
-            ) : null}
+            )}
           </div>
         )}
       </Modal>

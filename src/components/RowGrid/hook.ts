@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 
-export type RowGridProps = {
+export interface RowGridProps {
   // One `<li>` per row, holding its cells as FLAT children — no wrapper of any
   // kind. Each cell is tagged `data-cell="who|main|amt|act"`, plus an optional
   // `bar`, and that tag is the only thing style.module.scss places it by: a row
@@ -11,7 +11,7 @@ export type RowGridProps = {
   // missing tag fails SILENTLY — no type error, no lint error, no red spec, just
   // a cell in the wrong place and an action pair that has lost its flex.
   children: ReactNode;
-};
+}
 
 // Nothing to derive — the layout is entirely CSS. The hook exists so the
 // folder reads like every other component in the repo.

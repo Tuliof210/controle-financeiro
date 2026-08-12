@@ -10,19 +10,19 @@
 // month spent its own ceiling; `ceilingLeft` is that balance once this month has
 // spent too. Neither can go negative: each budget is floored against a suffix
 // minimum that is itself at or below the month's own balance.
-export type CeilingMonth = {
+export interface CeilingMonth {
   month: number;
   budget: number; // cents, >= 0 — this month's own extra-spending figure
   ceilingBalance: number;
   ceilingLeft: number;
-};
+}
 
 // One figure at three cadences — the shape the card's headline takes.
-export type CeilingRates = {
+export interface CeilingRates {
   monthly: number; // cents, >= 0
   weekly: number; // floor(monthly / 4)
   daily: number; // floor(monthly / 30)
-};
+}
 
 // Spread, not nested: the top-level trio is the CURRENT month's budget.
 export type Ceiling = CeilingRates & {

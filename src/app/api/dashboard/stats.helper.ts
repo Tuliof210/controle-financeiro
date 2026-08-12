@@ -1,4 +1,4 @@
-import type { Stats } from "./types";
+import type { Stats } from "./types.ts";
 
 const sum = (values: number[]) => values.reduce((acc, v) => acc + v, 0);
 
@@ -12,9 +12,10 @@ function stdDev(values: number[], mean: number): number {
 function median(values: number[]): number {
   const sorted = [...values].sort((a, b) => a - b);
   const middle = Math.floor(sorted.length / 2);
-  return sorted.length % 2 === 1
-    ? sorted[middle]
-    : Math.round((sorted[middle - 1] + sorted[middle]) / 2);
+  if (sorted.length % 2 === 1) {
+    return sorted[middle];
+  }
+  return Math.round((sorted[middle - 1] + sorted[middle]) / 2);
 }
 
 const EMPTY: Stats = {
@@ -30,7 +31,9 @@ const EMPTY: Stats = {
 // integer cents, so derived statistics are Math.round-ed — formatCents'
 // Math.trunc is a formatting concern, not a rounding policy.
 export function computeStats(values: number[], currentIndex: number): Stats {
-  if (values.length === 0) return EMPTY;
+  if (values.length === 0) {
+    return EMPTY;
+  }
 
   const total = sum(values);
   const mean = Math.round(total / values.length);

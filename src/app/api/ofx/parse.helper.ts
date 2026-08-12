@@ -1,27 +1,43 @@
-import { amountToCents, blocks, dateToMonth, leaf } from "./ofx-tags.helper";
-import type { OfxAccount } from "./types";
+import { amountToCents, dateToMonth } from "./amount.helper.ts";
+import { blocks, leaf } from "./ofx-tags.helper.ts";
+import type { OfxAccount } from "./types.ts";
 
-export type OfxTransaction = { month: number; cents: number };
+// amountToCents returns null rather than 0 for an unusable amount, and this
+// keeps that null rather than turning an absent field into a zero row.
+const centsOf = (amount: string | null): number | null => {
+  if (!amount) {
+    return null;
+  }
+  return amountToCents(amount);
+};
 
-type OfxStatement = {
+interface OfxTransaction {
+  month: number;
+  cents: number;
+}
+
+interface OfxStatement {
   account: OfxAccount;
   currency: string | null;
   transactions: OfxTransaction[];
-};
+}
 
-export type OfxParse = {
+interface OfxParse {
   org: string | null;
   fid: string | null;
   statements: OfxStatement[];
   // How many <CCSTMTRS> aggregates were seen and skipped. The service uses it
   // to tell "this is a credit-card export" apart from "this is not an OFX".
   cardBlocks: number;
-};
+}
 
 // A leaf whose value has to be a month, e.g. <DTSTART> or <DTASOF>.
 const monthLeaf = (block: string, tag: string): number | null => {
   const raw = leaf(block, tag);
-  return raw ? dateToMonth(raw) : null;
+  if (raw) {
+    return dateToMonth(raw);
+  }
+  return null;
 };
 
 function readTransactions(block: string): OfxTransaction[] {
@@ -29,7 +45,7 @@ function readTransactions(block: string): OfxTransaction[] {
   for (const entry of blocks(block, "STMTTRN")) {
     const posted = monthLeaf(entry, "DTPOSTED");
     const raw = leaf(entry, "TRNAMT");
-    const cents = raw ? amountToCents(raw) : null;
+    const cents = centsOf(raw);
     // A row with no usable date or amount cannot be summed into a month, so
     // it is dropped — which is exactly why amountToCents returns null rather
     // than 0, a value that would land in a total as a transaction of nothing.
@@ -48,7 +64,7 @@ function readStatement(block: string): OfxStatement {
       bankId: leaf(block, "BANKID"),
       accountId: leaf(block, "ACCTID"),
       accountType: leaf(block, "ACCTTYPE"),
-      balanceCents: amount ? amountToCents(amount) : null,
+      balanceCents: centsOf(amount),
       balanceMonth: monthLeaf(balance, "DTASOF"),
       start: monthLeaf(block, "DTSTART"),
       end: monthLeaf(block, "DTEND"),
@@ -61,7 +77,7 @@ function readStatement(block: string): OfxStatement {
 // Both OFX dialects in one pass: 1.x (SGML) omits leaf closing tags but closes
 // its aggregates, and 2.x (XML) closes both — so "<TAG>value up to the next <"
 // reads every leaf, and "<TAG>…</TAG>" reads every aggregate.
-export function parseOfx(text: string): OfxParse {
+function parseOfx(text: string): OfxParse {
   return {
     org: leaf(text, "ORG"),
     fid: leaf(text, "FID"),
@@ -70,3 +86,6 @@ export function parseOfx(text: string): OfxParse {
     statements: blocks(text, "STMTRS").map(readStatement),
   };
 }
+
+export type { OfxParse, OfxTransaction };
+export { parseOfx };

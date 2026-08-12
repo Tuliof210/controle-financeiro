@@ -1,4 +1,4 @@
-import { type CoverageBarProps, useCoverageBar } from "./hook";
+import { type CoverageBarProps, useCoverageBar } from "./hook.ts";
 import styles from "./style.module.scss";
 
 // The band alone. Its interval text used to sit right under it and now reads in
@@ -10,7 +10,7 @@ export function CoverageBar(props: CoverageBarProps) {
   const { segments } = useCoverageBar(props);
 
   return (
-    <span className={styles.track} aria-hidden>
+    <span className={styles.track} aria-hidden={true}>
       {segments.map(({ left, width }) => (
         <span key={left} className={styles.fill} style={{ left, width }} />
       ))}

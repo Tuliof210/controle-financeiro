@@ -1,14 +1,15 @@
 "use client";
 
-import { useMoneyInput } from "./hook";
+import { CURRENCY_PREFIX } from "@/lib/glyphs.ts";
+import { useMoneyInput } from "./hook.ts";
 import styles from "./style.module.scss";
 
-type MoneyInputProps = {
+interface MoneyInputProps {
   valueCents: number;
   onChange: (cents: number) => void;
   id?: string;
   ariaLabel?: string;
-};
+}
 
 export function MoneyInput(props: MoneyInputProps) {
   const { display, inputRef, onChange, onFocus, onSelect, id, ariaLabel } =
@@ -16,8 +17,8 @@ export function MoneyInput(props: MoneyInputProps) {
 
   return (
     <div className={styles.field}>
-      <span className={styles.prefix} aria-hidden>
-        R$
+      <span className={styles.prefix} aria-hidden={true}>
+        {CURRENCY_PREFIX}
       </span>
       <input
         ref={inputRef}

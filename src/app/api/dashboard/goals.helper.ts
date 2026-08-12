@@ -1,11 +1,11 @@
-import type { Goal } from "@/core/entities/goal.entity";
-import { addMonths } from "@/lib/months";
-import type { GoalPace, GoalProjection } from "./types";
+import type { Goal } from "@/core/entities/goal.entity.ts";
+import { addMonths } from "@/lib/months.ts";
+import type { GoalPace, GoalProjection } from "./types.ts";
 
-type Horizon = {
+interface Horizon {
   pace: number; // cents put aside per month — the whole monthly capacity
   current: number; // YYYYMM, the month saving starts in
-};
+}
 
 // Math.ceil: a wait always rounds UP, and a target smaller than one month's pace
 // is still one month, never zero. `months` is therefore >= 1 whenever it is not
@@ -19,7 +19,9 @@ type Horizon = {
 // the one guard the three metrics need, and it is shared: pace is payload-global,
 // so all three are null for every goal or for none.
 function paceOf(cents: number, pace: number, current: number): GoalPace {
-  if (pace <= 0) return null;
+  if (pace <= 0) {
+    return null;
+  }
   const months = Math.ceil(cents / pace);
   return { months, doneMonth: addMonths(current, months - 1) };
 }

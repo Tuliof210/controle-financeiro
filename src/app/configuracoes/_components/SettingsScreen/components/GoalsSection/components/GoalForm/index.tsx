@@ -1,10 +1,13 @@
 "use client";
 
-import { Button } from "@/components/Button";
-import { MoneyInput } from "@/components/MoneyInput";
-import { TextField } from "@/components/TextField";
-import { type GoalFormProps, useGoalForm } from "./hook";
+import { Button } from "@/components/Button/index.tsx";
+import { MoneyInput } from "@/components/MoneyInput/index.tsx";
+import { TextField } from "@/components/TextField/index.tsx";
+import { ERROR_GLYPH } from "@/lib/glyphs.ts";
+import { type GoalFormProps, useGoalForm } from "./hook.ts";
 import styles from "./style.module.scss";
+
+const NAME_ID = "goal-name";
 
 export function GoalForm({
   initial,
@@ -24,17 +27,17 @@ export function GoalForm({
 
   return (
     <div className={styles.form}>
-      <TextField id="goal-name" label="Nome" value={name} onChange={setName} />
+      <TextField id={NAME_ID} label="Nome" value={name} onChange={setName} />
       <MoneyInput
         valueCents={targetCents}
         onChange={setTargetCents}
         ariaLabel="Valor alvo"
       />
-      {shownError ? (
+      {Boolean(shownError) && (
         <p className={styles.error}>
-          <span aria-hidden>▲</span> {shownError}
+          <span aria-hidden={true}>{ERROR_GLYPH}</span> {shownError}
         </p>
-      ) : null}
+      )}
       <Button onClick={handleSubmit}>{submitLabel}</Button>
     </div>
   );

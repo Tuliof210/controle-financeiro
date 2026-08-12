@@ -9,12 +9,13 @@ async function request<T>(
   try {
     const res = await fetch(input, init);
     const body = await res.json().catch(() => null);
-    return res.ok
-      ? { data: body?.data as T }
-      : {
-          error: (body?.error?.message as string) ?? "Erro inesperado",
-          code: body?.error?.code as string | undefined,
-        };
+    if (res.ok) {
+      return { data: body?.data as T };
+    }
+    return {
+      error: (body?.error?.message as string | undefined) ?? "Erro inesperado",
+      code: body?.error?.code as string | undefined,
+    };
   } catch {
     return { error: "Erro inesperado" };
   }

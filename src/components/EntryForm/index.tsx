@@ -1,37 +1,13 @@
 "use client";
 
-import type { ReactNode } from "react";
-import { Button } from "@/components/Button";
-import { MoneyInput } from "@/components/MoneyInput";
-import { SelectField } from "@/components/SelectField";
-import { TextField } from "@/components/TextField";
-import type { Person } from "@/core/entities/person.entity";
-import { ENTRY_TYPES, SELECTED_VARIANT, TYPE_LABELS } from "@/lib/entry-types";
-import type { EntryFormBase } from "./entry-form.helper";
+import { Button } from "@/components/Button/index.tsx";
+import { MoneyInput } from "@/components/MoneyInput/index.tsx";
+import { SelectField } from "@/components/SelectField/index.tsx";
+import { TextField } from "@/components/TextField/index.tsx";
+import { ERROR_GLYPH } from "@/lib/glyphs.ts";
+import { TypeToggle } from "./components/TypeToggle/index.tsx";
+import type { EntryFormProps } from "./entry-form.helper.ts";
 import styles from "./style.module.scss";
-
-export type EntryFormFields = EntryFormBase & {
-  setName: (value: string) => void;
-  setValueCents: (value: number) => void;
-  setType: (value: EntryFormBase["type"]) => void;
-  setOwnerId: (value: string) => void;
-};
-
-export type EntryFormProps = {
-  // Prefixes the field ids, e.g. "forecast" -> "forecast-name".
-  idPrefix: string;
-  people: Person[];
-  fields: EntryFormFields;
-  // The entity's own month control — a MonthPicker (Movement) or an
-  // IntervalList (Forecast) — the one part of the form that genuinely
-  // differs, so the caller renders it. Always non-null: there is no global
-  // period to wait on any more, every month in the domain is fair game.
-  period: ReactNode;
-  error?: string;
-  submitLabel: string;
-  canSubmit: boolean;
-  onSubmit: () => void;
-};
 
 export function EntryForm({
   idPrefix,
@@ -67,17 +43,7 @@ export function EntryForm({
         onChange={setValueCents}
         ariaLabel="Valor"
       />
-      <div className={styles.typeToggle}>
-        {ENTRY_TYPES.map((kind) => (
-          <Button
-            key={kind}
-            variant={type === kind ? SELECTED_VARIANT[kind] : "ghost"}
-            onClick={() => setType(kind)}
-          >
-            {TYPE_LABELS[kind]}
-          </Button>
-        ))}
-      </div>
+      <TypeToggle value={type} onChange={setType} />
       <SelectField
         id={`${idPrefix}-owner`}
         label="Responsável"
@@ -89,11 +55,11 @@ export function EntryForm({
         }))}
       />
       {period}
-      {error ? (
+      {Boolean(error) && (
         <p className={styles.error}>
-          <span aria-hidden>▲</span> {error}
+          <span aria-hidden={true}>{ERROR_GLYPH}</span> {error}
         </p>
-      ) : null}
+      )}
       <Button onClick={onSubmit} disabled={!canSubmit}>
         {submitLabel}
       </Button>

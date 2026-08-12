@@ -7,17 +7,18 @@ deployed — it runs on the user's own machine.
 ## Stack
 Next 16 · React 19 · TypeScript · Prisma 7 over SQLite
 (`@prisma/adapter-better-sqlite3`) · Sass Modules · visx (charts) ·
-lucide-react (icons) · Zod (validation) · Biome (lint + format) · Playwright
-(e2e, the only test runner) · Storybook 10 (DS Foundations docs).
+lucide-react (icons) · Zod (validation) · Biome (lint + format) · Jest
+(unit tests, the project's single runner) · Storybook 10 (DS Foundations docs).
 
 ## Commands
 - `npm run db:setup` — `prisma generate` + `migrate deploy`; creates the local
-  tables. Idempotent; run once on a fresh checkout, plus `npx playwright
-  install chromium`.
+  tables. Idempotent; run once on a fresh checkout.
 - `npm run dev` · `npm run build` · `npm run start`
 - `npm run lint` — **two** gates: `biome check .` then `npm run lint:lines`
   (`scripts/check-line-cap.sh`). Both must pass. `lint:fix`, `format` write.
-- `npm run test:e2e` (alias `npm run test`) — the whole suite.
+- `npm run test` — the whole Jest suite · `npm run test:coverage` — the same
+  run plus the coverage table.
+- `npm run typecheck` — `tsc --noEmit`.
 - `npm run db:clean` — DELETE every row from `dev.db`.
 - `npm run storybook` (:6006) · `npm run build-storybook`
 
@@ -89,17 +90,25 @@ no undo (reason in the schema).
 
 **File size** — 100 lines, no exceptions: split the component, extract a
 `*.helper.ts`. Enforced by `scripts/check-line-cap.sh`, counting **plain**
-lines on files this branch touched under `src`/`e2e`, working tree included.
-Biome is not that check and cannot be: `noExcessiveLinesPerFile` never reads
-`.scss` and skips comment-only lines in `.ts`/`.tsx` — a 105-line file shipped
-under it. Both Biome rules stay on anyway (`maxLines: 100`, file + function) so
-a bloated function can't hide under the file cap.
+lines on files this branch touched under `src`, working tree included. Biome is
+not that check and cannot be: `noExcessiveLinesPerFile` never reads `.scss` and
+skips comment-only lines in `.ts`/`.tsx` — a 105-line file shipped under it. It
+is also scoped to `**/*.{js,jsx,ts,tsx}` by a `biome.json` override, because a
+270k-line `package-lock.json` is not a code smell; the shell script is the cap
+that covers `.scss`. Both Biome rules stay on anyway (`maxLines: 100`, file +
+function) so a bloated function can't hide under the file cap.
 
-**Testing** — end to end, by behaviour, and nothing else: a spec drives the
-real app in a real browser and asserts on the screen. Nothing is tested in
-isolation — no helper, hook, service or component has its own test, and there
-is no unit runner to write one with. Renaming or moving a helper must never
-redden a test; if it could, the test was pinning implementation detail. Specs
-in `e2e/` (Playwright). The run boots its own `next dev` on :3100, never
-reusing a running one, against a throwaway `e2e.db` it deletes and re-migrates
-every time — `dev.db` is never touched.
+**Testing** — Jest is the single runner, and every test is a unit test. **Sibling
+file convention**: the test for `<dir>/<name>.<ext>` is
+`<dir>/tests/<name>.test.<ext>`, same base extension (`.ts` for `.ts`, `.tsx`
+for `.tsx`) — one `tests/` folder per directory that holds code. `jest.config.ts`
+matches exactly that (`src/**/tests/*.test.{ts,tsx}`) and builds on `next/jest`,
+which supplies the SWC transform, CSS Modules, the `@/` alias and the `next/font`
+mock. `jsdom` is the default environment; a `lib` or API test opts into node with
+a `@jest-environment node` docblock rather than a second Jest project. Test files
+sit under `src`, so the 100-line cap polices them too.
+
+`jest.setup.ts` loads `@testing-library/jest-dom` and nothing else — deliberately:
+`src/infra/db/client.ts` opens the SQLite file at import time, so anything that
+instantiates Prisma in setup would put every test run on the owner's `dev.db`. A
+test that reaches a `service.ts` mocks the repository.

@@ -1,8 +1,12 @@
 "use client";
 
-import { FAMILY_PROFILE } from "@/lib/ownership";
-import { useProfileSelect } from "./hook";
+import { FAMILY_PROFILE } from "@/lib/ownership.ts";
+import { useProfileSelect } from "./hook.ts";
 import styles from "./style.module.scss";
+
+const COPY = {
+  familia: "Família",
+} as const;
 
 export function ProfileSelect() {
   const { profile, people, onChange } = useProfileSelect();
@@ -14,7 +18,7 @@ export function ProfileSelect() {
       value={profile}
       onChange={onChange}
     >
-      <option value={FAMILY_PROFILE}>Família</option>
+      <option value={FAMILY_PROFILE}>{COPY.familia}</option>
       {people.map((person) => (
         <option key={person.id} value={person.id}>
           {person.name}

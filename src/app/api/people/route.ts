@@ -1,44 +1,45 @@
 import type { NextRequest } from "next/server";
-import { z } from "zod";
-import { Prisma } from "@/generated/prisma/client";
-import { fail, ok, safeJson } from "@/lib/http";
-import { PALETTE } from "@/lib/palette";
+import { Prisma } from "@/generated/prisma/client.ts";
+import {
+  CONFLICT,
+  CREATED,
+  fail,
+  INTERNAL,
+  NOT_FOUND,
+  ok,
+  safeJson,
+  UNPROCESSABLE,
+} from "@/lib/http.ts";
+import { createSchema, updateSchema } from "./schema.ts";
 import {
   createPerson,
   deletePerson,
   listPeople,
   updatePerson,
-} from "./service";
-
-const createSchema = z.object({
-  name: z.string().trim().min(1).max(60),
-  color: z.enum(PALETTE),
-});
-
-const updateSchema = createSchema.extend({ id: z.string().min(1) });
+} from "./service.ts";
 
 export async function GET() {
   try {
     return ok(await listPeople());
   } catch {
-    return fail("Erro ao carregar pessoas", "internal", 500);
+    return fail("Erro ao carregar pessoas", "internal", INTERNAL);
   }
 }
 
 export async function POST(request: NextRequest) {
   const parsed = createSchema.safeParse(await safeJson(request));
   if (!parsed.success) {
-    return fail("Dados inválidos", "validation", 422);
+    return fail("Dados inválidos", "validation", UNPROCESSABLE);
   }
 
   try {
-    return ok(await createPerson(parsed.data), 201);
+    return ok(await createPerson(parsed.data), CREATED);
   } catch (error) {
     if (
       error instanceof Prisma.PrismaClientKnownRequestError &&
       error.code === "P2002"
     ) {
-      return fail("Já existe uma pessoa com esse nome", "duplicate", 409);
+      return fail("Já existe uma pessoa com esse nome", "duplicate", CONFLICT);
     }
     throw error;
   }
@@ -47,7 +48,7 @@ export async function POST(request: NextRequest) {
 export async function PUT(request: NextRequest) {
   const parsed = updateSchema.safeParse(await safeJson(request));
   if (!parsed.success) {
-    return fail("Dados inválidos", "validation", 422);
+    return fail("Dados inválidos", "validation", UNPROCESSABLE);
   }
 
   try {
@@ -55,20 +56,24 @@ export async function PUT(request: NextRequest) {
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       if (error.code === "P2002") {
-        return fail("Já existe uma pessoa com esse nome", "duplicate", 409);
+        return fail(
+          "Já existe uma pessoa com esse nome",
+          "duplicate",
+          CONFLICT,
+        );
       }
       if (error.code === "P2025") {
-        return fail("Pessoa não encontrada", "not_found", 404);
+        return fail("Pessoa não encontrada", "not_found", NOT_FOUND);
       }
     }
-    return fail("Erro ao atualizar pessoa", "internal", 500);
+    return fail("Erro ao atualizar pessoa", "internal", INTERNAL);
   }
 }
 
 export async function DELETE(request: NextRequest) {
   const id = request.nextUrl.searchParams.get("id");
   if (!id) {
-    return fail("Parâmetro id é obrigatório", "validation", 422);
+    return fail("Parâmetro id é obrigatório", "validation", UNPROCESSABLE);
   }
 
   try {
@@ -77,10 +82,10 @@ export async function DELETE(request: NextRequest) {
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       if (error.code === "P2025") {
-        return fail("Pessoa não encontrada", "not_found", 404);
+        return fail("Pessoa não encontrada", "not_found", NOT_FOUND);
       }
       if (error.code === "P2003") {
-        return fail("Pessoa possui registros vinculados", "conflict", 409);
+        return fail("Pessoa possui registros vinculados", "conflict", CONFLICT);
       }
     }
     throw error;

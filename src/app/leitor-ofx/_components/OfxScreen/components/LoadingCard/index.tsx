@@ -1,6 +1,6 @@
 import { FileUp } from "lucide-react";
-import { SectionCard } from "@/components/SectionCard";
-import { type LoadingCardProps, useLoadingCard } from "./hook";
+import { SectionCard } from "@/components/SectionCard/index.tsx";
+import { type LoadingCardProps, useLoadingCard } from "./hook.ts";
 import styles from "./style.module.scss";
 
 export function LoadingCard(props: LoadingCardProps) {
@@ -21,7 +21,7 @@ export function LoadingCard(props: LoadingCardProps) {
       </div>
       {/* aria-hidden on the whole block: the progressbar already announces the
           state, and five decorative bars announce nothing. */}
-      <div className={styles.skeleton} aria-hidden>
+      <div className={styles.skeleton} aria-hidden={true}>
         {widths.map((width) => (
           <div
             key={width}

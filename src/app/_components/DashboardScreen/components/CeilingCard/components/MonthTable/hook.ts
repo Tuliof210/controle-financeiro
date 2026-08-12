@@ -2,7 +2,7 @@
 // the payload and the formatting to CeilingCard's hook.
 import type { CSSProperties } from "react";
 
-export type MonthRow = {
+interface MonthRow {
   key: number;
   label: string;
   isCurrent: boolean;
@@ -10,11 +10,15 @@ export type MonthRow = {
   spend: string; // this month's ceiling
   left: string; // what is left once it has been spent
   share: number; // spend / balance, already clamped to [0, 1]
-};
+}
 
-export type MonthTableProps = { rows: MonthRow[] };
+interface MonthTableProps {
+  rows: MonthRow[];
+}
 
-export function useMonthTable({ rows }: MonthTableProps) {
+const PERCENT = 100;
+
+function useMonthTable({ rows }: MonthTableProps) {
   return {
     // The share reaches CSS as a custom property on the row, because the row
     // itself paints the bar — a `<div>` inside a `<tr>` is not valid table
@@ -23,7 +27,10 @@ export function useMonthTable({ rows }: MonthTableProps) {
     // a custom property in a style object; it is written once, here.
     rows: rows.map((row) => ({
       ...row,
-      style: { "--share": `${row.share * 100}%` } as CSSProperties,
+      style: { "--share": `${row.share * PERCENT}%` } as CSSProperties,
     })),
   };
 }
+
+export type { MonthRow, MonthTableProps };
+export { useMonthTable };

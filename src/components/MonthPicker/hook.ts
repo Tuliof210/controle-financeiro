@@ -1,18 +1,18 @@
-import { useEffect } from "react";
+import { type ChangeEvent, useEffect } from "react";
 import {
-  composeYYYYMM,
-  currentYYYYMM,
+  composeYyyymm,
+  currentYyyymm,
   MONTH_LABELS,
-  splitYYYYMM,
+  splitYyyymm,
   yearOptions,
-} from "@/lib/months";
+} from "@/lib/months.ts";
 
-export type MonthPickerProps = {
+export interface MonthPickerProps {
   label: string;
   value: number | null;
   onChange: (yyyymm: number) => void;
   id: string;
-};
+}
 
 export function useMonthPicker({
   label,
@@ -22,11 +22,11 @@ export function useMonthPicker({
 }: MonthPickerProps) {
   useEffect(() => {
     if (value === null) {
-      onChange(currentYYYYMM());
+      onChange(currentYyyymm());
     }
   }, [value, onChange]);
 
-  const { year, month } = splitYYYYMM(value ?? currentYYYYMM());
+  const { year, month } = splitYyyymm(value ?? currentYyyymm());
 
   return {
     label,
@@ -35,9 +35,11 @@ export function useMonthPicker({
     month,
     months: MONTH_LABELS,
     years: yearOptions(),
-    onMonthChange: (nextMonth: number) =>
-      onChange(composeYYYYMM(year, nextMonth)),
-    onYearChange: (nextYear: number) =>
-      onChange(composeYYYYMM(nextYear, month)),
+    // The <select> event is unwrapped here so index.tsx passes a plain
+    // reference instead of building a closure in the JSX.
+    onMonthChange: (event: ChangeEvent<HTMLSelectElement>) =>
+      onChange(composeYyyymm(year, Number(event.target.value))),
+    onYearChange: (event: ChangeEvent<HTMLSelectElement>) =>
+      onChange(composeYyyymm(Number(event.target.value), month)),
   };
 }

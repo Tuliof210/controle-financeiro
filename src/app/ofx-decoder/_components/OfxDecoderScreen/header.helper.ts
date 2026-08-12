@@ -1,31 +1,45 @@
+// A 2.x instruction closes with `?>`, so the `?` is not part of the value.
+const innerEnd = (text: string, end: number): number => {
+  if (text[end - 1] === "?") {
+    return end - 1;
+  }
+  return end;
+};
 // Header entries from either OFX dialect: 1.x's "KEY:VALUE" lines before the
 // first tag, or 2.x's "<?xml?>" / "<?OFX?>" instructions. Read here so
 // tag-tree.helper.ts's parser never sees one and grows a tree node literally
 // named "?xml".
-export type HeaderEntry = { key: string; value: string };
+interface HeaderEntry {
+  key: string;
+  value: string;
+}
 
 // Real OFX is pretty-printed with a newline (sometimes indentation) between
 // tags — every position handed to the tag parser has to land exactly on the
 // next `<`, never on the whitespace before it.
-export function skipWs(text: string, at: number): number {
+const WHITESPACE = /\s/;
+const LINE_BREAK = /\r?\n/;
+
+function skipWs(text: string, at: number): number {
   let i = at;
-  while (i < text.length && /\s/.test(text[i])) {
-    i++;
+  while (i < text.length && WHITESPACE.test(text[i])) {
+    i += 1;
   }
   return i;
 }
 
 function splitEntry(text: string, at: number): HeaderEntry {
-  return at === -1
-    ? { key: text, value: "" }
-    : { key: text.slice(0, at), value: text.slice(at + 1) };
+  if (at === -1) {
+    return { key: text, value: "" };
+  }
+  return { key: text.slice(0, at), value: text.slice(at + 1) };
 }
 
 // 1.x: "KEY:VALUE" lines in the prefix before the first tag. 2.x's prefix is
 // empty (it opens straight on `<?xml`), so this yields no entries.
 function sgmlEntries(prefix: string): HeaderEntry[] {
   return prefix
-    .split(/\r?\n/)
+    .split(LINE_BREAK)
     .map((line) => line.trim())
     .filter(Boolean)
     .map((line) => splitEntry(line, line.indexOf(":")));
@@ -41,8 +55,8 @@ function xmlEntries(text: string, at: number) {
     if (end === -1) {
       return { entries, next: text.length };
     }
-    const inner = text.slice(i + 2, text[end - 1] === "?" ? end - 1 : end);
-    entries.push(splitEntry(inner, inner.search(/\s/)));
+    const inner = text.slice(i + 2, innerEnd(text, end));
+    entries.push(splitEntry(inner, inner.search(WHITESPACE)));
     i = skipWs(text, end + 1);
   }
   return { entries, next: i };
@@ -51,8 +65,11 @@ function xmlEntries(text: string, at: number) {
 // Both dialects in one call: SGML lines before `firstTag`, then XML
 // instructions from there. `next` is the index where the real tag tree
 // begins — `<OFX>`, once the header (of either shape, or neither) is past.
-export function readHeader(text: string, firstTag: number) {
+function readHeader(text: string, firstTag: number) {
   const sgml = sgmlEntries(text.slice(0, firstTag));
   const { entries: xml, next } = xmlEntries(text, firstTag);
   return { entries: [...sgml, ...xml], next };
 }
+
+export type { HeaderEntry };
+export { readHeader, skipWs };

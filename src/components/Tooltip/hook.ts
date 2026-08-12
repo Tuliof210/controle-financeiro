@@ -1,13 +1,13 @@
 import type { KeyboardEvent } from "react";
 import { useId, useState } from "react";
 
-export type TooltipProps = {
+export interface TooltipProps {
   text: string;
   // Accessible name of the trigger. Defaults to the generic phrasing; callers
   // rendering several tooltips on one screen should pass a distinct one, or
   // every trigger reads identically in the element list.
   label?: string;
-};
+}
 
 export function useTooltip({
   text,
@@ -20,7 +20,9 @@ export function useTooltip({
   const [dismissed, setDismissed] = useState(false);
 
   const onKeyDown = (event: KeyboardEvent<HTMLButtonElement>) => {
-    if (event.key !== "Escape" || dismissed) return;
+    if (event.key !== "Escape" || dismissed) {
+      return;
+    }
     // Consume it: this primitive is used inside cards that can sit in a native
     // <dialog>, where the same keypress would otherwise also close the modal.
     event.stopPropagation();

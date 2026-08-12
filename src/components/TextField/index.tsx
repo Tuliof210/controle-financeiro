@@ -1,4 +1,5 @@
-import { type TextFieldProps, useTextField } from "./hook";
+import { ERROR_GLYPH } from "@/lib/glyphs.ts";
+import { type TextFieldProps, useTextField } from "./hook.ts";
 import styles from "./style.module.scss";
 
 export function TextField(props: TextFieldProps) {
@@ -16,11 +17,11 @@ export function TextField(props: TextFieldProps) {
         onChange={onChange}
         {...inputProps}
       />
-      {error ? (
+      {Boolean(error) && (
         <p className={styles.error}>
-          <span aria-hidden>▲</span> {error}
+          <span aria-hidden={true}>{ERROR_GLYPH}</span> {error}
         </p>
-      ) : null}
+      )}
     </div>
   );
 }

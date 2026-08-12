@@ -4,7 +4,10 @@ type TooltipState = { x: number; y: number; text: string } | null;
 // Structural, not React.PointerEvent<T> — showTooltip only ever reads
 // clientX/clientY, so any pointer event from any mark element fits without
 // generic-variance juggling.
-type PointerLocation = { clientX: number; clientY: number };
+interface PointerLocation {
+  clientX: number;
+  clientY: number;
+}
 
 // Called from the chart that owns the marks (BalanceLineChart,
 // MonthlyBarChart), not from ChartTooltip itself: the trigger (a dot or bar)

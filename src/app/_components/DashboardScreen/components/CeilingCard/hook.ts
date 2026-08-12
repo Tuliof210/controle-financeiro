@@ -1,15 +1,21 @@
-import type { Ceiling } from "@/app/api/dashboard/ceiling.types";
-import { type CeilingCap, META_CAP } from "@/lib/ceiling-caps";
-import { formatMoney } from "@/lib/money";
-import { formatYyyymm } from "@/lib/months";
-import { useShowAll } from "../../show-all.hook";
+import type { Ceiling } from "@/app/api/dashboard/ceiling.types.ts";
+import { type CeilingCap, META_CAP } from "@/lib/ceiling-caps.ts";
+import { formatMoney } from "@/lib/money.ts";
+import { formatYyyymm } from "@/lib/months.ts";
+import { useShowAll } from "../../show-all.hook.ts";
+import {
+  limitLabel,
+  monthsWord,
+  noteFor,
+  shareOf,
+} from "./ceiling-card.helper.ts";
 
 // `current` is the range's current month — the only thing that makes a row the
 // current one. It rides along in the same payload, so no extra fetch.
 //
 // `cap` passes through to the selector, and is read once more here: under Meta
 // the figure has two possible limits and the badge must name the right one.
-export type CeilingCardProps = {
+export interface CeilingCardProps {
   ceiling: Ceiling;
   // Baked into the figures below, so the card never prints it — only compares
   // against it, to tell "the goal capped this month" from "a later month did".
@@ -17,7 +23,7 @@ export type CeilingCardProps = {
   current: number;
   cap: CeilingCap;
   onCapChange: (cap: CeilingCap) => void;
-};
+}
 
 export function useCeilingCard({
   ceiling,
@@ -31,22 +37,14 @@ export function useCeilingCard({
   // Nothing is computed here: the payload carries both the balance arriving at
   // the month and what is left after it, precisely so the screen cannot arrive
   // at a third answer.
-  const rows = months.map((month) => ({
-    key: month.month,
-    label: formatYyyymm(month.month),
-    isCurrent: month.month === current,
-    balance: formatMoney(month.ceilingBalance),
-    spend: formatMoney(month.budget),
-    left: formatMoney(month.ceilingLeft),
-    // How much of the balance ARRIVING at the month its ceiling takes — the two
-    // figures either side of it, as one proportion. Guarded because a zero
-    // balance is a real state (a month whose money has not arrived yet) and it
-    // is the divisor; clamped because the type says `budget: number`, not
-    // "at most the cap's share", even though the arithmetic guarantees it.
-    share:
-      month.ceilingBalance > 0
-        ? Math.min(1, Math.max(0, month.budget / month.ceilingBalance))
-        : 0,
+  const rows = months.map((row) => ({
+    key: row.month,
+    label: formatYyyymm(row.month),
+    isCurrent: row.month === current,
+    balance: formatMoney(row.ceilingBalance),
+    spend: formatMoney(row.budget),
+    left: formatMoney(row.ceilingLeft),
+    share: shareOf(row.budget, row.ceilingBalance),
   }));
 
   const show = useShowAll(rows);
@@ -55,20 +53,15 @@ export function useCeilingCard({
   // reaching the goal IS the goal having bound it. Equality counts as the goal:
   // both are the limit, and the goal is the one the reader just chose.
   const byMeta = cap === META_CAP && meta !== null && monthly === meta;
-  const month = tightest ? `Limitado por ${formatYyyymm(tightest)}` : null;
-  const limit = byMeta ? "Limitado pela meta" : month;
+  const limit = limitLabel(byMeta, tightest);
 
   return {
     // Empty means "nothing to offer anywhere in the period", NOT "nothing this
     // month". An owner whose money starts in a later month has `monthly === 0`
     // and real room further down the list — hiding it would keep broken exactly
     // the half of the problem this card was rewritten to fix.
-    empty: months.every((month) => month.budget === 0),
-    // Naming the FIRST month in the red says when it breaks, which is the
-    // deadline to act on; a deeper month later does not move that date.
-    note: firstRed
-      ? `Sem teto: ${formatYyyymm(firstRed.month)} fecha ${formatMoney(firstRed.shortfall)} no vermelho.`
-      : "Sem teto: o saldo acumulado projetado não cobre nenhum gasto extra recorrente.",
+    empty: months.every((row) => row.budget === 0),
+    note: noteFor(firstRed),
     monthly: formatMoney(monthly),
     // The divisions already happened in the payload; this only formats them.
     // Two labelled figures rather than the one "x/sem · y/dia" string they used
@@ -81,7 +74,7 @@ export function useCeilingCard({
     // `months` is the range's REMAINING months (current .. end, per
     // `ceiling.types.ts`), never its total length — it is exactly what the
     // column under the headline lists, which is why it sits on the headline.
-    monthsLeft: `${months.length} ${months.length === 1 ? "mês restante" : "meses restantes"}`,
+    monthsLeft: `${months.length} ${monthsWord(months.length)}`,
     // Null exactly when `monthly` is 0, i.e. exactly when `empty` is true, so
     // the badge simply does not render in that state.
     // Naming the tightest month is honest only while the HEADROOM binds. Under
