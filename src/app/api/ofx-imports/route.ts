@@ -32,7 +32,7 @@ const createSchema = z.object({
   movements: z.array(movementRowSchema).min(1).max(MAX_ROWS),
 });
 
-export async function GET(request: NextRequest) {
+async function GET(request: NextRequest) {
   const hash = request.nextUrl.searchParams.get("hash");
   if (!hash) {
     return fail("Dados inválidos", "validation", UNPROCESSABLE);
@@ -45,7 +45,7 @@ export async function GET(request: NextRequest) {
   }
 }
 
-export async function POST(request: NextRequest) {
+async function POST(request: NextRequest) {
   const parsed = createSchema.safeParse(await safeJson(request));
   if (!parsed.success) {
     return fail("Dados inválidos", "validation", UNPROCESSABLE);
@@ -75,3 +75,5 @@ function refusal(error: unknown): [string, string, number] {
   }
   return ["Erro ao importar o extrato", "internal", INTERNAL];
 }
+
+export { GET, POST };

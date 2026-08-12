@@ -3,14 +3,14 @@ import type { Movement } from "@/core/entities/movement.entity.ts";
 
 // The four raw sums a month accumulates before the two sides are reconciled.
 // Local to this file: the payload only ever carries the reconciled result.
-export interface Sums {
+interface Sums {
   realIncome: number;
   realExpense: number;
   estIncome: number;
   estExpense: number;
 }
 
-export const emptySums = (): Sums => ({
+const emptySums = (): Sums => ({
   realIncome: 0,
   realExpense: 0,
   estIncome: 0,
@@ -21,7 +21,7 @@ export const emptySums = (): Sums => ({
 // point rather than disappearing from the series. Entries whose month is not
 // in the global range fall through: nothing server-side clamps Movement.month
 // or ForecastMonth.month, and the dashboard is deliberately range-only.
-export function accumulate(
+function accumulate(
   months: number[],
   movements: Movement[],
   forecasts: Forecast[],
@@ -61,3 +61,6 @@ function addForecasts(sums: Map<number, Sums>, forecasts: Forecast[]): void {
     }
   }
 }
+
+export type { Sums };
+export { accumulate, emptySums };

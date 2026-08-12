@@ -11,7 +11,7 @@ import { apiGet } from "@/lib/api.ts";
 import { FAMILY_PROFILE } from "@/lib/ownership.ts";
 import { isStaleProfile, resolveLabel } from "./profile.helper.ts";
 
-export interface ProfileProviderProps {
+interface ProfileProviderProps {
   children: ReactNode;
 }
 
@@ -22,9 +22,9 @@ interface ProfileContextValue {
   people: Person[];
 }
 
-export const ProfileContext = createContext<ProfileContextValue | null>(null);
+const ProfileContext = createContext<ProfileContextValue | null>(null);
 
-export function useProfileState(): ProfileContextValue {
+function useProfileState(): ProfileContextValue {
   const [profile, setProfileRaw] = useState<string>(FAMILY_PROFILE);
   const [people, setPeople] = useState<Person[]>([]);
   const [peopleLoaded, setPeopleLoaded] = useState(false);
@@ -76,10 +76,13 @@ export function useProfileState(): ProfileContextValue {
   };
 }
 
-export function useProfile() {
+function useProfile() {
   const ctx = useContext(ProfileContext);
   if (!ctx) {
     throw new Error("useProfile must be used within a ProfileProvider");
   }
   return ctx;
 }
+
+export type { ProfileProviderProps };
+export { ProfileContext, useProfile, useProfileState };

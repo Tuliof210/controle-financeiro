@@ -1,8 +1,8 @@
 // The inline sparkline every KPI card draws beside its headline. Pure geometry,
 // shared by every card that draws one.
 
-export const SPARK_W = 112;
-export const SPARK_H = 30;
+const SPARK_W = 112;
+const SPARK_H = 30;
 
 // The baseline sits 3px above the bottom edge and the plot is 8px shorter than
 // the box, so a 2px stroke never clips against either edge.
@@ -18,7 +18,7 @@ const PLOT_H = SPARK_H - PLOT_INSET;
  * an empty `d` attribute is a console warning in some browsers and an invisible
  * bug in others.
  */
-export function spark(values: number[]): { line: string; area: string } | null {
+function spark(values: number[]): { line: string; area: string } | null {
   if (values.length === 0) {
     return null;
   }
@@ -40,3 +40,5 @@ export function spark(values: number[]): { line: string; area: string } | null {
 
   return { line, area: `${line} L ${SPARK_W} ${SPARK_H} L 0 ${SPARK_H} Z` };
 }
+
+export { SPARK_H, SPARK_W, spark };

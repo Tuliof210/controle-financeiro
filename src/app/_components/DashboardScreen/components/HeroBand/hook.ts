@@ -3,7 +3,7 @@ import { formatMoney, formatMoneyShort } from "@/lib/money.ts";
 import { addMonths, formatYyyymm } from "@/lib/months.ts";
 import type { BoardData } from "../Board/hook.ts";
 
-export interface HeroBandProps {
+interface HeroBandProps {
   data?: BoardData;
 }
 
@@ -65,7 +65,7 @@ function buildFacts(points: MonthPoint[]) {
 // copy and renders while the payload is loading, missing or in error — only the
 // numbers wait for it, which is why they are one nullable object rather than
 // six independently nullable fields.
-export function useHeroBand({ data }: HeroBandProps) {
+function useHeroBand({ data }: HeroBandProps) {
   if (!data) {
     return { figures: null };
   }
@@ -95,3 +95,6 @@ export function useHeroBand({ data }: HeroBandProps) {
     },
   };
 }
+
+export type { HeroBandProps };
+export { useHeroBand };

@@ -5,7 +5,9 @@ const adapter = new PrismaBetterSqlite3({
   url: process.env.DATABASE_URL ?? "file:./dev.db",
 });
 const store = globalThis as unknown as { prisma?: PrismaClient };
-export const prisma = store.prisma ?? new PrismaClient({ adapter });
+const prisma = store.prisma ?? new PrismaClient({ adapter });
 if (process.env.NODE_ENV !== "production") {
   store.prisma = prisma;
 }
+
+export { prisma };

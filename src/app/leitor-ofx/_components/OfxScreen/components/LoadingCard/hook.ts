@@ -1,4 +1,4 @@
-export interface LoadingCardProps {
+interface LoadingCardProps {
   fileName: string;
 }
 
@@ -11,6 +11,9 @@ const NARROW = 71;
 const NARROWEST = 64;
 const SKELETON_WIDTHS = [WIDE, MEDIUM, MEDIUM_WIDE, NARROWEST, NARROW];
 
-export function useLoadingCard({ fileName }: LoadingCardProps) {
+function useLoadingCard({ fileName }: LoadingCardProps) {
   return { fileName, widths: SKELETON_WIDTHS };
 }
+
+export type { LoadingCardProps };
+export { useLoadingCard };

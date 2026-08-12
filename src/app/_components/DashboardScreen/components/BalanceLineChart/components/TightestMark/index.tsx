@@ -1,7 +1,7 @@
 import {
   TAG_TONES,
   TIGHTEST_RULE_DASHARRAY,
-} from "../../../../chart.config.ts";
+} from "../../../../chart-marks.config.ts";
 import { ChartTag } from "../../../ChartTag/index.tsx";
 import { type TightestMarkProps, useTightestMark } from "./hook.ts";
 

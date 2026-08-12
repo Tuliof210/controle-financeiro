@@ -2,7 +2,7 @@ import { amountToCents, dateToMonth } from "./amount.helper.ts";
 import { blocks, leaf } from "./ofx-tags.helper.ts";
 import type { OfxAccount } from "./types.ts";
 
-export interface OfxTransaction {
+interface OfxTransaction {
   month: number;
   cents: number;
 }
@@ -13,7 +13,7 @@ interface OfxStatement {
   transactions: OfxTransaction[];
 }
 
-export interface OfxParse {
+interface OfxParse {
   org: string | null;
   fid: string | null;
   statements: OfxStatement[];
@@ -65,7 +65,7 @@ function readStatement(block: string): OfxStatement {
 // Both OFX dialects in one pass: 1.x (SGML) omits leaf closing tags but closes
 // its aggregates, and 2.x (XML) closes both — so "<TAG>value up to the next <"
 // reads every leaf, and "<TAG>…</TAG>" reads every aggregate.
-export function parseOfx(text: string): OfxParse {
+function parseOfx(text: string): OfxParse {
   return {
     org: leaf(text, "ORG"),
     fid: leaf(text, "FID"),
@@ -74,3 +74,6 @@ export function parseOfx(text: string): OfxParse {
     statements: blocks(text, "STMTRS").map(readStatement),
   };
 }
+
+export type { OfxParse, OfxTransaction };
+export { parseOfx };

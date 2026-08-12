@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { apiGet } from "@/lib/api.ts";
 
-export interface ImportedState {
+interface ImportedState {
   imported: boolean;
   importedAt: string | null;
 }
@@ -12,7 +12,7 @@ const NOT_IMPORTED: ImportedState = { imported: false, importedAt: null };
 // the one piece of ImportAction's state that nothing on the screen sets — it
 // answers from the database, which is why the disabled button survives a
 // reload with an empty sessionStorage.
-export function useImportedRecord(fileHash: string) {
+function useImportedRecord(fileHash: string) {
   const [record, setRecord] = useState<ImportedState>(NOT_IMPORTED);
 
   // Keyed on the hash, so swapping the file re-asks rather than carrying the
@@ -35,3 +35,6 @@ export function useImportedRecord(fileHash: string) {
 
   return [record, setRecord] as const;
 }
+
+export type { ImportedState };
+export { useImportedRecord };

@@ -1,4 +1,7 @@
-import { PROJECTED_BAND_FILL, projectedRuleProps } from "../../chart.config.ts";
+import {
+  PROJECTED_BAND_FILL,
+  projectedRuleProps,
+} from "../../chart-marks.config.ts";
 import { ChartFrame } from "../ChartFrame/index.tsx";
 import { ChartTag } from "../ChartTag/index.tsx";
 import { useChartTooltip } from "../ChartTooltip/hook.ts";

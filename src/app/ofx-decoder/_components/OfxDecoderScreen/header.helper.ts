@@ -2,7 +2,7 @@
 // first tag, or 2.x's "<?xml?>" / "<?OFX?>" instructions. Read here so
 // tag-tree.helper.ts's parser never sees one and grows a tree node literally
 // named "?xml".
-export interface HeaderEntry {
+interface HeaderEntry {
   key: string;
   value: string;
 }
@@ -13,7 +13,7 @@ export interface HeaderEntry {
 const WHITESPACE = /\s/;
 const LINE_BREAK = /\r?\n/;
 
-export function skipWs(text: string, at: number): number {
+function skipWs(text: string, at: number): number {
   let i = at;
   while (i < text.length && WHITESPACE.test(text[i])) {
     i += 1;
@@ -57,8 +57,11 @@ function xmlEntries(text: string, at: number) {
 // Both dialects in one call: SGML lines before `firstTag`, then XML
 // instructions from there. `next` is the index where the real tag tree
 // begins — `<OFX>`, once the header (of either shape, or neither) is past.
-export function readHeader(text: string, firstTag: number) {
+function readHeader(text: string, firstTag: number) {
   const sgml = sgmlEntries(text.slice(0, firstTag));
   const { entries: xml, next } = xmlEntries(text, firstTag);
   return { entries: [...sgml, ...xml], next };
 }
+
+export type { HeaderEntry };
+export { readHeader, skipWs };

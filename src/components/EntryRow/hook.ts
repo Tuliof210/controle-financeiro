@@ -4,7 +4,7 @@ import type { Entry } from "@/lib/entry-types.ts";
 import { formatMoney } from "@/lib/money.ts";
 import styles from "./style.module.scss";
 
-export interface EntryRowProps {
+interface EntryRowProps {
   entry: Entry;
   person?: Person;
   // Already-formatted period, the one part that differs per entity (a
@@ -41,7 +41,7 @@ const initialOf = (name: string | undefined): string | null => {
   return head.toUpperCase();
 };
 
-export function useEntryRow({ entry, person, ...rest }: EntryRowProps) {
+function useEntryRow({ entry, person, ...rest }: EntryRowProps) {
   const { color, name: owner = "—" } = person ?? {};
 
   return {
@@ -56,3 +56,6 @@ export function useEntryRow({ entry, person, ...rest }: EntryRowProps) {
     owner,
   };
 }
+
+export type { EntryRowProps };
+export { useEntryRow };

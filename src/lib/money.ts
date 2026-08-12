@@ -10,7 +10,7 @@ const MIN_DIGITS = 3;
 const CENTS_IN_TENTH_OF_K = 10_000;
 const TENTHS = 10;
 
-export const formatCents = (cents: number): string => {
+const formatCents = (cents: number): string => {
   const s = String(Math.abs(Math.trunc(cents))).padStart(MIN_DIGITS, "0");
   return `${s.slice(0, -2)},${s.slice(-2)}`;
 };
@@ -24,21 +24,21 @@ const sign = (cents: number): string => (cents < 0 ? "−" : "");
 
 // cents -> "R$ 1.234,56" / "−R$ 640,00". The display formatter: signed and
 // grouped, unlike formatCents.
-export const formatMoney = (cents: number): string => {
+const formatMoney = (cents: number): string => {
   const [whole, fraction] = formatCents(cents).split(",");
   return `${sign(cents)}R$ ${group(whole)},${fraction}`;
 };
 
 // cents -> "R$ 1.234", dropping the cents (truncated toward zero, never
 // rounded up). For chart axis labels, where two decimals are noise.
-export const formatMoneyShort = (cents: number): string =>
+const formatMoneyShort = (cents: number): string =>
   `${sign(cents)}R$ ${group(formatCents(cents).split(",")[0])}`;
 
 // cents -> "R$ 12,3K" / "R$ 20K" / "−R$ 2,8K": thousands of reais, one
 // decimal, truncated (never rounded up, matching formatCents), the decimal
 // dropped when it is zero. For chart Y axis labels on mobile, where
 // formatMoneyShort's full grouped digits ("R$ 12.345") are too wide.
-export const formatMoneyShortK = (cents: number): string => {
+const formatMoneyShortK = (cents: number): string => {
   const tenthsOfK = Math.trunc(Math.abs(cents) / CENTS_IN_TENTH_OF_K);
   const whole = Math.trunc(tenthsOfK / TENTHS);
   const tenth = tenthsOfK % TENTHS;
@@ -49,8 +49,17 @@ export const formatMoneyShortK = (cents: number): string => {
 // Exported so a handler validating cents can reject at the same ceiling the
 // input itself enforces, instead of inventing a second one.
 const MAX_DIGITS = 15;
-export const MAX_CENTS = 100_000_000_000; // R$ 1 billion guard against overflow
-export const digitsToCents = (raw: string): number => {
+const MAX_CENTS = 100_000_000_000; // R$ 1 billion guard against overflow
+const digitsToCents = (raw: string): number => {
   const digits = raw.replace(/\D/g, "").slice(0, MAX_DIGITS);
   return Math.min(Number.parseInt(digits || "0", 10), MAX_CENTS);
+};
+
+export {
+  digitsToCents,
+  formatCents,
+  formatMoney,
+  formatMoneyShort,
+  formatMoneyShortK,
+  MAX_CENTS,
 };

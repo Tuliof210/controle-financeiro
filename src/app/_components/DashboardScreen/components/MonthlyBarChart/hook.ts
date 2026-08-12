@@ -4,7 +4,7 @@ import { formatMoney } from "@/lib/money.ts";
 import { formatYyyymm } from "@/lib/months.ts";
 import { buildFrame } from "../../chart-frame.helper.ts";
 
-export interface MonthlyBarChartProps {
+interface MonthlyBarChartProps {
   points: MonthPoint[];
   // First month the payload calls a projection. The bars read per-point
   // `incomeEstimated`/`expenseEstimated`; this is the one figure saying where
@@ -23,7 +23,7 @@ const SERIES = [
   { key: "expense", label: "Saídas", fill: "var(--color-negative)" },
 ] as const;
 
-export function useMonthlyBarChart({
+function useMonthlyBarChart({
   points,
   dashedFrom,
   width,
@@ -86,3 +86,6 @@ export function useMonthlyBarChart({
         : { x: bandStart, width: Math.max(0, frame.innerWidth - bandStart) },
   };
 }
+
+export type { MonthlyBarChartProps };
+export { useMonthlyBarChart };

@@ -2,7 +2,7 @@ import type { GoalPace, GoalProjection } from "@/app/api/dashboard/types.ts";
 import { formatMoneyShort } from "@/lib/money.ts";
 import { MONTH_LABELS } from "@/lib/months.ts";
 
-export interface GoalRowProps {
+interface GoalRowProps {
   goal: GoalProjection;
   // Months left in the projection — what each bar is measured against. A metric
   // landing beyond it fills the bar, which is honest: completion dates are
@@ -44,7 +44,7 @@ function landing(pace: GoalPace): string {
 }
 
 // Calls no React hook, despite the `use` prefix the convention gives it.
-export function useGoalRow({ goal, horizon }: GoalRowProps) {
+function useGoalRow({ goal, horizon }: GoalRowProps) {
   return {
     name: goal.name,
     target: formatMoneyShort(goal.targetCents),
@@ -73,3 +73,6 @@ export function useGoalRow({ goal, horizon }: GoalRowProps) {
     }),
   };
 }
+
+export type { GoalRowProps };
+export { useGoalRow };

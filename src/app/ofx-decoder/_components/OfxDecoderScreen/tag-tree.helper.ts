@@ -5,37 +5,13 @@
 // in src/app/api/ofx/ofx-tags.helper.ts avoids, quadratic on a file full of
 // unclosed tags. Every index below only moves forward, so this stays linear.
 import { readHeader, skipWs } from "./header.helper.ts";
-
-let nextId = 0;
-const takeId = (): number => {
-  const id = nextId;
-  nextId += 1;
-  return id;
-};
-
-export type OfxNode =
-  | { id: number; tag: string; value: string }
-  | { id: number; tag: string; children: OfxNode[] };
-
-export interface OfxTagTree {
-  header: OfxNode[];
-  root: OfxNode | null;
-}
-
-// Trimmed like src/app/api/ofx/ofx-tags.helper.ts's `leaf()`: the line break
-// and indentation a pretty-printed file puts before the NEXT tag land inside
-// `value` too (nothing about scanning for the next `<` can tell them apart
-// from real content), and that formatting isn't the value the file encodes.
-const leaf = (tag: string, value: string): OfxNode => ({
-  id: takeId(),
-  tag,
-  value: value.trim(),
-});
-const aggregate = (tag: string, children: OfxNode[]): OfxNode => ({
-  id: takeId(),
-  tag,
-  children,
-});
+import {
+  aggregate,
+  leaf,
+  type OfxNode,
+  type OfxTagTree,
+  resetIds,
+} from "./tag-node.helper.ts";
 
 // One tag, open to matched close. `next` is always > `at` in every branch
 // below — that, not a depth limit, is what keeps thousands of unclosed
@@ -87,8 +63,8 @@ function parseNode(text: string, at: number) {
 // Header entries from either dialect, then the tree rooted at whatever real
 // tag follows — `<OFX>` in every file this app will see, but nothing below
 // assumes that name.
-export function parseOfxTags(text: string): OfxTagTree {
-  nextId = 0;
+function parseOfxTags(text: string): OfxTagTree {
+  resetIds();
   const firstLt = text.indexOf("<");
   if (firstLt === -1) {
     return { header: [], root: null };
@@ -98,3 +74,5 @@ export function parseOfxTags(text: string): OfxTagTree {
   const root = next < text.length ? parseNode(text, next).node : null;
   return { header, root };
 }
+
+export { parseOfxTags };

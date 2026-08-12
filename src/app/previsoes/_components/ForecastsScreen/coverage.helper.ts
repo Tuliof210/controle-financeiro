@@ -4,7 +4,7 @@ import { monthsToIntervals } from "./components/ForecastForm/intervals.helper.ts
 
 // One positioned span per contiguous run of covered months, as percentages of
 // the global projection range, so the bar can be laid out with left/width.
-export interface Segment {
+interface Segment {
   left: string;
   width: string;
 }
@@ -27,7 +27,7 @@ const pct = (value: number, total: number): string =>
 // Returns [] when nothing overlaps (or the range is inverted, which
 // `buildMonths` already reports as []): the caller draws an empty track. The
 // "no range at all" case never reaches here — `CoverageBar` renders no track.
-export function coverage(months: number[], period: Period): Segment[] {
+function coverage(months: number[], period: Period): Segment[] {
   const axis = buildMonths(period.start, period.end);
   const indexOf = new Map(axis.map((month, index) => [month, index]));
   const inRange = months.filter((month) => indexOf.has(month));
@@ -41,3 +41,6 @@ export function coverage(months: number[], period: Period): Segment[] {
     };
   });
 }
+
+export type { Segment };
+export { coverage };

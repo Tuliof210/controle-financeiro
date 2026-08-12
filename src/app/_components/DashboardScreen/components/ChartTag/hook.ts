@@ -4,9 +4,9 @@ import {
   TAG_LABEL_PROPS,
   TAG_PAD_X,
   TAG_TONES,
-} from "../../chart.config.ts";
+} from "../../chart-marks.config.ts";
 
-export interface ChartTagProps {
+interface ChartTagProps {
   // Top-left corner of the tag, in the plot's own coordinate space.
   x: number;
   y: number;
@@ -20,7 +20,7 @@ export interface ChartTagProps {
 // A fraction of the height, matching every other label in this tree.
 const BASELINE_RATIO = 0.7;
 
-export function useChartTag({ x, y, label, tone, flip }: ChartTagProps) {
+function useChartTag({ x, y, label, tone, flip }: ChartTagProps) {
   const width = label.length * TAG_CHAR_PX + TAG_PAD_X * 2;
   const left = flip ? x - width : x;
 
@@ -38,3 +38,6 @@ export function useChartTag({ x, y, label, tone, flip }: ChartTagProps) {
     labelProps: TAG_LABEL_PROPS,
   };
 }
+
+export type { ChartTagProps };
+export { useChartTag };

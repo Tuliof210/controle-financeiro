@@ -4,7 +4,7 @@ import { type Interval, monthsToIntervals } from "./intervals.helper.ts";
 
 // A stable per-row key so React reconciles rows correctly across add/remove
 // (index keys would mis-associate rows). Not persisted — UI-only.
-export type KeyedInterval = Interval & { key: number };
+type KeyedInterval = Interval & { key: number };
 
 // No period to seed a default interval from any more — a fresh interval
 // (initial or added) starts as the current month, both ends non-null from the
@@ -14,7 +14,7 @@ const defaultInterval = (): Interval => ({
   end: currentYyyymm(),
 });
 
-export function useForecastIntervals(initialMonths: number[] | undefined) {
+function useForecastIntervals(initialMonths: number[] | undefined) {
   const nextKey = useRef(0);
   const takeKey = (): number => {
     const key = nextKey.current;
@@ -47,3 +47,6 @@ export function useForecastIntervals(initialMonths: number[] | undefined) {
 
   return { intervals, updateInterval, addInterval, removeInterval };
 }
+
+export type { KeyedInterval };
+export { useForecastIntervals };
