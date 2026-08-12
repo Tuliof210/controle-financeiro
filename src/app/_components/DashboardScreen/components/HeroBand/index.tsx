@@ -1,3 +1,4 @@
+import { cx } from "@/lib/cx.ts";
 import { Facts } from "./components/Facts/index.tsx";
 import { type HeroBandProps, useHeroBand } from "./hook.ts";
 import styles from "./style.module.scss";
@@ -45,7 +46,11 @@ export function HeroBand(props: HeroBandProps) {
               <p className={styles.value}>{figures.value}</p>
               <div className={styles.deltaRow}>
                 <span
-                  className={`${styles.badge} ${figures.deltaUp ? styles.up : styles.down}`}
+                  className={cx(
+                    styles.badge,
+                    figures.deltaUp && styles.up,
+                    !figures.deltaUp && styles.down,
+                  )}
                 >
                   <span aria-hidden={true}>{figures.deltaUp ? "▲" : "▼"}</span>{" "}
                   {figures.delta}

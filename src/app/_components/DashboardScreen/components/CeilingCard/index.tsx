@@ -1,5 +1,6 @@
 import { Wallet } from "lucide-react";
 import { SectionCard } from "@/components/SectionCard/index.tsx";
+import { cx } from "@/lib/cx.ts";
 import { HINTS } from "../../hints.ts";
 import { Headline } from "../Headline/index.tsx";
 import { ShowAllToggle } from "../ShowAllToggle/index.tsx";
@@ -38,7 +39,7 @@ export function CeilingCard(props: CeilingCardProps) {
         <CapSelector value={cap} hasMeta={hasMeta} onChange={onCapChange} />
       }
     >
-      <div className={`${styles.split} ${empty ? styles.alone : ""}`}>
+      <div className={cx(styles.split, empty && styles.alone)}>
         <div className={styles.summary}>
           {/* The badges read as a caption on the card, so they head the summary
               pane rather than the title row — that slot holds the one control,

@@ -12,7 +12,14 @@ interface NavItemProps {
 }
 
 export function NavItem(props: NavItemProps) {
-  const { href, label, active, icon: Icon, className } = useNavItem(props);
+  const {
+    href,
+    label,
+    active,
+    icon: Icon,
+    className,
+    currentPage,
+  } = useNavItem(props);
 
   return (
     <li>
@@ -22,7 +29,7 @@ export function NavItem(props: NavItemProps) {
       <Link
         href={href}
         className={className}
-        aria-current={active ? "page" : undefined}
+        aria-current={currentPage}
         aria-label={label}
       >
         <Icon className={styles.icon} size={18} aria-hidden={true} />

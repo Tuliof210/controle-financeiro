@@ -9,6 +9,14 @@ interface UseNavItemProps {
   icon: LucideIcon;
 }
 
+// `undefined` removes the attribute; "page" is only correct on the active link,
+// so the two states cannot be written as one boolean.
+function ariaCurrent(active: boolean): "page" | undefined {
+  if (active) {
+    return "page";
+  }
+}
+
 export function useNavItem({
   href,
   label,
@@ -17,6 +25,7 @@ export function useNavItem({
   icon,
 }: UseNavItemProps) {
   return {
+    currentPage: ariaCurrent(active),
     href,
     label,
     active,

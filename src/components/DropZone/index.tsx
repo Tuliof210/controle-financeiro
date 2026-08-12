@@ -1,4 +1,5 @@
 import { Upload } from "lucide-react";
+import { cx } from "@/lib/cx.ts";
 import { FilePicker } from "../FilePicker/index.tsx";
 import { type DropZoneProps, useDropZone } from "./hook.ts";
 import styles from "./style.module.scss";
@@ -17,10 +18,7 @@ export function DropZone(props: DropZoneProps) {
     // No tabIndex and no click handler on the panel itself: a focusable div
     // that opens a file dialog is worse than the button already inside it,
     // which is what a keyboard or screen-reader user reaches for.
-    <div
-      ref={ref}
-      className={over ? `${styles.zone} ${styles.over}` : styles.zone}
-    >
+    <div ref={ref} className={cx(styles.zone, over && styles.over)}>
       <span className={styles.glyph}>
         <Upload size={28} aria-hidden={true} />
       </span>

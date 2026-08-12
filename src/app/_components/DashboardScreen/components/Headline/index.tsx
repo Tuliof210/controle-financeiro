@@ -1,3 +1,4 @@
+import { cx } from "@/lib/cx.ts";
 import { type HeadlineProps, useHeadline } from "./hook.ts";
 import styles from "./style.module.scss";
 
@@ -9,9 +10,7 @@ export function Headline(props: HeadlineProps) {
   return (
     <dl className={styles.headline}>
       <dt className={styles.caption}>{caption}</dt>
-      <dd className={`${styles.total} ${tone ? styles[tone] : ""}`}>
-        {children}
-      </dd>
+      <dd className={cx(styles.total, tone && styles[tone])}>{children}</dd>
     </dl>
   );
 }
