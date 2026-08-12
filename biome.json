@@ -122,6 +122,9 @@
     },
     {
       "includes": ["src/**/tests/**"],
+      "javascript": {
+        "globals": ["jest"]
+      },
       "linter": {
         "rules": {
           "style": {

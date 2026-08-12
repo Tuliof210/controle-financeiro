@@ -70,9 +70,9 @@ describe("parseOfx", () => {
   });
 
   it("reads the XML dialect the same way", () => {
-    const parsed = parseOfx(
-      "<OFX><STMTRS><CURDEF>BRL</CURDEF><STMTTRN><DTPOSTED>20260115</DTPOSTED><TRNAMT>1.00</TRNAMT></STMTTRN></STMTRS></OFX>",
-    );
+    const xml = (name: string, value: string) => `<${name}>${value}</${name}>`;
+    const trn = xml("DTPOSTED", "20260115") + xml("TRNAMT", "1.00");
+    const parsed = parseOfx(xml("OFX", xml("STMTRS", xml("STMTTRN", trn))));
 
     expect(parsed.statements[0].transactions).toEqual([
       { month: 202_601, cents: 100 },

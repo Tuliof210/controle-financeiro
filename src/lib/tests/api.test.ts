@@ -4,11 +4,11 @@
 import { afterEach, describe, expect, it, jest } from "@jest/globals";
 import { apiDelete, apiGet, apiPost, apiPut, apiUpload } from "@/lib/api.ts";
 
-type Fetch = typeof globalThis.fetch;
+type Fetch = (input: string, init?: RequestInit) => Promise<Response>;
 
-const stubFetch = (impl: () => Promise<unknown>) => {
-  const spy = jest.fn(impl);
-  globalThis.fetch = spy as unknown as Fetch;
+const stubFetch = (impl: () => Promise<Response>) => {
+  const spy = jest.fn<Fetch>(impl);
+  globalThis.fetch = spy as unknown as typeof globalThis.fetch;
   return spy;
 };
 
