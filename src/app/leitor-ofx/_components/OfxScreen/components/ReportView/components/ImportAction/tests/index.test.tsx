@@ -2,10 +2,22 @@ import "@testing-library/jest-dom/jest-globals";
 import { beforeAll, beforeEach, describe, expect, it } from "@jest/globals";
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import type { OfxReport } from "@/app/api/ofx/types.ts";
 import { ImportAction } from "@/app/leitor-ofx/_components/OfxScreen/components/ReportView/components/ImportAction/index.tsx";
 import { useProfile } from "@/components/ProfileProvider/hook.ts";
 import { apiGet, apiPost } from "@/lib/api.ts";
-import { people, report } from "./import-action-fixture.ts";
+
+// Only what useImportAction reads: the digest, the name, the accounts behind
+// the identifier prefill, and the months the rows are built from.
+const report = {
+  fileName: "extrato.ofx",
+  fileHash: "a".repeat(64),
+  org: "Banco",
+  accounts: [{ accountId: "12345-6" }],
+  months: [{ month: 202_608, incomeCents: 1000, expenseCents: 400 }],
+} as unknown as OfxReport;
+
+const people = [{ id: "p1", name: "Ana", color: "violet" }];
 
 jest.mock("@/components/ProfileProvider/hook.ts", () => ({
   useProfile: jest.fn(),

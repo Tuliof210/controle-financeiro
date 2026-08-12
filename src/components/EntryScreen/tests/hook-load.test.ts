@@ -6,7 +6,7 @@ import type {
   EntryScreenLabels,
 } from "@/components/EntryScreen/types.ts";
 import { useProfile } from "@/components/ProfileProvider/hook.ts";
-import { apiGet } from "@/lib/api.ts";
+import { apiDelete, apiGet, apiPost, apiPut } from "@/lib/api.ts";
 import type { Entry, EntryType } from "@/lib/entry-types.ts";
 import { FAMILY_PROFILE } from "@/lib/ownership.ts";
 
@@ -57,23 +57,19 @@ beforeEach(() => {
     }
     return Promise.resolve({ data: entries }) as never;
   });
+  for (const write of [apiPost, apiPut, apiDelete]) {
+    jest.mocked(write).mockResolvedValue({ data: null });
+  }
 });
 
-describe("useEntryScreen", () => {
-  it("loads the entries, the people and the period", async () => {
-    const { result } = await mount();
+const values = { type: "income" as const };
 
-    expect(result.current.income).toHaveLength(1);
-    expect(result.current.expense).toHaveLength(1);
-    expect(result.current.period).toEqual({ start: 1, end: 2 });
-  });
+describe("useEntryScreen load", () => {
+  it("reports a failed list request", async () => {
+    jest.mocked(apiGet).mockResolvedValue({ error: "Erro ao carregar" });
 
-  it("shows only the active profile's entries", async () => {
-    jest.mocked(useProfile).mockReturnValue({ profile: "p1" } as never);
+    const { result } = renderHook(() => useEntryScreen(config));
 
-    const { result } = await mount();
-
-    expect(result.current.income).toHaveLength(1);
-    expect(result.current.expense).toHaveLength(0);
+    await waitFor(() => expect(result.current.error).toBe("Erro ao carregar"));
   });
 });

@@ -25,9 +25,12 @@ jest.mock("@/lib/api.ts", () => ({
   apiPost: jest.fn(),
 }));
 
-const mount = async () => {
+const open = async () => {
   const rendered = renderHook(() => useImportAction({ report }));
   await waitFor(() => expect(apiGet).toHaveBeenCalled());
+  act(() => {
+    rendered.result.current.openDialog();
+  });
   return rendered;
 };
 
@@ -39,31 +42,41 @@ beforeEach(() => {
   jest.mocked(apiGet).mockResolvedValue({
     data: { imported: false, importedAt: null },
   } as never);
-  jest.mocked(apiPost).mockResolvedValue({ data: { imported: 2 } } as never);
 });
 
-describe("useImportAction", () => {
-  it("starts closed, with the rows the report would create", async () => {
-    const { result } = await mount();
+describe("useImportAction refusals on submit", () => {
+  it("keeps the dialog open and reports any other refusal", async () => {
+    jest.mocked(apiPost).mockResolvedValue({ error: "Dados inválidos" });
+    const { result } = await open();
 
-    expect(result.current.open).toBe(false);
-    expect(result.current.summary).toBe("2 movimentações serão criadas.");
+    await act(async () => {
+      await result.current.submit();
+    });
+
+    expect(result.current.open).toBe(true);
+    expect(result.current.error).toBe("Dados inválidos");
     expect(result.current.imported).toBe(false);
-    expect(result.current.tooltip).toBeNull();
   });
 
-  it("prefills the identifier and the owner when opened", async () => {
-    const { result } = await mount();
+  it("reports a 2xx that carried no payload", async () => {
+    jest.mocked(apiPost).mockResolvedValue({ data: undefined });
+    const { result } = await open();
+
+    await act(async () => {
+      await result.current.submit();
+    });
+
+    expect(result.current.error).toBe("Erro inesperado");
+  });
+
+  it("closes on cancel", async () => {
+    jest.mocked(apiPost).mockResolvedValue({ data: { imported: 1 } } as never);
+    const { result } = await open();
 
     act(() => {
-      result.current.openDialog();
+      result.current.close();
     });
 
-    expect(result.current).toMatchObject({
-      open: true,
-      identifier: "12345-6",
-      ownerId: "p1",
-      canSubmit: true,
-    });
+    expect(result.current.open).toBe(false);
   });
 });

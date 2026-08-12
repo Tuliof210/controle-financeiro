@@ -3,8 +3,11 @@
  */
 import { beforeEach, describe, expect, it } from "@jest/globals";
 import { getDashboard } from "@/app/api/dashboard/service.ts";
+import { forecastRepository } from "@/infra/repositories/forecast.prisma.repository.ts";
+import { goalRepository } from "@/infra/repositories/goal.prisma.repository.ts";
+import { movementRepository } from "@/infra/repositories/movement.prisma.repository.ts";
+import { settingsRepository } from "@/infra/repositories/settings.prisma.repository.ts";
 import { currentYyyymm } from "@/lib/months.ts";
-import { NOW, seed } from "./dashboard-repositories.ts";
 
 jest.mock("@/infra/repositories/movement.prisma.repository.ts", () => ({
   movementRepository: { list: jest.fn() },
@@ -18,6 +21,26 @@ jest.mock("@/infra/repositories/goal.prisma.repository.ts", () => ({
 jest.mock("@/infra/repositories/settings.prisma.repository.ts", () => ({
   settingsRepository: { get: jest.fn() },
 }));
+
+const movements = jest.mocked(movementRepository);
+const forecasts = jest.mocked(forecastRepository);
+const NOW = currentYyyymm();
+
+// Every repository armed at once: the service pulls all four in one
+// Promise.all, so leaving any unset rejects before the assertion runs.
+const seed = (
+  over: { month?: number; movements?: unknown[]; forecasts?: unknown[] } = {},
+) => {
+  const month = over.month ?? NOW;
+  movements.list.mockResolvedValue(
+    (over.movements ?? [
+      { month, type: "income", valueCents: 1000, ownerId: "p1" },
+    ]) as never,
+  );
+  forecasts.list.mockResolvedValue((over.forecasts ?? []) as never);
+  jest.mocked(goalRepository).list.mockResolvedValue([]);
+  jest.mocked(settingsRepository).get.mockResolvedValue(null);
+};
 
 beforeEach(() => {
   jest.clearAllMocks();

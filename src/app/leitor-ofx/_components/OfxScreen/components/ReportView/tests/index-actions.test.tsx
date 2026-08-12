@@ -59,28 +59,32 @@ beforeEach(() => {
   } as never);
 });
 
-describe("ReportView", () => {
-  it("heads the card with the file and what it read", () => {
-    render(<ReportView {...props} />);
+describe("ReportView actions", () => {
+  it("shows an error only when there is one", () => {
+    const { rerender } = render(<ReportView {...props} />);
 
-    expect(screen.getByText("extrato.ofx")).toBeInTheDocument();
-    expect(screen.getByText("2 lançamentos lidos")).toBeInTheDocument();
+    expect(screen.queryByText("Erro inesperado")).not.toBeInTheDocument();
+
+    rerender(<ReportView {...props} error="Erro inesperado" />);
+
+    expect(screen.getByText("Erro inesperado")).toBeInTheDocument();
   });
 
-  it("spells the five facts out", () => {
-    render(<ReportView {...props} />);
+  it("freezes close and swap while a parse is in flight", () => {
+    render(<ReportView {...props} loading={true} />);
 
-    expect(screen.getByText("Banco · 0001")).toBeInTheDocument();
-    expect(screen.getByText("Ago/26 – Set/26")).toBeInTheDocument();
-    expect(screen.getByText("BRL")).toBeInTheDocument();
-    expect(screen.getByText("R$ 500,00")).toBeInTheDocument();
-  });
-
-  it("renders the monthly table under the facts", () => {
-    render(<ReportView {...props} />);
-
+    expect(screen.getByRole("button", { name: "Fechar" })).toBeDisabled();
     expect(
-      screen.getByRole("table", { name: "Entradas e saídas por mês" }),
-    ).toBeInTheDocument();
+      screen.getByRole("button", { name: "Trocar arquivo" }),
+    ).toBeDisabled();
+  });
+
+  it("closes the report", async () => {
+    const onClose = jest.fn();
+    render(<ReportView {...props} onClose={onClose} />);
+
+    await userEvent.click(screen.getByRole("button", { name: "Fechar" }));
+
+    expect(onClose).toHaveBeenCalled();
   });
 });

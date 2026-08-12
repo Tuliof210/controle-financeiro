@@ -1,8 +1,35 @@
 import { describe, expect, it, jest } from "@jest/globals";
 import { renderHook } from "@testing-library/react";
-import type { OfxReport } from "@/app/api/ofx/types.ts";
+import type { OfxAccount, OfxMonth, OfxReport } from "@/app/api/ofx/types.ts";
 import { useReportView } from "@/app/leitor-ofx/_components/OfxScreen/components/ReportView/hook.ts";
-import { account, report } from "./report-fixture.ts";
+
+const account = (over: Partial<OfxAccount> = {}): OfxAccount => ({
+  bankId: "001",
+  accountId: "12345-6",
+  accountType: "CHECKING",
+  balanceCents: 50_000,
+  balanceMonth: 202_608,
+  start: 202_608,
+  end: 202_609,
+  ...over,
+});
+
+const report = (over: Partial<OfxReport> = {}): OfxReport => ({
+  fileName: "extrato.ofx",
+  fileHash: "a".repeat(64),
+  org: "Banco",
+  fid: "0001",
+  currency: "BRL",
+  accounts: [account()],
+  months: [202_608, 202_609].map((month) => ({ month }) as OfxMonth),
+  totals: {
+    incomeCents: 2000,
+    expenseCents: 800,
+    balanceCents: 1200,
+    count: 2,
+  },
+  ...over,
+});
 
 const view = (over: Partial<OfxReport> = {}) =>
   renderHook(() =>

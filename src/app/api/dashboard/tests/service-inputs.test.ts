@@ -3,7 +3,11 @@
  */
 import { beforeEach, describe, expect, it } from "@jest/globals";
 import { getDashboard } from "@/app/api/dashboard/service.ts";
-import { NOW, seed, settings } from "./dashboard-repositories.ts";
+import { forecastRepository } from "@/infra/repositories/forecast.prisma.repository.ts";
+import { goalRepository } from "@/infra/repositories/goal.prisma.repository.ts";
+import { movementRepository } from "@/infra/repositories/movement.prisma.repository.ts";
+import { settingsRepository } from "@/infra/repositories/settings.prisma.repository.ts";
+import { currentYyyymm } from "@/lib/months.ts";
 
 jest.mock("@/infra/repositories/movement.prisma.repository.ts", () => ({
   movementRepository: { list: jest.fn() },
@@ -22,13 +26,29 @@ const simulation = [
   { months: [209_912], type: "expense", valueCents: 1, simulated: true },
 ];
 
+const settings = jest.mocked(settingsRepository);
+const NOW = currentYyyymm();
+
+// Every repository armed at once: the service pulls all four in one
+// Promise.all, so leaving any unset rejects before the assertion runs.
+const seed = (forecastList: unknown[] = []) => {
+  jest
+    .mocked(movementRepository)
+    .list.mockResolvedValue([
+      { month: NOW, type: "income", valueCents: 1000, ownerId: "p1" },
+    ] as never);
+  jest.mocked(forecastRepository).list.mockResolvedValue(forecastList as never);
+  jest.mocked(goalRepository).list.mockResolvedValue([]);
+  settings.get.mockResolvedValue(null);
+};
+
 beforeEach(() => {
   jest.clearAllMocks();
 });
 
 describe("getDashboard", () => {
   it("leaves simulated forecasts out of the real view, range included", async () => {
-    seed({ forecasts: simulation });
+    seed(simulation);
 
     const data = await getDashboard("familia", "50", "real");
 
@@ -36,7 +56,7 @@ describe("getDashboard", () => {
   });
 
   it("counts them under the all view", async () => {
-    seed({ forecasts: simulation });
+    seed(simulation);
 
     const data = await getDashboard("familia", "50", "all");
 

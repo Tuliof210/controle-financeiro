@@ -6,7 +6,7 @@ import type {
   EntryScreenLabels,
 } from "@/components/EntryScreen/types.ts";
 import { useProfile } from "@/components/ProfileProvider/hook.ts";
-import { apiGet } from "@/lib/api.ts";
+import { apiDelete, apiGet, apiPost, apiPut } from "@/lib/api.ts";
 import type { Entry, EntryType } from "@/lib/entry-types.ts";
 import { FAMILY_PROFILE } from "@/lib/ownership.ts";
 
@@ -57,23 +57,30 @@ beforeEach(() => {
     }
     return Promise.resolve({ data: entries }) as never;
   });
+  for (const write of [apiPost, apiPut, apiDelete]) {
+    jest.mocked(write).mockResolvedValue({ data: null });
+  }
 });
 
-describe("useEntryScreen", () => {
-  it("loads the entries, the people and the period", async () => {
+const values = { type: "income" as const };
+
+describe("useEntryScreen delete", () => {
+  it("deletes by id, and only while a delete is pending", async () => {
     const { result } = await mount();
 
-    expect(result.current.income).toHaveLength(1);
-    expect(result.current.expense).toHaveLength(1);
-    expect(result.current.period).toEqual({ start: 1, end: 2 });
-  });
+    act(() => {
+      result.current.onConfirmDelete();
+    });
+    expect(jest.mocked(apiDelete)).not.toHaveBeenCalled();
 
-  it("shows only the active profile's entries", async () => {
-    jest.mocked(useProfile).mockReturnValue({ profile: "p1" } as never);
+    act(() => {
+      result.current.openDelete(entries[1]);
+    });
+    act(() => {
+      result.current.onConfirmDelete();
+    });
 
-    const { result } = await mount();
-
-    expect(result.current.income).toHaveLength(1);
-    expect(result.current.expense).toHaveLength(0);
+    await waitFor(() => expect(jest.mocked(apiDelete)).toHaveBeenCalled());
+    expect(jest.mocked(apiDelete)).toHaveBeenCalledWith("/api/forecasts?id=e2");
   });
 });

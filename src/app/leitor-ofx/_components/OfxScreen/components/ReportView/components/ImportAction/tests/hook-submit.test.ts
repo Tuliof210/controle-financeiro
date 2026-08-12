@@ -42,28 +42,43 @@ beforeEach(() => {
   jest.mocked(apiPost).mockResolvedValue({ data: { imported: 2 } } as never);
 });
 
-describe("useImportAction", () => {
-  it("starts closed, with the rows the report would create", async () => {
+describe("useImportAction submit", () => {
+  it("refuses to submit without an identifier", async () => {
     const { result } = await mount();
-
-    expect(result.current.open).toBe(false);
-    expect(result.current.summary).toBe("2 movimentações serão criadas.");
-    expect(result.current.imported).toBe(false);
-    expect(result.current.tooltip).toBeNull();
-  });
-
-  it("prefills the identifier and the owner when opened", async () => {
-    const { result } = await mount();
-
     act(() => {
       result.current.openDialog();
     });
 
-    expect(result.current).toMatchObject({
-      open: true,
-      identifier: "12345-6",
-      ownerId: "p1",
-      canSubmit: true,
+    act(() => {
+      result.current.setIdentifier("   ");
     });
+    await act(async () => {
+      await result.current.submit();
+    });
+
+    expect(apiPost).not.toHaveBeenCalled();
+    expect(result.current.error).toBe(
+      "Preencha o identificador e o responsável",
+    );
+  });
+
+  it("posts the whole batch and closes on success", async () => {
+    const { result } = await mount();
+    act(() => {
+      result.current.openDialog();
+    });
+
+    await act(async () => {
+      await result.current.submit();
+    });
+
+    expect(apiPost).toHaveBeenCalledWith("/api/ofx-imports", {
+      fileHash: report.fileHash,
+      fileName: report.fileName,
+      ownerId: "p1",
+      movements: expect.any(Array),
+    });
+    expect(result.current.open).toBe(false);
+    expect(result.current.imported).toBe(true);
   });
 });

@@ -3,11 +3,14 @@ import { beforeAll, beforeEach, describe, expect, it } from "@jest/globals";
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { EntryScreen } from "@/components/EntryScreen/index.tsx";
+import type {
+  EntryScreenConfig,
+  EntryScreenLabels,
+} from "@/components/EntryScreen/types.ts";
 import { useProfile } from "@/components/ProfileProvider/hook.ts";
 import { apiGet } from "@/lib/api.ts";
-import type { Entry } from "@/lib/entry-types.ts";
+import type { Entry, EntryType } from "@/lib/entry-types.ts";
 import { FAMILY_PROFILE } from "@/lib/ownership.ts";
-import { config, entries, people, type Values } from "./entry-screen-config.ts";
 
 jest.mock("@/components/ProfileProvider/hook.ts", () => ({
   useProfile: jest.fn(),
@@ -18,6 +21,35 @@ jest.mock("@/lib/api.ts", () => ({
   apiPut: jest.fn(),
   apiDelete: jest.fn(),
 }));
+
+interface Values {
+  type: EntryType;
+}
+
+const config: EntryScreenConfig<Entry, Values> = {
+  resource: "forecasts",
+  labels: {
+    header: {
+      eyebrow: "Planejamento",
+      title: "Previsões",
+      subtitle: "O plano",
+    },
+    addTitle: "Nova previsão",
+    editTitle: "Editar previsão",
+    deleteTitle: "Excluir previsão",
+    income: { add: "Nova entrada", emptyTitle: "Sem entradas", emptyHint: "a" },
+    expense: { add: "Nova saída", emptyTitle: "Sem saídas", emptyHint: "b" },
+  } as EntryScreenLabels,
+  renderPeriod: () => null,
+  form: () => null,
+};
+
+const entries = [
+  { id: "e1", name: "Salário", valueCents: 100, type: "income", ownerId: "p1" },
+  { id: "e2", name: "Luz", valueCents: 200, type: "expense", ownerId: "p2" },
+] as Entry[];
+
+const people = [{ id: "p1", name: "Ana" }];
 
 beforeAll(() => {
   HTMLDialogElement.prototype.showModal = function showModal(this: {
