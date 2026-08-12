@@ -39,6 +39,14 @@ describe("StatCard", () => {
     expect(screen.getByText(/▲/)).toBeInTheDocument();
   });
 
+  it("draws the sparkline from the card's own series", () => {
+    const { container } = render(<StatCard {...props} />);
+    const path = container.querySelector("svg.spark path:last-of-type");
+
+    expect(path).not.toBeNull();
+    expect(path).toHaveAttribute("stroke", "var(--color-brand)");
+  });
+
   it("draws no sparkline for an empty series", () => {
     const { container } = render(<StatCard {...props} series={[]} />);
 
