@@ -2,9 +2,9 @@ import { scaleBand, scaleLinear } from "@visx/scale";
 import type { MonthPoint } from "@/app/api/dashboard/types.ts";
 import {
   BAND_PADDING,
-  tickFormatterFor,
   MARGIN,
   monthWindowSize,
+  tickFormatterFor,
   Y_TICKS,
 } from "./chart.config.ts";
 import { yDomain } from "./chart.helper.ts";

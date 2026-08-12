@@ -11,9 +11,7 @@ export const fail = (message: string, code: string, status = 400) =>
 export async function safeJson(request: Request): Promise<unknown> {
   try {
     return await request.json();
-  } catch {
-    return;
-  }
+  } catch {}
 }
 
 // Same trust boundary as safeJson: request.formData() throws on a malformed or
@@ -23,7 +21,5 @@ export async function safeFormData(
 ): Promise<FormData | undefined> {
   try {
     return await request.formData();
-  } catch {
-    return;
-  }
+  } catch {}
 }

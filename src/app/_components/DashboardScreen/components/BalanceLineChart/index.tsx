@@ -1,7 +1,7 @@
 import { LinePath } from "@visx/shape";
 import { ChartFrame } from "../ChartFrame/index.tsx";
-import { ChartTooltip } from "../ChartTooltip/index.tsx";
 import { useChartTooltip } from "../ChartTooltip/hook.ts";
+import { ChartTooltip } from "../ChartTooltip/index.tsx";
 import { TightestMark } from "./components/TightestMark/index.tsx";
 import { type BalanceLineChartProps, useBalanceLineChart } from "./hook.ts";
 

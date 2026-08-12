@@ -39,10 +39,7 @@ export function useForecastIntervals(initialMonths: number[] | undefined) {
       prev.map((it, i) => (i === index ? { ...it, ...next } : it)),
     );
   const addInterval = () =>
-    setIntervals((prev) => [
-      ...prev,
-      { key: takeKey(), ...defaultInterval() },
-    ]);
+    setIntervals((prev) => [...prev, { key: takeKey(), ...defaultInterval() }]);
   const removeInterval = (index: number) =>
     setIntervals((prev) =>
       prev.length > 1 ? prev.filter((_, i) => i !== index) : prev,

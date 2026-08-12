@@ -3,8 +3,8 @@
 import { EntryScreen } from "@/components/EntryScreen/index.tsx";
 import type { Movement } from "@/core/entities/movement.entity.ts";
 import { formatYyyymm } from "@/lib/months.ts";
-import { MovementForm } from "./components/MovementForm/index.tsx";
 import type { MovementFormValues } from "./components/MovementForm/hook.ts";
+import { MovementForm } from "./components/MovementForm/index.tsx";
 
 export function MovementsScreen() {
   return (
