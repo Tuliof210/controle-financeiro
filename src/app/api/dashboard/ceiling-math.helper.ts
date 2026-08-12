@@ -40,3 +40,23 @@ export function suffixMinimum(ahead: MonthPoint[]): number[] {
 export function tightestMonth(ahead: MonthPoint[], floor: number): number {
   return (ahead.find((point) => point.cumulative === floor) ?? ahead[0]).month;
 }
+
+// The month whose balance IS the worst ahead — what limits this month's figure,
+// and the only month the card can honestly name. Null while nothing is offered.
+export function tightestOf(
+  monthly: number,
+  ahead: MonthPoint[],
+  worst: number[],
+): number | null {
+  if (monthly <= 0) {
+    return null;
+  }
+  return tightestMonth(ahead, worst[0]);
+}
+
+export function firstRedOf(red: MonthPoint | undefined) {
+  if (red === undefined) {
+    return null;
+  }
+  return { month: red.month, shortfall: -red.cumulative };
+}
