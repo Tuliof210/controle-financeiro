@@ -9,8 +9,10 @@ import type { Entry } from "@/lib/entry-types.ts";
 import { FAMILY_PROFILE } from "@/lib/ownership.ts";
 import { config, entries, people, type Values } from "./entry-screen-config.ts";
 
-jest.mock("../../ProfileProvider/hook.ts", () => ({ useProfile: jest.fn() }));
-jest.mock("../../../lib/api.ts", () => ({
+jest.mock("@/components/ProfileProvider/hook.ts", () => ({
+  useProfile: jest.fn(),
+}));
+jest.mock("@/lib/api.ts", () => ({
   apiGet: jest.fn(),
   apiPost: jest.fn(),
   apiPut: jest.fn(),

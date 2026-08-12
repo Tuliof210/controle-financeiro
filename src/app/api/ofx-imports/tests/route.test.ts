@@ -6,7 +6,7 @@ import { NextRequest } from "next/server";
 import { GET } from "@/app/api/ofx-imports/route.ts";
 import { isOfxImported } from "@/app/api/ofx-imports/service.ts";
 
-jest.mock("../service.ts", () => ({
+jest.mock("@/app/api/ofx-imports/service.ts", () => ({
   isOfxImported: jest.fn(),
   importOfx: jest.fn(),
 }));

@@ -5,7 +5,7 @@ import { beforeEach, describe, expect, it } from "@jest/globals";
 import { GET } from "@/app/api/period/route.ts";
 import { getPeriod } from "@/app/api/period/service.ts";
 
-jest.mock("../service.ts", () => ({ getPeriod: jest.fn() }));
+jest.mock("@/app/api/period/service.ts", () => ({ getPeriod: jest.fn() }));
 
 const period = jest.mocked(getPeriod);
 

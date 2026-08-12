@@ -5,21 +5,18 @@ import { beforeEach, describe, expect, it } from "@jest/globals";
 import { getDashboard } from "@/app/api/dashboard/service.ts";
 import { NOW, seed, settings } from "./dashboard-repositories.ts";
 
-jest.mock(
-  "../../../../infra/repositories/movement.prisma.repository.ts",
-  () => ({ movementRepository: { list: jest.fn() } }),
-);
-jest.mock(
-  "../../../../infra/repositories/forecast.prisma.repository.ts",
-  () => ({ forecastRepository: { list: jest.fn() } }),
-);
-jest.mock("../../../../infra/repositories/goal.prisma.repository.ts", () => ({
+jest.mock("@/infra/repositories/movement.prisma.repository.ts", () => ({
+  movementRepository: { list: jest.fn() },
+}));
+jest.mock("@/infra/repositories/forecast.prisma.repository.ts", () => ({
+  forecastRepository: { list: jest.fn() },
+}));
+jest.mock("@/infra/repositories/goal.prisma.repository.ts", () => ({
   goalRepository: { list: jest.fn() },
 }));
-jest.mock(
-  "../../../../infra/repositories/settings.prisma.repository.ts",
-  () => ({ settingsRepository: { get: jest.fn() } }),
-);
+jest.mock("@/infra/repositories/settings.prisma.repository.ts", () => ({
+  settingsRepository: { get: jest.fn() },
+}));
 
 const simulation = [
   { months: [209_912], type: "expense", valueCents: 1, simulated: true },

@@ -3,7 +3,7 @@ import { describe, expect, it } from "@jest/globals";
 import { render } from "@testing-library/react";
 import RootLayout, { metadata } from "@/app/layout.tsx";
 
-jest.mock("../../components/AppShell/index.tsx", () => ({
+jest.mock("@/components/AppShell/index.tsx", () => ({
   AppShell: ({ children }: { children: React.ReactNode }) => (
     <div data-testid="shell">{children}</div>
   ),

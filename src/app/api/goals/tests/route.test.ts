@@ -6,7 +6,7 @@ import type { NextRequest } from "next/server";
 import { GET, POST } from "@/app/api/goals/route.ts";
 import { createGoal, listGoals } from "@/app/api/goals/service.ts";
 
-jest.mock("../service.ts", () => ({
+jest.mock("@/app/api/goals/service.ts", () => ({
   listGoals: jest.fn(),
   createGoal: jest.fn(),
   updateGoal: jest.fn(),

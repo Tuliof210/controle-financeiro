@@ -4,7 +4,7 @@ import { render, screen } from "@testing-library/react";
 import { SettingsScreen } from "@/app/configuracoes/_components/SettingsScreen/index.tsx";
 import { apiGet } from "@/lib/api.ts";
 
-jest.mock("../../../../../lib/api.ts", () => ({
+jest.mock("@/lib/api.ts", () => ({
   apiGet: jest.fn(),
   apiPost: jest.fn(),
   apiPut: jest.fn(),

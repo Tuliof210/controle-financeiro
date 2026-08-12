@@ -6,14 +6,12 @@ import { getPeriod } from "@/app/api/period/service.ts";
 import { forecastRepository } from "@/infra/repositories/forecast.prisma.repository.ts";
 import { movementRepository } from "@/infra/repositories/movement.prisma.repository.ts";
 
-jest.mock(
-  "../../../../infra/repositories/movement.prisma.repository.ts",
-  () => ({ movementRepository: { list: jest.fn() } }),
-);
-jest.mock(
-  "../../../../infra/repositories/forecast.prisma.repository.ts",
-  () => ({ forecastRepository: { list: jest.fn() } }),
-);
+jest.mock("@/infra/repositories/movement.prisma.repository.ts", () => ({
+  movementRepository: { list: jest.fn() },
+}));
+jest.mock("@/infra/repositories/forecast.prisma.repository.ts", () => ({
+  forecastRepository: { list: jest.fn() },
+}));
 
 const movements = jest.mocked(movementRepository);
 const forecasts = jest.mocked(forecastRepository);

@@ -7,7 +7,7 @@ import { GET, POST } from "@/app/api/forecasts/route.ts";
 import { createForecast, listForecasts } from "@/app/api/forecasts/service.ts";
 import { Prisma } from "@/generated/prisma/client.ts";
 
-jest.mock("../service.ts", () => ({
+jest.mock("@/app/api/forecasts/service.ts", () => ({
   listForecasts: jest.fn(),
   createForecast: jest.fn(),
   updateForecast: jest.fn(),

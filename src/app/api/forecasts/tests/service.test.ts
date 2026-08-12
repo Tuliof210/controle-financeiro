@@ -10,17 +10,14 @@ import {
 } from "@/app/api/forecasts/service.ts";
 import { forecastRepository } from "@/infra/repositories/forecast.prisma.repository.ts";
 
-jest.mock(
-  "../../../../infra/repositories/forecast.prisma.repository.ts",
-  () => ({
-    forecastRepository: {
-      list: jest.fn(),
-      create: jest.fn(),
-      update: jest.fn(),
-      delete: jest.fn(),
-    },
-  }),
-);
+jest.mock("@/infra/repositories/forecast.prisma.repository.ts", () => ({
+  forecastRepository: {
+    list: jest.fn(),
+    create: jest.fn(),
+    update: jest.fn(),
+    delete: jest.fn(),
+  },
+}));
 
 const repository = jest.mocked(forecastRepository);
 

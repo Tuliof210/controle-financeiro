@@ -7,7 +7,7 @@ import { GET, PUT } from "@/app/api/settings/route.ts";
 import { getSettings, saveSettings } from "@/app/api/settings/service.ts";
 import { MAX_CENTS } from "@/lib/money.ts";
 
-jest.mock("../service.ts", () => ({
+jest.mock("@/app/api/settings/service.ts", () => ({
   getSettings: jest.fn(),
   saveSettings: jest.fn(),
 }));

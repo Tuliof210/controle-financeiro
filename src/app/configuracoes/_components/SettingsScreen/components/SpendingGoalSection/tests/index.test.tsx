@@ -5,7 +5,7 @@ import userEvent from "@testing-library/user-event";
 import { SpendingGoalSection } from "@/app/configuracoes/_components/SettingsScreen/components/SpendingGoalSection/index.tsx";
 import { apiGet, apiPut } from "@/lib/api.ts";
 
-jest.mock("../../../../../../../lib/api.ts", () => ({
+jest.mock("@/lib/api.ts", () => ({
   apiGet: jest.fn(),
   apiPut: jest.fn(),
 }));

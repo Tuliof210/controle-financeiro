@@ -4,12 +4,18 @@ import { render, screen } from "@testing-library/react";
 import type { BoardData } from "@/app/_components/DashboardScreen/components/Board/hook.ts";
 import { Board } from "@/app/_components/DashboardScreen/components/Board/index.tsx";
 
-jest.mock("../../Overview/index.tsx", () => ({
-  Overview: () => <p>Overview</p>,
-}));
-jest.mock("../../SavingsSection/index.tsx", () => ({
-  SavingsSection: () => <p>SavingsSection</p>,
-}));
+jest.mock(
+  "@/app/_components/DashboardScreen/components/Overview/index.tsx",
+  () => ({
+    Overview: () => <p>Overview</p>,
+  }),
+);
+jest.mock(
+  "@/app/_components/DashboardScreen/components/SavingsSection/index.tsx",
+  () => ({
+    SavingsSection: () => <p>SavingsSection</p>,
+  }),
+);
 
 const data = {
   status: "ok",

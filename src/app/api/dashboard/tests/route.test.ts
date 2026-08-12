@@ -6,7 +6,9 @@ import { NextRequest } from "next/server";
 import { GET } from "@/app/api/dashboard/route.ts";
 import { getDashboard } from "@/app/api/dashboard/service.ts";
 
-jest.mock("../service.ts", () => ({ getDashboard: jest.fn() }));
+jest.mock("@/app/api/dashboard/service.ts", () => ({
+  getDashboard: jest.fn(),
+}));
 
 const dashboard = jest.mocked(getDashboard);
 

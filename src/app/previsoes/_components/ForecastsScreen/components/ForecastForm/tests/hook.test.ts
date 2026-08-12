@@ -4,7 +4,7 @@ import { useForecastForm } from "@/app/previsoes/_components/ForecastsScreen/com
 import { useProfile } from "@/components/ProfileProvider/hook.ts";
 import type { Person } from "@/core/entities/person.entity.ts";
 
-jest.mock("../../../../../../../components/ProfileProvider/hook.ts", () => ({
+jest.mock("@/components/ProfileProvider/hook.ts", () => ({
   useProfile: jest.fn(),
 }));
 

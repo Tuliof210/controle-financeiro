@@ -7,7 +7,7 @@ import { POST } from "@/app/api/ofx-imports/route.ts";
 import { importOfx } from "@/app/api/ofx-imports/service.ts";
 import { Prisma } from "@/generated/prisma/client.ts";
 
-jest.mock("../service.ts", () => ({
+jest.mock("@/app/api/ofx-imports/service.ts", () => ({
   isOfxImported: jest.fn(),
   importOfx: jest.fn(),
 }));

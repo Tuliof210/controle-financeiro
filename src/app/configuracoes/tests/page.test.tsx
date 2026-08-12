@@ -3,7 +3,7 @@ import { describe, expect, it } from "@jest/globals";
 import { render, screen } from "@testing-library/react";
 import Page, { metadata } from "@/app/configuracoes/page.tsx";
 
-jest.mock("../_components/SettingsScreen/index.tsx", () => ({
+jest.mock("@/app/configuracoes/_components/SettingsScreen/index.tsx", () => ({
   SettingsScreen: () => <p>SettingsScreen</p>,
 }));
 

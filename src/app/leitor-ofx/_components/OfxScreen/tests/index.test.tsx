@@ -7,10 +7,10 @@ import { SESSION_KEY } from "@/app/leitor-ofx/_components/OfxScreen/session.help
 import { useProfile } from "@/components/ProfileProvider/hook.ts";
 import { apiGet, apiUpload } from "@/lib/api.ts";
 
-jest.mock("../../../../../components/ProfileProvider/hook.ts", () => ({
+jest.mock("@/components/ProfileProvider/hook.ts", () => ({
   useProfile: jest.fn(),
 }));
-jest.mock("../../../../../lib/api.ts", () => ({
+jest.mock("@/lib/api.ts", () => ({
   apiGet: jest.fn(),
   apiPost: jest.fn(),
   apiUpload: jest.fn(),

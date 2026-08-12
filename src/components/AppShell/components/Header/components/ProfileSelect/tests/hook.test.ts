@@ -3,7 +3,7 @@ import { renderHook } from "@testing-library/react";
 import { useProfileSelect } from "@/components/AppShell/components/Header/components/ProfileSelect/hook.ts";
 import { useProfile } from "@/components/ProfileProvider/hook.ts";
 
-jest.mock("../../../../../../ProfileProvider/hook.ts", () => ({
+jest.mock("@/components/ProfileProvider/hook.ts", () => ({
   useProfile: jest.fn(),
 }));
 

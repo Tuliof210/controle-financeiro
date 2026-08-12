@@ -3,7 +3,7 @@ import { renderHook, waitFor } from "@testing-library/react";
 import { useImportedRecord } from "@/app/leitor-ofx/_components/OfxScreen/components/ReportView/components/ImportAction/imported.hook.ts";
 import { apiGet } from "@/lib/api.ts";
 
-jest.mock("../../../../../../../../../lib/api.ts", () => ({
+jest.mock("@/lib/api.ts", () => ({
   apiGet: jest.fn(),
 }));
 

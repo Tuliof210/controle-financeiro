@@ -4,7 +4,9 @@ import { useEntryForm } from "@/components/EntryForm/entry-form.hook.ts";
 import { useProfile } from "@/components/ProfileProvider/hook.ts";
 import type { Person } from "@/core/entities/person.entity.ts";
 
-jest.mock("../../ProfileProvider/hook.ts", () => ({ useProfile: jest.fn() }));
+jest.mock("@/components/ProfileProvider/hook.ts", () => ({
+  useProfile: jest.fn(),
+}));
 
 const profile = jest.mocked(useProfile);
 

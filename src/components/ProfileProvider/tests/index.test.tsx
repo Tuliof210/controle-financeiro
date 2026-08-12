@@ -5,7 +5,7 @@ import { useProfile } from "@/components/ProfileProvider/hook.ts";
 import { ProfileProvider } from "@/components/ProfileProvider/index.tsx";
 import { apiGet } from "@/lib/api.ts";
 
-jest.mock("../../../lib/api.ts", () => ({ apiGet: jest.fn() }));
+jest.mock("@/lib/api.ts", () => ({ apiGet: jest.fn() }));
 
 const get = jest.mocked(apiGet);
 

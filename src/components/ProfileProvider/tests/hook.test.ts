@@ -7,7 +7,7 @@ import {
 import { apiGet } from "@/lib/api.ts";
 import { FAMILY_PROFILE } from "@/lib/ownership.ts";
 
-jest.mock("../../../lib/api.ts", () => ({ apiGet: jest.fn() }));
+jest.mock("@/lib/api.ts", () => ({ apiGet: jest.fn() }));
 
 const get = jest.mocked(apiGet);
 

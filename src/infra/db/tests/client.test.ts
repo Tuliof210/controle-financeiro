@@ -12,7 +12,7 @@ const store = globalThis as unknown as { prisma?: unknown };
 jest.mock("@prisma/adapter-better-sqlite3", () => ({
   PrismaBetterSqlite3: jest.fn(),
 }));
-jest.mock("../../../generated/prisma/client.ts", () => ({
+jest.mock("@/generated/prisma/client.ts", () => ({
   PrismaClient: jest.fn(() => ({ tag: "client" })),
 }));
 

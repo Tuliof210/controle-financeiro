@@ -5,10 +5,10 @@ import { ForecastsScreen } from "@/app/previsoes/_components/ForecastsScreen/ind
 import { useProfile } from "@/components/ProfileProvider/hook.ts";
 import { apiGet } from "@/lib/api.ts";
 
-jest.mock("../../../../../components/ProfileProvider/hook.ts", () => ({
+jest.mock("@/components/ProfileProvider/hook.ts", () => ({
   useProfile: jest.fn(),
 }));
-jest.mock("../../../../../lib/api.ts", () => ({
+jest.mock("@/lib/api.ts", () => ({
   apiGet: jest.fn(),
   apiPost: jest.fn(),
   apiPut: jest.fn(),

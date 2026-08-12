@@ -7,13 +7,10 @@ import { useProfile } from "@/components/ProfileProvider/hook.ts";
 import { apiGet, apiPost } from "@/lib/api.ts";
 import { people, report } from "./import-action-fixture.ts";
 
-jest.mock(
-  "../../../../../../../../../components/ProfileProvider/hook.ts",
-  () => ({
-    useProfile: jest.fn(),
-  }),
-);
-jest.mock("../../../../../../../../../lib/api.ts", () => ({
+jest.mock("@/components/ProfileProvider/hook.ts", () => ({
+  useProfile: jest.fn(),
+}));
+jest.mock("@/lib/api.ts", () => ({
   apiGet: jest.fn(),
   apiPost: jest.fn(),
 }));

@@ -6,7 +6,7 @@ import { AppShell } from "@/components/AppShell/index.tsx";
 import { apiGet } from "@/lib/api.ts";
 
 jest.mock("next/navigation", () => ({ usePathname: jest.fn() }));
-jest.mock("../../../lib/api.ts", () => ({ apiGet: jest.fn() }));
+jest.mock("@/lib/api.ts", () => ({ apiGet: jest.fn() }));
 
 beforeAll(() => {
   HTMLDialogElement.prototype.showModal = function showModal() {

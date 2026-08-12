@@ -3,7 +3,7 @@ import { act, renderHook, waitFor } from "@testing-library/react";
 import { useSpendingGoalSection } from "@/app/configuracoes/_components/SettingsScreen/components/SpendingGoalSection/hook.ts";
 import { apiGet, apiPut } from "@/lib/api.ts";
 
-jest.mock("../../../../../../../lib/api.ts", () => ({
+jest.mock("@/lib/api.ts", () => ({
   apiGet: jest.fn(),
   apiPut: jest.fn(),
 }));

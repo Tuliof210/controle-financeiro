@@ -5,12 +5,9 @@ import { beforeEach, describe, expect, it } from "@jest/globals";
 import { getSettings, saveSettings } from "@/app/api/settings/service.ts";
 import { settingsRepository } from "@/infra/repositories/settings.prisma.repository.ts";
 
-jest.mock(
-  "../../../../infra/repositories/settings.prisma.repository.ts",
-  () => ({
-    settingsRepository: { get: jest.fn(), save: jest.fn() },
-  }),
-);
+jest.mock("@/infra/repositories/settings.prisma.repository.ts", () => ({
+  settingsRepository: { get: jest.fn(), save: jest.fn() },
+}));
 
 const repository = jest.mocked(settingsRepository);
 

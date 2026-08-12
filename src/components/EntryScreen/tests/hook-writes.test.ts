@@ -3,8 +3,10 @@ import { act, waitFor } from "@testing-library/react";
 import { entries } from "./entry-screen-config.ts";
 import { mount, put, remove, seed, values } from "./entry-screen-harness.ts";
 
-jest.mock("../../ProfileProvider/hook.ts", () => ({ useProfile: jest.fn() }));
-jest.mock("../../../lib/api.ts", () => ({
+jest.mock("@/components/ProfileProvider/hook.ts", () => ({
+  useProfile: jest.fn(),
+}));
+jest.mock("@/lib/api.ts", () => ({
   apiGet: jest.fn(),
   apiPost: jest.fn(),
   apiPut: jest.fn(),

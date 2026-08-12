@@ -7,7 +7,7 @@ import { DELETE, PUT } from "@/app/api/goals/route.ts";
 import { deleteGoal, updateGoal } from "@/app/api/goals/service.ts";
 import { Prisma } from "@/generated/prisma/client.ts";
 
-jest.mock("../service.ts", () => ({
+jest.mock("@/app/api/goals/service.ts", () => ({
   listGoals: jest.fn(),
   createGoal: jest.fn(),
   updateGoal: jest.fn(),

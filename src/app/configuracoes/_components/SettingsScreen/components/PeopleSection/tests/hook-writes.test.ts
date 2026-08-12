@@ -4,7 +4,7 @@ import { usePeopleSection } from "@/app/configuracoes/_components/SettingsScreen
 import type { Person } from "@/core/entities/person.entity.ts";
 import { apiDelete, apiGet, apiPut } from "@/lib/api.ts";
 
-jest.mock("../../../../../../../lib/api.ts", () => ({
+jest.mock("@/lib/api.ts", () => ({
   apiGet: jest.fn(),
   apiPost: jest.fn(),
   apiPut: jest.fn(),

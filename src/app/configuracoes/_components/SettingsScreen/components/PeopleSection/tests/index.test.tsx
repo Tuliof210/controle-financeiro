@@ -5,7 +5,7 @@ import userEvent from "@testing-library/user-event";
 import { PeopleSection } from "@/app/configuracoes/_components/SettingsScreen/components/PeopleSection/index.tsx";
 import { apiGet } from "@/lib/api.ts";
 
-jest.mock("../../../../../../../lib/api.ts", () => ({
+jest.mock("@/lib/api.ts", () => ({
   apiGet: jest.fn(),
   apiPost: jest.fn(),
   apiPut: jest.fn(),

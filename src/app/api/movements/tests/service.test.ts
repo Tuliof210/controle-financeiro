@@ -10,17 +10,14 @@ import {
 } from "@/app/api/movements/service.ts";
 import { movementRepository } from "@/infra/repositories/movement.prisma.repository.ts";
 
-jest.mock(
-  "../../../../infra/repositories/movement.prisma.repository.ts",
-  () => ({
-    movementRepository: {
-      list: jest.fn(),
-      create: jest.fn(),
-      update: jest.fn(),
-      delete: jest.fn(),
-    },
-  }),
-);
+jest.mock("@/infra/repositories/movement.prisma.repository.ts", () => ({
+  movementRepository: {
+    list: jest.fn(),
+    create: jest.fn(),
+    update: jest.fn(),
+    delete: jest.fn(),
+  },
+}));
 
 const repository = jest.mocked(movementRepository);
 

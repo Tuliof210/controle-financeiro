@@ -7,7 +7,7 @@ import { GET, POST } from "@/app/api/people/route.ts";
 import { createPerson, listPeople } from "@/app/api/people/service.ts";
 import { Prisma } from "@/generated/prisma/client.ts";
 
-jest.mock("../service.ts", () => ({
+jest.mock("@/app/api/people/service.ts", () => ({
   listPeople: jest.fn(),
   createPerson: jest.fn(),
   updatePerson: jest.fn(),

@@ -7,7 +7,7 @@ import { GET, POST } from "@/app/api/movements/route.ts";
 import { createMovement, listMovements } from "@/app/api/movements/service.ts";
 import { Prisma } from "@/generated/prisma/client.ts";
 
-jest.mock("../service.ts", () => ({
+jest.mock("@/app/api/movements/service.ts", () => ({
   listMovements: jest.fn(),
   createMovement: jest.fn(),
   updateMovement: jest.fn(),

@@ -6,7 +6,7 @@ import type { NextRequest } from "next/server";
 import { POST } from "@/app/api/ofx/route.ts";
 import { readOfx } from "@/app/api/ofx/service.ts";
 
-jest.mock("../service.ts", () => ({ readOfx: jest.fn() }));
+jest.mock("@/app/api/ofx/service.ts", () => ({ readOfx: jest.fn() }));
 
 const read = jest.mocked(readOfx);
 

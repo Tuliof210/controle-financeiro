@@ -3,7 +3,7 @@ import { describe, expect, it } from "@jest/globals";
 import { render, screen } from "@testing-library/react";
 import Page, { metadata } from "@/app/leitor-ofx/page.tsx";
 
-jest.mock("../_components/OfxScreen/index.tsx", () => ({
+jest.mock("@/app/leitor-ofx/_components/OfxScreen/index.tsx", () => ({
   OfxScreen: () => <p>OfxScreen</p>,
 }));
 

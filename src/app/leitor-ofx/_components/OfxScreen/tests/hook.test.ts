@@ -4,7 +4,7 @@ import { useOfxScreen } from "@/app/leitor-ofx/_components/OfxScreen/hook.ts";
 import { SESSION_KEY } from "@/app/leitor-ofx/_components/OfxScreen/session.helper.ts";
 import { apiUpload } from "@/lib/api.ts";
 
-jest.mock("../../../../../lib/api.ts", () => ({ apiUpload: jest.fn() }));
+jest.mock("@/lib/api.ts", () => ({ apiUpload: jest.fn() }));
 
 const report = { months: [], accounts: [], fileHash: "abc" };
 const file = new File(["x"], "extrato.ofx");

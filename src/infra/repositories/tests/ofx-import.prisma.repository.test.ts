@@ -5,7 +5,7 @@ import { beforeEach, describe, expect, it } from "@jest/globals";
 import { prisma } from "@/infra/db/client.ts";
 import { ofxImportRepository } from "@/infra/repositories/ofx-import.prisma.repository.ts";
 
-jest.mock("../../db/client.ts", () => ({
+jest.mock("@/infra/db/client.ts", () => ({
   prisma: {
     ofxImport: { findUnique: jest.fn() },
     $transaction: jest.fn(),

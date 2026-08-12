@@ -5,7 +5,7 @@ import { MovementForm } from "@/app/movimentacoes/_components/MovementsScreen/co
 import { useProfile } from "@/components/ProfileProvider/hook.ts";
 import type { Person } from "@/core/entities/person.entity.ts";
 
-jest.mock("../../../../../../../components/ProfileProvider/hook.ts", () => ({
+jest.mock("@/components/ProfileProvider/hook.ts", () => ({
   useProfile: jest.fn(),
 }));
 

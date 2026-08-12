@@ -6,7 +6,7 @@ import { Header } from "@/components/AppShell/components/Header/index.tsx";
 import { SIDEBAR_ID } from "@/components/AppShell/ids.ts";
 import { useProfile } from "@/components/ProfileProvider/hook.ts";
 
-jest.mock("../../../../ProfileProvider/hook.ts", () => ({
+jest.mock("@/components/ProfileProvider/hook.ts", () => ({
   useProfile: jest.fn(),
 }));
 

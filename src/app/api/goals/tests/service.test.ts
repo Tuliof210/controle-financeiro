@@ -10,7 +10,7 @@ import {
 } from "@/app/api/goals/service.ts";
 import { goalRepository } from "@/infra/repositories/goal.prisma.repository.ts";
 
-jest.mock("../../../../infra/repositories/goal.prisma.repository.ts", () => ({
+jest.mock("@/infra/repositories/goal.prisma.repository.ts", () => ({
   goalRepository: {
     list: jest.fn(),
     create: jest.fn(),

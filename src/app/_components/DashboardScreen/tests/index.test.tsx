@@ -5,13 +5,16 @@ import { DashboardScreen } from "@/app/_components/DashboardScreen/index.tsx";
 import { useProfile } from "@/components/ProfileProvider/hook.ts";
 import { apiGet } from "@/lib/api.ts";
 
-jest.mock("../../../../components/ProfileProvider/hook.ts", () => ({
+jest.mock("@/components/ProfileProvider/hook.ts", () => ({
   useProfile: jest.fn(),
 }));
-jest.mock("../../../../lib/api.ts", () => ({ apiGet: jest.fn() }));
-jest.mock("../components/Board/index.tsx", () => ({
-  Board: () => <p>Board</p>,
-}));
+jest.mock("@/lib/api.ts", () => ({ apiGet: jest.fn() }));
+jest.mock(
+  "@/app/_components/DashboardScreen/components/Board/index.tsx",
+  () => ({
+    Board: () => <p>Board</p>,
+  }),
+);
 
 const range = { start: 202_601, end: 202_612, current: 202_608 };
 

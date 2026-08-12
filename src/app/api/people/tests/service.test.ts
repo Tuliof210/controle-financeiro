@@ -10,9 +10,7 @@ import {
 } from "@/app/api/people/service.ts";
 import { personRepository } from "@/infra/repositories/person.prisma.repository.ts";
 
-// Relative, not "@/…": the SWC transform rewrites import specifiers but not
-// this string, so an aliased path here would resolve to nothing. Same module.
-jest.mock("../../../../infra/repositories/person.prisma.repository.ts", () => ({
+jest.mock("@/infra/repositories/person.prisma.repository.ts", () => ({
   personRepository: {
     list: jest.fn(),
     create: jest.fn(),

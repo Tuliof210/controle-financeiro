@@ -5,7 +5,7 @@ import { beforeEach, describe, expect, it } from "@jest/globals";
 import { prisma } from "@/infra/db/client.ts";
 import { forecastRepository } from "@/infra/repositories/forecast.prisma.repository.ts";
 
-jest.mock("../../db/client.ts", () => ({
+jest.mock("@/infra/db/client.ts", () => ({
   prisma: {
     forecast: {
       findMany: jest.fn(),

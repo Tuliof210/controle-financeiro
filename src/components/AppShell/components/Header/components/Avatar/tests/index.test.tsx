@@ -4,7 +4,7 @@ import { render, screen } from "@testing-library/react";
 import { Avatar } from "@/components/AppShell/components/Header/components/Avatar/index.tsx";
 import { useProfile } from "@/components/ProfileProvider/hook.ts";
 
-jest.mock("../../../../../../ProfileProvider/hook.ts", () => ({
+jest.mock("@/components/ProfileProvider/hook.ts", () => ({
   useProfile: jest.fn(),
 }));
 

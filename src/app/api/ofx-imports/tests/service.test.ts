@@ -5,12 +5,9 @@ import { beforeEach, describe, expect, it } from "@jest/globals";
 import { importOfx, isOfxImported } from "@/app/api/ofx-imports/service.ts";
 import { ofxImportRepository } from "@/infra/repositories/ofx-import.prisma.repository.ts";
 
-jest.mock(
-  "../../../../infra/repositories/ofx-import.prisma.repository.ts",
-  () => ({
-    ofxImportRepository: { findByHash: jest.fn(), create: jest.fn() },
-  }),
-);
+jest.mock("@/infra/repositories/ofx-import.prisma.repository.ts", () => ({
+  ofxImportRepository: { findByHash: jest.fn(), create: jest.fn() },
+}));
 
 const repository = jest.mocked(ofxImportRepository);
 

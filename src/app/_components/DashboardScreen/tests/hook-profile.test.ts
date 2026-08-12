@@ -4,10 +4,10 @@ import { useDashboardScreen } from "@/app/_components/DashboardScreen/hook.ts";
 import { useProfile } from "@/components/ProfileProvider/hook.ts";
 import { apiGet } from "@/lib/api.ts";
 
-jest.mock("../../../../components/ProfileProvider/hook.ts", () => ({
+jest.mock("@/components/ProfileProvider/hook.ts", () => ({
   useProfile: jest.fn(),
 }));
-jest.mock("../../../../lib/api.ts", () => ({ apiGet: jest.fn() }));
+jest.mock("@/lib/api.ts", () => ({ apiGet: jest.fn() }));
 
 const payload = { status: "no_range" };
 

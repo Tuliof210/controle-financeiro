@@ -6,21 +6,18 @@ import { getDashboard } from "@/app/api/dashboard/service.ts";
 import { currentYyyymm } from "@/lib/months.ts";
 import { NOW, seed } from "./dashboard-repositories.ts";
 
-jest.mock(
-  "../../../../infra/repositories/movement.prisma.repository.ts",
-  () => ({ movementRepository: { list: jest.fn() } }),
-);
-jest.mock(
-  "../../../../infra/repositories/forecast.prisma.repository.ts",
-  () => ({ forecastRepository: { list: jest.fn() } }),
-);
-jest.mock("../../../../infra/repositories/goal.prisma.repository.ts", () => ({
+jest.mock("@/infra/repositories/movement.prisma.repository.ts", () => ({
+  movementRepository: { list: jest.fn() },
+}));
+jest.mock("@/infra/repositories/forecast.prisma.repository.ts", () => ({
+  forecastRepository: { list: jest.fn() },
+}));
+jest.mock("@/infra/repositories/goal.prisma.repository.ts", () => ({
   goalRepository: { list: jest.fn() },
 }));
-jest.mock(
-  "../../../../infra/repositories/settings.prisma.repository.ts",
-  () => ({ settingsRepository: { get: jest.fn() } }),
-);
+jest.mock("@/infra/repositories/settings.prisma.repository.ts", () => ({
+  settingsRepository: { get: jest.fn() },
+}));
 
 beforeEach(() => {
   jest.clearAllMocks();
