@@ -10,9 +10,6 @@ import styles from "./style.module.scss";
 export function OfxScreen() {
   const { loaded, report, error, loading, fileName, upload, close } =
     useOfxScreen();
-  // Exactly the first arm of the ternary this replaced, so the other two keep
-  // firing on its negation and nothing new is gated on `loaded`.
-  const showLoading = loaded && loading;
 
   return (
     <div className={styles.screen}>
@@ -25,8 +22,8 @@ export function OfxScreen() {
           sessionStorage effect knows whether one exists, so rendering the
           upload card unconditionally would flash it on every reload of a
           screen whose entire point is surviving reload. */}
-      {Boolean(showLoading) && <LoadingCard fileName={fileName} />}
-      {!showLoading && report !== null && (
+      {loaded && loading && <LoadingCard fileName={fileName} />}
+      {loaded && !loading && report !== null && (
         <ReportView
           report={report}
           error={error}
@@ -35,7 +32,7 @@ export function OfxScreen() {
           onFile={upload}
         />
       )}
-      {!showLoading && report === null && (
+      {loaded && !loading && report === null && (
         <UploadCard error={error} onFile={upload} />
       )}
     </div>
