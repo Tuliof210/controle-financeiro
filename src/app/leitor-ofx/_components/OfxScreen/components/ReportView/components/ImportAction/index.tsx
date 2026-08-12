@@ -49,7 +49,7 @@ export function ImportAction(props: ImportActionProps) {
               {COPY.cancelar}
             </Button>
             <Button onClick={view.submit} disabled={!view.canSubmit}>
-              {view.busy ? "Importando…" : "Importar"}
+              {view.submitLabel}
             </Button>
           </>
         }

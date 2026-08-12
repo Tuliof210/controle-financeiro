@@ -4,6 +4,20 @@ import { formatYyyymm } from "@/lib/months.ts";
 import { dashSplit } from "../../chart.helper.ts";
 import { buildFrame } from "../../chart-frame.helper.ts";
 
+// The tag would run off the trailing edge in the last third of the plot; past
+// the midpoint it hangs to the left of its rule instead.
+const markFor = (
+  point: MonthPoint | undefined,
+  x: (point: MonthPoint) => number,
+  y: (point: MonthPoint) => number,
+  innerWidth: number,
+) => {
+  if (point === undefined) {
+    return null;
+  }
+  return { x: x(point), y: y(point), flip: x(point) > innerWidth / 2 };
+};
+
 interface BalanceLineChartProps {
   points: MonthPoint[];
   dashedFrom: number | null;
@@ -75,16 +89,7 @@ function useBalanceLineChart({
     // Only worth drawing when the series actually crosses zero; otherwise the
     // baseline coincides with the axis.
     zeroY: zeroLine(frame.valueScale),
-    tightestMark:
-      tightestPoint === undefined
-        ? null
-        : {
-            x: x(tightestPoint),
-            y: y(tightestPoint),
-            // The tag would run off the trailing edge in the last third of the
-            // plot; past the midpoint it hangs to the left of its rule instead.
-            flip: x(tightestPoint) > frame.innerWidth / 2,
-          },
+    tightestMark: markFor(tightestPoint, x, y, frame.innerWidth),
   };
 }
 

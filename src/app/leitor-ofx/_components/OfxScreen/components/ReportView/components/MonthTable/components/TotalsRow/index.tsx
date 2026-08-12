@@ -1,3 +1,4 @@
+import { cx } from "@/lib/cx.ts";
 import { type TotalsRowProps, useTotalsRow } from "./hook.ts";
 import styles from "./style.module.scss";
 
@@ -15,7 +16,7 @@ export function TotalsRow(props: TotalsRowProps) {
       </th>
       <td>{income}</td>
       <td>{expense}</td>
-      <td className={negative ? styles.negative : undefined}>{balance}</td>
+      <td className={cx(negative && styles.negative)}>{balance}</td>
       <td>{count}</td>
     </tr>
   );

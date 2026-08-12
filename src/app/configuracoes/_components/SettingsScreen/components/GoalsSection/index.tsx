@@ -31,12 +31,14 @@ export function GoalsSection() {
     onConfirmDelete,
   } = useGoalsSection();
 
+  const noGoals = goals?.length === 0;
+
   return (
     <SectionCard title="Objetivos" icon={Target}>
-      {goals?.length === 0 && (
+      {noGoals && (
         <p className={styles.empty}>{COPY.nenhumObjetivoCadastradoAinda}</p>
       )}
-      {goals?.length !== 0 && (
+      {!noGoals && (
         <RowGrid>
           {goals?.map((goal) => (
             <GoalRow

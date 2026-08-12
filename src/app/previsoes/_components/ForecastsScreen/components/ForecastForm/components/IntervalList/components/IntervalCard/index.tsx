@@ -53,14 +53,15 @@ export function IntervalCard(props: IntervalCardProps) {
         </div>
       </div>
       <div className={styles.pickers}>
-        {isLocked ? (
+        {Boolean(isLocked) && (
           <MonthPicker
             id={`${idPrefix}-month`}
             label="Mês"
             value={start}
             onChange={onMonthChange}
           />
-        ) : (
+        )}
+        {!isLocked && (
           <>
             <MonthPicker
               id={`${idPrefix}-start`}

@@ -1,3 +1,4 @@
+import { cx } from "@/lib/cx.ts";
 import { type MonthRowProps, useMonthRow } from "./hook.ts";
 import styles from "./style.module.scss";
 
@@ -12,7 +13,7 @@ export function MonthRow(props: MonthRowProps) {
       </th>
       <td className={styles.income}>{income}</td>
       <td className={styles.expense}>{expense}</td>
-      <td className={negative ? styles.expense : undefined}>{balance}</td>
+      <td className={cx(negative && styles.expense)}>{balance}</td>
       <td className={styles.count}>{count}</td>
     </tr>
   );

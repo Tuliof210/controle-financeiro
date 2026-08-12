@@ -62,13 +62,14 @@ export function SavingsSection(props: SavingsSectionProps) {
         </dl>
       </div>
 
-      {empty ? (
+      {Boolean(empty) && (
         <p className={styles.empty}>
           {COPY.nenhumObjetivoCadastrado}{" "}
           <Link href="/configuracoes">{COPY.configuracoes}</Link>
           {COPY.fullStop}
         </p>
-      ) : (
+      )}
+      {!empty && (
         <>
           {/* Drawn once for the whole table, and only from `lg` — below it
               every row states its own labels. No table ARIA role on any of

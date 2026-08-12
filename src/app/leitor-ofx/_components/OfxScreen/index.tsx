@@ -25,7 +25,7 @@ export function OfxScreen() {
           sessionStorage effect knows whether one exists, so rendering the
           upload card unconditionally would flash it on every reload of a
           screen whose entire point is surviving reload. */}
-      {showLoading && <LoadingCard fileName={fileName} />}
+      {Boolean(showLoading) && <LoadingCard fileName={fileName} />}
       {!showLoading && report !== null && (
         <ReportView
           report={report}

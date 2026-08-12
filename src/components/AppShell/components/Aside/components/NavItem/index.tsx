@@ -12,14 +12,7 @@ interface NavItemProps {
 }
 
 export function NavItem(props: NavItemProps) {
-  const {
-    href,
-    label,
-    active,
-    icon: Icon,
-    className,
-    currentPage,
-  } = useNavItem(props);
+  const { href, label, icon: Icon, className, currentPage } = useNavItem(props);
 
   return (
     <li>

@@ -2,6 +2,15 @@ import type { GoalPace, GoalProjection } from "@/app/api/dashboard/types.ts";
 import { formatMoneyShort } from "@/lib/money.ts";
 import { MONTH_LABELS } from "@/lib/months.ts";
 
+// `horizon` guards its own zero: an empty projection would make every bar NaN.
+const barFor = (pace: GoalPace | null, horizon: number, color: string) => {
+  if (pace === null || horizon <= 0) {
+    return null;
+  }
+  const share = Math.min(PERCENT, (pace.months / horizon) * PERCENT);
+  return { color, width: `${share}%` };
+};
+
 interface GoalRowProps {
   goal: GoalProjection;
   // Months left in the projection — what each bar is measured against. A metric
@@ -69,13 +78,7 @@ function useGoalRow({ goal, horizon }: GoalRowProps) {
         // value reads "ritmo zero" — there is no length to draw for a goal
         // nothing is funding. `horizon` guards its own zero: an empty
         // projection would make every bar NaN.
-        bar:
-          pace === null || horizon <= 0
-            ? null
-            : {
-                color,
-                width: `${Math.min(PERCENT, (pace.months / horizon) * PERCENT)}%`,
-              },
+        bar: barFor(pace, horizon, color),
       };
     }),
   };

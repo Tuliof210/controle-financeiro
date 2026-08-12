@@ -31,12 +31,14 @@ export function PeopleSection() {
     onConfirmDelete,
   } = usePeopleSection();
 
+  const noPeople = people?.length === 0;
+
   return (
     <SectionCard title="Pessoas" icon={Users}>
-      {people?.length === 0 && (
+      {noPeople && (
         <p className={styles.empty}>{COPY.nenhumaPessoaCadastradaAinda}</p>
       )}
-      {people?.length !== 0 && (
+      {!noPeople && (
         <RowGrid>
           {people?.map((person) => (
             <PersonRow

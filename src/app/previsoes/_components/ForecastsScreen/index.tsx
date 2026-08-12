@@ -29,8 +29,12 @@ const renderPeriod = (forecast: Forecast) => (
   </span>
 );
 
-const renderBand = (forecast: Forecast, period: Period | null) =>
-  period ? <CoverageBar months={forecast.months} period={period} /> : null;
+const renderBand = (forecast: Forecast, period: Period | null) => {
+  if (period === null) {
+    return null;
+  }
+  return <CoverageBar months={forecast.months} period={period} />;
+};
 
 export function ForecastsScreen() {
   return (

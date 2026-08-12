@@ -21,7 +21,7 @@ export function MonthlyBarChart(props: MonthlyBarChartProps) {
         height={height}
         frame={frame}
         background={
-          band === null ? null : (
+          band !== null && (
             <>
               <rect
                 x={band.x}

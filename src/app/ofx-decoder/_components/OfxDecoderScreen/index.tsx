@@ -19,7 +19,7 @@ export function OfxDecoderScreen() {
         title="OFX Decoder"
         subtitle="Veja a árvore completa de tags do arquivo, sem enviar nada."
       />
-      {parsed ? (
+      {parsed !== null && (
         <TreeView
           fileName={fileName}
           header={parsed.header}
@@ -27,7 +27,8 @@ export function OfxDecoderScreen() {
           onClose={close}
           onFile={upload}
         />
-      ) : (
+      )}
+      {parsed === null && (
         <SectionCard title="Enviar arquivo OFX" icon={FileUp}>
           <DropZone onFile={upload} />
           {Boolean(error) && (

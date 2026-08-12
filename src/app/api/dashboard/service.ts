@@ -3,12 +3,7 @@ import { forecastRepository } from "@/infra/repositories/forecast.prisma.reposit
 import { goalRepository } from "@/infra/repositories/goal.prisma.repository.ts";
 import { movementRepository } from "@/infra/repositories/movement.prisma.repository.ts";
 import { settingsRepository } from "@/infra/repositories/settings.prisma.repository.ts";
-import {
-  type CeilingCap,
-  capPercent,
-  DEFAULT_CEILING_CAP,
-  META_CAP,
-} from "@/lib/ceiling-caps.ts";
+import { type CeilingCap, capPercent } from "@/lib/ceiling-caps.ts";
 import { buildMonths, currentYyyymm } from "@/lib/months.ts";
 import { visibleFor } from "@/lib/ownership.ts";
 import type { SimulationView } from "@/lib/simulation.ts";

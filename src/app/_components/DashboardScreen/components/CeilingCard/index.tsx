@@ -57,9 +57,8 @@ export function CeilingCard(props: CeilingCardProps) {
             </span>
           </div>
 
-          {empty ? (
-            <p className={styles.note}>{note}</p>
-          ) : (
+          {Boolean(empty) && <p className={styles.note}>{note}</p>}
+          {!empty && (
             <>
               {/* Stays the card's first <dd>: the ceiling spec reads it as this
                   month's figure, anchored at the start of the string. The rates
@@ -81,7 +80,7 @@ export function CeilingCard(props: CeilingCardProps) {
           )}
         </div>
 
-        {empty ? null : (
+        {!empty && (
           <div className={styles.pane}>
             <MonthTable rows={rows} />
             <div className={styles.footer}>

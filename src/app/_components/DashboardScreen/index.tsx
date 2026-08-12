@@ -1,6 +1,8 @@
 "use client";
 
 import { CalendarRange, LayoutDashboard, TriangleAlert } from "lucide-react";
+import type { DashboardData } from "@/app/api/dashboard/types.ts";
+import { cx } from "@/lib/cx.ts";
 import { formatYyyymm } from "@/lib/months.ts";
 import { Board } from "./components/Board/index.tsx";
 import { HeroBand } from "./components/HeroBand/index.tsx";
@@ -8,6 +10,12 @@ import { Notice } from "./components/Notice/index.tsx";
 import { SimulationSelect } from "./components/SimulationSelect/index.tsx";
 import { useDashboardScreen } from "./hook.ts";
 import styles from "./style.module.scss";
+
+const boardData = (data: DashboardData | null) => {
+  if (data?.status === "ok") {
+    return data;
+  }
+};
 
 const COPY = {
   loading: "Somando lançamentos e compromissos do período…",
@@ -30,6 +38,9 @@ export function DashboardScreen() {
     simulation,
     setSimulation,
   } = useDashboardScreen();
+  // HeroBand takes the payload only when it is the 'ok' shape; every other
+  // status leaves it undefined and the band renders its static half.
+  const heroData = boardData(data);
 
   return (
     <div className={styles.screen}>
@@ -37,7 +48,7 @@ export function DashboardScreen() {
           verbatim; the other five screens still render that component. The band
           takes `data` only when the payload is ok — its title half renders in
           every state, so the page never opens on a bare notice. */}
-      <HeroBand data={data?.status === "ok" ? data : undefined} />
+      <HeroBand data={heroData} />
 
       {/* Under the band, not over it: the band is full-bleed and cancels
           <main>'s padding with a negative margin on all four sides, so anything
@@ -77,7 +88,7 @@ export function DashboardScreen() {
           same statement. */}
       {data?.status === "ok" && (
         <div
-          className={refreshing ? styles.refreshing : undefined}
+          className={cx(refreshing && styles.refreshing)}
           aria-busy={refreshing}
         >
           <Board data={data} cap={cap} onCapChange={setCap} />

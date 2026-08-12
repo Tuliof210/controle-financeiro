@@ -1,7 +1,7 @@
 import { formatMoney, formatMoneyShort } from "@/lib/money.ts";
 import type { BoardData } from "../Board/hook.ts";
 
-export interface SavingsSectionProps {
+interface SavingsSectionProps {
   data: BoardData;
 }
 
@@ -12,7 +12,7 @@ const captionFor = (pace: number): string => {
   return "sem teto de gastos no período";
 };
 
-export function useSavingsSection({ data }: SavingsSectionProps) {
+function useSavingsSection({ data }: SavingsSectionProps) {
   const { goals, pace, ceiling } = data;
 
   return {
@@ -36,3 +36,6 @@ export function useSavingsSection({ data }: SavingsSectionProps) {
     ),
   };
 }
+
+export type { SavingsSectionProps };
+export { useSavingsSection };

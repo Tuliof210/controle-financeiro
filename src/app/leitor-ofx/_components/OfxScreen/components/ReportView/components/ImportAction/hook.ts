@@ -4,14 +4,13 @@ import { useProfile } from "@/components/ProfileProvider/hook.ts";
 import { apiPost } from "@/lib/api.ts";
 import { resolveOwnerId } from "@/lib/ownership.ts";
 import {
-  buildImportRows,
-  IDENTIFIER_MAX,
-  importedHint,
   ownerOptions,
   prefillIdentifier,
+  submitLabelFor,
   summaryOf,
   tooltipFor,
-} from "./import-rows.helper.ts";
+} from "./import-copy.helper.ts";
+import { buildImportRows, IDENTIFIER_MAX } from "./import-rows.helper.ts";
 import { useImportedRecord } from "./imported.hook.ts";
 
 export interface ImportActionProps {
@@ -93,6 +92,7 @@ export function useImportAction({ report }: ImportActionProps) {
     maxLength: IDENTIFIER_MAX,
     imported: record.imported,
     tooltip: tooltipFor(record),
+    submitLabel: submitLabelFor(busy),
     summary: summaryOf(rows.length),
     options: ownerOptions(people),
   };

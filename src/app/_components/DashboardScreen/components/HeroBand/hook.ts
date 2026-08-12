@@ -1,4 +1,3 @@
-import type { MonthPoint } from "@/app/api/dashboard/types.ts";
 import { formatMoney } from "@/lib/money.ts";
 import { formatYyyymm } from "@/lib/months.ts";
 import type { BoardData } from "../Board/hook.ts";
