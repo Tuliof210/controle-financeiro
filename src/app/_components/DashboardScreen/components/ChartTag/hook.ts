@@ -22,7 +22,10 @@ const BASELINE_RATIO = 0.7;
 
 function useChartTag({ x, y, label, tone, flip }: ChartTagProps) {
   const width = label.length * TAG_CHAR_PX + TAG_PAD_X * 2;
-  const left = flip ? x - width : x;
+  let left = x;
+  if (flip) {
+    left = x - width;
+  }
 
   return {
     label,

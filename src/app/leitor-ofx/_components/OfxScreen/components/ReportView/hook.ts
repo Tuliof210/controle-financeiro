@@ -3,7 +3,7 @@ import { formatMoney } from "@/lib/money.ts";
 import { formatYyyymm } from "@/lib/months.ts";
 import { accountLabel, finalBalance } from "./account.helper.ts";
 
-export interface ReportViewProps {
+interface ReportViewProps {
   report: OfxReport;
   error: string | null;
   loading: boolean;
@@ -32,7 +32,7 @@ function readWord(count: number): string {
   return "lançamentos lidos";
 }
 
-export function useReportView({
+function useReportView({
   report,
   error,
   loading,
@@ -83,3 +83,6 @@ export function useReportView({
     },
   };
 }
+
+export type { ReportViewProps };
+export { useReportView };

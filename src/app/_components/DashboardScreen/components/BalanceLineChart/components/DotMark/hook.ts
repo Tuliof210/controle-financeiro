@@ -1,3 +1,6 @@
+// A projected point draws at half opacity.
+const PROJECTED_OPACITY = 0.5;
+
 interface PointerLocation {
   clientX: number;
   clientY: number;
@@ -26,7 +29,7 @@ function useDotMark({
     cx,
     cy,
     title,
-    projected,
+    opacity: projected ? PROJECTED_OPACITY : 1,
     show: (event: PointerLocation) => showTooltip(event, title),
     hide: hideTooltip,
   };

@@ -3,7 +3,12 @@ import type { MonthPoint } from "@/app/api/dashboard/types.ts";
 import { formatMoney } from "@/lib/money.ts";
 import { formatYyyymm } from "@/lib/months.ts";
 import { buildFrame } from "../../chart-frame.helper.ts";
-import { bandOf, estimatedFor } from "./bar-series.helper.ts";
+import {
+  bandOf,
+  bandStartOf,
+  estimatedFor,
+  estimatedWord,
+} from "./bar-series.helper.ts";
 
 interface MonthlyBarChartProps {
   points: MonthPoint[];
@@ -62,7 +67,7 @@ function useMonthlyBarChart({
         // carrying the same fact.
         title: `${formatYyyymm(point.month)} · ${series.label} · ${formatMoney(
           value,
-        )} · ${estimated ? "previsto" : "lançado"}`,
+        )} · ${estimatedWord(estimated)}`,
       };
     }),
   );
@@ -70,8 +75,7 @@ function useMonthlyBarChart({
   // The band starts at the leading edge of the first projected month's own band
   // — not its centre — so the dashed rule lands where the month begins. Null
   // whenever nothing is projected, or the month fell outside the range.
-  const bandStart =
-    dashedFrom === null ? null : (frame.monthScale(dashedFrom) ?? null);
+  const bandStart = bandStartOf(dashedFrom, frame.monthScale);
 
   return {
     frame,

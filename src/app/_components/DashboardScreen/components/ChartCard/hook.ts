@@ -7,7 +7,7 @@ import {
   useState,
 } from "react";
 
-export interface ChartCardProps {
+interface ChartCardProps {
   title: string;
   icon: LucideIcon;
   hint: string;
@@ -19,13 +19,13 @@ export interface ChartCardProps {
   children: (size: { width: number; height: number }) => ReactNode;
 }
 
-export function useChartCard({
-  title,
-  icon,
-  hint,
-  legend,
-  children,
-}: ChartCardProps) {
+const sameSize = (
+  prev: { width: number; height: number },
+  width: number,
+  height: number,
+): boolean => prev.width === width && prev.height === height;
+
+function useChartCard({ title, icon, hint, legend, children }: ChartCardProps) {
   const ref = useRef<HTMLDivElement>(null);
   const [size, setSize] = useState({ width: 0, height: 0 });
 
@@ -37,7 +37,7 @@ export function useChartCard({
     const { width, height } = node.getBoundingClientRect();
     // Commit only a real change, or this loops.
     setSize((prev) =>
-      prev.width === width && prev.height === height ? prev : { width, height },
+      sameSize(prev, width, height) ? prev : { width, height },
     );
   }, []);
 
@@ -62,3 +62,6 @@ export function useChartCard({
 
   return { title, icon, hint, legend, children, ref, size };
 }
+
+export type { ChartCardProps };
+export { useChartCard };

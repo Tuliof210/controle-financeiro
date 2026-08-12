@@ -1,22 +1,8 @@
 import { type BarMarkProps, useBarMark } from "./hook.ts";
 
-// 50% opacity marks a month whose commitment beat its actuals — a projection,
-// not history.
-const ESTIMATED_OPACITY = 0.5;
-
 export function BarMark(props: BarMarkProps) {
-  const {
-    x,
-    y,
-    width,
-    height,
-    fill,
-    estimated,
-    title,
-    plotHeight,
-    show,
-    hide,
-  } = useBarMark(props);
+  const { x, y, width, height, fill, opacity, title, plotHeight, show, hide } =
+    useBarMark(props);
 
   return (
     <g>
@@ -26,7 +12,7 @@ export function BarMark(props: BarMarkProps) {
         width={width}
         height={height}
         fill={fill}
-        fillOpacity={estimated ? ESTIMATED_OPACITY : 1}
+        fillOpacity={opacity}
       />
       {/* Invisible, full-column hit target, not the <title> this replaces — a
           near-zero bar can be a sliver a few pixels tall, and a native title

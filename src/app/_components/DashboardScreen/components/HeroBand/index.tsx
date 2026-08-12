@@ -52,7 +52,7 @@ export function HeroBand(props: HeroBandProps) {
                     !figures.deltaUp && styles.down,
                   )}
                 >
-                  <span aria-hidden={true}>{figures.deltaUp ? "▲" : "▼"}</span>{" "}
+                  <span aria-hidden={true}>{figures.deltaGlyph}</span>{" "}
                   {figures.delta}
                 </span>
                 <span className={styles.vs}>

@@ -33,12 +33,19 @@ const METRICS = [
 const YEAR_SHIFT = 100;
 const PERCENT = 100;
 
+function monthWord(months: number): string {
+  if (months === 1) {
+    return "mês";
+  }
+  return "meses";
+}
+
 function landing(pace: GoalPace): string {
   if (pace === null) {
     return "ritmo zero";
   }
   const { months, doneMonth } = pace;
-  const unit = months === 1 ? "mês" : "meses";
+  const unit = monthWord(months);
   const label = MONTH_LABELS[(doneMonth % YEAR_SHIFT) - 1];
   return `~${months} ${unit} · ${label}/${Math.trunc(doneMonth / YEAR_SHIFT)}`;
 }

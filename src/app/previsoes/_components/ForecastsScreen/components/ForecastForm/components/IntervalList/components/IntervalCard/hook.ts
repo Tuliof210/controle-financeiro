@@ -2,7 +2,7 @@ import { addMonths, buildMonths, formatYyyymm } from "@/lib/months.ts";
 import type { Interval } from "../../../../intervals.helper.ts";
 import type { KeyedInterval } from "../../../../intervals.hook.ts";
 
-export interface IntervalCardProps {
+interface IntervalCardProps {
   interval: KeyedInterval;
   index: number;
   canRemove: boolean;
@@ -40,7 +40,7 @@ function unlockedRange(isLocked: boolean, start: number, end: number) {
   return { start, end: start };
 }
 
-export function useIntervalCard({
+function useIntervalCard({
   interval,
   index,
   canRemove,
@@ -72,3 +72,6 @@ export function useIntervalCard({
     onRemove: () => onRemove(index),
   };
 }
+
+export type { IntervalCardProps };
+export { useIntervalCard };

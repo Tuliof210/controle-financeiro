@@ -16,4 +16,25 @@ function bandOf(bandStart: number | null, innerWidth: number) {
   return { x: bandStart, width: Math.max(0, innerWidth - bandStart) };
 }
 
-export { bandOf, estimatedFor };
+// The 50% opacity is a data encoding, so the title carries the same fact.
+function estimatedWord(estimated: boolean): string {
+  if (estimated) {
+    return "previsto";
+  }
+  return "lançado";
+}
+
+// The band starts at the leading edge of the first projected month's own band —
+// not its centre — so the dashed rule lands where the month begins. Null
+// whenever nothing is projected, or the month fell outside the range.
+function bandStartOf(
+  dashedFrom: number | null,
+  monthScale: (month: number) => number | undefined,
+): number | null {
+  if (dashedFrom === null) {
+    return null;
+  }
+  return monthScale(dashedFrom) ?? null;
+}
+
+export { bandOf, bandStartOf, estimatedFor, estimatedWord };

@@ -25,8 +25,12 @@ const MONTHS_MOBILE = 6;
 
 const isDesktopWidth = (width: number): boolean => width >= DESKTOP_PLOT_WIDTH;
 
-const monthWindowSize = (width: number): number =>
-  isDesktopWidth(width) ? MONTHS_DESKTOP : MONTHS_MOBILE;
+const monthWindowSize = (width: number): number => {
+  if (isDesktopWidth(width)) {
+    return MONTHS_DESKTOP;
+  }
+  return MONTHS_MOBILE;
+};
 
 // Same width-based choice as monthWindowSize, for what the Y axis actually
 // draws: below the desktop plot width, formatMoneyShort's full grouped
@@ -34,8 +38,12 @@ const monthWindowSize = (width: number): number =>
 // the compact "K" form instead. Shared here so buildFrame's gutter sizing
 // and ChartFrame's rendered labels can never disagree on which format is on
 // screen at a given width.
-const tickFormatterFor = (width: number) =>
-  isDesktopWidth(width) ? formatMoneyShort : formatMoneyShortK;
+const tickFormatterFor = (width: number) => {
+  if (isDesktopWidth(width)) {
+    return formatMoneyShort;
+  }
+  return formatMoneyShortK;
+};
 
 // visx renders plain SVG, so DS tokens go straight into presentation
 // attributes — they resolve inside SVG and follow the runtime theme switch for
