@@ -4,6 +4,7 @@ import { Button } from "@/components/Button/index.tsx";
 import { MoneyInput } from "@/components/MoneyInput/index.tsx";
 import { SelectField } from "@/components/SelectField/index.tsx";
 import { TextField } from "@/components/TextField/index.tsx";
+import { ERROR_GLYPH } from "@/lib/glyphs.ts";
 import { TypeToggle } from "./components/TypeToggle/index.tsx";
 import type { EntryFormProps } from "./entry-form.helper.ts";
 import styles from "./style.module.scss";
@@ -56,7 +57,7 @@ export function EntryForm({
       {period}
       {error ? (
         <p className={styles.error}>
-          <span aria-hidden={true}>▲</span> {error}
+          <span aria-hidden={true}>{ERROR_GLYPH}</span> {error}
         </p>
       ) : null}
       <Button onClick={onSubmit} disabled={!canSubmit}>

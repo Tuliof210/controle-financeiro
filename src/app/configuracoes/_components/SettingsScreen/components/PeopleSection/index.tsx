@@ -11,6 +11,11 @@ import { PersonRow } from "./components/PersonRow/index.tsx";
 import { usePeopleSection } from "./hook.ts";
 import styles from "./style.module.scss";
 
+const COPY = {
+  nenhumaPessoaCadastradaAinda: "Nenhuma pessoa cadastrada ainda.",
+  adicionarPessoa: "Adicionar pessoa",
+} as const;
+
 export function PeopleSection() {
   const {
     people,
@@ -29,7 +34,7 @@ export function PeopleSection() {
   return (
     <SectionCard title="Pessoas" icon={Users}>
       {people?.length === 0 ? (
-        <p className={styles.empty}>Nenhuma pessoa cadastrada ainda.</p>
+        <p className={styles.empty}>{COPY.nenhumaPessoaCadastradaAinda}</p>
       ) : (
         <RowGrid>
           {people?.map((person) => (
@@ -44,7 +49,7 @@ export function PeopleSection() {
       )}
       <Button variant="dashed" onClick={openAdd}>
         <Plus size={16} aria-hidden={true} />
-        Adicionar pessoa
+        {COPY.adicionarPessoa}
       </Button>
 
       <Modal

@@ -3,8 +3,14 @@ import { Modal } from "@/components/Modal/index.tsx";
 import { SelectField } from "@/components/SelectField/index.tsx";
 import { TextField } from "@/components/TextField/index.tsx";
 import { Tooltip } from "@/components/Tooltip/index.tsx";
+import { ERROR_GLYPH } from "@/lib/glyphs.ts";
 import { type ImportActionProps, useImportAction } from "./hook.ts";
 import styles from "./style.module.scss";
+
+const COPY = {
+  importar: "Importar",
+  cancelar: "Cancelar",
+} as const;
 
 const IDENTIFIER_ID = "ofx-import-identifier";
 const OWNER_ID = "ofx-import-owner";
@@ -23,7 +29,7 @@ export function ImportAction(props: ImportActionProps) {
         onClick={view.openDialog}
         disabled={view.imported}
       >
-        Importar
+        {COPY.importar}
       </Button>
       {/* Beside the button, never wrapping it: a disabled <button> fires no
           pointer or focus events, so a wrapper would hide the reason it is
@@ -40,7 +46,7 @@ export function ImportAction(props: ImportActionProps) {
         footer={
           <>
             <Button variant="ghost" onClick={view.close}>
-              Cancelar
+              {COPY.cancelar}
             </Button>
             <Button onClick={view.submit} disabled={!view.canSubmit}>
               {view.busy ? "Importando…" : "Importar"}
@@ -68,7 +74,7 @@ export function ImportAction(props: ImportActionProps) {
             <p className={styles.summary}>{view.summary}</p>
             {view.error ? (
               <p className={styles.error}>
-                <span aria-hidden={true}>▲</span> {view.error}
+                <span aria-hidden={true}>{ERROR_GLYPH}</span> {view.error}
               </p>
             ) : null}
           </div>

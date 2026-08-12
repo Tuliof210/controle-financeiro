@@ -11,6 +11,11 @@ import { GoalRow } from "./components/GoalRow/index.tsx";
 import { useGoalsSection } from "./hook.ts";
 import styles from "./style.module.scss";
 
+const COPY = {
+  nenhumObjetivoCadastradoAinda: "Nenhum objetivo cadastrado ainda.",
+  adicionarObjetivo: "Adicionar objetivo",
+} as const;
+
 export function GoalsSection() {
   const {
     goals,
@@ -28,7 +33,7 @@ export function GoalsSection() {
   return (
     <SectionCard title="Objetivos" icon={Target}>
       {goals?.length === 0 ? (
-        <p className={styles.empty}>Nenhum objetivo cadastrado ainda.</p>
+        <p className={styles.empty}>{COPY.nenhumObjetivoCadastradoAinda}</p>
       ) : (
         <RowGrid>
           {goals?.map((goal) => (
@@ -43,7 +48,7 @@ export function GoalsSection() {
       )}
       <Button variant="dashed" onClick={openAdd}>
         <Plus size={16} aria-hidden={true} />
-        Adicionar objetivo
+        {COPY.adicionarObjetivo}
       </Button>
 
       <Modal

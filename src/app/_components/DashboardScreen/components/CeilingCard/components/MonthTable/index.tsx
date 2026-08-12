@@ -1,5 +1,15 @@
+import { MINUS_GLYPH } from "@/lib/glyphs.ts";
 import { type MonthTableProps, useMonthTable } from "./hook.ts";
 import styles from "./style.module.scss";
+
+const COPY = {
+  saldoAcum: "Saldo acum.",
+  tetoDoMes: "Teto do mês",
+  sobra: "Sobra",
+  atual: "Atual",
+  saldoAcumuladoMes: "Saldo acumulado mês a mês, se cada mês gastar o seu teto",
+  mes: "Mês",
+} as const;
 
 // Three figures per month is a grid, not a chart — which is why the bars this
 // replaced are gone. A native <table> with no ARIA on it: Biome rejects explicit
@@ -21,17 +31,15 @@ export function MonthTable(props: MonthTableProps) {
   return (
     <div className={styles.wrap}>
       <table className={styles.table}>
-        <caption className={styles.caption}>
-          Saldo acumulado mês a mês, se cada mês gastar o seu teto
-        </caption>
+        <caption className={styles.caption}>{COPY.saldoAcumuladoMes}</caption>
         <thead className={styles.head}>
           <tr>
             <th scope="col" className={styles.month}>
-              Mês
+              {COPY.mes}
             </th>
-            <th scope="col">Saldo acum.</th>
-            <th scope="col">Teto do mês</th>
-            <th scope="col">Sobra</th>
+            <th scope="col">{COPY.saldoAcum}</th>
+            <th scope="col">{COPY.tetoDoMes}</th>
+            <th scope="col">{COPY.sobra}</th>
           </tr>
         </thead>
         <tbody>
@@ -40,7 +48,7 @@ export function MonthTable(props: MonthTableProps) {
               <th scope="row" className={styles.month}>
                 {row.label}
                 {row.isCurrent ? (
-                  <span className={styles.current}>Atual</span>
+                  <span className={styles.current}>{COPY.atual}</span>
                 ) : null}
               </th>
               <td className={styles.balance} data-label="Saldo acum.">
@@ -50,7 +58,7 @@ export function MonthTable(props: MonthTableProps) {
                   from the balance beside it, and formatMoney never signs a
                   positive. */}
               <td className={styles.spend} data-label="Teto do mês">
-                <span aria-hidden={true}>−</span>
+                <span aria-hidden={true}>{MINUS_GLYPH}</span>
                 {row.spend}
               </td>
               <td className={styles.left} data-label="Sobra">

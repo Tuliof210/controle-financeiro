@@ -2,11 +2,21 @@ import { Check, FileText } from "lucide-react";
 import { Button } from "@/components/Button/index.tsx";
 import { FilePicker } from "@/components/FilePicker/index.tsx";
 import { SectionCard } from "@/components/SectionCard/index.tsx";
+import { ERROR_GLYPH } from "@/lib/glyphs.ts";
 import { AccountLine } from "./components/AccountLine/index.tsx";
 import { ImportAction } from "./components/ImportAction/index.tsx";
 import { MonthTable } from "./components/MonthTable/index.tsx";
 import { type ReportViewProps, useReportView } from "./hook.ts";
 import styles from "./style.module.scss";
+
+const COPY = {
+  instituicao: "Instituição",
+  conta: "Conta",
+  periodo: "Período",
+  moeda: "Moeda",
+  saldoFinal: "Saldo final",
+  fechar: "Fechar",
+} as const;
 
 export function ReportView(props: ReportViewProps) {
   const view = useReportView(props);
@@ -22,23 +32,23 @@ export function ReportView(props: ReportViewProps) {
       {/* No "Lançamentos" key here any more — the badge above carries it. */}
       <dl className={styles.facts}>
         <div>
-          <dt>Instituição</dt>
+          <dt>{COPY.instituicao}</dt>
           <dd>{view.org}</dd>
         </div>
         <div>
-          <dt>Conta</dt>
+          <dt>{COPY.conta}</dt>
           <dd>{view.account}</dd>
         </div>
         <div>
-          <dt>Período</dt>
+          <dt>{COPY.periodo}</dt>
           <dd>{view.period}</dd>
         </div>
         <div>
-          <dt>Moeda</dt>
+          <dt>{COPY.moeda}</dt>
           <dd>{view.currency}</dd>
         </div>
         <div>
-          <dt>Saldo final</dt>
+          <dt>{COPY.saldoFinal}</dt>
           <dd>{view.finalBalance}</dd>
         </div>
       </dl>
@@ -52,7 +62,7 @@ export function ReportView(props: ReportViewProps) {
 
       {view.error ? (
         <p className={styles.error}>
-          <span aria-hidden={true}>▲</span> {view.error}
+          <span aria-hidden={true}>{ERROR_GLYPH}</span> {view.error}
         </p>
       ) : null}
 
@@ -62,7 +72,7 @@ export function ReportView(props: ReportViewProps) {
             otherwise setReport + write storage after the report was dropped —
             resurrecting a closed report and re-persisting its session key. */}
         <Button variant="ghost" onClick={view.onClose} disabled={view.loading}>
-          Fechar
+          {COPY.fechar}
         </Button>
         <FilePicker
           label="Trocar arquivo"

@@ -9,6 +9,16 @@ import { SimulationSelect } from "./components/SimulationSelect/index.tsx";
 import { useDashboardScreen } from "./hook.ts";
 import styles from "./style.module.scss";
 
+const COPY = {
+  loading: "Somando lançamentos e compromissos do período…",
+  noRange:
+    "Nenhum lançamento ainda. Registre uma movimentação ou previsão para o período aparecer aqui.",
+  outOfRangeLead: "O período global",
+  outOfRangeMid: "não cobre o mês atual",
+  outOfRangeTail:
+    ". Registre uma movimentação ou previsão nesse mês para incluí-lo.",
+} as const;
+
 export function DashboardScreen() {
   const {
     data,
@@ -39,7 +49,7 @@ export function DashboardScreen() {
 
       {loading ? (
         <Notice title="Carregando" icon={LayoutDashboard}>
-          Somando lançamentos e compromissos do período…
+          {COPY.loading}
         </Notice>
       ) : null}
 
@@ -51,17 +61,13 @@ export function DashboardScreen() {
 
       {data?.status === "no_range" ? (
         <Notice title="Período global" icon={CalendarRange}>
-          Nenhum lançamento ainda. Registre uma movimentação ou previsão para o
-          período aparecer aqui.
+          {COPY.noRange}
         </Notice>
       ) : null}
 
       {data?.status === "out_of_range" ? (
         <Notice title="Período global" icon={CalendarRange}>
-          O período global ({formatYyyymm(data.range.start)}–
-          {formatYyyymm(data.range.end)}) não cobre o mês atual (
-          {formatYyyymm(data.range.current)}). Registre uma movimentação ou
-          previsão nesse mês para incluí-lo.
+          {`${COPY.outOfRangeLead} (${formatYyyymm(data.range.start)}–${formatYyyymm(data.range.end)}) ${COPY.outOfRangeMid} (${formatYyyymm(data.range.current)})${COPY.outOfRangeTail}`}
         </Notice>
       ) : null}
 

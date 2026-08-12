@@ -3,6 +3,13 @@ import { FilePicker } from "../FilePicker/index.tsx";
 import { type DropZoneProps, useDropZone } from "./hook.ts";
 import styles from "./style.module.scss";
 
+const COPY = {
+  prompt: "Arraste o extrato .ofx",
+  versions: "· OFX 1.x e 2.x",
+  sizeLimit: "· até 5 MB",
+  local: "· 100% local",
+} as const;
+
 export function DropZone(props: DropZoneProps) {
   const { over, note, onFile, ref } = useDropZone(props);
 
@@ -17,14 +24,14 @@ export function DropZone(props: DropZoneProps) {
       <span className={styles.glyph}>
         <Upload size={28} aria-hidden={true} />
       </span>
-      <p className={styles.eyebrow}>Arraste o extrato .ofx</p>
+      <p className={styles.eyebrow}>{COPY.prompt}</p>
       <p className={styles.note}>{note}</p>
       <FilePicker label="Escolher arquivo" onFile={onFile} />
       {/* 5 MB, not the design's 10: the route's cap is 5 and is not changing. */}
       <p className={styles.foot}>
-        <span>· OFX 1.x e 2.x</span>
-        <span>· até 5 MB</span>
-        <span>· 100% local</span>
+        <span>{COPY.versions}</span>
+        <span>{COPY.sizeLimit}</span>
+        <span>{COPY.local}</span>
       </p>
     </div>
   );

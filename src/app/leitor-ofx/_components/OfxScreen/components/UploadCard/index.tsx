@@ -1,6 +1,7 @@
 import { FileUp } from "lucide-react";
 import { DropZone } from "@/components/DropZone/index.tsx";
 import { SectionCard } from "@/components/SectionCard/index.tsx";
+import { ERROR_GLYPH } from "@/lib/glyphs.ts";
 import { type UploadCardProps, useUploadCard } from "./hook.ts";
 import styles from "./style.module.scss";
 
@@ -20,7 +21,7 @@ export function UploadCard(props: UploadCardProps) {
       />
       {error ? (
         <p className={styles.error}>
-          <span aria-hidden={true}>▲</span> {error}
+          <span aria-hidden={true}>{ERROR_GLYPH}</span> {error}
         </p>
       ) : null}
     </SectionCard>

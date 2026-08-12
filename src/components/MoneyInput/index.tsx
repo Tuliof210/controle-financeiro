@@ -1,5 +1,6 @@
 "use client";
 
+import { CURRENCY_PREFIX } from "@/lib/glyphs.ts";
 import { useMoneyInput } from "./hook.ts";
 import styles from "./style.module.scss";
 
@@ -17,7 +18,7 @@ export function MoneyInput(props: MoneyInputProps) {
   return (
     <div className={styles.field}>
       <span className={styles.prefix} aria-hidden={true}>
-        R$
+        {CURRENCY_PREFIX}
       </span>
       <input
         ref={inputRef}

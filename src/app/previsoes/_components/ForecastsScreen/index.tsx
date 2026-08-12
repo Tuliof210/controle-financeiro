@@ -9,6 +9,10 @@ import { ForecastForm } from "./components/ForecastForm/index.tsx";
 import { formatMonths } from "./forecast-range.helper.ts";
 import styles from "./style.module.scss";
 
+const COPY = {
+  simulado: "Simulado",
+} as const;
+
 // Pure and free of component state, so they are module functions rather than
 // closures the JSX rebuilds on every render.
 //
@@ -18,7 +22,9 @@ import styles from "./style.module.scss";
 // Movimentações passes its own.
 const renderPeriod = (forecast: Forecast) => (
   <span className={styles.period}>
-    {forecast.simulated ? <span className={styles.badge}>Simulado</span> : null}
+    {forecast.simulated ? (
+      <span className={styles.badge}>{COPY.simulado}</span>
+    ) : null}
     <span className={styles.months}>{formatMonths(forecast.months)}</span>
   </span>
 );

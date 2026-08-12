@@ -3,6 +3,7 @@
 import { Button } from "@/components/Button/index.tsx";
 import { MoneyInput } from "@/components/MoneyInput/index.tsx";
 import { TextField } from "@/components/TextField/index.tsx";
+import { ERROR_GLYPH } from "@/lib/glyphs.ts";
 import { type GoalFormProps, useGoalForm } from "./hook.ts";
 import styles from "./style.module.scss";
 
@@ -34,7 +35,7 @@ export function GoalForm({
       />
       {shownError ? (
         <p className={styles.error}>
-          <span aria-hidden={true}>▲</span> {shownError}
+          <span aria-hidden={true}>{ERROR_GLYPH}</span> {shownError}
         </p>
       ) : null}
       <Button onClick={handleSubmit}>{submitLabel}</Button>

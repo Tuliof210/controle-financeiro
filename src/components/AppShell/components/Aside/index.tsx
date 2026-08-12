@@ -4,6 +4,12 @@ import { NavItem } from "./components/NavItem/index.tsx";
 import { useAside } from "./hook.ts";
 import styles from "./style.module.scss";
 
+const COPY = {
+  monevo: "MONEVO",
+  panoramaFinanceiro: "PANORAMA FINANCEIRO",
+  menu: "MENU",
+} as const;
+
 interface AsideProps {
   collapsed: boolean;
   drawerOpen: boolean;
@@ -41,13 +47,13 @@ export function Aside(props: AsideProps) {
       <div className={styles.brand}>
         <BrandMark />
         <span className={styles.brandText}>
-          <span className={styles.brandName}>MONEVO</span>
-          <span className={styles.brandTag}>PANORAMA FINANCEIRO</span>
+          <span className={styles.brandName}>{COPY.monevo}</span>
+          <span className={styles.brandTag}>{COPY.panoramaFinanceiro}</span>
         </span>
       </div>
 
       <div className={styles.nav}>
-        <p className={styles.menu}>MENU</p>
+        <p className={styles.menu}>{COPY.menu}</p>
         <ul className={styles.list}>
           {items.map((item) => (
             <NavItem

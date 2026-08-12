@@ -3,20 +3,29 @@ import { TotalsRow } from "./components/TotalsRow/index.tsx";
 import { type MonthTableProps, useMonthTable } from "./hook.ts";
 import styles from "./style.module.scss";
 
+const COPY = {
+  caption: "Entradas e saídas por mês",
+  mes: "Mês",
+  entradas: "Entradas",
+  saidas: "Saídas",
+  saldo: "Saldo",
+  lanc: "Lanç.",
+} as const;
+
 export function MonthTable(props: MonthTableProps) {
   const { rows, totals } = useMonthTable(props);
 
   return (
     <div className={styles.wrap}>
       <table className={styles.table}>
-        <caption className={styles.caption}>Entradas e saídas por mês</caption>
+        <caption className={styles.caption}>{COPY.caption}</caption>
         <thead>
           <tr>
-            <th scope="col">Mês</th>
-            <th scope="col">Entradas</th>
-            <th scope="col">Saídas</th>
-            <th scope="col">Saldo</th>
-            <th scope="col">Lanç.</th>
+            <th scope="col">{COPY.mes}</th>
+            <th scope="col">{COPY.entradas}</th>
+            <th scope="col">{COPY.saidas}</th>
+            <th scope="col">{COPY.saldo}</th>
+            <th scope="col">{COPY.lanc}</th>
           </tr>
         </thead>
         <tbody>

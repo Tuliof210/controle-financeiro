@@ -6,6 +6,10 @@ import { TagNode } from "./components/TagNode/index.tsx";
 import { type TreeViewProps, useTreeView } from "./hook.ts";
 import styles from "./style.module.scss";
 
+const COPY = {
+  fechar: "Fechar",
+} as const;
+
 export function TreeView(props: TreeViewProps) {
   const { fileName, header, root, onClose, onFile } = useTreeView(props);
 
@@ -24,7 +28,7 @@ export function TreeView(props: TreeViewProps) {
       </ul>
       <div className={styles.actions}>
         <Button variant="ghost" onClick={onClose}>
-          Fechar
+          {COPY.fechar}
         </Button>
         <FilePicker label="Trocar arquivo" onFile={onFile} />
       </div>

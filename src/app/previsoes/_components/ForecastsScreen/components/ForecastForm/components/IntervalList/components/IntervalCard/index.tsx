@@ -4,6 +4,11 @@ import { MonthPicker } from "@/components/MonthPicker/index.tsx";
 import { type IntervalCardProps, useIntervalCard } from "./hook.ts";
 import styles from "./style.module.scss";
 
+const COPY = {
+  vigencia: "Vigência",
+  mesUnico: "Mês único",
+} as const;
+
 export function IntervalCard(props: IntervalCardProps) {
   const {
     idPrefix,
@@ -24,7 +29,7 @@ export function IntervalCard(props: IntervalCardProps) {
   return (
     <div className={styles.card}>
       <div className={styles.header}>
-        <span className={styles.eyebrow}>Vigência</span>
+        <span className={styles.eyebrow}>{COPY.vigencia}</span>
         <div className={styles.controls}>
           <label className={styles.lock} htmlFor={`${idPrefix}-lock`}>
             <input
@@ -34,7 +39,7 @@ export function IntervalCard(props: IntervalCardProps) {
               checked={isLocked}
               onChange={onLockToggle}
             />
-            Mês único
+            {COPY.mesUnico}
           </label>
           {canRemove ? (
             <IconButton

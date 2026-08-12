@@ -5,6 +5,11 @@ import { IntervalList } from "./components/IntervalList/index.tsx";
 import { type ForecastFormProps, useForecastForm } from "./hook.ts";
 import styles from "./style.module.scss";
 
+const COPY = {
+  simulacao: "Simulação",
+  oDashboardSo: "O dashboard só soma simulações quando você pedir.",
+} as const;
+
 const SIMULATED_ID = "forecast-simulated";
 
 export function ForecastForm(props: ForecastFormProps) {
@@ -46,11 +51,9 @@ export function ForecastForm(props: ForecastFormProps) {
                 checked={simulated}
                 onChange={toggleSimulated}
               />
-              Simulação
+              {COPY.simulacao}
             </label>
-            <p className={styles.hint}>
-              O dashboard só soma simulações quando você pedir.
-            </p>
+            <p className={styles.hint}>{COPY.oDashboardSo}</p>
           </div>
         </div>
       }

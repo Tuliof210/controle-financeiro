@@ -1,6 +1,10 @@
 import { type CapSelectorProps, useCapSelector } from "./hook.ts";
 import styles from "./style.module.scss";
 
+const COPY = {
+  quantoDoSaldoE: "Quanto do saldo é liberado",
+} as const;
+
 // How much of each month's headroom the ceiling hands out. Native radios inside
 // a <fieldset>, not buttons carrying `role="radio"`: ColorPicker needs that
 // escape hatch because a real radio cannot paint a colour swatch, and Biome's
@@ -16,7 +20,7 @@ export function CapSelector(props: CapSelectorProps) {
 
   return (
     <fieldset className={styles.group}>
-      <legend className={styles.legend}>Quanto do saldo é liberado</legend>
+      <legend className={styles.legend}>{COPY.quantoDoSaldoE}</legend>
       {segments.map(({ cap, label, checked, select }) => (
         <label key={cap} className={styles.segment}>
           <input

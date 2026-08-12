@@ -2,6 +2,14 @@ import { Facts } from "./components/Facts/index.tsx";
 import { type HeroBandProps, useHeroBand } from "./hook.ts";
 import styles from "./style.module.scss";
 
+const COPY = {
+  painel: "PAINEL",
+  dashboard: "Dashboard",
+  subtitle: "Onde o dinheiro da família está hoje e para onde ele vai.",
+  saldoProjetado: "SALDO PROJETADO ·",
+  vsSaldoAtual: "vs. saldo atual de",
+} as const;
+
 // The page's title block and its headline figure, in one band. It replaces
 // PageHeader on this route only: the other five screens still render that
 // component, which is why none of this copy moved into it.
@@ -18,23 +26,21 @@ export function HeroBand(props: HeroBandProps) {
           <div className={styles.titleCol}>
             <p className={styles.eyebrow}>
               <span className={styles.mark} aria-hidden={true} />
-              PAINEL
+              {COPY.painel}
             </p>
             {/* An <h1>: the page's only one, above the <h2> every card on this
                 screen titles itself with. */}
             <h1 className={styles.title}>
-              Dashboard
+              {COPY.dashboard}
               <span className={styles.cursor} aria-hidden={true} />
             </h1>
-            <p className={styles.subtitle}>
-              Onde o dinheiro da família está hoje e para onde ele vai.
-            </p>
+            <p className={styles.subtitle}>{COPY.subtitle}</p>
           </div>
 
           {figures ? (
             <div className={styles.figures}>
               <p className={styles.eyebrow}>
-                SALDO PROJETADO · {figures.endLabel}
+                {COPY.saldoProjetado} {figures.endLabel}
               </p>
               <p className={styles.value}>{figures.value}</p>
               <div className={styles.deltaRow}>
@@ -45,7 +51,7 @@ export function HeroBand(props: HeroBandProps) {
                   {figures.delta}
                 </span>
                 <span className={styles.vs}>
-                  vs. saldo atual de {figures.now}
+                  {COPY.vsSaldoAtual} {figures.now}
                 </span>
               </div>
             </div>
