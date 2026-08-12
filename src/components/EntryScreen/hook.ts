@@ -60,7 +60,8 @@ export function useEntryScreen<T extends Entry, V extends { type: EntryType }>({
 
   const persist = (result: Awaited<ReturnType<typeof apiPost>>) => {
     if (result.error) {
-      return setError(result.error);
+      setError(result.error);
+      return;
     }
     close();
     refetch();
@@ -68,15 +69,17 @@ export function useEntryScreen<T extends Entry, V extends { type: EntryType }>({
 
   const onAdd = (values: V) => apiPost(path, values).then(persist);
 
-  const onUpdate = (values: V) =>
-    modal.type === "edit"
-      ? apiPut(path, { id: modal.entry.id, ...values }).then(persist)
-      : undefined;
+  const onUpdate = (values: V) => {
+    if (modal.type === "edit") {
+      apiPut(path, { id: modal.entry.id, ...values }).then(persist);
+    }
+  };
 
-  const onConfirmDelete = () =>
-    modal.type === "delete"
-      ? apiDelete(`${path}?id=${modal.entry.id}`).then(persist)
-      : undefined;
+  const onConfirmDelete = () => {
+    if (modal.type === "delete") {
+      apiDelete(`${path}?id=${modal.entry.id}`).then(persist);
+    }
+  };
 
   return {
     labels,

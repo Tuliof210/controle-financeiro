@@ -13,6 +13,25 @@ export interface ReportViewProps {
 
 // Pure: FilePicker owns the only ref on this screen, so nothing here calls a
 // React hook and the whole view model is directly testable.
+// A bare "001" under the label "Instituição" names nothing a reader can use, so
+// a file with an id but no <ORG> falls back like any other.
+function orgLabel(org: string | null, fid: string | null): string {
+  if (!org) {
+    return "—";
+  }
+  return [org, fid].filter(Boolean).join(" · ");
+}
+
+// The whole badge phrase, not just the number: a one-transaction file is a
+// legitimate report and "1 lançamentos lidos" is wrong. index.tsx stays
+// logic-free, so the agreement has to be decided here.
+function readWord(count: number): string {
+  if (count === 1) {
+    return "lançamento lido";
+  }
+  return "lançamentos lidos";
+}
+
 export function useReportView({
   report,
   error,
@@ -36,14 +55,12 @@ export function useReportView({
     // <FID> is a suffix on the institution's name, never a value on its own —
     // a bare "001" under the label "Instituição" names nothing a reader can
     // use, so a file with an id but no <ORG> falls back like any other.
-    org: report.org
-      ? [report.org, report.fid].filter(Boolean).join(" · ")
-      : "—",
+    org: orgLabel(report.org, report.fid),
     currency: report.currency ?? "—",
     // The whole badge phrase, not just the number: a one-transaction file is a
     // legitimate report and "1 lançamentos lidos" is wrong. index.tsx stays
     // logic-free, so the agreement has to be decided here.
-    count: `${count} ${count === 1 ? "lançamento lido" : "lançamentos lidos"}`,
+    count: `${count} ${readWord(count)}`,
     account: accountLabel(report.accounts),
     finalBalance: finalBalance(report.accounts),
     period:

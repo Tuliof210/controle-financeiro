@@ -16,6 +16,23 @@ import {
 // One tag, open to matched close. `next` is always > `at` in every branch
 // below — that, not a depth limit, is what keeps thousands of unclosed
 // siblings from looping.
+// A tag that closes itself moves the cursor past its close; one that does not
+// leaves it on the `<` the caller is already looking at.
+function advance(at: number, closes: boolean, closeLength: number): number {
+  if (closes) {
+    return at + closeLength;
+  }
+  return at;
+}
+
+// A header with nothing after it has no root tag to parse.
+function rootOf(text: string, next: number): OfxNode | null {
+  if (next >= text.length) {
+    return null;
+  }
+  return parseNode(text, next).node;
+}
+
 function parseNode(text: string, at: number) {
   const gt = text.indexOf(">", at + 1);
   if (gt === -1) {
@@ -38,7 +55,7 @@ function parseNode(text: string, at: number) {
     const ownClose = text.startsWith(closeTag, nextLt);
     return {
       node: leaf(tag, between),
-      next: ownClose ? nextLt + closeTag.length : nextLt,
+      next: advance(nextLt, ownClose, closeTag.length),
     };
   }
 
@@ -56,7 +73,7 @@ function parseNode(text: string, at: number) {
   const closesHere = text.startsWith(closeTag, pos);
   return {
     node: aggregate(tag, children),
-    next: closesHere ? pos + closeTag.length : pos,
+    next: advance(pos, closesHere, closeTag.length),
   };
 }
 
@@ -71,7 +88,7 @@ function parseOfxTags(text: string): OfxTagTree {
   }
   const { entries, next } = readHeader(text, firstLt);
   const header = entries.map(({ key, value }) => leaf(key, value));
-  const root = next < text.length ? parseNode(text, next).node : null;
+  const root = rootOf(text, next);
   return { header, root };
 }
 

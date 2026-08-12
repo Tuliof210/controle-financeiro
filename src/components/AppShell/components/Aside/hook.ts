@@ -11,6 +11,22 @@ interface UseAsideProps {
   onCloseDrawer: () => void;
 }
 
+// The control says what it will DO, so both the glyph and the label name the
+// state it switches to.
+function toggleIconFor(collapsed: boolean) {
+  if (collapsed) {
+    return PanelLeftOpen;
+  }
+  return PanelLeftClose;
+}
+
+function toggleLabelFor(collapsed: boolean): string {
+  if (collapsed) {
+    return "Expandir menu";
+  }
+  return "Recolher menu";
+}
+
 export function useAside({
   collapsed,
   drawerOpen,
@@ -78,7 +94,7 @@ export function useAside({
     className: [styles.aside, collapsed && styles.collapsed]
       .filter(Boolean)
       .join(" "),
-    toggleIcon: collapsed ? PanelLeftOpen : PanelLeftClose,
-    toggleLabel: collapsed ? "Expandir menu" : "Recolher menu",
+    toggleIcon: toggleIconFor(collapsed),
+    toggleLabel: toggleLabelFor(collapsed),
   };
 }
