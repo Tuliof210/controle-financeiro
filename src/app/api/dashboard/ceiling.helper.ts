@@ -34,6 +34,8 @@ import type { MonthPoint } from "./types.ts";
 // declines stays in `worst` for the months that follow. That is the whole
 // "sobra para o mês seguinte" behaviour, and it is the accumulator's, not new
 // arithmetic here.
+const PERCENT = 100;
+
 export function buildCeiling(
   points: MonthPoint[],
   currentMonth: number,
@@ -58,7 +60,7 @@ export function buildCeiling(
     // Defensive only: `worst` is non-decreasing and the gap stays >= 0 by
     // induction, so a negative gap means one of those two broke.
     const gap = Math.max(0, worst[index] - authorised);
-    const offered = red ? 0 : Math.floor((gap * cap) / 100);
+    const offered = red ? 0 : Math.floor((gap * cap) / PERCENT);
     // Math.min against a null-checked number rather than `limit ?? Infinity`:
     // Infinity is what the seed of `suffixMinimum` above had to be rewritten to
     // avoid, and there is no reason to reintroduce it one loop away.

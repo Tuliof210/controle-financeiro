@@ -1,10 +1,19 @@
 import type { NextRequest } from "next/server";
-import { fail, ok, safeFormData } from "@/lib/http.ts";
+import {
+  fail,
+  ok,
+  PAYLOAD_TOO_LARGE,
+  safeFormData,
+  UNPROCESSABLE,
+} from "@/lib/http.ts";
 import { type ReadOfxResult, readOfx } from "./service.ts";
 
 // next.config.ts sets no body limit for Route Handlers, so the cap lives here.
 // A year of OFX is tens of KB, so this is generous by a hundredfold.
-const MAX_BYTES = 5 * 1024 * 1024;
+const KILOBYTE = 1024;
+const MEGABYTE = KILOBYTE * KILOBYTE;
+const MAX_MEGABYTES = 5;
+const MAX_BYTES = MAX_MEGABYTES * MEGABYTE;
 
 // Keyed on the refusal statuses themselves, not on `string`: a status added to
 // ReadOfxResult without a message here becomes a compile error rather than an
@@ -25,14 +34,14 @@ export async function POST(request: NextRequest) {
   const form = await safeFormData(request);
   const file = form?.get("file");
   if (!(file instanceof File) || file.size === 0) {
-    return fail("Envie um arquivo OFX", "validation", 422);
+    return fail("Envie um arquivo OFX", "validation", UNPROCESSABLE);
   }
   if (file.size > MAX_BYTES) {
-    return fail("Arquivo maior que 5 MB", "too_large", 413);
+    return fail("Arquivo maior que 5 MB", "too_large", PAYLOAD_TOO_LARGE);
   }
 
   const result = readOfx(new Uint8Array(await file.arrayBuffer()), file.name);
   return result.status === "ok"
     ? ok(result.report)
-    : fail(MESSAGES[result.status], result.status, 422);
+    : fail(MESSAGES[result.status], result.status, UNPROCESSABLE);
 }

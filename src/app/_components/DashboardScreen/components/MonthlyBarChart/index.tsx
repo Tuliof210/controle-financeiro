@@ -5,6 +5,9 @@ import { useChartTooltip } from "../ChartTooltip/hook.ts";
 import { ChartTooltip } from "../ChartTooltip/index.tsx";
 import { type MonthlyBarChartProps, useMonthlyBarChart } from "./hook.ts";
 
+// An estimated bar draws at half opacity, same as the line chart's dots.
+const ESTIMATED_OPACITY = 0.5;
+
 export function MonthlyBarChart(props: MonthlyBarChartProps) {
   const { frame, bars, band, width, height } = useMonthlyBarChart(props);
   const { tooltip, showTooltip, hideTooltip } = useChartTooltip();
@@ -47,7 +50,7 @@ export function MonthlyBarChart(props: MonthlyBarChartProps) {
               width={bar.width}
               height={bar.height}
               fill={bar.fill}
-              fillOpacity={bar.estimated ? 0.5 : 1}
+              fillOpacity={bar.estimated ? ESTIMATED_OPACITY : 1}
             />
             {/* Invisible, full-column hit target, not the <title> this
                 replaces — a near-zero bar can be a sliver a few pixels tall,

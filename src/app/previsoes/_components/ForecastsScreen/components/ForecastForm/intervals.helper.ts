@@ -5,11 +5,14 @@ export interface Interval {
   end: number;
 }
 
+const DECEMBER = 12;
+const JANUARY = 1;
+
 // Next YYYYMM, rolling the year over after December.
 function nextMonth(yyyymm: number): number {
   const { year, month } = splitYyyymm(yyyymm);
-  return month === 12
-    ? composeYyyymm(year + 1, 1)
+  return month === DECEMBER
+    ? composeYyyymm(year + 1, JANUARY)
     : composeYyyymm(year, month + 1);
 }
 

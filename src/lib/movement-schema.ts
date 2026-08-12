@@ -9,13 +9,18 @@ import { ENTRY_TYPES } from "./entry-types.ts";
 //
 // `ownerId` is deliberately absent: /api/movements carries one per row, while
 // an import carries one for the whole batch.
+const NAME_MAX = 80;
+// 2000-2099: the picker's own domain.
+const MONTH_MIN = 200_001;
+const MONTH_MAX = 209_912;
+
 export const movementRowShape = {
-  name: z.string().trim().min(1).max(80),
+  name: z.string().trim().min(1).max(NAME_MAX),
   valueCents: z.number().int().min(1),
   type: z.enum(ENTRY_TYPES),
   // 2000-2099: the picker's own domain — the derived period feeds buildMonths,
   // so a wider bound risks a corrupt row enumerating ~950k rows.
-  month: z.number().int().min(200_001).max(209_912),
+  month: z.number().int().min(MONTH_MIN).max(MONTH_MAX),
 };
 
 export const movementRowSchema = z.object(movementRowShape);

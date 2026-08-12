@@ -29,14 +29,18 @@ const METRICS = [
 // period (owner's decision, 2026-07-30) and `parallel` multiplies a target by
 // the goal count before dividing, so this is the one screen in the app that can
 // land past the century — where "Fev/26" would read as a month already gone.
+// YYYYMM packs the month into the last two digits.
+const YEAR_SHIFT = 100;
+const PERCENT = 100;
+
 function landing(pace: GoalPace): string {
   if (pace === null) {
     return "ritmo zero";
   }
   const { months, doneMonth } = pace;
   const unit = months === 1 ? "mês" : "meses";
-  const label = MONTH_LABELS[(doneMonth % 100) - 1];
-  return `~${months} ${unit} · ${label}/${Math.trunc(doneMonth / 100)}`;
+  const label = MONTH_LABELS[(doneMonth % YEAR_SHIFT) - 1];
+  return `~${months} ${unit} · ${label}/${Math.trunc(doneMonth / YEAR_SHIFT)}`;
 }
 
 // Calls no React hook, despite the `use` prefix the convention gives it.
@@ -63,7 +67,7 @@ export function useGoalRow({ goal, horizon }: GoalRowProps) {
             ? null
             : {
                 color,
-                width: `${Math.min(100, (pace.months / horizon) * 100)}%`,
+                width: `${Math.min(PERCENT, (pace.months / horizon) * PERCENT)}%`,
               },
       };
     }),

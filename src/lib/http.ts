@@ -27,3 +27,13 @@ export async function safeFormData(
     // Undefined on a malformed body: the caller checks before using it.
   }
 }
+
+// The status codes the routes hand `fail`/`ok`. Named because a bare 422 in a
+// handler is exactly the magic number the linter is right about: `CONFLICT`
+// says why the request failed, `409` only says how it is spelled on the wire.
+export const CREATED = 201;
+export const NOT_FOUND = 404;
+export const CONFLICT = 409;
+export const PAYLOAD_TOO_LARGE = 413;
+export const UNPROCESSABLE = 422;
+export const INTERNAL = 500;

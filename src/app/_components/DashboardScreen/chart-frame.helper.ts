@@ -18,11 +18,11 @@ const TICK_GUTTER = 12;
 
 // "Jan/24" is always 6 characters (formatYyyymm's MONTH_LABELS are all 3
 // letters); MIN_TICK_GAP is breathing room so two labels never render flush
-// against each other even where they technically fit. Measured, not assumed:
-// at the 6-month mobile window the label (36px) was WIDER than the per-month
-// step (~35px) — every-month labels ran together with zero gap — so this
-// isn't optional polish, it is what keeps the mobile axis readable at all.
-const X_LABEL_WIDTH = 6 * CHAR_PX;
+// against each other even where they technically fit. Measured, not assumed: at
+// the 6-month mobile window the label (36px) was WIDER than the per-month step
+// (~35px) — labels ran together with zero gap — so this keeps the axis legible.
+const X_LABEL_CHARS = 6; // "Ago/26"
+const X_LABEL_WIDTH = X_LABEL_CHARS * CHAR_PX;
 const MIN_TICK_GAP = 4;
 
 export function leftMargin(labels: string[]): number {

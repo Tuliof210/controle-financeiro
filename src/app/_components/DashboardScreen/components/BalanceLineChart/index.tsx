@@ -10,6 +10,10 @@ const LINE = { stroke: "var(--color-brand)", strokeWidth: 2 };
 // near a point is as reliable as landing exactly on its 6px face.
 const HIT_RADIUS = 10;
 
+// The dot is 3px and a projected point draws at half opacity.
+const DOT_RADIUS = 3;
+const PROJECTED_OPACITY = 0.5;
+
 export function BalanceLineChart(props: BalanceLineChartProps) {
   const {
     frame,
@@ -57,9 +61,9 @@ export function BalanceLineChart(props: BalanceLineChartProps) {
             <circle
               cx={dot.cx}
               cy={dot.cy}
-              r={3}
+              r={DOT_RADIUS}
               fill="var(--color-brand)"
-              fillOpacity={dot.projected ? 0.5 : 1}
+              fillOpacity={dot.projected ? PROJECTED_OPACITY : 1}
             />
             {/* Invisible hit target, not the <title> this replaces — a
                 native title tooltip is slow to open and tied to the tiny

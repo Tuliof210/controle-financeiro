@@ -24,5 +24,6 @@ export const DEFAULT_CEILING_CAP: CeilingCap = "50";
 // to the tuple is exactly what turns that into NaN in every budget, every pace
 // and every goal date on the board. Meta reads as 100 because it starts from
 // the WHOLE headroom; the goal amount then caps the result in buildCeiling.
+const WHOLE = 100;
 export const capPercent = (cap: CeilingCap): number =>
-  cap === META_CAP ? 100 : Number(cap);
+  cap === META_CAP ? WHOLE : Number(cap);

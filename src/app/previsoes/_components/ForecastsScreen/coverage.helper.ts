@@ -11,8 +11,10 @@ export interface Segment {
 
 // 4 decimals is well past sub-pixel on any track width; it just keeps the
 // generated CSS readable.
+const PERCENT = 100;
+const DECIMALS = 4;
 const pct = (value: number, total: number): string =>
-  `${Number(((value / total) * 100).toFixed(4))}%`;
+  `${Number(((value / total) * PERCENT).toFixed(DECIMALS))}%`;
 
 // Where a forecast's months sit inside the global projection range.
 //

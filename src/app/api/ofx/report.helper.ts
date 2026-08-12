@@ -41,6 +41,9 @@ const sum = (months: OfxMonth[]) =>
     { incomeCents: 0, expenseCents: 0, balanceCents: 0, count: 0 },
   );
 
+// Comes from the upload and is rendered in the UI; no unbounded string.
+const FILE_NAME_MAX = 120;
+
 export function buildReport(
   parse: OfxParse,
   fileName: string,
@@ -65,7 +68,7 @@ export function buildReport(
   return {
     // Comes from the upload and is rendered in the UI; no reason to carry an
     // unbounded string.
-    fileName: fileName.slice(0, 120),
+    fileName: fileName.slice(0, FILE_NAME_MAX),
     fileHash,
     org: parse.org,
     fid: parse.fid,

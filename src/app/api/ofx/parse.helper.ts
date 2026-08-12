@@ -1,4 +1,5 @@
-import { amountToCents, blocks, dateToMonth, leaf } from "./ofx-tags.helper.ts";
+import { amountToCents, dateToMonth } from "./amount.helper.ts";
+import { blocks, leaf } from "./ofx-tags.helper.ts";
 import type { OfxAccount } from "./types.ts";
 
 export interface OfxTransaction {

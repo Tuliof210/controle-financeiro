@@ -2,8 +2,6 @@
 // parse.helper.ts so they can be unit-tested directly and so neither file
 // crosses the 100-line cap.
 
-const MAX_CENTS = 100_000_000_000; // R$ 1 billion, matching src/lib/money.ts
-
 // A leaf element's value. OFX 1.x omits leaf closing tags, so the value runs
 // to the next `<`; OFX 2.x closes them, and `[^<]*` stops in the same place.
 // Empty or whitespace-only reads as absent.
@@ -57,42 +55,3 @@ export function blocks(text: string, tag: string): string[] {
 // be off-spec twice, using `.` for thousands AND dropping the centavos, for
 // that to be the wrong call. No heuristic guards it; a heuristic that guesses
 // wrong on real money is worse than a rule the reader can predict.
-const AMOUNT = /^([+-]?)(\d+)(?:\.(\d*))?$/;
-
-export function amountToCents(raw: string): number | null {
-  const cleaned = raw.replace(/\s/g, "");
-  const cut = Math.max(cleaned.lastIndexOf("."), cleaned.lastIndexOf(","));
-  const normalized =
-    cut < 0
-      ? cleaned
-      : `${cleaned.slice(0, cut).replace(/[.,]/g, "")}.${cleaned.slice(cut + 1)}`;
-  const match = AMOUNT.exec(normalized);
-  if (!match) {
-    return null;
-  }
-  const [, sign, whole, fraction = ""] = match;
-  // OFX amounts carry two decimals; a third digit is truncated, not rounded.
-  const cents =
-    Number(whole) * 100 + Number(fraction.padEnd(2, "0").slice(0, 2));
-  // The same R$ 1 billion ceiling src/lib/money.ts guards with — there it
-  // clamps, here it drops the row, this function's existing failure mode. Past
-  // MAX_SAFE_INTEGER cents stop being exact in a float64, so one absurd row
-  // absorbs every real one in the month's total while the count claims both.
-  if (Math.abs(cents) > MAX_CENTS) {
-    return null;
-  }
-  return sign === "-" ? -cents : cents;
-}
-
-// <DTPOSTED> is YYYYMMDD[HHMMSS][[-3:BRT]] — the first six digits already ARE
-// the YYYYMM this whole app uses. Anything that is not a valid month returns
-// null and the transaction is dropped.
-export function dateToMonth(raw: string): number | null {
-  const digits = raw.replace(/\D/g, "").slice(0, 6);
-  if (digits.length < 6) {
-    return null;
-  }
-  const month = Number(digits);
-  const inYear = month % 100 >= 1 && month % 100 <= 12;
-  return inYear && month >= 190_001 && month <= 999_912 ? month : null;
-}

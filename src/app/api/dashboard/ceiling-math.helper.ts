@@ -5,12 +5,17 @@ import type { MonthPoint } from "./types.ts";
 // Nothing here knows about caps, limits or the Meta target — that is exactly
 // what makes it the half that could leave.
 
+// Nominal weeks and days in a month: the cadences the card shows, not a
+// calendar — the figure is an allowance, and it floors.
+const WEEKS_IN_MONTH = 4;
+const DAYS_IN_MONTH = 30;
+
 // One figure at the three cadences the card shows. The headline floors the same
 // way, for the same reason the budget itself does: an allowance rounds DOWN.
 export const rates = (monthly: number): CeilingRates => ({
   monthly,
-  weekly: Math.floor(monthly / 4),
-  daily: Math.floor(monthly / 30),
+  weekly: Math.floor(monthly / WEEKS_IN_MONTH),
+  daily: Math.floor(monthly / DAYS_IN_MONTH),
 });
 
 // The worst projected balance from each month to the range end, right to left in

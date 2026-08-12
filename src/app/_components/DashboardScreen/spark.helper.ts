@@ -7,7 +7,8 @@ export const SPARK_H = 30;
 // The baseline sits 3px above the bottom edge and the plot is 8px shorter than
 // the box, so a 2px stroke never clips against either edge.
 const BASELINE = 3;
-const PLOT_H = SPARK_H - 8;
+const PLOT_INSET = 8;
+const PLOT_H = SPARK_H - PLOT_INSET;
 
 /**
  * An SVG path pair for a 112x30 inline sparkline: the line itself and the same

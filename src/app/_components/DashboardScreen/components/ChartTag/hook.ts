@@ -17,6 +17,9 @@ export interface ChartTagProps {
   flip?: boolean;
 }
 
+// A fraction of the height, matching every other label in this tree.
+const BASELINE_RATIO = 0.7;
+
 export function useChartTag({ x, y, label, tone, flip }: ChartTagProps) {
   const width = label.length * TAG_CHAR_PX + TAG_PAD_X * 2;
   const left = flip ? x - width : x;
@@ -29,7 +32,7 @@ export function useChartTag({ x, y, label, tone, flip }: ChartTagProps) {
     y,
     // Baseline rather than centring: an SVG <text> has no box to centre in, and
     // a fraction of the height is what every other label in this tree uses.
-    textY: y + TAG_HEIGHT * 0.7,
+    textY: y + TAG_HEIGHT * BASELINE_RATIO,
     textX: left + TAG_PAD_X,
     colors: TAG_TONES[tone],
     labelProps: TAG_LABEL_PROPS,

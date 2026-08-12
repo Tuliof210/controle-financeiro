@@ -16,6 +16,8 @@ export interface MonthTableProps {
   rows: MonthRow[];
 }
 
+const PERCENT = 100;
+
 export function useMonthTable({ rows }: MonthTableProps) {
   return {
     // The share reaches CSS as a custom property on the row, because the row
@@ -25,7 +27,7 @@ export function useMonthTable({ rows }: MonthTableProps) {
     // a custom property in a style object; it is written once, here.
     rows: rows.map((row) => ({
       ...row,
-      style: { "--share": `${row.share * 100}%` } as CSSProperties,
+      style: { "--share": `${row.share * PERCENT}%` } as CSSProperties,
     })),
   };
 }

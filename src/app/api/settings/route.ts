@@ -1,6 +1,6 @@
 import type { NextRequest } from "next/server";
 import { z } from "zod";
-import { fail, ok, safeJson } from "@/lib/http.ts";
+import { fail, INTERNAL, ok, safeJson, UNPROCESSABLE } from "@/lib/http.ts";
 import { MAX_CENTS } from "@/lib/money.ts";
 import { getSettings, saveSettings } from "./service.ts";
 
@@ -19,18 +19,18 @@ export async function GET() {
   try {
     return ok(await getSettings());
   } catch {
-    return fail("Erro ao carregar configurações", "internal", 500);
+    return fail("Erro ao carregar configurações", "internal", INTERNAL);
   }
 }
 
 export async function PUT(request: NextRequest) {
   const parsed = saveSchema.safeParse(await safeJson(request));
   if (!parsed.success) {
-    return fail("Dados inválidos", "validation", 422);
+    return fail("Dados inválidos", "validation", UNPROCESSABLE);
   }
   try {
     return ok(await saveSettings(parsed.data));
   } catch {
-    return fail("Erro ao salvar configurações", "internal", 500);
+    return fail("Erro ao salvar configurações", "internal", INTERNAL);
   }
 }
