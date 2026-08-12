@@ -29,14 +29,13 @@
       "complexity": {
         "noExcessiveLinesPerFunction": {
           "level": "on",
-          "options": { "maxLines": 100 }
+          "options": {
+            "maxLines": 100
+          }
         }
       },
       "style": {
-        "noExcessiveLinesPerFile": {
-          "level": "on",
-          "options": { "maxLines": 100 }
-        }
+        "noExcessiveLinesPerFile": "off"
       }
     },
     "domains": {
@@ -55,6 +54,58 @@
       "playwright": "none"
     }
   },
+  "overrides": [
+    {
+      "includes": [
+        "src/app/**/page.tsx",
+        "src/app/**/layout.tsx",
+        "next.config.ts",
+        "prisma.config.ts",
+        "jest.config.ts",
+        ".storybook/*.ts"
+      ],
+      "linter": {
+        "rules": {
+          "style": {
+            "noDefaultExport": "off"
+          }
+        }
+      }
+    },
+    {
+      "includes": [
+        "src/app/**/page.tsx",
+        "src/app/**/layout.tsx"
+      ],
+      "linter": {
+        "rules": {
+          "style": {
+            "useComponentExportOnlyModules": "off"
+          }
+        }
+      }
+    },
+    {
+      "includes": [
+        "**/*.js",
+        "**/*.jsx",
+        "**/*.ts",
+        "**/*.tsx"
+      ],
+      "linter": {
+        "rules": {
+          "style": {
+            "noExcessiveLinesPerFile": {
+              "level": "on",
+              "options": {
+                "maxLines": 100
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
   "assist": {
     "actions": {
       "source": {
