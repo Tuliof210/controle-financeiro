@@ -13,9 +13,16 @@ import styles from "./style.module.scss";
 // chevron swaps rather than rotates — same convention as Aside's
 // PanelLeftOpen/Close and ThemeToggle's Sun/Moon; this app never animates an
 // icon in place.
+const chevronFor = (expanded: boolean) => {
+  if (expanded) {
+    return ChevronUp;
+  }
+  return ChevronDown;
+};
+
 export function ShowAllToggle(props: ShowAllToggleProps) {
   const { label, expanded, onClick } = useShowAllToggle(props);
-  const Chevron = expanded ? ChevronUp : ChevronDown;
+  const Chevron = chevronFor(expanded);
 
   return (
     <button

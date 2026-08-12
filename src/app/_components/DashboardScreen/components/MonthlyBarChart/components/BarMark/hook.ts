@@ -2,6 +2,13 @@
 // not history.
 const ESTIMATED_OPACITY = 0.5;
 
+const barOpacity = (estimated: boolean): number => {
+  if (estimated) {
+    return ESTIMATED_OPACITY;
+  }
+  return 1;
+};
+
 interface PointerLocation {
   clientX: number;
   clientY: number;
@@ -33,7 +40,7 @@ function useBarMark({
   return {
     ...rest,
     title,
-    opacity: estimated ? ESTIMATED_OPACITY : 1,
+    opacity: barOpacity(estimated),
     show: (event: PointerLocation) => showTooltip(event, title),
     hide: hideTooltip,
   };

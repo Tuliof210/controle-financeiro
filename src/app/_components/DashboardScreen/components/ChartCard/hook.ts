@@ -25,6 +25,19 @@ const sameSize = (
   height: number,
 ): boolean => prev.width === width && prev.height === height;
 
+// Returning the previous object when nothing moved keeps the state identity
+// stable, so a re-measure that agrees does not re-render.
+const nextSize = (
+  prev: { width: number; height: number },
+  width: number,
+  height: number,
+) => {
+  if (sameSize(prev, width, height)) {
+    return prev;
+  }
+  return { width, height };
+};
+
 function useChartCard({ title, icon, hint, legend, children }: ChartCardProps) {
   const ref = useRef<HTMLDivElement>(null);
   const [size, setSize] = useState({ width: 0, height: 0 });
@@ -36,9 +49,7 @@ function useChartCard({ title, icon, hint, legend, children }: ChartCardProps) {
     }
     const { width, height } = node.getBoundingClientRect();
     // Commit only a real change, or this loops.
-    setSize((prev) =>
-      sameSize(prev, width, height) ? prev : { width, height },
-    );
+    setSize((prev) => nextSize(prev, width, height));
   }, []);
 
   // Deliberately no dependency array: re-measure after EVERY render, which

@@ -10,11 +10,25 @@ const CAP = 8;
 //
 // `all` is returned, not just consumed: the chip is a disclosure button and
 // owes the reader an `aria-expanded`, the way Aside's and Header's do.
+const shownRows = <T>(rows: T[], all: boolean): T[] => {
+  if (all) {
+    return rows;
+  }
+  return rows.slice(0, CAP);
+};
+
+const toggleLabel = (total: number, all: boolean): string => {
+  if (all) {
+    return "Mostrar menos";
+  }
+  return `Ver todos (${total})`;
+};
+
 export function useShowAll<T>(rows: T[]) {
   const [all, setAll] = useState(false);
   return {
-    rows: all ? rows : rows.slice(0, CAP),
-    label: all ? "Mostrar menos" : `Ver todos (${rows.length})`,
+    rows: shownRows(rows, all),
+    label: toggleLabel(rows.length, all),
     // "There are rows hidden behind the toggle", i.e. render the button at all.
     // With a six-month range it is false: "Ver todos (6)" sitting above six
     // already-visible rows would be nonsense.

@@ -3,6 +3,7 @@ import type { DashboardData } from "@/app/api/dashboard/types.ts";
 import { useProfile } from "@/components/ProfileProvider/hook.ts";
 import { apiGet } from "@/lib/api.ts";
 import { type CeilingCap, DEFAULT_CEILING_CAP } from "@/lib/ceiling-caps.ts";
+import { heldFor } from "./dashboard-held.helper.ts";
 import { useSimulationView } from "./simulation.hook.ts";
 
 export function useDashboardScreen() {
@@ -70,7 +71,7 @@ export function useDashboardScreen() {
 
   // Nothing held for the profile on screen means nothing honest to show, so the
   // board goes and the notice takes over.
-  const data = held?.owner === profile ? held.payload : null;
+  const data = heldFor(held, profile);
 
   return {
     data,
