@@ -12,6 +12,12 @@ import {
 import { buildMonths, currentYyyymm } from "@/lib/months.ts";
 import { visibleFor } from "@/lib/ownership.ts";
 import type { SimulationView } from "@/lib/simulation.ts";
+import {
+  forecastsFor,
+  limitFor,
+  metaOf,
+  targetCap,
+} from "./dashboard-inputs.helper.ts";
 import { buildPayload } from "./payload.helper.ts";
 import type { DashboardData } from "./types.ts";
 
@@ -27,21 +33,10 @@ export async function getDashboard(
     settingsRepository.get(),
   ]);
 
-  // Zero reads as unset, exactly as it does on the settings screen: clearing
-  // the field is how the goal is removed, there being no DELETE for it.
-  const meta = settings?.monthlyGoalCents ? settings.monthlyGoalCents : null;
-  // Asking for Meta without one falls back to the default target — the same
-  // doctrine as route.ts's `.catch`, one step later: an unusable value on this
-  // parameter must never turn into an error notice over an honest board.
-  const target = cap === META_CAP && meta === null ? DEFAULT_CEILING_CAP : cap;
+  const meta = metaOf(settings?.monthlyGoalCents);
+  const target = targetCap(cap, meta);
 
-  // Filtered here rather than beside visibleFor below, because "as if they had
-  // never been registered" has to include the range: derivePeriod reads this
-  // list too. The consequence is deliberate — a board whose only reach into the
-  // current month is a simulation answers no_range/out_of_range on "real", and
-  // the screen already has a notice for each.
-  const forecasts =
-    simulation === "all" ? all : all.filter((forecast) => !forecast.simulated);
+  const forecasts = forecastsFor(simulation, all);
 
   // The period is derived from the entries themselves, not typed by hand —
   // start/end are a min/max over the same set, so this can never be inverted
@@ -68,7 +63,7 @@ export async function getDashboard(
     movements: visibleFor(movements, owner),
     forecasts: visibleFor(forecasts, owner),
     cap: capPercent(target),
-    limit: target === META_CAP ? meta : null,
+    limit: limitFor(target, meta),
     meta,
   });
 }

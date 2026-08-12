@@ -1,5 +1,11 @@
 import { useEffect, useState } from "react";
-import { flipTheme, normalizeTheme, type Theme } from "./theme.helper.ts";
+import {
+  flipTheme,
+  iconFor,
+  normalizeTheme,
+  type Theme,
+  toggleLabel,
+} from "./theme.helper.ts";
 
 export function useThemeToggle() {
   const [theme, setTheme] = useState<Theme | null>(null);
@@ -24,5 +30,5 @@ export function useThemeToggle() {
     setTheme(next);
   };
 
-  return { theme, toggle };
+  return { theme, toggle, ariaLabel: toggleLabel(theme), icon: iconFor(theme) };
 }
