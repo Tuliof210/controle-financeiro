@@ -1,7 +1,7 @@
 ---
 description: One-round fresh-eyes review of a task PR against the repo norms and the prompt that produced it. Usage - /ps:review [pr-number]
 effort: medium
-allowed-tools: Task, Agent, Read, Grep, Glob, Bash(gh:*), Bash(glab:*), Bash(git:*)
+allowed-tools: Task, Agent, Read, Write, Edit, Grep, Glob, Bash(gh:*), Bash(glab:*), Bash(git:*), Bash(npm:*), Bash(pnpm:*), Bash(yarn:*), Bash(npx:*), Bash(make:*), Bash(cargo:*), Bash(go:*), Bash(pytest:*), Bash(uv:*)
 ---
 
 Target: "$ARGUMENTS" is the PR number; empty → the current branch's PR. Neither → list
@@ -57,6 +57,8 @@ Fix in the worktree, on `task/<slug>` directly. Every blocker/major fix is bound
   `git diff <verdict SHA>..HEAD --name-only`. A file in that list and not in the findings
   means the contract broke — say so before pushing.
 - One conventional commit per finding: `fix(review): #2 <what>`. Never "review fixes".
+  Then `git push` — the verdict you are about to post names findings that must already be
+  closed on the PR, not in a worktree only you can see.
 
 Minors are not fixed here. They are recorded in the posted verdict and the owner decides.
 
@@ -67,11 +69,25 @@ Minors are not fixed here. They are recorded in the posted verdict and the owner
 has; none → say so and keep it in chat). It is the only searchable record this process
 leaves.
 
-The comment is **in the task prompt's language**, and it is **short enough to be read**.
-A verdict nobody finishes reading did not get reported, it got filed. Plain sentences,
-exact file names and commands, every term explained the first time, and no paragraph
-where a line does.
+Post the merged verdict as the subagents wrote it — language, wording and severities are
+already settled by `.claude/ps-review.md`. You renumber and unite; you do not rewrite.
 
-Then report to the owner and **route by severity yourself** — blocker/major already
-bought its fix, minor is already declined. Stop and ask only for what severity does not
-settle: a scope question, or a verdict still not APPROVED after the fixes.
+## Report
+
+**Follow `.claude/ps-report.md`. It is the whole final message.** The verdict is on the
+PR; this is the owner's one-screen version of it, not a second copy:
+
+    **review · <title>**
+
+    - run lens — <APPROVED | n findings>, <the check that mattered>
+    - read lens — <APPROVED | n findings>
+    - fixed #1 <finding> — `f7a8b9c`
+    - ~~#3 <finding>~~ minor, declined — your call
+
+    **✓ done** · <PR url> approved at `<sha>`
+
+    → `/ps:publish <pr>`
+
+**Route by severity yourself**: blocker and major already bought their fix, minor is
+already declined — neither is a question. `? decide` is for what severity does not settle:
+a scope question, or a verdict still not APPROVED after the fixes.
