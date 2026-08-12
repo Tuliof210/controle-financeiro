@@ -2,7 +2,7 @@ import { scaleBand, scaleLinear } from "@visx/scale";
 import type { MonthPoint } from "@/app/api/dashboard/types.ts";
 import {
   BAND_PADDING,
-  formatYTickFor,
+  tickFormatterFor,
   MARGIN,
   monthWindowSize,
   Y_TICKS,
@@ -60,9 +60,9 @@ export function buildFrame(
   const marginTicks = scaleFor(
     points.flatMap((point) => [point.income, point.expense, point.cumulative]),
   ).ticks(Y_TICKS);
-  // formatYTickFor is shared with ChartFrame/hook.ts, so this gutter always
+  // tickFormatterFor is shared with ChartFrame/hook.ts, so this gutter always
   // matches the format actually drawn (see chart.config.ts for why).
-  const left = leftMargin(marginTicks.map(formatYTickFor(width)));
+  const left = leftMargin(marginTicks.map(tickFormatterFor(width)));
   const visibleWidth = Math.max(0, width - left - MARGIN.right);
 
   // Every month gets a fixed bandwidth, sized so exactly one window (12

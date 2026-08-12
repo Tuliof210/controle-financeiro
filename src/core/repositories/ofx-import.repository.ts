@@ -8,8 +8,8 @@ export interface OfxImportInput {
 }
 
 export interface OfxImportRepository {
-  findByHash(fileHash: string): Promise<OfxImport | null>;
+  findByHash: (fileHash: string) => Promise<OfxImport | null>;
   // Writes the movements and the import record together or not at all, and
   // answers how many movements landed.
-  create(input: OfxImportInput): Promise<number>;
+  create: (input: OfxImportInput) => Promise<number>;
 }

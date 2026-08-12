@@ -9,7 +9,7 @@ import {
   DEFAULT_CEILING_CAP,
   META_CAP,
 } from "@/lib/ceiling-caps.ts";
-import { buildMonths, currentYYYYMM } from "@/lib/months.ts";
+import { buildMonths, currentYyyymm } from "@/lib/months.ts";
 import { visibleFor } from "@/lib/ownership.ts";
 import type { SimulationView } from "@/lib/simulation.ts";
 import { buildPayload } from "./payload.helper.ts";
@@ -52,7 +52,7 @@ export async function getDashboard(
   }
 
   const months = buildMonths(period.start, period.end);
-  const range = { ...period, current: currentYYYYMM(new Date()) };
+  const range = { ...period, current: currentYyyymm(new Date()) };
   const currentIndex = months.indexOf(range.current);
   if (currentIndex === -1) {
     return { status: "out_of_range", range };

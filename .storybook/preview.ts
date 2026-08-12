@@ -12,7 +12,7 @@ document.documentElement.classList.add(
 // attached CSF story — this project's Foundations pages are docs-only
 // `<Meta>` blocks (no components yet), so the toggle is wired directly
 // against the core globals/channel API instead, which applies to any page.
-const urlTheme = new URLSearchParams(window.location.search)
+const urlTheme = new URLSearchParams(globalThis.location.search)
   .get("globals")
   ?.match(/theme:(\w+)/)?.[1];
 document.documentElement.setAttribute("data-theme", urlTheme ?? "light");

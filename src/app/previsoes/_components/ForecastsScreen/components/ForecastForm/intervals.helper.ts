@@ -1,4 +1,4 @@
-import { buildMonths, composeYYYYMM, splitYYYYMM } from "@/lib/months.ts";
+import { buildMonths, composeYyyymm, splitYyyymm } from "@/lib/months.ts";
 
 export interface Interval {
   start: number;
@@ -7,10 +7,10 @@ export interface Interval {
 
 // Next YYYYMM, rolling the year over after December.
 function nextMonth(yyyymm: number): number {
-  const { year, month } = splitYYYYMM(yyyymm);
+  const { year, month } = splitYyyymm(yyyymm);
   return month === 12
-    ? composeYYYYMM(year + 1, 1)
-    : composeYYYYMM(year, month + 1);
+    ? composeYyyymm(year + 1, 1)
+    : composeYyyymm(year, month + 1);
 }
 
 // Intervals -> the flat, de-duped, sorted set of active YYYYMM months. This is

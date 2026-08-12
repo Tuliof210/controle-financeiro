@@ -35,7 +35,7 @@ export function MovementsScreen() {
         },
       }}
       renderPeriod={(movement) => formatYyyymm(movement.month)}
-      Form={MovementForm}
+      form={MovementForm}
     />
   );
 }

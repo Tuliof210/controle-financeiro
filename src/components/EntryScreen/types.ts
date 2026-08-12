@@ -57,5 +57,5 @@ export interface EntryScreenConfig<
   // one that returns both halves: they land in different grid areas, and
   // Movimentações has no band at all, so it simply never passes this.
   renderBand?: (item: T, period: Period | null) => ReactNode;
-  Form: ComponentType<EntryFormSlotProps<V>>;
+  form: ComponentType<EntryFormSlotProps<V>>;
 }

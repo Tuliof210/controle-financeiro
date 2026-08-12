@@ -12,7 +12,7 @@ import type { EntryScreenConfig } from "./types.ts";
 export function EntryScreen<T extends Entry, V extends { type: EntryType }>(
   config: EntryScreenConfig<T, V>,
 ) {
-  const { renderPeriod, renderBand, Form } = config;
+  const { renderPeriod, renderBand, form } = config;
   const {
     labels,
     income,
@@ -55,7 +55,7 @@ export function EntryScreen<T extends Entry, V extends { type: EntryType }>(
         people={people}
         onAdd={onAdd}
         onUpdate={onUpdate}
-        Form={Form}
+        form={form}
       />
 
       <ConfirmDialog

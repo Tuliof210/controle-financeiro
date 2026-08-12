@@ -1,9 +1,9 @@
 import { useEffect } from "react";
 import {
-  composeYYYYMM,
-  currentYYYYMM,
+  composeYyyymm,
+  currentYyyymm,
   MONTH_LABELS,
-  splitYYYYMM,
+  splitYyyymm,
   yearOptions,
 } from "@/lib/months.ts";
 
@@ -22,11 +22,11 @@ export function useMonthPicker({
 }: MonthPickerProps) {
   useEffect(() => {
     if (value === null) {
-      onChange(currentYYYYMM());
+      onChange(currentYyyymm());
     }
   }, [value, onChange]);
 
-  const { year, month } = splitYYYYMM(value ?? currentYYYYMM());
+  const { year, month } = splitYyyymm(value ?? currentYyyymm());
 
   return {
     label,
@@ -36,8 +36,8 @@ export function useMonthPicker({
     months: MONTH_LABELS,
     years: yearOptions(),
     onMonthChange: (nextMonth: number) =>
-      onChange(composeYYYYMM(year, nextMonth)),
+      onChange(composeYyyymm(year, nextMonth)),
     onYearChange: (nextYear: number) =>
-      onChange(composeYYYYMM(nextYear, month)),
+      onChange(composeYyyymm(nextYear, month)),
   };
 }

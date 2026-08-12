@@ -7,6 +7,11 @@
 import { readHeader, skipWs } from "./header.helper.ts";
 
 let nextId = 0;
+const takeId = (): number => {
+  const id = nextId;
+  nextId += 1;
+  return id;
+};
 
 export type OfxNode =
   | { id: number; tag: string; value: string }
@@ -22,12 +27,12 @@ export interface OfxTagTree {
 // `value` too (nothing about scanning for the next `<` can tell them apart
 // from real content), and that formatting isn't the value the file encodes.
 const leaf = (tag: string, value: string): OfxNode => ({
-  id: nextId++,
+  id: takeId(),
   tag,
   value: value.trim(),
 });
 const aggregate = (tag: string, children: OfxNode[]): OfxNode => ({
-  id: nextId++,
+  id: takeId(),
   tag,
   children,
 });

@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { formatYTickFor } from "../../chart.config.ts";
+import { tickFormatterFor } from "../../chart.config.ts";
 import type { buildFrame } from "../../chart-frame.helper.ts";
 
 export interface ChartFrameProps {
@@ -34,6 +34,6 @@ export function useChartFrame({
     // Same measured width buildFrame used to pick the 12/6-month window — the
     // narrower mobile window is also where the full grouped format ("R$
     // 12.345") gets too wide for the axis gutter.
-    formatYTick: formatYTickFor(width),
+    formatTick: tickFormatterFor(width),
   };
 }

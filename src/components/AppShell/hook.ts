@@ -12,7 +12,7 @@ export function useAppShell() {
   const [isDesktop, setIsDesktop] = useState(false);
 
   useEffect(() => {
-    const mql = window.matchMedia(DESKTOP);
+    const mql = globalThis.matchMedia(DESKTOP);
     const sync = () => {
       setIsDesktop(mql.matches);
       // A live resize across the stop must drop any open drawer, or it stays

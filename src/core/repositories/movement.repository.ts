@@ -10,8 +10,8 @@ export interface MovementInput {
 }
 
 export interface MovementRepository {
-  list(): Promise<Movement[]>;
-  create(input: MovementInput): Promise<Movement>;
-  update(id: string, patch: MovementInput): Promise<Movement>;
-  delete(id: string): Promise<void>;
+  list: () => Promise<Movement[]>;
+  create: (input: MovementInput) => Promise<Movement>;
+  update: (id: string, patch: MovementInput) => Promise<Movement>;
+  delete: (id: string) => Promise<void>;
 }

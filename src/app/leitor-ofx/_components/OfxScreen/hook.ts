@@ -52,11 +52,11 @@ export function useOfxScreen() {
   // "Trocar arquivo" and has the most to lose from one landing off-target.
   useEffect(() => {
     const swallow = (event: Event) => event.preventDefault();
-    window.addEventListener("dragover", swallow);
-    window.addEventListener("drop", swallow);
+    globalThis.addEventListener("dragover", swallow);
+    globalThis.addEventListener("drop", swallow);
     return () => {
-      window.removeEventListener("dragover", swallow);
-      window.removeEventListener("drop", swallow);
+      globalThis.removeEventListener("dragover", swallow);
+      globalThis.removeEventListener("drop", swallow);
     };
   }, []);
 

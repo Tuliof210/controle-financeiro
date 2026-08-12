@@ -68,7 +68,7 @@ export function useAside({
     className: [styles.aside, collapsed && styles.collapsed]
       .filter(Boolean)
       .join(" "),
-    ToggleIcon: collapsed ? PanelLeftOpen : PanelLeftClose,
+    toggleIcon: collapsed ? PanelLeftOpen : PanelLeftClose,
     toggleLabel: collapsed ? "Expandir menu" : "Recolher menu",
   };
 }

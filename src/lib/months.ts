@@ -13,24 +13,24 @@ export const MONTH_LABELS = [
   "Dez",
 ] as const;
 
-export function splitYYYYMM(value: number) {
+export function splitYyyymm(value: number) {
   return { year: Math.trunc(value / 100), month: value % 100 };
 }
 
-export function composeYYYYMM(year: number, month: number) {
+export function composeYyyymm(year: number, month: number) {
   return year * 100 + month;
 }
 
-export function currentYYYYMM(now = new Date()) {
-  return composeYYYYMM(now.getFullYear(), now.getMonth() + 1);
+export function currentYyyymm(now = new Date()) {
+  return composeYyyymm(now.getFullYear(), now.getMonth() + 1);
 }
 
 // YYYYMM advanced by N months. Goes through a flat month count so December ->
 // January is arithmetic, not a special case.
 export function addMonths(value: number, count: number): number {
-  const { year, month } = splitYYYYMM(value);
+  const { year, month } = splitYyyymm(value);
   const total = year * 12 + (month - 1) + count;
-  return composeYYYYMM(Math.trunc(total / 12), (total % 12) + 1);
+  return composeYyyymm(Math.trunc(total / 12), (total % 12) + 1);
 }
 
 // Fixed, not relative-to-now: a movement or forecast interval can land on
@@ -48,7 +48,7 @@ export function yearOptions() {
 // gracefully instead of crashing.
 export function buildMonths(start: number, end: number): number[] {
   const months: number[] = [];
-  let { year, month } = splitYYYYMM(start);
+  let { year, month } = splitYyyymm(start);
   let current = start;
   while (current <= end) {
     months.push(current);
@@ -57,7 +57,7 @@ export function buildMonths(start: number, end: number): number[] {
       month = 1;
       year += 1;
     }
-    current = composeYYYYMM(year, month);
+    current = composeYyyymm(year, month);
   }
   return months;
 }

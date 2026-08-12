@@ -18,11 +18,11 @@ export function useOfxDecoderScreen() {
   // the SPA with it — so this has to be window-level, not DropZone's problem.
   useEffect(() => {
     const swallow = (event: Event) => event.preventDefault();
-    window.addEventListener("dragover", swallow);
-    window.addEventListener("drop", swallow);
+    globalThis.addEventListener("dragover", swallow);
+    globalThis.addEventListener("drop", swallow);
     return () => {
-      window.removeEventListener("dragover", swallow);
-      window.removeEventListener("drop", swallow);
+      globalThis.removeEventListener("dragover", swallow);
+      globalThis.removeEventListener("drop", swallow);
     };
   }, []);
 

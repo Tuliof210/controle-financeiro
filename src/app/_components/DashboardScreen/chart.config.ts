@@ -35,7 +35,7 @@ export const monthWindowSize = (width: number): number =>
 // the compact "K" form instead. Shared here so buildFrame's gutter sizing
 // and ChartFrame's rendered labels can never disagree on which format is on
 // screen at a given width.
-export const formatYTickFor = (width: number) =>
+export const tickFormatterFor = (width: number) =>
   isDesktopWidth(width) ? formatMoneyShort : formatMoneyShortK;
 
 // visx renders plain SVG, so DS tokens go straight into presentation

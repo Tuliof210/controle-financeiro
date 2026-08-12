@@ -18,7 +18,7 @@ import styles from "./style.module.scss";
 // card. Only the marks differ, so they come in as children rather than
 // through a generic.
 export function ChartFrame(props: ChartFrameProps) {
-  const { title, height, frame, background, children, formatYTick } =
+  const { title, height, frame, background, children, formatTick } =
     useChartFrame(props);
   const {
     monthScale,
@@ -46,7 +46,7 @@ export function ChartFrame(props: ChartFrameProps) {
           <AxisLeft
             scale={valueScale}
             numTicks={Y_TICKS}
-            tickFormat={(value) => formatYTick(Number(value))}
+            tickFormat={(value) => formatTick(Number(value))}
             tickLabelProps={TICK_LABEL_PROPS}
             {...axisProps}
           />

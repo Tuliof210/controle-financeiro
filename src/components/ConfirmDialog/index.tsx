@@ -1,9 +1,8 @@
 import { Button } from "../Button/index.tsx";
 import { Modal } from "../Modal/index.tsx";
-import { type ConfirmDialogProps, useConfirmDialog } from "./hook.ts";
+import type { ConfirmDialogProps } from "./hook.ts";
+import { useConfirmDialog } from "./hook.ts";
 import styles from "./style.module.scss";
-
-export type { ConfirmDialogProps };
 
 export function ConfirmDialog({
   open,

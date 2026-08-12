@@ -1,4 +1,3 @@
-import type { Config } from "jest";
 import nextJest from "next/jest.js";
 
 // next/jest brings the SWC transform, CSS Modules and the tsconfig `paths`
@@ -6,7 +5,7 @@ import nextJest from "next/jest.js";
 // outside the Next compiler.
 const createJestConfig = nextJest({ dir: "./" });
 
-const config: Config = {
+const config = {
   testEnvironment: "jsdom",
   setupFilesAfterEnv: ["<rootDir>/jest.setup.ts"],
   testMatch: ["<rootDir>/src/**/tests/*.test.{ts,tsx}"],

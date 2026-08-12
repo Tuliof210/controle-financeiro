@@ -15,7 +15,7 @@ export interface ModalsProps<T extends Entry, V extends { type: EntryType }> {
   people: Person[];
   onAdd: (values: V) => void;
   onUpdate: (values: V) => void;
-  Form: ComponentType<EntryFormSlotProps<V>>;
+  form: ComponentType<EntryFormSlotProps<V>>;
 }
 
 // No state or effects of its own: the two <Modal>/<Form> pairs need the raw

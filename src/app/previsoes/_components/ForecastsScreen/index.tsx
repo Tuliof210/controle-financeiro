@@ -51,7 +51,7 @@ export function ForecastsScreen() {
       renderBand={(forecast, period) =>
         period ? <CoverageBar months={forecast.months} period={period} /> : null
       }
-      Form={ForecastForm}
+      form={ForecastForm}
     />
   );
 }

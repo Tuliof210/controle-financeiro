@@ -5,7 +5,7 @@ import { type ModalsProps, useModals } from "./hook.ts";
 export function Modals<T extends Entry, V extends { type: EntryType }>(
   props: ModalsProps<T, V>,
 ) {
-  const { labels, modal, close, error, people, onAdd, onUpdate, Form } =
+  const { labels, modal, close, error, people, onAdd, onUpdate, form: Form } =
     useModals(props);
 
   return (

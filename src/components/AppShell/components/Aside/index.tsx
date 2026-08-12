@@ -20,7 +20,7 @@ export function Aside(props: AsideProps) {
     handleClose,
     handleClick,
     className,
-    ToggleIcon,
+    toggleIcon: ToggleIcon,
     toggleLabel,
   } = useAside(props);
 

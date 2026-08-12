@@ -11,8 +11,8 @@ export interface ForecastInput {
 }
 
 export interface ForecastRepository {
-  list(): Promise<Forecast[]>;
-  create(input: ForecastInput): Promise<Forecast>;
-  update(id: string, patch: ForecastInput): Promise<Forecast>;
-  delete(id: string): Promise<void>;
+  list: () => Promise<Forecast[]>;
+  create: (input: ForecastInput) => Promise<Forecast>;
+  update: (id: string, patch: ForecastInput) => Promise<Forecast>;
+  delete: (id: string) => Promise<void>;
 }

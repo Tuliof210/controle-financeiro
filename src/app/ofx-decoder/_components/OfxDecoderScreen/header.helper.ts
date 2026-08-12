@@ -13,7 +13,7 @@ export interface HeaderEntry {
 export function skipWs(text: string, at: number): number {
   let i = at;
   while (i < text.length && /\s/.test(text[i])) {
-    i++;
+    i += 1;
   }
   return i;
 }

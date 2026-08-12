@@ -11,10 +11,10 @@ const MAX_BYTES = 5 * 1024 * 1024;
 // `undefined` message that JSON.stringify drops, silently breaking the
 // {error:{message,code}} envelope every other route upholds.
 const MESSAGES: Record<Exclude<ReadOfxResult["status"], "ok">, string> = {
-  not_ofx: "Arquivo não parece ser um OFX.",
-  card_only:
+  notOfx: "Arquivo não parece ser um OFX.",
+  cardOnly:
     "Este arquivo tem apenas fatura de cartão. O leitor processa extrato de conta corrente.",
-  no_statement: "Nenhum extrato de conta corrente encontrado no arquivo.",
+  noStatement: "Nenhum extrato de conta corrente encontrado no arquivo.",
   empty: "Nenhuma transação encontrada no extrato.",
 };
 

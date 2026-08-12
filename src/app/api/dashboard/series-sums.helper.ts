@@ -30,13 +30,12 @@ export function accumulate(
 
   for (const movement of movements) {
     const month = sums.get(movement.month);
-    if (!month) {
-      continue;
-    }
-    if (movement.type === "income") {
-      month.realIncome += movement.valueCents;
-    } else {
-      month.realExpense += movement.valueCents;
+    if (month) {
+      if (movement.type === "income") {
+        month.realIncome += movement.valueCents;
+      } else {
+        month.realExpense += movement.valueCents;
+      }
     }
   }
 
@@ -45,13 +44,12 @@ export function accumulate(
     // its full value to each of those twelve months, never value / 12.
     for (const active of forecast.months) {
       const month = sums.get(active);
-      if (!month) {
-        continue;
-      }
-      if (forecast.type === "income") {
-        month.estIncome += forecast.valueCents;
-      } else {
-        month.estExpense += forecast.valueCents;
+      if (month) {
+        if (forecast.type === "income") {
+          month.estIncome += forecast.valueCents;
+        } else {
+          month.estExpense += forecast.valueCents;
+        }
       }
     }
   }

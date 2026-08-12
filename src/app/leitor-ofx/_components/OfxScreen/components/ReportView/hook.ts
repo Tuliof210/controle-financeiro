@@ -22,7 +22,7 @@ export function useReportView({
 }: ReportViewProps) {
   const first = report.months.at(0);
   const last = report.months.at(-1);
-  const count = report.totals.count;
+  const { count } = report.totals;
 
   return {
     error,
