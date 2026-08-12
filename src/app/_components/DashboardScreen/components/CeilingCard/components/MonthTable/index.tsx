@@ -47,9 +47,9 @@ export function MonthTable(props: MonthTableProps) {
             <tr key={row.key} className={styles.row} style={row.style}>
               <th scope="row" className={styles.month}>
                 {row.label}
-                {row.isCurrent ? (
+                {Boolean(row.isCurrent) && (
                   <span className={styles.current}>{COPY.atual}</span>
-                ) : null}
+                )}
               </th>
               <td className={styles.balance} data-label="Saldo acum.">
                 {row.balance}

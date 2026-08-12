@@ -33,11 +33,11 @@ export function GoalForm({
         onChange={setTargetCents}
         ariaLabel="Valor alvo"
       />
-      {shownError ? (
+      {Boolean(shownError) && (
         <p className={styles.error}>
           <span aria-hidden={true}>{ERROR_GLYPH}</span> {shownError}
         </p>
-      ) : null}
+      )}
       <Button onClick={handleSubmit}>{submitLabel}</Button>
     </div>
   );

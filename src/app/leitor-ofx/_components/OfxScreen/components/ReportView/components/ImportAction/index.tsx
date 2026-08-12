@@ -34,9 +34,9 @@ export function ImportAction(props: ImportActionProps) {
       {/* Beside the button, never wrapping it: a disabled <button> fires no
           pointer or focus events, so a wrapper would hide the reason it is
           disabled. Tooltip brings its own focusable trigger. */}
-      {view.tooltip ? (
+      {view.tooltip !== null && (
         <Tooltip text={view.tooltip} label="Por que não posso importar" />
-      ) : null}
+      )}
 
       <Modal
         open={view.open}
@@ -72,11 +72,11 @@ export function ImportAction(props: ImportActionProps) {
               options={view.options}
             />
             <p className={styles.summary}>{view.summary}</p>
-            {view.error ? (
+            {Boolean(view.error) && (
               <p className={styles.error}>
                 <span aria-hidden={true}>{ERROR_GLYPH}</span> {view.error}
               </p>
-            ) : null}
+            )}
           </div>
         )}
       </Modal>

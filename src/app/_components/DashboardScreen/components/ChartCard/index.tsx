@@ -18,7 +18,7 @@ export function ChartCard(props: ChartCardProps) {
       headerEnd={legend}
     >
       <div ref={ref} className={styles.plot}>
-        {size.width > 0 && size.height > 0 ? children(size) : null}
+        {size.width > 0 && size.height > 0 && children(size)}
       </div>
     </SectionCard>
   );

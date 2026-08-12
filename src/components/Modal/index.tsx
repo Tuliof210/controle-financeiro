@@ -19,7 +19,7 @@ export function Modal({
       <div className={styles.panel}>
         <header className={styles.header}>
           <div>
-            {eyebrow ? <p className={styles.eyebrow}>{eyebrow}</p> : null}
+            {Boolean(eyebrow) && <p className={styles.eyebrow}>{eyebrow}</p>}
             <h2 className={styles.title}>{title}</h2>
           </div>
           {/* `danger`, not the default ghost: the design's close control turns
@@ -35,7 +35,7 @@ export function Modal({
           </IconButton>
         </header>
         <div className={styles.body}>{children}</div>
-        {footer ? <footer className={styles.footer}>{footer}</footer> : null}
+        {Boolean(footer) && <footer className={styles.footer}>{footer}</footer>}
       </div>
     </dialog>
   );

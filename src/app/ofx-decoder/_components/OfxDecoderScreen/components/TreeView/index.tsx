@@ -16,13 +16,13 @@ export function TreeView(props: TreeViewProps) {
   return (
     <SectionCard title="Hierarquia de tags" icon={ListTree}>
       <p className={styles.file}>{fileName}</p>
-      {header.length > 0 ? (
+      {header.length > 0 && (
         <ul className={styles.header}>
           {header.map((entry) => (
             <TagNode key={entry.id} node={entry} />
           ))}
         </ul>
-      ) : null}
+      )}
       <ul className={styles.tree}>
         <TagNode node={root} />
       </ul>

@@ -30,11 +30,11 @@ export function SpendingGoalSection() {
         onChange={onChange}
         ariaLabel="Meta mensal"
       />
-      {error ? (
+      {Boolean(error) && (
         <p className={styles.error}>
           <span aria-hidden={true}>{ERROR_GLYPH}</span> {error}
         </p>
-      ) : null}
+      )}
       <Button variant={saved ? "success" : "primary"} onClick={onSave}>
         {saved ? "Salvo" : "Salvar"}
       </Button>

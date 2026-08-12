@@ -46,11 +46,11 @@ export function CeilingCard(props: CeilingCardProps) {
               Above the empty-state branch, because the month in view is worth
               saying even when there is no ceiling to show. */}
           <div className={styles.badges}>
-            {limitedBy ? (
+            {Boolean(limitedBy) && (
               <span className={styles.limit} title={`${limitedBy}.`}>
                 {limitedBy}
               </span>
-            ) : null}
+            )}
             <span className={styles.now} title="Mês em curso">
               {currentLabel}
             </span>
@@ -85,9 +85,9 @@ export function CeilingCard(props: CeilingCardProps) {
             <MonthTable rows={rows} />
             <div className={styles.footer}>
               <span>{count}</span>
-              {hidden ? (
+              {Boolean(hidden) && (
                 <ShowAllToggle label={label} expanded={all} onClick={toggle} />
-              ) : null}
+              )}
             </div>
           </div>
         )}

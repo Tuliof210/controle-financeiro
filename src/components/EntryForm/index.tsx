@@ -55,11 +55,11 @@ export function EntryForm({
         }))}
       />
       {period}
-      {error ? (
+      {Boolean(error) && (
         <p className={styles.error}>
           <span aria-hidden={true}>{ERROR_GLYPH}</span> {error}
         </p>
-      ) : null}
+      )}
       <Button onClick={onSubmit} disabled={!canSubmit}>
         {submitLabel}
       </Button>

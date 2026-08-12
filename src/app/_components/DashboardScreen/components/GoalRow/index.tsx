@@ -32,7 +32,7 @@ export function GoalRow(props: GoalRowProps) {
           <div key={metric.key} className={styles.metric}>
             <dt className={styles.label}>{metric.label}</dt>
             <dd className={styles.value}>{metric.value}</dd>
-            {metric.bar ? (
+            {metric.bar !== null && (
               <div className={styles.track} aria-hidden={true}>
                 <div
                   className={styles.fill}
@@ -42,7 +42,7 @@ export function GoalRow(props: GoalRowProps) {
                   }}
                 />
               </div>
-            ) : null}
+            )}
           </div>
         ))}
       </dl>

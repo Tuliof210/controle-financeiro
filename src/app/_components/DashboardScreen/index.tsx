@@ -47,42 +47,42 @@ export function DashboardScreen() {
           simulations on — it must still be there on no_range/out_of_range. */}
       <SimulationSelect value={simulation} onChange={setSimulation} />
 
-      {loading ? (
+      {Boolean(loading) && (
         <Notice title="Carregando" icon={LayoutDashboard}>
           {COPY.loading}
         </Notice>
-      ) : null}
+      )}
 
-      {error ? (
+      {Boolean(error) && (
         <Notice title="Erro" icon={TriangleAlert}>
           {error}
         </Notice>
-      ) : null}
+      )}
 
-      {data?.status === "no_range" ? (
+      {data?.status === "no_range" && (
         <Notice title="Período global" icon={CalendarRange}>
           {COPY.noRange}
         </Notice>
-      ) : null}
+      )}
 
-      {data?.status === "out_of_range" ? (
+      {data?.status === "out_of_range" && (
         <Notice title="Período global" icon={CalendarRange}>
           {`${COPY.outOfRangeLead} (${formatYyyymm(data.range.start)}–${formatYyyymm(data.range.end)}) ${COPY.outOfRangeMid} (${formatYyyymm(data.range.current)})${COPY.outOfRangeTail}`}
         </Notice>
-      ) : null}
+      )}
 
       {/* `aria-busy` and nothing else while a cap change is in flight: the board
           stays mounted and readable, so the only thing missing is the word that
           the figures are being replaced. The dimming is the visual half of the
           same statement. */}
-      {data?.status === "ok" ? (
+      {data?.status === "ok" && (
         <div
           className={refreshing ? styles.refreshing : undefined}
           aria-busy={refreshing}
         >
           <Board data={data} cap={cap} onCapChange={setCap} />
         </div>
-      ) : null}
+      )}
     </div>
   );
 }

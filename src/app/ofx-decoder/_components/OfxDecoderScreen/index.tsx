@@ -30,11 +30,11 @@ export function OfxDecoderScreen() {
       ) : (
         <SectionCard title="Enviar arquivo OFX" icon={FileUp}>
           <DropZone onFile={upload} />
-          {error ? (
+          {Boolean(error) && (
             <p className={styles.error}>
               <span aria-hidden={true}>{ERROR_GLYPH}</span> {error}
             </p>
-          ) : null}
+          )}
         </SectionCard>
       )}
     </div>

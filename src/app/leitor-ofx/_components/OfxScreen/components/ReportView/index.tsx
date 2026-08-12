@@ -60,11 +60,11 @@ export function ReportView(props: ReportViewProps) {
 
       <MonthTable rows={view.rows} totals={view.totals} />
 
-      {view.error ? (
+      {Boolean(view.error) && (
         <p className={styles.error}>
           <span aria-hidden={true}>{ERROR_GLYPH}</span> {view.error}
         </p>
-      ) : null}
+      )}
 
       <div className={styles.actions}>
         {/* Disabled while a parse is in flight, like the picker beside it:

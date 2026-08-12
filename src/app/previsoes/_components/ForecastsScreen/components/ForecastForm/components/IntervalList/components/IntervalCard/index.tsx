@@ -41,7 +41,7 @@ export function IntervalCard(props: IntervalCardProps) {
             />
             {COPY.mesUnico}
           </label>
-          {canRemove ? (
+          {Boolean(canRemove) && (
             <IconButton
               variant="danger"
               aria-label={removeLabel}
@@ -49,7 +49,7 @@ export function IntervalCard(props: IntervalCardProps) {
             >
               <X size={16} aria-hidden={true} />
             </IconButton>
-          ) : null}
+          )}
         </div>
       </div>
       <div className={styles.pickers}>

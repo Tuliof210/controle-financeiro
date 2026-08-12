@@ -22,9 +22,9 @@ const COPY = {
 // Movimentações passes its own.
 const renderPeriod = (forecast: Forecast) => (
   <span className={styles.period}>
-    {forecast.simulated ? (
+    {Boolean(forecast.simulated) && (
       <span className={styles.badge}>{COPY.simulado}</span>
-    ) : null}
+    )}
     <span className={styles.months}>{formatMonths(forecast.months)}</span>
   </span>
 );

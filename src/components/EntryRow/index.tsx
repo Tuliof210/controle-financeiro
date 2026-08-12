@@ -52,7 +52,7 @@ export function EntryRow(props: EntryRowProps) {
           <Trash2 size={14} aria-hidden={true} />
         </IconButton>
       </span>
-      {band ? <span data-cell="bar">{band}</span> : null}
+      {Boolean(band) && <span data-cell="bar">{band}</span>}
     </li>
   );
 }

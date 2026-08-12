@@ -19,11 +19,11 @@ export function UploadCard(props: UploadCardProps) {
         onFile={onFile}
         note="O arquivo é lido e some quando você fecha a aba. Só os totais mensais que você confirmar na importação vão para o banco."
       />
-      {error ? (
+      {Boolean(error) && (
         <p className={styles.error}>
           <span aria-hidden={true}>{ERROR_GLYPH}</span> {error}
         </p>
-      ) : null}
+      )}
     </SectionCard>
   );
 }

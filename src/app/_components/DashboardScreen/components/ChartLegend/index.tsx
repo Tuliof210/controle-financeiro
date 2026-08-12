@@ -19,7 +19,7 @@ export function ChartLegend(props: ChartLegendProps) {
           {item.label}
         </span>
       ))}
-      {note ? <span className={styles.note}>{note}</span> : null}
+      {Boolean(note) && <span className={styles.note}>{note}</span>}
     </p>
   );
 }

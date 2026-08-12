@@ -37,7 +37,7 @@ export function HeroBand(props: HeroBandProps) {
             <p className={styles.subtitle}>{COPY.subtitle}</p>
           </div>
 
-          {figures ? (
+          {figures !== null && (
             <div className={styles.figures}>
               <p className={styles.eyebrow}>
                 {COPY.saldoProjetado} {figures.endLabel}
@@ -55,10 +55,10 @@ export function HeroBand(props: HeroBandProps) {
                 </span>
               </div>
             </div>
-          ) : null}
+          )}
         </div>
 
-        {figures ? <Facts facts={figures.facts} /> : null}
+        {figures !== null && <Facts facts={figures.facts} />}
       </div>
     </section>
   );

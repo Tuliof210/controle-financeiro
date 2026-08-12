@@ -41,11 +41,11 @@ export function ConfirmDialog({
       }
     >
       <p className={styles.message}>{message}</p>
-      {error ? (
+      {Boolean(error) && (
         <p className={styles.error}>
           <span aria-hidden={true}>{ERROR_GLYPH}</span> {error}
         </p>
-      ) : null}
+      )}
     </Modal>
   );
 }
