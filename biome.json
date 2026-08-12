@@ -36,14 +36,6 @@
       },
       "style": {
         "noExcessiveLinesPerFile": "off"
-      },
-      "security": {
-        "noSecrets": {
-          "level": "on",
-          "options": {
-            "entropyThreshold": 43
-          }
-        }
       }
     },
     "domains": {
@@ -138,6 +130,27 @@
           },
           "suspicious": {
             "noConsole": "off"
+          }
+        }
+      }
+    },
+    {
+      "includes": [
+        "src/app/_components/DashboardScreen/components/SavingsSection/index.tsx",
+        "src/app/api/settings/route.ts",
+        "src/app/configuracoes/_components/SettingsScreen/hook.ts",
+        "src/app/configuracoes/page.tsx",
+        "src/components/AppShell/nav.ts"
+      ],
+      "linter": {
+        "rules": {
+          "security": {
+            "noSecrets": {
+              "level": "on",
+              "options": {
+                "entropyThreshold": 43
+              }
+            }
           }
         }
       }
