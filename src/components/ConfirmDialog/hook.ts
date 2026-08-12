@@ -1,3 +1,9 @@
+const variantFor = (danger: boolean | undefined) => {
+  if (danger) {
+    return "danger" as const;
+  }
+  return "primary" as const;
+};
 export interface ConfirmDialogProps {
   open: boolean;
   onClose: () => void;
@@ -16,5 +22,5 @@ export function useConfirmDialog({
   confirmLabel = "Excluir",
   danger = true,
 }: Pick<ConfirmDialogProps, "confirmLabel" | "danger">) {
-  return { confirmLabel, variant: danger ? "danger" : "primary" } as const;
+  return { confirmLabel, variant: variantFor(danger) } as const;
 }

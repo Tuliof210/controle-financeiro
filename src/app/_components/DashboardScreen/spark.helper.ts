@@ -1,3 +1,10 @@
+// The first point moves the pen; every later one draws to it.
+const command = (index: number): string => {
+  if (index === 0) {
+    return "M";
+  }
+  return "L";
+};
 // The inline sparkline every KPI card draws beside its headline. Pure geometry,
 // shared by every card that draws one.
 
@@ -34,7 +41,7 @@ function spark(values: number[]): { line: string; area: string } | null {
     .map((value, index) => {
       const x = index * dx;
       const y = SPARK_H - BASELINE - ((value - min) / span) * PLOT_H;
-      return `${index === 0 ? "M" : "L"} ${x.toFixed(1)} ${y.toFixed(1)}`;
+      return `${command(index)} ${x.toFixed(1)} ${y.toFixed(1)}`;
     })
     .join(" ");
 

@@ -2,6 +2,22 @@ import { useRef, useState } from "react";
 import { currentYyyymm } from "@/lib/months.ts";
 import { type Interval, monthsToIntervals } from "./intervals.helper.ts";
 
+// The last interval is never removed: a forecast with no months is not a
+// forecast, and the form has no other way back.
+const dropAt = <T>(rows: T[], index: number): T[] => {
+  if (rows.length <= 1) {
+    return rows;
+  }
+  return rows.filter((_, i) => i !== index);
+};
+
+const replaceAt = <T>(row: T, i: number, index: number, next: object): T => {
+  if (i !== index) {
+    return row;
+  }
+  return { ...row, ...next };
+};
+
 // A stable per-row key so React reconciles rows correctly across add/remove
 // (index keys would mis-associate rows). Not persisted — UI-only.
 type KeyedInterval = Interval & { key: number };
@@ -35,15 +51,11 @@ function useForecastIntervals(initialMonths: number[] | undefined) {
   );
 
   const updateInterval = (index: number, next: Interval) =>
-    setIntervals((prev) =>
-      prev.map((it, i) => (i === index ? { ...it, ...next } : it)),
-    );
+    setIntervals((prev) => prev.map((it, i) => replaceAt(it, i, index, next)));
   const addInterval = () =>
     setIntervals((prev) => [...prev, { key: takeKey(), ...defaultInterval() }]);
   const removeInterval = (index: number) =>
-    setIntervals((prev) =>
-      prev.length > 1 ? prev.filter((_, i) => i !== index) : prev,
-    );
+    setIntervals((prev) => dropAt(prev, index));
 
   return { intervals, updateInterval, addInterval, removeInterval };
 }

@@ -2,6 +2,22 @@ import { useEffect, useState } from "react";
 import type { Settings } from "@/core/entities/settings.entity.ts";
 import { apiGet, apiPut } from "@/lib/api.ts";
 
+// The button reports the last save rather than offering the same action twice,
+// so the label and the variant move together.
+const saveVariantFor = (saved: boolean) => {
+  if (saved) {
+    return "success" as const;
+  }
+  return "primary" as const;
+};
+
+const saveLabelFor = (saved: boolean): string => {
+  if (saved) {
+    return "Salvo";
+  }
+  return "Salvar";
+};
+
 // No modal and no refetch, unlike its two neighbours: this section is one row
 // that always exists, so there is nothing to open and nothing to re-list. The
 // PUT's own response is the saved state.
@@ -42,7 +58,7 @@ export function useSpendingGoalSection() {
     onSave,
     // The button reports the last save rather than offering the same action
     // twice, so the label and the variant move together.
-    saveVariant: saved ? ("success" as const) : ("primary" as const),
-    saveLabel: saved ? "Salvo" : "Salvar",
+    saveVariant: saveVariantFor(saved),
+    saveLabel: saveLabelFor(saved),
   };
 }

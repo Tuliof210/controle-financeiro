@@ -1,3 +1,10 @@
+// A 2.x instruction closes with `?>`, so the `?` is not part of the value.
+const innerEnd = (text: string, end: number): number => {
+  if (text[end - 1] === "?") {
+    return end - 1;
+  }
+  return end;
+};
 // Header entries from either OFX dialect: 1.x's "KEY:VALUE" lines before the
 // first tag, or 2.x's "<?xml?>" / "<?OFX?>" instructions. Read here so
 // tag-tree.helper.ts's parser never sees one and grows a tree node literally
@@ -48,7 +55,7 @@ function xmlEntries(text: string, at: number) {
     if (end === -1) {
       return { entries, next: text.length };
     }
-    const inner = text.slice(i + 2, text[end - 1] === "?" ? end - 1 : end);
+    const inner = text.slice(i + 2, innerEnd(text, end));
     entries.push(splitEntry(inner, inner.search(WHITESPACE)));
     i = skipWs(text, end + 1);
   }

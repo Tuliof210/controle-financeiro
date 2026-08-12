@@ -5,6 +5,14 @@ import {
   TYPE_LABELS,
 } from "@/lib/entry-types.ts";
 
+// The selected type carries its own accent; the others stay quiet.
+const variantFor = (kind: EntryType, value: EntryType) => {
+  if (kind === value) {
+    return SELECTED_VARIANT[kind];
+  }
+  return "ghost" as const;
+};
+
 interface TypeToggleProps {
   value: EntryType;
   onChange: (value: EntryType) => void;
@@ -18,7 +26,7 @@ function useTypeToggle({ value, onChange }: TypeToggleProps) {
     options: ENTRY_TYPES.map((kind) => ({
       kind,
       label: TYPE_LABELS[kind],
-      variant: kind === value ? SELECTED_VARIANT[kind] : ("ghost" as const),
+      variant: variantFor(kind, value),
       select: () => onChange(kind),
     })),
   };

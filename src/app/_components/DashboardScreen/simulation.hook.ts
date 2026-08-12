@@ -37,7 +37,10 @@ export function useSimulationView() {
   }, []);
 
   const choose = useCallback((next: string) => {
-    const value = isView(next) ? next : DEFAULT_SIMULATION_VIEW;
+    let value: SimulationView = DEFAULT_SIMULATION_VIEW;
+    if (isView(next)) {
+      value = next;
+    }
     setView(value);
     try {
       localStorage.setItem(KEY, value);

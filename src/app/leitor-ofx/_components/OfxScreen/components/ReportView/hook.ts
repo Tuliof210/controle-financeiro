@@ -3,6 +3,17 @@ import { formatMoney } from "@/lib/money.ts";
 import { formatYyyymm } from "@/lib/months.ts";
 import { accountLabel, finalBalance } from "./account.helper.ts";
 
+// "—" while the statement spans no dated month at all.
+const periodLabel = (
+  first: { month: number } | undefined,
+  last: { month: number } | undefined,
+): string => {
+  if (!(first && last)) {
+    return "—";
+  }
+  return `${formatYyyymm(first.month)} – ${formatYyyymm(last.month)}`;
+};
+
 interface ReportViewProps {
   report: OfxReport;
   error: string | null;
@@ -63,10 +74,7 @@ function useReportView({
     count: `${count} ${readWord(count)}`,
     account: accountLabel(report.accounts),
     finalBalance: finalBalance(report.accounts),
-    period:
-      first && last
-        ? `${formatYyyymm(first.month)} – ${formatYyyymm(last.month)}`
-        : "—",
+    period: periodLabel(first, last),
     accounts: report.accounts.map((account, index) => ({
       // No field is guaranteed unique or even present, so the index is part of
       // the key — a file may legitimately hold the same account twice.

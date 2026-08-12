@@ -25,8 +25,12 @@ const DEFAULT_CEILING_CAP: CeilingCap = "50";
 // and every goal date on the board. Meta reads as 100 because it starts from
 // the WHOLE headroom; the goal amount then caps the result in buildCeiling.
 const WHOLE = 100;
-const capPercent = (cap: CeilingCap): number =>
-  cap === META_CAP ? WHOLE : Number(cap);
+const capPercent = (cap: CeilingCap): number => {
+  if (cap === META_CAP) {
+    return WHOLE;
+  }
+  return Number(cap);
+};
 
 export type { CeilingCap };
 export { CEILING_CAPS, capPercent, DEFAULT_CEILING_CAP, META_CAP };
