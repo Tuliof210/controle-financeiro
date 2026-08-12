@@ -6,6 +6,8 @@ import { TextField } from "@/components/TextField/index.tsx";
 import { type GoalFormProps, useGoalForm } from "./hook.ts";
 import styles from "./style.module.scss";
 
+const NAME_ID = "goal-name";
+
 export function GoalForm({
   initial,
   error,
@@ -24,7 +26,7 @@ export function GoalForm({
 
   return (
     <div className={styles.form}>
-      <TextField id="goal-name" label="Nome" value={name} onChange={setName} />
+      <TextField id={NAME_ID} label="Nome" value={name} onChange={setName} />
       <MoneyInput
         valueCents={targetCents}
         onChange={setTargetCents}

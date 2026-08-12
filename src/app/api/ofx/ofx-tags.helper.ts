@@ -9,9 +9,9 @@ const MAX_CENTS = 100_000_000_000; // R$ 1 billion, matching src/lib/money.ts
 // Empty or whitespace-only reads as absent.
 export function leaf(block: string, tag: string): string | null {
   // Cast because Biome types RegExp.exec as always-matching; it does not.
-  const match = new RegExp(`<${tag}>([^<]*)`).exec(block) as
-    | RegExpExecArray
-    | null;
+  const match = new RegExp(`<${tag}>([^<]*)`).exec(
+    block,
+  ) as RegExpExecArray | null;
   if (match === null) {
     return null;
   }

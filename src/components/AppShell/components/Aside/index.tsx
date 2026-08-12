@@ -1,3 +1,4 @@
+import { SIDEBAR_ID } from "../../ids.ts";
 import { BrandMark } from "../BrandMark/index.tsx";
 import { NavItem } from "./components/NavItem/index.tsx";
 import { useAside } from "./hook.ts";
@@ -18,7 +19,6 @@ export function Aside(props: AsideProps) {
     collapsed,
     onToggle,
     handleClose,
-    handleClick,
     className,
     toggleIcon: ToggleIcon,
     toggleLabel,
@@ -29,16 +29,14 @@ export function Aside(props: AsideProps) {
     // while the drawer is open below `md` — the native <dialog>'s implicit
     // "dialog" role would misdescribe the always-on desktop rail, and would
     // collide with an actual modal dialog open elsewhere on the same page.
-    // biome-ignore lint/a11y/useKeyWithClickEvents: backdrop click is a mouse-only affordance; the native <dialog> already closes on Esc for keyboard users.
     // biome-ignore lint/a11y/useSemanticElements: a plain <nav> has none of <dialog>'s showModal()/close()/Esc/::backdrop the drawer below `md` needs.
     <dialog
-      id="app-sidebar"
+      id={SIDEBAR_ID}
       ref={ref}
       role="navigation"
       aria-label="Navegação principal"
       className={className}
       onClose={handleClose}
-      onClick={handleClick}
     >
       <div className={styles.brand}>
         <BrandMark />

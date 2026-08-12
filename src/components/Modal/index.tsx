@@ -12,16 +12,10 @@ export function Modal({
   children,
   footer,
 }: ModalProps) {
-  const { ref, handleClose, handleClick } = useModal({ open, onClose });
+  const { ref, handleClose } = useModal({ open, onClose });
 
   return (
-    // biome-ignore lint/a11y/useKeyWithClickEvents: backdrop click is a mouse-only affordance; the native <dialog> already closes on Esc for keyboard users.
-    <dialog
-      ref={ref}
-      className={styles.dialog}
-      onClose={handleClose}
-      onClick={handleClick}
-    >
+    <dialog ref={ref} className={styles.dialog} onClose={handleClose}>
       <div className={styles.panel}>
         <header className={styles.header}>
           <div>

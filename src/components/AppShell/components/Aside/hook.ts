@@ -1,6 +1,6 @@
 import { PanelLeftClose, PanelLeftOpen } from "lucide-react";
 import { usePathname } from "next/navigation";
-import { type MouseEvent, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useNavActive } from "../../nav.hook.ts";
 import styles from "./style.module.scss";
 
@@ -51,11 +51,22 @@ export function useAside({
     }
   };
 
-  const handleClick = (e: MouseEvent<HTMLDialogElement>) => {
-    if (e.target === ref.current) {
-      onCloseDrawer();
+  // Backdrop click, bound through the ref for the same reason as
+  // src/components/Modal/hook.ts: an onClick prop on a non-interactive element
+  // is what a11y linting flags, and the drawer's keyboard path is Esc.
+  useEffect(() => {
+    const dialog = ref.current;
+    if (!dialog) {
+      return;
     }
-  };
+    const onBackdrop = (event: MouseEvent) => {
+      if (event.target === dialog) {
+        onCloseDrawer();
+      }
+    };
+    dialog.addEventListener("click", onBackdrop);
+    return () => dialog.removeEventListener("click", onBackdrop);
+  }, [onCloseDrawer]);
 
   return {
     ref,
@@ -64,7 +75,6 @@ export function useAside({
     collapsed,
     onToggle,
     handleClose,
-    handleClick,
     className: [styles.aside, collapsed && styles.collapsed]
       .filter(Boolean)
       .join(" "),

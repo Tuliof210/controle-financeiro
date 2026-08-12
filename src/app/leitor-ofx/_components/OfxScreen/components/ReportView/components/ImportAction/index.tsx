@@ -6,6 +6,9 @@ import { Tooltip } from "@/components/Tooltip/index.tsx";
 import { type ImportActionProps, useImportAction } from "./hook.ts";
 import styles from "./style.module.scss";
 
+const IDENTIFIER_ID = "ofx-import-identifier";
+const OWNER_ID = "ofx-import-owner";
+
 export function ImportAction(props: ImportActionProps) {
   const view = useImportAction(props);
 
@@ -45,10 +48,10 @@ export function ImportAction(props: ImportActionProps) {
           </>
         }
       >
-        {view.open && (
+        {Boolean(view.open) && (
           <div className={styles.form}>
             <TextField
-              id="ofx-import-identifier"
+              id={IDENTIFIER_ID}
               label="Identificador do documento"
               value={view.identifier}
               onChange={view.setIdentifier}
@@ -56,7 +59,7 @@ export function ImportAction(props: ImportActionProps) {
               placeholder="Ex.: 12345-6"
             />
             <SelectField
-              id="ofx-import-owner"
+              id={OWNER_ID}
               label="Responsável"
               value={view.ownerId}
               onChange={view.setOwnerId}

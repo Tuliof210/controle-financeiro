@@ -27,7 +27,12 @@ export function accumulate(
   forecasts: Forecast[],
 ): Map<number, Sums> {
   const sums = new Map(months.map((month) => [month, emptySums()]));
+  addMovements(sums, movements);
+  addForecasts(sums, forecasts);
+  return sums;
+}
 
+function addMovements(sums: Map<number, Sums>, movements: Movement[]): void {
   for (const movement of movements) {
     const month = sums.get(movement.month);
     if (month) {
@@ -38,10 +43,12 @@ export function accumulate(
       }
     }
   }
+}
 
+// valueCents is PER active month — a forecast active Jan-Dec contributes its
+// full value to each of those twelve months, never value / 12.
+function addForecasts(sums: Map<number, Sums>, forecasts: Forecast[]): void {
   for (const forecast of forecasts) {
-    // valueCents is PER active month — a forecast active Jan-Dec contributes
-    // its full value to each of those twelve months, never value / 12.
     for (const active of forecast.months) {
       const month = sums.get(active);
       if (month) {
@@ -53,6 +60,4 @@ export function accumulate(
       }
     }
   }
-
-  return sums;
 }

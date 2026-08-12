@@ -1,6 +1,7 @@
 "use client";
 
 import { Menu } from "lucide-react";
+import { SIDEBAR_ID } from "../../ids.ts";
 import { Avatar } from "./components/Avatar/index.tsx";
 import { ProfileSelect } from "./components/ProfileSelect/index.tsx";
 import { ThemeToggle } from "./components/ThemeToggle/index.tsx";
@@ -25,7 +26,7 @@ export function Header(props: HeaderProps) {
         className={styles.toggle}
         aria-label="Alternar menu"
         aria-expanded={sidebarExpanded}
-        aria-controls="app-sidebar"
+        aria-controls={SIDEBAR_ID}
         onClick={onToggleSidebar}
       >
         <Menu size={20} aria-hidden={true} />

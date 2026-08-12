@@ -5,6 +5,8 @@ import { IntervalList } from "./components/IntervalList/index.tsx";
 import { type ForecastFormProps, useForecastForm } from "./hook.ts";
 import styles from "./style.module.scss";
 
+const SIMULATED_ID = "forecast-simulated";
+
 export function ForecastForm(props: ForecastFormProps) {
   const { error, submitLabel, people } = props;
   const {
@@ -36,11 +38,11 @@ export function ForecastForm(props: ForecastFormProps) {
             onRemove={removeInterval}
           />
           <div>
-            <label className={styles.simulated} htmlFor="forecast-simulated">
+            <label className={styles.simulated} htmlFor={SIMULATED_ID}>
               <input
                 type="checkbox"
                 className={styles.checkbox}
-                id="forecast-simulated"
+                id={SIMULATED_ID}
                 checked={simulated}
                 onChange={toggleSimulated}
               />
