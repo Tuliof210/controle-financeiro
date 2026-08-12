@@ -12,7 +12,8 @@ async function request<T>(
     return res.ok
       ? { data: body?.data as T }
       : {
-          error: (body?.error?.message as string) ?? "Erro inesperado",
+          error:
+            (body?.error?.message as string | undefined) ?? "Erro inesperado",
           code: body?.error?.code as string | undefined,
         };
   } catch {

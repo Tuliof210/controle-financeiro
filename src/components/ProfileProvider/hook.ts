@@ -35,7 +35,9 @@ export function useProfileState(): ProfileContextValue {
       if (stored) {
         setProfileRaw(stored);
       }
-    } catch {}
+    } catch {
+      // Storage blocked: fall back to the default profile.
+    }
   }, []);
 
   useEffect(() => {
@@ -51,7 +53,9 @@ export function useProfileState(): ProfileContextValue {
     setProfileRaw(next);
     try {
       localStorage.setItem("profile", next);
-    } catch {}
+    } catch {
+      // Storage blocked: the switch still applies to this session.
+    }
   }, []);
 
   // Self-heal: once people has actually loaded, a profile id that no

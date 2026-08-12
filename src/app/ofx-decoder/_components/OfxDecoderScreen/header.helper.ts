@@ -10,9 +10,12 @@ export interface HeaderEntry {
 // Real OFX is pretty-printed with a newline (sometimes indentation) between
 // tags — every position handed to the tag parser has to land exactly on the
 // next `<`, never on the whitespace before it.
+const WHITESPACE = /\s/;
+const LINE_BREAK = /\r?\n/;
+
 export function skipWs(text: string, at: number): number {
   let i = at;
-  while (i < text.length && /\s/.test(text[i])) {
+  while (i < text.length && WHITESPACE.test(text[i])) {
     i += 1;
   }
   return i;
@@ -28,7 +31,7 @@ function splitEntry(text: string, at: number): HeaderEntry {
 // empty (it opens straight on `<?xml`), so this yields no entries.
 function sgmlEntries(prefix: string): HeaderEntry[] {
   return prefix
-    .split(/\r?\n/)
+    .split(LINE_BREAK)
     .map((line) => line.trim())
     .filter(Boolean)
     .map((line) => splitEntry(line, line.indexOf(":")));
@@ -45,7 +48,7 @@ function xmlEntries(text: string, at: number) {
       return { entries, next: text.length };
     }
     const inner = text.slice(i + 2, text[end - 1] === "?" ? end - 1 : end);
-    entries.push(splitEntry(inner, inner.search(/\s/)));
+    entries.push(splitEntry(inner, inner.search(WHITESPACE)));
     i = skipWs(text, end + 1);
   }
   return { entries, next: i };

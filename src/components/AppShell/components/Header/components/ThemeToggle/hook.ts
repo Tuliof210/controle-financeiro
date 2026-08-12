@@ -18,7 +18,9 @@ export function useThemeToggle() {
     document.documentElement.setAttribute("data-theme", next);
     try {
       localStorage.setItem("theme", next);
-    } catch {}
+    } catch {
+      // Storage blocked: the theme still flips for this session.
+    }
     setTheme(next);
   };
 

@@ -11,7 +11,9 @@ export const fail = (message: string, code: string, status = 400) =>
 export async function safeJson(request: Request): Promise<unknown> {
   try {
     return await request.json();
-  } catch {}
+  } catch {
+    // Undefined on a malformed body: the caller's Zod schema rejects it.
+  }
 }
 
 // Same trust boundary as safeJson: request.formData() throws on a malformed or
@@ -21,5 +23,7 @@ export async function safeFormData(
 ): Promise<FormData | undefined> {
   try {
     return await request.formData();
-  } catch {}
+  } catch {
+    // Undefined on a malformed body: the caller checks before using it.
+  }
 }

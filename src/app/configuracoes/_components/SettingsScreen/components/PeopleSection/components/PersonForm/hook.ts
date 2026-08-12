@@ -17,8 +17,9 @@ export function usePersonForm({
   initial,
   onSubmit,
 }: Pick<PersonFormProps, "initial" | "onSubmit">) {
-  const [name, setName] = useState(initial?.name ?? "");
-  const [color, setColor] = useState(initial?.color ?? PALETTE[0]);
+  const { name: seedName = "", color: seedColor = PALETTE[0] } = initial ?? {};
+  const [name, setName] = useState(seedName);
+  const [color, setColor] = useState(seedColor);
 
   return {
     name,

@@ -17,13 +17,17 @@ const readStored = (): OfxReport | null => {
 const writeStored = (report: OfxReport) => {
   try {
     sessionStorage.setItem(SESSION_KEY, JSON.stringify(report));
-  } catch {}
+  } catch {
+    // Storage blocked: the report survives in React state either way.
+  }
 };
 
 const clearStored = () => {
   try {
     sessionStorage.removeItem(SESSION_KEY);
-  } catch {}
+  } catch {
+    // Nothing to clear if storage was never writable.
+  }
 };
 
 export function useOfxScreen() {

@@ -24,7 +24,12 @@ export function splitByType<T extends { type: EntryType }>(items: T[]) {
 // Default owner for a new entry: the active profile if it's a real person,
 // else the first person (or "" when there are none).
 export function resolveOwnerId(profile: string, people: Person[]): string {
-  return people.some((person) => person.id === profile)
-    ? profile
-    : (people[0]?.id ?? "");
+  if (people.some((person) => person.id === profile)) {
+    return profile;
+  }
+  const [first] = people;
+  if (first === undefined) {
+    return "";
+  }
+  return first.id;
 }

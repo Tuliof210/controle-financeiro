@@ -49,7 +49,7 @@ export function useGoalsSection() {
     setModal({ type: "delete", goal });
   };
 
-  const persist = async (result: Awaited<ReturnType<typeof apiPost>>) => {
+  const persist = (result: Awaited<ReturnType<typeof apiPost>>) => {
     if (result.error) {
       setError(result.error);
       return;

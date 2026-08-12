@@ -8,7 +8,14 @@ const MAX_CENTS = 100_000_000_000; // R$ 1 billion, matching src/lib/money.ts
 // to the next `<`; OFX 2.x closes them, and `[^<]*` stops in the same place.
 // Empty or whitespace-only reads as absent.
 export function leaf(block: string, tag: string): string | null {
-  const value = new RegExp(`<${tag}>([^<]*)`).exec(block)?.[1].trim();
+  // Cast because Biome types RegExp.exec as always-matching; it does not.
+  const match = new RegExp(`<${tag}>([^<]*)`).exec(block) as
+    | RegExpExecArray
+    | null;
+  if (match === null) {
+    return null;
+  }
+  const value = match[1].trim();
   return value ? value : null;
 }
 
@@ -50,6 +57,8 @@ export function blocks(text: string, tag: string): string[] {
 // be off-spec twice, using `.` for thousands AND dropping the centavos, for
 // that to be the wrong call. No heuristic guards it; a heuristic that guesses
 // wrong on real money is worse than a rule the reader can predict.
+const AMOUNT = /^([+-]?)(\d+)(?:\.(\d*))?$/;
+
 export function amountToCents(raw: string): number | null {
   const cleaned = raw.replace(/\s/g, "");
   const cut = Math.max(cleaned.lastIndexOf("."), cleaned.lastIndexOf(","));
@@ -57,7 +66,7 @@ export function amountToCents(raw: string): number | null {
     cut < 0
       ? cleaned
       : `${cleaned.slice(0, cut).replace(/[.,]/g, "")}.${cleaned.slice(cut + 1)}`;
-  const match = /^([+-]?)(\d+)(?:\.(\d*))?$/.exec(normalized);
+  const match = AMOUNT.exec(normalized);
   if (!match) {
     return null;
   }

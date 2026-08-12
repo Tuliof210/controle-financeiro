@@ -11,7 +11,10 @@ export interface ImportOfxInput {
 
 export async function isOfxImported(fileHash: string) {
   const found = await ofxImportRepository.findByHash(fileHash);
-  return { imported: found !== null, importedAt: found?.importedAt ?? null };
+  if (found === null) {
+    return { imported: false, importedAt: null };
+  }
+  return { imported: true, importedAt: found.importedAt };
 }
 
 // Answers null when the file is already on record, so the route can map that to

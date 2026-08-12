@@ -58,7 +58,7 @@ export function useEntryScreen<T extends Entry, V extends { type: EntryType }>({
   const openEdit = (entry: T) => openModal({ type: "edit", entry });
   const openDelete = (entry: T) => openModal({ type: "delete", entry });
 
-  const persist = async (result: Awaited<ReturnType<typeof apiPost>>) => {
+  const persist = (result: Awaited<ReturnType<typeof apiPost>>) => {
     if (result.error) {
       return setError(result.error);
     }

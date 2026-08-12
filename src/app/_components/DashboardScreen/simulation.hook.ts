@@ -31,7 +31,9 @@ export function useSimulationView() {
       if (isView(stored)) {
         setView(stored);
       }
-    } catch {}
+    } catch {
+      // Storage blocked: the remembered view is a convenience, not state.
+    }
   }, []);
 
   const choose = useCallback((next: string) => {
@@ -39,7 +41,9 @@ export function useSimulationView() {
     setView(value);
     try {
       localStorage.setItem(KEY, value);
-    } catch {}
+    } catch {
+      // Storage blocked: the choice still applies to this session.
+    }
   }, []);
 
   return { view, choose };

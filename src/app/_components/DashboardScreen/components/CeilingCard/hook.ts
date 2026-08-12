@@ -31,21 +31,21 @@ export function useCeilingCard({
   // Nothing is computed here: the payload carries both the balance arriving at
   // the month and what is left after it, precisely so the screen cannot arrive
   // at a third answer.
-  const rows = months.map((month) => ({
-    key: month.month,
-    label: formatYyyymm(month.month),
-    isCurrent: month.month === current,
-    balance: formatMoney(month.ceilingBalance),
-    spend: formatMoney(month.budget),
-    left: formatMoney(month.ceilingLeft),
+  const rows = months.map((row) => ({
+    key: row.month,
+    label: formatYyyymm(row.month),
+    isCurrent: row.month === current,
+    balance: formatMoney(row.ceilingBalance),
+    spend: formatMoney(row.budget),
+    left: formatMoney(row.ceilingLeft),
     // How much of the balance ARRIVING at the month its ceiling takes — the two
     // figures either side of it, as one proportion. Guarded because a zero
     // balance is a real state (a month whose money has not arrived yet) and it
     // is the divisor; clamped because the type says `budget: number`, not
     // "at most the cap's share", even though the arithmetic guarantees it.
     share:
-      month.ceilingBalance > 0
-        ? Math.min(1, Math.max(0, month.budget / month.ceilingBalance))
+      row.ceilingBalance > 0
+        ? Math.min(1, Math.max(0, row.budget / row.ceilingBalance))
         : 0,
   }));
 
@@ -63,7 +63,7 @@ export function useCeilingCard({
     // month". An owner whose money starts in a later month has `monthly === 0`
     // and real room further down the list — hiding it would keep broken exactly
     // the half of the problem this card was rewritten to fix.
-    empty: months.every((month) => month.budget === 0),
+    empty: months.every((row) => row.budget === 0),
     // Naming the FIRST month in the red says when it breaks, which is the
     // deadline to act on; a deeper month later does not move that date.
     note: firstRed
