@@ -7,7 +7,7 @@ import type { Ceiling } from "./ceiling.types.ts";
 // One month of the global range, with "real" (Movement) and "estimated"
 // (Forecast) already reconciled by the most-complete-picture-wins rule:
 // the bigger of the two sides is the truth for that month AND that type.
-export type MonthPoint = {
+export interface MonthPoint {
   month: number; // YYYYMM
   income: number; // max(real, estimated) — cents
   expense: number;
@@ -15,15 +15,15 @@ export type MonthPoint = {
   cumulative: number; // running sum of balance from the range's first month
   incomeEstimated: boolean; // estimated > real -> projection, render at 50% opacity
   expenseEstimated: boolean;
-};
+}
 
-export type Stats = {
+export interface Stats {
   total: number; // sum over the whole range
   current: number; // sum over rangeStart .. currentMonth inclusive
   mean: number;
   stdDev: number; // population (divided by N)
   median: number;
-};
+}
 
 // How long one goal takes under one funding assumption, and the month it lands
 // in. Null exactly when the saving pace is 0 — no rate reaches any target, and
@@ -35,16 +35,20 @@ export type GoalPace = { months: number; doneMonth: number } | null;
 // The same goal read three ways. They differ only in how much of the monthly
 // capacity this goal is assumed to get: all of it, an even share of it, or all
 // of it but only once every cheaper goal ahead of it in the queue is funded.
-export type GoalProjection = {
+export interface GoalProjection {
   id: string;
   name: string;
   targetCents: number;
   dedicated: GoalPace; // the whole capacity, this goal alone
   parallel: GoalPace; // capacity split evenly across every goal
   serialized: GoalPace; // whole capacity, one goal at a time, cheapest first
-};
+}
 
-export type DashboardRange = { start: number; end: number; current: number };
+export interface DashboardRange {
+  start: number;
+  end: number;
+  current: number;
+}
 
 // Discriminated on `status` so the screen renders one of three states without
 // inspecting nullable fields. "no_range" is the empty-database state: the

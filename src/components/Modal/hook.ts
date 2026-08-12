@@ -1,6 +1,6 @@
 import { type MouseEvent, type ReactNode, useEffect, useRef } from "react";
 
-export type ModalProps = {
+export interface ModalProps {
   open: boolean;
   onClose: () => void;
   // Optional display-font kicker above the title. ConfirmDialog omits it.
@@ -8,7 +8,7 @@ export type ModalProps = {
   title: string;
   children: ReactNode;
   footer?: ReactNode;
-};
+}
 
 export function useModal({
   open,

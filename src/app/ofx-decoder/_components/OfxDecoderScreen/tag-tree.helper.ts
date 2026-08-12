@@ -12,7 +12,10 @@ export type OfxNode =
   | { id: number; tag: string; value: string }
   | { id: number; tag: string; children: OfxNode[] };
 
-export type OfxTagTree = { header: OfxNode[]; root: OfxNode | null };
+export interface OfxTagTree {
+  header: OfxNode[];
+  root: OfxNode | null;
+}
 
 // Trimmed like src/app/api/ofx/ofx-tags.helper.ts's `leaf()`: the line break
 // and indentation a pretty-printed file puts before the NEXT tag land inside

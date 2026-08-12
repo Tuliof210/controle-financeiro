@@ -5,7 +5,7 @@ import type { Period } from "@/core/use-cases/period.service.ts";
 import type { Entry, EntryType } from "@/lib/entry-types.ts";
 import type { EntryScreenLabels } from "../../types.ts";
 
-export type SectionsProps<T extends Entry> = {
+export interface SectionsProps<T extends Entry> {
   labels: EntryScreenLabels;
   income: T[];
   expense: T[];
@@ -16,7 +16,7 @@ export type SectionsProps<T extends Entry> = {
   onAdd: (kind: EntryType) => void;
   onEdit: (entry: T) => void;
   onDelete: (entry: T) => void;
-};
+}
 
 // One array instead of two near-identical JSX blocks — Entradas/Saídas differ
 // only in the fields below; people/period/renderPeriod/renderBand/onEdit/

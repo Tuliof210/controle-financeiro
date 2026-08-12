@@ -2,7 +2,7 @@
 // the payload and the formatting to CeilingCard's hook.
 import type { CSSProperties } from "react";
 
-export type MonthRow = {
+export interface MonthRow {
   key: number;
   label: string;
   isCurrent: boolean;
@@ -10,9 +10,11 @@ export type MonthRow = {
   spend: string; // this month's ceiling
   left: string; // what is left once it has been spent
   share: number; // spend / balance, already clamped to [0, 1]
-};
+}
 
-export type MonthTableProps = { rows: MonthRow[] };
+export interface MonthTableProps {
+  rows: MonthRow[];
+}
 
 export function useMonthTable({ rows }: MonthTableProps) {
   return {

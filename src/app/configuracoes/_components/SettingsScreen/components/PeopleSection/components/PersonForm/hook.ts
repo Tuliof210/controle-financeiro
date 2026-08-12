@@ -1,14 +1,17 @@
 import { useState } from "react";
 import { PALETTE } from "@/lib/palette.ts";
 
-export type PersonDraft = { name: string; color: string };
+export interface PersonDraft {
+  name: string;
+  color: string;
+}
 
-export type PersonFormProps = {
+export interface PersonFormProps {
   initial?: PersonDraft;
   error?: string;
   onSubmit: (draft: PersonDraft) => void;
   submitLabel: string;
-};
+}
 
 export function usePersonForm({
   initial,

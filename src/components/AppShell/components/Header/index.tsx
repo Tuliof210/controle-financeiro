@@ -7,10 +7,10 @@ import { ThemeToggle } from "./components/ThemeToggle/index.tsx";
 import { useHeader } from "./hook.ts";
 import styles from "./style.module.scss";
 
-type HeaderProps = {
+interface HeaderProps {
   sidebarExpanded: boolean;
   onToggleSidebar: () => void;
-};
+}
 
 export function Header(props: HeaderProps) {
   const { greeting, today, sidebarExpanded, onToggleSidebar } =

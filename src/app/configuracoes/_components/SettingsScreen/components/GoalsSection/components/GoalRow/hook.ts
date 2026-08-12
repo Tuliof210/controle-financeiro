@@ -1,11 +1,11 @@
 import type { Goal } from "@/core/entities/goal.entity.ts";
 import { formatMoney } from "@/lib/money.ts";
 
-export type GoalRowProps = {
+export interface GoalRowProps {
   goal: Goal;
   onEdit: () => void;
   onDelete: () => void;
-};
+}
 
 export function useGoalRow({ goal, ...rest }: GoalRowProps) {
   return {

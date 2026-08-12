@@ -6,7 +6,7 @@ import type { Period } from "@/core/use-cases/period.service.ts";
 import type { Entry } from "@/lib/entry-types.ts";
 import { formatMoney } from "@/lib/money.ts";
 
-export type EntrySectionProps<T extends Entry> = {
+export interface EntrySectionProps<T extends Entry> {
   title: string;
   icon: LucideIcon;
   tone: "positive" | "negative";
@@ -19,7 +19,7 @@ export type EntrySectionProps<T extends Entry> = {
   onAdd: () => void;
   onEdit: (item: T) => void;
   onDelete: (item: T) => void;
-};
+}
 
 // Resolves each row's owner and period once here, so EntryRow never refetches or
 // re-searches the people list itself.

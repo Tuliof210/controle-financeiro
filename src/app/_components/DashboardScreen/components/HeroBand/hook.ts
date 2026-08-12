@@ -3,7 +3,9 @@ import { formatMoney, formatMoneyShort } from "@/lib/money.ts";
 import { addMonths, formatYyyymm } from "@/lib/months.ts";
 import type { BoardData } from "../Board/hook.ts";
 
-export type HeroBandProps = { data?: BoardData };
+export interface HeroBandProps {
+  data?: BoardData;
+}
 
 const sum = (values: number[]): number =>
   values.reduce((total, value) => total + value, 0);

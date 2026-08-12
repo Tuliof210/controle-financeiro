@@ -2,13 +2,13 @@ import type { GoalPace, GoalProjection } from "@/app/api/dashboard/types.ts";
 import { formatMoneyShort } from "@/lib/money.ts";
 import { MONTH_LABELS } from "@/lib/months.ts";
 
-export type GoalRowProps = {
+export interface GoalRowProps {
   goal: GoalProjection;
   // Months left in the projection — what each bar is measured against. A metric
   // landing beyond it fills the bar, which is honest: completion dates are
   // deliberately not clamped to the period, so "past the end" is a real answer.
   horizon: number;
-};
+}
 
 // The three funding assumptions, in the order they answer the question: what if
 // this goal had the whole capacity, what if it shared it with the others, what

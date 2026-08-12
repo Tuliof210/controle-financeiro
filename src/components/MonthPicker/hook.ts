@@ -7,12 +7,12 @@ import {
   yearOptions,
 } from "@/lib/months.ts";
 
-export type MonthPickerProps = {
+export interface MonthPickerProps {
   label: string;
   value: number | null;
   onChange: (yyyymm: number) => void;
   id: string;
-};
+}
 
 export function useMonthPicker({
   label,

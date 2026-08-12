@@ -4,12 +4,12 @@ import type { MonthPoint } from "./types.ts";
 
 // The four raw sums a month accumulates before the two sides are reconciled.
 // Local to this file: the payload only ever carries the reconciled result.
-type Sums = {
+interface Sums {
   realIncome: number;
   realExpense: number;
   estIncome: number;
   estExpense: number;
-};
+}
 
 const emptySums = (): Sums => ({
   realIncome: 0,

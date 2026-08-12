@@ -1,4 +1,4 @@
-export type ConfirmDialogProps = {
+export interface ConfirmDialogProps {
   open: boolean;
   onClose: () => void;
   onConfirm: () => void;
@@ -10,7 +10,7 @@ export type ConfirmDialogProps = {
   error?: string;
   confirmLabel?: string;
   danger?: boolean;
-};
+}
 
 export function useConfirmDialog({
   confirmLabel = "Excluir",

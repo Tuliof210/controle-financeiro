@@ -8,11 +8,11 @@ export type BoardData = Extract<DashboardData, { status: "ok" }>;
 // The cap only passes through: the selector that sets it belongs on the ceiling
 // card, but what it changes reaches SavingsSection too, so the state itself
 // lives one level above this.
-export type BoardProps = {
+export interface BoardProps {
   data: BoardData;
   cap: CeilingCap;
   onCapChange: (cap: CeilingCap) => void;
-};
+}
 
 export function useBoard({ data, cap, onCapChange }: BoardProps) {
   return {

@@ -3,12 +3,12 @@ import { NavItem } from "./components/NavItem/index.tsx";
 import { useAside } from "./hook.ts";
 import styles from "./style.module.scss";
 
-type AsideProps = {
+interface AsideProps {
   collapsed: boolean;
   drawerOpen: boolean;
   onToggle: () => void;
   onCloseDrawer: () => void;
-};
+}
 
 export function Aside(props: AsideProps) {
   const {

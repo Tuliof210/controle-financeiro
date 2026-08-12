@@ -1,13 +1,13 @@
 import { CEILING_CAPS, type CeilingCap, META_CAP } from "@/lib/ceiling-caps.ts";
 
-export type CapSelectorProps = {
+export interface CapSelectorProps {
   value: CeilingCap;
   // False until a monthly goal is saved in /configuracoes. The segment is left
   // out entirely rather than disabled: a target that cannot do anything is not
   // a choice, and a dead radio in a group of four reads as a bug.
   hasMeta: boolean;
   onChange: (cap: CeilingCap) => void;
-};
+}
 
 export function useCapSelector({ value, hasMeta, onChange }: CapSelectorProps) {
   const offered = hasMeta

@@ -10,13 +10,13 @@ export type ForecastFormValues = EntryFormBase & {
   simulated: boolean;
 };
 
-export type ForecastFormProps = {
+export interface ForecastFormProps {
   initial?: Partial<ForecastFormValues>;
   error?: string;
   submitLabel: string;
   onSubmit: (values: ForecastFormValues) => void;
   people: Person[];
-};
+}
 
 export function useForecastForm({
   initial,

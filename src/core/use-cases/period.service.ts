@@ -1,7 +1,10 @@
 import type { Forecast } from "@/core/entities/forecast.entity.ts";
 import type { Movement } from "@/core/entities/movement.entity.ts";
 
-export type Period = { start: number; end: number };
+export interface Period {
+  start: number;
+  end: number;
+}
 
 // The projection period the app can offer: oldest -> newest month across
 // every forecast-active month and every movement's own month. null when

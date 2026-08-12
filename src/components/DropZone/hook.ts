@@ -6,10 +6,10 @@ import { type DragEvent, type ReactNode, useState } from "react";
 const DEFAULT_NOTE =
   "O arquivo é lido no seu navegador e some quando você fecha a aba. Nada é salvo no banco.";
 
-export type DropZoneProps = {
+export interface DropZoneProps {
   onFile: (file: File) => void;
   note?: ReactNode;
-};
+}
 
 export function useDropZone({ onFile, note = DEFAULT_NOTE }: DropZoneProps) {
   const [over, setOver] = useState(false);

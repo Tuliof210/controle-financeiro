@@ -3,10 +3,10 @@ import { useProfile } from "@/components/ProfileProvider/hook.ts";
 import { getGreeting } from "./greeting.helper.ts";
 import { formatToday } from "./today.helper.ts";
 
-type UseHeaderProps = {
+interface UseHeaderProps {
   sidebarExpanded: boolean;
   onToggleSidebar: () => void;
-};
+}
 
 export function useHeader({
   sidebarExpanded,

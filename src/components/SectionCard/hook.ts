@@ -6,7 +6,7 @@ import type { ReactNode } from "react";
 // contrast ratio that decided it.
 export type BandTone = "positive" | "negative" | "brand" | "ink";
 
-export type SectionCardProps = {
+export interface SectionCardProps {
   title: string;
   icon?: LucideIcon;
   // Optional semantic accent for the title row (income/expense). Omitted by
@@ -26,7 +26,7 @@ export type SectionCardProps = {
   // outside it omit it and render exactly as before.
   band?: BandTone;
   children: ReactNode;
-};
+}
 
 export function useSectionCard({
   title,

@@ -14,23 +14,23 @@ export type ModalState<T> =
 // distinct from EntryForm's own props, which are the shared layout component's.
 // `initial` accepts a bare `{ type }` seed so the add modal needs no cast: V
 // always carries a `type`, but TS cannot see that through the generic on its own.
-export type EntryFormSlotProps<V> = {
+export interface EntryFormSlotProps<V> {
   initial?: Partial<V> | { type: EntryType };
   error?: string;
   submitLabel: string;
   onSubmit: (values: V) => void;
   people: Person[];
-};
+}
 
 // Per-section copy. The two sections of one screen say different things when
 // empty, so a single shared `empty` string could not carry it.
-export type EntrySectionLabels = {
+export interface EntrySectionLabels {
   add: string;
   emptyTitle: string;
   emptyHint: string;
-};
+}
 
-export type EntryScreenLabels = {
+export interface EntryScreenLabels {
   // One object rather than three flat fields: it spreads straight into
   // <PageHeader> and keeps EntryScreen/index.tsx at its current line count,
   // which sits right on the 100-line cap.
@@ -40,12 +40,12 @@ export type EntryScreenLabels = {
   deleteTitle: string;
   income: EntrySectionLabels;
   expense: EntrySectionLabels;
-};
+}
 
-export type EntryScreenConfig<
+export interface EntryScreenConfig<
   T extends Entry,
   V extends { type: EntryType },
-> = {
+> {
   // The /api/<resource> segment, e.g. "forecasts".
   resource: string;
   labels: EntryScreenLabels;
@@ -58,4 +58,4 @@ export type EntryScreenConfig<
   // Movimentações has no band at all, so it simply never passes this.
   renderBand?: (item: T, period: Period | null) => ReactNode;
   Form: ComponentType<EntryFormSlotProps<V>>;
-};
+}

@@ -11,16 +11,16 @@ import { apiGet } from "@/lib/api.ts";
 import { FAMILY_PROFILE } from "@/lib/ownership.ts";
 import { isStaleProfile, resolveLabel } from "./profile.helper.ts";
 
-export type ProfileProviderProps = {
+export interface ProfileProviderProps {
   children: ReactNode;
-};
+}
 
-type ProfileContextValue = {
+interface ProfileContextValue {
   profile: string;
   setProfile: (next: string) => void;
   label: string;
   people: Person[];
-};
+}
 
 export const ProfileContext = createContext<ProfileContextValue | null>(null);
 

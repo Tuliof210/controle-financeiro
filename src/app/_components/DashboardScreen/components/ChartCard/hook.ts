@@ -7,7 +7,7 @@ import {
   useState,
 } from "react";
 
-export type ChartCardProps = {
+export interface ChartCardProps {
   title: string;
   icon: LucideIcon;
   hint: string;
@@ -17,7 +17,7 @@ export type ChartCardProps = {
   // Receives the measured pixel box of the card body, so the plot can build its
   // scales. Called again whenever the card reflows.
   children: (size: { width: number; height: number }) => ReactNode;
-};
+}
 
 export function useChartCard({
   title,

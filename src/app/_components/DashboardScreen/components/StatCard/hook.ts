@@ -4,7 +4,7 @@ import type { BandTone } from "@/components/SectionCard/hook.ts";
 import { formatMoney } from "@/lib/money.ts";
 import { spark } from "../../spark.helper.ts";
 
-export type StatCardProps = {
+export interface StatCardProps {
   title: string;
   icon: LucideIcon;
   hint: string;
@@ -15,7 +15,7 @@ export type StatCardProps = {
   // Saldo, which derives its accent from the sign instead.
   tone?: "positive" | "negative";
   signed?: boolean;
-};
+}
 
 export function useStatCard({
   title,

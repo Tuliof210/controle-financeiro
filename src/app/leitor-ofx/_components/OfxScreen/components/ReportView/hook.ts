@@ -3,13 +3,13 @@ import { formatMoney } from "@/lib/money.ts";
 import { formatYyyymm } from "@/lib/months.ts";
 import { accountLabel, finalBalance } from "./account.helper.ts";
 
-export type ReportViewProps = {
+export interface ReportViewProps {
   report: OfxReport;
   error: string | null;
   loading: boolean;
   onClose: () => void;
   onFile: (file: File) => void;
-};
+}
 
 // Pure: FilePicker owns the only ref on this screen, so nothing here calls a
 // React hook and the whole view model is directly testable.

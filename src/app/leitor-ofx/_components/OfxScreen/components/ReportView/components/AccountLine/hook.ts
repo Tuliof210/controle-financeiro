@@ -2,7 +2,9 @@ import type { OfxAccount } from "@/app/api/ofx/types.ts";
 import { formatMoney } from "@/lib/money.ts";
 import { formatYyyymm } from "@/lib/months.ts";
 
-export type AccountLineProps = { account: OfxAccount };
+export interface AccountLineProps {
+  account: OfxAccount;
+}
 
 // Every OfxAccount field is nullable, because exports in the wild omit tags the
 // spec marks required. A missing segment is dropped rather than rendered as a

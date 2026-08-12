@@ -2,13 +2,13 @@ import { addMonths, buildMonths, formatYyyymm } from "@/lib/months.ts";
 import type { Interval } from "../../../../intervals.helper.ts";
 import type { KeyedInterval } from "../../../../intervals.hook.ts";
 
-export type IntervalCardProps = {
+export interface IntervalCardProps {
   interval: KeyedInterval;
   index: number;
   canRemove: boolean;
   onUpdate: (index: number, next: Interval) => void;
   onRemove: (index: number) => void;
-};
+}
 
 export function useIntervalCard({
   interval,

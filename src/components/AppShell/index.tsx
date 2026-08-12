@@ -7,9 +7,9 @@ import { Header } from "./components/Header/index.tsx";
 import { useAppShell } from "./hook.ts";
 import styles from "./style.module.scss";
 
-type AppShellProps = {
+interface AppShellProps {
   children: ReactNode;
-};
+}
 
 export function AppShell({ children }: AppShellProps) {
   const { collapsed, drawerOpen, closeDrawer, expanded, toggle } =

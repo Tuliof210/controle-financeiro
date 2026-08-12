@@ -2,12 +2,12 @@ import type { MovementInput } from "@/core/repositories/movement.repository.ts";
 import { ofxImportRepository } from "@/infra/repositories/ofx-import.prisma.repository.ts";
 import type { MovementRow } from "@/lib/movement-schema.ts";
 
-export type ImportOfxInput = {
+export interface ImportOfxInput {
   fileHash: string;
   fileName: string;
   ownerId: string;
   movements: MovementRow[];
-};
+}
 
 export async function isOfxImported(fileHash: string) {
   const found = await ofxImportRepository.findByHash(fileHash);

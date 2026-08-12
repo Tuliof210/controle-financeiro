@@ -2,7 +2,7 @@ import type { Forecast } from "@/core/entities/forecast.entity.ts";
 import type { ForecastRepository } from "@/core/repositories/forecast.repository.ts";
 import { prisma } from "@/infra/db/client.ts";
 
-type ForecastRow = {
+interface ForecastRow {
   id: string;
   name: string;
   valueCents: number;
@@ -11,7 +11,7 @@ type ForecastRow = {
   simulated: boolean;
   createdAt: Date;
   months: { month: number }[];
-};
+}
 
 // ponytail: Prisma has no enum for `type` (project convention — see schema
 // comment), so a row sees `string`, not the domain union. Zod already guards it

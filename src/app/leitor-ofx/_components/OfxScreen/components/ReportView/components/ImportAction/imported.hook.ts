@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
 import { apiGet } from "@/lib/api.ts";
 
-export type ImportedState = { imported: boolean; importedAt: string | null };
+export interface ImportedState {
+  imported: boolean;
+  importedAt: string | null;
+}
 
 const NOT_IMPORTED: ImportedState = { imported: false, importedAt: null };
 

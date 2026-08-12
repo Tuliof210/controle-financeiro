@@ -4,7 +4,10 @@ import { monthsToIntervals } from "./components/ForecastForm/intervals.helper.ts
 
 // One positioned span per contiguous run of covered months, as percentages of
 // the global projection range, so the bar can be laid out with left/width.
-export type Segment = { left: string; width: string };
+export interface Segment {
+  left: string;
+  width: string;
+}
 
 // 4 decimals is well past sub-pixel on any track width; it just keeps the
 // generated CSS readable.

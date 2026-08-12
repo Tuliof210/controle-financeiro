@@ -2,7 +2,10 @@ import { useEffect, useState } from "react";
 import { decodeOfx } from "@/lib/decode.ts";
 import { type OfxNode, parseOfxTags } from "./tag-tree.helper.ts";
 
-type Parsed = { header: OfxNode[]; root: OfxNode };
+interface Parsed {
+  header: OfxNode[];
+  root: OfxNode;
+}
 
 export function useOfxDecoderScreen() {
   const [fileName, setFileName] = useState("");

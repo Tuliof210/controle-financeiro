@@ -3,12 +3,12 @@
 import { useMoneyInput } from "./hook.ts";
 import styles from "./style.module.scss";
 
-type MoneyInputProps = {
+interface MoneyInputProps {
   valueCents: number;
   onChange: (cents: number) => void;
   id?: string;
   ariaLabel?: string;
-};
+}
 
 export function MoneyInput(props: MoneyInputProps) {
   const { display, inputRef, onChange, onFocus, onSelect, id, ariaLabel } =

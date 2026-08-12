@@ -1,13 +1,13 @@
 import type { LucideIcon } from "lucide-react";
 import styles from "./style.module.scss";
 
-type UseNavItemProps = {
+interface UseNavItemProps {
   href: string;
   label: string;
   active: boolean;
   collapsed: boolean;
   icon: LucideIcon;
-};
+}
 
 export function useNavItem({
   href,

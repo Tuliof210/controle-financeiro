@@ -8,7 +8,7 @@ import { buildSeries, firstEstimatedMonth } from "./series.helper.ts";
 import { computeStats } from "./stats.helper.ts";
 import type { DashboardData, DashboardRange } from "./types.ts";
 
-type PayloadInput = {
+interface PayloadInput {
   range: DashboardRange;
   months: number[];
   currentIndex: number;
@@ -28,7 +28,7 @@ type PayloadInput = {
   // the Meta segment exists at all. Present even while a percentage target is
   // selected — the segment has to be offered before it can be picked.
   meta: number | null;
-};
+}
 
 // Assembles the "ok" payload from an already-validated range and
 // already-owner-filtered entries. Kept out of service.ts so neither file

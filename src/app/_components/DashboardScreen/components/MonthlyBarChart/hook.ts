@@ -4,7 +4,7 @@ import { formatMoney } from "@/lib/money.ts";
 import { formatYyyymm } from "@/lib/months.ts";
 import { buildFrame } from "../../chart-frame.helper.ts";
 
-export type MonthlyBarChartProps = {
+export interface MonthlyBarChartProps {
   points: MonthPoint[];
   // First month the payload calls a projection. The bars read per-point
   // `incomeEstimated`/`expenseEstimated`; this is the one figure saying where
@@ -14,7 +14,7 @@ export type MonthlyBarChartProps = {
   dashedFrom: number | null;
   width: number;
   height: number;
-};
+}
 
 // One bar per type per month. `estimated` is read off the payload, never
 // re-derived by comparing numbers here — the API already resolved which side won.

@@ -4,7 +4,7 @@ import { formatYyyymm } from "@/lib/months.ts";
 import { dashSplit } from "../../chart.helper.ts";
 import { buildFrame } from "../../chart-frame.helper.ts";
 
-export type BalanceLineChartProps = {
+export interface BalanceLineChartProps {
   points: MonthPoint[];
   dashedFrom: number | null;
   // The month the Teto card calls its bottleneck (`Ceiling.tightest`), NOT this
@@ -14,7 +14,7 @@ export type BalanceLineChartProps = {
   tightest: number | null;
   width: number;
   height: number;
-};
+}
 
 export function useBalanceLineChart({
   points,

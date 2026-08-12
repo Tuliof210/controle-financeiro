@@ -3,13 +3,13 @@ import Link from "next/link";
 import { useNavItem } from "./hook.ts";
 import styles from "./style.module.scss";
 
-type NavItemProps = {
+interface NavItemProps {
   href: string;
   label: string;
   active: boolean;
   collapsed: boolean;
   icon: LucideIcon;
-};
+}
 
 export function NavItem(props: NavItemProps) {
   const { href, label, active, icon: Icon, className } = useNavItem(props);

@@ -1,22 +1,25 @@
 import { amountToCents, blocks, dateToMonth, leaf } from "./ofx-tags.helper.ts";
 import type { OfxAccount } from "./types.ts";
 
-export type OfxTransaction = { month: number; cents: number };
+export interface OfxTransaction {
+  month: number;
+  cents: number;
+}
 
-type OfxStatement = {
+interface OfxStatement {
   account: OfxAccount;
   currency: string | null;
   transactions: OfxTransaction[];
-};
+}
 
-export type OfxParse = {
+export interface OfxParse {
   org: string | null;
   fid: string | null;
   statements: OfxStatement[];
   // How many <CCSTMTRS> aggregates were seen and skipped. The service uses it
   // to tell "this is a credit-card export" apart from "this is not an OFX".
   cardBlocks: number;
-};
+}
 
 // A leaf whose value has to be a month, e.g. <DTSTART> or <DTASOF>.
 const monthLeaf = (block: string, tag: string): number | null => {

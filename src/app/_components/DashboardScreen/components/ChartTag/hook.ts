@@ -6,7 +6,7 @@ import {
   TAG_TONES,
 } from "../../chart.config.ts";
 
-export type ChartTagProps = {
+export interface ChartTagProps {
   // Top-left corner of the tag, in the plot's own coordinate space.
   x: number;
   y: number;
@@ -15,7 +15,7 @@ export type ChartTagProps = {
   // Anchors the box to the RIGHT of x instead of the left, for a tag that would
   // otherwise run off the plot's trailing edge.
   flip?: boolean;
-};
+}
 
 export function useChartTag({ x, y, label, tone, flip }: ChartTagProps) {
   const width = label.length * TAG_CHAR_PX + TAG_PAD_X * 2;

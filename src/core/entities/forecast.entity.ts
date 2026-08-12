@@ -1,6 +1,6 @@
 import type { EntryType } from "@/lib/entry-types.ts";
 
-export type Forecast = {
+export interface Forecast {
   id: string;
   name: string;
   valueCents: number;
@@ -9,4 +9,4 @@ export type Forecast = {
   months: number[]; // sorted, de-duped YYYYMM list of active months
   simulated: boolean; // a what-if the dashboard can be asked to leave out
   createdAt: Date;
-};
+}

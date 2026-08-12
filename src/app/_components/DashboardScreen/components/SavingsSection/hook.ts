@@ -1,7 +1,9 @@
 import { formatMoney, formatMoneyShort } from "@/lib/money.ts";
 import type { BoardData } from "../Board/hook.ts";
 
-export type SavingsSectionProps = { data: BoardData };
+export interface SavingsSectionProps {
+  data: BoardData;
+}
 
 export function useSavingsSection({ data }: SavingsSectionProps) {
   const { goals, pace, ceiling } = data;

@@ -4,12 +4,12 @@ import { type MouseEvent, useEffect, useRef } from "react";
 import { useNavActive } from "../../nav.hook.ts";
 import styles from "./style.module.scss";
 
-type UseAsideProps = {
+interface UseAsideProps {
   collapsed: boolean;
   drawerOpen: boolean;
   onToggle: () => void;
   onCloseDrawer: () => void;
-};
+}
 
 export function useAside({
   collapsed,

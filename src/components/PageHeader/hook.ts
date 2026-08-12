@@ -1,8 +1,8 @@
-export type PageHeaderProps = {
+export interface PageHeaderProps {
   eyebrow: string;
   title: string;
   subtitle: string;
-};
+}
 
 // Nothing to derive — a pass-through keeps the folder shape uniform so every
 // component is read the same way.

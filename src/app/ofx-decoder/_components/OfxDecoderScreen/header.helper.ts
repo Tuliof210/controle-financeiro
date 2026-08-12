@@ -2,7 +2,10 @@
 // first tag, or 2.x's "<?xml?>" / "<?OFX?>" instructions. Read here so
 // tag-tree.helper.ts's parser never sees one and grows a tree node literally
 // named "?xml".
-export type HeaderEntry = { key: string; value: string };
+export interface HeaderEntry {
+  key: string;
+  value: string;
+}
 
 // Real OFX is pretty-printed with a newline (sometimes indentation) between
 // tags — every position handed to the tag parser has to land exactly on the

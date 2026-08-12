@@ -4,11 +4,11 @@ import type { ReactNode } from "react";
 // a ▲/▼ glyph, CeilingCard hangs its weekly and daily splits off it, and that is
 // the only place the two diverge. `.squad/learnings.md`: one divergent rendering
 // seam should be a ReactNode prop, not a generic.
-export type HeadlineProps = {
+export interface HeadlineProps {
   caption: string;
   tone?: "positive" | "negative";
   children: ReactNode;
-};
+}
 
 export function useHeadline({ caption, tone, children }: HeadlineProps) {
   return { caption, tone, children };

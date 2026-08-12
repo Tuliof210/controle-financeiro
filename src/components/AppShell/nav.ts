@@ -8,11 +8,11 @@ import {
   TrendingUp,
 } from "lucide-react";
 
-export type NavEntry = {
+export interface NavEntry {
   href: string;
   label: string;
   icon: LucideIcon;
-};
+}
 
 export const NAV: NavEntry[] = [
   { href: "/", label: "Dashboard", icon: LayoutDashboard },

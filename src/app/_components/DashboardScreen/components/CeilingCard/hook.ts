@@ -9,7 +9,7 @@ import { useShowAll } from "../../show-all.hook.ts";
 //
 // `cap` passes through to the selector, and is read once more here: under Meta
 // the figure has two possible limits and the badge must name the right one.
-export type CeilingCardProps = {
+export interface CeilingCardProps {
   ceiling: Ceiling;
   // Baked into the figures below, so the card never prints it — only compares
   // against it, to tell "the goal capped this month" from "a later month did".
@@ -17,7 +17,7 @@ export type CeilingCardProps = {
   current: number;
   cap: CeilingCap;
   onCapChange: (cap: CeilingCap) => void;
-};
+}
 
 export function useCeilingCard({
   ceiling,

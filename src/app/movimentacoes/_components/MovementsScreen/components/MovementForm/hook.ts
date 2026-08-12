@@ -6,13 +6,13 @@ import { currentYYYYMM } from "@/lib/months.ts";
 
 export type MovementFormValues = EntryFormBase & { month: number };
 
-export type MovementFormProps = {
+export interface MovementFormProps {
   initial?: Partial<MovementFormValues>;
   error?: string;
   submitLabel: string;
   onSubmit: (values: MovementFormValues) => void;
   people: Person[];
-};
+}
 
 export function useMovementForm({
   initial,

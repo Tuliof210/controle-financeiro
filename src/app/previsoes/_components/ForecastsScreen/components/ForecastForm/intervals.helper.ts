@@ -1,6 +1,9 @@
 import { buildMonths, composeYYYYMM, splitYYYYMM } from "@/lib/months.ts";
 
-export type Interval = { start: number; end: number };
+export interface Interval {
+  start: number;
+  end: number;
+}
 
 // Next YYYYMM, rolling the year over after December.
 function nextMonth(yyyymm: number): number {

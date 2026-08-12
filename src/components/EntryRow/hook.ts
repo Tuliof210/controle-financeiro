@@ -4,7 +4,7 @@ import type { Entry } from "@/lib/entry-types.ts";
 import { formatMoney } from "@/lib/money.ts";
 import styles from "./style.module.scss";
 
-export type EntryRowProps = {
+export interface EntryRowProps {
   entry: Entry;
   person?: Person;
   // Already-formatted period, the one part that differs per entity (a
@@ -17,7 +17,7 @@ export type EntryRowProps = {
   band?: ReactNode;
   onEdit: () => void;
   onDelete: () => void;
-};
+}
 
 export function useEntryRow({ entry, person, ...rest }: EntryRowProps) {
   return {

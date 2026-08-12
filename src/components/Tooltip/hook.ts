@@ -1,13 +1,13 @@
 import type { KeyboardEvent } from "react";
 import { useId, useState } from "react";
 
-export type TooltipProps = {
+export interface TooltipProps {
   text: string;
   // Accessible name of the trigger. Defaults to the generic phrasing; callers
   // rendering several tooltips on one screen should pass a distinct one, or
   // every trigger reads identically in the element list.
   label?: string;
-};
+}
 
 export function useTooltip({
   text,

@@ -13,7 +13,9 @@ import {
 } from "./import-rows.helper.ts";
 import { useImportedRecord } from "./imported.hook.ts";
 
-export type ImportActionProps = { report: OfxReport };
+export interface ImportActionProps {
+  report: OfxReport;
+}
 
 export function useImportAction({ report }: ImportActionProps) {
   // people comes from the provider, which already fetched /api/people for the

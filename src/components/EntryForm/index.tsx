@@ -11,31 +11,8 @@ import {
   SELECTED_VARIANT,
   TYPE_LABELS,
 } from "@/lib/entry-types.ts";
-import type { EntryFormBase } from "./entry-form.helper.ts";
+import type { EntryFormFields, EntryFormProps } from "./entry-form.helper.ts";
 import styles from "./style.module.scss";
-
-export type EntryFormFields = EntryFormBase & {
-  setName: (value: string) => void;
-  setValueCents: (value: number) => void;
-  setType: (value: EntryFormBase["type"]) => void;
-  setOwnerId: (value: string) => void;
-};
-
-export type EntryFormProps = {
-  // Prefixes the field ids, e.g. "forecast" -> "forecast-name".
-  idPrefix: string;
-  people: Person[];
-  fields: EntryFormFields;
-  // The entity's own month control — a MonthPicker (Movement) or an
-  // IntervalList (Forecast) — the one part of the form that genuinely
-  // differs, so the caller renders it. Always non-null: there is no global
-  // period to wait on any more, every month in the domain is fair game.
-  period: ReactNode;
-  error?: string;
-  submitLabel: string;
-  canSubmit: boolean;
-  onSubmit: () => void;
-};
 
 export function EntryForm({
   idPrefix,
@@ -95,7 +72,7 @@ export function EntryForm({
       {period}
       {error ? (
         <p className={styles.error}>
-          <span aria-hidden>▲</span> {error}
+          <span aria-hidden={true}>▲</span> {error}
         </p>
       ) : null}
       <Button onClick={onSubmit} disabled={!canSubmit}>

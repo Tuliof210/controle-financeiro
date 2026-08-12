@@ -1,13 +1,16 @@
 import { useState } from "react";
 
-export type GoalFormValues = { name: string; targetCents: number };
+export interface GoalFormValues {
+  name: string;
+  targetCents: number;
+}
 
-export type GoalFormProps = {
+export interface GoalFormProps {
   initial?: GoalFormValues;
   error?: string;
   submitLabel: string;
   onSubmit: (values: GoalFormValues) => void;
-};
+}
 
 export function useGoalForm({
   initial,

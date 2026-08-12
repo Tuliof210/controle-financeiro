@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 import { formatYTickFor } from "../../chart.config.ts";
 import type { buildFrame } from "../../chart-frame.helper.ts";
 
-export type ChartFrameProps = {
+export interface ChartFrameProps {
   // Accessible name for the plot as a whole; the marks carry their own <title>s
   // for individual data points.
   title: string;
@@ -14,7 +14,7 @@ export type ChartFrameProps = {
   background?: ReactNode;
   // The marks, drawn between the gridlines and the axes.
   children: ReactNode;
-};
+}
 
 export function useChartFrame({
   title,

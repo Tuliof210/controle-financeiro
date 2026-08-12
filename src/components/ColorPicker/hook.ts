@@ -1,10 +1,10 @@
 import { PALETTE } from "@/lib/palette.ts";
 import styles from "./style.module.scss";
 
-export type ColorPickerProps = {
+export interface ColorPickerProps {
   value: string;
   onChange: (key: string) => void;
-};
+}
 
 export function useColorPicker({ value, onChange }: ColorPickerProps) {
   const swatches = PALETTE.map((key) => ({
