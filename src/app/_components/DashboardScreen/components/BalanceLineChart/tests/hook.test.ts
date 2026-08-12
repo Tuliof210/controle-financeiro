@@ -63,14 +63,14 @@ describe("useBalanceLineChart", () => {
   });
 
   it("anchors the mark on the named month's own balance", () => {
-    const mark = chart(null, 202_601)?.tightestMark;
+    const { tightestMark } = chart(null, 202_601);
 
-    expect(mark).toMatchObject({ flip: false });
-    expect(mark?.x).toBeGreaterThan(0);
+    expect(tightestMark).toMatchObject({ flip: false });
+    expect(tightestMark?.x).toBeGreaterThan(0);
   });
 
   it("flips the tag past the plot's midpoint", () => {
-    expect(chart(null, 202_603)?.tightestMark?.flip).toBe(true);
+    expect(chart(null, 202_603).tightestMark?.flip).toBe(true);
   });
 
   it("marks nothing when the named month is not in the range", () => {

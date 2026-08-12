@@ -12,6 +12,8 @@ const props = {
   onRemove: jest.fn(),
 };
 
+const REMOVE = /Remover/;
+
 describe("IntervalList", () => {
   it("renders one card per interval", () => {
     render(<IntervalList {...props} intervals={[row(0), row(1)]} />);
@@ -22,7 +24,7 @@ describe("IntervalList", () => {
   it("hides removal while a single interval is left", () => {
     render(<IntervalList {...props} intervals={[row(0)]} />);
 
-    expect(screen.queryByLabelText(/Remover/)).not.toBeInTheDocument();
+    expect(screen.queryByLabelText(REMOVE)).not.toBeInTheDocument();
   });
 
   it("adds an interval", async () => {

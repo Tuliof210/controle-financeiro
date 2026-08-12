@@ -26,9 +26,7 @@ describe("useHeroBand", () => {
   });
 
   it("reads the projection's end against the current month", () => {
-    const figures = band(
-      data([point(202_601, 100), point(202_603, 500)]),
-    ).figures;
+    const { figures } = band(data([point(202_601, 100), point(202_603, 500)]));
 
     expect(figures).toMatchObject({
       endLabel: "Mar/26",
@@ -41,23 +39,21 @@ describe("useHeroBand", () => {
   });
 
   it("points the glyph down when the projection loses ground", () => {
-    const figures = band(
-      data([point(202_601, 500), point(202_603, 100)]),
-    ).figures;
+    const { figures } = band(data([point(202_601, 500), point(202_603, 100)]));
 
     expect(figures).toMatchObject({ deltaUp: false, deltaGlyph: "▼" });
   });
 
   it("falls back to the first point when the clock is outside the range", () => {
-    const figures = band(
+    const { figures } = band(
       data([point(202_601, 100), point(202_603, 500)], 209_912),
-    ).figures;
+    );
 
     expect(figures?.now).toBe("R$ 1,00");
   });
 
   it("carries the bottom strip's facts", () => {
-    const figures = band(data([point(202_601, 100)])).figures;
+    const { figures } = band(data([point(202_601, 100)]));
 
     expect(figures?.facts).toHaveLength(3);
   });

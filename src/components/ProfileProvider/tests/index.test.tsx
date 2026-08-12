@@ -1,17 +1,13 @@
 import "@testing-library/jest-dom/jest-globals";
 import { beforeEach, describe, expect, it } from "@jest/globals";
 import { render, screen, waitFor } from "@testing-library/react";
-import { useProfile } from "@/components/ProfileProvider/hook.ts";
+import { Avatar } from "@/components/AppShell/components/Header/components/Avatar/index.tsx";
 import { ProfileProvider } from "@/components/ProfileProvider/index.tsx";
 import { apiGet } from "@/lib/api.ts";
 
 jest.mock("@/lib/api.ts", () => ({ apiGet: jest.fn() }));
 
 const get = jest.mocked(apiGet);
-
-function Consumer() {
-  return <output>{useProfile().label}</output>;
-}
 
 beforeEach(() => {
   jest.clearAllMocks();
@@ -25,12 +21,12 @@ describe("ProfileProvider", () => {
 
     render(
       <ProfileProvider>
-        <Consumer />
+        <Avatar />
       </ProfileProvider>,
     );
 
-    await waitFor(() =>
-      expect(screen.getByRole("status")).toHaveTextContent("Ana"),
-    );
+    // Avatar is a real consumer of the context, so the assertion needs no
+    // local component of its own — the initials come from the active profile.
+    await waitFor(() => expect(screen.getByText("A")).toBeInTheDocument());
   });
 });

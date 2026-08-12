@@ -58,9 +58,12 @@ describe("parseOfxTags", () => {
 
   it("keys every node so React can reconcile the tree", () => {
     const { root } = parseOfxTags("<OFX><A>1<B>2</OFX>");
-    const ids =
-      root && "children" in root ? root.children.map((c) => c.id) : [];
+    const ids: number[] = [];
+    if (root && "children" in root) {
+      ids.push(...root.children.map((child) => child.id));
+    }
 
+    expect(ids).toHaveLength(2);
     expect(new Set(ids).size).toBe(ids.length);
   });
 });

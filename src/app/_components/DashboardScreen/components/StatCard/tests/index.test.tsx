@@ -20,6 +20,8 @@ const props = {
   series: [1, 2, 3],
 };
 
+const UP_GLYPH = /▲/;
+
 describe("StatCard", () => {
   it("heads the card with its own total and four secondary rows", () => {
     render(<StatCard {...props} />);
@@ -36,7 +38,7 @@ describe("StatCard", () => {
 
     rerender(<StatCard {...props} signed={true} />);
 
-    expect(screen.getByText(/▲/)).toBeInTheDocument();
+    expect(screen.getByText(UP_GLYPH)).toBeInTheDocument();
   });
 
   it("draws the sparkline from the card's own series", () => {

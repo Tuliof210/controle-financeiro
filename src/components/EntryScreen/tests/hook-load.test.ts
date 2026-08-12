@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it } from "@jest/globals";
-import { act, renderHook, waitFor } from "@testing-library/react";
+import { renderHook, waitFor } from "@testing-library/react";
 import { useEntryScreen } from "@/components/EntryScreen/hook.ts";
 import type {
   EntryScreenConfig,
@@ -39,7 +39,7 @@ const entries = [
 
 const people = [{ id: "p1", name: "Ana" }];
 
-const mount = async () => {
+const _mount = async () => {
   const rendered = renderHook(() => useEntryScreen(config));
   await waitFor(() => expect(rendered.result.current.people).toEqual(people));
   return rendered;
@@ -62,7 +62,7 @@ beforeEach(() => {
   }
 });
 
-const values = { type: "income" as const };
+const _values = { type: "income" as const };
 
 describe("useEntryScreen load", () => {
   it("reports a failed list request", async () => {

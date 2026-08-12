@@ -1,4 +1,4 @@
-import { beforeAll, describe, expect, it, jest } from "@jest/globals";
+import { beforeAll, describe, expect, it } from "@jest/globals";
 import { render, screen } from "@testing-library/react";
 import { Wallet } from "lucide-react";
 import { createElement } from "react";

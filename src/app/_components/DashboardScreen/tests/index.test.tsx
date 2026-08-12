@@ -30,6 +30,9 @@ beforeEach(() => {
   jest.mocked(useProfile).mockReturnValue({ profile: "familia" } as never);
 });
 
+const NO_ENTRIES = /Nenhum lançamento ainda/;
+const OUT_OF_RANGE = /\(Jan\/26–Dez\/26\) não cobre o mês atual/;
+
 describe("DashboardScreen", () => {
   it("titles the screen and offers the simulation view in every state", () => {
     jest
@@ -51,9 +54,7 @@ describe("DashboardScreen", () => {
 
     render(<DashboardScreen />);
 
-    expect(
-      await screen.findByText(/Nenhum lançamento ainda/),
-    ).toBeInTheDocument();
+    expect(await screen.findByText(NO_ENTRIES)).toBeInTheDocument();
   });
 
   it("names both ends of the span on out_of_range", async () => {
@@ -63,9 +64,7 @@ describe("DashboardScreen", () => {
 
     render(<DashboardScreen />);
 
-    expect(
-      await screen.findByText(/\(Jan\/26–Dez\/26\) não cobre o mês atual/),
-    ).toBeInTheDocument();
+    expect(await screen.findByText(OUT_OF_RANGE)).toBeInTheDocument();
   });
 
   it("reports a refused load rather than an empty board", async () => {

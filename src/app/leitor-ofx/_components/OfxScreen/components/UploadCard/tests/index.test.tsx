@@ -3,6 +3,8 @@ import { describe, expect, it, jest } from "@jest/globals";
 import { render, screen } from "@testing-library/react";
 import { UploadCard } from "@/app/leitor-ofx/_components/OfxScreen/components/UploadCard/index.tsx";
 
+const TO_THE_BANK = /vão para o banco/;
+
 describe("UploadCard", () => {
   it("warns that confirmed totals do reach the database", () => {
     render(<UploadCard error={null} onFile={jest.fn()} />);
@@ -10,7 +12,7 @@ describe("UploadCard", () => {
     expect(
       screen.getByRole("heading", { name: "Enviar extrato OFX" }),
     ).toBeInTheDocument();
-    expect(screen.getByText(/vão para o banco/)).toBeInTheDocument();
+    expect(screen.getByText(TO_THE_BANK)).toBeInTheDocument();
   });
 
   it("shows an error only when there is one", () => {

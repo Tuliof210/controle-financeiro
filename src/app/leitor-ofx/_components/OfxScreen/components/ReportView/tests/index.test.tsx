@@ -1,7 +1,6 @@
 import "@testing-library/jest-dom/jest-globals";
 import { beforeAll, beforeEach, describe, expect, it } from "@jest/globals";
 import { render, screen } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
 import type { OfxAccount, OfxMonth, OfxReport } from "@/app/api/ofx/types.ts";
 import { ReportView } from "@/app/leitor-ofx/_components/OfxScreen/components/ReportView/index.tsx";
 import { useProfile } from "@/components/ProfileProvider/hook.ts";

@@ -20,6 +20,9 @@ const chart = (dashedFrom: number | null, tightest: number | null) =>
     />,
   );
 
+const JAN = /Jan\/26 · acumulado/;
+const FEB = /Fev\/26 · acumulado/;
+
 describe("BalanceLineChart", () => {
   it("names its own plot region and draws one dot per month", () => {
     chart(null, null);
@@ -29,8 +32,8 @@ describe("BalanceLineChart", () => {
         name: "Saldo acumulado de cada mês do período",
       }),
     ).toBeInTheDocument();
-    expect(screen.getByLabelText(/Jan\/26 · acumulado/)).toBeInTheDocument();
-    expect(screen.getByLabelText(/Fev\/26 · acumulado/)).toBeInTheDocument();
+    expect(screen.getByLabelText(JAN)).toBeInTheDocument();
+    expect(screen.getByLabelText(FEB)).toBeInTheDocument();
   });
 
   it("marks the bottleneck month only when the ceiling names one", () => {

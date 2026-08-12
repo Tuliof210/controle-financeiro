@@ -20,6 +20,9 @@ const measured = (width: number, height: number) => {
     ({ width, height }) as DOMRect;
 };
 
+const PLOT = "plot";
+const LEGEND = "legenda";
+
 describe("ChartCard", () => {
   it("hands the measured box to the plot it wraps", () => {
     measured(884, 240);
@@ -39,7 +42,7 @@ describe("ChartCard", () => {
     measured(0, 0);
     render(
       <ChartCard title="Evolução mensal" icon={ChartColumn} hint="x">
-        {() => <p>plot</p>}
+        {() => <p>{PLOT}</p>}
       </ChartCard>,
     );
 
@@ -53,7 +56,7 @@ describe("ChartCard", () => {
         title="Evolução mensal"
         icon={ChartColumn}
         hint="x"
-        legend={<span>legenda</span>}
+        legend={<span>{LEGEND}</span>}
       >
         {() => null}
       </ChartCard>,

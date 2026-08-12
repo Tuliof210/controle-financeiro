@@ -62,7 +62,7 @@ beforeEach(() => {
   }
 });
 
-const values = { type: "income" as const };
+const _values = { type: "income" as const };
 
 describe("useEntryScreen delete", () => {
   it("deletes by id, and only while a delete is pending", async () => {

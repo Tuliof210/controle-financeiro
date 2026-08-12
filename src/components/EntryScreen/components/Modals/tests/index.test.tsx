@@ -24,17 +24,16 @@ const ADD = /Adicionar/;
 const SAVE = /Salvar/;
 const SAVE_PREFIX = /^Salvar:/;
 
-const Form = ({ initial, submitLabel }: EntryFormSlotProps<Values>) => (
-  <p>{`${submitLabel}:${JSON.stringify(initial)}`}</p>
-);
-
 const props = {
   labels: { addTitle: "Nova previsão", editTitle: "Editar previsão" },
   close: jest.fn(),
   people: [],
   onAdd: jest.fn(),
   onUpdate: jest.fn(),
-  form: Form,
+  // Inline, not a named const: an unexported component in a module that
+  // exports none is what useComponentExportOnlyModules flags.
+  form: ({ initial, submitLabel }: EntryFormSlotProps<Values>) =>
+    `${submitLabel}:${JSON.stringify(initial)}`,
 };
 
 const entry = { id: "f1", name: "Aluguel" } as Entry;

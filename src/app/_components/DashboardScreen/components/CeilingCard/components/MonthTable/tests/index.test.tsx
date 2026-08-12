@@ -24,6 +24,8 @@ const rows = [
   },
 ];
 
+const AUGUST_ROW = /Ago\/26/;
+
 describe("MonthTable", () => {
   it("captions the table and names its four columns", () => {
     render(<MonthTable rows={rows} />);
@@ -46,7 +48,7 @@ describe("MonthTable", () => {
     render(<MonthTable rows={rows} />);
 
     expect(
-      screen.getByRole("rowheader", { name: /Ago\/26/ }),
+      screen.getByRole("rowheader", { name: AUGUST_ROW }),
     ).toBeInTheDocument();
     expect(screen.getAllByText("R$ 7,50")).toHaveLength(2);
   });

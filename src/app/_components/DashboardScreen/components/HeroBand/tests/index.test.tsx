@@ -13,6 +13,9 @@ const data = {
   range: { start: 202_601, end: 202_603, current: 202_601 },
 } as BoardData;
 
+const PROJECTED_LABEL = /SALDO PROJETADO/;
+const VS_NOW = /vs\. saldo atual de R\$ 1,00/;
+
 describe("HeroBand", () => {
   it("titles the screen even before a payload lands", () => {
     render(<HeroBand />);
@@ -20,7 +23,7 @@ describe("HeroBand", () => {
     expect(
       screen.getByRole("heading", { level: 1, name: "Dashboard" }),
     ).toBeInTheDocument();
-    expect(screen.queryByText(/SALDO PROJETADO/)).not.toBeInTheDocument();
+    expect(screen.queryByText(PROJECTED_LABEL)).not.toBeInTheDocument();
   });
 
   it("shows the projected balance against the current one", () => {
@@ -28,7 +31,7 @@ describe("HeroBand", () => {
 
     expect(screen.getByText("SALDO PROJETADO · Mar/26")).toBeInTheDocument();
     expect(screen.getByText("R$ 5,00")).toBeInTheDocument();
-    expect(screen.getByText(/vs. saldo atual de R\$ 1,00/)).toBeInTheDocument();
+    expect(screen.getByText(VS_NOW)).toBeInTheDocument();
   });
 
   it("carries the bottom strip once there are figures", () => {

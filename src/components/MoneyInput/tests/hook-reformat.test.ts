@@ -31,7 +31,7 @@ const caretAt = (input: HTMLInputElement, at: number) => {
   input.setSelectionRange(at, at);
 };
 
-const stubInput = (selectionStart: number, selectionEnd: number) =>
+const _stubInput = (selectionStart: number, selectionEnd: number) =>
   ({
     value: "1234,56",
     selectionStart,
@@ -39,7 +39,7 @@ const stubInput = (selectionStart: number, selectionEnd: number) =>
     setSelectionRange: jest.fn(),
   }) as unknown as HTMLInputElement & { setSelectionRange: jest.Mock };
 
-const handlerOf = () =>
+const _handlerOf = () =>
   renderHook(() => useMoneyInput({ valueCents: 123_456, onChange: jest.fn() }))
     .result.current;
 

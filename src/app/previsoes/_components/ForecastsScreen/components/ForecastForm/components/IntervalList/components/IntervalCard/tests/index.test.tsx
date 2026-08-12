@@ -14,6 +14,8 @@ const props = {
 const locked = { key: 0, start: 202_605, end: 202_605 };
 const span = { key: 0, start: 202_601, end: 202_603 };
 
+const REMOVE = /Remover/;
+
 describe("IntervalCard", () => {
   it("shows one month picker while locked", () => {
     render(<IntervalCard {...props} interval={locked} />);
@@ -46,7 +48,7 @@ describe("IntervalCard", () => {
       <IntervalCard {...props} interval={locked} canRemove={false} />,
     );
 
-    expect(screen.queryByLabelText(/Remover/)).not.toBeInTheDocument();
+    expect(screen.queryByLabelText(REMOVE)).not.toBeInTheDocument();
 
     rerender(<IntervalCard {...props} interval={locked} />);
 

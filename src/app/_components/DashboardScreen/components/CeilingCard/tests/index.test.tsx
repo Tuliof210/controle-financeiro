@@ -33,6 +33,8 @@ const card = (over: Partial<Ceiling> = {}) =>
     />,
   );
 
+const SHOW_ALL = /Ver todos/;
+
 describe("CeilingCard", () => {
   it("heads the card with this month's figure and the two cadences", () => {
     card();
@@ -75,7 +77,7 @@ describe("CeilingCard", () => {
 
     expect(screen.getByText("2 de 2 meses")).toBeInTheDocument();
     expect(
-      screen.queryByRole("button", { name: /Ver todos/ }),
+      screen.queryByRole("button", { name: SHOW_ALL }),
     ).not.toBeInTheDocument();
   });
 });

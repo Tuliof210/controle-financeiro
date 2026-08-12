@@ -12,7 +12,7 @@ jest.mock("@/lib/api.ts", () => ({
 }));
 
 const person = { id: "p1", name: "Ana", color: "violet" } as Person;
-const draft = { name: "Ana", color: "lime" };
+const _draft = { name: "Ana", color: "lime" };
 
 const mount = async () => {
   const rendered = renderHook(() => usePeopleSection());

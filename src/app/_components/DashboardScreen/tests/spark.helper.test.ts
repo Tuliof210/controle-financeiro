@@ -11,10 +11,10 @@ describe("spark", () => {
   });
 
   it("moves to the first point and lines to the rest", () => {
-    const path = spark([0, 10]);
+    const { line } = spark([0, 10]) ?? { line: "" };
 
-    expect(path?.line.startsWith("M 0.0")).toBe(true);
-    expect(path?.line).toContain("L");
+    expect(line.startsWith("M 0.0")).toBe(true);
+    expect(line).toContain("L");
   });
 
   it("spans the full box width", () => {
@@ -34,10 +34,10 @@ describe("spark", () => {
   });
 
   it("closes the area path down to the baseline", () => {
-    const path = spark([0, 10]);
+    const { area } = spark([0, 10]) ?? { area: "" };
 
-    expect(
-      path?.area.endsWith(`L ${SPARK_W} ${SPARK_H} L 0 ${SPARK_H} Z`),
-    ).toBe(true);
+    expect(area.endsWith(`L ${SPARK_W} ${SPARK_H} L 0 ${SPARK_H} Z`)).toBe(
+      true,
+    );
   });
 });
