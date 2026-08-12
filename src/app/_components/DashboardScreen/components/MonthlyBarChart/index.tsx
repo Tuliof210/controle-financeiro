@@ -58,7 +58,7 @@ export function MonthlyBarChart(props: MonthlyBarChartProps) {
         ))}
         {/* Last, so it reads over the bars it separates — the band behind them
             is a wash and this rule is what actually marks the boundary. */}
-        {band === null ? null : (
+        {band !== null && (
           <line
             x1={band.x}
             x2={band.x}

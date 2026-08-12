@@ -32,9 +32,10 @@ export function GoalsSection() {
 
   return (
     <SectionCard title="Objetivos" icon={Target}>
-      {goals?.length === 0 ? (
+      {goals?.length === 0 && (
         <p className={styles.empty}>{COPY.nenhumObjetivoCadastradoAinda}</p>
-      ) : (
+      )}
+      {goals?.length !== 0 && (
         <RowGrid>
           {goals?.map((goal) => (
             <GoalRow

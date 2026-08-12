@@ -18,13 +18,14 @@ export function EntrySection<T extends Entry>(props: EntrySectionProps<T>) {
           element with its own bottom rule — same reading, one fewer shared
           component touched. */}
       <p className={`${styles.total} ${styles[tone]}`}>{total}</p>
-      {rows.length === 0 ? (
+      {rows.length === 0 && (
         <EmptyState
           icon={icon}
           title={labels.emptyTitle}
           hint={labels.emptyHint}
         />
-      ) : (
+      )}
+      {rows.length !== 0 && (
         <RowGrid>
           {rows.map(({ entry, person, period, band, onEdit, onDelete }) => (
             <EntryRow

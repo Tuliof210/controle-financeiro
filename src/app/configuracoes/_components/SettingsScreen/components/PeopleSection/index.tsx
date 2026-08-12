@@ -33,9 +33,10 @@ export function PeopleSection() {
 
   return (
     <SectionCard title="Pessoas" icon={Users}>
-      {people?.length === 0 ? (
+      {people?.length === 0 && (
         <p className={styles.empty}>{COPY.nenhumaPessoaCadastradaAinda}</p>
-      ) : (
+      )}
+      {people?.length !== 0 && (
         <RowGrid>
           {people?.map((person) => (
             <PersonRow

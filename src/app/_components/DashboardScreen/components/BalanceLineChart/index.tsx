@@ -33,7 +33,7 @@ export function BalanceLineChart(props: BalanceLineChartProps) {
       >
         {/* Without this a negative balance reads as "a bit lower" rather than
             "underwater". Drawn only when the series actually crosses zero. */}
-        {zeroY === null ? null : (
+        {zeroY !== null && (
           <line
             x1={0}
             x2={frame.innerWidth}
@@ -47,7 +47,7 @@ export function BalanceLineChart(props: BalanceLineChartProps) {
         <LinePath data={dashed} x={x} y={y} {...LINE} strokeDasharray="6 4" />
         {/* Drawn over the line and under the dots, so a dot on that month stays
             hittable. */}
-        {tightestMark === null ? null : (
+        {tightestMark !== null && (
           <TightestMark {...tightestMark} height={frame.innerHeight} />
         )}
         {dots.map((dot) => (
