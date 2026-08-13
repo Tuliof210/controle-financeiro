@@ -1,0 +1,93 @@
+@use "tokens-dark" as d;
+
+// ---- Semantic color — light (default) --------------------------------------
+// Every ratio below is measured against the WORST of the three surfaces
+// (--color-bg #f8f9fb, --color-surface #ffffff, --color-surface-raised
+// #f2f4f6), so the number holds wherever the token lands.
+:root {
+  --color-bg: var(--neutral-50);
+  --color-surface: var(--white);
+  --color-surface-raised: var(--neutral-100);
+
+  // Three text tiers, all measured on --color-surface-raised (the worst):
+  // 16.29:1 / 10.40:1 / 6.94:1. The muted tier is --neutral-600, NOT the
+  // target's --neutral-500: that one measures 4.48:1 on --neutral-50, just
+  // under rule 7's floor — the same reason the pre-Monevo --ink-500 was
+  // darkened from #6b7180 to #5f6573.
+  --color-text: var(--neutral-900);
+  --color-text-secondary: var(--neutral-700);
+  --color-text-muted: var(--neutral-600);
+
+  // Hairlines, not structure. Borders carry separation before shadows do.
+  --color-border: var(--neutral-200);
+  --color-border-subtle: var(--neutral-150);
+  --color-border-strong: var(--neutral-300);
+
+  // Cobalt, spent with restraint. --color-brand is the fill/mark tone (6.15:1
+  // as text, but it is not a text token); --color-brand-text is the copy tone
+  // and measures 8.14:1. Hover and active darken the fill, per the target.
+  --color-brand: var(--cobalt-600);
+  --color-brand-text: var(--cobalt-700);
+  --color-brand-hover: var(--cobalt-700);
+  --color-brand-active: var(--cobalt-800);
+  // Accent stays light in BOTH themes: its consumers paint --ink-900 on it.
+  // 11.15:1 against that ink.
+  --color-accent: var(--cobalt-200);
+
+  // Financial state only. As TEXT on a surface: 5.22 / 4.92 / 5.60 / 5.30:1 on
+  // the worst of the three.
+  //
+  // BELOW THE FLOOR AS A FILL, and T2 is what fixes it. Four *.module.scss
+  // files paint --ink-900 ON these four as background — SectionCard/_band.scss,
+  // CeilingCard/.../MonthTable, HeroBand/_figure.scss, OfxScreen/.../ReportView
+  // — and against these foreground tones that ink measures 3.12 / 3.31 / 2.91 /
+  // 3.07:1 in the LIGHT theme, under rule 7's 4.5:1. Dark is fine (7.53–8.71:1),
+  // because there the same tokens resolve to the lightened ramp.
+  // This is not fixable here: the same token is read as text elsewhere, where a
+  // fill-safe light tone would fail instead, and the four call sites are T2's
+  // by scope. The fix is on that side — --white measures 5.43–6.18:1 on all
+  // four, so flipping the ink is the whole change.
+  --color-positive: var(--positive-fg);
+  --color-negative: var(--negative-fg);
+  --color-caution: var(--alert-fg);
+  --color-info: var(--info-fg);
+  --color-focus: var(--cobalt-600);
+
+  // Hover family — replaces the `filter: brightness(...)` calls scattered
+  // across the components T2 sweeps. Wash for neutral surfaces, row-hover for
+  // list rows sitting on --color-surface.
+  --color-hover-wash: var(--neutral-100);
+  --color-row-hover: var(--neutral-50);
+
+  // The rail is no longer "dark chrome in both themes" — the target's is a
+  // light surface with a hairline. These alias already-themed tokens, so like
+  // the gradients below they flip with the theme and need no dark block.
+  --rail-bg: var(--color-surface);
+  --rail-fg: var(--color-text);
+  --rail-muted: var(--color-text-muted);
+  --rail-line: var(--color-border);
+  --rail-hover: var(--color-hover-wash);
+
+  // The target forbids decorative gradients. --gradient-toxic survives only
+  // because HeroBand still consumes it and that file belongs to T2;
+  // --glow-brand is the one gradient the target does authorise — a cobalt
+  // radial glow on a dark hero, never on the mark.
+  --gradient-toxic: linear-gradient(100deg, var(--color-accent), var(--color-brand));
+  --glow-brand: radial-gradient(circle, rgb(37 80 204 / 40%), transparent 70%);
+}
+
+// ---- Semantic color — dark (explicit opt-in via [data-theme]) -------------
+// `:root[data-theme="dark"]`, not a bare `[data-theme="dark"]`: the shape
+// partial loads AFTER this one and declares --elevation-* on `:root`. At equal
+// specificity the later rule wins, which is why the old file's dark
+// --elevation-overlay override never actually applied under an explicit toggle.
+:root[data-theme="dark"] {
+  @include d.dark-theme;
+}
+
+// ---- Semantic color — dark (OS preference, no explicit override) ---------
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    @include d.dark-theme;
+  }
+}

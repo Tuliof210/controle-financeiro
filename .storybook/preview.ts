@@ -1,11 +1,16 @@
 import type { Preview } from "@storybook/nextjs-vite";
 import { addons } from "storybook/preview-api";
-import { jetBrainsMono, pressStart2P } from "../src/styles/fonts.ts";
+import {
+  clashDisplay,
+  hankenGrotesk,
+  ibmPlexMono,
+} from "../src/styles/fonts.ts";
 import "../src/styles/globals.scss";
 
 document.documentElement.classList.add(
-  pressStart2P.variable,
-  jetBrainsMono.variable,
+  clashDisplay.variable,
+  hankenGrotesk.variable,
+  ibmPlexMono.variable,
 );
 
 // `@storybook/addon-themes`'s decorators only run for stories with an

@@ -8,7 +8,9 @@ html {
   color-scheme: light dark;
   background: var(--color-bg);
   color: var(--color-text);
-  font-family: var(--font-mono, ui-monospace, monospace);
+  // The body face, not mono. Mono is now scoped to what it is for — eyebrows,
+  // IDs, YYYY-MM dates, hex — and each of those asks for it explicitly.
+  font-family: var(--font-sans, system-ui, sans-serif);
   transition:
     background-color var(--duration-base) var(--ease-snappy),
     color var(--duration-base) var(--ease-snappy);
@@ -22,7 +24,7 @@ h1 {
   margin: 0;
   font-family: var(--font-display);
   font-size: var(--text-lg);
-  font-weight: var(--weight-regular);
+  font-weight: var(--weight-semibold);
   line-height: var(--leading-tight);
   letter-spacing: var(--tracking-display);
   color: var(--color-text);

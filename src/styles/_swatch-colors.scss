@@ -1,32 +1,38 @@
-// Explicit color-key -> `-400` token map, shared by every component that
+// Explicit color-key -> `--cat-*` token map, shared by every component that
 // renders a PALETTE swatch (ColorPicker, PeopleSection's chip). Listed
-// individually rather than interpolated (`var(--#{$key}-400)`) so a
+// individually rather than interpolated (`var(--cat-#{$key})`) so a
 // typo'd/missing token is caught by the class simply not existing, not
 // silently resolving to nothing.
+//
+// The seven KEYS are frozen: `person.color` is a string persisted in SQLite and
+// validated by `z.enum(PALETTE)` (src/lib/palette.ts). PersonRow/hook.ts looks
+// the class up as `styles[person.color]`, so dropping a key would leave every
+// existing person's chip transparent — no build error, no runtime error. Only
+// the values moved to the Monevo category hues.
 .violet {
-  background: var(--violet-400);
+  background: var(--cat-violet);
 }
 
 .lime {
-  background: var(--lime-400);
+  background: var(--cat-lime);
 }
 
 .magenta {
-  background: var(--magenta-400);
+  background: var(--cat-magenta);
 }
 
 .green {
-  background: var(--green-400);
+  background: var(--cat-green);
 }
 
 .red {
-  background: var(--red-400);
+  background: var(--cat-red);
 }
 
 .amber {
-  background: var(--amber-400);
+  background: var(--cat-amber);
 }
 
 .cyan {
-  background: var(--cyan-400);
+  background: var(--cat-cyan);
 }

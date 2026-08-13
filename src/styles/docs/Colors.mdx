@@ -2,25 +2,36 @@ import { Meta } from "@storybook/addon-docs/blocks";
 
 <Meta title="Foundations/Colors" />
 
-export const primitives = [
-  "violet-300", "violet-400", "violet-500", "violet-600",
-  "lime-300", "lime-400", "lime-500",
-  "green-400", "green-500",
-  "red-400", "red-500",
-  "amber-400", "amber-500",
-  "cyan-400", "cyan-500",
-  "magenta-400", "magenta-500",
-  "ink-900", "ink-800", "ink-700", "ink-600", "ink-500", "ink-400", "ink-300",
-  "ink-200", "ink-100", "ink-050",
-  "paper", "white",
+export const neutrals = [
+  "neutral-950", "neutral-900", "neutral-800", "neutral-700", "neutral-600",
+  "neutral-500", "neutral-400", "neutral-300", "neutral-200", "neutral-150",
+  "neutral-100", "neutral-50", "white",
+];
+
+export const cobalt = [
+  "cobalt-900", "cobalt-800", "cobalt-700", "cobalt-600", "cobalt-500",
+  "cobalt-400", "cobalt-300", "cobalt-200", "cobalt-100", "cobalt-50",
+];
+
+export const trios = [
+  "positive-fg", "positive-bg", "positive-border",
+  "negative-fg", "negative-bg", "negative-border",
+  "alert-fg", "alert-bg", "alert-border",
+  "info-fg", "info-bg", "info-border",
+];
+
+export const categories = [
+  "cat-violet", "cat-lime", "cat-magenta", "cat-green", "cat-red",
+  "cat-amber", "cat-cyan",
 ];
 
 export const semantics = [
   "color-bg", "color-surface", "color-surface-raised", "color-text",
-  "color-text-muted", "color-border", "color-border-subtle", "color-brand",
-  "color-brand-text",
+  "color-text-secondary", "color-text-muted", "color-border",
+  "color-border-subtle", "color-border-strong", "color-brand",
+  "color-brand-text", "color-brand-hover", "color-brand-active",
   "color-accent", "color-positive", "color-negative", "color-caution",
-  "color-info", "color-focus",
+  "color-info", "color-focus", "color-hover-wash", "color-row-hover",
 ];
 
 export const rail = [
@@ -28,51 +39,80 @@ export const rail = [
 ];
 
 export const Swatch = ({ name }) => (
-  <div style={{ border: "var(--border-1) solid var(--color-border-subtle)" }}>
+  <div style={{ border: "var(--border-1) solid var(--color-border-subtle)", borderRadius: "var(--radius-sm)", overflow: "hidden" }}>
     <div style={{ height: "56px", background: `var(--${name})` }} />
-    <div style={{ padding: "var(--space-2)", fontSize: "var(--text-xs)", fontFamily: "var(--font-mono)", background: "var(--color-surface)", color: "var(--color-text)" }}>
+    <div style={{ padding: "var(--space-2)", fontSize: "var(--text-2xs)", fontFamily: "var(--font-mono)", background: "var(--color-surface)", color: "var(--color-text)" }}>
       --{name}
     </div>
   </div>
 );
 
+export const Grid = ({ names, min = "130px" }) => (
+  <div style={{ display: "grid", gridTemplateColumns: `repeat(auto-fill, minmax(${min}, 1fr))`, gap: "var(--space-3)", margin: "var(--space-4) 0" }}>
+    {names.map((name) => <Swatch key={name} name={name} />)}
+  </div>
+);
+
 # Colors
 
-A few very saturated hues over an extreme-neutral ramp. Semantic tokens are
-the ones components consume — never reach for a primitive directly.
+Neutrals carry ~90% of the interface. Cobalt is the only brand hue and is spent
+with restraint — the primary action, focus, and the mark. Semantic tokens are
+the ones components consume; never reach for a primitive directly.
 
-## Primitives (theme-independent)
+## Neutrals (theme-independent primitives)
 
-<div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(110px, 1fr))", gap: "var(--space-3)" }}>
-  {primitives.map((name) => <Swatch key={name} name={name} />)}
-</div>
+<Grid names={neutrals} />
+
+## Cobalt — the single brand ramp
+
+`--cobalt-600` is the anchor. Text on cobalt is always white.
+
+<Grid names={cobalt} />
+
+## Semantic trios (theme-aware)
+
+Financial state only: a normal expense is **not** red. Each foreground pairs
+with its own wash and hairline, and every pair clears 4.5:1 in both themes.
+Three of the foregrounds sit one step darker than the source design system —
+`#0e8c57`, `#b5560e` and `#0f73a6` measured 3.88, 4.43 and 4.47:1 on their own
+washes, under rule 7's floor.
+
+<Grid names={trios} />
+
+## Category hues
+
+One per `PALETTE` key in `src/lib/palette.ts`. The **keys** are persisted
+strings validated by a `z.enum`, so they never change name — only the value
+moved. Each hue is distinguishable from the others and from cobalt.
+
+<Grid names={categories} />
 
 ## Semantic (theme-aware — toggle light/dark in the toolbar)
 
-<div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(140px, 1fr))", gap: "var(--space-3)", margin: "var(--space-4) 0" }}>
-  {semantics.map((name) => <Swatch key={name} name={name} />)}
-</div>
+<Grid names={semantics} min="150px" />
 
-## Navigation rail (theme-aware, but dark in both themes)
+## Navigation rail
 
-Its own family, not part of the surface ramp above: the rail stays dark
-chrome in the light theme, so no combination of `--color-surface` /
-`--color-text` expresses it. `--rail-muted` is `--ink-400` rather than the
-`--ink-500` the surface ramp uses for muted text — on `--rail-bg` that would
-measure 3.28:1, under rule 7's 4.5:1 floor.
+No longer its own dark-chrome family: the rail is a light surface with a
+hairline, so these five tokens are plain aliases of the surface ramp. Because
+they alias already-themed tokens they flip on their own and carry no dark
+declaration — redeclaring them is the mistake rule 6 exempts them from.
 
-<div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(140px, 1fr))", gap: "var(--space-3)", margin: "var(--space-4) 0" }}>
-  {rail.map((name) => <Swatch key={name} name={name} />)}
-</div>
+<Grid names={rail} min="150px" />
 
 ## Gradients
 
+The background is flat: no decorative gradients, no glassmorphism, no texture.
+`--glow-brand` is the one exception the system authorises — a cobalt radial
+glow on a dark hero, never on the mark. `--gradient-toxic` is on borrowed time,
+kept for one consumer that has not been migrated yet.
+
 <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "var(--space-3)" }}>
-  <div style={{ height: "72px", background: "var(--gradient-sunset)", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--white)", fontFamily: "var(--font-mono)" }}>
-    {"--gradient-sunset"}
+  <div style={{ height: "72px", borderRadius: "var(--radius-lg)", background: "var(--color-surface-raised)", backgroundImage: "var(--glow-brand)", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--color-text)", fontFamily: "var(--font-mono)", fontSize: "var(--text-2xs)" }}>
+    {"--glow-brand"}
   </div>
-  <div style={{ height: "72px", background: "var(--gradient-toxic)", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--ink-900)", fontFamily: "var(--font-mono)" }}>
-    {"--gradient-toxic"}
+  <div style={{ height: "72px", borderRadius: "var(--radius-lg)", background: "var(--gradient-toxic)", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--white)", fontFamily: "var(--font-mono)", fontSize: "var(--text-2xs)" }}>
+    {"--gradient-toxic (deprecated)"}
   </div>
 </div>
 
@@ -80,8 +120,8 @@ measure 3.28:1, under rule 7's 4.5:1 floor.
 
 Meaning is never color-only — a sign and a glyph always pair with the color.
 
-<div style={{ display: "flex", gap: "var(--space-6)", fontFamily: "var(--font-mono)", fontVariantNumeric: "tabular-nums", fontSize: "var(--text-lg)", margin: "var(--space-4) 0" }}>
-  <span style={{ color: "var(--color-positive)", fontFamily: "var(--font-mono)", fontVariantNumeric: "tabular-nums" }}>▲ +R$ 1.120,00</span>
-  <span style={{ color: "var(--color-negative)", fontFamily: "var(--font-mono)", fontVariantNumeric: "tabular-nums" }}>▼ −R$ 640,00</span>
-  <span style={{ color: "var(--color-caution)", fontFamily: "var(--font-mono)", fontVariantNumeric: "tabular-nums" }}>⚠ estouro previsto</span>
+<div style={{ display: "flex", gap: "var(--space-6)", flexWrap: "wrap", fontFamily: "var(--font-sans)", fontVariantNumeric: "tabular-nums", fontWeight: "var(--weight-semibold)", fontSize: "var(--text-lg)", margin: "var(--space-4) 0" }}>
+  <span style={{ color: "var(--color-positive)" }}>▲ +R$ 1.120,00</span>
+  <span style={{ color: "var(--color-negative)" }}>▼ −R$ 640,00</span>
+  <span style={{ color: "var(--color-caution)" }}>⚠ estouro previsto</span>
 </div>

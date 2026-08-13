@@ -1,0 +1,75 @@
+// ---- Spacing — closed 4px grid (no ad-hoc values) --------------------------
+:root {
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
+  --space-24: 96px;
+
+  // The a11y hit-target floor, which the constitution has always stated in
+  // prose and 23 call sites have always written as a raw `44px`.
+  --size-tap: 44px;
+}
+
+// ---- Radius — soft corners, never square, never a capsule ------------------
+:root {
+  --radius-sm: 6px; // chips, inner inputs
+  --radius-md: 10px; // buttons, fields
+  --radius-lg: 14px; // product cards
+  --radius-xl: 20px; // large surfaces / sheets
+  // Documented exception: avatars / status dots ONLY. Never for cards,
+  // buttons, inputs, or any other rectangular surface.
+  --radius-full: 9999px;
+}
+
+// ---- Border widths ----------------------------------------------------------
+:root {
+  --border-1: 1px;
+  --border-2: 2px;
+  --border-3: 3px;
+}
+
+// ---- Elevation — border-first; shadow only when a layer actually floats ----
+:root {
+  --elevation-flat: none;
+  --elevation-raised: 0 1px 2px rgb(20 23 28 / 5%), 0 1px 1px rgb(20 23 28 / 3%);
+  --elevation-overlay: 0 6px 16px rgb(20 23 28 / 8%), 0 2px 4px rgb(20 23 28 / 4%);
+  --elevation-modal: 0 16px 40px rgb(20 23 28 / 12%), 0 4px 8px rgb(20 23 28 / 5%);
+
+  // Deprecated — the three hard offset shadows of the pixel-art skin. Five
+  // *.module.scss files still ask `@include t.elevation(press | press-active |
+  // panel)`, and those files belong to T2, so removing either these tokens or
+  // their levels in the mixin would break the Sass build today. T2 removes
+  // both once its consumers are migrated.
+  --elevation-press: var(--elevation-raised);
+  --elevation-press-active: var(--elevation-flat);
+  --elevation-panel: var(--elevation-modal);
+}
+
+// ---- Focus + opacity ---------------------------------------------------------
+:root {
+  // A cobalt ring, not an outline: color-mix keeps it derived from
+  // --color-focus, so it follows the theme without a dark counterpart.
+  //
+  // TWO layers, and the opaque one is not optional. The target's ring is a
+  // single 35%-alpha halo, which composites to 1.74:1 on the lightest surface
+  // and 1.64:1 on the darkest — under SC 1.4.11's 3:1 floor for a focus
+  // indicator, i.e. not the "visible focus ring" README rule 7 demands. The
+  // inner stroke is --color-focus at full alpha (6.15:1 light, 4.27:1 dark,
+  // both measured on the worst of the three surfaces); the halo stays outside
+  // it, where it does what it was drawn to do.
+  --focus-ring:
+    0 0 0 var(--border-2) var(--color-focus),
+    0 0 0 calc(var(--border-2) + var(--border-3))
+      color-mix(in srgb, var(--color-focus) 35%, transparent);
+
+  --opacity-muted: 0.7;
+  --opacity-data-wash: 0.14;
+}

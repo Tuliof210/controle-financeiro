@@ -1,0 +1,67 @@
+// ---- Dark overrides, once ---------------------------------------------------
+// Definition only — this file emits no CSS. The two dark selectors in
+// `_tokens-theme.scss` both `@include dark-theme`, so the block that used to be
+// duplicated verbatim between `[data-theme="dark"]` and the
+// `prefers-color-scheme` query now exists exactly once. README rule 6 ("every
+// semantic token exists in both themes") is mechanical here, not disciplinary.
+//
+// The target is light-only: none of these values are copied, they are derived
+// by inverting the cool neutral ramp and lightening cobalt, and every text pair
+// is measured against the worst of the three dark surfaces (--neutral-950
+// #0c0e12, --neutral-900 #14171c, --neutral-800 #20242c).
+@mixin dark-theme {
+  --color-bg: var(--neutral-950);
+  --color-surface: var(--neutral-900);
+  --color-surface-raised: var(--neutral-800);
+
+  // 14.76:1 / 9.35:1 / 5.97:1 on the worst surface.
+  --color-text: var(--neutral-50);
+  --color-text-secondary: var(--neutral-300);
+  --color-text-muted: var(--neutral-400);
+
+  --color-border: var(--neutral-700);
+  --color-border-subtle: var(--neutral-800);
+  --color-border-strong: var(--neutral-600);
+
+  // --color-brand is a fill tone (4.27:1 as text on the raised surface, which
+  // is why copy uses --color-brand-text at 6.92:1). Hover/active LIGHTEN here
+  // rather than darken — on a dark surface, darkening reads as disabled.
+  --color-brand: var(--cobalt-400);
+  --color-brand-text: var(--cobalt-300);
+  --color-brand-hover: var(--cobalt-300);
+  --color-brand-active: var(--cobalt-200);
+  --color-accent: var(--cobalt-300);
+
+  --color-focus: var(--cobalt-400);
+
+  --color-hover-wash: var(--neutral-800);
+  --color-row-hover: var(--neutral-800);
+
+  // Dark counterparts for the twelve trio members. The washes are the same
+  // hues at low lightness; each fg measures ≥ 6.5:1 on its own wash, and
+  // 7.55 / 6.61 / 6.52 / 7.07:1 on the worst dark surface.
+  --positive-fg: #3fcb95;
+  --positive-bg: #0f2a20;
+  --positive-border: #1c4a38;
+  --negative-fg: #f58a90;
+  --negative-bg: #33161a;
+  --negative-border: #5c2830;
+  --alert-fg: #e5964f;
+  --alert-bg: #331f0f;
+  --alert-border: #5c3a1c;
+  --info-fg: #4fbbe3;
+  --info-bg: #0d2733;
+  --info-border: #1b4557;
+
+  --color-positive: var(--positive-fg);
+  --color-negative: var(--negative-fg);
+  --color-caution: var(--alert-fg);
+  --color-info: var(--info-fg);
+
+  // The target's shadows are translucent ink on an off-white page; at 3–12%
+  // alpha they disappear entirely against a dark surface. Same geometry, much
+  // higher alpha, cast in black rather than ink.
+  --elevation-raised: 0 1px 2px rgb(0 0 0 / 40%), 0 1px 1px rgb(0 0 0 / 24%);
+  --elevation-overlay: 0 6px 16px rgb(0 0 0 / 56%), 0 2px 4px rgb(0 0 0 / 32%);
+  --elevation-modal: 0 16px 40px rgb(0 0 0 / 64%), 0 4px 8px rgb(0 0 0 / 40%);
+}

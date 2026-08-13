@@ -6,10 +6,9 @@ export const durations = ["duration-fast", "duration-base", "duration-slow"];
 
 # Motion
 
-Short, snappy durations with an optional 8-bit `steps()` easing for specific
-micro-interactions. Every duration token collapses to `0ms` under
-`prefers-reduced-motion: reduce` — motion is opt-out by the OS, not by each
-component.
+Calm and precise: short fades and slides, no bounce, nothing euphoric. Every
+duration token collapses to `0ms` under `prefers-reduced-motion: reduce` —
+motion is opt-out by the OS, not by each component.
 
 <style>{`
   /* background lives here (not inline) so .motion-demo:hover can override it —
@@ -21,24 +20,35 @@ component.
     transition-timing-function: var(--ease-snappy);
   }
   .motion-demo:hover {
-    background-color: var(--color-accent);
+    background-color: var(--color-brand-hover);
   }
 `}</style>
 
 ## Hover to see `--duration-base` + `--ease-snappy`
 
-<div className="motion-demo" style={{ width: "160px", height: "80px", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--white)", fontFamily: "var(--font-mono)", fontSize: "var(--text-xs)" }}>
+<div className="motion-demo" style={{ width: "170px", height: "80px", borderRadius: "var(--radius-md)", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--white)", fontFamily: "var(--font-sans)", fontSize: "var(--text-sm)" }}>
   {"hover me"}
 </div>
 
 ## Duration scale
 
-<div style={{ display: "flex", gap: "var(--space-6)", fontFamily: "var(--font-mono)", fontSize: "var(--text-xs)", margin: "var(--space-4) 0", background: "var(--color-surface)", padding: "var(--space-4)" }}>
-  {durations.map((name) => <span key={name} style={{ fontFamily: "var(--font-mono)", color: "var(--color-text)" }}>--{name}</span>)}
+<div style={{ display: "flex", gap: "var(--space-6)", flexWrap: "wrap", fontFamily: "var(--font-mono)", fontSize: "var(--text-2xs)", margin: "var(--space-4) 0", background: "var(--color-surface)", padding: "var(--space-4)", borderRadius: "var(--radius-lg)" }}>
+  {durations.map((name) => <span key={name} style={{ color: "var(--color-text)" }}>--{name}</span>)}
 </div>
 
 ## Easings
 
 `--ease-snappy: cubic-bezier(0.2, 0, 0, 1)` — the default for UI transitions.
-`--ease-step: steps(4, end)` — optional 8-bit flavor for specific
-micro-interactions only, not the default.
+`--ease-out: cubic-bezier(0.16, 1, 0.3, 1)` — for something entering the
+screen, where the tail should settle rather than stop.
+
+## Focus
+
+`--focus-ring` is a translucent cobalt ring derived from `--color-focus` with
+`color-mix`, so it follows the theme on its own. `@include t.focus-ring;`
+paints it over a **transparent** outline — that outline is the forced-colors
+escape hatch, and dropping it makes the ring vanish in high contrast.
+
+<button type="button" style={{ font: "inherit", fontFamily: "var(--font-sans)", fontSize: "var(--text-base)", fontWeight: "var(--weight-medium)", color: "var(--white)", background: "var(--color-brand)", border: "none", borderRadius: "var(--radius-md)", minHeight: "var(--size-tap)", padding: "0 var(--space-5)", outline: "var(--border-2) solid transparent", outlineOffset: "2px", boxShadow: "var(--focus-ring)" }}>
+  {"Foco visível"}
+</button>
