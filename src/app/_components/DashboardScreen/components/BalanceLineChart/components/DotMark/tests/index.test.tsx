@@ -8,6 +8,19 @@ const props = {
   cy: 20,
   title: "Ago/26 · acumulado R$ 10,00",
   projected: false,
+  tip: {
+    title: "Ago/26",
+    tag: "real",
+    plotX: 10,
+    rows: [
+      {
+        key: "cumulative",
+        label: "acumulado",
+        value: "R$ 10,00",
+        tone: "brand" as const,
+      },
+    ],
+  },
   showTooltip: jest.fn(),
   hideTooltip: jest.fn(),
 };

@@ -15,6 +15,23 @@ const projectedRuleProps = {
 
 const TIGHTEST_RULE_DASHARRAY = "4 4";
 
+// An SVG geometry attribute cannot resolve a custom property, so the bar's
+// corner is a number rather than --radius-sm. It is the target's 3, half the 6px
+// the token layer puts on a chip: on a ~20px-wide bar the 6 reads as a lozenge.
+const BAR_RADIUS = 3;
+
+// A projected bar is an OUTLINE, not just a paler fill. The dashed contour is
+// the channel that survives greyscale (README rule 7c, and the target's own
+// brand rule); the wash inside it is reinforcement only. A real bar carries the
+// same stroke at zero opacity, so the two share one geometry and only the
+// opacities move between them.
+const BAR_STROKE = { strokeWidth: 1.5, strokeDasharray: "3 3" } as const;
+const ESTIMATED_BAR = {
+  fillOpacity: "var(--opacity-data-wash)",
+  strokeOpacity: 1,
+} as const;
+const REAL_BAR = { fillOpacity: 1, strokeOpacity: 0 } as const;
+
 // Filled tags. Each pairs a fill with the token that is already its counterpart,
 // so the two flip together and one measurement covers both themes:
 //   --color-text-muted on --color-bg  ->  7.26:1 light,  7.30:1 dark
@@ -46,8 +63,12 @@ const TAG_PAD_X = 8;
 const TAG_HEIGHT = 20;
 
 export {
+  BAR_RADIUS,
+  BAR_STROKE,
+  ESTIMATED_BAR,
   PROJECTED_BAND_FILL,
   projectedRuleProps,
+  REAL_BAR,
   TAG_CHAR_PX,
   TAG_HEIGHT,
   TAG_LABEL_PROPS,

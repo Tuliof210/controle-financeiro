@@ -1,8 +1,7 @@
 import type { MonthPoint } from "@/app/api/dashboard/types.ts";
-import { formatMoney } from "@/lib/money.ts";
-import { formatYyyymm } from "@/lib/months.ts";
 import { dashSplit } from "../../chart.helper.ts";
 import { buildFrame } from "../../chart-frame.helper.ts";
+import { dotFor } from "./line-dot.helper.ts";
 
 // The tag would run off the trailing edge in the last third of the plot; past
 // the midpoint it hangs to the left of its rule instead.
@@ -76,16 +75,14 @@ function useBalanceLineChart({
     height,
     x,
     y,
+    // The whole series in one array, for the area wash under it: the two
+    // LinePaths deliberately SHARE their boundary point, so concatenating them
+    // raw would close the polygon on a duplicated x and leave a hairline seam.
+    curve: points,
     ...dashSplit(points, dashedFrom),
-    dots: points.map((point) => ({
-      key: point.month,
-      cx: x(point),
-      cy: y(point),
-      projected: point.month >= projectedFrom,
-      title: `${formatYyyymm(point.month)} · acumulado ${formatMoney(
-        point.cumulative,
-      )}`,
-    })),
+    dots: points.map((point) =>
+      dotFor(point, point.month >= projectedFrom, x(point), y(point)),
+    ),
     // Only worth drawing when the series actually crosses zero; otherwise the
     // baseline coincides with the axis.
     zeroY: zeroLine(frame.valueScale),
