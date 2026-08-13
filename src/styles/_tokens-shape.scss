@@ -55,9 +55,20 @@
 
 // ---- Focus + opacity ---------------------------------------------------------
 :root {
-  // A translucent cobalt ring, not an outline: color-mix keeps it derived from
+  // A cobalt ring, not an outline: color-mix keeps it derived from
   // --color-focus, so it follows the theme without a dark counterpart.
-  --focus-ring: 0 0 0 var(--border-3) color-mix(in srgb, var(--color-focus) 35%, transparent);
+  //
+  // TWO layers, and the opaque one is not optional. The target's ring is a
+  // single 35%-alpha halo, which composites to 1.74:1 on the lightest surface
+  // and 1.64:1 on the darkest — under SC 1.4.11's 3:1 floor for a focus
+  // indicator, i.e. not the "visible focus ring" README rule 7 demands. The
+  // inner stroke is --color-focus at full alpha (6.15:1 light, 4.27:1 dark,
+  // both measured on the worst of the three surfaces); the halo stays outside
+  // it, where it does what it was drawn to do.
+  --focus-ring:
+    0 0 0 var(--border-2) var(--color-focus),
+    0 0 0 calc(var(--border-2) + var(--border-3))
+      color-mix(in srgb, var(--color-focus) 35%, transparent);
 
   --opacity-muted: 0.7;
   --opacity-data-wash: 0.14;
