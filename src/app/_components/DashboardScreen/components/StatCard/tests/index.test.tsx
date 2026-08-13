@@ -49,6 +49,17 @@ describe("StatCard", () => {
     expect(path).toHaveAttribute("stroke", "var(--color-brand)");
   });
 
+  it("tints the icon chip with the card's own semantic pair", () => {
+    const { container, rerender } = render(<StatCard {...props} />);
+
+    expect(container.querySelector(".chipBrand")).not.toBeNull();
+
+    rerender(<StatCard {...props} tone="negative" />);
+
+    // The NEUTRAL pair, not the negative one: a normal expense is not red.
+    expect(container.querySelector(".chipNeutral")).not.toBeNull();
+  });
+
   it("draws no sparkline for an empty series", () => {
     const { container } = render(<StatCard {...props} series={[]} />);
 

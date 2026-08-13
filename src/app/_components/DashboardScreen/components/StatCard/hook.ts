@@ -1,8 +1,12 @@
 import type { LucideIcon } from "lucide-react";
 import type { Stats } from "@/app/api/dashboard/types.ts";
-import type { BandTone } from "@/components/SectionCard/hook.ts";
 import { formatMoney } from "@/lib/money.ts";
 import { spark } from "../../spark.helper.ts";
+
+// Which semantic pair the icon chip paints, named after the card's role rather
+// than after a token — `_chip.scss` records what each one resolves to, and why
+// `negative` lands on the NEUTRAL pair there.
+type ChipTone = "positive" | "negative" | "brand";
 
 interface StatCardProps {
   title: string;
@@ -17,8 +21,8 @@ interface StatCardProps {
   signed?: boolean;
 }
 
-// src/styles/README.md rule 7: meaning is never colour-only — the glyph is what
-// makes the accent readable without colour vision. Only a signed card draws one.
+// README rule 7: meaning is never colour-only — the glyph is what makes the
+// accent readable without colour vision. Only a signed card draws one.
 function signGlyph(signed: boolean | undefined, negative: boolean) {
   if (signed !== true) {
     return null;
@@ -45,10 +49,9 @@ function signedTone(
   return "positive" as const;
 }
 
-// A literal token string handed to SVG as a presentation attribute, exactly as
-// chart.config.ts does: it resolves inside the SVG and follows the theme switch
-// with no JS. Keyed on the FIXED tone, so Saldo's line keeps one colour instead
-// of flipping green/red with the sign of its total.
+// A token string handed to SVG as a presentation attribute, as chart.config.ts
+// does: it resolves inside the SVG and follows the theme switch with no JS.
+// Keyed on the FIXED tone, so Saldo's line keeps one colour.
 const TONE_COLOR = {
   positive: "var(--color-positive)",
   negative: "var(--color-negative)",
@@ -67,12 +70,11 @@ function useStatCard({
   const negative = signed === true && stats.total < 0;
   const glyph = signGlyph(signed, negative);
 
-  // Annotated, not inferred: a bare "brand" in the object literal below widens
-  // to `string` and stops matching SectionCard's prop.
-  // Keyed on the FIXED tone, for the same reason `color` below is: Saldo's band
-  // names the card, so it must not flip green/red with the sign of a total the
-  // reader is still looking at.
-  const band: BandTone = tone ?? "brand";
+  // Annotated, not inferred: a bare "brand" in the literal below widens to
+  // `string` and stops indexing index.tsx's chip class map. Keyed on the FIXED
+  // tone, like `color`: Saldo's chip names the card, so it must not flip
+  // green/red with the sign of a total the reader is still looking at.
+  const chip: ChipTone = tone ?? "brand";
 
   return {
     title,
@@ -81,11 +83,10 @@ function useStatCard({
     glyph,
     total: formatMoney(stats.total),
     tone: signedTone(signed, negative, tone),
-    band,
+    chip,
     spark: spark(series),
     color: TONE_COLOR[tone ?? "brand"],
-    // Secondary rows stay neutral: formatMoney's minus sign carries the
-    // meaning, so they need no glyph to go with an accent colour.
+    // Neutral: formatMoney's minus sign already carries the meaning here.
     rows: [
       { key: "current", label: "Realizado", value: stats.current },
       { key: "mean", label: "Média/mês", value: stats.mean },
