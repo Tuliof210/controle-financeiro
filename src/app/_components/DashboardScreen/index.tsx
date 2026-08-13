@@ -1,18 +1,13 @@
 "use client";
 
-import { CalendarRange, LayoutDashboard, TriangleAlert } from "lucide-react";
-import { Button } from "@/components/Button/index.tsx";
 import { cx } from "@/lib/cx.ts";
+import { useCapAnnouncement } from "./cap-announce.hook.ts";
 import { Board } from "./components/Board/index.tsx";
 import { HeroBand } from "./components/HeroBand/index.tsx";
-import { Notice } from "./components/Notice/index.tsx";
+import { ScreenNotices } from "./components/ScreenNotices/index.tsx";
 import { SimulationSelect } from "./components/SimulationSelect/index.tsx";
 import { useDashboardScreen } from "./hook.ts";
-import {
-  NOTICE_COPY,
-  okPayload,
-  outOfRangeSentence,
-} from "./notice-copy.helper.ts";
+import { okPayload } from "./notice-copy.helper.ts";
 import styles from "./style.module.scss";
 
 export function DashboardScreen() {
@@ -30,6 +25,7 @@ export function DashboardScreen() {
   // HeroBand takes the payload only when it is the 'ok' shape; every other
   // status leaves it undefined and the band renders its static half.
   const heroData = okPayload(data);
+  const announcement = useCapAnnouncement(heroData, refreshing);
 
   return (
     <div className={styles.screen}>
@@ -47,37 +43,18 @@ export function DashboardScreen() {
           simulations on — it must still be there on no_range/out_of_range. */}
       <SimulationSelect value={simulation} onChange={setSimulation} />
 
-      {Boolean(loading) && (
-        <Notice title="Carregando" icon={LayoutDashboard} role="status">
-          {NOTICE_COPY.loading}
-        </Notice>
-      )}
+      {/* The word the dimmed board never said. Outside every status branch: it
+          reports on figures still on screen, so it must not unmount with them. */}
+      <p className={styles.announcer} role="status" aria-live="polite">
+        {announcement}
+      </p>
 
-      {/* The one state that interrupts, and the only one with a way out: every
-          other branch is information, but a failed fetch leaves the reader with
-          nothing and no route back except reloading the page. */}
-      {Boolean(error) && (
-        <Notice
-          title="Erro"
-          icon={TriangleAlert}
-          role="alert"
-          action={<Button onClick={retry}>{NOTICE_COPY.retry}</Button>}
-        >
-          {error}
-        </Notice>
-      )}
-
-      {data?.status === "no_range" && (
-        <Notice title="Período global" icon={CalendarRange} role="status">
-          {NOTICE_COPY.noRange}
-        </Notice>
-      )}
-
-      {data?.status === "out_of_range" && (
-        <Notice title="Período global" icon={CalendarRange} role="status">
-          {outOfRangeSentence(data.range)}
-        </Notice>
-      )}
+      <ScreenNotices
+        loading={loading}
+        error={error}
+        data={data}
+        onRetry={retry}
+      />
 
       {data?.status === "ok" && (
         <div
