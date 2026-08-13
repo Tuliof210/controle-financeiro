@@ -5,9 +5,8 @@
 // goals are rows under it, so a reader compares them inside one border instead
 // of across three. No `overflow: hidden` on it, ever — the band holds a Tooltip
 // trigger, and t.focus-ring is an outline with outline-offset that an
-// overflow-hidden ancestor clips. SectionCard/style.module.scss:3-5 refuses it
-// for the same reason on all 13 of its cards; the band and the last row round
-// their own outer corners by hand instead.
+// overflow-hidden ancestor clips (SectionCard refuses it for the same reason on
+// all 13 of its cards); the band and the last row round their corners by hand.
 //
 // It carries no padding: the band, the header row and every goal row each run
 // edge to edge and pay their own inset, which is what lets a row's hover fill
@@ -21,6 +20,14 @@
   // The corner the banner rounds at the top and the last goal row at the
   // bottom, derived once here — see SectionCard, which does the same.
   --band-radius: calc(var(--radius-lg) - var(--border-1));
+  // The target's cobalt band is a 50-step wash and this repo has no themed token
+  // that light — adding one is T1's scope. Mixed from two themed tokens instead,
+  // so it flips on its own: --color-brand is cobalt-600 light, cobalt-400 dark,
+  // over the card's own surface either way. Measured on the result:
+  // --color-brand-text 8.0:1 light / 7.4:1 dark, --color-text 15.2:1 / 14.1:1 —
+  // which is why this fill, unlike --color-accent, needs no primitive pin.
+  --band-fill: color-mix(in srgb, var(--color-brand) 8%, var(--color-surface));
+  --band-line: color-mix(in srgb, var(--color-brand) 20%, var(--color-surface));
 
   display: flex;
   flex-direction: column;
@@ -53,8 +60,11 @@
     background: var(--color-surface-raised);
     color: var(--color-text-muted);
     border-bottom: var(--border-1) solid var(--color-border);
-    font-family: var(--font-display);
+    // Mono and tracked like the Teto table's header — the rule-4 review note
+    // lives there. The strings are already uppercase in `index.tsx`.
+    font-family: var(--font-mono);
     font-size: var(--text-2xs);
+    letter-spacing: var(--tracking-wide);
     line-height: var(--leading-normal);
 
     // Every column but the first states a figure, and a figure is read from its

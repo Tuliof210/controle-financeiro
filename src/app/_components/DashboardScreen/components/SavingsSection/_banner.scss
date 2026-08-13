@@ -11,10 +11,11 @@
   // below it is derived from. A grid, not a wrapping flex row — forcing that
   // wrap would need a raw `min-width`, which the token rules do not allow.
   //
-  // --color-accent is light in BOTH themes, so the foreground cannot be a
-  // semantic token: --color-text would land near-white on it in the dark one.
-  // Pinned to the primitive and re-measured in the browser — --neutral-900
-  // reads 11.15:1 on --cobalt-200 (light) and 7.99:1 on --cobalt-300 (dark).
+  // The fill is the target's cobalt WASH now, not --color-accent's cobalt-200.
+  // --band-fill and --band-line are derived on `.card` from themed tokens and
+  // flip on their own, so the foreground is a plain semantic token again: the
+  // old pin to --neutral-900 existed only because --color-accent stays light in
+  // BOTH themes. The measured ratios sit beside the mix.
   //
   // It carries no border, radius or shadow of its own any more: `.card` owns all
   // three. Its top corners read --band-radius, which `.card` derives from its
@@ -26,9 +27,9 @@
     grid-template-columns: minmax(0, 1fr);
     gap: var(--space-6);
     padding: var(--space-6);
-    background: var(--color-accent);
-    color: var(--neutral-900);
-    border-bottom: var(--border-1) solid var(--color-border);
+    background: var(--band-fill);
+    color: var(--color-text);
+    border-bottom: var(--border-1) solid var(--band-line);
     border-radius: var(--band-radius) var(--band-radius) 0 0;
 
     @include t.bp("md") {
@@ -54,20 +55,22 @@
     gap: var(--space-2);
   }
 
+  // The target's cobalt eyebrow: mono, tracked, in the brand's own text tone
+  // (8.0:1 on --band-fill in light, 7.4:1 in dark). The string is already
+  // uppercase in `index.tsx`, so no text-transform is needed.
   .eyebrow {
     margin: 0;
-    color: inherit;
-    font-family: var(--font-display);
-    font-size: var(--text-2xs);
+    color: var(--color-brand-text);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
     font-weight: var(--weight-regular);
+    letter-spacing: var(--tracking-wide);
     line-height: var(--leading-normal);
   }
 
-  // The hint trigger hardcodes --color-text-muted, which on this fill measures
-  // under the floor. Reached by tag, not class: `.trigger` lives in Tooltip's
-  // own module.
+  // Reached by tag, not class: `.trigger` lives in Tooltip's own module.
   .eyebrowRow button {
-    color: inherit;
+    color: var(--color-brand-text);
   }
 
   // The two columns' own type lives in `_figures.scss` — see the note there.

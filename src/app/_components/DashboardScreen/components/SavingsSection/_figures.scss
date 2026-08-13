@@ -1,8 +1,8 @@
 // The banner's capacity figure and its two facts, split off `_banner.scss` for
 // the same reason that file was split off `style.module.scss`: a mixin emitting
 // nothing on its own, so no file crosses the 100-line cap. Every colour here is
-// `inherit` or an alpha of it — the fill is --color-accent and its foreground is
-// pinned to --neutral-900 one file over, measured there.
+// `inherit`, an alpha of it, or --color-brand-text — the fill is --band-fill,
+// derived and measured on `.card`, and its foreground is a plain semantic token.
 
 @mixin figures {
   .value {
@@ -37,9 +37,14 @@
     margin: 0;
   }
 
+  // The target's cobalt label at 0.72; --opacity-muted is 0.7 and is the token
+  // this repo already spends on exactly this. Mono and tracked like the eyebrow
+  // above it — the strings are already uppercase in `index.tsx`.
   .factLabel {
-    font-family: var(--font-display);
+    color: var(--color-brand-text);
+    font-family: var(--font-mono);
     font-size: var(--text-2xs);
+    letter-spacing: var(--tracking-wide);
     line-height: var(--leading-normal);
     opacity: var(--opacity-muted);
   }

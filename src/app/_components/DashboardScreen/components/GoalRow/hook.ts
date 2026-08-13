@@ -22,10 +22,16 @@ interface GoalRowProps {
 // The three funding assumptions, in the order they answer the question: what if
 // this goal had the whole capacity, what if it shared it with the others, what
 // if it had all of it but only once every cheaper goal was funded.
+//
+// One cobalt SCALE now, not three hues: the target reads the three assumptions
+// as degrees of one thing, and --color-caution on the third was saying "warning"
+// about a funding plan that is not one. The bars are the WEAKEST of the three
+// channels telling them apart — the label above each and the landing date beside
+// it carry it, which is what keeps this legible if the ramp compresses.
 const METRICS = [
   ["dedicated", "DEDICADO", "var(--color-brand)"],
   ["parallel", "EM PARALELO", "var(--color-accent)"],
-  ["serialized", "UM DE CADA VEZ", "var(--color-caution)"],
+  ["serialized", "UM DE CADA VEZ", "var(--color-border-strong)"],
 ] as const;
 
 // "~7 meses · Fev/2027", or the words that replace it when there is no capacity
