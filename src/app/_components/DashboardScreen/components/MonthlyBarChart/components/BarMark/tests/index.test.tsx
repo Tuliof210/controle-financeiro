@@ -10,7 +10,7 @@ const props = {
   height: 40,
   fill: "var(--color-positive)",
   estimated: false,
-  simulated: false,
+  title: "Ago/26 · Entradas · R$ 10,00 · lançado",
   tip: {
     title: "Ago/26",
     tag: "real",
@@ -28,50 +28,27 @@ const props = {
   hideTooltip: jest.fn(),
 };
 
-// The whole bubble, not one series' figure: the bubble is aria-hidden, so this
-// name is the only route to entradas and saídas per month.
-const LABEL = "Ago/26 · real · entradas R$ 10,00";
-
-const bar = (over: Partial<typeof props> = {}) => {
-  render(
-    <svg aria-hidden="true">
-      <BarMark {...props} {...over} />
-    </svg>,
-  );
-  return screen.getByLabelText(LABEL);
-};
-
 describe("BarMark", () => {
   it("makes the whole column the hit target, not the bar", () => {
-    expect(bar()).toHaveAttribute("height", "200");
-  });
+    render(
+      <svg aria-hidden="true">
+        <BarMark {...props} />
+      </svg>,
+    );
 
-  it("is reachable by keyboard, with a role", () => {
-    const hit = bar();
-
-    expect(hit).toHaveAttribute("tabindex", "0");
-    expect(hit).toHaveAttribute("role", "button");
+    expect(screen.getByLabelText(props.title)).toHaveAttribute("height", "200");
   });
 
   it("opens the tooltip on the column", () => {
     const showTooltip = jest.fn();
+    render(
+      <svg aria-hidden="true">
+        <BarMark {...props} showTooltip={showTooltip} />
+      </svg>,
+    );
 
-    fireEvent.pointerMove(bar({ showTooltip }));
+    fireEvent.pointerMove(screen.getByLabelText(props.title));
 
     expect(showTooltip).toHaveBeenCalled();
-  });
-
-  // The pointer path was the only one: entradas and saídas per month exist
-  // nowhere else on this screen, so a keyboard-only reader could not reach them.
-  it("opens and closes the tooltip on focus and blur", () => {
-    const showTooltip = jest.fn();
-    const hideTooltip = jest.fn();
-    const hit = bar({ showTooltip, hideTooltip });
-
-    fireEvent.focus(hit);
-    expect(showTooltip).toHaveBeenCalled();
-
-    fireEvent.blur(hit);
-    expect(hideTooltip).toHaveBeenCalled();
   });
 });

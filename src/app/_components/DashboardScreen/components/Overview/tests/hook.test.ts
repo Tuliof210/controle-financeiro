@@ -11,11 +11,16 @@ const data = {
 } as BoardData;
 
 describe("useOverview", () => {
-  // The three per-card series this hook used to split fed the KPI sparklines
-  // only, and those are gone. It passes the payload through now.
-  it("passes the payload through untouched", () => {
+  it("splits one series per KPI card", () => {
     const { result } = renderHook(() => useOverview({ data }));
 
-    expect(result.current.data).toBe(data);
+    expect(result.current.income).toEqual([10, 20]);
+    expect(result.current.expense).toEqual([4, 5]);
+  });
+
+  it("draws Saldo from the running balance, not the monthly delta", () => {
+    const { result } = renderHook(() => useOverview({ data }));
+
+    expect(result.current.balance).toEqual([6, 21]);
   });
 });

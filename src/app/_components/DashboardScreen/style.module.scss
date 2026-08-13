@@ -6,29 +6,17 @@
   gap: var(--space-6);
 }
 
-// A cap change replaces every figure on the board, and the board stays in place
-// while it waits — still readable, still scrolled where the reader left it.
+// A cap change replaces every figure on the board, so the board says so while it
+// waits: dimmed and inert, but still in place, still scrolled where the reader
+// left it. Opacity only — a height change here would move the control under the
+// cursor, which is the whole failure this replaced.
 //
-// NO `opacity` any more. It used to dim the whole board, which dropped every
-// --color-text-muted figure under the 4.5:1 floor src/styles/README.md rule 7
-// states with no transient exemption; the token was hand-tuned to just clear it.
-// `.announcer` below replaces it with a word, which is a channel that costs no
-// contrast and reaches assistive tech too.
-//
-// `cursor: progress` stays, and the radios stay operable, so a second corrective
-// pick is not blocked by the first one still loading.
+// Not `pointer-events: none` on its own: that would leave the segments looking
+// clickable while swallowing the click. `cursor: progress` on the container says
+// the state, and the radios stay operable so a second, corrective pick is not
+// blocked by the first one still loading.
 .refreshing {
+  opacity: var(--opacity-muted);
   cursor: progress;
-}
-
-// Visible on purpose, not sr-only: this is the sighted reader's signal as well as
-// the announced one, so both audiences read the same sentence and neither depends
-// on a channel the other cannot see. Reserves its line so the board below does not
-// jump when the text arrives.
-.announcer {
-  min-height: 1lh;
-  margin: 0;
-  color: var(--color-text-muted);
-  font-family: var(--font-sans);
-  font-size: var(--text-2xs);
+  transition: opacity var(--duration-base) var(--ease-snappy);
 }

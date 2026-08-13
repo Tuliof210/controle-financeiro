@@ -2,19 +2,8 @@ import { BAR_RADIUS } from "../../../../chart-marks.config.ts";
 import { type BarMarkProps, useBarMark } from "./hook.ts";
 
 export function BarMark(props: BarMarkProps) {
-  const {
-    x,
-    y,
-    width,
-    height,
-    fill,
-    shape,
-    label,
-    plotHeight,
-    show,
-    focus,
-    hide,
-  } = useBarMark(props);
+  const { x, y, width, height, fill, shape, title, plotHeight, show, hide } =
+    useBarMark(props);
 
   return (
     <g>
@@ -31,29 +20,20 @@ export function BarMark(props: BarMarkProps) {
         stroke={fill}
         {...shape}
       />
-      {/* Invisible, full-column hit target: a near-zero bar can be a sliver a
-          few pixels tall. Focusable, with a role, and reachable by keyboard — it
-          used to answer pointer events only, so entradas and saídas per month
-          could not be read without a mouse at all. On touch,
-          pointerenter/pointerleave bracket finger-down, so the bubble lived only
-          while held; focus gives touch a persistent path too. */}
-      {/* biome-ignore lint/a11y/useSemanticElements: there is no <button> inside
-          SVG — the same escape hatch CapSelector's comment grants ColorPicker,
-          for the same reason: the semantic element cannot draw this. */}
+      {/* Invisible, full-column hit target, not the <title> this replaces — a
+          near-zero bar can be a sliver a few pixels tall, and a native title
+          tooltip is slow to open besides. aria-label keeps the accessible
+          name. */}
       <rect
         x={x}
         y={0}
         width={width}
         height={plotHeight}
         fill="transparent"
-        role="button"
-        tabIndex={0}
-        aria-label={label}
+        aria-label={title}
         onPointerEnter={show}
         onPointerMove={show}
         onPointerLeave={hide}
-        onFocus={focus}
-        onBlur={hide}
       />
     </g>
   );

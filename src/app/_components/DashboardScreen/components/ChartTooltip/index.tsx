@@ -1,6 +1,15 @@
-import type { TooltipState } from "./chart-tooltip.types.ts";
-import { useChartTooltipBubble } from "./hook.ts";
+import { cx } from "@/lib/cx.ts";
+import type { TooltipState, TooltipTone } from "./hook.ts";
 import styles from "./style.module.scss";
+
+// An explicit map, not `styles[tone]`: a CSS-Modules string lookup dies silently
+// when a class is renamed, and nothing in the suite would catch it.
+const TONE_CLASS: Record<TooltipTone, string | undefined> = {
+  positive: styles.positive,
+  negative: styles.negative,
+  brand: styles.brand,
+  neutral: undefined,
+};
 
 // Kept as HTML rather than moved into the plot as the target's <rect> pair, for
 // three reasons, in order of weight:
@@ -13,36 +22,30 @@ import styles from "./style.module.scss";
 //   3. An SVG <text> has no box, so its width has to be hand-measured per
 //      character — the exact hazard chart-marks.config.ts already documents
 //      TAG_CHAR_PX having caused. HTML sizes itself.
-//
-// `aria-hidden`, and no `role="tooltip"`. That role was orphaned: nothing pointed
-// at this element, so its three rows were announced to nobody at all. The same
-// words now ride the MARK's own accessible name (mark-label.helper.ts), where a
-// keyboard reader actually lands — which also means this is purely visual and
-// must not be read twice.
 export function ChartTooltip({ tooltip }: { tooltip: TooltipState }) {
-  const { bubble } = useChartTooltipBubble({ tooltip });
-
-  if (bubble === null) {
+  if (!tooltip) {
     return null;
   }
 
   return (
     <div
       className={styles.bubble}
-      style={{ left: bubble.x, top: bubble.y }}
-      aria-hidden={true}
+      style={{ left: tooltip.x, top: tooltip.y }}
+      role="tooltip"
     >
       <p className={styles.head}>
-        <span className={styles.title}>{bubble.title}</span>
+        <span className={styles.title}>{tooltip.title}</span>
         {/* The word, not the colour: this is what says "projection" when the
             chart is read in greyscale. */}
-        <span className={styles.tag}>{bubble.tag}</span>
+        <span className={styles.tag}>{tooltip.tag}</span>
       </p>
       <dl className={styles.rows}>
-        {bubble.rows.map((row) => (
+        {tooltip.rows.map((row) => (
           <div className={styles.row} key={row.key}>
             <dt className={styles.label}>{row.label}</dt>
-            <dd className={row.className}>{row.value}</dd>
+            <dd className={cx(styles.value, TONE_CLASS[row.tone])}>
+              {row.value}
+            </dd>
           </div>
         ))}
       </dl>

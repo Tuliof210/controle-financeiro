@@ -28,7 +28,7 @@ describe("GoalRow", () => {
   it("labels each funding assumption", () => {
     inList(<GoalRow goal={goal()} horizon={12} />);
 
-    for (const label of ["Dedicado", "Em paralelo", "Um de cada vez"]) {
+    for (const label of ["DEDICADO", "EM PARALELO", "UM DE CADA VEZ"]) {
       expect(screen.getByText(label)).toBeInTheDocument();
     }
   });

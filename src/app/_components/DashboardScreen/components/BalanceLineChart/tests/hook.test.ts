@@ -24,9 +24,7 @@ describe("useBalanceLineChart", () => {
     const { dots } = chart(null, null);
 
     expect(dots).toHaveLength(3);
-    // The dot's own accessible name is built from `tip` by the mark, not carried
-    // as a second shorter string here.
-    expect(dots[0].tip.title).toBe("Jan/26");
+    expect(dots[0].title).toBe("Jan/26 · acumulado R$ 1,00");
   });
 
   it("marks the dots from the projection month on", () => {
@@ -67,10 +65,12 @@ describe("useBalanceLineChart", () => {
   it("anchors the mark on the named month's own balance", () => {
     const { tightestMark } = chart(null, 202_601);
 
+    expect(tightestMark).toMatchObject({ flip: false });
     expect(tightestMark?.x).toBeGreaterThan(0);
-    // The plot width, passed through so the TAG can place itself — the chart no
-    // longer decides which side of the rule the label hangs on.
-    expect(tightestMark?.width).toBe(chart(null, 202_601).frame.innerWidth);
+  });
+
+  it("flips the tag past the plot's midpoint", () => {
+    expect(chart(null, 202_603).tightestMark?.flip).toBe(true);
   });
 
   it("marks nothing when the named month is not in the range", () => {

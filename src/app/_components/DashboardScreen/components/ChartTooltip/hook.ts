@@ -1,82 +1,51 @@
-import { useCallback, useEffect, useState } from "react";
-import { cx } from "@/lib/cx.ts";
-import type {
-  PointerLocation,
-  TooltipContent,
-  TooltipState,
-  TooltipTone,
-} from "./chart-tooltip.types.ts";
-import styles from "./style.module.scss";
+import { useState } from "react";
 
-// An explicit map, not `styles[tone]`: a CSS-Modules string lookup dies silently
-// when a class is renamed, and nothing in the suite would catch it.
-const TONE_CLASS: Record<TooltipTone, string | undefined> = {
-  positive: styles.positive,
-  negative: styles.negative,
-  brand: styles.brand,
-  neutral: undefined,
-};
+// Which token paints a value row. Named after the series' role, not after the
+// token — index.tsx holds the map, exactly as StatCard's chip does.
+type TooltipTone = "positive" | "negative" | "brand" | "neutral";
 
-// Called from the chart's OWN hook (BalanceLineChart/hook.ts,
-// MonthlyBarChart/hook.ts) — never from a view. The trigger (a dot or bar) and
-// the bubble that renders it are siblings, not parent/child, so the state lives
-// here and gets threaded down as props.
-//
-// The two callbacks are useCallback'd because every mark holds a reference to
-// them: recreated each render they would defeat any React.memo on the marks,
-// which is the only reason to memoize the marks at all.
+interface TooltipRow {
+  key: string;
+  label: string;
+  value: string;
+  tone: TooltipTone;
+}
+
+// What a mark hands over when the pointer reaches it. `tag` is the REAL /
+// ESTIMADO word: the projection is carried in words here, never by the colour of
+// the rows below it. `plotX` is the mark's own x IN PLOT COORDINATES, so the
+// chart can draw its crosshair from the same hover this bubble already tracks
+// instead of holding a second piece of state that could disagree with it.
+interface TooltipContent {
+  title: string;
+  tag: string;
+  rows: TooltipRow[];
+  plotX?: number;
+}
+
+type TooltipState = ({ x: number; y: number } & TooltipContent) | null;
+
+// Structural, not React.PointerEvent<T> — showTooltip only ever reads
+// clientX/clientY, so any pointer event from any mark element fits without
+// generic-variance juggling.
+interface PointerLocation {
+  clientX: number;
+  clientY: number;
+}
+
+// Called from the chart that owns the marks (BalanceLineChart,
+// MonthlyBarChart), not from ChartTooltip itself: the trigger (a dot or bar)
+// and the bubble that renders it are siblings, not parent/child, so the
+// state lives here and gets threaded to <ChartTooltip> as a prop.
 export function useChartTooltip() {
   const [tooltip, setTooltip] = useState<TooltipState>(null);
 
-  const showTooltip = useCallback(
-    (event: PointerLocation, content: TooltipContent) =>
-      setTooltip({ x: event.clientX, y: event.clientY, ...content }),
-    [],
-  );
+  const showTooltip = (event: PointerLocation, content: TooltipContent) =>
+    setTooltip({ x: event.clientX, y: event.clientY, ...content });
 
-  const hideTooltip = useCallback(() => setTooltip(null), []);
-
-  // WCAG 1.4.13 Dismissible: content shown on hover or focus has to be
-  // dismissable without moving the pointer or the focus. Bound to the window
-  // rather than to a mark, because the pointer case has no focused element to
-  // hang a handler on.
-  useEffect(() => {
-    if (tooltip === null) {
-      return;
-    }
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        setTooltip(null);
-      }
-    };
-    globalThis.addEventListener("keydown", onKeyDown);
-    return () => globalThis.removeEventListener("keydown", onKeyDown);
-  }, [tooltip]);
+  const hideTooltip = () => setTooltip(null);
 
   return { tooltip, showTooltip, hideTooltip };
 }
 
-// The bubble's own hook, so `index.tsx` is a view that blindly renders what it is
-// given — ARCHITECTURE.md's three-file rule, which this folder broke in both
-// directions: the state hook was called from two parent VIEWS, and the view held
-// the tone map and the null guard itself.
-export function useChartTooltipBubble({ tooltip }: { tooltip: TooltipState }) {
-  if (tooltip === null) {
-    return { bubble: null };
-  }
-
-  return {
-    bubble: {
-      x: tooltip.x,
-      y: tooltip.y,
-      title: tooltip.title,
-      tag: tooltip.tag,
-      rows: tooltip.rows.map((row) => ({
-        key: row.key,
-        label: row.label,
-        value: row.value,
-        className: cx(styles.value, TONE_CLASS[row.tone]),
-      })),
-    },
-  };
-}
+export type { TooltipContent, TooltipRow, TooltipState, TooltipTone };

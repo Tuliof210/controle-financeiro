@@ -26,10 +26,10 @@ const COPY = {
 // hypothesis renders them once, and ARCHITECTURE only asks for a child when a
 // structure repeats.
 export function MonthTable(props: MonthTableProps) {
-  const { rows, id } = useMonthTable(props);
+  const { rows } = useMonthTable(props);
 
   return (
-    <div className={styles.wrap} id={id}>
+    <div className={styles.wrap}>
       <table className={styles.table}>
         <caption className={styles.caption}>{COPY.saldoAcumuladoMes}</caption>
         <thead className={styles.head}>
@@ -51,17 +51,17 @@ export function MonthTable(props: MonthTableProps) {
                   <span className={styles.current}>{COPY.atual}</span>
                 )}
               </th>
-              <td className={styles.balance} data-label={COPY.saldoAcum}>
+              <td className={styles.balance} data-label="Saldo acum.">
                 {row.balance}
               </td>
               {/* The minus is presentational: this column is always subtracted
                   from the balance beside it, and formatMoney never signs a
                   positive. */}
-              <td className={styles.spend} data-label={COPY.tetoDoMes}>
+              <td className={styles.spend} data-label="Teto do mês">
                 <span aria-hidden={true}>{MINUS_GLYPH}</span>
                 {row.spend}
               </td>
-              <td className={styles.left} data-label={COPY.sobra}>
+              <td className={styles.left} data-label="Sobra">
                 {row.left}
               </td>
             </tr>

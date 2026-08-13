@@ -14,7 +14,7 @@ import { type TightestMarkProps, useTightestMark } from "./hook.ts";
 // slot draws under the gridlines, which is right for a wash and wrong for an
 // opaque label.
 export function TightestMark(props: TightestMarkProps) {
-  const { x, y, height, width, tagY } = useTightestMark(props);
+  const { x, y, height, flip, tagY } = useTightestMark(props);
 
   return (
     <g>
@@ -32,7 +32,7 @@ export function TightestMark(props: TightestMarkProps) {
         y={tagY}
         label="MÊS MAIS APERTADO"
         tone="caution"
-        plotWidth={width}
+        flip={flip}
       />
     </g>
   );

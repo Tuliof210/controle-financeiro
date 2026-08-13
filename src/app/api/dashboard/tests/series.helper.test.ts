@@ -27,7 +27,6 @@ describe("buildSeries", () => {
       cumulative: 0,
       incomeEstimated: false,
       expenseEstimated: false,
-      simulated: false,
     });
   });
 

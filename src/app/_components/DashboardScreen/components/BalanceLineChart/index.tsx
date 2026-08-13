@@ -6,6 +6,7 @@ import {
   PROJECTED_LINE_DASHARRAY,
 } from "../../chart-line.config.ts";
 import { ChartFrame } from "../ChartFrame/index.tsx";
+import { useChartTooltip } from "../ChartTooltip/hook.ts";
 import { ChartTooltip } from "../ChartTooltip/index.tsx";
 import { DotMark } from "./components/DotMark/index.tsx";
 import { TightestMark } from "./components/TightestMark/index.tsx";
@@ -24,10 +25,8 @@ export function BalanceLineChart(props: BalanceLineChartProps) {
     tightestMark,
     width,
     height,
-    tooltip,
-    showTooltip,
-    hideTooltip,
   } = useBalanceLineChart(props);
+  const { tooltip, showTooltip, hideTooltip } = useChartTooltip();
 
   return (
     <>
@@ -82,12 +81,14 @@ export function BalanceLineChart(props: BalanceLineChartProps) {
         {tightestMark !== null && (
           <TightestMark {...tightestMark} height={frame.innerHeight} />
         )}
-        {/* `key` destructured out rather than spread: the rest of the object IS
-            the mark's props, and React warns when key arrives via a spread. */}
-        {dots.map(({ key, ...dot }) => (
+        {dots.map((dot) => (
           <DotMark
-            key={key}
-            {...dot}
+            key={dot.key}
+            cx={dot.cx}
+            cy={dot.cy}
+            title={dot.title}
+            projected={dot.projected}
+            tip={dot.tip}
             showTooltip={showTooltip}
             hideTooltip={hideTooltip}
           />

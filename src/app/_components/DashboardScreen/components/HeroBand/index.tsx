@@ -5,27 +5,16 @@ import { type HeroBandProps, useHeroBand } from "./hook.ts";
 import styles from "./style.module.scss";
 
 const COPY = {
-  painel: "Painel",
+  painel: "PAINEL",
   dashboard: "Dashboard",
   subtitle: "Onde o dinheiro da família está hoje e para onde ele vai.",
-  tetoDesteMes: "Teto deste mês",
-} as const;
-
-// An explicit map, not `styles[tone]`: a CSS-Modules string lookup dies silently
-// when a class is renamed, which is why StatCard and SectionCard write theirs out.
-const TONE_CLASS = {
-  positive: styles.positive,
-  caution: styles.caution,
-  negative: styles.negative,
+  saldoProjetado: "SALDO PROJETADO ·",
+  vsSaldoAtual: "vs. saldo atual de",
 } as const;
 
 // The page's title block and its headline figure, in one band. It replaces
 // PageHeader on this route only: the other five screens still render that
 // component, which is why none of this copy moved into it.
-//
-// The headline is the ceiling and the line under it is the verdict — the one
-// sentence the page never stated. Every card here already states its conclusion
-// before its evidence; the page used to do the reverse.
 export function HeroBand(props: HeroBandProps) {
   const { figures } = useHeroBand(props);
 
@@ -43,33 +32,37 @@ export function HeroBand(props: HeroBandProps) {
             </p>
             {/* An <h1>: the page's only one, above the <h2> every card on this
                 screen titles itself with. */}
-            <h1 className={styles.title}>{COPY.dashboard}</h1>
+            <h1 className={styles.title}>
+              {COPY.dashboard}
+              <span className={styles.cursor} aria-hidden={true} />
+            </h1>
             <p className={styles.subtitle}>{COPY.subtitle}</p>
           </div>
 
           {figures !== null && (
-            // A <dl>, like Facts and Headline: the screen's biggest figure was
-            // its only unlabelled one, two sibling <p>s with nothing tying the
-            // caption to the number.
-            <dl className={styles.figures}>
-              <dt className={styles.eyebrow}>{COPY.tetoDesteMes}</dt>
-              <dd className={styles.value}>
+            <div className={styles.figures}>
+              <p className={styles.eyebrow}>
+                {COPY.saldoProjetado} {figures.endLabel}
+              </p>
+              <p className={styles.value}>
                 <MoneyFigure cents={figures.value} />
-              </dd>
-              <dd className={styles.verdictRow}>
+              </p>
+              <div className={styles.deltaRow}>
                 <span
                   className={cx(
-                    styles.verdict,
-                    TONE_CLASS[figures.verdict.tone],
+                    styles.badge,
+                    figures.deltaUp && styles.up,
+                    !figures.deltaUp && styles.down,
                   )}
                 >
-                  {figures.verdict.sentence}
+                  <span aria-hidden={true}>{figures.deltaGlyph}</span>{" "}
+                  {figures.delta}
                 </span>
-                {figures.verdict.limit !== null && (
-                  <span className={styles.limit}>{figures.verdict.limit}</span>
-                )}
-              </dd>
-            </dl>
+                <span className={styles.vs}>
+                  {COPY.vsSaldoAtual} {figures.now}
+                </span>
+              </div>
+            </div>
           )}
         </div>
 

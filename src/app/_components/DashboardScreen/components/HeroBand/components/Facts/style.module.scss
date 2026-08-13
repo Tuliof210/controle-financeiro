@@ -31,14 +31,9 @@
   min-width: 0;
 }
 
-// The shared eyebrow recipe. This was --font-display — the face rule 4 reserves
-// for heros and titles — at 11px with no compensating letter-spacing, which is why
-// "ENTRADAS 36M" rendered visibly cramped beside the mono eyebrows on every card
-// below it. `color: inherit` because the strip rides the band's inverted fill.
 .label {
-  @include t.micro-label;
-
-  color: inherit;
+  font-family: var(--font-display);
+  font-size: var(--text-2xs);
   line-height: var(--leading-normal);
   opacity: var(--opacity-muted);
 }

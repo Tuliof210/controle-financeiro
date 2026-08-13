@@ -13,16 +13,16 @@ const inSvg = (element: React.ReactElement) =>
 describe("ChartTag", () => {
   it("draws the label over its own filled box", () => {
     const { container } = inSvg(
-      <ChartTag x={10} y={20} label="PROJETADO" tone="muted" plotWidth={800} />,
+      <ChartTag x={10} y={20} label="PROJETADO" tone="muted" />,
     );
 
     expect(screen.getByText("PROJETADO")).toBeInTheDocument();
     expect(container.querySelector("rect")).toHaveAttribute("x", "10");
   });
 
-  it("hangs the box the other way when it would not fit right of x", () => {
+  it("hangs the box the other way when flipped", () => {
     const { container } = inSvg(
-      <ChartTag x={200} y={0} label="ABC" tone="caution" plotWidth={210} />,
+      <ChartTag x={200} y={0} label="ABC" tone="caution" flip={true} />,
     );
 
     // Derived, not a literal: the box width follows the measured advance of the

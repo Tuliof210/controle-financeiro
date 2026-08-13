@@ -1,21 +1,6 @@
 import type { Ceiling } from "@/app/api/dashboard/ceiling.types.ts";
-import { type CeilingCap, META_CAP } from "@/lib/ceiling-caps.ts";
 import { formatMoney } from "@/lib/money.ts";
 import { formatYyyymm } from "@/lib/months.ts";
-
-// `monthly` is months[0].budget, produced as min(headroom, meta) — so it reaching
-// the goal IS the goal having bound it. Equality counts as the goal: both are the
-// limit, and the goal is the one the reader just chose.
-//
-// Exported because the hero band asks the same question: two copies of this
-// predicate would be two ways to disagree about which limit a figure has.
-function limitedByMeta(
-  cap: CeilingCap,
-  meta: number | null,
-  monthly: number,
-): boolean {
-  return cap === META_CAP && meta !== null && monthly === meta;
-}
 
 // How much of the balance ARRIVING at the month its ceiling takes — the two
 // figures either side of it, as one proportion. Guarded because a zero balance
@@ -28,16 +13,6 @@ function shareOf(budget: number, ceilingBalance: number): number {
   }
   return Math.min(1, Math.max(0, budget / ceilingBalance));
 }
-
-// Prefixes the bare month in `.now`, clipped. It replaces a hover-only `title`,
-// which touch never reached.
-const CURRENT_MONTH_PREFIX = "Mês em curso: ";
-
-// The card's own one-sentence definition, visible in the body rather than buried
-// in the hint bubble it used to open with. It is the concept the whole screen
-// turns on, and a hover tooltip is the one place a touch reader never reaches.
-const CEILING_DEFINITION =
-  "Quanto dá para gastar a mais por mês sem nenhum mês futuro ficar no vermelho — a coluna inteira pode ser gasta em ordem.";
 
 // The goal wins the label when both it and a month are the limit: the reader
 // just chose it.
@@ -69,12 +44,4 @@ function monthsWord(count: number): string {
   return "meses restantes";
 }
 
-export {
-  CEILING_DEFINITION,
-  CURRENT_MONTH_PREFIX,
-  limitedByMeta,
-  limitLabel,
-  monthsWord,
-  noteFor,
-  shareOf,
-};
+export { limitLabel, monthsWord, noteFor, shareOf };

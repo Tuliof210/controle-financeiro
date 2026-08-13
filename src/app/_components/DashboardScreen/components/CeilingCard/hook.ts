@@ -4,8 +4,6 @@ import { formatMoney } from "@/lib/money.ts";
 import { formatYyyymm } from "@/lib/months.ts";
 import { useShowAll } from "../../show-all.hook.ts";
 import {
-  CEILING_DEFINITION,
-  CURRENT_MONTH_PREFIX,
   limitLabel,
   monthsWord,
   noteFor,
@@ -64,8 +62,6 @@ export function useCeilingCard({
     // the half of the problem this card was rewritten to fix.
     empty: months.every((row) => row.budget === 0),
     note: noteFor(firstRed),
-    definition: CEILING_DEFINITION,
-    currentPrefix: CURRENT_MONTH_PREFIX,
     monthly,
     // The divisions already happened in the payload; this only formats them.
     // Two labelled figures rather than the one "x/sem · y/dia" string they used

@@ -9,7 +9,7 @@ Every rule is trying to leave. One that became a shared function, a lint config 
 task gets deleted here in the same PR — that is the goal, not a loss. The git log of
 this file is the archive.
 
-Cap: 6 KB (nothing reports it — `ps-check.sh` has only `warm|publish|sweep`). Over it, compress or drop the
+Cap: 6 KB (`sh .claude/ps-check.sh` reports it). Over it, compress or drop the
 weakest before appending. Never grow a rule in place ("extended on …") to dodge the
 cap — rewrite the line.
 

@@ -10,23 +10,8 @@ describe("HINTS", () => {
       "bars",
       "cumulative",
       "ceiling",
-      "ceilingCap",
       "goals",
     ]);
-  });
-
-  // The ceiling hint was 687 characters — the screen's hardest concept handed to
-  // a hover bubble. It is split three ways now, so the cap keeps only what it
-  // causes and no bubble on this screen gets that long again.
-  it("keeps every hint short enough for a tooltip", () => {
-    for (const hint of Object.values(HINTS)) {
-      expect(hint.length).toBeLessThan(300);
-    }
-  });
-
-  it("puts the cap trade-off on the cap, not on the card", () => {
-    expect(HINTS.ceilingCap).toContain("acumulado");
-    expect(HINTS.ceiling).not.toContain("porcentagem");
   });
 
   it("restates the reconciliation rule on both money cards", () => {

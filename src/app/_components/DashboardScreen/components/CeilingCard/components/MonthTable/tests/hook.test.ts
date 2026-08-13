@@ -14,17 +14,13 @@ const row = {
 
 describe("useMonthTable", () => {
   it("hands the share to CSS as a percentage custom property", () => {
-    const { result } = renderHook(() =>
-      useMonthTable({ id: "t", rows: [row] }),
-    );
+    const { result } = renderHook(() => useMonthTable({ rows: [row] }));
 
     expect(result.current.rows[0].style).toEqual({ "--share": "25%" });
   });
 
   it("carries every formatted figure through untouched", () => {
-    const { result } = renderHook(() =>
-      useMonthTable({ id: "t", rows: [row] }),
-    );
+    const { result } = renderHook(() => useMonthTable({ rows: [row] }));
 
     expect(result.current.rows[0]).toMatchObject(row);
   });

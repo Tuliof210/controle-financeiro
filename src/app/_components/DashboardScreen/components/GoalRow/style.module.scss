@@ -1,5 +1,3 @@
-@use "theme" as t;
-
 @use "./metrics" as *;
 @use "./bar" as *;
 
@@ -16,11 +14,8 @@
   border-bottom: var(--border-1) solid var(--color-border-subtle);
   transition: background var(--duration-fast) var(--ease-snappy);
 
-  // Gated: on a touch screen an ungated hover latches on tap and stays.
-  @include t.on-hover {
-    &:hover {
-      background: var(--color-surface-raised);
-    }
+  &:hover {
+    background: var(--color-surface-raised);
   }
 
   // The last row has no rule under it — the card's own hairline is already
@@ -57,12 +52,9 @@
 }
 
 // flex-shrink: 0 so the icon keeps its 16px next to a name that wraps.
-//
-// Muted, not cobalt: it decorates a row title. Nothing here is actionable, and
-// cobalt is rationed to action, focus and the mark.
 .icon {
   flex-shrink: 0;
-  color: var(--color-text-muted);
+  color: var(--color-brand);
 }
 
 // flex: none because a figure that wrapped mid-number would read as two.

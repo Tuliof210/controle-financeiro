@@ -58,11 +58,8 @@ export function ChartFrame(props: ChartFrameProps) {
           />
         </Group>
       </svg>
-      {/* No tabIndex, no aria-label: the scrollable-region pattern needs nothing
-          inside to be focusable, and every mark is now — so this left dead tab
-          stops and a name duplicating the <svg>'s <title>. Unnamed, a <section>
-          is no region, so the graphic is named once. */}
-      <section className={styles.scroll}>
+      {/* biome-ignore lint/a11y/noNoninteractiveTabindex: the WAI-ARIA scrollable-region pattern — this box IS the interactive element (native arrow-key scroll once focused), nothing inside it is itself focusable. A <section> with an accessible name implies role="region" on its own, so that half of the pattern needs no explicit role. */}
+      <section className={styles.scroll} tabIndex={0} aria-label={title}>
         <svg
           className={styles.plot}
           width={innerWidth + MARGIN.right}

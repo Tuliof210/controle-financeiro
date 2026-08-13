@@ -37,13 +37,7 @@ export function useDashboardScreen() {
   // charts, the goal rows, an expanded month table, and the very button that
   // had just been clicked.
   const [pending, setPending] = useState(true);
-  // A reload token: retrying a failed fetch means re-running for inputs that did
-  // NOT change, so nothing in the effect reads it and the extra dependency is the
-  // whole mechanism. The alternative — a useCallback plus a ref to keep the
-  // out-of-order guard honest — is more code for identical behaviour.
-  const [attempt, setAttempt] = useState(0);
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: reload token, above
   useEffect(() => {
     let current = true;
     setPending(true);
@@ -73,7 +67,7 @@ export function useDashboardScreen() {
     return () => {
       current = false;
     };
-  }, [profile, cap, simulation, attempt]);
+  }, [profile, cap, simulation]);
 
   // Nothing held for the profile on screen means nothing honest to show, so the
   // board goes and the notice takes over.
@@ -94,6 +88,5 @@ export function useDashboardScreen() {
     setCap,
     simulation,
     setSimulation,
-    retry: () => setAttempt((n) => n + 1),
   };
 }

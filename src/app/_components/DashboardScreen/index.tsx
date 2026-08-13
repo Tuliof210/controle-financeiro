@@ -1,14 +1,31 @@
 "use client";
 
+import { CalendarRange, LayoutDashboard, TriangleAlert } from "lucide-react";
+import type { DashboardData } from "@/app/api/dashboard/types.ts";
 import { cx } from "@/lib/cx.ts";
-import { useCapAnnouncement } from "./cap-announce.hook.ts";
+import { formatYyyymm } from "@/lib/months.ts";
 import { Board } from "./components/Board/index.tsx";
 import { HeroBand } from "./components/HeroBand/index.tsx";
-import { ScreenNotices } from "./components/ScreenNotices/index.tsx";
+import { Notice } from "./components/Notice/index.tsx";
 import { SimulationSelect } from "./components/SimulationSelect/index.tsx";
 import { useDashboardScreen } from "./hook.ts";
-import { okPayload } from "./notice-copy.helper.ts";
 import styles from "./style.module.scss";
+
+const boardData = (data: DashboardData | null) => {
+  if (data?.status === "ok") {
+    return data;
+  }
+};
+
+const COPY = {
+  loading: "Somando lançamentos e compromissos do período…",
+  noRange:
+    "Nenhum lançamento ainda. Registre uma movimentação ou previsão para o período aparecer aqui.",
+  outOfRangeLead: "O período global",
+  outOfRangeMid: "não cobre o mês atual",
+  outOfRangeTail:
+    ". Registre uma movimentação ou previsão nesse mês para incluí-lo.",
+} as const;
 
 export function DashboardScreen() {
   const {
@@ -20,12 +37,10 @@ export function DashboardScreen() {
     setCap,
     simulation,
     setSimulation,
-    retry,
   } = useDashboardScreen();
   // HeroBand takes the payload only when it is the 'ok' shape; every other
   // status leaves it undefined and the band renders its static half.
-  const heroData = okPayload(data);
-  const announcement = useCapAnnouncement(heroData, refreshing);
+  const heroData = boardData(data);
 
   return (
     <div className={styles.screen}>
@@ -33,7 +48,7 @@ export function DashboardScreen() {
           verbatim; the other five screens still render that component. The band
           takes `data` only when the payload is ok — its title half renders in
           every state, so the page never opens on a bare notice. */}
-      <HeroBand data={heroData} cap={cap} />
+      <HeroBand data={heroData} />
 
       {/* Under the band, not over it: the band is full-bleed and cancels
           <main>'s padding with a negative margin on all four sides, so anything
@@ -43,19 +58,34 @@ export function DashboardScreen() {
           simulations on — it must still be there on no_range/out_of_range. */}
       <SimulationSelect value={simulation} onChange={setSimulation} />
 
-      {/* The word the dimmed board never said. Outside every status branch: it
-          reports on figures still on screen, so it must not unmount with them. */}
-      <p className={styles.announcer} role="status" aria-live="polite">
-        {announcement}
-      </p>
+      {Boolean(loading) && (
+        <Notice title="Carregando" icon={LayoutDashboard}>
+          {COPY.loading}
+        </Notice>
+      )}
 
-      <ScreenNotices
-        loading={loading}
-        error={error}
-        data={data}
-        onRetry={retry}
-      />
+      {Boolean(error) && (
+        <Notice title="Erro" icon={TriangleAlert}>
+          {error}
+        </Notice>
+      )}
 
+      {data?.status === "no_range" && (
+        <Notice title="Período global" icon={CalendarRange}>
+          {COPY.noRange}
+        </Notice>
+      )}
+
+      {data?.status === "out_of_range" && (
+        <Notice title="Período global" icon={CalendarRange}>
+          {`${COPY.outOfRangeLead} (${formatYyyymm(data.range.start)}–${formatYyyymm(data.range.end)}) ${COPY.outOfRangeMid} (${formatYyyymm(data.range.current)})${COPY.outOfRangeTail}`}
+        </Notice>
+      )}
+
+      {/* `aria-busy` and nothing else while a cap change is in flight: the board
+          stays mounted and readable, so the only thing missing is the word that
+          the figures are being replaced. The dimming is the visual half of the
+          same statement. */}
       {data?.status === "ok" && (
         <div
           className={cx(refreshing && styles.refreshing)}

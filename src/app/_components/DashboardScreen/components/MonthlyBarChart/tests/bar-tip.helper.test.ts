@@ -12,7 +12,6 @@ const point = {
   cumulative: 5000,
   incomeEstimated: false,
   expenseEstimated: false,
-  simulated: false,
 };
 
 describe("tagFor", () => {

@@ -1,0 +1,55 @@
+// The two status badges, split off `style.module.scss` under the exception
+// ARCHITECTURE.md grants `RowGrid/_tiers.scss`: a mixin that emits nothing on
+// its own, included once by the stylesheet beside it, so neither file crosses
+// the 100-line cap. Not a component — its markup is this folder's `index.tsx`.
+//
+// They used to sit in SectionCard's `headerEnd`; the cap selector took that slot
+// and they moved to the first line of the card body.
+@mixin badges {
+  // Their own row, so they read as a caption on the card rather than as a
+  // continuation of the title.
+  .badges {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+  }
+
+  // Shared shell. Sentence case: a status badge is not an eyebrow, and these
+  // are read aloud.
+  .limit,
+  .now {
+    flex: none;
+    padding: var(--space-1) var(--space-3);
+    border-radius: var(--radius-sm);
+    font-family: var(--font-sans);
+    font-size: var(--text-2xs);
+    white-space: nowrap;
+  }
+
+  // A caution border alone would be meaning-by-colour (styles README rule 7c);
+  // the square says it a second time and the words a third.
+  .limit {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    border: var(--border-1) solid var(--color-caution);
+    color: var(--color-text);
+
+    &::before {
+      content: "";
+      flex: none;
+      width: var(--space-2);
+      height: var(--space-2);
+      background: var(--color-caution);
+    }
+  }
+
+  // Inverted, so the month in view reads as a state rather than as one more
+  // label in a header that already has three.
+  .now {
+    border: var(--border-1) solid var(--color-border);
+    background: var(--color-text);
+    color: var(--color-surface);
+  }
+}

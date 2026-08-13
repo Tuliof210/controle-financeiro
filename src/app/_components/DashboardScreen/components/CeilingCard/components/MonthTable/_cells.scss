@@ -11,22 +11,13 @@
 @mixin cells {
   // Inverted like the card header's `.now` badge, for the same reason: the month
   // in view is a state, not one more label in a column of them.
-  // --color-text, NOT --color-positive. "Atual" is wayfinding — which row you are
-  // standing on — and green is how this app says money went the right way. The
-  // comment here used to claim parity with `.now`, which actually takes
-  // --color-text/--color-surface: no semantic hue at all. Now they match for real.
-  //
-  // --color-bg on --color-text is the same 19.1:1 light / 16.4:1 dark pair every
-  // ink surface on this screen is built from, read the other way round.
-  //
-  // --radius-sm because rule 2 puts a badge on soft corners, and this was the one
-  // badge in its own card with square ones.
   .current {
     margin-inline-start: var(--space-2);
     padding: 0 var(--space-2);
-    background: var(--color-text);
+    background: var(--color-positive);
+    // --color-bg flips with the fill, so the pair reads 5.46:1 light and 9.37:1
+    // dark — see SectionCard/_band.scss for the full derivation.
     color: var(--color-bg);
-    border-radius: var(--radius-sm);
     font-size: var(--text-2xs);
   }
 

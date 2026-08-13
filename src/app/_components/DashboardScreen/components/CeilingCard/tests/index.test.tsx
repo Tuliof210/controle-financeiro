@@ -54,9 +54,7 @@ describe("CeilingCard", () => {
     card();
 
     expect(screen.getByText("Limitado por Dez/26")).toBeInTheDocument();
-    expect(
-      screen.getByText("Mês em curso:", { exact: false }).parentElement,
-    ).toHaveTextContent("Ago/26");
+    expect(screen.getByTitle("Mês em curso")).toHaveTextContent("Ago/26");
   });
 
   it("carries the cap selector in the header band", () => {

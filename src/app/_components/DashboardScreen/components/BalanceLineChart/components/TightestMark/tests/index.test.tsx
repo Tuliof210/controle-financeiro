@@ -7,7 +7,7 @@ describe("TightestMark", () => {
   it("drops a dashed rule from the point to the axis, under its tag", () => {
     const { container } = render(
       <svg aria-hidden="true">
-        <TightestMark x={50} y={30} height={200} width={800} />
+        <TightestMark x={50} y={30} height={200} flip={false} />
       </svg>,
     );
 

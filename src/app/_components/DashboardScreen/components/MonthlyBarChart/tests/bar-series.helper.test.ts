@@ -3,19 +3,26 @@ import {
   bandOf,
   bandStartOf,
   estimatedFor,
+  estimatedWord,
 } from "@/app/_components/DashboardScreen/components/MonthlyBarChart/bar-series.helper.ts";
 import type { MonthPoint } from "@/app/api/dashboard/types.ts";
 
 const point = {
   incomeEstimated: true,
   expenseEstimated: false,
-  simulated: false,
 } as MonthPoint;
 
 describe("estimatedFor", () => {
   it("reads each series' own flag", () => {
     expect(estimatedFor(point, "income")).toBe(true);
     expect(estimatedFor(point, "expense")).toBe(false);
+  });
+});
+
+describe("estimatedWord", () => {
+  it("carries the opacity's meaning in words too", () => {
+    expect(estimatedWord(true)).toBe("previsto");
+    expect(estimatedWord(false)).toBe("lançado");
   });
 });
 

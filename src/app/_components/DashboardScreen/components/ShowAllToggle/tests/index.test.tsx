@@ -8,7 +8,6 @@ describe("ShowAllToggle", () => {
   it("announces the disclosure state it is in", () => {
     const { rerender } = render(
       <ShowAllToggle
-        controls="c"
         label="Ver todos (12)"
         expanded={false}
         onClick={jest.fn()}
@@ -22,7 +21,6 @@ describe("ShowAllToggle", () => {
 
     rerender(
       <ShowAllToggle
-        controls="c"
         label="Mostrar menos"
         expanded={true}
         onClick={jest.fn()}
@@ -36,7 +34,6 @@ describe("ShowAllToggle", () => {
     const onClick = jest.fn();
     render(
       <ShowAllToggle
-        controls="c"
         label="Ver todos (12)"
         expanded={false}
         onClick={onClick}

@@ -44,19 +44,18 @@
     }
   }
 
-  // Clipped from `lg` up, not `display: none`. The design's intent stands — the
-  // column header states the word once for the whole table and repeating it per
-  // row is visual noise — but `display: none` REMOVED the label from the
-  // accessibility tree, and the goal name had already lost its <h3>, so a
-  // screen-reader user got a name, a badge and three bare durations with nothing
-  // naming them. The clip keeps the association and still shows nothing.
+  // `display: none`, not a clipped label: from `lg` up the column header states
+  // the same word once for the whole table, and repeating it per row is what
+  // the header exists to stop. Owner's call, 2026-07-31 — it leaves the
+  // accessibility tree there, which is the accepted cost of the design.
   .label {
-    @include t.micro-label;
-
+    color: var(--color-text-muted);
+    font-family: var(--font-display);
+    font-size: var(--text-2xs);
     line-height: var(--leading-normal);
 
     @include t.bp("lg") {
-      @include t.visually-hidden;
+      display: none;
     }
   }
 

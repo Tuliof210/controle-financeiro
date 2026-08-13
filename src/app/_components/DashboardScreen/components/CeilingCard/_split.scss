@@ -55,4 +55,26 @@
     padding: var(--space-6);
   }
 
+  .rates {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-6);
+    margin: 0;
+    padding-top: var(--space-4);
+    border-top: var(--border-1) solid var(--color-border-subtle);
+  }
+
+  .rateLabel {
+    color: var(--color-text-muted);
+    font-family: var(--font-sans);
+    font-size: var(--text-2xs);
+  }
+
+  .rateValue {
+    margin: var(--space-2) 0 0;
+    color: var(--color-text);
+    font-family: var(--font-sans);
+    font-size: var(--text-md);
+    font-variant-numeric: tabular-nums;
+  }
 }

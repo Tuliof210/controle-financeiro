@@ -1,6 +1,15 @@
-import type { DashboardRange, MonthPoint } from "@/app/api/dashboard/types.ts";
+import type { MonthPoint } from "@/app/api/dashboard/types.ts";
 import { formatMoneyShort } from "@/lib/money.ts";
 import { addMonths, formatYyyymm } from "@/lib/months.ts";
+
+// Drives the glyph AND the badge tone, so the two can never disagree —
+// src/styles/README.md rule 7: meaning is never colour-only.
+function deltaGlyphFor(up: boolean): string {
+  if (up) {
+    return "▲";
+  }
+  return "▼";
+}
 
 const sum = (values: number[]): number =>
   values.reduce((total, value) => total + value, 0);
@@ -26,45 +35,32 @@ function redSub(points: MonthPoint[]): string {
   return `todos antes de ${formatYyyymm(addMonths(lastRed.month, 1))}`;
 }
 
-// Labels are sentence case in the source and shouted by `text-transform` in the
-// stylesheet: an all-caps string reaches a screen reader as an all-caps string,
-// and some voices spell those letter by letter.
-function buildFacts(points: MonthPoint[], range: DashboardRange) {
+function buildFacts(points: MonthPoint[]) {
   const months = points.length;
   const income = sum(points.map((point) => point.income));
   const expense = sum(points.map((point) => point.expense));
   const red = points.filter((point) => point.cumulative < 0).length;
-  const last = points.at(-1);
 
   return [
     {
-      // Demoted from the band's headline, which is the ceiling now. A projection
-      // 29 months out was the loudest figure on the page while the balance it
-      // was 18x larger than sat beside it at 70% opacity.
-      key: "projected",
-      label: "Saldo projetado",
-      value: formatMoneyShort(last?.cumulative ?? 0),
-      sub: formatYyyymm(range.end),
-    },
-    {
       key: "income",
-      label: `Entradas ${months}m`,
+      label: `ENTRADAS ${months}M`,
       value: formatMoneyShort(income),
       sub: `média ${formatMoneyShort(income / months)}/mês`,
     },
     {
       key: "expense",
-      label: `Saídas ${months}m`,
+      label: `SAÍDAS ${months}M`,
       value: formatMoneyShort(expense),
       sub: `média ${formatMoneyShort(expense / months)}/mês`,
     },
     {
       key: "red",
-      label: "Meses no vermelho",
+      label: "MESES NO VERMELHO",
       value: String(red),
       sub: redSub(points),
     },
   ];
 }
 
-export { buildFacts };
+export { buildFacts, deltaGlyphFor };

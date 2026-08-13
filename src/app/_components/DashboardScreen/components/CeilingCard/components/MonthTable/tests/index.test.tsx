@@ -28,7 +28,7 @@ const AUGUST_ROW = /Ago\/26/;
 
 describe("MonthTable", () => {
   it("captions the table and names its four columns", () => {
-    render(<MonthTable id="t" rows={rows} />);
+    render(<MonthTable rows={rows} />);
 
     expect(
       screen.getByRole("table", {
@@ -39,13 +39,13 @@ describe("MonthTable", () => {
   });
 
   it("marks the current month, and only it", () => {
-    render(<MonthTable id="t" rows={rows} />);
+    render(<MonthTable rows={rows} />);
 
     expect(screen.getAllByText("Atual")).toHaveLength(1);
   });
 
   it("heads each row with its month and lists the three figures", () => {
-    render(<MonthTable id="t" rows={rows} />);
+    render(<MonthTable rows={rows} />);
 
     expect(
       screen.getByRole("rowheader", { name: AUGUST_ROW }),

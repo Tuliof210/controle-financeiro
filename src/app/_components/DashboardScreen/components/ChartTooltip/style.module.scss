@@ -37,13 +37,16 @@
   white-space: nowrap;
 }
 
-// The eyebrow case, which is exactly what this is. `margin-inline-start: auto`
-// rather than `space-between`, so a long month label pushes the tag instead of
-// the two drifting apart.
+// Mono, uppercase, wide tracking — the eyebrow case, which is exactly what this
+// is. `margin-inline-start: auto` rather than `space-between`, so a long month
+// label pushes the tag instead of the two drifting apart.
 .tag {
-  @include t.micro-label;
-
   margin-inline-start: auto;
+  color: var(--color-text-muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-2xs);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
   white-space: nowrap;
 }
 

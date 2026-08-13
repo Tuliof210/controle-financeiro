@@ -7,11 +7,6 @@
 
 @use "sass:map";
 
-// Re-exported, not defined here: `micro-label` and `visually-hidden` are
-// multi-declaration recipes and the 100-line cap has no room for them beside the
-// helpers below. `@forward` keeps every call site reading `t.micro-label`.
-@forward "recipes";
-
 // Compile-time only (CSS custom properties can't hold media-query lengths).
 $breakpoints: (
   "sm": 480px,

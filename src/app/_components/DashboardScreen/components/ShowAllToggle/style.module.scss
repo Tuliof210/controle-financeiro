@@ -1,7 +1,7 @@
 @use "theme" as t;
 
 // A full-width row rather than a right-aligned chip: it reads as one more row
-// in the list above it — the same --color-border-subtle rule the rows above use
+// in the list above it — the same --color-border-subtle rule MeterRow uses
 // between months — instead of a control floating disconnected in the corner.
 .toggle {
   display: flex;
@@ -24,14 +24,9 @@
     background var(--duration-fast) var(--ease-snappy),
     color var(--duration-fast) var(--ease-snappy);
 
-  // Gated: without it a tap latches this paint on a touch screen and it stays
-  // until focus moves. _theme.scss:41 states the rule; this folder had four
-  // painting :hover rules and zero uses of the mixin.
-  @include t.on-hover {
-    &:hover {
-      background: var(--color-surface-raised);
-      color: var(--color-text);
-    }
+  &:hover {
+    background: var(--color-surface-raised);
+    color: var(--color-text);
   }
 
   &:focus-visible {

@@ -1,32 +1,23 @@
 import type { LucideIcon } from "lucide-react";
 import type { Stats } from "@/app/api/dashboard/types.ts";
 import { formatMoney } from "@/lib/money.ts";
+import { spark } from "../../spark.helper.ts";
 
 // Which semantic pair the icon chip paints, named after the card's role rather
 // than after a token — `_chip.scss` records what each one resolves to, and why
 // `negative` lands on the NEUTRAL pair there.
 type ChipTone = "positive" | "negative" | "brand";
 
-// `series` used to ride here, drawn as an aria-hidden sparkline on the card's
-// bottom edge. It had no axis, no scale and no labels, and restated numbers
-// printed directly above it — a chart because dashboards have charts. Cut with
-// the owner's decision of 2026-08-13, along with two of the four quadrant
-// figures: mediana and desvio padrão of monthly income, three times over, were
-// not what this card is read for.
 interface StatCardProps {
   title: string;
   icon: LucideIcon;
   hint: string;
   stats: Stats;
-  // Fixed accent for the card's FIGURE. Omitted by Saldo, which derives it from
-  // the sign, and by Saídas, whose total is an ordinary expense and therefore not
-  // red — the constitution's first pillar.
+  // The card's own monthly series, drawn as the sparkline beside the headline.
+  series: number[];
+  // Fixed accent for the always-positive cards (Entradas/Saídas). Omitted by
+  // Saldo, which derives its accent from the sign instead.
   tone?: "positive" | "negative";
-  // Which semantic pair the icon CHIP takes, when it is not the figure's. Split
-  // from `tone` for Saídas: the chip names the card and stays on the expense pair
-  // (which `_chip.scss` maps to the NEUTRAL fill), while the figure takes no tone
-  // at all. Defaults to `tone`, then to brand.
-  chip?: ChipTone;
   signed?: boolean;
 }
 
@@ -58,23 +49,32 @@ function signedTone(
   return "positive" as const;
 }
 
+// A token string handed to SVG as a presentation attribute, as chart.config.ts
+// does: it resolves inside the SVG and follows the theme switch with no JS.
+// Keyed on the FIXED tone, so Saldo's line keeps one colour.
+const TONE_COLOR = {
+  positive: "var(--color-positive)",
+  negative: "var(--color-negative)",
+  brand: "var(--color-brand)",
+} as const;
+
 function useStatCard({
   title,
   icon,
   hint,
   stats,
+  series,
   tone,
-  chip,
   signed,
 }: StatCardProps) {
   const negative = signed === true && stats.total < 0;
   const glyph = signGlyph(signed, negative);
 
   // Annotated, not inferred: a bare "brand" in the literal below widens to
-  // `string` and stops indexing index.tsx's chip class map. Never derived from the
-  // SIGN: Saldo's chip names the card, so it must not flip green/red with the sign
-  // of a total the reader is still looking at.
-  const chipTone: ChipTone = chip ?? tone ?? "brand";
+  // `string` and stops indexing index.tsx's chip class map. Keyed on the FIXED
+  // tone, like `color`: Saldo's chip names the card, so it must not flip
+  // green/red with the sign of a total the reader is still looking at.
+  const chip: ChipTone = tone ?? "brand";
 
   return {
     title,
@@ -83,11 +83,15 @@ function useStatCard({
     glyph,
     total: stats.total,
     tone: signedTone(signed, negative, tone),
-    chip: chipTone,
+    chip,
+    spark: spark(series),
+    color: TONE_COLOR[tone ?? "brand"],
     // Neutral: formatMoney's minus sign already carries the meaning here.
     rows: [
       { key: "current", label: "Realizado", value: stats.current },
       { key: "mean", label: "Média/mês", value: stats.mean },
+      { key: "median", label: "Mediana", value: stats.median },
+      { key: "stdDev", label: "Desvio padrão", value: stats.stdDev },
     ].map((row) => ({ ...row, value: formatMoney(row.value) })),
   };
 }
