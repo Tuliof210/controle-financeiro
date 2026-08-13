@@ -1,0 +1,93 @@
+@use "theme" as t;
+
+// The four segments, split off `style.module.scss` under the exception
+// ARCHITECTURE.md grants `RowGrid/_tiers.scss`: a mixin that emits nothing on its
+// own, included once by the stylesheet beside it, so neither file crosses the
+// 100-line cap. Not a component — its markup is this folder's `index.tsx`.
+//
+// Every selector is a bare class at the including file's top level, exactly as it
+// was before the split — same nesting, same specificity.
+@mixin segments {
+  .segment {
+    display: flex;
+    cursor: pointer;
+  }
+
+  // Off-screen but still in the tree: the radio takes focus, answers the arrow
+  // keys, and carries the checked state the paint reads. This used to be a
+  // second, different recipe (`opacity: 0`, no clip) under a comment claiming it
+  // was the same one the legend used — now it is literally the same one.
+  .input {
+    @include t.visually-hidden;
+  }
+
+  .text {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    // src/styles/README.md rule 7(e)'s 44px floor. The design draws a shorter
+    // chip; the floor wins.
+    min-height: var(--size-tap);
+    padding: 0 var(--space-3);
+    // On the band: transparent, inheriting the band's foreground. 0.7 of a
+    // 19.1:1 (light) / 16.4:1 (dark) pair still clears the 4.5:1 floor by a wide
+    // margin, and it is the same recipe ChartLegend uses on the same fill.
+    background: transparent;
+    color: inherit;
+    opacity: var(--opacity-muted);
+    font-family: var(--font-sans);
+    font-size: var(--text-2xs);
+    white-space: nowrap;
+    transition:
+      background var(--duration-fast) var(--ease-snappy),
+      color var(--duration-fast) var(--ease-snappy);
+  }
+
+  .segment + .segment .text {
+    border-left: var(--border-1) solid currentcolor;
+  }
+
+  // The radii the frame's `overflow: hidden` used to supply. They have to live on
+  // the segment now, or the checked fill would square off the ends of the pill.
+  .segment:first-of-type .text {
+    border-start-start-radius: var(--radius-full);
+    border-end-start-radius: var(--radius-full);
+  }
+
+  .segment:last-of-type .text {
+    border-start-end-radius: var(--radius-full);
+    border-end-end-radius: var(--radius-full);
+  }
+
+  // Gated: without it a tap latches the hover paint on a touch screen and it
+  // stays until focus moves.
+  @include t.on-hover {
+    .segment:hover .input:not(:checked) + .text {
+      opacity: 1;
+    }
+  }
+
+  // Inverted back OUT of the band: the selected cap is a state, not one more
+  // label in a row of them, and on a filled band the only way left to say so is
+  // to return to the page's own surface. --color-bg on --color-text is the same
+  // 19.1:1 / 16.4:1 pair the band is built from, read the other way round.
+  .input:checked + .text {
+    background: var(--color-bg);
+    color: var(--color-text);
+    opacity: 1;
+  }
+
+  // The ring draws OUTWARD now that the frame no longer clips it. The old
+  // `outline-offset: -4px` was there to survive that clip and could not: the
+  // offset only moves the mixin's transparent forced-colors outline, so it
+  // recovered nothing visible while the two box-shadow layers stayed cut off.
+  //
+  // `position: relative` plus the z-index lift the focused segment over its
+  // neighbours, so the ring is not painted under the segment beside it.
+  .input:focus-visible + .text {
+    @include t.focus-ring;
+
+    position: relative;
+    z-index: 1;
+  }
+}

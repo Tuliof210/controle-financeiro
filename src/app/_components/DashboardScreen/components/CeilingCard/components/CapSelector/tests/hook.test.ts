@@ -5,7 +5,12 @@ import { useCapSelector } from "@/app/_components/DashboardScreen/components/Cei
 describe("useCapSelector", () => {
   it("leaves Meta out entirely while no goal is saved", () => {
     const { result } = renderHook(() =>
-      useCapSelector({ value: "50", hasMeta: false, onChange: jest.fn() }),
+      useCapSelector({
+        value: "50",
+        hasMeta: false,
+        hint: "t",
+        onChange: jest.fn(),
+      }),
     );
 
     expect(result.current.segments.map((s) => s.cap)).toEqual([
@@ -17,7 +22,12 @@ describe("useCapSelector", () => {
 
   it("offers Meta by name once there is a goal", () => {
     const { result } = renderHook(() =>
-      useCapSelector({ value: "meta", hasMeta: true, onChange: jest.fn() }),
+      useCapSelector({
+        value: "meta",
+        hasMeta: true,
+        hint: "t",
+        onChange: jest.fn(),
+      }),
     );
 
     expect(result.current.segments.at(-1)).toMatchObject({
@@ -29,7 +39,12 @@ describe("useCapSelector", () => {
 
   it("labels the percentages with their sign, checking only the active one", () => {
     const { result } = renderHook(() =>
-      useCapSelector({ value: "75", hasMeta: false, onChange: jest.fn() }),
+      useCapSelector({
+        value: "75",
+        hasMeta: false,
+        hint: "t",
+        onChange: jest.fn(),
+      }),
     );
 
     expect(result.current.segments.map((s) => s.label)).toEqual([
@@ -43,7 +58,7 @@ describe("useCapSelector", () => {
   it("reports the bare value the API's enum accepts", () => {
     const onChange = jest.fn();
     const { result } = renderHook(() =>
-      useCapSelector({ value: "50", hasMeta: false, onChange }),
+      useCapSelector({ value: "50", hasMeta: false, hint: "t", onChange }),
     );
 
     result.current.segments[0].select();

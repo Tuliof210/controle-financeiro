@@ -31,7 +31,8 @@
 }
 
 // Muted prose: the empty state and anything else this card says in words.
-.note {
+.note,
+.definition {
   margin: 0;
   color: var(--color-text-muted);
   font-family: var(--font-sans);

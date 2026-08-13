@@ -7,6 +7,7 @@ import { MoneyFigure } from "../MoneyFigure/index.tsx";
 import { ShowAllToggle } from "../ShowAllToggle/index.tsx";
 import { CapSelector } from "./components/CapSelector/index.tsx";
 import { MonthTable } from "./components/MonthTable/index.tsx";
+import { RateList } from "./components/RateList/index.tsx";
 import { type CeilingCardProps, useCeilingCard } from "./hook.ts";
 import styles from "./style.module.scss";
 
@@ -14,6 +15,7 @@ export function CeilingCard(props: CeilingCardProps) {
   const {
     empty,
     note,
+    definition,
     limitedBy,
     currentLabel,
     count,
@@ -37,16 +39,22 @@ export function CeilingCard(props: CeilingCardProps) {
       hint={HINTS.ceiling}
       band="ink"
       headerEnd={
-        <CapSelector value={cap} hasMeta={hasMeta} onChange={onCapChange} />
+        <CapSelector
+          value={cap}
+          hasMeta={hasMeta}
+          hint={HINTS.ceilingCap}
+          onChange={onCapChange}
+        />
       }
     >
       <div className={cx(styles.split, empty && styles.alone)}>
         <div className={styles.summary}>
-          {/* The badges read as a caption on the card, so they head the summary
-              pane rather than the title row — that slot holds the one control,
-              and four elements on it wrap into an unreadable stack at 375px.
-              Above the empty-state branch, because the month in view is worth
-              saying even when there is no ceiling to show. */}
+          {/* Prose, not a hint: this is what the whole screen turns on, and it
+              used to open a 687-character bubble no touch reader reaches. */}
+          <p className={styles.definition}>{definition}</p>
+
+          {/* The badges head the summary pane rather than the title row: that
+              slot holds the one control, and four elements wrap at 375px. */}
           <div className={styles.badges}>
             {Boolean(limitedBy) && (
               <span className={styles.limit} title={`${limitedBy}.`}>
@@ -62,21 +70,13 @@ export function CeilingCard(props: CeilingCardProps) {
           {!empty && (
             <>
               {/* Stays the card's first <dd>: the ceiling spec reads it as this
-                  month's figure, anchored at the start of the string. The rates
-                  below add <dd>s AFTER it, never before. */}
+                  month's figure. The rates below add <dd>s AFTER it. */}
               <Headline caption="Gasto extra este mês">
                 <MoneyFigure cents={monthly} />
                 <span className={styles.chip}>{monthsLeft}</span>
               </Headline>
 
-              <dl className={styles.rates}>
-                {rates.map((rate) => (
-                  <div className={styles.rate} key={rate.key}>
-                    <dt className={styles.rateLabel}>{rate.label}</dt>
-                    <dd className={styles.rateValue}>{rate.value}</dd>
-                  </div>
-                ))}
-              </dl>
+              <RateList rates={rates} />
             </>
           )}
         </div>

@@ -14,6 +14,12 @@ function shareOf(budget: number, ceilingBalance: number): number {
   return Math.min(1, Math.max(0, budget / ceilingBalance));
 }
 
+// The card's own one-sentence definition, visible in the body rather than buried
+// in the hint bubble it used to open with. It is the concept the whole screen
+// turns on, and a hover tooltip is the one place a touch reader never reaches.
+const CEILING_DEFINITION =
+  "Quanto dá para gastar a mais por mês sem nenhum mês futuro ficar no vermelho — a coluna inteira pode ser gasta em ordem.";
+
 // The goal wins the label when both it and a month are the limit: the reader
 // just chose it.
 function limitLabel(byMeta: boolean, tightest: number | null): string | null {
@@ -44,4 +50,4 @@ function monthsWord(count: number): string {
   return "meses restantes";
 }
 
-export { limitLabel, monthsWord, noteFor, shareOf };
+export { CEILING_DEFINITION, limitLabel, monthsWord, noteFor, shareOf };
