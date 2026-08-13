@@ -1,0 +1,205 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-08-13T00:00:00.000Z",
+  "title": "Design System: Controle Financeiro",
+  "extensions": {
+    "colorMeta": {
+      "signal-cobalt": {
+        "role": "primary",
+        "displayName": "Signal Cobalt",
+        "canonical": "#2550cc",
+        "darkCounterpart": "#5e81e7",
+        "tonalRamp": ["#182c69", "#1b3585", "#1e40a6", "#2550cc", "#3a61d9", "#5e81e7", "#92abf3", "#bbcbfa"]
+      },
+      "cobalt-deep": {
+        "role": "primary",
+        "displayName": "Cobalt Deep",
+        "canonical": "#1e40a6",
+        "darkCounterpart": "#92abf3",
+        "tonalRamp": ["#182c69", "#1b3585", "#1e40a6", "#2550cc", "#3a61d9", "#5e81e7", "#92abf3", "#dce4fd"]
+      },
+      "cold-paper": {
+        "role": "neutral",
+        "displayName": "Cold Paper",
+        "canonical": "#f8f9fb",
+        "darkCounterpart": "#0c0e12",
+        "tonalRamp": ["#0c0e12", "#14171c", "#20242c", "#333a45", "#6b7480", "#c4c9d1", "#e2e5ea", "#f8f9fb"]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Ink",
+        "canonical": "#14171c",
+        "darkCounterpart": "#f8f9fb",
+        "tonalRamp": ["#0c0e12", "#14171c", "#20242c", "#333a45", "#4c5460", "#6b7480", "#99a1ad", "#c4c9d1"]
+      },
+      "positive": {
+        "role": "secondary",
+        "displayName": "Positive",
+        "canonical": "#0a7548",
+        "darkCounterpart": "#3fcb95",
+        "tonalRamp": ["#0f2a20", "#1c4a38", "#0a7548", "#0e8c57", "#3fcb95", "#b6e2cc", "#e3f4ec", "#f8f9fb"]
+      },
+      "negative": {
+        "role": "secondary",
+        "displayName": "Negative",
+        "canonical": "#c92a36",
+        "darkCounterpart": "#f58a90",
+        "tonalRamp": ["#33161a", "#5c2830", "#c92a36", "#f58a90", "#f2c2c5", "#fbe7e8", "#fdf3f4", "#f8f9fb"]
+      },
+      "caution": {
+        "role": "secondary",
+        "displayName": "Caution",
+        "canonical": "#9c4a0c",
+        "darkCounterpart": "#e5964f",
+        "tonalRamp": ["#331f0f", "#5c3a1c", "#9c4a0c", "#b5560e", "#e5964f", "#f1d2b2", "#fbebdd", "#f8f9fb"]
+      },
+      "info": {
+        "role": "secondary",
+        "displayName": "Info",
+        "canonical": "#0c6b9b",
+        "darkCounterpart": "#4fbbe3",
+        "tonalRamp": ["#0d2733", "#1b4557", "#0c6b9b", "#0f73a6", "#4fbbe3", "#bbddec", "#e0f0f8", "#f8f9fb"]
+      }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "The top step of the scale, held in reserve. No call sites today." },
+      "hero-figure": { "displayName": "Hero figure", "purpose": "The answer on the inverted band: grotesque, bold, tabular. One per screen at most." },
+      "headline": { "displayName": "Headline", "purpose": "Page-level titles." },
+      "title": { "displayName": "Title", "purpose": "Card and modal titles; what the base h1 renders." },
+      "body": { "displayName": "Body", "purpose": "Prose and explanations, capped at 65-75ch." },
+      "label": { "displayName": "Label", "purpose": "Field labels, buttons, table headers, nav items. Sentence case." },
+      "money": { "displayName": "Money", "purpose": "Every currency figure, in the body face with tabular figures." },
+      "eyebrow": { "displayName": "Eyebrow", "purpose": "Card kickers, IDs, YYYY-MM dates, hex, chart axis and tag labels. The only uppercase in the system." }
+    },
+    "shadows": [
+      { "name": "raised", "value": "0 1px 2px rgb(20 23 28 / 5%), 0 1px 1px rgb(20 23 28 / 3%)", "purpose": "A resting card that must separate from a busy background. Most cards do not need it." },
+      { "name": "overlay", "value": "0 6px 16px rgb(20 23 28 / 8%), 0 2px 4px rgb(20 23 28 / 4%)", "purpose": "Dropdowns, popovers, sheets." },
+      { "name": "modal", "value": "0 16px 40px rgb(20 23 28 / 12%), 0 4px 8px rgb(20 23 28 / 5%)", "purpose": "The one layer that floats over the whole page." },
+      { "name": "focus-ring", "value": "0 0 0 2px var(--color-focus), 0 0 0 5px color-mix(in srgb, var(--color-focus) 35%, transparent)", "purpose": "Two layers on purpose: the opaque inner stroke carries the 3:1 indicator contrast the halo alone fails." }
+    ],
+    "motion": [
+      { "name": "duration-fast", "value": "140ms", "purpose": "Feedback: hover fills, press, small state flips." },
+      { "name": "duration-base", "value": "220ms", "purpose": "Default transition, including the theme swap." },
+      { "name": "duration-slow", "value": "320ms", "purpose": "The outside limit; drawers and reveals." },
+      { "name": "ease-snappy", "value": "cubic-bezier(0.2, 0, 0, 1)", "purpose": "State changes and hover fills." },
+      { "name": "ease-out", "value": "cubic-bezier(0.16, 1, 0.3, 1)", "purpose": "Entrances that decelerate into place. No bounce anywhere." }
+    ],
+    "breakpoints": [
+      { "name": "sm", "value": "480px" },
+      { "name": "md", "value": "768px" },
+      { "name": "lg", "value": "1024px" },
+      { "name": "xl", "value": "1280px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The one real action on a screen. Cobalt fill, no border, white label.",
+      "html": "<button class=\"ds-btn-primary\">Salvar</button>",
+      "css": ".ds-btn-primary { display: inline-flex; align-items: center; justify-content: center; gap: var(--space-2, 8px); min-height: var(--size-tap, 44px); padding: var(--space-2, 8px) var(--space-4, 16px); background: var(--color-brand, #2550cc); color: #fff; border: 1px solid transparent; border-radius: var(--radius-md, 10px); font-family: var(--font-sans, system-ui), sans-serif; font-size: var(--text-base, 0.875rem); font-weight: 700; cursor: pointer; transition: background 140ms cubic-bezier(0.2,0,0,1), transform 140ms cubic-bezier(0.2,0,0,1); } .ds-btn-primary:hover { background: var(--color-brand-hover, #1e40a6); } .ds-btn-primary:active { background: var(--color-brand-active, #1b3585); transform: scale(0.985); } .ds-btn-primary:focus-visible { outline: 2px solid transparent; outline-offset: 2px; box-shadow: 0 0 0 2px var(--color-focus, #2550cc), 0 0 0 5px color-mix(in srgb, var(--color-focus, #2550cc) 35%, transparent); }"
+    },
+    {
+      "name": "Ghost Button",
+      "kind": "button",
+      "refersTo": "button-ghost",
+      "description": "The default for secondary actions: a subtle structural edge that washes on hover.",
+      "html": "<button class=\"ds-btn-ghost\">Cancelar</button>",
+      "css": ".ds-btn-ghost { display: inline-flex; align-items: center; justify-content: center; gap: var(--space-2, 8px); min-height: var(--size-tap, 44px); padding: var(--space-2, 8px) var(--space-4, 16px); background: transparent; color: var(--color-text, #14171c); border: 1px solid var(--color-border-subtle, #ebeef1); border-radius: var(--radius-md, 10px); font-family: var(--font-sans, system-ui), sans-serif; font-size: var(--text-base, 0.875rem); font-weight: 700; cursor: pointer; transition: background 140ms cubic-bezier(0.2,0,0,1), transform 140ms cubic-bezier(0.2,0,0,1); } .ds-btn-ghost:hover { background: var(--color-hover-wash, #f2f4f6); } .ds-btn-ghost:active { transform: scale(0.985); } .ds-btn-ghost:focus-visible { outline: 2px solid transparent; outline-offset: 2px; box-shadow: 0 0 0 2px var(--color-focus, #2550cc), 0 0 0 5px color-mix(in srgb, var(--color-focus, #2550cc) 35%, transparent); }"
+    },
+    {
+      "name": "Dashed Add Button",
+      "kind": "button",
+      "refersTo": "button-dashed",
+      "description": "The full-width \"Adicionar ...\" affordance at the foot of every list card. Fills cobalt on hover and the border goes solid.",
+      "html": "<button class=\"ds-btn-dashed\">Adicionar previsão</button>",
+      "css": ".ds-btn-dashed { display: inline-flex; align-items: center; justify-content: center; gap: var(--space-2, 8px); width: 100%; min-height: var(--size-tap, 44px); padding: var(--space-2, 8px) var(--space-4, 16px); background: transparent; color: var(--color-text, #14171c); border: 2px dashed var(--color-border, #e2e5ea); border-radius: var(--radius-md, 10px); font-family: var(--font-sans, system-ui), sans-serif; font-size: var(--text-base, 0.875rem); font-weight: 700; cursor: pointer; transition: background 140ms cubic-bezier(0.2,0,0,1); } .ds-btn-dashed:hover { background: var(--color-brand, #2550cc); color: #fff; border-style: solid; } .ds-btn-dashed:focus-visible { outline: 2px solid transparent; outline-offset: 2px; box-shadow: 0 0 0 2px var(--color-focus, #2550cc), 0 0 0 5px color-mix(in srgb, var(--color-focus, #2550cc) 35%, transparent); }"
+    },
+    {
+      "name": "Text Field",
+      "kind": "input",
+      "refersTo": "input-text",
+      "description": "Label above the control; the focus ring is applied at field level so label and input light up as one object.",
+      "html": "<div class=\"ds-field\"><label class=\"ds-field-label\" for=\"ds-f1\">Descrição</label><input class=\"ds-field-input\" id=\"ds-f1\" placeholder=\"Aluguel\" /></div>",
+      "css": ".ds-field { display: flex; flex-direction: column; gap: var(--space-1, 4px); } .ds-field-label { font-family: var(--font-sans, system-ui), sans-serif; font-size: var(--text-sm, 0.8125rem); color: var(--color-text, #14171c); } .ds-field-input { min-height: var(--size-tap, 44px); padding: var(--space-2, 8px) var(--space-3, 12px); background: var(--color-surface, #fff); border: 1px solid var(--color-border, #e2e5ea); border-radius: var(--radius-md, 10px); color: var(--color-text, #14171c); font-family: var(--font-sans, system-ui), sans-serif; font-size: var(--text-base, 0.875rem); } .ds-field-input::placeholder { color: var(--color-text-muted, #4c5460); } .ds-field:focus-within .ds-field-input { outline: 2px solid transparent; outline-offset: 2px; box-shadow: 0 0 0 2px var(--color-focus, #2550cc), 0 0 0 5px color-mix(in srgb, var(--color-focus, #2550cc) 35%, transparent); }"
+    },
+    {
+      "name": "Section Card",
+      "kind": "card",
+      "refersTo": "section-card",
+      "description": "The workhorse container: mono eyebrow title, 14px corners, one hairline, flat by default.",
+      "html": "<section class=\"ds-card\"><h2 class=\"ds-card-title\">Teto do mês</h2><p class=\"ds-card-body\">Você pode gastar <span class=\"ds-money\">R$ 1.240<span class=\"ds-money-cents\">,00</span></span> sem derrubar nenhum mês à frente.</p></section>",
+      "css": ".ds-card { display: flex; flex-direction: column; gap: var(--space-4, 16px); padding: var(--space-6, 24px); background: var(--color-surface, #fff); border: 1px solid var(--color-border, #e2e5ea); border-radius: var(--radius-lg, 14px); } .ds-card-title { margin: 0; font-family: var(--font-mono, ui-monospace), monospace; font-size: var(--text-2xs, 0.6875rem); font-weight: 400; letter-spacing: 0.14em; text-transform: uppercase; color: var(--color-text, #14171c); } .ds-card-body { margin: 0; font-family: var(--font-sans, system-ui), sans-serif; font-size: var(--text-md, 0.9375rem); line-height: 1.55; color: var(--color-text-secondary, #333a45); } .ds-money { font-weight: 600; font-variant-numeric: tabular-nums; color: var(--color-text, #14171c); } .ds-money-cents { opacity: 0.7; }"
+    },
+    {
+      "name": "Nav Item",
+      "kind": "nav",
+      "refersTo": "nav-item",
+      "description": "Rail item. The current state is a 12% cobalt wash plus semibold weight, keyed off aria-current so paint and a11y signal cannot drift.",
+      "html": "<nav class=\"ds-nav\"><a class=\"ds-nav-item\" href=\"#\" aria-current=\"page\">Dashboard</a><a class=\"ds-nav-item\" href=\"#\">Movimentações</a></nav>",
+      "css": ".ds-nav { display: flex; flex-direction: column; gap: var(--space-1, 4px); } .ds-nav-item { display: flex; align-items: center; gap: var(--space-3, 12px); min-height: var(--size-tap, 44px); padding: var(--space-3, 12px); border-radius: var(--radius-md, 10px); color: var(--color-text, #14171c); font-family: var(--font-sans, system-ui), sans-serif; font-size: var(--text-base, 0.875rem); text-decoration: none; white-space: nowrap; transition: background 140ms cubic-bezier(0.2,0,0,1); } .ds-nav-item:hover { background: var(--color-hover-wash, #f2f4f6); } .ds-nav-item[aria-current=\"page\"] { background: color-mix(in srgb, var(--color-brand, #2550cc) 12%, var(--color-surface, #fff)); color: var(--color-brand-text, #1e40a6); font-weight: 600; } .ds-nav-item:focus-visible { outline: 2px solid transparent; outline-offset: 2px; box-shadow: 0 0 0 2px var(--color-focus, #2550cc), 0 0 0 5px color-mix(in srgb, var(--color-focus, #2550cc) 35%, transparent); }"
+    },
+    {
+      "name": "Hero Band",
+      "kind": "custom",
+      "refersTo": "hero-band",
+      "description": "The signature surface: inverted against the page, a cobalt rule across the top, one cobalt glow off the corner, carrying the display figure that answers the screen's question.",
+      "html": "<div class=\"ds-hero\"><span class=\"ds-hero-edge\"></span><span class=\"ds-hero-glow\"></span><p class=\"ds-hero-eyebrow\">Saldo projetado · 2026-08</p><p class=\"ds-hero-figure\">R$ 18.420<span class=\"ds-hero-cents\">,75</span></p></div>",
+      "css": ".ds-hero { position: relative; overflow: hidden; padding: var(--space-12, 48px) var(--space-10, 40px); background: var(--color-text, #14171c); color: var(--color-bg, #f8f9fb); border-bottom: 1px solid var(--color-border, #e2e5ea); } .ds-hero-edge { position: absolute; inset: 0 0 auto; height: 4px; background: var(--color-brand, #2550cc); } .ds-hero-glow { position: absolute; top: -288px; right: -144px; width: 672px; height: 672px; background: radial-gradient(circle, rgb(37 80 204 / 40%), transparent 70%); pointer-events: none; } .ds-hero-eyebrow { position: relative; margin: 0 0 var(--space-3, 12px); font-family: var(--font-mono, ui-monospace), monospace; font-size: var(--text-2xs, 0.6875rem); letter-spacing: 0.14em; text-transform: uppercase; opacity: 0.7; } .ds-hero-figure { position: relative; margin: 0; font-family: var(--font-sans, system-ui), sans-serif; font-size: 1.75rem; font-weight: 700; line-height: 1.08; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; } .ds-hero-cents { opacity: 0.7; }"
+    },
+    {
+      "name": "State Chip",
+      "kind": "chip",
+      "refersTo": "section-card",
+      "description": "The semantic badge: a wash, its own hairline, 6px corners, and the state's foreground. Meaning never rides on colour alone — the glyph is part of the chip.",
+      "html": "<span class=\"ds-chip ds-chip-positive\">▲ 4,2%</span> <span class=\"ds-chip ds-chip-negative\">▼ 1,8%</span>",
+      "css": ".ds-chip { display: inline-flex; align-items: center; gap: var(--space-1, 4px); padding: var(--space-1, 4px) var(--space-2, 8px); border-radius: var(--radius-sm, 6px); font-family: var(--font-sans, system-ui), sans-serif; font-size: var(--text-xs, 0.75rem); font-weight: 600; font-variant-numeric: tabular-nums; } .ds-chip-positive { background: var(--positive-bg, #e3f4ec); border: 1px solid var(--positive-border, #b6e2cc); color: var(--positive-fg, #0a7548); } .ds-chip-negative { background: var(--negative-bg, #fbe7e8); border: 1px solid var(--negative-border, #f2c2c5); color: var(--negative-fg, #c92a36); }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Forecast Desk",
+    "overview": "A cool, well-lit desk where next month is read off today's figures. The surfaces are cold paper — a neutral ramp with blue in it, never warmth — and they carry roughly ninety percent of the interface. One instrument sits on that desk: Signal Cobalt, spent only where the app is actually signalling. The primary action, the focus ring, the mark, the current rail item. Nothing else is blue, which is what makes blue mean something.\n\nThe system is confident and opinionated without raising its voice. Screens state the conclusion first — the ceiling, the projected balance, whether the pace holds — and put the table or the chart underneath as justification. Colour never decorates: the four semantic tones speak financial state and nothing else, so a normal expense is not red. Red is negative variation and destructive action, and it stays that way even when a screen is full of expenses.\n\nEverything is contained, not extruded. A hairline and a surface tier lift a thing before a shadow does; corners are soft and chosen by what the surface is, never by taste. This rejects, by name, the Brazilian bank-app house style, the generic SaaS dashboard, the spreadsheet-in-a-browser, and gamified finance.",
+    "keyCharacteristics": [
+      "Cold-paper neutrals carry ~90% of every screen; cobalt is rationed.",
+      "Border-first elevation — a shadow only when a layer genuinely floats.",
+      "Three faces, one job each: display for titles, grotesque for body and money, mono for eyebrows and dates.",
+      "Soft corners by surface type (6 / 10 / 14 / 20), never square, never a capsule on a rectangle.",
+      "Both themes are first-class; the dark theme is derived by inverting the ramp, not by dimming the light one.",
+      "Every text pair carries its measured contrast ratio in a comment beside the token."
+    ],
+    "rules": [
+      { "name": "The Rationed Cobalt Rule", "body": "Cobalt appears on the primary action, the focus ring, the mark, and the current navigation item — nowhere else. A second cobalt element on a screen means one of them is wrong.", "section": "colors" },
+      { "name": "The Themed Ink Rule", "body": "When one of the four semantic tones is a background, the text on it is the page colour and nothing else. Those four tones flip with the theme, so a fixed ink fails at one end or the other. White belongs on cobalt only, which is dark in both themes.", "section": "colors" },
+      { "name": "The Expense-Is-Not-Red Rule", "body": "Semantics speak financial state. A routine expense is body text with a minus sign, not a red figure. Reserve red for variation below zero and for destructive controls.", "section": "colors" },
+      { "name": "The Three Faces Rule", "body": "Display for heroes and titles. Grotesque for body, labels and every money figure. Mono for eyebrows, IDs, YYYY-MM, hex and chart labels. A face outside its job is a bug, not a variation.", "section": "typography" },
+      { "name": "The Shouting Rule", "body": "Uppercase and wide tracking belong to the mono eyebrow and nowhere else. Status badges, table headers and checkbox labels are sentence case; wide tracking on a grotesque reads as shouting.", "section": "typography" },
+      { "name": "The Tabular Rule", "body": "Money always sets font-variant-numeric: tabular-nums. Columns of figures must align on the decimal without the reader's eye doing the work.", "section": "typography" },
+      { "name": "The Hairline-First Rule", "body": "If a hairline and a surface tier can carry the separation, they must. Reach for a shadow only when the layer physically floats over something.", "section": "elevation" },
+      { "name": "The Press-Is-Scale Rule", "body": "A control's press is transform: scale(0.985). Never a displacement, never a shadow that shortens — there is no extrusion behind it to shorten.", "section": "elevation" },
+      { "name": "The Radius-By-Surface Rule", "body": "14px for card / section / modal / tile, 10px for button / field / select / nav item / menu, 6px for chip / badge / swatch / inner cell, 20px for large sheets, full only for avatars, status dots and progress tracks. Never by taste, never square.", "section": "components" },
+      { "name": "The Motion-Is-State Rule", "body": "140ms for feedback, 220ms for transitions, 320ms at the outside, on an ease-out curve with no bounce. Motion reports a state change and nothing else; durations collapse to 0ms under prefers-reduced-motion at the token layer.", "section": "components" }
+    ],
+    "dos": [
+      "Do read every value from a token: var(--color-surface), var(--space-4), var(--radius-lg). Hardcoding a colour, space, radius, shadow or duration is prohibited; the single documented exception is src/app/icon.svg, which cannot read a custom property.",
+      "Do state the conclusion before the evidence — the sentence, then the chart.",
+      "Do pair meaning with a second signal. Money carries colour and a sign and a ▲/▼ glyph; real / estimated / simulated pair a label with a border style; the current nav item carries weight as well as tint.",
+      "Do give every interactive element the two-layer focus ring, including the transparent outline — that outline is the forced-colors escape hatch and dropping it makes the ring vanish in Windows High Contrast.",
+      "Do write the measured contrast ratio in a comment beside any new colour token, in both themes.",
+      "Do add every new semantic token to the light block and the dark mixin. A token that exists in one theme only is a bug.",
+      "Do keep hit targets at 44px or larger."
+    ],
+    "donts": [
+      "Don't build anything that reads like a Brazilian bank app: brand-colour floods, rounded promo cards, banners, cross-sell, marketing voice inside a tool.",
+      "Don't build the generic SaaS dashboard: the gradient hero metric, four identical icon-and-number KPI cards, purple-blue gradients, a chart that exists because dashboards have charts.",
+      "Don't ship a spreadsheet in a browser: a raw grid of hairlines with no hierarchy, data dumped instead of answered.",
+      "Don't gamify: no mascots, confetti, streaks, emoji categories or congratulatory toasts. Money is not a game.",
+      "Don't use decorative gradients, glassmorphism or texture. The background is flat; the cobalt hero glow is the only gradient in the system and it belongs to the hero band, never to the mark.",
+      "Don't colour a routine expense red.",
+      "Don't put a capsule radius on a rectangle. Full radius is for avatars, status dots, progress tracks and segmented pills only.",
+      "Don't put mono on body copy, uppercase on a status badge, or the display face on a label, a button or a data figure.",
+      "Don't reach for a shadow where a hairline works, and don't reach for a modal where an inline or progressive alternative works.",
+      "Don't invent an alias token that adds no decision over the token it points at — that is a second name for a colour, not a token."
+    ]
+  }
+}
