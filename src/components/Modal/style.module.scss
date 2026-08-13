@@ -2,8 +2,8 @@
 
 .dialog {
   padding: 0;
-  border: var(--border-2) solid var(--color-border);
-  border-radius: var(--radius-md);
+  border: var(--border-1) solid var(--color-border);
+  border-radius: var(--radius-lg);
   background: var(--color-surface-raised);
   color: var(--color-text);
   width: calc(100% - var(--space-8));
@@ -40,7 +40,7 @@
   padding: var(--space-6);
   // Must match the panel's surface, or the body scrolls visibly underneath.
   background: var(--color-surface-raised);
-  border-bottom: var(--border-2) solid var(--color-border);
+  border-bottom: var(--border-1) solid var(--color-border);
 }
 
 // The header is a flex row: without this the IconButton's 44px square is

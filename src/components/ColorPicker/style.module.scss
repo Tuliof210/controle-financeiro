@@ -9,7 +9,7 @@
 .swatch {
   width: 44px;
   height: 44px;
-  border: var(--border-2) solid var(--color-border-subtle);
+  border: var(--border-1) solid var(--color-border-subtle);
   border-radius: var(--radius-sm);
   cursor: pointer;
 
@@ -18,7 +18,9 @@
   }
 }
 
+// Selection is emphasis, so the ring keeps --border-2 while the swatch's own
+// frame drops to the hairline — otherwise the two read at the same weight.
 .selected {
-  outline: var(--border-3) solid var(--color-border);
+  outline: var(--border-2) solid var(--color-border);
   outline-offset: 2px;
 }

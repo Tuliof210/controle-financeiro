@@ -6,8 +6,10 @@
   padding: var(--space-20) var(--space-6);
   text-align: center;
   background: var(--color-surface);
-  border: var(--border-3) dashed var(--color-border);
-  border-radius: var(--radius-md);
+  // The one place --border-2 survives in this folder: a 1px dash on a
+  // full-width drop target reads as a rendering artifact, not an outline.
+  border: var(--border-2) dashed var(--color-border);
+  border-radius: var(--radius-lg);
   transition: background var(--duration-base) var(--ease-snappy);
 }
 
@@ -23,8 +25,8 @@
   width: var(--space-16);
   height: var(--space-16);
   color: var(--color-brand);
-  border: var(--border-2) solid var(--color-border);
-  border-radius: var(--radius-md);
+  border: var(--border-1) solid var(--color-border);
+  border-radius: var(--radius-lg);
 }
 
 .eyebrow {

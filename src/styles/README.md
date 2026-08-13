@@ -26,8 +26,9 @@ read as the light value.
   alert, info. A normal expense is **not** red; red is negative variation and
   destructive action.
 - **Contained, not extruded.** Hairline borders carry separation before any
-  shadow does. Corners are soft — 14 on product cards, 10 on buttons — never
-  square, never a capsule.
+  shadow does. Corners are soft and chosen by surface type — 14 on product
+  cards, 10 on controls, 6 on chips — never square. A capsule is a segmented
+  pill, a progress track or a dot, and nothing else.
 - **Three faces, one job each.** A display face for heros and titles, a
   grotesque for body and money, a mono scoped to eyebrows, IDs, `YYYY-MM` dates
   and hex.
@@ -39,10 +40,15 @@ read as the light value.
    the dedicated mixins from `_theme.scss`). The single documented exception is
    `src/app/icon.svg`: a static asset cannot read a custom property, so its
    four hexes are kept in lockstep by hand and named in a comment there.
-2. **Radius comes from the scale** — `--radius-sm` 6, `--radius-md` 10,
-   `--radius-lg` 14, `--radius-xl` 20. Cards take `lg`, buttons and fields take
-   `md`. `--radius-full` exists only for avatars and status dots, never for a
-   rectangular surface.
+2. **Radius is chosen by surface type, not by taste.** Card / section / modal
+   panel / KPI tile take `--radius-lg` (14); button / field / select / nav item
+   / menu take `--radius-md` (10); chip / badge / swatch / tag / inner cell take
+   `--radius-sm` (6); segmented pill / progress track / status dot / avatar take
+   `--radius-full`; `--radius-xl` (20) is for large surfaces and sheets. An
+   inner corner flush inside an outer one is **derived** —
+   `calc(var(--radius-lg) - var(--border-1))` — never a second literal.
+   `--border-1` is the structural border everywhere; `--border-2` is emphasis
+   only (selection ring, dashed drop target, projection state).
 3. **Elevation is border-first.** A surface tier (`--color-surface`,
    `--color-surface-raised`) plus a hairline is the default way to lift
    something. Reach for a shadow only when the layer genuinely floats over

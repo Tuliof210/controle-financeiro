@@ -10,10 +10,10 @@
   gap: var(--space-2);
   min-height: 44px;
   padding: var(--space-2) var(--space-4);
-  // The frame is now always visible, in the same hue the hard press shadow is
-  // cast in — so the shadow reads as an extrusion of the border, not a blob.
-  border: var(--border-2) solid var(--color-border);
-  border-radius: var(--radius-sm);
+  // A hairline frame, the structural default. `.primary` overrides it away —
+  // the target draws a filled action with no border at all.
+  border: var(--border-1) solid var(--color-border);
+  border-radius: var(--radius-md);
   font-family: var(--font-mono);
   font-size: var(--text-base);
   font-weight: var(--weight-bold);
@@ -52,6 +52,9 @@
 .danger,
 .success {
   color: var(--white);
+  // The target draws a filled action as fill alone — a frame on top of a solid
+  // fill is the extruded skin's frame, kept out of habit.
+  border-color: transparent;
 
   &:hover:not(:disabled) {
     filter: brightness(0.92);

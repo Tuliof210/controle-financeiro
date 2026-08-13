@@ -8,14 +8,17 @@
   // The title row, turned into a strip. It cancels `.card`'s padding on three
   // sides so the fill reaches the card's inner edge and pays its own back.
   // The card cannot take `overflow: hidden` (it clips the hint's focus ring on
-  // all 13 cards), so the top corners are rounded by hand: the card's --radius-md
-  // outer radius minus its --border-2 border is exactly --radius-sm.
+  // all 13 cards), so the top corners are rounded by hand. DERIVED, not a second
+  // literal: the inner radius is the card's outer radius less the border it sits
+  // inside. That used to be spelled `--radius-sm`, because 4px − 2px happened to
+  // equal 2px on the old scale; on 14/10/6 the coincidence is gone and a literal
+  // would leave a visible step on all 13 cards, silently.
   .band {
     margin: calc(var(--space-6) * -1);
     margin-bottom: 0;
     padding: var(--space-3) var(--space-6);
-    border-bottom: var(--border-2) solid var(--color-border);
-    border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+    border-bottom: var(--border-1) solid var(--color-border);
+    border-radius: var(--band-radius) var(--band-radius) 0 0;
   }
 
   // The hint trigger hardcodes --color-text-muted, unreadable on every fill
