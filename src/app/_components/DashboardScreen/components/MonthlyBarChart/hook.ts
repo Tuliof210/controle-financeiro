@@ -9,6 +9,7 @@ import {
   estimatedFor,
   estimatedWord,
 } from "./bar-series.helper.ts";
+import { tipFor } from "./bar-tip.helper.ts";
 
 interface MonthlyBarChartProps {
   points: MonthPoint[];
@@ -50,8 +51,12 @@ function useMonthlyBarChart({
     padding: 0.15,
   });
 
-  const bars = points.flatMap((point) =>
-    SERIES.map((series) => {
+  const bars = points.flatMap((point) => {
+    // Built once per month and shared by both of its bars: the bubble answers
+    // for the month, so hovering either side of the pair says the same thing.
+    const tip = tipFor(point);
+
+    return SERIES.map((series) => {
       const value = point[series.key];
       const estimated = estimatedFor(point, series.key);
 
@@ -63,14 +68,15 @@ function useMonthlyBarChart({
         height: Math.max(0, frame.valueScale(0) - frame.valueScale(value)),
         fill: series.fill,
         estimated,
-        // The 50% opacity is a data encoding, so it needs a non-visual channel
-        // carrying the same fact.
+        tip,
+        // The dashed contour is a data encoding, so the accessible name carries
+        // the same fact in words.
         title: `${formatYyyymm(point.month)} · ${series.label} · ${formatMoney(
           value,
         )} · ${estimatedWord(estimated)}`,
       };
-    }),
-  );
+    });
+  });
 
   // The band starts at the leading edge of the first projected month's own band
   // — not its centre — so the dashed rule lands where the month begins. Null

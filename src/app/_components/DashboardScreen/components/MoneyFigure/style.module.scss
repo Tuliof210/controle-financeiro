@@ -1,0 +1,13 @@
+// The dimmed cents. `opacity`, not a lighter colour token: the figure is
+// rendered on four different surfaces (the card, the sunken pane, the cobalt
+// band, the inverted hero band) and an alpha of whatever the parent already
+// resolved is the only value that is correct on all four.
+//
+// --opacity-muted (0.7), NOT the target's 0.45. Measured rather than copied:
+// --color-text at 45% composites to ~3.1:1 on --color-surface, under rule 7's
+// 4.5:1 floor for text — and these ARE text, not decoration. At 0.7 the same
+// pair measures ~7.0:1 light and ~6.6:1 dark, and the cents still read as
+// secondary to the whole number beside them.
+.fraction {
+  opacity: var(--opacity-muted);
+}

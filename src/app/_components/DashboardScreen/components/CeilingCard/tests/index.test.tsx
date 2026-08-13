@@ -37,13 +37,16 @@ const SHOW_ALL = /Ver todos/;
 
 describe("CeilingCard", () => {
   it("heads the card with this month's figure and the two cadences", () => {
-    card();
+    const { container } = card();
 
     expect(
       screen.getByRole("heading", { name: "Teto de Gastos" }),
     ).toBeInTheDocument();
-    // Twice: the headline and the current month's row.
-    expect(screen.getAllByText("R$ 2,50")).toHaveLength(2);
+    // The headline, and the current month's row. The headline is two text nodes
+    // now — its cents are their own dimmed span — and getByText reads only an
+    // element's DIRECT text children, so that one goes through the element.
+    expect(container.querySelector(".total")).toHaveTextContent("R$ 2,50");
+    expect(screen.getByText("R$ 2,50")).toBeInTheDocument();
     expect(screen.getByText("Por semana")).toBeInTheDocument();
   });
 

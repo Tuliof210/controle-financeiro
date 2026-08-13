@@ -41,6 +41,24 @@
   background: var(--color-brand);
 }
 
+// The target's cobalt glow, off the band's top-right corner. It is the one
+// gradient the constitution allows (rule 8, --glow-brand — "a cobalt radial glow
+// on a dark hero, never on the mark"), and it holds in BOTH themes because the
+// band inverts under it: cobalt at 40% reads on near-black and on near-white.
+//
+// Sized off the 4px scale rather than the target's raw 720/320/140, none of
+// which is a step on it. `.band` already carries `overflow: hidden`, so nothing
+// here escapes; `pointer-events: none` keeps it out of the hit test.
+.glow {
+  position: absolute;
+  top: calc(var(--space-24) * -3);
+  right: calc(var(--space-24) * -1.5);
+  width: calc(var(--space-24) * 7);
+  height: calc(var(--space-24) * 7);
+  background: var(--glow-brand);
+  pointer-events: none;
+}
+
 // The scanline overlay is gone with it — a repeating gradient over the band is
 // texture, and the target draws none.
 .inner {

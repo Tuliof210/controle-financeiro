@@ -30,7 +30,7 @@ describe("useHeroBand", () => {
 
     expect(figures).toMatchObject({
       endLabel: "Mar/26",
-      value: "R$ 5,00",
+      value: 500,
       now: "R$ 1,00",
       delta: "R$ 4,00",
       deltaUp: true,

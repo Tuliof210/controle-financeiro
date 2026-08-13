@@ -1,4 +1,10 @@
-import { LinePath } from "@visx/shape";
+import { AreaClosed, LinePath } from "@visx/shape";
+import {
+  areaWashProps,
+  crosshairProps,
+  LINE_PROPS,
+  PROJECTED_LINE_DASHARRAY,
+} from "../../chart-line.config.ts";
 import { ChartFrame } from "../ChartFrame/index.tsx";
 import { useChartTooltip } from "../ChartTooltip/hook.ts";
 import { ChartTooltip } from "../ChartTooltip/index.tsx";
@@ -6,13 +12,12 @@ import { DotMark } from "./components/DotMark/index.tsx";
 import { TightestMark } from "./components/TightestMark/index.tsx";
 import { type BalanceLineChartProps, useBalanceLineChart } from "./hook.ts";
 
-const LINE = { stroke: "var(--color-brand)", strokeWidth: 2 };
-
 export function BalanceLineChart(props: BalanceLineChartProps) {
   const {
     frame,
     solid,
     dashed,
+    curve,
     x,
     y,
     dots,
@@ -30,9 +35,20 @@ export function BalanceLineChart(props: BalanceLineChartProps) {
         width={width}
         height={height}
         frame={frame}
+        background={
+          // Closed against the value scale, so an underwater stretch fills down
+          // from zero rather than painting the whole column.
+          <AreaClosed
+            data={curve}
+            x={x}
+            y={y}
+            yScale={frame.valueScale}
+            {...areaWashProps}
+          />
+        }
       >
-        {/* Without this a negative balance reads as "a bit lower" rather than
-            "underwater". Drawn only when the series actually crosses zero. */}
+        {/* Without it a negative balance reads as "a bit lower", not
+            "underwater". Only when the series actually crosses zero. */}
         {zeroY !== null && (
           <line
             x1={0}
@@ -42,11 +58,26 @@ export function BalanceLineChart(props: BalanceLineChartProps) {
             stroke="var(--color-text-muted)"
           />
         )}
-        <LinePath data={solid} x={x} y={y} {...LINE} />
+        {/* Driven by the tooltip's own hover: the two cannot disagree. */}
+        {tooltip?.plotX !== undefined && (
+          <line
+            x1={tooltip.plotX}
+            x2={tooltip.plotX}
+            y1={0}
+            y2={frame.innerHeight}
+            {...crosshairProps}
+          />
+        )}
+        <LinePath data={solid} x={x} y={y} {...LINE_PROPS} />
         {/* Shares its first point with the solid path, so the seam connects. */}
-        <LinePath data={dashed} x={x} y={y} {...LINE} strokeDasharray="6 4" />
-        {/* Drawn over the line and under the dots, so a dot on that month stays
-            hittable. */}
+        <LinePath
+          data={dashed}
+          x={x}
+          y={y}
+          {...LINE_PROPS}
+          strokeDasharray={PROJECTED_LINE_DASHARRAY}
+        />
+        {/* Over the line, under the dots: that month's dot stays hittable. */}
         {tightestMark !== null && (
           <TightestMark {...tightestMark} height={frame.innerHeight} />
         )}
@@ -57,6 +88,7 @@ export function BalanceLineChart(props: BalanceLineChartProps) {
             cy={dot.cy}
             title={dot.title}
             projected={dot.projected}
+            tip={dot.tip}
             showTooltip={showTooltip}
             hideTooltip={hideTooltip}
           />

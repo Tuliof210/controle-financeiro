@@ -18,12 +18,15 @@ const data = (goals: unknown[]) =>
 
 describe("SavingsSection", () => {
   it("heads the card with the saving capacity", () => {
-    render(<SavingsSection data={data([goal])} />);
+    const { container } = render(<SavingsSection data={data([goal])} />);
 
     expect(
       screen.getByRole("heading", { name: "CAPACIDADE DE POUPANÇA" }),
     ).toBeInTheDocument();
-    expect(screen.getByText("R$ 2,50")).toBeInTheDocument();
+    // toHaveTextContent, not getByText: the figure is two text nodes now — its
+    // cents are their own dimmed span — and getByText reads only an element's
+    // DIRECT text children.
+    expect(container.querySelector(".value")).toHaveTextContent("R$ 2,50");
   });
 
   it("lists one row per goal, under the four column labels", () => {

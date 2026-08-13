@@ -27,7 +27,7 @@ describe("useSavingsSection", () => {
     );
 
     expect(result.current.caption).toBe("25% da média dos tetos do período");
-    expect(result.current.capacity).toBe("R$ 2,50");
+    expect(result.current.capacity).toBe(250);
   });
 
   it("says there is no ceiling when nothing can be put aside", () => {

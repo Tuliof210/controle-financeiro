@@ -27,7 +27,7 @@ describe("useStatCard", () => {
 
     expect(result.current.glyph).toBeNull();
     expect(result.current.tone).toBe("positive");
-    expect(result.current.band).toBe("positive");
+    expect(result.current.chip).toBe("positive");
   });
 
   it("points the glyph up on a signed card in the black", () => {
@@ -46,19 +46,19 @@ describe("useStatCard", () => {
     expect(result.current.tone).toBe("negative");
   });
 
-  it("keeps the band and the sparkline on the fixed tone", () => {
+  it("keeps the chip and the sparkline on the fixed tone", () => {
     const { result } = renderHook(() =>
       useStatCard({ ...base, signed: true, stats: { ...stats, total: -1 } }),
     );
 
-    expect(result.current.band).toBe("brand");
+    expect(result.current.chip).toBe("brand");
     expect(result.current.color).toBe("var(--color-brand)");
   });
 
   it("formats the headline and the four secondary rows", () => {
     const { result } = renderHook(() => useStatCard(base));
 
-    expect(result.current.total).toBe("R$ 10,00");
+    expect(result.current.total).toBe(1000);
     expect(result.current.rows.map((row) => row.label)).toEqual([
       "Realizado",
       "Média/mês",

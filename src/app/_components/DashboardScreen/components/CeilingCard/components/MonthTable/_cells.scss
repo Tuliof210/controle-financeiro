@@ -1,0 +1,48 @@
+// The three money columns and the current-month chip, split off
+// `style.module.scss` under the exception ARCHITECTURE.md grants
+// `RowGrid/_tiers.scss`: a mixin that emits nothing on its own, included once by
+// the stylesheet beside it, so neither file crosses the 100-line cap. Not a
+// component — its markup is this folder's `index.tsx`.
+//
+// Every selector here is a bare class, exactly as it was before the split, and
+// it is included at the including file's top level — same nesting, same
+// specificity. Lifting a rule OUT of an ancestor is what silently changes it.
+
+@mixin cells {
+  // Inverted like the card header's `.now` badge, for the same reason: the month
+  // in view is a state, not one more label in a column of them.
+  .current {
+    margin-inline-start: var(--space-2);
+    padding: 0 var(--space-2);
+    background: var(--color-positive);
+    // --color-bg flips with the fill, so the pair reads 5.46:1 light and 9.37:1
+    // dark — see SectionCard/_band.scss for the full derivation.
+    color: var(--color-bg);
+    font-size: var(--text-2xs);
+  }
+
+  // The balance arriving at the month is context for the answer beside it.
+  .balance {
+    color: var(--color-text-secondary);
+    font-weight: var(--weight-medium);
+  }
+
+  // The month's own ceiling, accented like the gauge it feeds at the foot of the
+  // row — both are --color-caution, so the figure and the bar name one quantity.
+  // Not colour-only: the cell leads with a minus glyph and its header says what
+  // it is.
+  .spend {
+    color: var(--color-caution);
+    font-weight: var(--weight-semibold);
+  }
+
+  // The leftover is the row's answer, so it is the one figure with the workhorse
+  // weight AND the larger size. No negative state: a ceiling is floored against
+  // a suffix minimum that is itself at or below the month's own balance, so
+  // `ceilingLeft` cannot go under zero — see `ceiling.types.ts`.
+  .left {
+    color: var(--color-text);
+    font-size: var(--text-base);
+    font-weight: var(--weight-semibold);
+  }
+}

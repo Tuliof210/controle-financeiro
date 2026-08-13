@@ -1,95 +1,83 @@
-// A wrapper around SectionCard purely so the design's corner marks have a box
-// to hang off. `display: grid` (not block) so the card still stretches to the
-// tallest of the three in a row, exactly as it did when SectionCard was the
-// grid item itself.
+@use "theme" as t;
+@use "./chip" as *;
+@use "./quadrant" as *;
+
+// The KPI tile's own shell. It stopped delegating to SectionCard when the target
+// dropped the filled band from these three cards — see index.tsx.
+//
+// No `overflow: hidden`, ever, for the reason SectionCard states: the header
+// holds a Tooltip trigger and t.focus-ring is an outline with outline-offset,
+// which an overflow-hidden ancestor clips. The target relies on that overflow to
+// bleed its sparkline; here the strip pays its own negative margin instead, so
+// the bleed survives without the clip.
 .card {
-  position: relative;
-  display: grid;
-}
+  // The radius the sparkline at the bottom has to meet, derived from this card's
+  // own outer radius and border exactly as SectionCard derives its band's.
+  --band-radius: calc(var(--radius-lg) - var(--border-1));
 
-// The design draws 10px squares; 10 is not on the 4px scale, and the story's
-// DoD allows raw pixels only for the 44px hit target and the two rail widths.
-.card::before,
-.card::after {
-  content: "";
-  position: absolute;
-  width: var(--space-2);
-  height: var(--space-2);
-}
-
-// This wrapper has no border of its own, so its padding box IS the card's outer
-// edge — the marks pin flush to the corners with no offset. (Pulling them out by
-// pulling them out by the border width was correct only while they hung off
-// SectionCard, inside its own border.)
-.card::before {
-  top: 0;
-  left: 0;
-  background: var(--color-brand);
-}
-
-.card::after {
-  bottom: 0;
-  right: 0;
-  background: var(--color-border);
-}
-
-// Cancels SectionCard's padding left, right and bottom so the strip sits on the
-// card's inner edge — the mirror of what the band does at the top, and the
-// reason the card still cannot take `overflow: hidden`. `display: block` because
-// an inline svg would leave a descender's worth of gap under itself.
-.spark {
-  display: block;
-  // Overrides the 112px width attribute; preserveAspectRatio is "none", so the
-  // same shape draws into whatever box the card gives it. Spelled out rather
-  // than left to `auto`: an <svg> carrying a viewBox has an intrinsic size, so
-  // `auto` would resolve to the 112px attribute instead of stretching.
-  width: calc(100% + var(--space-6) * 2);
-  // The design draws 56px, which is not a step on the 4px scale; 48 + 8 is.
-  height: calc(var(--space-12) + var(--space-2));
-  margin: 0 calc(var(--space-6) * -1) calc(var(--space-6) * -1);
-  border-top: var(--border-1) solid var(--color-border-subtle);
-  // Inherited from SectionCard's `.card`, which derives it from its own radius
-  // and border — the same corner the band rounds at the top, read from the one
-  // place that knows it.
-  border-radius: 0 0 var(--band-radius) var(--band-radius);
-}
-
-// Two columns, never a bare `1fr`: `1fr` is `minmax(auto, 1fr)`, so a long
-// figure would refuse to shrink and the page would scroll sideways at 375px.
-// The rule above the group and the one between its two rows are the design's;
-// the outer cell borders are not, so only `.row:nth-child(n + 3)` carries one.
-.rows {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0 var(--space-4);
-  margin: 0;
-  padding-top: var(--space-4);
-  border-top: var(--border-1) solid var(--color-border-subtle);
-}
-
-.row {
   display: flex;
   flex-direction: column;
+  gap: var(--space-4);
+  padding: var(--space-6);
+  background: var(--color-surface);
+  border: var(--border-1) solid var(--color-border);
+  border-radius: var(--radius-lg);
+  @include t.elevation(raised);
+}
+
+.header {
+  display: flex;
+  align-items: center;
   gap: var(--space-2);
-  padding: var(--space-3) 0;
+  // The one row on the tile allowed to wrap: at 375px the eyebrow and the hint
+  // cannot always share a line with the chip.
+  flex-wrap: wrap;
 }
 
-.row:nth-child(n + 3) {
-  border-top: var(--border-1) solid var(--color-border-subtle);
-}
-
-.label {
-  color: var(--color-text-muted);
+// The canonical eyebrow — mono at --text-2xs with --tracking-wide, one of the
+// few places uppercase survives. text-transform rather than uppercasing the
+// string, because the title is read by a screen reader and reused verbatim as
+// the Tooltip's label.
+.title {
+  margin: 0;
+  color: var(--color-text-secondary);
   font-family: var(--font-mono);
   font-size: var(--text-2xs);
+  font-weight: var(--weight-regular);
   letter-spacing: var(--tracking-wide);
   text-transform: uppercase;
 }
 
-.value {
-  margin: 0;
-  color: var(--color-text);
-  font-family: var(--font-sans);
-  font-size: var(--text-base);
-  font-variant-numeric: tabular-nums;
+// Everything between the header and the sparkline. Its own box so the strip
+// below can take `margin-top: auto` against the card's flex column.
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
 }
+
+// The strip on the card's bottom edge. `margin-top: auto` is what pins it there
+// however tall the tile grows beside its neighbours; the negative margins cancel
+// the card's own padding so it reaches the inner edge without an `overflow`
+// this card is not allowed to have. `display: block` because an inline <svg>
+// would leave a descender's worth of gap under itself.
+.spark {
+  display: block;
+  margin-top: auto;
+  // Overrides the width attribute; preserveAspectRatio is "none", so the same
+  // shape draws into whatever box the card gives it. Spelled out rather than
+  // left to `auto`: an <svg> carrying a viewBox has an intrinsic size, so `auto`
+  // would resolve to the attribute instead of stretching.
+  width: calc(100% + var(--space-6) * 2);
+  // The target draws 56px, which is not a step on the 4px scale; 48 + 8 is.
+  height: calc(var(--space-12) + var(--space-2));
+  margin-right: calc(var(--space-6) * -1);
+  margin-bottom: calc(var(--space-6) * -1);
+  margin-left: calc(var(--space-6) * -1);
+  border-radius: 0 0 var(--band-radius) var(--band-radius);
+}
+
+// The icon chip lives in `_chip.scss` and the 2x2 figure grid in
+// `_quadrant.scss` — see the note in each on why it is split off.
+@include chip;
+@include quadrant;

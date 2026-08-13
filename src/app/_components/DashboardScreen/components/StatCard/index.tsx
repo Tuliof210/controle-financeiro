@@ -1,26 +1,58 @@
-import { SectionCard } from "@/components/SectionCard/index.tsx";
+import { Tooltip } from "@/components/Tooltip/index.tsx";
+import { cx } from "@/lib/cx.ts";
 import { SPARK_H, SPARK_W } from "../../spark.helper.ts";
 import { Headline } from "../Headline/index.tsx";
+import { MoneyFigure } from "../MoneyFigure/index.tsx";
 import { type StatCardProps, useStatCard } from "./hook.ts";
 import styles from "./style.module.scss";
 
-export function StatCard(props: StatCardProps) {
-  const { title, icon, hint, glyph, total, tone, band, rows, spark, color } =
-    useStatCard(props);
+// An explicit map, not `styles[chip]`: a CSS-Modules string lookup dies silently
+// when a class is renamed, and SectionCard's own band map is written out for the
+// same reason.
+const CHIP_CLASS = {
+  positive: styles.chipPositive,
+  negative: styles.chipNeutral,
+  brand: styles.chipBrand,
+} as const;
 
-  // The corner marks hang off this wrapper rather than off SectionCard: 13
-  // other call sites render that component and none of them wants them.
+// The KPI tile draws its OWN shell rather than SectionCard's: the target's tile
+// has no filled band at all — it leads with a 28px icon chip carrying the
+// semantic pair — and SectionCard has no slot for one. Thirteen other call sites
+// render that component unchanged, which is exactly why this one stopped.
+export function StatCard(props: StatCardProps) {
+  const {
+    title,
+    icon: Icon,
+    hint,
+    chip,
+    glyph,
+    total,
+    tone,
+    rows,
+    spark,
+    color,
+  } = useStatCard(props);
+
   return (
-    <div className={styles.card}>
-      {/* `band`, not `tone`: the fill states what the tint used to, and the two
-          on one row would only be a second place for the accent to be decided.
-          `tone` still reaches Headline, where it colours the figure. */}
-      <SectionCard title={title} icon={icon} band={band} hint={hint}>
+    <section className={styles.card}>
+      <div className={styles.header}>
+        <span className={cx(styles.chip, CHIP_CLASS[chip])}>
+          <Icon size={16} aria-hidden={true} />
+        </span>
+        <h2 className={styles.title}>{title}</h2>
+        {/* Named after the card: the dashboard renders many of these, and a
+            generic label would list them all identically to a screen reader. */}
+        <Tooltip text={hint} label={`Como ${title} é calculado`} />
+      </div>
+
+      <div className={styles.body}>
         <Headline caption="Valor total no período" tone={tone}>
           {Boolean(glyph) && <span aria-hidden={true}>{glyph} </span>}
-          {total}
+          <MoneyFigure cents={total} />
         </Headline>
 
+        {/* The 2x2 quadrant: every rule on it is a cell border, so the grid is
+            drawn by the cells themselves and never by a fill. */}
         <dl className={styles.rows}>
           {rows.map((row) => (
             <div className={styles.row} key={row.key}>
@@ -29,25 +61,40 @@ export function StatCard(props: StatCardProps) {
             </div>
           ))}
         </dl>
+      </div>
 
-        {/* Last child and full-bleed, so the strip sits on the card's bottom
-            edge the way the band sits on its top one. aria-hidden: the four
-            rows above already carry every number it draws. */}
-        {spark !== null && (
-          <svg
-            width={SPARK_W}
-            height={SPARK_H}
-            viewBox={`0 0 ${SPARK_W} ${SPARK_H}`}
+      {/* `margin-top: auto` is what makes the strip sit on the card's bottom
+          edge however tall the tile grows beside its neighbours. aria-hidden:
+          the four rows above already carry every number it draws. */}
+      {spark !== null && (
+        <svg
+          width={SPARK_W}
+          height={SPARK_H}
+          viewBox={`0 0 ${SPARK_W} ${SPARK_H}`}
+          fill="none"
+          preserveAspectRatio="none"
+          aria-hidden="true"
+          className={styles.spark}
+        >
+          {/* The target washes the area at 0.1; --opacity-data-wash is 0.14 and
+              is the token this repo already spends on exactly this. A token
+              VALUE is T1's scope, so the four hundredths stay. */}
+          <path
+            d={spark.area}
+            fill={color}
+            opacity="var(--opacity-data-wash)"
+          />
+          <path
+            d={spark.line}
+            stroke={color}
+            strokeWidth="2"
             fill="none"
-            preserveAspectRatio="none"
-            aria-hidden="true"
-            className={styles.spark}
-          >
-            <path d={spark.area} fill={color} opacity="0.14" />
-            <path d={spark.line} stroke={color} strokeWidth="2" fill="none" />
-          </svg>
-        )}
-      </SectionCard>
-    </div>
+            strokeLinejoin="round"
+            strokeLinecap="round"
+            vectorEffect="non-scaling-stroke"
+          />
+        </svg>
+      )}
+    </section>
   );
 }

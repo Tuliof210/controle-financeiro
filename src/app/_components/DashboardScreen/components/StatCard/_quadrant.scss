@@ -1,0 +1,55 @@
+// The tile's 2x2 figure grid, split off `style.module.scss` under the exception
+// ARCHITECTURE.md grants `RowGrid/_tiers.scss`: a mixin that emits nothing on
+// its own, included once by the stylesheet beside it, so neither file crosses
+// the 100-line cap. Not a component — its markup is this folder's `index.tsx`.
+
+@mixin quadrant {
+  // Two columns, never a bare `1fr`: `1fr` is `minmax(auto, 1fr)`, so a long
+  // figure would refuse to shrink and the page would scroll sideways at 375px.
+  //
+  // Every rule in the quadrant is a CELL border — the group's top rule here, the
+  // spine on the right column, the mid rule on the bottom row. Nothing is
+  // filled, which is what the target means by drawing the quadrant with borders.
+  .rows {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin: var(--space-1) 0 0;
+    border-top: var(--border-1) solid var(--color-border-subtle);
+  }
+
+  .row {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-4) var(--space-3) 0;
+  }
+
+  // The right column's spine. `nth-child(even)` and not `+ *`: the grid has four
+  // cells in two rows, so "even" is exactly the right-hand column.
+  .row:nth-child(even) {
+    padding-right: 0;
+    padding-left: var(--space-4);
+    border-left: var(--border-1) solid var(--color-border-subtle);
+  }
+
+  .row:nth-child(n + 3) {
+    border-top: var(--border-1) solid var(--color-border-subtle);
+  }
+
+  .label {
+    color: var(--color-text-muted);
+    font-family: var(--font-mono);
+    font-size: var(--text-2xs);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+  }
+
+  .value {
+    margin: 0;
+    color: var(--color-text);
+    font-family: var(--font-sans);
+    font-size: var(--text-base);
+    font-weight: var(--weight-semibold);
+    font-variant-numeric: tabular-nums;
+  }
+}

@@ -51,6 +51,7 @@ export function MonthlyBarChart(props: MonthlyBarChartProps) {
             fill={bar.fill}
             estimated={bar.estimated}
             title={bar.title}
+            tip={bar.tip}
             plotHeight={frame.innerHeight}
             showTooltip={showTooltip}
             hideTooltip={hideTooltip}

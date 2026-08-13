@@ -1,12 +1,18 @@
-// 50% opacity marks a month whose commitment beat its actuals — a projection,
-// not history.
-const ESTIMATED_OPACITY = 0.5;
+import {
+  BAR_STROKE,
+  ESTIMATED_BAR,
+  REAL_BAR,
+} from "../../../../chart-marks.config.ts";
+import type { TooltipContent } from "../../../ChartTooltip/hook.ts";
 
-const barOpacity = (estimated: boolean): number => {
+// The projected bar is drawn as a dashed OUTLINE with a wash inside it; the real
+// one is the same geometry with the stroke at zero opacity. Opacity alone would
+// be colour-only encoding — see chart-marks.config.ts.
+const barShape = (estimated: boolean) => {
   if (estimated) {
-    return ESTIMATED_OPACITY;
+    return { ...BAR_STROKE, ...ESTIMATED_BAR };
   }
-  return 1;
+  return { ...BAR_STROKE, ...REAL_BAR };
 };
 
 interface PointerLocation {
@@ -21,18 +27,25 @@ interface BarMarkProps {
   height: number;
   fill: string;
   estimated: boolean;
+  // Accessible name for the hit target: it carries the month, the series, the
+  // figure AND the projected/recorded word, so the bar's shape is never the only
+  // place that fact lives.
   title: string;
+  // The whole month's figures, shared by both bars of the month — the same
+  // three lines the target's bubble shows.
+  tip: TooltipContent;
   // The full plot height: the hit target is the whole column, not the bar.
   plotHeight: number;
-  showTooltip: (event: PointerLocation, text: string) => void;
+  showTooltip: (event: PointerLocation, content: TooltipContent) => void;
   hideTooltip: () => void;
 }
 
-// The mark binds its own title to the tooltip, so the chart's map hands over
-// plain references instead of building three closures per bar in the JSX.
+// The mark binds its own tooltip content, so the chart's map hands over plain
+// references instead of building three closures per bar in the JSX.
 function useBarMark({
   title,
   estimated,
+  tip,
   showTooltip,
   hideTooltip,
   ...rest
@@ -40,8 +53,8 @@ function useBarMark({
   return {
     ...rest,
     title,
-    opacity: barOpacity(estimated),
-    show: (event: PointerLocation) => showTooltip(event, title),
+    shape: barShape(estimated),
+    show: (event: PointerLocation) => showTooltip(event, tip),
     hide: hideTooltip,
   };
 }

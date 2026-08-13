@@ -24,10 +24,13 @@ const UP_GLYPH = /▲/;
 
 describe("StatCard", () => {
   it("heads the card with its own total and four secondary rows", () => {
-    render(<StatCard {...props} />);
+    const { container } = render(<StatCard {...props} />);
 
     expect(screen.getByRole("heading", { name: "Saldo" })).toBeInTheDocument();
-    expect(screen.getByText("R$ 10,00")).toBeInTheDocument();
+    // toHaveTextContent, not getByText: the headline is two text nodes now —
+    // its cents are their own dimmed span — and getByText reads only an
+    // element's DIRECT text children.
+    expect(container.querySelector(".total")).toHaveTextContent("R$ 10,00");
     expect(screen.getByText("Desvio padrão")).toBeInTheDocument();
   });
 
@@ -47,6 +50,17 @@ describe("StatCard", () => {
 
     expect(path).not.toBeNull();
     expect(path).toHaveAttribute("stroke", "var(--color-brand)");
+  });
+
+  it("tints the icon chip with the card's own semantic pair", () => {
+    const { container, rerender } = render(<StatCard {...props} />);
+
+    expect(container.querySelector(".chipBrand")).not.toBeNull();
+
+    rerender(<StatCard {...props} tone="negative" />);
+
+    // The NEUTRAL pair, not the negative one: a normal expense is not red.
+    expect(container.querySelector(".chipNeutral")).not.toBeNull();
   });
 
   it("draws no sparkline for an empty series", () => {

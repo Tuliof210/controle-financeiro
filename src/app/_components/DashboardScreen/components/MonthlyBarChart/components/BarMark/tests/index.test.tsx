@@ -11,6 +11,18 @@ const props = {
   fill: "var(--color-positive)",
   estimated: false,
   title: "Ago/26 · Entradas · R$ 10,00 · lançado",
+  tip: {
+    title: "Ago/26",
+    tag: "real",
+    rows: [
+      {
+        key: "income",
+        label: "entradas",
+        value: "R$ 10,00",
+        tone: "positive" as const,
+      },
+    ],
+  },
   plotHeight: 200,
   showTooltip: jest.fn(),
   hideTooltip: jest.fn(),

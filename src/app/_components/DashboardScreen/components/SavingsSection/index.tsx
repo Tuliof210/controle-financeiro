@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Tooltip } from "@/components/Tooltip/index.tsx";
 import { HINTS } from "../../hints.ts";
 import { GoalRow } from "../GoalRow/index.tsx";
+import { MoneyFigure } from "../MoneyFigure/index.tsx";
 import { type SavingsSectionProps, useSavingsSection } from "./hook.ts";
 import styles from "./style.module.scss";
 
@@ -41,7 +42,7 @@ export function SavingsSection(props: SavingsSectionProps) {
             />
           </div>
           <p className={styles.value}>
-            {capacity}
+            <MoneyFigure cents={capacity} />
             <span className={styles.per}> {COPY.mes}</span>
           </p>
           <p className={styles.caption}>{caption}</p>
