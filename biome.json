@@ -26,17 +26,13 @@
     "enabled": true,
     "rules": {
       "preset": "all",
-      "complexity": {
-        "noExcessiveLinesPerFunction": {
-          "level": "on",
-          "options": {
-            "maxLines": 100
-          }
-        }
-      },
-      "style": {
-        "noExcessiveLinesPerFile": "off"
-      }
+      "a11y": "error",
+      "complexity": "error",
+      "correctness": "error",
+      "performance": "error",
+      "security": "error",
+      "style": "error",
+      "suspicious": "error"
     },
     "domains": {
       "next": "all",
@@ -55,6 +51,23 @@
     }
   },
   "overrides": [
+    {
+      "includes": [
+        "**/*.json",
+        "**/*.jsonc",
+        "**/*.css",
+        "**/*.scss",
+        "**/*.md",
+        "**/*.mdx"
+      ],
+      "linter": {
+        "rules": {
+          "style": {
+            "noExcessiveLinesPerFile": "off"
+          }
+        }
+      }
+    },
     {
       "includes": [
         "src/app/**/page.tsx",
@@ -88,7 +101,15 @@
         "rules": {
           "style": {
             "noExcessiveLinesPerFile": {
-              "level": "on",
+              "level": "error",
+              "options": {
+                "maxLines": 100
+              }
+            }
+          },
+          "complexity": {
+            "noExcessiveLinesPerFunction": {
+              "level": "error",
               "options": {
                 "maxLines": 100
               }
@@ -128,7 +149,15 @@
       "linter": {
         "rules": {
           "style": {
-            "noMagicNumbers": "off"
+            "noMagicNumbers": "off",
+            "noJsxLiterals": "off",
+            "useNamingConvention": "off"
+          },
+          "security": {
+            "noSecrets": "off"
+          },
+          "correctness": {
+            "noNodejsModules": "off"
           }
         }
       }
@@ -159,7 +188,7 @@
         "rules": {
           "security": {
             "noSecrets": {
-              "level": "on",
+              "level": "error",
               "options": {
                 "entropyThreshold": 43
               }
