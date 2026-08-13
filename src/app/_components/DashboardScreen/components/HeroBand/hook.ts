@@ -33,7 +33,7 @@ function useHeroBand({ data }: HeroBandProps) {
   return {
     figures: {
       endLabel: formatYyyymm(range.end),
-      value: formatMoney(last.cumulative),
+      value: last.cumulative,
       now: formatMoney(current.cumulative),
       delta: formatMoney(last.cumulative - current.cumulative),
       // Drives the ▲/▼ glyph AND the badge tone, so the two can never disagree

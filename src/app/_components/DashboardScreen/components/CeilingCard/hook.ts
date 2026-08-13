@@ -62,7 +62,7 @@ export function useCeilingCard({
     // the half of the problem this card was rewritten to fix.
     empty: months.every((row) => row.budget === 0),
     note: noteFor(firstRed),
-    monthly: formatMoney(monthly),
+    monthly,
     // The divisions already happened in the payload; this only formats them.
     // Two labelled figures rather than the one "x/sem · y/dia" string they used
     // to be: the summary pane has the room, and a labelled figure is what the

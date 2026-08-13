@@ -2,6 +2,7 @@ import { Tooltip } from "@/components/Tooltip/index.tsx";
 import { cx } from "@/lib/cx.ts";
 import { SPARK_H, SPARK_W } from "../../spark.helper.ts";
 import { Headline } from "../Headline/index.tsx";
+import { MoneyFigure } from "../MoneyFigure/index.tsx";
 import { type StatCardProps, useStatCard } from "./hook.ts";
 import styles from "./style.module.scss";
 
@@ -47,7 +48,7 @@ export function StatCard(props: StatCardProps) {
       <div className={styles.body}>
         <Headline caption="Valor total no período" tone={tone}>
           {Boolean(glyph) && <span aria-hidden={true}>{glyph} </span>}
-          {total}
+          <MoneyFigure cents={total} />
         </Headline>
 
         {/* The 2x2 quadrant: every rule on it is a cell border, so the grid is

@@ -9,6 +9,7 @@ import {
   formatMoneyShort,
   formatMoneyShortK,
   MAX_CENTS,
+  splitMoney,
 } from "@/lib/money.ts";
 
 const ZERO = 0;
@@ -38,6 +39,27 @@ describe("formatMoney", () => {
 
   it("uses U+2212 for a negative value", () => {
     expect(formatMoney(NEGATIVE_640)).toBe("−R$ 640,00");
+  });
+});
+
+describe("splitMoney", () => {
+  it("cuts the same string formatMoney produces, comma on the head", () => {
+    expect(splitMoney(REAIS_1234_56)).toEqual({
+      head: "R$ 1.234,",
+      fraction: "56",
+    });
+    // The two halves rejoin into exactly what formatMoney says — the variant
+    // must never be able to disagree with the formatter it splits.
+    const { head, fraction } = splitMoney(REAIS_1234_56);
+    expect(head + fraction).toBe(formatMoney(REAIS_1234_56));
+  });
+
+  it("carries the U+2212 sign into the head", () => {
+    expect(splitMoney(NEGATIVE_640).head).toBe("−R$ 640,");
+  });
+
+  it("keeps the padded fraction below one real", () => {
+    expect(splitMoney(ONE_CENT)).toEqual({ head: "R$ 0,", fraction: "01" });
   });
 });
 

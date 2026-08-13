@@ -1,4 +1,5 @@
 import { cx } from "@/lib/cx.ts";
+import { MoneyFigure } from "../MoneyFigure/index.tsx";
 import { Facts } from "./components/Facts/index.tsx";
 import { type HeroBandProps, useHeroBand } from "./hook.ts";
 import styles from "./style.module.scss";
@@ -20,6 +21,7 @@ export function HeroBand(props: HeroBandProps) {
   return (
     <section className={styles.band}>
       <div className={styles.edge} aria-hidden={true} />
+      <div className={styles.glow} aria-hidden={true} />
 
       <div className={styles.inner}>
         <div className={styles.head}>
@@ -42,7 +44,9 @@ export function HeroBand(props: HeroBandProps) {
               <p className={styles.eyebrow}>
                 {COPY.saldoProjetado} {figures.endLabel}
               </p>
-              <p className={styles.value}>{figures.value}</p>
+              <p className={styles.value}>
+                <MoneyFigure cents={figures.value} />
+              </p>
               <div className={styles.deltaRow}>
                 <span
                   className={cx(

@@ -58,7 +58,7 @@ describe("useStatCard", () => {
   it("formats the headline and the four secondary rows", () => {
     const { result } = renderHook(() => useStatCard(base));
 
-    expect(result.current.total).toBe("R$ 10,00");
+    expect(result.current.total).toBe(1000);
     expect(result.current.rows.map((row) => row.label)).toEqual([
       "Realizado",
       "Média/mês",

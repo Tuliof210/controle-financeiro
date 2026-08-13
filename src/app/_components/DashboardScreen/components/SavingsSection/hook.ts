@@ -1,4 +1,4 @@
-import { formatMoney, formatMoneyShort } from "@/lib/money.ts";
+import { formatMoneyShort } from "@/lib/money.ts";
 import type { BoardData } from "../Board/hook.ts";
 
 interface SavingsSectionProps {
@@ -23,7 +23,7 @@ function useSavingsSection({ data }: SavingsSectionProps) {
     // the reader can check that claim one card up.
     horizon: ceiling.months.length,
     empty: goals.length === 0,
-    capacity: formatMoney(pace),
+    capacity: pace,
     // `pace` is a quarter of the MEAN of the Teto de Gastos figures, so unlike
     // the flat rate it replaced the caption may point straight at that card —
     // the two now read off the same numbers, and the reader can check it.

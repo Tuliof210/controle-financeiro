@@ -27,10 +27,13 @@ describe("HeroBand", () => {
   });
 
   it("shows the projected balance against the current one", () => {
-    render(<HeroBand data={data} />);
+    const { container } = render(<HeroBand data={data} />);
 
     expect(screen.getByText("SALDO PROJETADO · Mar/26")).toBeInTheDocument();
-    expect(screen.getByText("R$ 5,00")).toBeInTheDocument();
+    // toHaveTextContent, not getByText: the figure is two text nodes now — its
+    // cents are their own dimmed span — and getByText reads only an element's
+    // DIRECT text children.
+    expect(container.querySelector(".value")).toHaveTextContent("R$ 5,00");
     expect(screen.getByText(VS_NOW)).toBeInTheDocument();
   });
 

@@ -34,6 +34,16 @@ const formatMoney = (cents: number): string => {
   return `${sign(cents)}R$ ${group(whole)},${fraction}`;
 };
 
+// The same string formatMoney produces, cut at the decimal comma so a display
+// can dim the fraction (the target's --mv-money-decimal-opacity). A VARIANT, not
+// a change of signature: formatMoney has many call sites and every one of them
+// still wants one string. The comma stays on the HEAD — it belongs to the whole
+// number's rhythm, and dimming it with the cents read as two figures.
+const splitMoney = (cents: number): { head: string; fraction: string } => {
+  const [whole, fraction] = formatCents(cents).split(",");
+  return { head: `${sign(cents)}R$ ${group(whole)},`, fraction };
+};
+
 // cents -> "R$ 1.234", dropping the cents (truncated toward zero, never
 // rounded up). For chart axis labels, where two decimals are noise.
 const formatMoneyShort = (cents: number): string =>
@@ -75,4 +85,5 @@ export {
   formatMoneyShort,
   formatMoneyShortK,
   MAX_CENTS,
+  splitMoney,
 };

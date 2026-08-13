@@ -38,7 +38,9 @@ const card = (
 
 describe("useCeilingCard", () => {
   it("formats the headline and its two cadences", () => {
-    expect(card().monthly).toBe("R$ 2,50");
+    // Cents now: MoneyFigure splits and formats it, so the hook stops
+    // holding a second copy of the format.
+    expect(card().monthly).toBe(250);
     expect(card().rates.map((rate) => rate.value)).toEqual([
       "R$ 0,62",
       "R$ 0,08",

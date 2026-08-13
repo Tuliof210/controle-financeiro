@@ -81,7 +81,7 @@ function useStatCard({
     icon,
     hint,
     glyph,
-    total: formatMoney(stats.total),
+    total: stats.total,
     tone: signedTone(signed, negative, tone),
     chip,
     spark: spark(series),
