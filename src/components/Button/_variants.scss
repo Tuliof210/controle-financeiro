@@ -12,8 +12,16 @@
     border-color: transparent;
   }
 
-  // White, and only here: cobalt is dark in BOTH themes, and the brand rule is
-  // that text on cobalt is white.
+  // White, and only here: the brand rule is that text on cobalt is white.
+  //
+  // KNOWN GAP, and it is the token layer's to close. Measured white-on-fill:
+  // light 6.78 / 8.98 / 11.08:1 for rest / hover / active, all clear. DARK is
+  // 3.64 / 2.25 / 1.61:1 — under rule 7's 4.5:1, and the interactive states are
+  // WORSE than rest because --color-brand-hover/-active lighten in dark (they
+  // must: darkening a fill on a dark surface reads as disabled). Fixing it means
+  // darkening the dark ramp's cobalt, i.e. token VALUES, which this task is
+  // forbidden to touch. Whoever does it must move all three, not only the rest
+  // tone — that is why the two interactive figures are written down here.
   .primary {
     color: var(--white);
     background: var(--color-brand);
