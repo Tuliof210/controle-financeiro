@@ -13,7 +13,7 @@
     // rail widths in style.module.scss.
     height: 72px;
     padding: 0 var(--space-4);
-    border-bottom: var(--border-2) solid var(--rail-line);
+    border-bottom: var(--border-1) solid var(--color-border);
   }
 
   .brandText {
@@ -29,12 +29,12 @@
     font-size: var(--text-xs);
     line-height: var(--leading-tight);
     letter-spacing: var(--tracking-display);
-    color: var(--rail-fg);
+    color: var(--color-text);
   }
 
   .brandTag {
     font-size: var(--text-2xs);
     letter-spacing: var(--tracking-wide);
-    color: var(--rail-muted);
+    color: var(--color-text-muted);
   }
 }

@@ -34,10 +34,6 @@ export const semantics = [
   "color-info", "color-focus", "color-hover-wash", "color-row-hover",
 ];
 
-export const rail = [
-  "rail-bg", "rail-fg", "rail-muted", "rail-line", "rail-hover",
-];
-
 export const Swatch = ({ name }) => (
   <div style={{ border: "var(--border-1) solid var(--color-border-subtle)", borderRadius: "var(--radius-sm)", overflow: "hidden" }}>
     <div style={{ height: "56px", background: `var(--${name})` }} />
@@ -93,12 +89,13 @@ moved. Each hue is distinguishable from the others and from cobalt.
 
 ## Navigation rail
 
-No longer its own dark-chrome family: the rail is a light surface with a
-hairline, so these five tokens are plain aliases of the surface ramp. Because
-they alias already-themed tokens they flip on their own and carry no dark
-declaration — redeclaring them is the mistake rule 6 exempts them from.
-
-<Grid names={rail} min="150px" />
+The rail has no palette of its own. It was dark chrome in both themes and
+needed one; it is now a light surface with a hairline to its right, which is
+`--color-surface` and `--color-border` — so the five `--rail-*` aliases were
+deleted rather than kept as a second name for tokens that already exist. The
+active item is a 12% cobalt wash over the surface with `--color-brand-text` on
+it, not a solid brand fill: cobalt is spent on the primary action, focus and
+the mark, and a filled rail item competes with the real action on the page.
 
 ## Gradients
 

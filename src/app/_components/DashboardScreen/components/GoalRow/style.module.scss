@@ -19,14 +19,16 @@
     background: var(--color-surface-raised);
   }
 
-  // The last row has no rule under it — the card's own --border-2 is already
+  // The last row has no rule under it — the card's own hairline is already
   // there, and two borders one pixel apart read as a mistake. Its corners are
-  // rounded by hand for the same reason the band's top ones are: the card
+  // rounded by hand for the same reason the banner's top ones are: the card
   // cannot take `overflow: hidden` (SavingsSection/style.module.scss), so a
   // hover fill would otherwise square off the card's rounded bottom.
+  // --band-radius is inherited from that card, which derives it — a literal
+  // here would drift the moment the radius or the border width moved.
   &:last-child {
     border-bottom: 0;
-    border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+    border-radius: 0 0 var(--band-radius) var(--band-radius);
   }
 }
 

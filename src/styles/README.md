@@ -73,8 +73,11 @@ read as the light value.
    in `_tokens-theme.scss` *and* to `@mixin dark-theme` in `_tokens-dark.scss`,
    which is the one place both dark selectors read — so the two can no longer
    drift apart the way the duplicated blocks they replaced did. A token that
-   aliases an already-themed token (the `--rail-*` family, the gradients) is
-   the documented exception: it flips on its own and must not be redeclared.
+   aliases an already-themed token (the gradients) is the documented exception:
+   it flips on its own and must not be redeclared. An alias that adds no
+   decision on top of the token it points at is not a token at all — the
+   `--rail-*` family became five such aliases and was deleted; its eleven call
+   sites read the semantic token directly.
 7. **Accessibility is non-negotiable:**
    - Every interactive element has a visible focus ring
      (`@include t.focus-ring;` from `_theme.scss`). It paints `--focus-ring`, a

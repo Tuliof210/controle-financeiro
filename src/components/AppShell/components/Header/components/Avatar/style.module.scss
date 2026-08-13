@@ -7,9 +7,8 @@
   width: 38px;
   height: 38px;
   background: var(--color-surface-raised);
-  border: var(--border-2) solid var(--color-border);
-  // README rule 2 names the profile avatar as the documented --radius-full
-  // exception; nothing rectangular may use it.
+  border: var(--border-1) solid var(--color-border);
+  // README rule 2: --radius-full is for pills, tracks, dots and avatars.
   border-radius: var(--radius-full);
   color: var(--color-text);
   font-family: var(--font-mono);

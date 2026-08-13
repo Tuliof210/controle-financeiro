@@ -18,12 +18,15 @@
   // GoalRow, and two halves of one table each declaring their own tracks would
   // be two ways to disagree about where a column starts.
   --goal-cols: minmax(0, 1fr);
+  // The corner the banner rounds at the top and the last goal row at the
+  // bottom, derived once here — see SectionCard, which does the same.
+  --band-radius: calc(var(--radius-lg) - var(--border-1));
 
   display: flex;
   flex-direction: column;
   background: var(--color-surface);
-  border: var(--border-2) solid var(--color-border);
-  border-radius: var(--radius-md);
+  border: var(--border-1) solid var(--color-border);
+  border-radius: var(--radius-lg);
   // Same reading as SectionCard's banded card, and the same level: a filled
   // header makes this a distinct object on the page rather than a region of it.
   @include t.elevation(raised);
@@ -49,7 +52,7 @@
     padding: var(--space-3) var(--space-6);
     background: var(--color-surface-raised);
     color: var(--color-text-muted);
-    border-bottom: var(--border-2) solid var(--color-border);
+    border-bottom: var(--border-1) solid var(--color-border);
     font-family: var(--font-display);
     font-size: var(--text-2xs);
     letter-spacing: var(--tracking-wide);

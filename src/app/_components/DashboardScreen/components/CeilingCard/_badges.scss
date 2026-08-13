@@ -35,7 +35,7 @@
     display: inline-flex;
     align-items: center;
     gap: var(--space-2);
-    border: var(--border-2) solid var(--color-caution);
+    border: var(--border-1) solid var(--color-caution);
     color: var(--color-text);
 
     &::before {
@@ -50,7 +50,7 @@
   // Inverted, so the month in view reads as a state rather than as one more
   // label in a header that already has three.
   .now {
-    border: var(--border-2) solid var(--color-border);
+    border: var(--border-1) solid var(--color-border);
     background: var(--color-text);
     color: var(--color-surface);
   }

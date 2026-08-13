@@ -19,7 +19,7 @@
   padding: var(--space-8) var(--space-4);
   background: var(--color-text);
   color: var(--color-bg);
-  border-bottom: var(--border-2) solid var(--color-border);
+  border-bottom: var(--border-1) solid var(--color-border);
 
   @include t.bp("md") {
     margin: calc(var(--space-10) * -1);

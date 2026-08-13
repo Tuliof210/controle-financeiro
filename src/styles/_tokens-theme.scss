@@ -59,14 +59,11 @@
   --color-hover-wash: var(--neutral-100);
   --color-row-hover: var(--neutral-50);
 
-  // The rail is no longer "dark chrome in both themes" — the target's is a
-  // light surface with a hairline. These alias already-themed tokens, so like
-  // the gradients below they flip with the theme and need no dark block.
-  --rail-bg: var(--color-surface);
-  --rail-fg: var(--color-text);
-  --rail-muted: var(--color-text-muted);
-  --rail-line: var(--color-border);
-  --rail-hover: var(--color-hover-wash);
+  // The --rail-* family is gone. It existed while the rail was dark chrome in
+  // both themes and needed its own ramp; T1 repointed all five at the surface
+  // tokens, and once every one of them was a 1:1 alias the family was a second
+  // name for a colour rather than a decision about the rail. The eleven call
+  // sites now read the semantic token directly.
 
   // The target forbids decorative gradients. --gradient-toxic survives only
   // because HeroBand still consumes it and that file belongs to T2;

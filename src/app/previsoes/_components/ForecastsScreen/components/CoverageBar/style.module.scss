@@ -14,7 +14,7 @@
   height: 8px;
   background: var(--color-surface-raised);
   border: var(--border-1) solid var(--color-border-subtle);
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-full);
   overflow: hidden;
 }
 
@@ -25,5 +25,5 @@
   top: 0;
   bottom: 0;
   background: var(--color-brand);
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-full);
 }

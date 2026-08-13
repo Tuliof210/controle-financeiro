@@ -15,8 +15,8 @@
   // Rides the card's inverted-ink band, so the frame is drawn in the band's own
   // foreground rather than --color-border, which IS the band's fill and would
   // vanish into it.
-  border: var(--border-2) solid currentcolor;
-  border-radius: var(--radius-sm);
+  border: var(--border-1) solid currentcolor;
+  border-radius: var(--radius-full);
   overflow: hidden;
 }
 
