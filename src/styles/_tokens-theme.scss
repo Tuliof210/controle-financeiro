@@ -34,7 +34,19 @@
   // 11.15:1 against that ink.
   --color-accent: var(--cobalt-200);
 
-  // Financial state only. 5.22 / 4.92 / 5.60 / 5.30:1 on the worst surface.
+  // Financial state only. As TEXT on a surface: 5.22 / 4.92 / 5.60 / 5.30:1 on
+  // the worst of the three.
+  //
+  // BELOW THE FLOOR AS A FILL, and T2 is what fixes it. Four *.module.scss
+  // files paint --ink-900 ON these four as background — SectionCard/_band.scss,
+  // CeilingCard/.../MonthTable, HeroBand/_figure.scss, OfxScreen/.../ReportView
+  // — and against these foreground tones that ink measures 3.12 / 3.31 / 2.91 /
+  // 3.07:1 in the LIGHT theme, under rule 7's 4.5:1. Dark is fine (7.53–8.71:1),
+  // because there the same tokens resolve to the lightened ramp.
+  // This is not fixable here: the same token is read as text elsewhere, where a
+  // fill-safe light tone would fail instead, and the four call sites are T2's
+  // by scope. The fix is on that side — --white measures 5.43–6.18:1 on all
+  // four, so flipping the ink is the whole change.
   --color-positive: var(--positive-fg);
   --color-negative: var(--negative-fg);
   --color-caution: var(--alert-fg);
