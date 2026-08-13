@@ -9,13 +9,13 @@
   .primary,
   .danger,
   .success {
-    color: var(--white);
     border-color: transparent;
   }
 
-  // The one variant with hover tones of its own — cobalt is the only hue the DS
-  // carries three tones of.
+  // White, and only here: cobalt is dark in BOTH themes, and the brand rule is
+  // that text on cobalt is white.
   .primary {
+    color: var(--white);
     background: var(--color-brand);
 
     &:hover:not(:disabled) {
@@ -27,10 +27,21 @@
     }
   }
 
-  // The semantic fills have none, so they mix toward --color-text. That is also
-  // why this replaces `filter: brightness()`: brightness only darkens, and on the
-  // dark theme's LIGHTENED semantic ramp a darker fill reads as disabled. Mixing
-  // toward the text colour darkens in light and lightens in dark.
+  // The semantic fills have no hover tone, so they mix toward --color-text. That
+  // is also why this replaces `filter: brightness()`: brightness only darkens,
+  // and on the dark theme's LIGHTENED semantic ramp a darker fill reads as
+  // disabled. Mixing toward the text colour darkens in light, lightens in dark.
+  //
+  // The ink is --color-bg, NOT --white, and that is the same rule the five band
+  // fills follow: these two tokens are themed, so in the dark theme the fill is
+  // the light end of the ramp and white on it measures 2.06:1 (positive) and
+  // 2.40:1 (negative). --color-bg flips with the fill, so it always lands on the
+  // opposite end — and it moves opposite to the hover mix rather than with it.
+  .danger,
+  .success {
+    color: var(--color-bg);
+  }
+
   .danger {
     background: var(--color-negative);
 

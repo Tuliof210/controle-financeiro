@@ -38,10 +38,16 @@
   // the worst of the three.
   //
   // AS A FILL, the ink on top must be --color-bg and nothing else. These four
-  // are themed: dark in the light theme, light in the dark one. A fixed dark ink
-  // measured 3.12 / 3.31 / 2.91 / 3.07:1 on them in LIGHT, under rule 7's 4.5:1;
-  // --color-bg flips with them and lands 5.53-6.87:1 light, 9.4-10.6:1 dark.
-  // The five call sites that paint on these fills all read --color-bg now.
+  // are themed: dark in the light theme, light in the dark one, so a FIXED ink
+  // fails at one end or the other. A fixed dark ink measured 3.12 / 3.31 / 2.91
+  // / 3.07:1 on them in LIGHT; white measured 2.06:1 (positive) and 2.40:1
+  // (negative) in DARK. Both under rule 7's 4.5:1. --color-bg flips with them
+  // and lands 5.15-5.87:1 light, 8.10-9.37:1 dark.
+  // The rule holds wherever one of these four is a background, with no
+  // exception: the two tinted SectionCard bands, CeilingCard's MonthTable
+  // `.current`, HeroBand's badge, ReportView's badge, the caution chart tag,
+  // and the filled controls — Button's `.danger`/`.success` and IconButton's
+  // `.danger` hover. --white belongs on cobalt, which is dark in both themes.
   --color-positive: var(--positive-fg);
   --color-negative: var(--negative-fg);
   --color-caution: var(--alert-fg);

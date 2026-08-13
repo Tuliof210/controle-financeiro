@@ -82,11 +82,13 @@
   // :active is grouped with :hover, not left on its own: a Space-hold keyboard
   // activation fires :active WITHOUT :hover, and a tint of a red glyph on a
   // transparent surface is no press feedback at all.
+  // --color-bg, not --white — the fill is themed, and white on its dark-theme
+  // end measures 2.35:1. See _tokens-theme.scss for the rule.
   &:hover:not(:disabled),
   &:active:not(:disabled) {
     background: var(--color-negative);
     border-color: var(--color-negative);
-    color: var(--white);
+    color: var(--color-bg);
   }
 
   // Same recipe as Button's semantic fills: toward --color-text, so it darkens
