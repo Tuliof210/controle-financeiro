@@ -1,31 +1,19 @@
 "use client";
 
 import { CalendarRange, LayoutDashboard, TriangleAlert } from "lucide-react";
-import type { DashboardData } from "@/app/api/dashboard/types.ts";
+import { Button } from "@/components/Button/index.tsx";
 import { cx } from "@/lib/cx.ts";
-import { formatYyyymm } from "@/lib/months.ts";
 import { Board } from "./components/Board/index.tsx";
 import { HeroBand } from "./components/HeroBand/index.tsx";
 import { Notice } from "./components/Notice/index.tsx";
 import { SimulationSelect } from "./components/SimulationSelect/index.tsx";
 import { useDashboardScreen } from "./hook.ts";
+import {
+  NOTICE_COPY,
+  okPayload,
+  outOfRangeSentence,
+} from "./notice-copy.helper.ts";
 import styles from "./style.module.scss";
-
-const boardData = (data: DashboardData | null) => {
-  if (data?.status === "ok") {
-    return data;
-  }
-};
-
-const COPY = {
-  loading: "Somando lançamentos e compromissos do período…",
-  noRange:
-    "Nenhum lançamento ainda. Registre uma movimentação ou previsão para o período aparecer aqui.",
-  outOfRangeLead: "O período global",
-  outOfRangeMid: "não cobre o mês atual",
-  outOfRangeTail:
-    ". Registre uma movimentação ou previsão nesse mês para incluí-lo.",
-} as const;
 
 export function DashboardScreen() {
   const {
@@ -37,10 +25,11 @@ export function DashboardScreen() {
     setCap,
     simulation,
     setSimulation,
+    retry,
   } = useDashboardScreen();
   // HeroBand takes the payload only when it is the 'ok' shape; every other
   // status leaves it undefined and the band renders its static half.
-  const heroData = boardData(data);
+  const heroData = okPayload(data);
 
   return (
     <div className={styles.screen}>
@@ -59,33 +48,37 @@ export function DashboardScreen() {
       <SimulationSelect value={simulation} onChange={setSimulation} />
 
       {Boolean(loading) && (
-        <Notice title="Carregando" icon={LayoutDashboard}>
-          {COPY.loading}
+        <Notice title="Carregando" icon={LayoutDashboard} role="status">
+          {NOTICE_COPY.loading}
         </Notice>
       )}
 
+      {/* The one state that interrupts, and the only one with a way out: every
+          other branch is information, but a failed fetch leaves the reader with
+          nothing and no route back except reloading the page. */}
       {Boolean(error) && (
-        <Notice title="Erro" icon={TriangleAlert}>
+        <Notice
+          title="Erro"
+          icon={TriangleAlert}
+          role="alert"
+          action={<Button onClick={retry}>{NOTICE_COPY.retry}</Button>}
+        >
           {error}
         </Notice>
       )}
 
       {data?.status === "no_range" && (
-        <Notice title="Período global" icon={CalendarRange}>
-          {COPY.noRange}
+        <Notice title="Período global" icon={CalendarRange} role="status">
+          {NOTICE_COPY.noRange}
         </Notice>
       )}
 
       {data?.status === "out_of_range" && (
-        <Notice title="Período global" icon={CalendarRange}>
-          {`${COPY.outOfRangeLead} (${formatYyyymm(data.range.start)}–${formatYyyymm(data.range.end)}) ${COPY.outOfRangeMid} (${formatYyyymm(data.range.current)})${COPY.outOfRangeTail}`}
+        <Notice title="Período global" icon={CalendarRange} role="status">
+          {outOfRangeSentence(data.range)}
         </Notice>
       )}
 
-      {/* `aria-busy` and nothing else while a cap change is in flight: the board
-          stays mounted and readable, so the only thing missing is the word that
-          the figures are being replaced. The dimming is the visual half of the
-          same statement. */}
       {data?.status === "ok" && (
         <div
           className={cx(refreshing && styles.refreshing)}

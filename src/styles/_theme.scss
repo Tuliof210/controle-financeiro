@@ -7,6 +7,11 @@
 
 @use "sass:map";
 
+// Re-exported, not defined here: `micro-label` and `visually-hidden` are
+// multi-declaration recipes and the 100-line cap has no room for them beside the
+// helpers below. `@forward` keeps every call site reading `t.micro-label`.
+@forward "recipes";
+
 // Compile-time only (CSS custom properties can't hold media-query lengths).
 $breakpoints: (
   "sm": 480px,
@@ -48,47 +53,6 @@ $row-one-line-floor: 440px;
   @media (hover: hover) {
     @content;
   }
-}
-
-// The eyebrow / micro-label recipe, in one place at last. It had reached roughly
-// nine independent copies across the dashboard (tracked in .squad/debt.md) and
-// they had already drifted three ways: one site dropped
-// `font-variant-numeric: tabular-nums` while printing a number, one used
-// `--text-xs` where every other eyebrow uses `--text-2xs`, and several omitted
-// `text-transform` because their source strings were hardcoded uppercase.
-//
-// `text-transform` is part of the recipe, not an extra: the CAPS belong to the
-// presentation, so an accessible name never carries them (a screen reader may
-// spell an all-caps string letter by letter). Source strings stay sentence case.
-//
-// A site that rides an inverted-ink band overrides `color: inherit` AFTER the
-// include — the fill is what its foreground has to come from, and
-// --color-text-muted is a page-surface token.
-@mixin micro-label {
-  color: var(--color-text-muted);
-  font-family: var(--font-mono);
-  font-size: var(--text-2xs);
-  font-variant-numeric: tabular-nums;
-  letter-spacing: var(--tracking-wide);
-  text-transform: uppercase;
-}
-
-// Off the screen, still in the accessibility tree. `display: none` and
-// `visibility: hidden` both REMOVE the element, which is the opposite of the
-// intent every call site here has: a <legend> that names its fieldset, a
-// <thead> whose column headers must survive `display: block`, a native radio
-// that still has to take focus and answer the arrow keys.
-//
-// `clip-path` rather than `opacity: 0`: an element left at full size with zero
-// alpha still occupies its box and can still be dragged over, and the two
-// recipes had been used interchangeably in one file under a comment claiming
-// they were the same thing.
-@mixin visually-hidden {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  clip-path: inset(50%);
 }
 
 @mixin elevation($level) {
