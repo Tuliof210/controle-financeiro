@@ -7,8 +7,6 @@ const stats = {
   total: 1000,
   current: 400,
   mean: 500,
-  stdDev: 100,
-  median: 450,
 };
 
 const base = {
@@ -46,31 +44,26 @@ describe("useStatCard", () => {
     expect(result.current.tone).toBe("negative");
   });
 
-  it("keeps the chip and the sparkline on the fixed tone", () => {
+  // The chip names the CARD, so it must not flip green/red with the sign of a
+  // total the reader is still looking at.
+  it("keeps the chip on the fixed tone even when the sign flips", () => {
     const { result } = renderHook(() =>
       useStatCard({ ...base, signed: true, stats: { ...stats, total: -1 } }),
     );
 
     expect(result.current.chip).toBe("brand");
-    expect(result.current.color).toBe("var(--color-brand)");
   });
 
-  it("formats the headline and the four secondary rows", () => {
+  // Two rows, not four: mediana and desvio padrão came off the card with the
+  // sparkline (owner's decision, 2026-08-13), and nothing else read them.
+  it("formats the headline and the two secondary rows", () => {
     const { result } = renderHook(() => useStatCard(base));
 
     expect(result.current.total).toBe(1000);
     expect(result.current.rows.map((row) => row.label)).toEqual([
       "Realizado",
       "Média/mês",
-      "Mediana",
-      "Desvio padrão",
     ]);
     expect(result.current.rows[0].value).toBe("R$ 4,00");
-  });
-
-  it("draws no sparkline for an empty series", () => {
-    const { result } = renderHook(() => useStatCard({ ...base, series: [] }));
-
-    expect(result.current.spark).toBeNull();
   });
 });

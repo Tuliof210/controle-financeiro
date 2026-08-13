@@ -23,7 +23,7 @@ const BAR_LEGEND = [
 ];
 
 export function Overview(props: OverviewProps) {
-  const { data, income, expense, balance } = useOverview(props);
+  const { data } = useOverview(props);
 
   // A fragment, not a wrapper: Board is the one column, and a nested one here
   // would only be a second place for the card spacing to be decided.
@@ -36,7 +36,6 @@ export function Overview(props: OverviewProps) {
           tone="positive"
           hint={HINTS.income}
           stats={data.income}
-          series={income}
         />
         <StatCard
           title="Saídas"
@@ -44,14 +43,12 @@ export function Overview(props: OverviewProps) {
           tone="negative"
           hint={HINTS.expense}
           stats={data.expense}
-          series={expense}
         />
         <StatCard
           title="Saldo"
           icon={Scale}
           hint={HINTS.balance}
           stats={data.balance}
-          series={balance}
           signed={true}
         />
       </div>

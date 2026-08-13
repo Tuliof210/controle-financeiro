@@ -17,12 +17,14 @@ export interface MonthPoint {
   expenseEstimated: boolean;
 }
 
+// `stdDev` and `median` used to ride here too. They were read by exactly one
+// consumer — the KPI tile's 2x2 quadrant — and the owner cut that quadrant to two
+// figures (2026-08-13), which left them dead. A read model carrying a field
+// nothing reads is a field that drifts silently, so they went with it.
 export interface Stats {
   total: number; // sum over the whole range
   current: number; // sum over rangeStart .. currentMonth inclusive
   mean: number;
-  stdDev: number; // population (divided by N)
-  median: number;
 }
 
 // How long one goal takes under one funding assumption, and the month it lands

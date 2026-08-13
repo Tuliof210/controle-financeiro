@@ -21,8 +21,6 @@ const stats = {
   total: 1000,
   current: 400,
   mean: 500,
-  stdDev: 100,
-  median: 450,
 };
 
 const data = {
