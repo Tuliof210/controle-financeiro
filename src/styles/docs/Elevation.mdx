@@ -2,49 +2,49 @@ import { Meta } from "@storybook/addon-docs/blocks";
 
 <Meta title="Foundations/Elevation" />
 
+export const levels = [
+  ["elevation-flat", "flat by default"],
+  ["elevation-raised", "resting card"],
+  ["elevation-overlay", "floats over content — dropdown, popover, sheet"],
+  ["elevation-modal", "modal panel"],
+];
+
+export const deprecated = [
+  "elevation-press", "elevation-press-active", "elevation-panel",
+];
+
 # Elevation
 
 Border-first, not shadow-first. A surface tier (`--color-surface`,
-`--color-surface-raised`) plus a border is the default way to lift an
-element. Blur-shadow (`--elevation-overlay`) is reserved for floating layers
-only — menu, popover, modal, toast.
+`--color-surface-raised`) plus a hairline is the default way to lift an
+element, and surfaces are **flat** unless they genuinely float over content.
 
-The three hard offset shadows below are blur-less and cast in
-`--color-border`, so they read as the frame displaced rather than as depth.
-They are **scoped**, not general-purpose, to exactly three things:
-`--elevation-press` and `--elevation-press-active` belong to the primary
-action (resting, then 2px-displaced while pressed), `--elevation-panel` to the
-modal panel, and `--elevation-press` to a card carrying a filled surface —
-either a filled header band, or a fill across the whole card. The fill is what
-declares it a headline surface, and the extrusion is the fill's other half. A
-card with no fill does not get one; it gets a border. Nothing else gets one.
+Shadows are cool and discreet — translucent ink, never decoration. The dark
+theme casts the same geometry in black at a much higher alpha, because the
+light theme's 3–12% ink is invisible against a dark surface.
 
-<div style={{ display: "flex", gap: "var(--space-6)", flexWrap: "wrap", background: "var(--color-bg)", padding: "var(--space-6)" }}>
-  <div style={{ width: "160px", height: "100px", background: "var(--color-surface)", border: "var(--border-1) solid var(--color-border)", boxShadow: "var(--elevation-flat)", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--font-mono)", fontSize: "var(--text-xs)" }}>
-    {"--elevation-flat"}
-  </div>
-  <div style={{ width: "160px", height: "100px", background: "var(--color-surface-raised)", border: "var(--border-1) solid var(--color-border)", boxShadow: "var(--elevation-raised)", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--font-mono)", fontSize: "var(--text-xs)" }}>
-    {"--elevation-raised"}
-  </div>
-  <div style={{ width: "160px", height: "100px", background: "var(--color-surface-raised)", border: "var(--border-1) solid var(--color-border)", boxShadow: "var(--elevation-overlay)", display: "flex", alignItems: "center", justifyContent: "center", textAlign: "center", fontFamily: "var(--font-mono)", fontSize: "var(--text-xs)" }}>
-    {"--elevation-overlay (floating layers only)"}
-  </div>
+<div style={{ display: "flex", gap: "var(--space-6)", flexWrap: "wrap", background: "var(--color-bg)", padding: "var(--space-6)", borderRadius: "var(--radius-lg)" }}>
+  {levels.map(([name, note]) => (
+    <div key={name} style={{ width: "170px", height: "110px", background: "var(--color-surface)", border: "var(--border-1) solid var(--color-border)", borderRadius: "var(--radius-lg)", boxShadow: `var(--${name})`, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "var(--space-1)", textAlign: "center", padding: "var(--space-3)" }}>
+      <code style={{ fontFamily: "var(--font-mono)", fontSize: "var(--text-2xs)", color: "var(--color-text)" }}>--{name}</code>
+      <span style={{ fontFamily: "var(--font-sans)", fontSize: "var(--text-2xs)", color: "var(--color-text-muted)" }}>{note}</span>
+    </div>
+  ))}
 </div>
 
-## Hard offset shadows
+## Deprecated — the hard offset shadows
 
-Each box below carries a `--border-2` frame, because these shadows are only
-ever used on bordered surfaces — the shadow is that border, displaced. The
-extra right/bottom margin is there so the offset has somewhere to land.
+The pixel-art skin cast a blur-less offset in `--color-border` to read as the
+frame displaced. Those three tokens still resolve, and `@include
+t.elevation(press | press-active | panel)` still compiles, only because five
+`*.module.scss` files have not been migrated yet. They now alias the levels
+above, so they no longer look extruded — that flattening is expected, not a
+regression. **Nothing new may use them.**
 
-<div style={{ display: "flex", gap: "var(--space-10)", flexWrap: "wrap", background: "var(--color-bg)", padding: "var(--space-6)", paddingRight: "var(--space-16)", paddingBottom: "var(--space-16)" }}>
-  <div style={{ width: "160px", height: "100px", background: "var(--color-brand)", color: "var(--white)", border: "var(--border-2) solid var(--color-border)", borderRadius: "var(--radius-sm)", boxShadow: "var(--elevation-press)", display: "flex", alignItems: "center", justifyContent: "center", textAlign: "center", fontFamily: "var(--font-mono)", fontSize: "var(--text-xs)" }}>
-    {"--elevation-press (primary action, resting)"}
-  </div>
-  <div style={{ width: "160px", height: "100px", background: "var(--color-brand)", color: "var(--white)", border: "var(--border-2) solid var(--color-border)", borderRadius: "var(--radius-sm)", boxShadow: "var(--elevation-press-active)", transform: "translate(2px, 2px)", display: "flex", alignItems: "center", justifyContent: "center", textAlign: "center", fontFamily: "var(--font-mono)", fontSize: "var(--text-xs)" }}>
-    {"--elevation-press-active (pressed, shown displaced)"}
-  </div>
-  <div style={{ width: "160px", height: "100px", background: "var(--color-surface-raised)", border: "var(--border-2) solid var(--color-border)", borderRadius: "var(--radius-md)", boxShadow: "var(--elevation-panel)", display: "flex", alignItems: "center", justifyContent: "center", textAlign: "center", fontFamily: "var(--font-mono)", fontSize: "var(--text-xs)" }}>
-    {"--elevation-panel (modal panel)"}
-  </div>
+<div style={{ display: "flex", gap: "var(--space-6)", flexWrap: "wrap", background: "var(--color-bg)", padding: "var(--space-6)", borderRadius: "var(--radius-lg)" }}>
+  {deprecated.map((name) => (
+    <div key={name} style={{ width: "170px", height: "90px", background: "var(--color-surface)", border: "var(--border-1) solid var(--color-border)", borderRadius: "var(--radius-lg)", boxShadow: `var(--${name})`, display: "flex", alignItems: "center", justifyContent: "center", textAlign: "center", fontFamily: "var(--font-mono)", fontSize: "var(--text-2xs)", color: "var(--color-text-muted)" }}>
+      {`--${name}`}
+    </div>
+  ))}
 </div>

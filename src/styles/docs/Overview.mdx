@@ -2,6 +2,13 @@ import { Meta } from "@storybook/addon-docs/blocks";
 
 <Meta title="Foundations/Overview" />
 
+export const pillars = [
+  ["Calm neutrals, one brand hue", "A cool neutral ramp carries ~90% of the interface. Cobalt is the only brand colour — primary action, focus and the mark, never decorative fill."],
+  ["Semantics speak financial state", "positive, negative, alert, info. A normal expense is not red; red is negative variation and destructive action."],
+  ["Contained, not extruded", "Hairline borders carry separation before any shadow does. Corners are soft — 14 on cards, 10 on buttons — never square, never a capsule."],
+  ["Three faces, one job each", "A display face for heros, a grotesque for body and money, a mono scoped to eyebrows, IDs, YYYY-MM dates and hex."],
+];
+
 # Design System — Foundations
 
 This Storybook documents the DS **constitution only** — the non-negotiable
@@ -11,48 +18,37 @@ light and dark.
 
 ## The four pillars
 
-<div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "var(--space-4)", margin: "var(--space-6) 0" }}>
-  <div style={{ border: "var(--border-2) solid var(--color-border)", background: "var(--color-surface)", padding: "var(--space-4)" }}>
-    <strong style={{ color: "var(--color-brand)" }}>Angular, contained</strong>
-    <p style={{ margin: "var(--space-2) 0 0", color: "var(--color-text-muted)" }}>
-      {"Sharp/near-square corners, borders as structure, elevation via surface tiers — not heavy offset shadows."}
-    </p>
-  </div>
-  <div style={{ border: "var(--border-2) solid var(--color-border)", background: "var(--color-surface)", padding: "var(--space-4)" }}>
-    <strong style={{ color: "var(--color-brand)" }}>Retro / pixel</strong>
-    <p style={{ margin: "var(--space-2) 0 0", color: "var(--color-text-muted)" }}>
-      {"A pixel display face for short titles/eyebrows, a mono face for everything else, including every number."}
-    </p>
-  </div>
-  <div style={{ border: "var(--border-2) solid var(--color-border)", background: "var(--color-surface)", padding: "var(--space-4)" }}>
-    <strong style={{ color: "var(--color-brand)" }}>Vivid on extreme neutrals</strong>
-    <p style={{ margin: "var(--space-2) 0 0", color: "var(--color-text-muted)" }}>
-      {"A few very saturated hues (violet, lime, magenta) over a near-black ↔ warm off-white ramp."}
-    </p>
-  </div>
-  <div style={{ border: "var(--border-2) solid var(--color-border)", background: "var(--color-surface)", padding: "var(--space-4)" }}>
-    <strong style={{ color: "var(--color-brand)" }}>Disciplined, not messy</strong>
-    <p style={{ margin: "var(--space-2) 0 0", color: "var(--color-text-muted)" }}>
-      {'A closed 4px spacing grid and a fixed breakpoint set keep "vivid" from becoming "cluttered."'}
-    </p>
-  </div>
+<div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "var(--space-4)", margin: "var(--space-6) 0" }}>
+  {pillars.map(([title, body]) => (
+    <div key={title} style={{ border: "var(--border-1) solid var(--color-border)", borderRadius: "var(--radius-lg)", background: "var(--color-surface)", boxShadow: "var(--elevation-raised)", padding: "var(--space-4)" }}>
+      <strong style={{ color: "var(--color-brand-text)" }}>{title}</strong>
+      <p style={{ margin: "var(--space-2) 0 0", color: "var(--color-text-muted)" }}>{body}</p>
+    </div>
+  ))}
 </div>
 
 ## Non-negotiable rules
 
 1. **Never hardcode** a color, spacing, radius, shadow, or duration value —
-   always a token.
-2. **Radius never exceeds `--radius-lg` (6px).** `--radius-full` is avatars
-   and status dots only.
-3. **Elevation is border-first.** Blur-shadow (`--elevation-overlay`) is
-   reserved for floating layers only — menu, popover, modal, toast.
-4. **One display face, one workhorse face.** `--font-display` (Press Start
-   2P) is short display/eyebrow text only; everything else, including every
-   number, is `--font-mono` (JetBrains Mono).
-5. **Spacing comes only from the 4px scale.**
-6. **Every semantic token exists in both themes** — add the `:root` and
-   `[data-theme="dark"]` values in the same edit.
+   always a token. `src/app/icon.svg` is the one documented exception.
+2. **Radius comes from the scale** — `sm` 6, `md` 10, `lg` 14, `xl` 20. Cards
+   take `lg`, buttons take `md`. `--radius-full` is avatars and status dots
+   only.
+3. **Elevation is border-first.** Shadow only when the layer genuinely floats:
+   `--elevation-overlay` for dropdown/popover/sheet, `--elevation-modal` for
+   the modal. The three `press` / `panel` offsets are deprecated aliases.
+4. **Three faces, one job each.** `--font-display` (Clash Display) heros and
+   titles, `--font-sans` (Hanken Grotesk) body, labels and money,
+   `--font-mono` (IBM Plex Mono) eyebrows, IDs, dates and hex.
+5. **Spacing comes only from the 4px scale**, and hit targets are at least
+   `--size-tap`.
+6. **Every semantic token exists in both themes** — the `:root` block in
+   `_tokens-theme.scss` and `@mixin dark-theme` in `_tokens-dark.scss`, which
+   is the single source both dark selectors read.
 7. **Accessibility is non-negotiable**: visible focus rings, ≥4.5:1 text
-   contrast, meaning never color-only, `prefers-reduced-motion` respected.
+   contrast with the measured ratio written beside the token, meaning never
+   color-only, `prefers-reduced-motion` respected.
+8. **No decorative gradients**, no glassmorphism, no texture. `--glow-brand`
+   is the only authorised gradient.
 
 See `src/styles/README.md` for the full constitution.

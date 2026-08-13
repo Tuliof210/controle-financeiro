@@ -49,15 +49,34 @@ shared `components/` (`src/components/` at the top). Next's mandated files
 (`page.tsx`, `layout.tsx`, `error.tsx`, …) stay two lines that render a real
 component from a sibling `components/` or route-local `_components/`.
 
-**Design system** — tokens are CSS custom properties in `src/styles/*.scss`
-(`_tokens.scss`, `_theme.scss`, `_base.scss` → `globals.scss`), not Sass
-`$variables`, because they must switch at runtime via `[data-theme="dark"]`
-(defaulting to `prefers-color-scheme`). Consume with `@use "theme" as t;` (the
-folder is on the Sass load path, `next.config.ts`) and `var(--token)` — never
-hardcode a colour, space, radius, shadow or duration. **The full
-non-negotiable ruleset is `src/styles/README.md`.** Documented as Storybook
-Foundations (`src/styles/docs/*.mdx`); the stories glob is `*.mdx`, so no DS
-component can land until a story adds one.
+**Design system** — the skin is **Monevo**: a cool neutral ramp carrying ~90% of
+the interface, cobalt as the single brand hue, semantics that speak financial
+state only, soft corners (6/10/14/20) over hairline borders, and three faces —
+Clash Display (heros), Hanken Grotesk (body, labels, money) and IBM Plex Mono
+(eyebrows, IDs, `YYYY-MM`, hex), all loaded through `next/font` in
+`src/styles/fonts.ts` and applied in **both** `src/app/layout.tsx` and
+`.storybook/preview.ts`. Nothing fetches a face at runtime.
+
+Tokens are CSS custom properties, not Sass `$variables`, because they must
+switch at runtime via `[data-theme="dark"]` (defaulting to
+`prefers-color-scheme`). `_tokens.scss` is an aggregator of `@use` holding no
+values; the values live in `_tokens-color.scss` (primitives),
+`_tokens-dark.scss` (`@mixin dark-theme` — emits nothing, and is the one place
+both dark selectors read, so the two can no longer drift), `_tokens-theme.scss`
+(semantic aliases, light **before** dark: the Design System cards parse
+first-wins), `_tokens-type.scss`, `_tokens-shape.scss` and
+`_tokens-motion.scss`, plus `_theme.scss` (Sass helpers) and `_base.scss` (the
+reset) → `globals.scss`. The dark selector is `:root[data-theme="dark"]`, not a
+bare attribute selector, because the shape partial redeclares `--elevation-*` on
+`:root` afterwards and would win at equal specificity.
+
+Consume with `@use "theme" as t;` (the folder is on the Sass load path,
+`next.config.ts`) and `var(--token)` — never hardcode a colour, space, radius,
+shadow or duration; `src/app/icon.svg` is the one documented exception, since a
+static asset cannot read a custom property. **The full non-negotiable ruleset is
+`src/styles/README.md`.** Documented as Storybook Foundations
+(`src/styles/docs/*.mdx`); the stories glob is `*.mdx`, so no DS component can
+land until a story adds one.
 
 **API** — `route.ts` is a thin controller (parse, call one service, map to a
 response; no business logic); `service.ts` is the use case (validation, rules,
