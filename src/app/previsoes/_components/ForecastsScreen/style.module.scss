@@ -36,10 +36,12 @@
 // compensation for a bitmap face with no sidebearing, and on a grotesque it
 // reads as shouting.
 //
-// Outlined rather than filled, and --color-text rather than a paired ink:
-// --color-brand as a fill admits no foreground that clears 4.5:1 in both themes
-// (a dark ink measures 3.59:1 light, --white 3.64:1 dark). On the row's own
-// surface, the inherited text colour is already known-good.
+// Outlined rather than filled: a filled brand badge would be a second cobalt
+// element on a row that already has one, and cobalt is rationed. The old reason
+// written here — that --color-brand admits no foreground clearing 4.5:1 in both
+// themes — was wrong, and measured the wrong ink: a FIXED dark one (3.59:1
+// light) and --white (3.64:1 dark). --color-bg flips with the fill and clears
+// both ends, which is what Button's `.primary` now paints.
 .badge {
   flex: none;
   padding: 0 var(--space-1);

@@ -98,7 +98,7 @@ spacing:
 components:
   button-primary:
     backgroundColor: "{colors.signal-cobalt}"
-    textColor: "#ffffff"
+    textColor: "{colors.cold-paper}"
     typography: "{typography.label}"
     rounded: "{rounded.md}"
     padding: "8px 16px"
@@ -233,7 +233,7 @@ Seven owner/category hues (`{colors.category-violet}` through `{colors.category-
 
 **The Rationed Cobalt Rule.** Cobalt appears on the primary action, the focus ring, the mark, and the current navigation item — nowhere else. A second cobalt element on a screen means one of them is wrong.
 
-**The Themed Ink Rule.** When one of the four semantic tones is a *background*, the text on it is `{colors.cold-paper}` and nothing else. Those four tones flip with the theme, so a fixed ink fails at one end or the other; the page colour flips with them and lands 5.15–9.37:1 either way. White belongs on cobalt only, which is dark in both themes.
+**The Themed Ink Rule.** When a *themed* fill is a background, the text on it is `{colors.cold-paper}` — the page colour — and nothing else. That covers all four semantic tones (5.15–9.37:1 either way) **and cobalt**, which is `--cobalt-600` in light and `--cobalt-400` in dark and so is themed like the rest: page-colour ink on it measures 6.43 / 8.52 / 10.52:1 light and 5.31 / 8.59 / 11.99:1 dark for rest / hover / active. Fixed white belongs only on a fill that is genuinely dark in both themes — the seven category hues and the mark.
 
 **The Expense-Is-Not-Red Rule.** Semantics speak financial *state*. A routine expense is body text with a minus sign, not a red figure. Reserve red for variation below zero and for destructive controls.
 
@@ -286,11 +286,13 @@ Contained and unfussy: hairline frames, soft corners, nothing extruded. A contro
 
 ### Buttons
 - **Shape:** soft 10px corners (`{rounded.md}`), minimum 44px tall, 8px/16px padding.
-- **Primary:** Signal Cobalt fill, white label, **no border** — a frame on top of a solid fill is a leftover from an extruded skin. Hover darkens to Cobalt Deep, active to Cobalt Press (both *lighten* in the dark theme).
+- **Primary:** Signal Cobalt fill, page-colour label, **no border** — a frame on top of a solid fill is a leftover from an extruded skin. Hover darkens to Cobalt Deep, active to Cobalt Press (both *lighten* in the dark theme, which is exactly why the ink has to flip with them).
 - **Ghost:** transparent with a subtle hairline; hover fills with the neutral wash. The default for secondary actions.
 - **Danger / Success:** the semantic fill with page-colour ink on top. Hover mixes 88% of the fill toward the text colour, so it darkens in light and lightens in dark.
 - **Dashed:** a full-width dashed 2px outline — the "Adicionar …" affordance at the foot of every list card. On hover it fills cobalt and the border goes solid.
 - **Focus:** the two-layer ring on every variant. **Disabled:** a muted fill *and* a muted border, not just reduced opacity.
+- **Loading:** takes the disabled treatment and adds what separates working from unavailable — a turning `currentcolor` ring in the gap after the label, `cursor: progress`, and `aria-busy`. The ring holds still under `prefers-reduced-motion` rather than trading one animation for another.
+- **Hover** is scoped to `@media (hover: hover)`, so a tap never leaves a touch device holding a hover state.
 
 ### Cards / Containers
 - **Corner Style:** 14px (`{rounded.lg}`). An inner corner flush inside it is derived — `calc(var(--radius-lg) - var(--border-1))` — never a second literal.

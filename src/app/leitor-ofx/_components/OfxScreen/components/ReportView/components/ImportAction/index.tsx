@@ -48,7 +48,11 @@ export function ImportAction(props: ImportActionProps) {
             <Button variant="ghost" onClick={view.close}>
               {COPY.cancelar}
             </Button>
-            <Button onClick={view.submit} disabled={!view.canSubmit}>
+            <Button
+              onClick={view.submit}
+              disabled={!view.canSubmit}
+              loading={view.busy}
+            >
               {view.submitLabel}
             </Button>
           </>

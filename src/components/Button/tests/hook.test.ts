@@ -30,4 +30,19 @@ describe("useButton", () => {
 
     expect(result.current).toMatchObject({ type: "submit", disabled: true });
   });
+
+  it("is not busy unless it is loading", () => {
+    const { result } = renderHook(() => useButton({}));
+
+    expect(result.current["aria-busy"]).toBe(false);
+    expect(result.current.disabled).toBe(false);
+  });
+
+  it("announces the work and blocks a second press while loading", () => {
+    const { result } = renderHook(() => useButton({ loading: true }));
+
+    expect(result.current["aria-busy"]).toBe(true);
+    expect(result.current.disabled).toBe(true);
+    expect(result.current.className).toContain("loading");
+  });
 });

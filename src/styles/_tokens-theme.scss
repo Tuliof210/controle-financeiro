@@ -47,7 +47,16 @@
   // exception: the two tinted SectionCard bands, CeilingCard's MonthTable
   // `.current`, HeroBand's badge, ReportView's badge, the caution chart tag,
   // and the filled controls — Button's `.danger`/`.success` and IconButton's
-  // `.danger` hover. --white belongs on cobalt, which is dark in both themes.
+  // `.danger` hover.
+  //
+  // --color-brand is a fifth themed fill and takes the same ink, which this
+  // comment used to deny: it read "--white belongs on cobalt, which is dark in
+  // both themes", and cobalt is NOT — it is --cobalt-600 in light and
+  // --cobalt-400 in dark. White on it measured 3.64:1 at rest and 2.25 / 1.61:1
+  // on hover / active in dark. --color-bg on it measures 6.43 / 8.52 / 10.52:1
+  // light and 5.31 / 8.59 / 11.99:1 dark. --white is now only for a fill that
+  // really is dark in both themes: the seven category hues (EntryRow) and the
+  // mark (BrandMark).
   --color-positive: var(--positive-fg);
   --color-negative: var(--negative-fg);
   --color-caution: var(--alert-fg);

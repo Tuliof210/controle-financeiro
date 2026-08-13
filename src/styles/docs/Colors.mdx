@@ -61,7 +61,10 @@ the ones components consume; never reach for a primitive directly.
 
 ## Cobalt — the single brand ramp
 
-`--cobalt-600` is the anchor. Text on cobalt is always white.
+`--cobalt-600` is the anchor. Cobalt is a **themed** fill — `--cobalt-600` in
+light, `--cobalt-400` in dark — so the ink on it is `--color-bg`, which flips
+with it, exactly like the four semantic fills below. White holds only in the
+light theme: on dark cobalt it measures 3.64:1 at rest and 2.25:1 on hover.
 
 <Grid names={cobalt} />
 

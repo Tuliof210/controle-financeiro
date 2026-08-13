@@ -44,5 +44,42 @@
   }
 }
 
+// Busy. The hook disables the button while it loads, so it takes the muted
+// disabled fill above and this adds what tells the two apart: a ring that turns,
+// and a cursor that says wait rather than no.
+.loading {
+  cursor: progress;
+
+  // A flex item like an icon would be, so `.button`'s own gap spaces it and no
+  // padding has to move. `currentcolor` keeps it on whatever tier the button is
+  // reading — muted here, and correct without a token of its own.
+  &::after {
+    content: "";
+    width: 1em;
+    height: 1em;
+    border: var(--border-2) solid currentcolor;
+    border-top-color: transparent;
+    border-radius: var(--radius-full);
+    // Derived, not typed: --duration-slow is the scale's longest step and a
+    // single 320ms turn reads frantic, so a full rotation takes two of them.
+    animation: spin calc(var(--duration-slow) * 2) linear infinite;
+  }
+}
+
+// The ring holds still instead of pulsing: swapping one animation for another
+// is not a reduced-motion alternative. aria-busy, the label and `cursor:
+// progress` all still say the same thing.
+@media (prefers-reduced-motion: reduce) {
+  .loading::after {
+    animation: none;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(1turn);
+  }
+}
+
 // The five variants live in `_variants.scss` — see the note there on why.
 @include variants;

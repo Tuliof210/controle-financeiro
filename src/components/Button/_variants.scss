@@ -12,23 +12,17 @@
     border-color: transparent;
   }
 
-  // White, and only here: the brand rule is that text on cobalt is white.
-  //
-  // KNOWN GAP, and it is the token layer's to close. Measured white-on-fill:
-  // light 6.78 / 8.98 / 11.08:1 for rest / hover / active, all clear. DARK is
-  // 3.64 / 2.25 / 1.61:1 — under rule 7's 4.5:1, and the interactive states are
-  // WORSE than rest because --color-brand-hover/-active lighten in dark (they
-  // must: darkening a fill on a dark surface reads as disabled). Fixing it means
-  // darkening the dark ramp's cobalt, i.e. token VALUES, which this task is
-  // forbidden to touch. Whoever does it must move all three, not only the rest
-  // tone — that is why the two interactive figures are written down here.
+  // The ink on a THEMED fill is --color-bg, and cobalt is themed: --color-brand
+  // is --cobalt-600 in light and --cobalt-400 in dark, so the --white that used
+  // to sit here rested on a premise ("cobalt is dark in both themes") the dark
+  // ramp does not keep. White measured 3.64:1 at rest and 2.25 / 1.61:1 on
+  // hover / active in DARK — the interactive states worse than rest, because
+  // dark cobalt must lighten (darkening a fill on a dark surface reads as
+  // disabled). --color-bg flips with the fill instead: 6.43 / 8.52 / 10.52:1
+  // light, 5.31 / 8.59 / 11.99:1 dark. Same rule the semantic fills follow.
   .primary {
-    color: var(--white);
+    color: var(--color-bg);
     background: var(--color-brand);
-
-    &:hover:not(:disabled) {
-      background: var(--color-brand-hover);
-    }
 
     &:active:not(:disabled) {
       background: var(--color-brand-active);
@@ -39,12 +33,6 @@
   // is also why this replaces `filter: brightness()`: brightness only darkens,
   // and on the dark theme's LIGHTENED semantic ramp a darker fill reads as
   // disabled. Mixing toward the text colour darkens in light, lightens in dark.
-  //
-  // The ink is --color-bg, NOT --white, and that is the same rule the five band
-  // fills follow: these two tokens are themed, so in the dark theme the fill is
-  // the light end of the ramp and white on it measures 2.06:1 (positive) and
-  // 2.40:1 (negative). --color-bg flips with the fill, so it always lands on the
-  // opposite end — and it moves opposite to the hover mix rather than with it.
   .danger,
   .success {
     color: var(--color-bg);
@@ -52,18 +40,10 @@
 
   .danger {
     background: var(--color-negative);
-
-    &:hover:not(:disabled) {
-      background: color-mix(in srgb, var(--color-negative) 88%, var(--color-text));
-    }
   }
 
   .success {
     background: var(--color-positive);
-
-    &:hover:not(:disabled) {
-      background: color-mix(in srgb, var(--color-positive) 88%, var(--color-text));
-    }
   }
 
   // Ghost: no solid border — a subtle structural edge at most.
@@ -71,10 +51,6 @@
     background: transparent;
     border-color: var(--color-border-subtle);
     color: var(--color-text);
-
-    &:hover:not(:disabled) {
-      background: var(--color-hover-wash);
-    }
   }
 
   // Full-width dashed outline that fills on hover — the "Adicionar …" affordance
@@ -86,10 +62,34 @@
     background: transparent;
     color: var(--color-text);
     border: var(--border-2) dashed var(--color-border);
+  }
 
-    &:hover:not(:disabled) {
+  // Hover is a POINTER affordance, and the five rules live together here for
+  // that reason: on a touch screen a tap latches :hover and it stays until
+  // focus moves — most visible on `.dashed`, which would sit filled and
+  // solid-bordered, reading as a different control than the one tapped.
+  @media (hover: hover) {
+    .primary:hover:not(:disabled) {
+      background: var(--color-brand-hover);
+    }
+
+    .danger:hover:not(:disabled) {
+      background: color-mix(in srgb, var(--color-negative) 88%, var(--color-text));
+    }
+
+    .success:hover:not(:disabled) {
+      background: color-mix(in srgb, var(--color-positive) 88%, var(--color-text));
+    }
+
+    .ghost:hover:not(:disabled) {
+      background: var(--color-hover-wash);
+    }
+
+    // Also --color-bg, for the same reason `.primary` is: this IS the primary
+    // fill, arrived at from the dashed rest state.
+    .dashed:hover:not(:disabled) {
       background: var(--color-brand);
-      color: var(--white);
+      color: var(--color-bg);
       border-style: solid;
     }
   }
