@@ -14,8 +14,9 @@ lucide-react (icons) · Zod (validation) · Biome (lint + format) · Jest
 - `npm run db:setup` — `prisma generate` + `migrate deploy`; creates the local
   tables. Idempotent; run once on a fresh checkout.
 - `npm run dev` · `npm run build` · `npm run start`
-- `npm run lint` — **two** gates: `biome check .` then `npm run lint:lines`
-  (`scripts/check-line-cap.sh`). Both must pass. `lint:fix`, `format` write.
+- `npm run lint` — **two** gates: `biome check --error-on-warnings .` then
+  `npm run lint:lines` (`scripts/check-line-cap.sh`). Both must pass. `lint:fix`,
+  `format` write.
 - `npm run test` — the whole Jest suite · `npm run test:coverage` — the same
   run plus the coverage table.
 - `npm run typecheck` — `tsc --noEmit`.
@@ -87,6 +88,14 @@ types may appear; it implements the `core/repositories` interface and returns
 `app/api/ofx-imports/` records) dedupes on SHA-256 of the bytes; the import row
 deliberately has no relation back to the movements it created, because there is
 no undo (reason in the schema).
+
+**Lint severity** — `preset: "all"` enables every rule but leaves most of them at
+`info`, and `biome check` exits 0 on anything below `error`: the gate was green
+with 58 diagnostics on screen. Each group is therefore pinned to `"error"` in
+`biome.json`, and what is noise in a test (a pt-BR literal in JSX, a `jest.mock`
+factory spelling a PascalCase export, `noSecrets` on "Configurações") is turned
+off in the `src/**/tests/**` override — narrowed at the rule, never at the exit
+code. `--error-on-warnings` covers whatever a future Biome ships at `warn`.
 
 **File size** — 100 lines, no exceptions: split the component, extract a
 `*.helper.ts`. Enforced by `scripts/check-line-cap.sh`, counting **plain**

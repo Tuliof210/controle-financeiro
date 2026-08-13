@@ -114,19 +114,33 @@ if [ "$MODE" = publish ]; then
     exit 1
   fi
 
-  info=$(gh pr view "$ARG" --json headRefName,baseRefName,state,mergeable \
-           --jq '[.headRefName, .baseRefName, .state, .mergeable] | @tsv' 2>/dev/null) ||
+  # statusCheckRollup rides along in the same call: this repository is private on a
+  # free plan, where required status checks do not exist, so "never publish over a
+  # red check" has to be enforced here or nowhere. A PR with no checks at all reports
+  # nothing and merges as before.
+  info=$(gh pr view "$ARG" --json headRefName,baseRefName,state,mergeable,statusCheckRollup \
+           --jq '[.headRefName, .baseRefName, .state, .mergeable,
+                  ([.statusCheckRollup[]?
+                    | (.conclusion // .state // .status // "PENDING") as $c
+                    | select($c != "SUCCESS" and $c != "NEUTRAL" and $c != "SKIPPED")
+                    | "\(.name // .context)=\($c)"] | join(" "))] | @tsv' 2>/dev/null) ||
     { printf 'ABORT  could not read PR %s\n' "$ARG"; exit 1; }
   head=$(printf '%s' "$info" | cut -f1)
   base=$(printf '%s' "$info" | cut -f2)
   state=$(printf '%s' "$info" | cut -f3)
   mergeable=$(printf '%s' "$info" | cut -f4)
+  redchecks=$(printf '%s' "$info" | cut -f5)
 
   printf 'PUBLISH #%s  %s -> %s\n' "$ARG" "$head" "$base"
   [ "$state" = OPEN ] || { printf 'ABORT  PR is %s, not OPEN\n' "$state"; exit 1; }
   if [ "$mergeable" = CONFLICTING ]; then
     printf 'CONFLICT  %s cannot merge into %s — resolve it on the branch, then run this again\n' "$head" "$base"
     exit 2
+  fi
+  if [ -n "$redchecks" ]; then
+    printf 'ABORT  checks not green: %s\n' "$redchecks"
+    echo '       nothing was merged — fix the failing gate (or wait for a pending one) and run this again'
+    exit 1
   fi
 
   # Squash on purpose: the base branch gets one commit per task. The per-step commits
