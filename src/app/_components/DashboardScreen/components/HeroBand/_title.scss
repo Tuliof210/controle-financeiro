@@ -45,16 +45,19 @@
   // h1 inherits --font-display, --leading-tight and --tracking-display from
   // _base.scss — but also `color: var(--color-text)`, which on this fill is
   // near-black on near-black. `inherit` is what puts it back.
+  //
+  // --text-xl flat, down from 28/34px. "Dashboard" is wayfinding, not the
+  // message: it was the largest type on the screen while the ceiling — the one
+  // figure the page exists to produce — merely matched it. It stays the page's
+  // only <h1>; it just stops competing with the answer for the eye. The other
+  // five screens keep PageHeader's 18/28, where the title IS the top of the
+  // hierarchy because no hero figure outranks it.
   .title {
     display: flex;
     align-items: center;
     gap: var(--space-4);
     color: inherit;
-    font-size: var(--text-2xl);
-
-    @include t.bp("md") {
-      font-size: var(--text-3xl);
-    }
+    font-size: var(--text-xl);
   }
 
   .subtitle {

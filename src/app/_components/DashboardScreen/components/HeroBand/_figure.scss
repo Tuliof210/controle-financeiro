@@ -3,28 +3,39 @@
 // nothing on its own, included once by the stylesheet beside it, so neither
 // file crosses the 100-line cap. Not a component — its markup is this folder's
 // `index.tsx`. (The facts strip under it IS one: `components/Facts`.)
+@use "theme" as t;
 
 @mixin figure {
   // A <dl> now, so `margin: 0` and the reset matter: the figure is a labelled
   // value and used to be two sibling <p>s with nothing tying caption to number.
+  // --space-3 rather than --space-2: 8px under a 56px line is a collision.
   .figures {
     display: flex;
     flex-direction: column;
-    gap: var(--space-2);
+    gap: var(--space-3);
     min-width: 0;
     margin: 0;
   }
 
+  // The page's answer, at the page's largest size. It was --text-2xl — the same
+  // 28px as the <h1> beside it — so the loudest thing on screen was the word
+  // "Dashboard". --text-display is the token the scale mints for this and had
+  // zero call sites; tracking follows the size, tabular-nums doesn't fight it.
   .value {
     margin: 0;
     font-family: var(--font-sans);
-    font-size: var(--text-2xl);
+    font-size: var(--text-3xl);
     font-weight: var(--weight-bold);
     font-variant-numeric: tabular-nums;
     line-height: var(--leading-tight);
+    letter-spacing: var(--tracking-display);
     // At 375px the longest figure has to be allowed to break rather than widen
     // the page.
     overflow-wrap: anywhere;
+
+    @include t.bp("md") {
+      font-size: var(--text-display);
+    }
   }
 
   // Replaced `.deltaRow`. The delta badge compared a 29-month projection against
@@ -41,10 +52,15 @@
   // Prose, not a badge: it is a sentence. The tone tints the TEXT rather than
   // filling a pill, because a filled pill on this band is how the cap selector
   // says "selected" and a second filled thing beside it would compete.
+  //
+  // --text-lg, not --text-sm: the one line the product exists to produce was set
+  // two steps below body, a footnote under its own conclusion. 18px semibold is
+  // also large text, which is what lets `.caution` keep its muted alpha at 3:1.
   .verdict {
     font-family: var(--font-sans);
-    font-size: var(--text-sm);
+    font-size: var(--text-lg);
     font-weight: var(--weight-semibold);
+    text-wrap: pretty;
   }
 
   // No hue on any of the three, deliberately.

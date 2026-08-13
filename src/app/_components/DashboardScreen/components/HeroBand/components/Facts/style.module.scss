@@ -2,17 +2,25 @@
 
 // Sits on the band's inverted fill, so every colour here is `inherit` or a
 // color-mix over --color-bg — nothing that assumes a light surface.
+// Four facts, and the track count has to divide them. `repeat(3, …)` left the
+// fourth — "Meses no vermelho", the only one that can be alarming — alone on a
+// second row, reading as an afterthought rather than as the last of a set.
+// Two columns at `md`, four at `lg`, both whole.
 .facts {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  gap: var(--space-4);
+  gap: var(--space-4) var(--space-6);
   margin: 0;
   padding-top: var(--space-6);
   border-top: var(--border-1) solid
     color-mix(in srgb, var(--color-bg) 25%, transparent);
 
   @include t.bp("md") {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @include t.bp("lg") {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 }
 
