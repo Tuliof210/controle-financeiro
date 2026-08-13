@@ -20,8 +20,8 @@ const chart = (dashedFrom: number | null, tightest: number | null) =>
     />,
   );
 
-const JAN = /Jan\/26 · acumulado/;
-const FEB = /Fev\/26 · acumulado/;
+const JAN = /Jan\/26 · real · acumulado/;
+const FEB = /Fev\/26 · real · acumulado/;
 
 describe("BalanceLineChart", () => {
   it("names its own plot region and draws one dot per month", () => {

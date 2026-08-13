@@ -35,7 +35,7 @@ describe("dotFor", () => {
   });
 
   it("captions the point with its month and cumulative", () => {
-    const { tip, title } = dotFor(point, true, 0, 0);
+    const { tip } = dotFor(point, true, 0, 0);
 
     expect(tip.title).toBe("Ago/26");
     expect(tip.tag).toBe("estimado");
@@ -44,8 +44,5 @@ describe("dotFor", () => {
       value: "R$ 50,00",
       tone: "brand",
     });
-    // The accessible name repeats both, so the dot's opacity is never the only
-    // place the figure lives.
-    expect(title).toBe("Ago/26 · acumulado R$ 50,00");
   });
 });

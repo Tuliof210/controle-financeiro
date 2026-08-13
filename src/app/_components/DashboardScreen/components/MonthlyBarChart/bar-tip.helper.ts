@@ -1,7 +1,10 @@
 import type { MonthPoint } from "@/app/api/dashboard/types.ts";
 import { formatMoney } from "@/lib/money.ts";
 import { formatYyyymm } from "@/lib/months.ts";
-import type { TooltipContent, TooltipTone } from "../ChartTooltip/hook.ts";
+import type {
+  TooltipContent,
+  TooltipTone,
+} from "../ChartTooltip/chart-tooltip.types.ts";
 
 // What the bubble prints for one month. Its own file rather than a block inside
 // `bar-series.helper.ts`: that one answers questions about the BARS' geometry,

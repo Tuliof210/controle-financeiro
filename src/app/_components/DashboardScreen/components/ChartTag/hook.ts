@@ -12,20 +12,37 @@ interface ChartTagProps {
   y: number;
   label: string;
   tone: keyof typeof TAG_TONES;
-  // Anchors the box to the RIGHT of x instead of the left, for a tag that would
-  // otherwise run off the plot's trailing edge.
-  flip?: boolean;
+  // The plot's inner width. The tag decides for itself which side of `x` to hang
+  // on and clamps into the plot: a caller cannot know, because only the tag knows
+  // how wide its own label is.
+  plotWidth: number;
 }
 
 // A fraction of the height, matching every other label in this tree.
 const BASELINE_RATIO = 0.7;
 
-function useChartTag({ x, y, label, tone, flip }: ChartTagProps) {
-  const width = label.length * TAG_CHAR_PX + TAG_PAD_X * 2;
+// Which side of `x` the box hangs on, and where it ends up.
+//
+// It used to flip past the plot's MIDPOINT, decided by the caller. Two ways that
+// clipped: `PROJETADO` is ~97px, so when only the last month or two is projected
+// there was about one band of room right of `band.x` and the SVG root cut the word
+// in half; and on the line chart a flip between roughly 111 and 178px produced a
+// NEGATIVE left, clipping on the other side instead.
+//
+// Now: hang right of `x` while there is room for the whole box, otherwise hang
+// left of it — and clamp either way, so a plot narrower than the label still
+// shows the label's start rather than its middle.
+function placeBox(x: number, width: number, plotWidth: number): number {
   let left = x;
-  if (flip) {
+  if (x + width > plotWidth) {
     left = x - width;
   }
+  return Math.max(0, Math.min(left, Math.max(0, plotWidth - width)));
+}
+
+function useChartTag({ x, y, label, tone, plotWidth }: ChartTagProps) {
+  const width = label.length * TAG_CHAR_PX + TAG_PAD_X * 2;
+  const left = placeBox(x, width, plotWidth);
 
   return {
     label,

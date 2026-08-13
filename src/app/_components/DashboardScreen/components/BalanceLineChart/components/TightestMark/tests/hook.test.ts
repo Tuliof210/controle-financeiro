@@ -5,7 +5,7 @@ import { useTightestMark } from "@/app/_components/DashboardScreen/components/Ba
 describe("useTightestMark", () => {
   it("hangs the tag two tag-heights clear of the point", () => {
     const { result } = renderHook(() =>
-      useTightestMark({ x: 10, y: 100, height: 200, flip: false }),
+      useTightestMark({ x: 10, y: 100, height: 200, width: 800 }),
     );
 
     expect(result.current.tagY).toBe(60);
@@ -13,10 +13,9 @@ describe("useTightestMark", () => {
 
   it("floors the tag at the plot's top edge", () => {
     const { result } = renderHook(() =>
-      useTightestMark({ x: 10, y: 5, height: 200, flip: true }),
+      useTightestMark({ x: 10, y: 5, height: 200, width: 800 }),
     );
 
     expect(result.current.tagY).toBe(0);
-    expect(result.current.flip).toBe(true);
   });
 });

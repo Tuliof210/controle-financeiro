@@ -4,14 +4,21 @@ import {
 } from "../../chart-marks.config.ts";
 import { ChartFrame } from "../ChartFrame/index.tsx";
 import { ChartTag } from "../ChartTag/index.tsx";
-import { useChartTooltip } from "../ChartTooltip/hook.ts";
 import { ChartTooltip } from "../ChartTooltip/index.tsx";
 import { BarMark } from "./components/BarMark/index.tsx";
 import { type MonthlyBarChartProps, useMonthlyBarChart } from "./hook.ts";
 
 export function MonthlyBarChart(props: MonthlyBarChartProps) {
-  const { frame, bars, band, width, height } = useMonthlyBarChart(props);
-  const { tooltip, showTooltip, hideTooltip } = useChartTooltip();
+  const {
+    frame,
+    bars,
+    band,
+    width,
+    height,
+    tooltip,
+    showTooltip,
+    hideTooltip,
+  } = useMonthlyBarChart(props);
 
   return (
     <>
@@ -30,12 +37,16 @@ export function MonthlyBarChart(props: MonthlyBarChartProps) {
                 height={frame.innerHeight}
                 fill={PROJECTED_BAND_FILL}
               />
+              {/* `PROJETADO` is ~97px. When only the last month or two is
+                  projected there is about one band of room right of `band.x`,
+                  and the tag used to be clipped mid-word by the SVG root. It
+                  places itself against the plot width now. */}
               <ChartTag
                 x={band.x}
                 y={0}
                 label="PROJETADO"
                 tone="muted"
-                flip={false}
+                plotWidth={frame.innerWidth}
               />
             </>
           )
@@ -50,7 +61,6 @@ export function MonthlyBarChart(props: MonthlyBarChartProps) {
             height={bar.height}
             fill={bar.fill}
             estimated={bar.estimated}
-            title={bar.title}
             tip={bar.tip}
             plotHeight={frame.innerHeight}
             showTooltip={showTooltip}

@@ -41,7 +41,6 @@ function dotFor(point: MonthPoint, projected: boolean, cx: number, cy: number) {
         },
       ],
     },
-    title: `${label} · acumulado ${value}`,
   };
 }
 

@@ -1,4 +1,6 @@
-import type { TooltipContent } from "../../../ChartTooltip/hook.ts";
+import type { FocusEvent } from "react";
+import type { TooltipContent } from "../../../ChartTooltip/chart-tooltip.types.ts";
+import { markLabel } from "../../../ChartTooltip/mark-label.helper.ts";
 
 // A projected point draws at half opacity. It is reinforcement only: the dashed
 // stroke of the path it sits on, and the ESTIMADO word in the bubble, are what
@@ -20,7 +22,6 @@ interface PointerLocation {
 interface DotMarkProps {
   cx: number;
   cy: number;
-  title: string;
   projected: boolean;
   tip: TooltipContent;
   showTooltip: (event: PointerLocation, content: TooltipContent) => void;
@@ -32,7 +33,6 @@ interface DotMarkProps {
 function useDotMark({
   cx,
   cy,
-  title,
   projected,
   tip,
   showTooltip,
@@ -41,9 +41,18 @@ function useDotMark({
   return {
     cx,
     cy,
-    title,
+    // The whole bubble, not just "month · acumulado": a keyboard reader lands
+    // HERE and the bubble is aria-hidden, so this string is the only route to the
+    // figures. A `title` prop used to carry a shorter readout; it is gone.
+    label: markLabel(tip),
     opacity: dotOpacity(projected),
     show: (event: PointerLocation) => showTooltip(event, tip),
+    // A focus event has no clientX/clientY, so the bubble is anchored to the
+    // mark's own box instead of to a pointer that is not there.
+    focus: (event: FocusEvent<SVGCircleElement>) => {
+      const box = event.currentTarget.getBoundingClientRect();
+      showTooltip({ clientX: box.left + box.width / 2, clientY: box.top }, tip);
+    },
     hide: hideTooltip,
   };
 }

@@ -1,21 +1,7 @@
+import { useMemo } from "react";
 import type { MonthPoint } from "@/app/api/dashboard/types.ts";
-import { dashSplit } from "../../chart.helper.ts";
-import { buildFrame } from "../../chart-frame.helper.ts";
-import { dotFor } from "./line-dot.helper.ts";
-
-// The tag would run off the trailing edge in the last third of the plot; past
-// the midpoint it hangs to the left of its rule instead.
-const markFor = (
-  point: MonthPoint | undefined,
-  x: (point: MonthPoint) => number,
-  y: (point: MonthPoint) => number,
-  innerWidth: number,
-) => {
-  if (point === undefined) {
-    return null;
-  }
-  return { x: x(point), y: y(point), flip: x(point) > innerWidth / 2 };
-};
+import { useChartTooltip } from "../ChartTooltip/hook.ts";
+import { buildLine } from "./line-build.helper.ts";
 
 interface BalanceLineChartProps {
   points: MonthPoint[];
@@ -29,18 +15,15 @@ interface BalanceLineChartProps {
   height: number;
 }
 
-// Only worth drawing when the series actually crosses zero; otherwise the
-// baseline coincides with the axis.
-function zeroLine(valueScale: {
-  domain: () => number[];
-  (value: number): number;
-}): number | null {
-  if (valueScale.domain()[0] >= 0) {
-    return null;
-  }
-  return valueScale(0);
-}
-
+// The tooltip state lives HERE, not in `index.tsx`: ARCHITECTURE.md's three-file
+// rule gives the view no state and no logic, and both charts were calling
+// useChartTooltip from their views.
+//
+// `useMemo` on the geometry, keyed on the only inputs it reads. Every pointer move
+// calls setTooltip, which re-renders this component, which used to rebuild three
+// d3 scales, call .ticks() twice, run a third scale over a flatMap of the whole
+// series, and re-run formatMoney and formatYyyymm per month — for a frame whose
+// inputs had not changed.
 function useBalanceLineChart({
   points,
   dashedFrom,
@@ -48,45 +31,20 @@ function useBalanceLineChart({
   width,
   height,
 }: BalanceLineChartProps) {
-  const frame = buildFrame(
-    points,
-    points.map((point) => point.cumulative),
-    width,
-    height,
+  const { tooltip, showTooltip, hideTooltip } = useChartTooltip();
+
+  const built = useMemo(
+    () => buildLine({ points, dashedFrom, tightest, width, height }),
+    [points, dashedFrom, tightest, width, height],
   );
 
-  // Centred in each month's band, so the dots sit above the bar chart's groups.
-  const x = (point: MonthPoint) =>
-    (frame.monthScale(point.month) ?? 0) + frame.monthScale.bandwidth() / 2;
-  const y = (point: MonthPoint) => frame.valueScale(point.cumulative);
-
-  const projectedFrom = dashedFrom ?? Number.POSITIVE_INFINITY;
-
-  // Anchored to the named month's OWN cumulative, not to the curve's minimum —
-  // the two need not coincide, and the label names the month, not the low point.
-  let tightestPoint: MonthPoint | undefined;
-  if (tightest !== null) {
-    tightestPoint = points.find((point) => point.month === tightest);
-  }
-
   return {
-    frame,
+    ...built,
     width,
     height,
-    x,
-    y,
-    // The whole series in one array, for the area wash under it: the two
-    // LinePaths deliberately SHARE their boundary point, so concatenating them
-    // raw would close the polygon on a duplicated x and leave a hairline seam.
-    curve: points,
-    ...dashSplit(points, dashedFrom),
-    dots: points.map((point) =>
-      dotFor(point, point.month >= projectedFrom, x(point), y(point)),
-    ),
-    // Only worth drawing when the series actually crosses zero; otherwise the
-    // baseline coincides with the axis.
-    zeroY: zeroLine(frame.valueScale),
-    tightestMark: markFor(tightestPoint, x, y, frame.innerWidth),
+    tooltip,
+    showTooltip,
+    hideTooltip,
   };
 }
 
