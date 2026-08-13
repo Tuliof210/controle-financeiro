@@ -9,9 +9,25 @@ concurrency:
 permissions:
   contents: read
 jobs:
+  # One job spec, one check per gate: the PR lists "CI / Tipos", "CI / Build", …
+  # so the failing gate is readable from the PR instead of only inside Actions.
   verificar:
-    name: Verificar
+    name: ${{ matrix.nome }}
     runs-on: ubuntu-latest
+    strategy:
+      # Sem fail-fast: uma falha nao cancela as irmas, senao o PR mostra
+      # "cancelled" no lugar do resultado de cada gate.
+      fail-fast: false
+      matrix:
+        include:
+          - nome: Lint e formatacao
+            comando: npm run lint
+          - nome: Tipos
+            comando: npx tsc --noEmit
+          - nome: Testes e cobertura
+            comando: npm run test:coverage
+          - nome: Build
+            comando: npm run build
     steps:
       - uses: actions/checkout@v4
         with:
@@ -24,15 +40,9 @@ jobs:
       - run: npm ci
       - name: Client do Prisma
         run: npx prisma generate
-      - name: Lint e formatacao (Biome)
+      - name: ${{ matrix.nome }}
         # o checkout so cria refs/remotes/origin/*, entao o BASE default `main`
         # do check-line-cap.sh nao resolve e o cap passaria vazio
         env:
           BASE: origin/${{ github.base_ref || 'main' }}
-        run: npm run lint
-      - name: Tipos
-        run: npx tsc --noEmit
-      - name: Testes e cobertura
-        run: npm run test:coverage
-      - name: Build
-        run: npm run build
+        run: ${{ matrix.comando }}
