@@ -6,6 +6,10 @@ interface CapSelectorProps {
   // out entirely rather than disabled: a target that cannot do anything is not
   // a choice, and a dead radio in a group of four reads as a bug.
   hasMeta: boolean;
+  // The cap's trade-off, in words. Passed in rather than imported: the copy for
+  // this screen lives in one `hints.ts` the card already reads, and reaching four
+  // folders up for it would put the same string behind two owners.
+  hint: string;
   onChange: (cap: CeilingCap) => void;
 }
 
@@ -28,10 +32,11 @@ function capLabel(cap: CeilingCap): string {
   return `${cap}%`;
 }
 
-function useCapSelector({ value, hasMeta, onChange }: CapSelectorProps) {
+function useCapSelector({ value, hasMeta, hint, onChange }: CapSelectorProps) {
   const offered = offeredCaps(hasMeta);
 
   return {
+    hint,
     // `checked` is resolved here rather than in the JSX so the markup stays one
     // expression per segment. The percent sign is display only — the value that
     // travels is the bare string, which is what the API's enum accepts. Meta is

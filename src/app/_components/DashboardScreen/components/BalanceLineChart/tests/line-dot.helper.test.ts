@@ -12,12 +12,21 @@ const point = {
   cumulative: 5000,
   incomeEstimated: false,
   expenseEstimated: false,
+  simulated: false,
 };
 
 describe("tagFor", () => {
   it("says the projection in words, both ways", () => {
-    expect(tagFor(false)).toBe("real");
-    expect(tagFor(true)).toBe("estimado");
+    expect(tagFor(false, false)).toBe("real");
+    expect(tagFor(true, false)).toBe("estimado");
+  });
+
+  // PRODUCT.md: projected, real and simulated must never read as the same kind of
+  // fact. A what-if used to get the word "estimado", exactly like a committed
+  // forecast, with only a persisted select saying otherwise.
+  it("says simulated in its own word, and wins over estimated", () => {
+    expect(tagFor(true, true)).toBe("simulado");
+    expect(tagFor(false, true)).toBe("simulado");
   });
 });
 
@@ -35,7 +44,7 @@ describe("dotFor", () => {
   });
 
   it("captions the point with its month and cumulative", () => {
-    const { tip, title } = dotFor(point, true, 0, 0);
+    const { tip } = dotFor(point, true, 0, 0);
 
     expect(tip.title).toBe("Ago/26");
     expect(tip.tag).toBe("estimado");
@@ -44,8 +53,5 @@ describe("dotFor", () => {
       value: "R$ 50,00",
       tone: "brand",
     });
-    // The accessible name repeats both, so the dot's opacity is never the only
-    // place the figure lives.
-    expect(title).toBe("Ago/26 · acumulado R$ 50,00");
   });
 });

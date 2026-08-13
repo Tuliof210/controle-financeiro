@@ -37,31 +37,32 @@
     // still reads as a plain separator — only thicker.
   }
 
-  // Mono, uppercase and tracked on the sunken fill — the target's header row.
-  // FOR REVIEW: README rule 4 names "a table header" as one of the three things
-  // that stay SENTENCE case, and T2 had made this one sentence case citing it.
-  // The target overrides that for both tables on this screen, and R3 asks for
-  // the mono header by name, so the target wins here and the rule is the open
-  // question — see the PR.
+  // Sentence case, sans, on the sunken fill. The FOR REVIEW note that used to sit
+  // here is RESOLVED: README rule 4 names "a table header" as one of the three
+  // things that stay sentence case, the design overrode it for both tables on
+  // this screen, and the note shipped to main leaving the rule documenting an
+  // intention the code contradicted. The rule wins — an open question in a
+  // comment reads as licence the next time someone passes through.
   thead th {
     padding-block: var(--space-2);
     background: var(--color-surface-raised);
     color: var(--color-text-muted);
-    font-family: var(--font-mono);
+    font-family: var(--font-sans);
     font-size: var(--text-2xs);
     font-weight: var(--weight-regular);
-    letter-spacing: var(--tracking-wide);
-    text-transform: uppercase;
     border-bottom: var(--border-1) solid var(--color-border);
   }
 }
 
 // The month is a label, not a figure: left-aligned against the three columns of
-// right-aligned money. Nested under `.table` and it has to be: the
-// base cell rules above are themselves nested, so `.table th` is (0,1,1) and
-// `.table thead th` is (0,1,2). A bare `.month` is (0,1,0) and loses to both
-// however late it is written; `.table .month` is (0,2,0) and wins on class count.
-.table .month {
+// right-aligned money.
+//
+// Scoped to `tbody`. It used to be `.table .month` at (0,2,0), which outranked
+// `.table thead th` at (0,1,2) — so the MÊS column header took this rule's
+// full-strength --color-text while the other three stayed muted, and one header
+// row was painted two ways. `tbody` keeps the win over `.table th` where it is
+// wanted and gives it up where it was a bug.
+.table tbody .month {
   text-align: left;
   font-weight: var(--weight-regular);
   color: var(--color-text);

@@ -1,3 +1,5 @@
+@use "theme" as t;
+
 // The collapsed tier, split off `style.module.scss` under the exception
 // ARCHITECTURE.md grants `RowGrid/_tiers.scss`: a mixin that emits nothing on
 // its own, included once by the stylesheet beside it, so neither file crosses
@@ -37,11 +39,8 @@
     // Clipped, never `display: none`: as long as the table role survives in a
     // given browser, these are still what answer "which column is this".
     .head {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      overflow: hidden;
-      clip-path: inset(50%);
+      @include t.visually-hidden;
+
       white-space: nowrap;
     }
 

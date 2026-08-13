@@ -8,17 +8,18 @@ export interface TightestMarkProps {
   y: number;
   // Plot height, so the rule can drop from the point to the axis.
   height: number;
-  // Past the plot's midpoint the tag hangs left of its rule instead of right,
-  // or it would run off the trailing edge.
-  flip: boolean;
+  // Plot width, passed straight through to the tag. `flip` used to be decided
+  // here from the plot's midpoint, which clipped the label at both ends; the tag
+  // now places itself, because only it knows how wide its own label is.
+  width: number;
 }
 
-export function useTightestMark({ x, y, height, flip }: TightestMarkProps) {
+export function useTightestMark({ x, y, height, width }: TightestMarkProps) {
   return {
     x,
     y,
     height,
-    flip,
+    width,
     // Two tag-heights clear of the point, floored at the plot's top edge.
     tagY: Math.max(0, y - TAG_HEIGHT * 2),
   };

@@ -69,18 +69,16 @@
   --color-hover-wash: var(--neutral-100);
   --color-row-hover: var(--neutral-50);
 
-  // The --rail-* family is gone. It existed while the rail was dark chrome in
-  // both themes and needed its own ramp; T1 repointed all five at the surface
-  // tokens, and once every one of them was a 1:1 alias the family was a second
-  // name for a colour rather than a decision about the rail. The eleven call
-  // sites now read the semantic token directly.
+  // The --rail-* family is gone: T1 repointed all five at the surface tokens, and
+  // once each was a 1:1 alias the family was a second name for a colour rather
+  // than a decision about the rail. The eleven call sites read the token directly.
 
-  // The target forbids decorative gradients, and --glow-brand is now the only
-  // one there is — a cobalt radial glow on a dark hero, never on the mark.
-  // --gradient-toxic is deleted: the ramp swap turned its lime->violet into
-  // cobalt->cobalt, so its last consumer (HeroBand's `.edge`) was painting a
-  // gradient between a colour and itself, and now paints --color-brand flat.
-  --glow-brand: radial-gradient(circle, rgb(37 80 204 / 40%), transparent 70%);
+  // The one gradient the target allows — a radial glow on the hero, never on the
+  // mark. DERIVED, not re-spelled: it hardcoded `rgb(37 80 204 / 40%)`, which IS
+  // --cobalt-600, so it was the one token here missing from `@mixin dark-theme` —
+  // it stayed cobalt-600 in dark while `.edge` beside it resolved to cobalt-400.
+  --glow-fade: color-mix(in srgb, var(--color-brand) 40%, transparent);
+  --glow-brand: radial-gradient(circle, var(--glow-fade), transparent 70%);
 }
 
 // ---- Semantic color — dark (explicit opt-in via [data-theme]) -------------

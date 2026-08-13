@@ -12,6 +12,7 @@ const point = (month: number) =>
     cumulative: 600,
     incomeEstimated: false,
     expenseEstimated: false,
+    simulated: false,
   }) as MonthPoint;
 
 const points = [point(202_601), point(202_602)];
@@ -26,21 +27,31 @@ const chart = (dashedFrom: number | null) =>
     />,
   );
 
+// Both bars of a month now share ONE accessible name: it is the whole bubble, so
+// it answers for the month rather than for one side of the pair. That is the
+// point — entradas and saídas per month exist nowhere else on this screen, and a
+// keyboard reader lands on the mark, not on the aria-hidden bubble.
+const JAN = /Jan\/26 · real · entradas R\$ 10,00 · saídas R\$ 4,00/;
+
 describe("MonthlyBarChart", () => {
-  it("names its own plot region and draws both sides of each month", () => {
+  it("names its own plot and draws both sides of each month", () => {
     chart(null);
 
+    // The name lives on the <svg>'s <title> now: the scroll box carried the same
+    // string as an aria-label AND a tab stop, and the chart was named twice.
     expect(
-      screen.getByRole("region", {
-        name: "Entradas e saídas de cada mês do período",
-      }),
+      screen.getByTitle("Entradas e saídas de cada mês do período"),
     ).toBeInTheDocument();
-    expect(
-      screen.getByLabelText("Jan/26 · Entradas · R$ 10,00 · lançado"),
-    ).toBeInTheDocument();
-    expect(
-      screen.getByLabelText("Jan/26 · Saídas · R$ 4,00 · lançado"),
-    ).toBeInTheDocument();
+    // One hit target per bar, both naming the same month.
+    expect(screen.getAllByLabelText(JAN)).toHaveLength(2);
+  });
+
+  it("makes every hit target reachable by keyboard", () => {
+    chart(null);
+
+    for (const hit of screen.getAllByLabelText(JAN)) {
+      expect(hit).toHaveAttribute("tabindex", "0");
+    }
   });
 
   it("tags the projected region only once there is one", () => {

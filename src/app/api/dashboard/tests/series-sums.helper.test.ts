@@ -17,12 +17,14 @@ const forecast = (months: number[], type: string, valueCents: number) =>
 const MONTHS = [202_601, 202_602];
 
 describe("emptySums", () => {
-  it("starts every side at zero", () => {
+  it("starts every side at zero, and neither side simulated", () => {
     expect(emptySums()).toEqual({
       realIncome: 0,
       realExpense: 0,
       estIncome: 0,
       estExpense: 0,
+      simIncome: false,
+      simExpense: false,
     });
   });
 });

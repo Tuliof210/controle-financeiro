@@ -25,9 +25,16 @@ describe("ChartFrame", () => {
       </ChartFrame>,
     );
 
-    expect(
-      screen.getByRole("region", { name: "Saldo acumulado" }),
-    ).toHaveAttribute("tabindex", "0");
+    // Named ONCE, on the graphic. The scroll box used to carry the same string as
+    // an aria-label AND take a tab stop, under a pattern that requires nothing
+    // inside it to be focusable — no longer true now that every mark is.
+    const titles = [...document.querySelectorAll("title")].map(
+      (t) => t.textContent,
+    );
+
+    expect(titles).toEqual(["Saldo acumulado"]);
+    expect(screen.queryByRole("region")).not.toBeInTheDocument();
+    expect(document.querySelector("[tabindex]")).toBeNull();
   });
 
   it("draws the background under the marks", () => {

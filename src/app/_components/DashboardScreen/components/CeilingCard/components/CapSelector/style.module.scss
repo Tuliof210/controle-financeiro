@@ -1,92 +1,55 @@
 @use "theme" as t;
+@use "./segments" as *;
 
-// One frame around the three segments, which share their edges — the divider
-// between them is each segment's own left border, not a gap. `overflow: hidden`
-// so the filled segment's corners are clipped by the frame's radius instead of
-// needing radii of their own.
-//
-// `min-inline-size: 0` and the reset padding/border/margin: a <fieldset> ships
-// with all three plus a default min-content sizing that ignores flex.
-.group {
+// The <fieldset>, now only a wrapper: it carries the legend and the pill, and no
+// paint of its own. `min-inline-size: 0` and the reset padding/border/margin —
+// a <fieldset> ships with all three plus a default min-content sizing that
+// ignores flex.
+.field {
   display: flex;
+  align-items: center;
+  gap: var(--space-2);
   min-inline-size: 0;
   margin: 0;
   padding: 0;
-  // Rides the card's inverted-ink band, so the frame is drawn in the band's own
-  // foreground rather than --color-border, which IS the band's fill and would
-  // vanish into it.
-  border: var(--border-1) solid currentcolor;
-  border-radius: var(--radius-full);
-  overflow: hidden;
+  border: 0;
+  flex-wrap: wrap;
 }
 
-// Clipped, not `display: none`: a <legend> is the group's accessible name, and
-// hiding it would take that name with it.
+// The group's accessible name, and now also its visible one.
 .legend {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  clip-path: inset(50%);
-  white-space: nowrap;
-}
-
-.segment {
-  display: flex;
-  cursor: pointer;
-}
-
-// Clipped for the same reason as the legend: the radio still takes focus, still
-// answers the arrow keys, and still carries the checked state the paint reads.
-.input {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  opacity: 0;
-}
-
-.text {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  // src/styles/README.md rule 7(e)'s 44px floor. The design draws a shorter
-  // chip; the floor wins.
-  min-height: var(--size-tap);
-  padding: 0 var(--space-3);
-  // On the band: transparent, inheriting the band's foreground. 0.7 of a
-  // 19.1:1 (light) / 16.4:1 (dark) pair still clears the 4.5:1 floor by a wide
-  // margin, and it is the same recipe ChartLegend uses on the same fill.
-  background: transparent;
+  padding: 0;
+  // Rides the card's inverted-ink band: `inherit`, never a surface-assuming
+  // token. 0.7 of a 19.1:1 (light) / 16.4:1 (dark) pair, the same recipe the
+  // segments themselves use.
   color: inherit;
   opacity: var(--opacity-muted);
   font-family: var(--font-sans);
   font-size: var(--text-2xs);
   white-space: nowrap;
-  transition:
-    background var(--duration-fast) var(--ease-snappy),
-    color var(--duration-fast) var(--ease-snappy);
+  // A <legend> is float-positioned by default in a flex parent in some engines;
+  // this keeps it an ordinary flex item beside the pill.
+  float: none;
 }
 
-.segment + .segment .text {
-  border-left: var(--border-1) solid currentcolor;
+// One frame around the segments, which share their edges — the divider between
+// them is each segment's own left border, not a gap.
+//
+// NO `overflow: hidden` any more. It clipped the focus ring: the ring is two
+// OUTWARD box-shadow layers needing ~5px, and a 44px segment inside a 46px frame
+// left 1px of slack, so the top and bottom of the ring were cut away and only
+// slivers over the neighbouring segments survived. Each segment now carries the
+// radius itself, which is what the frame's radius was hiding for them.
+.group {
+  display: flex;
+  min-inline-size: 0;
+  // Rides the card's inverted-ink band, so the frame is drawn in the band's own
+  // foreground rather than --color-border, which IS the band's fill and would
+  // vanish into it.
+  border: var(--border-1) solid currentcolor;
+  border-radius: var(--radius-full);
 }
 
-.segment:hover .input:not(:checked) + .text {
-  opacity: 1;
-}
 
-// Inverted back OUT of the band: the selected cap is a state, not one more
-// label in a row of them, and on a filled band the only way left to say so is to
-// return to the page's own surface. --color-bg on --color-text is the same
-// 19.1:1 / 16.4:1 pair the band itself is built from, read the other way round.
-.input:checked + .text {
-  background: var(--color-bg);
-  color: var(--color-text);
-  opacity: 1;
-}
-
-.input:focus-visible + .text {
-  @include t.focus-ring;
-  // Inset, because the frame clips anything drawn outside the segment.
-  outline-offset: -4px;
-}
+// The segments live in `_segments.scss` — see the note there on why.
+@include segments;

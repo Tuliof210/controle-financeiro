@@ -18,12 +18,12 @@ import styles from "./style.module.scss";
 // imported from that hook: the legend belongs to the CARD, and importing a
 // chart's internals into its container is what makes a chart hard to replace.
 const BAR_LEGEND = [
-  { key: "income", label: "Entradas", color: "var(--color-positive)" },
-  { key: "expense", label: "Saídas", color: "var(--color-negative)" },
+  { key: "income", label: "Entradas", color: "var(--cat-green)" },
+  { key: "expense", label: "Saídas", color: "var(--cat-amber)" },
 ];
 
 export function Overview(props: OverviewProps) {
-  const { data, income, expense, balance } = useOverview(props);
+  const { data } = useOverview(props);
 
   // A fragment, not a wrapper: Board is the one column, and a nested one here
   // would only be a second place for the card spacing to be decided.
@@ -36,22 +36,25 @@ export function Overview(props: OverviewProps) {
           tone="positive"
           hint={HINTS.income}
           stats={data.income}
-          series={income}
         />
+        {/* No `tone`. It used to pass "negative", which painted the period's
+            total outflow — the card's largest element — in --color-negative. The
+            constitution's first pillar is that a normal expense is not red, and
+            `_chip.scss` applies exactly that rule ten lines away on a 28px icon
+            chip while the 24px money figure beside it broke it. formatMoney's
+            sign already carries the meaning, as the quadrant rows rely on. */}
         <StatCard
           title="Saídas"
           icon={ArrowUpCircle}
-          tone="negative"
+          chip="negative"
           hint={HINTS.expense}
           stats={data.expense}
-          series={expense}
         />
         <StatCard
           title="Saldo"
           icon={Scale}
           hint={HINTS.balance}
           stats={data.balance}
-          series={balance}
           signed={true}
         />
       </div>

@@ -22,6 +22,14 @@ const okPayload = {
   status: "ok",
   range,
   points: [{ month: 202_608, income: 1000, expense: 400, cumulative: 600 }],
+  ceiling: {
+    monthly: 0,
+    weekly: 0,
+    daily: 0,
+    tightest: null,
+    firstRed: null,
+    months: [],
+  },
 };
 
 beforeEach(() => {

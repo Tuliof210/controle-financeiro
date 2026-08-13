@@ -5,11 +5,14 @@
 // `index.tsx`. (The facts strip under it IS one: `components/Facts`.)
 
 @mixin figure {
+  // A <dl> now, so `margin: 0` and the reset matter: the figure is a labelled
+  // value and used to be two sibling <p>s with nothing tying caption to number.
   .figures {
     display: flex;
     flex-direction: column;
     gap: var(--space-2);
     min-width: 0;
+    margin: 0;
   }
 
   .value {
@@ -19,49 +22,63 @@
     font-weight: var(--weight-bold);
     font-variant-numeric: tabular-nums;
     line-height: var(--leading-tight);
-    // The projected balance is the longest number on the screen; at 375px it
-    // has to be allowed to break rather than widen the page.
+    // At 375px the longest figure has to be allowed to break rather than widen
+    // the page.
     overflow-wrap: anywhere;
   }
 
-  .deltaRow {
+  // Replaced `.deltaRow`. The delta badge compared a 29-month projection against
+  // today's balance — arithmetic, not a conclusion — and the band's headline is
+  // the ceiling now, which has a real conclusion to state.
+  .verdictRow {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     gap: var(--space-2);
+    margin: 0;
   }
 
-  // The tone is paired with a ▲/▼ glyph in index.tsx — rule 7(c), meaning is
-  // never colour-only.
-  .badge {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--space-1);
-    padding: var(--space-1) var(--space-2);
-    border-radius: var(--radius-sm);
-    // --color-bg, not a fixed dark ink: `.up`/`.down` below fill it with themed
-    // semantic tokens, which are dark in light mode and light in dark mode, so
-    // the only ink that is always their opposite is the one that flips with
-    // them. 5.15–5.46:1 light, 8.21–9.37:1 dark.
-    color: var(--color-bg);
+  // Prose, not a badge: it is a sentence. The tone tints the TEXT rather than
+  // filling a pill, because a filled pill on this band is how the cap selector
+  // says "selected" and a second filled thing beside it would compete.
+  .verdict {
     font-family: var(--font-sans);
     font-size: var(--text-sm);
+    font-weight: var(--weight-semibold);
+  }
+
+  // No hue on any of the three, deliberately.
+  //
+  // This band is `band="ink"`: its fill IS --color-text, so it inverts with the
+  // theme and every semantic token here would be on the wrong side of its own
+  // contrast pair — the failure `_band.scss` already records, where fixed dark ink
+  // measured 3.12–3.31:1 in light. Introducing one would mean claiming a ratio on
+  // two inverted fills that nobody has measured.
+  //
+  // Nothing is lost: the SENTENCE is the channel. "já fecha no vermelho",
+  // "nenhum gasto extra cabe" and "dá para gastar" are three different
+  // statements, not three colours of one, which is rule 7 satisfied by the copy
+  // rather than in spite of it. Weight and alpha do the rest.
+  .positive,
+  .caution,
+  .negative {
+    color: inherit;
+  }
+
+  .caution {
+    opacity: var(--opacity-muted);
+  }
+
+  // The alarm this screen otherwise never gets to raise — said with weight, on a
+  // fill whose foreground is the only colour guaranteed to read against it.
+  .negative {
     font-weight: var(--weight-bold);
-    font-variant-numeric: tabular-nums;
   }
 
-  .up {
-    background: var(--color-positive);
-  }
-
-  .down {
-    background: var(--color-negative);
-  }
-
-  .vs {
+  // Which month or goal bound the figure — the card's own label, reused.
+  .limit {
     font-family: var(--font-sans);
     font-size: var(--text-sm);
-    font-variant-numeric: tabular-nums;
     opacity: var(--opacity-muted);
   }
 }

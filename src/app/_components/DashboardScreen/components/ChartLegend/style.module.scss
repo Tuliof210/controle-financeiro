@@ -1,17 +1,26 @@
+@use "theme" as t;
+
 // Sits on the card's inverted-ink band, so the type colour is `inherit` and
 // never a surface-assuming token.
 .legend {
+  @include t.micro-label;
+
   display: flex;
   align-items: center;
   gap: var(--space-2) var(--space-4);
   flex-wrap: wrap;
   margin: 0;
-  font-family: var(--font-mono);
-  font-size: var(--text-2xs);
+  // Overriding the mixin's --color-text-muted, which assumes the page surface:
+  // this rides the band, whose foreground is the only colour that can be read
+  // against its fill.
+  color: inherit;
   // 12.4:1 light / 11.3:1 dark against the band fill at this alpha — the band's
   // own foreground is 19.1:1 / 16.4:1, and 0.7 of it clears the 4.5:1 floor with
   // room to spare.
   opacity: var(--opacity-muted);
+  // The legend names series, and "sólida = realizado · tracejada = projeção" is
+  // a sentence, not an eyebrow: the mixin's uppercase is wrong for this one.
+  text-transform: none;
 }
 
 .item {
@@ -21,10 +30,13 @@
   white-space: nowrap;
 }
 
+// --radius-sm, not square: rule 2 puts soft corners on marks like this, and it
+// was the last square one on the screen.
 .swatch {
   flex: none;
   width: var(--space-3);
   height: var(--space-3);
+  border-radius: var(--radius-sm);
 }
 
 .note {

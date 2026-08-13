@@ -20,8 +20,16 @@ export const HINTS = {
   cumulative:
     "Saldo acumulado mês a mês. Tracejado é projeção; a linha horizontal marca o zero.",
 
+  // Was 687 characters — the screen's hardest concept handed to a hover bubble,
+  // which is also the one place a touch reader never goes. Split three ways: the
+  // definition is now visible prose in the card body (ceilingDefinition in
+  // `ceiling-card.helper.ts`), the cap trade-off rides the selector that causes
+  // it, and this keeps only what a tooltip can carry.
   ceiling:
-    "Quanto dá para gastar a mais por mês sem nenhum mês futuro ficar no vermelho. Semanal e diário dividem esse valor por 4 e por 30. A tabela mostra, mês a mês, o saldo que chega, o teto daquele mês e o que sobra depois de gastá-lo — a coluna inteira pode ser gasta em ordem. O seletor no topo escolhe quanto do saldo disponível vira teto: subir a porcentagem aumenta o teto DESTE mês, e como o cálculo é acumulado, sobra menos para os meses seguintes — alguns deles caem. Meta, que só aparece depois de salvar quanto pretende gastar por mês em Configurações, libera o saldo inteiro do mês limitado a esse valor: se o mês couber na meta, o que não foi liberado fica para os meses seguintes.",
+    "Semanal e diário dividem o teto do mês por 4 e por 30. A tabela mostra, mês a mês, o saldo que chega, o teto daquele mês e o que sobra depois de gastá-lo.",
+
+  ceilingCap:
+    "Quanto do saldo disponível vira teto. Subir a porcentagem aumenta o teto DESTE mês e, como o cálculo é acumulado, sobra menos para os meses seguintes — alguns deles caem. Meta libera o saldo inteiro do mês limitado ao valor salvo em Configurações.",
 
   goals:
     "25% da média mensal do Teto de Gastos no período. DEDICADO usa a capacidade só nele; EM PARALELO divide entre todos; UM DE CADA VEZ vai do mais barato ao mais caro.",

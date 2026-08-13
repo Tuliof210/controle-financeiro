@@ -11,6 +11,7 @@ const point = (month: number, estimated = false) =>
     cumulative: 600,
     incomeEstimated: estimated,
     expenseEstimated: false,
+    simulated: false,
   }) as MonthPoint;
 
 const points = [point(202_601), point(202_602, true)];
@@ -40,11 +41,19 @@ describe("useMonthlyBarChart", () => {
     expect(income.width).toBe(expense.width);
   });
 
-  it("titles each bar with its month, side, figure and provenance", () => {
+  // The per-series `title` is gone: the mark's accessible name is now the WHOLE
+  // bubble (mark-label.helper.ts), because the bubble is aria-hidden and a
+  // keyboard reader landing on the mark is the only route to these figures.
+  it("shares one month's figures across both of its bars", () => {
     const { bars } = chart(null);
 
-    expect(bars[0].title).toBe("Jan/26 · Entradas · R$ 10,00 · lançado");
-    expect(bars[2].title).toContain("previsto");
+    expect(bars[0].tip).toBe(bars[1].tip);
+    expect(bars[0].tip.title).toBe("Jan/26");
+    expect(bars[0].tip.rows.map((row) => row.label)).toEqual([
+      "entradas",
+      "saídas",
+      "saldo do mês",
+    ]);
   });
 
   it("reads the projected flag off the payload, per side", () => {

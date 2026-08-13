@@ -14,12 +14,16 @@ interface MonthRow {
 
 interface MonthTableProps {
   rows: MonthRow[];
+  // What ShowAllToggle's aria-controls points at. The string comes from
+  // `DashboardScreen/ids.ts` so the two ends cannot drift.
+  id: string;
 }
 
 const PERCENT = 100;
 
-function useMonthTable({ rows }: MonthTableProps) {
+function useMonthTable({ rows, id }: MonthTableProps) {
   return {
+    id,
     // The share reaches CSS as a custom property on the row, because the row
     // itself paints the bar — a `<div>` inside a `<tr>` is not valid table
     // markup, and any new child would break the positional cell read in

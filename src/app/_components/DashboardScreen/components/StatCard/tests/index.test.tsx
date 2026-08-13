@@ -8,8 +8,6 @@ const stats = {
   total: 1000,
   current: 400,
   mean: 500,
-  stdDev: 100,
-  median: 450,
 };
 
 const props = {
@@ -17,13 +15,12 @@ const props = {
   icon: Scale,
   hint: "Como o saldo sai",
   stats,
-  series: [1, 2, 3],
 };
 
 const UP_GLYPH = /▲/;
 
 describe("StatCard", () => {
-  it("heads the card with its own total and four secondary rows", () => {
+  it("heads the card with its own total and two secondary rows", () => {
     const { container } = render(<StatCard {...props} />);
 
     expect(screen.getByRole("heading", { name: "Saldo" })).toBeInTheDocument();
@@ -31,7 +28,10 @@ describe("StatCard", () => {
     // its cents are their own dimmed span — and getByText reads only an
     // element's DIRECT text children.
     expect(container.querySelector(".total")).toHaveTextContent("R$ 10,00");
-    expect(screen.getByText("Desvio padrão")).toBeInTheDocument();
+    expect(screen.getByText("Realizado")).toBeInTheDocument();
+    expect(screen.getByText("Média/mês")).toBeInTheDocument();
+    expect(screen.queryByText("Desvio padrão")).not.toBeInTheDocument();
+    expect(screen.queryByText("Mediana")).not.toBeInTheDocument();
   });
 
   it("draws the sign glyph only on a signed card", () => {
@@ -44,12 +44,17 @@ describe("StatCard", () => {
     expect(screen.getByText(UP_GLYPH)).toBeInTheDocument();
   });
 
-  it("draws the sparkline from the card's own series", () => {
+  // It had no axis, no scale and no labels, and restated the figures printed
+  // directly above it. Asserted absent so it cannot come back by accident.
+  // Scoped to the class, not to `svg`: the icon chip is an <svg> too.
+  it("draws no decorative sparkline", () => {
     const { container } = render(<StatCard {...props} />);
-    const path = container.querySelector("svg.spark path:last-of-type");
 
-    expect(path).not.toBeNull();
-    expect(path).toHaveAttribute("stroke", "var(--color-brand)");
+    expect(container.querySelector('[class*="spark"]')).toBeNull();
+    // The only <svg>s left are the two lucide icons — the chip and the hint.
+    expect(
+      container.querySelectorAll('svg:not([class^="lucide"])'),
+    ).toHaveLength(0);
   });
 
   it("tints the icon chip with the card's own semantic pair", () => {
@@ -61,11 +66,5 @@ describe("StatCard", () => {
 
     // The NEUTRAL pair, not the negative one: a normal expense is not red.
     expect(container.querySelector(".chipNeutral")).not.toBeNull();
-  });
-
-  it("draws no sparkline for an empty series", () => {
-    const { container } = render(<StatCard {...props} series={[]} />);
-
-    expect(container.querySelector("svg.spark")).toBeNull();
   });
 });

@@ -3,9 +3,10 @@ import { type ShowAllToggleProps, useShowAllToggle } from "./hook.ts";
 import styles from "./style.module.scss";
 
 // The `Ver todos (N)` / `Mostrar menos` row under CeilingCard's month list.
-// Extracted for the reason MeterRow and MeterList were: it was byte-identical
-// in the two cards that had one, and the 44px hit target and focus ring should
-// not be able to drift apart between call sites. Only this caller is left.
+// Extracted when two cards had one and it was byte-identical in both, so the 44px
+// hit target and the focus ring could not drift apart between call sites. Only
+// CeilingCard is left. (MeterRow and MeterList, which this comment used to cite as
+// the precedent, were deleted in PR #92.)
 //
 // aria-expanded, like every other disclosure button in this app (Aside's rail
 // collapse, Header's sidebar): the row shows and hides the months below it,
@@ -21,7 +22,7 @@ const chevronFor = (expanded: boolean) => {
 };
 
 export function ShowAllToggle(props: ShowAllToggleProps) {
-  const { label, expanded, onClick } = useShowAllToggle(props);
+  const { label, expanded, controls, onClick } = useShowAllToggle(props);
   const Chevron = chevronFor(expanded);
 
   return (
@@ -29,6 +30,7 @@ export function ShowAllToggle(props: ShowAllToggleProps) {
       type="button"
       className={styles.toggle}
       aria-expanded={expanded}
+      aria-controls={controls}
       onClick={onClick}
     >
       {label}

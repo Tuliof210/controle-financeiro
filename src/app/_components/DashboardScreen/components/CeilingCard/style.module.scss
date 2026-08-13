@@ -1,4 +1,4 @@
-@use "./badges" as *;
+@use "theme" as t;
 @use "./split" as *;
 
 // The month list lives in `components/MonthTable`. What is left here is the
@@ -7,15 +7,25 @@
 //
 // The headline itself is `../Headline`, shared with StatCard.
 
-// The header badges live in `_badges.scss` and the two-pane layout in
-// `_split.scss` — see the note in each on why they are split off.
-@include badges;
+// The two-pane layout lives in `_split.scss` — see the note there. The header
+// badges are their own component now (`components/Badges`).
 @include split;
 
 // What the figure beside it is worth in context — how many months the column
 // under it lists. `white-space: nowrap` because .total sets
 // `overflow-wrap: anywhere` for the money, and a chip broken mid-word reads as
 // two.
+// `::before` supplies the separator the markup cannot: the chip abuts
+// MoneyFigure's cents span with no punctuation, so a screen reader ran
+// "R$ 3.860,30" straight into "29 meses restantes" as one number. A middot in the
+// content, not in the JSX, keeps it out of the accessible name of either figure
+// while making the two read as separate facts.
+.chip::before {
+  content: "· ";
+  margin-right: var(--space-1);
+  color: var(--color-text-muted);
+}
+
 .chip {
   display: inline-block;
   margin-left: var(--space-3);
@@ -31,7 +41,8 @@
 }
 
 // Muted prose: the empty state and anything else this card says in words.
-.note {
+.note,
+.definition {
   margin: 0;
   color: var(--color-text-muted);
   font-family: var(--font-sans);

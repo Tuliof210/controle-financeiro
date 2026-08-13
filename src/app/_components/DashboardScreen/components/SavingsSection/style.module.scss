@@ -60,11 +60,11 @@
     background: var(--color-surface-raised);
     color: var(--color-text-muted);
     border-bottom: var(--border-1) solid var(--color-border);
-    // Mono and tracked like the Teto table's header — the rule-4 review note
-    // lives there. The strings are already uppercase in `index.tsx`.
-    font-family: var(--font-mono);
+    // Sentence case, sans, like the Teto table's header now is: rule 4 keeps
+    // table headers out of caps, and the note that used to defer this is
+    // resolved there. The source strings in `index.tsx` came out of caps with it.
+    font-family: var(--font-sans);
     font-size: var(--text-2xs);
-    letter-spacing: var(--tracking-wide);
     line-height: var(--leading-normal);
 
     // Every column but the first states a figure, and a figure is read from its

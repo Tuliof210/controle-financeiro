@@ -1,7 +1,11 @@
-// The tile's 2x2 figure grid, split off `style.module.scss` under the exception
+// The tile's figure grid, split off `style.module.scss` under the exception
 // ARCHITECTURE.md grants `RowGrid/_tiers.scss`: a mixin that emits nothing on
 // its own, included once by the stylesheet beside it, so neither file crosses
 // the 100-line cap. Not a component — its markup is this folder's `index.tsx`.
+//
+// It was a 2x2 of four figures; the owner cut it to a pair (2026-08-13), so the
+// bottom row's mid rule went with the row that needed it. The mixin keeps the
+// name `quadrant` because that is what the target calls the border treatment.
 
 @mixin quadrant {
   // Two columns, never a bare `1fr`: `1fr` is `minmax(auto, 1fr)`, so a long
@@ -24,24 +28,22 @@
     padding: var(--space-3) var(--space-4) var(--space-3) 0;
   }
 
-  // The right column's spine. `nth-child(even)` and not `+ *`: the grid has four
-  // cells in two rows, so "even" is exactly the right-hand column.
+  // The right column's spine. With one row of two, `nth-child(even)` is exactly
+  // the right-hand cell.
   .row:nth-child(even) {
     padding-right: 0;
     padding-left: var(--space-4);
     border-left: var(--border-1) solid var(--color-border-subtle);
   }
 
-  .row:nth-child(n + 3) {
-    border-top: var(--border-1) solid var(--color-border-subtle);
-  }
-
+  // Sentence case, sans — NOT the eyebrow recipe. README rule 4 scopes the
+  // eyebrow to a card kicker, an ID, a YYYY-MM and a chart label; a figure's
+  // sublabel is none of those, and the dashboard was shouting fifteen of them.
+  // The card's own <h2> above keeps the eyebrow, so the kicker still reads as one.
   .label {
     color: var(--color-text-muted);
-    font-family: var(--font-mono);
+    font-family: var(--font-sans);
     font-size: var(--text-2xs);
-    letter-spacing: var(--tracking-wide);
-    text-transform: uppercase;
   }
 
   .value {

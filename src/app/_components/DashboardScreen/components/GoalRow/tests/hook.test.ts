@@ -31,9 +31,9 @@ describe("useGoalRow", () => {
     );
 
     expect(result.current.metrics.map((m) => m.label)).toEqual([
-      "DEDICADO",
-      "EM PARALELO",
-      "UM DE CADA VEZ",
+      "Dedicado",
+      "Em paralelo",
+      "Um de cada vez",
     ]);
   });
 
@@ -73,7 +73,7 @@ describe("useGoalRow", () => {
     );
 
     expect(result.current.metrics[0].bar).toEqual({
-      color: "var(--color-brand)",
+      color: "var(--cat-violet)",
       width: "50%",
     });
     expect(result.current.metrics[2].bar?.width).toBe("100%");

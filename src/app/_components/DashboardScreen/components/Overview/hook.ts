@@ -1,17 +1,15 @@
 import type { BoardData } from "../Board/hook.ts";
 
-export interface OverviewProps {
+interface OverviewProps {
   data: BoardData;
 }
 
-export function useOverview({ data }: OverviewProps) {
-  return {
-    data,
-    // The series each KPI card draws. Saldo gets `cumulative`, not `balance`:
-    // the card's headline is the running balance, and a sparkline of the
-    // per-month delta would tell a different story from the number above it.
-    income: data.points.map((point) => point.income),
-    expense: data.points.map((point) => point.expense),
-    balance: data.points.map((point) => point.cumulative),
-  };
+// The three `points.map(...)` series that used to be here fed the KPI tiles'
+// sparklines only. Those are gone (owner's decision, 2026-08-13), and nothing
+// else read them.
+function useOverview({ data }: OverviewProps) {
+  return { data };
 }
+
+export type { OverviewProps };
+export { useOverview };

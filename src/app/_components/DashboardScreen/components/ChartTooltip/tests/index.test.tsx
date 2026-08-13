@@ -32,12 +32,23 @@ describe("ChartTooltip", () => {
   });
 
   it("heads the bubble with the month and its own labelled figures", () => {
-    render(<ChartTooltip tooltip={tooltip} />);
-    const bubble = screen.getByRole("tooltip");
+    const { container } = render(<ChartTooltip tooltip={tooltip} />);
+    const bubble = container.firstElementChild;
 
     expect(bubble).toHaveTextContent("Ago/26");
     expect(bubble).toHaveTextContent("entradas");
     expect(bubble).toHaveTextContent("−R$ 4,00");
+  });
+
+  // It used to carry `role="tooltip"` with nothing pointing at it, so its rows
+  // were announced to nobody at all. The same words ride the MARK's accessible
+  // name now (mark-label.helper.ts), where a keyboard reader actually lands —
+  // which is exactly why this must not be read a second time.
+  it("is hidden from assistive tech, and claims no orphan role", () => {
+    const { container } = render(<ChartTooltip tooltip={tooltip} />);
+
+    expect(container.firstElementChild).toHaveAttribute("aria-hidden", "true");
+    expect(screen.queryByRole("tooltip")).not.toBeInTheDocument();
   });
 
   it("says real or estimated in words, never by colour alone", () => {
