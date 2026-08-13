@@ -1,0 +1,31 @@
+// ---- Dark overrides, once ---------------------------------------------------
+// Definition only — this file emits no CSS. The two dark selectors in
+// `_tokens-theme.scss` both `@include dark-theme`, so the block that used to be
+// duplicated verbatim between `[data-theme="dark"]` and the
+// `prefers-color-scheme` query now exists exactly once. README rule 6 ("every
+// semantic token exists in both themes") is mechanical here, not disciplinary.
+@mixin dark-theme {
+  --color-bg: var(--ink-900);
+  --color-surface: var(--ink-800);
+  --color-surface-raised: var(--ink-700);
+  --color-text: var(--ink-050);
+  --color-text-muted: var(--ink-400);
+  --color-border: var(--ink-600);
+  --color-border-subtle: var(--ink-700);
+  --color-brand: var(--violet-400);
+  --color-brand-text: var(--violet-300);
+  --color-accent: var(--lime-300);
+  --color-positive: var(--green-400);
+  --color-negative: var(--red-400);
+  --color-caution: var(--amber-400);
+  --color-info: var(--cyan-400);
+  --color-focus: var(--violet-400);
+
+  --rail-bg: var(--ink-800);
+  --rail-fg: var(--ink-050);
+  --rail-muted: var(--ink-400);
+  --rail-line: var(--ink-700);
+  --rail-hover: var(--ink-700);
+
+  --elevation-overlay: 0 8px 24px -8px rgba(0, 0, 0, 0.6);
+}

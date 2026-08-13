@@ -1,0 +1,29 @@
+// ---- Typography -------------------------------------------------------------
+:root {
+  // --font-display / --font-mono are supplied by next/font (variable classes
+  // applied to <html> in src/app/layout.tsx) — next/font guarantees a safe
+  // fallback chain on its own, nothing to declare here.
+
+  --text-2xs: 0.625rem;
+  --text-xs: 0.75rem;
+  --text-sm: 0.8125rem;
+  --text-base: 0.875rem;
+  --text-md: 1rem;
+  --text-lg: 1.25rem;
+  --text-xl: 1.5rem;
+  --text-2xl: 2rem;
+  --text-3xl: 2.75rem;
+  --text-display: 4rem;
+
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-bold: 700;
+
+  --leading-tight: 1.1;
+  --leading-snug: 1.3;
+  --leading-normal: 1.5;
+
+  --tracking-display: 0.06em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.08em;
+}
