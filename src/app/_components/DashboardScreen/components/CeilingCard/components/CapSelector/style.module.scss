@@ -23,11 +23,8 @@
 // Clipped, not `display: none`: a <legend> is the group's accessible name, and
 // hiding it would take that name with it.
 .legend {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  clip-path: inset(50%);
+  @include t.visually-hidden;
+
   white-space: nowrap;
 }
 
@@ -36,13 +33,12 @@
   cursor: pointer;
 }
 
-// Clipped for the same reason as the legend: the radio still takes focus, still
-// answers the arrow keys, and still carries the checked state the paint reads.
+// Off-screen but still in the tree: the radio takes focus, answers the arrow
+// keys, and carries the checked state the paint reads. This used to be a second,
+// different recipe (`opacity: 0`, no clip) under a comment claiming it was the
+// same one the legend used — now it is literally the same one.
 .input {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  opacity: 0;
+  @include t.visually-hidden;
 }
 
 .text {

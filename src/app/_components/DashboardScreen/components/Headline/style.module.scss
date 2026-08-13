@@ -1,3 +1,5 @@
+@use "theme" as t;
+
 // Extracted for the reason MeterRow, MeterList and ShowAllToggle were: it was
 // byte-identical in StatCard and CeilingCard, and two cards on the same screen
 // should not be able to drift apart on the size of their biggest number.
@@ -12,14 +14,10 @@
   margin: 0;
 }
 
-// An eyebrow under its figure — mono, uppercase, wide tracking, like every
-// other eyebrow in the app.
+// An eyebrow under its figure — the shared recipe, which this block used to BE
+// before it became one of nine copies of itself.
 .caption {
-  color: var(--color-text-muted);
-  font-family: var(--font-mono);
-  font-size: var(--text-2xs);
-  letter-spacing: var(--tracking-wide);
-  text-transform: uppercase;
+  @include t.micro-label;
 }
 
 .total {

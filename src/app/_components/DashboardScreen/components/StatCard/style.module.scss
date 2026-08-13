@@ -34,18 +34,17 @@
   flex-wrap: wrap;
 }
 
-// The canonical eyebrow — mono at --text-2xs with --tracking-wide, one of the
-// few places uppercase survives. text-transform rather than uppercasing the
+// The eyebrow recipe, now shared. text-transform rather than uppercasing the
 // string, because the title is read by a screen reader and reused verbatim as
-// the Tooltip's label.
+// the Tooltip's label — the policy the mixin now carries for every site.
 .title {
+  @include t.micro-label;
+
   margin: 0;
+  // Secondary rather than the mixin's muted: this one is an <h2>, so it outranks
+  // the labels around it.
   color: var(--color-text-secondary);
-  font-family: var(--font-mono);
-  font-size: var(--text-2xs);
   font-weight: var(--weight-regular);
-  letter-spacing: var(--tracking-wide);
-  text-transform: uppercase;
 }
 
 // Everything between the header and the sparkline. Its own box so the strip
