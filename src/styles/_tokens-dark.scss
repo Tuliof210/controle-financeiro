@@ -57,4 +57,11 @@
   --color-negative: var(--negative-fg);
   --color-caution: var(--alert-fg);
   --color-info: var(--info-fg);
+
+  // The target's shadows are translucent ink on an off-white page; at 3–12%
+  // alpha they disappear entirely against a dark surface. Same geometry, much
+  // higher alpha, cast in black rather than ink.
+  --elevation-raised: 0 1px 2px rgb(0 0 0 / 40%), 0 1px 1px rgb(0 0 0 / 24%);
+  --elevation-overlay: 0 6px 16px rgb(0 0 0 / 56%), 0 2px 4px rgb(0 0 0 / 32%);
+  --elevation-modal: 0 16px 40px rgb(0 0 0 / 64%), 0 4px 8px rgb(0 0 0 / 40%);
 }

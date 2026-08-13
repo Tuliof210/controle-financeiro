@@ -29,9 +29,13 @@ $row-one-line-floor: 440px;
   }
 }
 
+// The transparent outline is not decoration: it is the forced-colors escape
+// hatch. Windows High Contrast drops box-shadow entirely, and without an
+// outline to repaint the ring would simply vanish there.
 @mixin focus-ring {
-  outline: var(--border-2) solid var(--color-focus);
+  outline: var(--border-2) solid transparent;
   outline-offset: 2px;
+  box-shadow: var(--focus-ring);
 }
 
 @mixin elevation($level) {
@@ -41,6 +45,8 @@ $row-one-line-floor: 440px;
     box-shadow: var(--elevation-raised);
   } @else if $level == overlay {
     box-shadow: var(--elevation-overlay);
+  } @else if $level == modal {
+    box-shadow: var(--elevation-modal);
   } @else if $level == press {
     box-shadow: var(--elevation-press);
   } @else if $level == press-active {
@@ -48,7 +54,7 @@ $row-one-line-floor: 440px;
   } @else if $level == panel {
     box-shadow: var(--elevation-panel);
   } @else {
-    @error "Unknown elevation level: #{$level}. Use flat, raised, overlay, press, press-active, or panel.";
+    @error "Unknown elevation level: #{$level}. Use flat, raised, overlay, modal, press, press-active, or panel.";
   }
 }
 

@@ -65,7 +65,11 @@
 }
 
 // ---- Semantic color — dark (explicit opt-in via [data-theme]) -------------
-[data-theme="dark"] {
+// `:root[data-theme="dark"]`, not a bare `[data-theme="dark"]`: the shape
+// partial loads AFTER this one and declares --elevation-* on `:root`. At equal
+// specificity the later rule wins, which is why the old file's dark
+// --elevation-overlay override never actually applied under an explicit toggle.
+:root[data-theme="dark"] {
   @include d.dark-theme;
 }
 

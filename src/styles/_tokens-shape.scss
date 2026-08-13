@@ -12,14 +12,18 @@
   --space-16: 64px;
   --space-20: 80px;
   --space-24: 96px;
+
+  // The a11y hit-target floor, which the constitution has always stated in
+  // prose and 23 call sites have always written as a raw `44px`.
+  --size-tap: 44px;
 }
 
-// ---- Radius — capped at 6px -------------------------------------------------
+// ---- Radius — soft corners, never square, never a capsule ------------------
 :root {
-  --radius-0: 0;
-  --radius-sm: 2px;
-  --radius-md: 4px;
-  --radius-lg: 6px;
+  --radius-sm: 6px; // chips, inner inputs
+  --radius-md: 10px; // buttons, fields
+  --radius-lg: 14px; // product cards
+  --radius-xl: 20px; // large surfaces / sheets
   // Documented exception: avatars / status dots ONLY. Never for cards,
   // buttons, inputs, or any other rectangular surface.
   --radius-full: 9999px;
@@ -32,17 +36,29 @@
   --border-3: 3px;
 }
 
-// ---- Elevation — border-first; blur only on floating layers ---------------
+// ---- Elevation — border-first; shadow only when a layer actually floats ----
 :root {
   --elevation-flat: none;
-  --elevation-raised: 0 1px 0 var(--color-border-subtle);
-  --elevation-overlay: 0 8px 24px -8px rgba(14, 15, 20, 0.25);
+  --elevation-raised: 0 1px 2px rgb(20 23 28 / 5%), 0 1px 1px rgb(20 23 28 / 3%);
+  --elevation-overlay: 0 6px 16px rgb(20 23 28 / 8%), 0 2px 4px rgb(20 23 28 / 4%);
+  --elevation-modal: 0 16px 40px rgb(20 23 28 / 12%), 0 4px 8px rgb(20 23 28 / 5%);
 
-  // Hard offset shadows: the frame, cast. Deliberately blur-less, and always
-  // in --color-border so they flip with the theme like the border they echo.
-  // Scope is written down in README rule 3 — primary action and modal panel
-  // only. No dark counterpart: --color-border is already themed.
-  --elevation-press: 3px 3px 0 var(--color-border);
-  --elevation-press-active: 1px 1px 0 var(--color-border);
-  --elevation-panel: 8px 8px 0 var(--color-border);
+  // Deprecated — the three hard offset shadows of the pixel-art skin. Five
+  // *.module.scss files still ask `@include t.elevation(press | press-active |
+  // panel)`, and those files belong to T2, so removing either these tokens or
+  // their levels in the mixin would break the Sass build today. T2 removes
+  // both once its consumers are migrated.
+  --elevation-press: var(--elevation-raised);
+  --elevation-press-active: var(--elevation-flat);
+  --elevation-panel: var(--elevation-modal);
+}
+
+// ---- Focus + opacity ---------------------------------------------------------
+:root {
+  // A translucent cobalt ring, not an outline: color-mix keeps it derived from
+  // --color-focus, so it follows the theme without a dark counterpart.
+  --focus-ring: 0 0 0 var(--border-3) color-mix(in srgb, var(--color-focus) 35%, transparent);
+
+  --opacity-muted: 0.7;
+  --opacity-data-wash: 0.14;
 }
