@@ -1,11 +1,10 @@
-@use "theme" as t;
-
 // Off-canvas presentation for Aside's <dialog> below `md`, mixed into
 // `.aside` there — see style.module.scss for the always-on desktop half.
 // Scoped with a raw max-width query, not the `bp()` mixin: theme.scss's
 // version is min-width only (there is no bp-down), and this must stop
 // applying at `md` even if the dialog were left open, so the desktop rule
-// there always wins regardless of source order.
+// there always wins regardless of source order. That is also why this file
+// does not `@use "theme"` at all — there is nothing here to take from it.
 @mixin drawer {
   &[open] {
     @media (max-width: 767px) {
