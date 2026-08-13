@@ -1,6 +1,0 @@
-{
-  "projectId": "ce617a30-be96-46bf-924a-45e9fc6f957e",
-  "shape": "foundations",
-  "scope": "foundations-only",
-  "note": "App repo (Next.js), no component library dist and no Storybook stories — only a token layer (src/styles/_tokens.scss + _theme.scss), a constitution README, and Foundations MDX docs. Synced via the skill's ladder-last-rung: hand-authored foundations layout (tokens/ + styles.css + fonts/ + foundation cards), not the component converter. No _ds_sync.json anchor emitted (no story recipe) — next sync re-verifies."
-}
