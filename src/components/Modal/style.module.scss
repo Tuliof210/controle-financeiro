@@ -14,9 +14,12 @@
   // whole page, so it takes the deepest level on the scale.
   @include t.elevation(modal);
 
-  // Dimmed scrim derived from the bg token — theme-aware, no hardcoded color.
+  // The scrim does NOT flip with the theme, and that is the correction: at 70%
+  // of --color-bg it was a near-white veil in the light theme, which lightens
+  // the page it is meant to push back. The target dims with one ink either way.
+  // --neutral-950 at 55%, mixed rather than written as rgba(), so rule 1 holds.
   &::backdrop {
-    background: color-mix(in srgb, var(--color-bg) 70%, transparent);
+    background: color-mix(in srgb, var(--neutral-950) 55%, transparent);
   }
 }
 

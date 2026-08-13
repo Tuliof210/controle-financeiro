@@ -6,11 +6,17 @@
 
 // Cell contents only. RowGrid owns the row's box and the areas these land in,
 // so PersonRow and GoalRow share the anatomy without restating a line of it.
-// The ink is `--ink-900`, a PRIMITIVE, never `--color-text`: the seven fills
-// are theme-independent `-400` tokens, so a themed ink flips in dark mode to
-// 1.22:1 on lime. Measured on all seven, `--ink-900`'s worst pair is violet at
-// 5.15:1 — what GoalRow and HeroBand already state. --radius-sm, not
-// --radius-full, which the tokens scope to status dots. ponytail: raw 26px.
+// The ink is a PRIMITIVE, never `--color-text`: the seven --cat-* fills are
+// theme-INDEPENDENT, so a themed ink would flip out from under them.
+//
+// RE-MEASURED on the Monevo hues, and --white now wins: against the seven it
+// reads 3.98-5.25:1 where --neutral-900 reads 3.42-4.52:1. Neither clears
+// 4.5:1 on all seven at --text-2xs, and this cannot be fixed here — the gap is
+// in the --cat-* VALUES, which are the token layer's. Flagged in the PR; white
+// is taken meanwhile because it is the better half of a bad pair on six of the
+// seven, and because it is what this system paints on a saturated fill.
+// --radius-sm, not --radius-full, which the map scopes to dots.
+// ponytail: raw 26px.
 .chip {
   display: flex;
   width: 26px;
@@ -19,7 +25,7 @@
   justify-content: center;
   border: var(--border-1) solid var(--color-border);
   border-radius: var(--radius-sm);
-  color: var(--ink-900);
+  color: var(--white);
   font-family: var(--font-sans);
   font-size: var(--text-2xs);
 }

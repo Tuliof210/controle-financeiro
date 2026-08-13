@@ -64,11 +64,4 @@
   --cat-amber: #a56a2e;
   --cat-cyan: #2c84a8;
 
-  // Deprecated — the two pre-Monevo primitives still read from a *.module.scss
-  // as literal ink-on-fill values (--ink-900 nine times, --violet-600 once as
-  // the brand band's fill). T2 removes them when it sweeps those files; until
-  // then they must resolve, or the text they paint goes transparent with no
-  // build or runtime error. See the PR body for the exact call sites.
-  --ink-900: var(--neutral-900);
-  --violet-600: var(--cobalt-700);
 }

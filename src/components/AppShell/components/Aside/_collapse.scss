@@ -44,7 +44,7 @@
     gap: var(--space-3);
     width: 100%;
     // Rule 7(e): hit targets are at least 44px.
-    min-height: 44px;
+    min-height: var(--size-tap);
     padding: var(--space-3);
     border: none;
     border-radius: var(--radius-md);

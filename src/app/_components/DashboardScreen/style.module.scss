@@ -16,7 +16,7 @@
 // the state, and the radios stay operable so a second, corrective pick is not
 // blocked by the first one still loading.
 .refreshing {
-  opacity: 0.6;
+  opacity: var(--opacity-muted);
   cursor: progress;
   transition: opacity var(--duration-base) var(--ease-snappy);
 }

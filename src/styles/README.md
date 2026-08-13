@@ -96,8 +96,9 @@ read as the light value.
      layer — durations collapse to `0ms`).
 8. **No decorative gradients, no glassmorphism, no texture.** The background is
    flat. `--glow-brand` — a cobalt radial glow on a dark hero, never on the
-   mark — is the only authorised gradient. `--gradient-toxic` survives on
-   borrowed time, for one consumer that has not been migrated yet.
+   mark — is the only gradient there is. No overlay texture either: the hero's
+   scanline and the savings banner's stripes are gone, and an overlay scrim is
+   one flat translucent ink (`--neutral-950` at 55%), not a tint of the page.
 
 ## How components consume this
 

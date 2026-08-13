@@ -7,15 +7,15 @@
   text-align: center;
 }
 
-// ponytail: raw 44px, same exception the repo already makes for the hit-target
-// floor — the DS has no size scale. Here it is DECORATIVE, not a hit target:
-// the box is non-interactive and its icon is aria-hidden.
+// --size-tap, but DECORATIVE here rather than a hit target: the box is
+// non-interactive and its icon is aria-hidden. It borrows the token because the
+// glyph box is meant to read at the same scale as the controls around it.
 .box {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 44px;
-  height: 44px;
+  width: var(--size-tap);
+  height: var(--size-tap);
   color: var(--color-text-muted);
   border: var(--border-2) dashed var(--color-border-subtle);
   border-radius: var(--radius-md);

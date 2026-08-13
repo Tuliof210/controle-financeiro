@@ -39,7 +39,11 @@
     gap: var(--space-1);
     padding: var(--space-1) var(--space-2);
     border-radius: var(--radius-sm);
-    color: var(--ink-900);
+    // --color-bg, not a fixed dark ink: `.up`/`.down` below fill it with themed
+    // semantic tokens, which are dark in light mode and light in dark mode, so
+    // the only ink that is always their opposite is the one that flips with
+    // them. 5.5–5.8:1 light, 10.0–10.6:1 dark.
+    color: var(--color-bg);
     font-family: var(--font-sans);
     font-size: var(--text-sm);
     font-weight: var(--weight-bold);
@@ -58,6 +62,6 @@
     font-family: var(--font-sans);
     font-size: var(--text-sm);
     font-variant-numeric: tabular-nums;
-    opacity: 0.7;
+    opacity: var(--opacity-muted);
   }
 }

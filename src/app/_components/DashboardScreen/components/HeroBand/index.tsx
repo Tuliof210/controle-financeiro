@@ -20,7 +20,6 @@ export function HeroBand(props: HeroBandProps) {
   return (
     <section className={styles.band}>
       <div className={styles.edge} aria-hidden={true} />
-      <div className={styles.scan} aria-hidden={true} />
 
       <div className={styles.inner}>
         <div className={styles.head}>

@@ -38,7 +38,7 @@
 //
 // Outlined rather than filled, and --color-text rather than a paired ink:
 // --color-brand as a fill admits no foreground that clears 4.5:1 in both themes
-// (--ink-900 measures 3.59:1 light, --white 3.72:1 dark). On the row's own
+// (a dark ink measures 3.59:1 light, --white 3.64:1 dark). On the row's own
 // surface, the inherited text colour is already known-good.
 .badge {
   flex: none;

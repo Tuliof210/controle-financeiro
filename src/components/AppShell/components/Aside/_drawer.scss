@@ -17,8 +17,10 @@
       height: 100vh;
       box-shadow: var(--elevation-overlay);
 
+      // The same one-ink scrim as Modal — see the note there on why it does
+      // not flip with the theme.
       &::backdrop {
-        background: color-mix(in srgb, var(--color-bg) 70%, transparent);
+        background: color-mix(in srgb, var(--neutral-950) 55%, transparent);
       }
     }
   }

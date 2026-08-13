@@ -1,4 +1,5 @@
 @use "theme" as t;
+@use "./variants" as *;
 
 .button {
   display: inline-flex;
@@ -8,7 +9,7 @@
   // call site wants the same gap — a label-only button has a single anonymous
   // flex item, which a gap cannot separate from anything.
   gap: var(--space-2);
-  min-height: 44px;
+  min-height: var(--size-tap);
   padding: var(--space-2) var(--space-4);
   // A hairline frame, the structural default. `.primary` overrides it away —
   // the target draws a filled action with no border at all.
@@ -20,24 +21,21 @@
   cursor: pointer;
   transition:
     background var(--duration-fast) var(--ease-snappy),
-    filter var(--duration-fast) var(--ease-snappy),
     transform var(--duration-fast) var(--ease-snappy);
 
   &:focus-visible {
     @include t.focus-ring;
   }
 
-  // Press, for every variant at once. It replaces the old `translate(2px, 2px)`
-  // that only `.primary` had: that displacement only read as physical because a
-  // hard offset shadow shortened under it, and with the extrusion gone a 2px
-  // jump is motion with nothing behind it. A uniform sub-1% scale is the
-  // target's press, and it needs no shadow to explain itself.
+  // Every variant, not just `.primary`. The old `translate(2px, 2px)` read as
+  // physical only because a hard offset shadow shortened under it; with the
+  // extrusion gone it is a 2px jump with nothing behind it.
   &:active:not(:disabled) {
     transform: scale(0.985);
   }
 
   // Distinct disabled: muted fill + border, not just opacity. No box-shadow
-  // reset needed any more — no variant casts one to begin with.
+  // reset any more — no variant casts one.
   &:disabled {
     cursor: not-allowed;
     background: var(--color-surface-raised);
@@ -46,66 +44,5 @@
   }
 }
 
-// Filled variants. Hover/active darken the whole control (brightness),
-// preserving saturation instead of washing it out like opacity did.
-.primary,
-.danger,
-.success {
-  color: var(--white);
-  // The target draws a filled action as fill alone — a frame on top of a solid
-  // fill is the extruded skin's frame, kept out of habit.
-  border-color: transparent;
-
-  &:hover:not(:disabled) {
-    filter: brightness(0.92);
-  }
-
-  &:active:not(:disabled) {
-    filter: brightness(0.84);
-  }
-}
-
-.primary {
-  background: var(--color-brand);
-}
-
-.danger {
-  background: var(--color-negative);
-}
-
-.success {
-  background: var(--color-positive);
-}
-
-// Ghost: no solid border — a subtle structural edge at most.
-.ghost {
-  background: transparent;
-  border-color: var(--color-border-subtle);
-  color: var(--color-text);
-
-  &:hover:not(:disabled) {
-    background: var(--color-surface-raised);
-  }
-
-  &:active:not(:disabled) {
-    background: var(--color-surface-raised);
-    filter: brightness(0.96);
-  }
-}
-
-// Full-width dashed outline that fills on hover — the "Adicionar …" affordance
-// at the bottom of every list card. A consumer needing the negative tint
-// composes it at the call site; one use does not earn a `dashed-danger`.
-.dashed {
-  justify-content: center;
-  width: 100%;
-  background: transparent;
-  color: var(--color-text);
-  border: var(--border-2) dashed var(--color-border);
-
-  &:hover:not(:disabled) {
-    background: var(--color-brand);
-    color: var(--white);
-    border-style: solid;
-  }
-}
+// The five variants live in `_variants.scss` — see the note there on why.
+@include variants;

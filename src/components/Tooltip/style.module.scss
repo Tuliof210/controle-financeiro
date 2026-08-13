@@ -32,10 +32,9 @@
     position: absolute;
     top: 50%;
     left: 50%;
-    // Raw 44px, as IconButton/ColorPicker do — there is no hit-target token,
-    // and the "never hardcode" rule covers colour/space/radius/shadow/duration.
-    width: 44px;
-    height: 44px;
+    // --size-tap, the hit-target floor, same as IconButton and ColorPicker.
+    width: var(--size-tap);
+    height: var(--size-tap);
     transform: translate(-50%, -50%);
   }
 }

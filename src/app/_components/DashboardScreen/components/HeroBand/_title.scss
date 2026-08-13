@@ -14,7 +14,7 @@
     font-size: var(--text-2xs);
     line-height: var(--leading-normal);
     // 8.69:1 light / 6.71:1 dark against the band fill — measured, not assumed.
-    opacity: 0.7;
+    opacity: var(--opacity-muted);
   }
 
   // The design paints both marks lime. This band INVERTS, so lime would land on
@@ -66,6 +66,6 @@
     font-size: var(--text-sm);
     line-height: var(--leading-normal);
     text-wrap: pretty;
-    opacity: 0.7;
+    opacity: var(--opacity-muted);
   }
 }

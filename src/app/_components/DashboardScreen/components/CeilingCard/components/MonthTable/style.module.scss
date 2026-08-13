@@ -64,7 +64,9 @@
   margin-inline-start: var(--space-2);
   padding: 0 var(--space-2);
   background: var(--color-positive);
-  color: var(--ink-900);
+  // --color-bg flips with the fill, so the pair reads 5.83:1 light and 10.02:1
+  // dark — see SectionCard/_band.scss for the full derivation.
+  color: var(--color-bg);
   font-size: var(--text-2xs);
 }
 

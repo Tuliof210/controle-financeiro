@@ -34,28 +34,35 @@
     outline-color: currentcolor;
   }
 
-  // Measured, never inferred from the fill's hue — and the band text is
+  // Re-measured, never inferred from the fill's hue — the band text is
   // --text-2xs, so 4.5:1 is the floor, not 3:1.
-  //   --color-positive vs --ink-900:  7.40:1 light, 11.43:1 dark
-  //   --color-negative vs --ink-900:  5.13:1 light,  6.23:1 dark
+  //
+  // The ink is --color-bg, and that is the whole fix for what T1 flagged: these
+  // two fills are THEMED, dark in light mode and light in dark mode, so a fixed
+  // dark ink measured 3.12 / 3.31:1 on them in the light theme. --color-bg
+  // flips with them and is therefore always the opposite end.
+  //   --color-positive vs --color-bg:  5.83:1 light, 10.02:1 dark
+  //   --color-negative vs --color-bg:  5.53:1 light, 10.61:1 dark
   //   --color-text     vs --color-bg: 19.14:1 light, 16.40:1 dark
   .bandPositive {
     background: var(--color-positive);
-    color: var(--ink-900);
+    color: var(--color-bg);
   }
 
   .bandNegative {
     background: var(--color-negative);
-    color: var(--ink-900);
+    color: var(--color-bg);
   }
 
-  // --color-brand clears the floor with NEITHER candidate: --ink-900 measures
-  // 3.59:1 against violet-500 in light, --white 3.72:1 against violet-400 in
-  // dark. So this one band does not flip — --violet-600 reads 7.44:1 against
-  // --white in either theme. The design paints --white on --color-brand; that
-  // pair fails in the dark theme.
+  // The one escape that survives, RE-DERIVED rather than repointed: --white on
+  // --color-brand still fails in the dark theme, where the token resolves to the
+  // lightened --cobalt-400 and measures 3.64:1 against white, under the 4.5:1
+  // this --text-2xs band needs. --cobalt-700 is dark in BOTH themes, so white on
+  // it reads 8.98:1 either way. It is named directly now — the --violet-600
+  // alias it used to borrow was a pre-Monevo name for the same swatch, and it is
+  // deleted.
   .bandBrand {
-    background: var(--violet-600);
+    background: var(--cobalt-700);
     color: var(--white);
   }
 

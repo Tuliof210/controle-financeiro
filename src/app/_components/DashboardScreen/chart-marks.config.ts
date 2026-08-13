@@ -18,10 +18,13 @@ const TIGHTEST_RULE_DASHARRAY = "4 4";
 // Filled tags. Each pairs a fill with the token that is already its counterpart,
 // so the two flip together and one measurement covers both themes:
 //   --color-text-muted on --color-bg  ->  5.26:1 light,  7.30:1 dark
-//   --color-caution    on --ink-900   ->  9.38:1 light, 11.13:1 dark
+//   --color-caution    on --color-bg   ->  6.87:1 light,  9.43:1 dark
+// Both texts are --color-bg: the fills are themed, so the ink has to flip with
+// them. The caution tag used a fixed dark ink and measured 3.31:1 in the light
+// theme, where --color-caution resolves to the DARK end of its ramp.
 const TAG_TONES = {
   muted: { fill: "var(--color-text-muted)", text: "var(--color-bg)" },
-  caution: { fill: "var(--color-caution)", text: "var(--ink-900)" },
+  caution: { fill: "var(--color-caution)", text: "var(--color-bg)" },
 } as const;
 
 const TAG_LABEL_PROPS = {

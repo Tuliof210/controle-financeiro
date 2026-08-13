@@ -6,7 +6,7 @@
   gap: var(--space-3); // internal icon↔label gap (not a between-links margin)
   width: 100%;
   // Rule 7(e): hit targets are at least 44px.
-  min-height: 44px;
+  min-height: var(--size-tap);
   padding: var(--space-3);
   border-radius: var(--radius-md);
   color: var(--color-text);
@@ -38,11 +38,6 @@
     background: color-mix(in srgb, var(--color-brand) 12%, var(--color-surface));
     color: var(--color-brand-text);
     font-weight: var(--weight-semibold);
-
-    .icon,
-    .label {
-      opacity: 1;
-    }
   }
 }
 
@@ -58,13 +53,12 @@
   }
 }
 
+// No dimming here any more. The 0.75 / 0.85 pair existed to soften white-on-
+// near-black chrome; the rail is a light surface reading --color-text now, and
+// dimming a body-copy token is how a muted tier gets invented twice. The active
+// item's `opacity: 1` reset went with them.
+// ponytail: icon pixel size has no token yet; promote to a --size-* token if a
+// size scale appears.
 .icon {
   flex: none;
-  opacity: 0.75;
-  // ponytail: icon pixel size has no token yet; promote to a --size-* token
-  // if a size scale appears
-}
-
-.label {
-  opacity: 0.85;
 }
