@@ -21,7 +21,7 @@ export function DotMark(props: DotMarkProps) {
         cy={cy}
         r={DOT_RADIUS}
         fill="var(--color-surface)"
-        stroke="var(--color-brand)"
+        stroke="var(--cat-cyan)"
         strokeWidth={2}
         strokeOpacity={opacity}
         strokeDasharray={dash}

@@ -52,9 +52,12 @@
 }
 
 // flex-shrink: 0 so the icon keeps its 16px next to a name that wraps.
+//
+// Muted, not cobalt: it decorates a row title. Nothing here is actionable, and
+// cobalt is rationed to action, focus and the mark.
 .icon {
   flex-shrink: 0;
-  color: var(--color-brand);
+  color: var(--color-text-muted);
 }
 
 // flex: none because a figure that wrapped mid-number would read as two.

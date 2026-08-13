@@ -10,9 +10,21 @@ import { tipFor } from "./bar-tip.helper.ts";
 
 // One bar per type per month. `estimated` is read off the payload, never
 // re-derived by comparing numbers here — the API already resolved which side won.
+//
+// CATEGORY hues, not the semantic pair. Income-vs-expense in a bar chart is a
+// category distinction, not a financial state: painting 36 ordinary expense bars
+// --color-negative broke the constitution's first pillar (a normal expense is not
+// red) and, worse, spent the alarm — a healthy month and an unhealthy one drew
+// from the same two colours, so the chart had nothing left to escalate WITH.
+//
+// green ~168deg against amber ~33deg: separated by HUE. Measured, they are only
+// 1.1:1 apart in luminance, because the category ramp is flat by construction
+// (every hue 3.42–4.52:1 against --color-surface). Colour is therefore not the
+// carrying channel — the fixed left/right order inside each month's band is, and
+// the legend and the bubble name both series in words.
 const SERIES = [
-  { key: "income", label: "Entradas", fill: "var(--color-positive)" },
-  { key: "expense", label: "Saídas", fill: "var(--color-negative)" },
+  { key: "income", label: "Entradas", fill: "var(--cat-green)" },
+  { key: "expense", label: "Saídas", fill: "var(--cat-amber)" },
 ] as const;
 
 export function buildBars(points: MonthPoint[], width: number, height: number) {

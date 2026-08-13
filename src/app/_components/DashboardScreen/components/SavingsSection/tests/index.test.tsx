@@ -21,7 +21,7 @@ describe("SavingsSection", () => {
     const { container } = render(<SavingsSection data={data([goal])} />);
 
     expect(
-      screen.getByRole("heading", { name: "CAPACIDADE DE POUPANÇA" }),
+      screen.getByRole("heading", { name: "Capacidade de poupança" }),
     ).toBeInTheDocument();
     // toHaveTextContent, not getByText: the figure is two text nodes now — its
     // cents are their own dimmed span — and getByText reads only an element's

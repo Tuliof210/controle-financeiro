@@ -7,16 +7,16 @@ import { type SavingsSectionProps, useSavingsSection } from "./hook.ts";
 import styles from "./style.module.scss";
 
 const COPY = {
-  capacidadeDePoupanca: "CAPACIDADE DE POUPANÇA",
+  capacidadeDePoupanca: "Capacidade de poupança",
   mes: "/mês",
-  objetivos: "OBJETIVOS",
-  totalEmMetas: "TOTAL EM METAS",
+  objetivos: "Objetivos",
+  totalEmMetas: "Total em metas",
   configuracoes: "Configurações",
   fullStop: ".",
-  meta: "META",
-  dedicado: "DEDICADO",
-  emParalelo: "EM PARALELO",
-  umDeCadaVez: "UM DE CADA VEZ",
+  meta: "Meta",
+  dedicado: "Dedicado",
+  emParalelo: "Em paralelo",
+  umDeCadaVez: "Um de cada vez",
   nenhumObjetivoCadastrado: "Nenhum objetivo cadastrado ainda. Adicione um em",
 } as const;
 

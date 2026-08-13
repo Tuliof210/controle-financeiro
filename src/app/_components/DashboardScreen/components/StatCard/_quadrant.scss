@@ -36,12 +36,14 @@
     border-left: var(--border-1) solid var(--color-border-subtle);
   }
 
+  // Sentence case, sans — NOT the eyebrow recipe. README rule 4 scopes the
+  // eyebrow to a card kicker, an ID, a YYYY-MM and a chart label; a figure's
+  // sublabel is none of those, and the dashboard was shouting fifteen of them.
+  // The card's own <h2> above keeps the eyebrow, so the kicker still reads as one.
   .label {
     color: var(--color-text-muted);
-    font-family: var(--font-mono);
+    font-family: var(--font-sans);
     font-size: var(--text-2xs);
-    letter-spacing: var(--tracking-wide);
-    text-transform: uppercase;
   }
 
   .value {

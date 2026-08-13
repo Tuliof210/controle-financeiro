@@ -61,6 +61,7 @@
   .eyebrow {
     @include t.micro-label;
 
+
     margin: 0;
     // Overriding the mixin's muted: the brand's own text tone, measured at 8.0:1
     // on --band-fill in light and 7.4:1 in dark.

@@ -23,15 +23,19 @@ interface GoalRowProps {
 // this goal had the whole capacity, what if it shared it with the others, what
 // if it had all of it but only once every cheaper goal was funded.
 //
-// One cobalt SCALE now, not three hues: the target reads the three assumptions
-// as degrees of one thing, and --color-caution on the third was saying "warning"
-// about a funding plan that is not one. The bars are the WEAKEST of the three
-// channels telling them apart — the label above each and the landing date beside
-// it carry it, which is what keeps this legible if the ramp compresses.
+// Three CATEGORY hues at maximum HUE spread (violet ~262deg, lime ~92deg, amber
+// ~33deg). The cobalt scale they replace failed its own premise: two of its three
+// steps measured 1.03:1 apart, and two were cobalt on a screen spending it ten
+// ways. MEASURED, not assumed: the ramp is luminance-FLAT — each hue is 3.42–4.52:1
+// on --color-surface (clearing the 3:1 graphic floor) but the best-separated PAIR
+// in it is 1.32:1, and these three are 1.12–1.28:1. Colour cannot carry this in
+// greyscale and no hue swap would change that, which is why the bar stays the
+// WEAKEST channel: the label and the landing date carry it, and `_bar.scss` marks
+// the bar aria-hidden for the same reason.
 const METRICS = [
-  ["dedicated", "DEDICADO", "var(--color-brand)"],
-  ["parallel", "EM PARALELO", "var(--color-accent)"],
-  ["serialized", "UM DE CADA VEZ", "var(--color-border-strong)"],
+  ["dedicated", "Dedicado", "var(--cat-violet)"],
+  ["parallel", "Em paralelo", "var(--cat-lime)"],
+  ["serialized", "Um de cada vez", "var(--cat-amber)"],
 ] as const;
 
 // "~7 meses · Fev/2027", or the words that replace it when there is no capacity

@@ -18,9 +18,15 @@ interface StatCardProps {
   icon: LucideIcon;
   hint: string;
   stats: Stats;
-  // Fixed accent for the always-positive cards (Entradas/Saídas). Omitted by
-  // Saldo, which derives its accent from the sign instead.
+  // Fixed accent for the card's FIGURE. Omitted by Saldo, which derives it from
+  // the sign, and by Saídas, whose total is an ordinary expense and therefore not
+  // red — the constitution's first pillar.
   tone?: "positive" | "negative";
+  // Which semantic pair the icon CHIP takes, when it is not the figure's. Split
+  // from `tone` for Saídas: the chip names the card and stays on the expense pair
+  // (which `_chip.scss` maps to the NEUTRAL fill), while the figure takes no tone
+  // at all. Defaults to `tone`, then to brand.
+  chip?: ChipTone;
   signed?: boolean;
 }
 
@@ -58,16 +64,17 @@ function useStatCard({
   hint,
   stats,
   tone,
+  chip,
   signed,
 }: StatCardProps) {
   const negative = signed === true && stats.total < 0;
   const glyph = signGlyph(signed, negative);
 
   // Annotated, not inferred: a bare "brand" in the literal below widens to
-  // `string` and stops indexing index.tsx's chip class map. Keyed on the FIXED
-  // tone: Saldo's chip names the card, so it must not flip green/red with the
-  // sign of a total the reader is still looking at.
-  const chip: ChipTone = tone ?? "brand";
+  // `string` and stops indexing index.tsx's chip class map. Never derived from the
+  // SIGN: Saldo's chip names the card, so it must not flip green/red with the sign
+  // of a total the reader is still looking at.
+  const chipTone: ChipTone = chip ?? tone ?? "brand";
 
   return {
     title,
@@ -76,7 +83,7 @@ function useStatCard({
     glyph,
     total: stats.total,
     tone: signedTone(signed, negative, tone),
-    chip,
+    chip: chipTone,
     // Neutral: formatMoney's minus sign already carries the meaning here.
     rows: [
       { key: "current", label: "Realizado", value: stats.current },
