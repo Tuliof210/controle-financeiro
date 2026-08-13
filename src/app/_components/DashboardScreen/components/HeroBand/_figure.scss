@@ -42,7 +42,7 @@
     // --color-bg, not a fixed dark ink: `.up`/`.down` below fill it with themed
     // semantic tokens, which are dark in light mode and light in dark mode, so
     // the only ink that is always their opposite is the one that flips with
-    // them. 5.5–5.8:1 light, 10.0–10.6:1 dark.
+    // them. 5.15–5.46:1 light, 8.21–9.37:1 dark.
     color: var(--color-bg);
     font-family: var(--font-sans);
     font-size: var(--text-sm);

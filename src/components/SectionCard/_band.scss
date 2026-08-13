@@ -41,8 +41,8 @@
   // two fills are THEMED, dark in light mode and light in dark mode, so a fixed
   // dark ink measured 3.12 / 3.31:1 on them in the light theme. --color-bg
   // flips with them and is therefore always the opposite end.
-  //   --color-positive vs --color-bg:  5.83:1 light, 10.02:1 dark
-  //   --color-negative vs --color-bg:  5.53:1 light, 10.61:1 dark
+  //   --color-positive vs --color-bg:  5.46:1 light, 9.37:1 dark
+  //   --color-negative vs --color-bg:  5.15:1 light, 8.21:1 dark
   //   --color-text     vs --color-bg: 19.14:1 light, 16.40:1 dark
   .bandPositive {
     background: var(--color-positive);
@@ -58,7 +58,7 @@
   // --color-brand still fails in the dark theme, where the token resolves to the
   // lightened --cobalt-400 and measures 3.64:1 against white, under the 4.5:1
   // this --text-2xs band needs. --cobalt-700 is dark in BOTH themes, so white on
-  // it reads 8.98:1 either way. It is named directly now — the --violet-600
+  // it reads 8.98:1 either way — measured, not assumed. It is named directly now — the --violet-600
   // alias it used to borrow was a pre-Monevo name for the same swatch, and it is
   // deleted.
   .bandBrand {

@@ -13,8 +13,8 @@
   //
   // --color-accent is light in BOTH themes, so the foreground cannot be a
   // semantic token: --color-text would land near-white on it in the dark one.
-  // Pinned to the primitive and re-measured — --neutral-900 reads 11.15:1 on
-  // --cobalt-200, and at the --opacity-muted the lines below take, 5.60:1.
+  // Pinned to the primitive and re-measured in the browser — --neutral-900
+  // reads 11.15:1 on --cobalt-200 (light) and 7.99:1 on --cobalt-300 (dark).
   //
   // It carries no border, radius or shadow of its own any more: `.card` owns all
   // three. Its top corners read --band-radius, which `.card` derives from its
