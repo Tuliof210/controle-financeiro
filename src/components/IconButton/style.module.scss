@@ -8,20 +8,19 @@
 // hit target, which `::after` below holds at 44px regardless. Default 44px, so
 // the two modal call sites — Modal's close and IntervalList's remove, neither
 // of which sizes itself — are unaffected by the knob existing.
-// ponytail: raw 44px throughout, the same raw-pixel exception Tooltip and
-// ColorPicker already take — the DS has no size scale, and "never hardcode"
-// covers colour/space/radius/shadow/duration, not hit targets.
+// The floor is --size-tap now, not a raw 44px: T1 gave the hit target a token
+// and this file was one of its 23 call sites.
 .iconButton {
   position: relative;
   display: inline-flex;
   flex: none;
   align-items: center;
   justify-content: center;
-  width: var(--icon-btn-size, 44px);
-  height: var(--icon-btn-size, 44px);
+  width: var(--icon-btn-size, var(--size-tap));
+  height: var(--icon-btn-size, var(--size-tap));
   padding: 0;
-  border: var(--border-2) solid var(--color-border-subtle);
-  border-radius: var(--radius-sm);
+  border: var(--border-1) solid var(--color-border-subtle);
+  border-radius: var(--radius-md);
   background: transparent;
   cursor: pointer;
   transition:
@@ -52,8 +51,8 @@
     position: absolute;
     top: 50%;
     left: 50%;
-    width: max(44px, var(--icon-btn-size, 44px));
-    height: max(44px, var(--icon-btn-size, 44px));
+    width: max(var(--size-tap), var(--icon-btn-size, var(--size-tap)));
+    height: max(var(--size-tap), var(--icon-btn-size, var(--size-tap)));
     transform: translate(-50%, -50%);
   }
 
@@ -67,13 +66,9 @@
 .ghost {
   color: var(--color-text);
 
-  &:hover:not(:disabled) {
-    background: var(--color-surface-raised);
-  }
-
+  &:hover:not(:disabled),
   &:active:not(:disabled) {
-    background: var(--color-surface-raised);
-    filter: brightness(0.96);
+    background: var(--color-hover-wash);
   }
 }
 
@@ -85,16 +80,20 @@
   color: var(--color-negative);
 
   // :active is grouped with :hover, not left on its own: a Space-hold keyboard
-  // activation fires :active WITHOUT :hover, and an 8% darkening of a red glyph
-  // on a transparent surface is no press feedback at all.
+  // activation fires :active WITHOUT :hover, and a tint of a red glyph on a
+  // transparent surface is no press feedback at all.
+  // --color-bg, not --white — the fill is themed, and white on its dark-theme
+  // end measures 2.35:1. See _tokens-theme.scss for the rule.
   &:hover:not(:disabled),
   &:active:not(:disabled) {
     background: var(--color-negative);
     border-color: var(--color-negative);
-    color: var(--white);
+    color: var(--color-bg);
   }
 
+  // Same recipe as Button's semantic fills: toward --color-text, so it darkens
+  // in light and lightens in dark, where the negative ramp is the light one.
   &:active:not(:disabled) {
-    filter: brightness(0.92);
+    background: color-mix(in srgb, var(--color-negative) 88%, var(--color-text));
   }
 }

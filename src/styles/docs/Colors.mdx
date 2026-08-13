@@ -34,10 +34,6 @@ export const semantics = [
   "color-info", "color-focus", "color-hover-wash", "color-row-hover",
 ];
 
-export const rail = [
-  "rail-bg", "rail-fg", "rail-muted", "rail-line", "rail-hover",
-];
-
 export const Swatch = ({ name }) => (
   <div style={{ border: "var(--border-1) solid var(--color-border-subtle)", borderRadius: "var(--radius-sm)", overflow: "hidden" }}>
     <div style={{ height: "56px", background: `var(--${name})` }} />
@@ -93,27 +89,28 @@ moved. Each hue is distinguishable from the others and from cobalt.
 
 ## Navigation rail
 
-No longer its own dark-chrome family: the rail is a light surface with a
-hairline, so these five tokens are plain aliases of the surface ramp. Because
-they alias already-themed tokens they flip on their own and carry no dark
-declaration — redeclaring them is the mistake rule 6 exempts them from.
-
-<Grid names={rail} min="150px" />
+The rail has no palette of its own. It was dark chrome in both themes and
+needed one; it is now a light surface with a hairline to its right, which is
+`--color-surface` and `--color-border` — so the five `--rail-*` aliases were
+deleted rather than kept as a second name for tokens that already exist. The
+active item is a 12% cobalt wash over the surface with `--color-brand-text` on
+it, not a solid brand fill: cobalt is spent on the primary action, focus and
+the mark, and a filled rail item competes with the real action on the page.
 
 ## Gradients
 
 The background is flat: no decorative gradients, no glassmorphism, no texture.
-`--glow-brand` is the one exception the system authorises — a cobalt radial
-glow on a dark hero, never on the mark. `--gradient-toxic` is on borrowed time,
-kept for one consumer that has not been migrated yet.
+`--glow-brand` is the only gradient in the system — a cobalt radial glow on a
+dark hero, never on the mark. `--gradient-toxic` is deleted: the ramp swap
+turned its lime→violet into cobalt→cobalt, and its one consumer paints
+`--color-brand` flat now.
 
-<div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "var(--space-3)" }}>
-  <div style={{ height: "72px", borderRadius: "var(--radius-lg)", background: "var(--color-surface-raised)", backgroundImage: "var(--glow-brand)", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--color-text)", fontFamily: "var(--font-mono)", fontSize: "var(--text-2xs)" }}>
-    {"--glow-brand"}
-  </div>
-  <div style={{ height: "72px", borderRadius: "var(--radius-lg)", background: "var(--gradient-toxic)", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--white)", fontFamily: "var(--font-mono)", fontSize: "var(--text-2xs)" }}>
-    {"--gradient-toxic (deprecated)"}
-  </div>
+An overlay scrim is one translucent ink rather than a tint of the page —
+`--neutral-950` at 55%, the same in both themes, because a scrim that flips
+lightens the very page it is meant to push back.
+
+<div style={{ height: "72px", borderRadius: "var(--radius-lg)", background: "var(--color-surface-raised)", backgroundImage: "var(--glow-brand)", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--color-text)", fontFamily: "var(--font-mono)", fontSize: "var(--text-2xs)" }}>
+  {"--glow-brand"}
 </div>
 
 ## Money example

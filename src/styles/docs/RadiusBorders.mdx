@@ -7,15 +7,28 @@ export const borders = ["border-1", "border-2", "border-3"];
 
 # Radius & Borders
 
-Corners are soft, never square and never a capsule: `--radius-sm` (6) for chips
-and inner inputs, `--radius-md` (10) for buttons and fields, `--radius-lg` (14)
-for product cards, `--radius-xl` (20) for large surfaces and sheets.
-`--radius-full` exists only for avatars and status dots, never for a
-rectangular surface.
+Corners are soft, and the map is by **surface type**, not by taste:
+
+| surface | radius |
+| --- | --- |
+| card, section, modal panel, KPI tile | `--radius-lg` (14) |
+| button, field, select, nav item, menu | `--radius-md` (10) |
+| chip, badge, swatch, tag, inner cell | `--radius-sm` (6) |
+| segmented pill, progress track, status dot, avatar | `--radius-full` |
+| large surface / sheet | `--radius-xl` (20) |
+
+An inner corner sitting flush inside an outer one is **derived**, never a second
+literal: `calc(var(--radius-lg) - var(--border-1))`. SectionCard's band is the
+worked example — it cannot clip with `overflow: hidden` (that eats the hint's
+focus ring on all 13 cards), so it rounds its own top corners, and a literal
+would leave a silent step the moment either scale moved.
 
 Borders are hairlines, and they carry separation **before** a shadow does.
-`--color-border` is the default, `--color-border-subtle` the quietest split,
-`--color-border-strong` the one that has to survive a busy surface.
+`--border-1` is the structural default everywhere; `--border-2` is reserved for
+emphasis the hairline cannot carry — a selection ring, a dashed drop target, the
+dotted/dashed projection states below. `--color-border` is the default hue,
+`--color-border-subtle` the quietest split, `--color-border-strong` the one that
+has to survive a busy surface.
 
 ## Radius steps
 
@@ -28,7 +41,7 @@ Borders are hairlines, and they carry separation **before** a shadow does.
   ))}
   <div style={{ textAlign: "center", fontFamily: "var(--font-mono)", fontSize: "var(--text-2xs)", color: "var(--color-text-muted)" }}>
     <div style={{ width: "56px", height: "56px", background: "var(--color-accent)", borderRadius: "var(--radius-full)", marginBottom: "var(--space-2)" }} />
-    --radius-full (avatars/dots only)
+    --radius-full (pills, tracks, dots, avatars)
   </div>
 </div>
 

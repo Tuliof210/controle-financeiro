@@ -40,10 +40,10 @@
     gap: var(--space-4);
     padding: var(--space-6);
     background: var(--color-surface-raised);
-    border-bottom: var(--border-2) solid var(--color-border);
+    border-bottom: var(--border-1) solid var(--color-border);
 
     @include t.bp("xl") {
-      border-right: var(--border-2) solid var(--color-border);
+      border-right: var(--border-1) solid var(--color-border);
     }
   }
 
@@ -66,16 +66,14 @@
 
   .rateLabel {
     color: var(--color-text-muted);
-    font-family: var(--font-mono);
+    font-family: var(--font-sans);
     font-size: var(--text-2xs);
-    letter-spacing: var(--tracking-wide);
-    text-transform: uppercase;
   }
 
   .rateValue {
     margin: var(--space-2) 0 0;
     color: var(--color-text);
-    font-family: var(--font-mono);
+    font-family: var(--font-sans);
     font-size: var(--text-md);
     font-variant-numeric: tabular-nums;
   }

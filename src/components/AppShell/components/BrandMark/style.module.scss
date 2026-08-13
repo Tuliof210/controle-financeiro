@@ -1,5 +1,7 @@
 // The brand box is part of the mark, not of its callers: the rail head and the
-// mobile header both draw the identical 36x36 violet tile, so it lives here once.
+// mobile header both draw the identical 36x36 cobalt tile, so it lives here once.
+// No frame — a filled mark is the fill, the same reading Button's filled
+// variants take.
 .box {
   display: inline-flex;
   align-items: center;
@@ -11,6 +13,5 @@
   height: 36px;
   background: var(--color-brand);
   color: var(--white);
-  border: var(--border-2) solid var(--color-border);
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-md);
 }

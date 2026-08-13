@@ -11,8 +11,8 @@
   gap: var(--space-5);
   padding: var(--space-6);
   background: var(--color-surface);
-  border: var(--border-2) solid var(--color-border);
-  border-radius: var(--radius-md);
+  border: var(--border-1) solid var(--color-border);
+  border-radius: var(--radius-lg);
 }
 
 .header {
@@ -42,12 +42,10 @@
   display: flex;
   align-items: center;
   gap: var(--space-2);
-  min-height: 44px;
-  font-family: var(--font-mono);
+  min-height: var(--size-tap);
+  font-family: var(--font-sans);
   font-size: var(--text-xs);
-  letter-spacing: var(--tracking-wide);
   color: var(--color-text-muted);
-  text-transform: uppercase;
   white-space: nowrap;
   cursor: pointer;
 }

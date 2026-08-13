@@ -4,13 +4,17 @@
 // t.focus-ring, an outline with outline-offset — an overflow-hidden ancestor
 // clips it on all 13 cards at once, and nothing tests focus rings.
 .card {
+  // The radius the band inside has to meet, declared once here so the two can
+  // never disagree. See `_band.scss` for why the inner corner is derived.
+  --band-radius: calc(var(--radius-lg) - var(--border-1));
+
   display: flex;
   flex-direction: column;
   gap: var(--space-4);
   padding: var(--space-6);
   background: var(--color-surface);
-  border: var(--border-2) solid var(--color-border);
-  border-radius: var(--radius-md);
+  border: var(--border-1) solid var(--color-border);
+  border-radius: var(--radius-lg);
 }
 
 .titleRow {
@@ -45,12 +49,14 @@
   color: var(--color-negative);
 }
 
-// text-transform rather than uppercasing the strings: the titles are read by
-// screen readers and reused verbatim as Tooltip labels ("Como {title} é
-// calculado").
+// The canonical eyebrow, and one of the few places uppercase survives: mono at
+// --text-2xs with --tracking-wide is what the eyebrow IS in this system, not a
+// bitmap face being propped up. text-transform rather than uppercasing the
+// strings, because the titles are read by screen readers and reused verbatim as
+// Tooltip labels ("Como {title} é calculado").
 .title {
   margin: 0;
-  font-family: var(--font-display);
+  font-family: var(--font-mono);
   font-size: var(--text-2xs);
   font-weight: var(--weight-regular);
   letter-spacing: var(--tracking-wide);

@@ -8,19 +8,23 @@
   justify-content: center;
   flex: none;
   // Rule 7(e): the design draws 38px, the 44px floor wins.
-  width: 44px;
-  height: 44px;
+  width: var(--size-tap);
+  height: var(--size-tap);
   padding: 0;
-  border: var(--border-2) solid var(--color-border);
-  border-radius: var(--radius-sm);
+  border: var(--border-1) solid var(--color-border);
+  border-radius: var(--radius-md);
   background: var(--color-text);
   color: var(--color-bg);
   line-height: 1;
   cursor: pointer;
-  transition: filter var(--duration-fast) var(--ease-snappy);
+  transition: background var(--duration-fast) var(--ease-snappy);
 
+  // The fill IS --color-text, so it has no hover tone to reach for. Mixing 12%
+  // of --color-bg into it steps the inverted chip one notch back toward the
+  // page in either theme — the counterpart of the brightness(1.25) that only
+  // ever lightened, which on the dark theme's near-white fill was a no-op.
   &:hover {
-    filter: brightness(1.25);
+    background: color-mix(in srgb, var(--color-text) 88%, var(--color-bg));
   }
 
   &:focus-visible {

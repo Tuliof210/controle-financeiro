@@ -42,15 +42,6 @@
   --elevation-raised: 0 1px 2px rgb(20 23 28 / 5%), 0 1px 1px rgb(20 23 28 / 3%);
   --elevation-overlay: 0 6px 16px rgb(20 23 28 / 8%), 0 2px 4px rgb(20 23 28 / 4%);
   --elevation-modal: 0 16px 40px rgb(20 23 28 / 12%), 0 4px 8px rgb(20 23 28 / 5%);
-
-  // Deprecated — the three hard offset shadows of the pixel-art skin. Five
-  // *.module.scss files still ask `@include t.elevation(press | press-active |
-  // panel)`, and those files belong to T2, so removing either these tokens or
-  // their levels in the mixin would break the Sass build today. T2 removes
-  // both once its consumers are migrated.
-  --elevation-press: var(--elevation-raised);
-  --elevation-press-active: var(--elevation-flat);
-  --elevation-panel: var(--elevation-modal);
 }
 
 // ---- Focus + opacity ---------------------------------------------------------

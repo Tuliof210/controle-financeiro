@@ -1,0 +1,96 @@
+// The five variants, split off `style.module.scss` under the exception
+// ARCHITECTURE.md grants `RowGrid/_tiers.scss`: a mixin that emits nothing on
+// its own, included once by the stylesheet beside it, so neither file crosses
+// the 100-line cap. Not a component — the base box lives next door.
+
+@mixin variants {
+  // The target draws a filled action as fill alone — a frame on top of a solid
+  // fill is the extruded skin's frame, kept out of habit.
+  .primary,
+  .danger,
+  .success {
+    border-color: transparent;
+  }
+
+  // White, and only here: the brand rule is that text on cobalt is white.
+  //
+  // KNOWN GAP, and it is the token layer's to close. Measured white-on-fill:
+  // light 6.78 / 8.98 / 11.08:1 for rest / hover / active, all clear. DARK is
+  // 3.64 / 2.25 / 1.61:1 — under rule 7's 4.5:1, and the interactive states are
+  // WORSE than rest because --color-brand-hover/-active lighten in dark (they
+  // must: darkening a fill on a dark surface reads as disabled). Fixing it means
+  // darkening the dark ramp's cobalt, i.e. token VALUES, which this task is
+  // forbidden to touch. Whoever does it must move all three, not only the rest
+  // tone — that is why the two interactive figures are written down here.
+  .primary {
+    color: var(--white);
+    background: var(--color-brand);
+
+    &:hover:not(:disabled) {
+      background: var(--color-brand-hover);
+    }
+
+    &:active:not(:disabled) {
+      background: var(--color-brand-active);
+    }
+  }
+
+  // The semantic fills have no hover tone, so they mix toward --color-text. That
+  // is also why this replaces `filter: brightness()`: brightness only darkens,
+  // and on the dark theme's LIGHTENED semantic ramp a darker fill reads as
+  // disabled. Mixing toward the text colour darkens in light, lightens in dark.
+  //
+  // The ink is --color-bg, NOT --white, and that is the same rule the five band
+  // fills follow: these two tokens are themed, so in the dark theme the fill is
+  // the light end of the ramp and white on it measures 2.06:1 (positive) and
+  // 2.40:1 (negative). --color-bg flips with the fill, so it always lands on the
+  // opposite end — and it moves opposite to the hover mix rather than with it.
+  .danger,
+  .success {
+    color: var(--color-bg);
+  }
+
+  .danger {
+    background: var(--color-negative);
+
+    &:hover:not(:disabled) {
+      background: color-mix(in srgb, var(--color-negative) 88%, var(--color-text));
+    }
+  }
+
+  .success {
+    background: var(--color-positive);
+
+    &:hover:not(:disabled) {
+      background: color-mix(in srgb, var(--color-positive) 88%, var(--color-text));
+    }
+  }
+
+  // Ghost: no solid border — a subtle structural edge at most.
+  .ghost {
+    background: transparent;
+    border-color: var(--color-border-subtle);
+    color: var(--color-text);
+
+    &:hover:not(:disabled) {
+      background: var(--color-hover-wash);
+    }
+  }
+
+  // Full-width dashed outline that fills on hover — the "Adicionar …" affordance
+  // at the bottom of every list card. A consumer needing the negative tint
+  // composes it at the call site; one use does not earn a `dashed-danger`.
+  .dashed {
+    justify-content: center;
+    width: 100%;
+    background: transparent;
+    color: var(--color-text);
+    border: var(--border-2) dashed var(--color-border);
+
+    &:hover:not(:disabled) {
+      background: var(--color-brand);
+      color: var(--white);
+      border-style: solid;
+    }
+  }
+}

@@ -11,7 +11,7 @@
 .swatch {
   width: 14px;
   height: 14px;
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-full);
 }
 
 // Ellipsis rather than the `overflow-wrap: anywhere` this row used to carry: a
@@ -24,7 +24,7 @@
   display: block;
   overflow: hidden;
   color: var(--color-text);
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   font-size: var(--text-base);
   text-overflow: ellipsis;
   white-space: nowrap;

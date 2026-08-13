@@ -8,12 +8,10 @@
   margin: 0;
   font-family: var(--font-mono);
   font-size: var(--text-2xs);
-  letter-spacing: var(--tracking-wide);
-  text-transform: uppercase;
   // 12.4:1 light / 11.3:1 dark against the band fill at this alpha — the band's
   // own foreground is 19.1:1 / 16.4:1, and 0.7 of it clears the 4.5:1 floor with
   // room to spare.
-  opacity: 0.7;
+  opacity: var(--opacity-muted);
 }
 
 .item {

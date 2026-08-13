@@ -52,7 +52,6 @@
     color: var(--color-text-muted);
     font-family: var(--font-display);
     font-size: var(--text-2xs);
-    letter-spacing: var(--tracking-wide);
     line-height: var(--leading-normal);
 
     @include t.bp("lg") {
@@ -63,7 +62,7 @@
   .value {
     margin: 0;
     color: var(--color-text);
-    font-family: var(--font-mono);
+    font-family: var(--font-sans);
     font-size: var(--text-sm);
     font-variant-numeric: tabular-nums;
     line-height: var(--leading-normal);

@@ -9,10 +9,6 @@ export const levels = [
   ["elevation-modal", "modal panel"],
 ];
 
-export const deprecated = [
-  "elevation-press", "elevation-press-active", "elevation-panel",
-];
-
 # Elevation
 
 Border-first, not shadow-first. A surface tier (`--color-surface`,
@@ -32,19 +28,14 @@ light theme's 3–12% ink is invisible against a dark surface.
   ))}
 </div>
 
-## Deprecated — the hard offset shadows
+## The hard offset shadows are gone
 
-The pixel-art skin cast a blur-less offset in `--color-border` to read as the
-frame displaced. Those three tokens still resolve, and `@include
-t.elevation(press | press-active | panel)` still compiles, only because five
-`*.module.scss` files have not been migrated yet. They now alias the levels
-above, so they no longer look extruded — that flattening is expected, not a
-regression. **Nothing new may use them.**
+The pixel-art skin cast a blur-less offset in `--color-border` so a control read
+as its own frame displaced, and paired it with `transform: translate(2px, 2px)`
+on press. Both halves are removed: the three offset tokens no longer exist, and
+the mixin has no branch for them either — asking for one raises a Sass `@error`,
+so a stale call site fails the build instead of silently aliasing something
+else. The four levels above are the whole scale.
 
-<div style={{ display: "flex", gap: "var(--space-6)", flexWrap: "wrap", background: "var(--color-bg)", padding: "var(--space-6)", borderRadius: "var(--radius-lg)" }}>
-  {deprecated.map((name) => (
-    <div key={name} style={{ width: "170px", height: "90px", background: "var(--color-surface)", border: "var(--border-1) solid var(--color-border)", borderRadius: "var(--radius-lg)", boxShadow: `var(--${name})`, display: "flex", alignItems: "center", justifyContent: "center", textAlign: "center", fontFamily: "var(--font-mono)", fontSize: "var(--text-2xs)", color: "var(--color-text-muted)" }}>
-      {`--${name}`}
-    </div>
-  ))}
-</div>
+A control's press is now `transform: scale(0.985)` — no displacement, and no
+shadow needed to justify one.

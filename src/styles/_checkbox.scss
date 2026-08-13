@@ -19,12 +19,13 @@
   margin: 0;
   appearance: none;
   background: var(--color-bg);
-  border: var(--border-2) solid var(--color-border);
+  border: var(--border-1) solid var(--color-border);
   border-radius: var(--radius-sm);
   cursor: pointer;
 
-  // The tick: two borders on a rotated box. White on a brand fill is this
-  // repo's convention for on-brand marks.
+  // The tick is a GLYPH, not structure, so it keeps --border-2: at 8x4px a 1px
+  // stroke is a smudge. The box above is structure and takes the hairline like
+  // every other control — it sits beside --border-1 fields in both consumers.
   &::after {
     content: "";
     width: var(--space-2);

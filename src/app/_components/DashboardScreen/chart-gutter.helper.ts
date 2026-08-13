@@ -2,11 +2,16 @@
 // about text rather than about data. Split off chart-frame.helper.ts for the
 // 100-line cap.
 
-// JetBrains Mono at --text-2xs is ~6px per character; the gutter covers the
-// tick mark plus its gap to the axis. Derived rather than fixed because a
-// signed six-figure balance ("−R$ 20.000") is three characters wider than the
-// positive labels a constant was sized for, and the SVG root clips the excess.
-const CHAR_PX = 6;
+// IBM Plex Mono at --text-2xs, MEASURED in the browser: 6.60px per character.
+// The tick labels carry no letter-spacing, so that advance is the whole story;
+// rounded up, because the failure is one-sided — too small and the SVG root
+// clips the label, too large and the gutter is a pixel wide of nothing. It was
+// 6 for JetBrains Mono at a 10px --text-2xs, and nothing fails when it is
+// wrong: the axis labels just clip.
+// The gutter covers the tick mark plus its gap to the axis, derived rather than
+// fixed because a signed six-figure balance ("−R$ 20.000") is three characters
+// wider than the positive labels a constant was sized for.
+const CHAR_PX = 7;
 const TICK_GUTTER = 12;
 
 // "Jan/24" is always 6 characters (formatYyyymm's MONTH_LABELS are all 3

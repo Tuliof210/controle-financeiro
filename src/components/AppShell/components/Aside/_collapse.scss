@@ -31,7 +31,7 @@
     display: none;
     flex: none;
     padding: var(--space-3);
-    border-top: var(--border-2) solid var(--rail-line);
+    border-top: var(--border-1) solid var(--color-border);
 
     @include t.bp("md") {
       display: block;
@@ -44,22 +44,21 @@
     gap: var(--space-3);
     width: 100%;
     // Rule 7(e): hit targets are at least 44px.
-    min-height: 44px;
+    min-height: var(--size-tap);
     padding: var(--space-3);
     border: none;
-    border-radius: var(--radius-sm);
+    border-radius: var(--radius-md);
     background: transparent;
-    color: var(--rail-muted);
-    font-family: var(--font-mono);
+    color: var(--color-text-muted);
+    font-family: var(--font-sans);
     font-size: var(--text-2xs);
-    letter-spacing: var(--tracking-wide);
     white-space: nowrap;
     cursor: pointer;
     transition: background var(--duration-fast) var(--ease-snappy);
 
     &:hover {
-      background: var(--rail-hover);
-      color: var(--rail-fg);
+      background: var(--color-hover-wash);
+      color: var(--color-text);
     }
 
     &:focus-visible {

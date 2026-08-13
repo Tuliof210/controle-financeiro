@@ -26,7 +26,7 @@ export function SectionCard(props: SectionCardProps) {
     band,
     children,
   } = useSectionCard(props);
-  const cardClassName = [styles.card, band && styles.extruded]
+  const cardClassName = [styles.card, band && styles.raised]
     .filter(Boolean)
     .join(" ");
   const titleRowClassName = [

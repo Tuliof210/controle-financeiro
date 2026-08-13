@@ -2,21 +2,24 @@
 
 .dialog {
   padding: 0;
-  border: var(--border-2) solid var(--color-border);
-  border-radius: var(--radius-md);
+  border: var(--border-1) solid var(--color-border);
+  border-radius: var(--radius-lg);
   background: var(--color-surface-raised);
   color: var(--color-text);
   width: calc(100% - var(--space-8));
   // ponytail: no container-width token exists in the DS; matches the `sm` bp.
   max-width: 480px;
   z-index: var(--z-modal);
-  // README rule 3, as amended: the large hard offset shadow is scoped to the
-  // modal panel, and replaces the blur overlay shadow that used to sit here.
-  @include t.elevation(panel);
+  // README rule 3: the modal is the one layer that genuinely floats over the
+  // whole page, so it takes the deepest level on the scale.
+  @include t.elevation(modal);
 
-  // Dimmed scrim derived from the bg token — theme-aware, no hardcoded color.
+  // The scrim does NOT flip with the theme, and that is the correction: at 70%
+  // of --color-bg it was a near-white veil in the light theme, which lightens
+  // the page it is meant to push back. The target dims with one ink either way.
+  // --neutral-950 at 55%, mixed rather than written as rgba(), so rule 1 holds.
   &::backdrop {
-    background: color-mix(in srgb, var(--color-bg) 70%, transparent);
+    background: color-mix(in srgb, var(--neutral-950) 55%, transparent);
   }
 }
 
@@ -40,7 +43,7 @@
   padding: var(--space-6);
   // Must match the panel's surface, or the body scrolls visibly underneath.
   background: var(--color-surface-raised);
-  border-bottom: var(--border-2) solid var(--color-border);
+  border-bottom: var(--border-1) solid var(--color-border);
 }
 
 // The header is a flex row: without this the IconButton's 44px square is
@@ -58,7 +61,6 @@
   color: var(--color-brand-text);
   font-family: var(--font-display);
   font-size: var(--text-2xs);
-  letter-spacing: var(--tracking-wide);
 }
 
 // Stays at --text-lg: the design draws --text-md, but _base.scss and every
@@ -71,7 +73,7 @@
 
 .body {
   padding: var(--space-6);
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   font-size: var(--text-base);
   line-height: 1.5;
 }

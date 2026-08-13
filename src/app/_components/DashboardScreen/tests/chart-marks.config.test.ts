@@ -29,7 +29,7 @@ describe("TAG_TONES", () => {
     });
     expect(TAG_TONES.caution).toEqual({
       fill: "var(--color-caution)",
-      text: "var(--ink-900)",
+      text: "var(--color-bg)",
     });
   });
 });

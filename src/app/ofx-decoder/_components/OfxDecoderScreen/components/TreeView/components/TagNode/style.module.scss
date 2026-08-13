@@ -25,7 +25,7 @@
 // what draws the native disclosure triangle.
 summary.tag {
   cursor: pointer;
-  line-height: 44px;
+  line-height: var(--size-tap);
 }
 
 .value {

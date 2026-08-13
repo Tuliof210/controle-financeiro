@@ -5,7 +5,7 @@ import { Meta } from "@storybook/addon-docs/blocks";
 export const pillars = [
   ["Calm neutrals, one brand hue", "A cool neutral ramp carries ~90% of the interface. Cobalt is the only brand colour — primary action, focus and the mark, never decorative fill."],
   ["Semantics speak financial state", "positive, negative, alert, info. A normal expense is not red; red is negative variation and destructive action."],
-  ["Contained, not extruded", "Hairline borders carry separation before any shadow does. Corners are soft — 14 on cards, 10 on buttons — never square, never a capsule."],
+  ["Contained, not extruded", "Hairline borders carry separation before any shadow does. Corners are soft and chosen by surface type — 14 on cards, 10 on controls, 6 on chips — never square. A capsule is a pill, a track or a dot, and nothing else."],
   ["Three faces, one job each", "A display face for heros, a grotesque for body and money, a mono scoped to eyebrows, IDs, YYYY-MM dates and hex."],
 ];
 
@@ -31,12 +31,14 @@ light and dark.
 
 1. **Never hardcode** a color, spacing, radius, shadow, or duration value —
    always a token. `src/app/icon.svg` is the one documented exception.
-2. **Radius comes from the scale** — `sm` 6, `md` 10, `lg` 14, `xl` 20. Cards
-   take `lg`, buttons take `md`. `--radius-full` is avatars and status dots
-   only.
+2. **Radius is chosen by surface type** — cards `lg` 14, controls `md` 10, chips
+   `sm` 6, pills/tracks/dots/avatars `full`, sheets `xl` 20. An inner corner
+   flush inside an outer one is derived with `calc()`, never a second literal.
+   `--border-1` is structural; `--border-2` is emphasis only.
 3. **Elevation is border-first.** Shadow only when the layer genuinely floats:
    `--elevation-overlay` for dropdown/popover/sheet, `--elevation-modal` for
-   the modal. The three `press` / `panel` offsets are deprecated aliases.
+   the modal. The hard offset shadows are gone; a control's press is
+   `transform: scale(0.985)`.
 4. **Three faces, one job each.** `--font-display` (Clash Display) heros and
    titles, `--font-sans` (Hanken Grotesk) body, labels and money,
    `--font-mono` (IBM Plex Mono) eyebrows, IDs, dates and hex.

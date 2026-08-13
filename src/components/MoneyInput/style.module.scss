@@ -6,8 +6,8 @@
   gap: var(--space-2);
   min-height: var(--space-12);
   background: var(--color-surface);
-  border: var(--border-2) solid var(--color-border);
-  border-radius: var(--radius-sm);
+  border: var(--border-1) solid var(--color-border);
+  border-radius: var(--radius-md);
   padding: var(--space-2) var(--space-3);
 
   &:focus-within {
@@ -17,7 +17,7 @@
 
 .prefix {
   color: var(--color-text-muted);
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   font-size: var(--text-base);
 }
 
@@ -28,7 +28,7 @@
   outline: none;
   background: none;
   color: var(--color-text);
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   font-size: var(--text-base);
   font-variant-numeric: tabular-nums;
   text-align: right;

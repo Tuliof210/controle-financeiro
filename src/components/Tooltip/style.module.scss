@@ -32,10 +32,9 @@
     position: absolute;
     top: 50%;
     left: 50%;
-    // Raw 44px, as IconButton/ColorPicker do — there is no hit-target token,
-    // and the "never hardcode" rule covers colour/space/radius/shadow/duration.
-    width: 44px;
-    height: 44px;
+    // --size-tap, the hit-target floor, same as IconButton and ColorPicker.
+    width: var(--size-tap);
+    height: var(--size-tap);
     transform: translate(-50%, -50%);
   }
 }
@@ -54,10 +53,10 @@
   width: auto;
   padding: var(--space-3);
   background: var(--color-surface-raised);
-  border: var(--border-2) solid var(--color-border);
-  border-radius: var(--radius-sm);
+  border: var(--border-1) solid var(--color-border);
+  border-radius: var(--radius-md);
   color: var(--color-text);
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   font-size: var(--text-xs);
   font-weight: var(--weight-regular);
   line-height: var(--leading-snug);

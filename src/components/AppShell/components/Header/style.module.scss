@@ -17,7 +17,7 @@
   // ponytail: the design's 72px header, same raw-pixel exception as the rail.
   height: 72px;
   padding: 0 var(--space-4);
-  border-bottom: var(--border-2) solid var(--color-border);
+  border-bottom: var(--border-1) solid var(--color-border);
   background: var(--color-surface);
 
   @include t.bp("md") {
@@ -34,11 +34,11 @@
   justify-content: center;
   flex: none;
   // Rule 7(e): hit targets are at least 44px.
-  width: 44px;
-  height: 44px;
+  width: var(--size-tap);
+  height: var(--size-tap);
   padding: 0;
-  border: var(--border-2) solid var(--color-border);
-  border-radius: var(--radius-sm);
+  border: var(--border-1) solid var(--color-border);
+  border-radius: var(--radius-md);
   background: transparent;
   color: var(--color-text);
   line-height: 1;
@@ -78,15 +78,14 @@
 }
 
 .greeting {
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   font-size: var(--text-md);
   font-weight: var(--weight-medium);
   color: var(--color-text);
 }
 
 .today {
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   font-size: var(--text-2xs);
-  letter-spacing: var(--tracking-wide);
   color: var(--color-text-muted);
 }

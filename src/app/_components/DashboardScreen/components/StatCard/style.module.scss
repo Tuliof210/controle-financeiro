@@ -19,8 +19,8 @@
 
 // This wrapper has no border of its own, so its padding box IS the card's outer
 // edge — the marks pin flush to the corners with no offset. (Pulling them out by
-// --border-2 was correct only while they hung off SectionCard, inside its own
-// border.)
+// pulling them out by the border width was correct only while they hung off
+// SectionCard, inside its own border.)
 .card::before {
   top: 0;
   left: 0;
@@ -48,7 +48,10 @@
   height: calc(var(--space-12) + var(--space-2));
   margin: 0 calc(var(--space-6) * -1) calc(var(--space-6) * -1);
   border-top: var(--border-1) solid var(--color-border-subtle);
-  border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+  // Inherited from SectionCard's `.card`, which derives it from its own radius
+  // and border — the same corner the band rounds at the top, read from the one
+  // place that knows it.
+  border-radius: 0 0 var(--band-radius) var(--band-radius);
 }
 
 // Two columns, never a bare `1fr`: `1fr` is `minmax(auto, 1fr)`, so a long
@@ -86,7 +89,7 @@
 .value {
   margin: 0;
   color: var(--color-text);
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   font-size: var(--text-base);
   font-variant-numeric: tabular-nums;
 }

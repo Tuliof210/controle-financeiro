@@ -9,8 +9,8 @@ holds no values; `_tokens-color.scss` (primitives),
 `_tokens-dark.scss` (`@mixin dark-theme`, emits nothing on its own),
 `_tokens-theme.scss` (semantic aliases, light then both dark selectors),
 `_tokens-type.scss`, `_tokens-shape.scss` and `_tokens-motion.scss` hold them.
-`_theme.scss` is the Sass helper layer (`bp`, `focus-ring`, `elevation`,
-`token`), `_base.scss` the element reset.
+`_theme.scss` is the Sass helper layer (`bp`, `focus-ring`, `elevation`),
+`_base.scss` the element reset.
 
 **Light always precedes dark.** The Design System cards read declared values by
 parsing first-wins, so a dark override placed above its light declaration is
@@ -26,8 +26,9 @@ read as the light value.
   alert, info. A normal expense is **not** red; red is negative variation and
   destructive action.
 - **Contained, not extruded.** Hairline borders carry separation before any
-  shadow does. Corners are soft — 14 on product cards, 10 on buttons — never
-  square, never a capsule.
+  shadow does. Corners are soft and chosen by surface type — 14 on product
+  cards, 10 on controls, 6 on chips — never square. A capsule is a segmented
+  pill, a progress track or a dot, and nothing else.
 - **Three faces, one job each.** A display face for heros and titles, a
   grotesque for body and money, a mono scoped to eyebrows, IDs, `YYYY-MM` dates
   and hex.
@@ -35,29 +36,40 @@ read as the light value.
 ## Non-negotiable rules
 
 1. **Never hardcode** a color, spacing, radius, shadow, or duration value.
-   Always a token (`var(--token-name)` in CSS/Sass, or `token("name")` /
-   the dedicated mixins from `_theme.scss`). The single documented exception is
+   Always `var(--token-name)`, or one of the dedicated mixins from
+   `_theme.scss`. There is no `token("name")` helper — it existed with zero call
+   sites and was deleted; see the note in `_theme.scss` for why a second dialect
+   for `var()` is not worth having. The single documented exception is
    `src/app/icon.svg`: a static asset cannot read a custom property, so its
    four hexes are kept in lockstep by hand and named in a comment there.
-2. **Radius comes from the scale** — `--radius-sm` 6, `--radius-md` 10,
-   `--radius-lg` 14, `--radius-xl` 20. Cards take `lg`, buttons and fields take
-   `md`. `--radius-full` exists only for avatars and status dots, never for a
-   rectangular surface.
+2. **Radius is chosen by surface type, not by taste.** Card / section / modal
+   panel / KPI tile take `--radius-lg` (14); button / field / select / nav item
+   / menu take `--radius-md` (10); chip / badge / swatch / tag / inner cell take
+   `--radius-sm` (6); segmented pill / progress track / status dot / avatar take
+   `--radius-full`; `--radius-xl` (20) is for large surfaces and sheets. An
+   inner corner flush inside an outer one is **derived** —
+   `calc(var(--radius-lg) - var(--border-1))` — never a second literal.
+   `--border-1` is the structural border everywhere; `--border-2` is emphasis
+   only (selection ring, dashed drop target, projection state).
 3. **Elevation is border-first.** A surface tier (`--color-surface`,
    `--color-surface-raised`) plus a hairline is the default way to lift
    something. Reach for a shadow only when the layer genuinely floats over
    content: `--elevation-raised` is the resting card, `--elevation-overlay` the
    dropdown/popover/sheet, `--elevation-modal` the modal. Shadows are cool and
-   discreet, never decorative. `--elevation-press`, `--elevation-press-active`
-   and `--elevation-panel` are **deprecated aliases** kept alive only for the
-   five `*.module.scss` files that still `@include t.elevation(...)` them —
-   nothing new may use them.
+   discreet, never decorative. Those four are the whole scale: the hard offset
+   shadows of the pixel-art skin are gone, tokens and mixin branches both, so
+   asking the mixin for one is now a build error rather than a silent alias. A
+   control's press is `transform: scale(0.985)`, not a displacement.
 4. **Typography has three faces, each with one job.** `--font-display` (Clash
    Display, weight 600) is heros and titles only. `--font-sans` (Hanken
    Grotesk) is body copy, labels and **every money figure**, which additionally
    sets `font-variant-numeric: tabular-nums`. `--font-mono` (IBM Plex Mono) is
-   for eyebrows in uppercase, IDs, `YYYY-MM` dates and hex — never body copy.
-   All three are loaded through `next/font` (`fonts.ts`) and applied as
+   for eyebrows in uppercase, IDs, `YYYY-MM` dates, hex, and chart axis/tag
+   labels — never body copy. `text-transform: uppercase` and `--tracking-wide`
+   belong to that eyebrow case and nowhere else: the wide tracking existed to
+   open up a bitmap face with no sidebearing, and on a grotesque it reads as
+   shouting. A status badge, a table header and a checkbox label are sentence
+   case. All three faces are loaded through `next/font` (`fonts.ts`) and applied as
    variable classes in `src/app/layout.tsx` **and** `.storybook/preview.ts`;
    changing one without the other leaves Storybook unstyled. Nothing may load a
    face over the network at runtime.
@@ -67,8 +79,11 @@ read as the light value.
    in `_tokens-theme.scss` *and* to `@mixin dark-theme` in `_tokens-dark.scss`,
    which is the one place both dark selectors read — so the two can no longer
    drift apart the way the duplicated blocks they replaced did. A token that
-   aliases an already-themed token (the `--rail-*` family, the gradients) is
-   the documented exception: it flips on its own and must not be redeclared.
+   aliases an already-themed token (the gradients) is the documented exception:
+   it flips on its own and must not be redeclared. An alias that adds no
+   decision on top of the token it points at is not a token at all — the
+   `--rail-*` family became five such aliases and was deleted; its eleven call
+   sites read the semantic token directly.
 7. **Accessibility is non-negotiable:**
    - Every interactive element has a visible focus ring
      (`@include t.focus-ring;` from `_theme.scss`). It paints `--focus-ring`, a
@@ -83,8 +98,9 @@ read as the light value.
      layer — durations collapse to `0ms`).
 8. **No decorative gradients, no glassmorphism, no texture.** The background is
    flat. `--glow-brand` — a cobalt radial glow on a dark hero, never on the
-   mark — is the only authorised gradient. `--gradient-toxic` survives on
-   borrowed time, for one consumer that has not been migrated yet.
+   mark — is the only gradient there is. No overlay texture either: the hero's
+   scanline and the savings banner's stripes are gone, and an overlay scrim is
+   one flat translucent ink (`--neutral-950` at 55%), not a tint of the page.
 
 ## How components consume this
 

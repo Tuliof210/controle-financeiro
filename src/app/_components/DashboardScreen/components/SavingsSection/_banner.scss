@@ -11,16 +11,15 @@
   // below it is derived from. A grid, not a wrapping flex row — forcing that
   // wrap would need a raw `min-width`, which the token rules do not allow.
   //
-  // --color-accent is lime in BOTH themes, so the foreground cannot be a
-  // semantic token: --color-text would land near-white on lime in the dark one.
-  // Pinned to the primitive and measured, the way EntryRow's own fills are —
-  // --ink-900 reads 13.40:1 on --lime-400 (light) and 16.26:1 on --lime-300
-  // (dark), and at the 0.7 the muted lines below take, 6.11:1 and 6.74:1.
+  // --color-accent is light in BOTH themes, so the foreground cannot be a
+  // semantic token: --color-text would land near-white on it in the dark one.
+  // Pinned to the primitive and re-measured in the browser — --neutral-900
+  // reads 11.15:1 on --cobalt-200 (light) and 7.99:1 on --cobalt-300 (dark).
   //
   // It carries no border, radius or shadow of its own any more: `.card` owns all
-  // three. Its top corners are --radius-sm rather than --radius-md because that
-  // is the card's outer radius minus its --border-2 border — SectionCard's
-  // `_band.scss` rounds a band by hand for the same reason.
+  // three. Its top corners read --band-radius, which `.card` derives from its
+  // own outer radius and border — SectionCard's `_band.scss` rounds a band by
+  // hand for the same reason, and derives it the same way.
   .banner {
     position: relative;
     display: grid;
@@ -28,9 +27,9 @@
     gap: var(--space-6);
     padding: var(--space-6);
     background: var(--color-accent);
-    color: var(--ink-900);
-    border-bottom: var(--border-2) solid var(--color-border);
-    border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+    color: var(--neutral-900);
+    border-bottom: var(--border-1) solid var(--color-border);
+    border-radius: var(--band-radius) var(--band-radius) 0 0;
 
     @include t.bp("md") {
       grid-template-columns: minmax(0, 1fr) auto;
@@ -38,26 +37,11 @@
     }
   }
 
-  // The design writes the stripes as a raw ink at 5.5% alpha — a hardcoded
-  // colour that breaks rule 1. `color-mix` over --color-text is the same effect
-  // through a token, the way HeroBand's scanline already does it. The 11/12px
-  // period the design draws is off the 4px scale; --space-3 minus --border-1 is
-  // the nearest thing that is on it.
-  .stripes {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    background-image: repeating-linear-gradient(
-      90deg,
-      transparent 0 calc(var(--space-3) - var(--border-1)),
-      color-mix(in srgb, var(--color-text) 6%, transparent)
-        calc(var(--space-3) - var(--border-1)) var(--space-3)
-    );
-  }
-
+  // The striping overlay is gone: a repeating gradient over the fill is
+  // texture, and the target draws none. HeroBand's scanline went the same way.
+  //
   // Grid items default to min-width: auto, which would let a long figure push
-  // the track wider than the card. `position: relative` puts both columns above
-  // the stripe overlay.
+  // the track wider than the card.
   .capacity,
   .facts {
     position: relative;
@@ -76,7 +60,6 @@
     font-family: var(--font-display);
     font-size: var(--text-2xs);
     font-weight: var(--weight-regular);
-    letter-spacing: var(--tracking-wide);
     line-height: var(--leading-normal);
   }
 
