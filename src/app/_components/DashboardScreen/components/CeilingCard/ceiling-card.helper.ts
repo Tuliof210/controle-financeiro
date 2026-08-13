@@ -1,6 +1,21 @@
 import type { Ceiling } from "@/app/api/dashboard/ceiling.types.ts";
+import { type CeilingCap, META_CAP } from "@/lib/ceiling-caps.ts";
 import { formatMoney } from "@/lib/money.ts";
 import { formatYyyymm } from "@/lib/months.ts";
+
+// `monthly` is months[0].budget, produced as min(headroom, meta) — so it reaching
+// the goal IS the goal having bound it. Equality counts as the goal: both are the
+// limit, and the goal is the one the reader just chose.
+//
+// Exported because the hero band asks the same question: two copies of this
+// predicate would be two ways to disagree about which limit a figure has.
+function limitedByMeta(
+  cap: CeilingCap,
+  meta: number | null,
+  monthly: number,
+): boolean {
+  return cap === META_CAP && meta !== null && monthly === meta;
+}
 
 // How much of the balance ARRIVING at the month its ceiling takes — the two
 // figures either side of it, as one proportion. Guarded because a zero balance
@@ -50,4 +65,11 @@ function monthsWord(count: number): string {
   return "meses restantes";
 }
 
-export { CEILING_DEFINITION, limitLabel, monthsWord, noteFor, shareOf };
+export {
+  CEILING_DEFINITION,
+  limitedByMeta,
+  limitLabel,
+  monthsWord,
+  noteFor,
+  shareOf,
+};

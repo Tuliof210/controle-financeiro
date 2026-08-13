@@ -33,7 +33,7 @@ export function DashboardScreen() {
           verbatim; the other five screens still render that component. The band
           takes `data` only when the payload is ok — its title half renders in
           every state, so the page never opens on a bare notice. */}
-      <HeroBand data={heroData} />
+      <HeroBand data={heroData} cap={cap} />
 
       {/* Under the band, not over it: the band is full-bleed and cancels
           <main>'s padding with a negative margin on all four sides, so anything
