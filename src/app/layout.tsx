@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { AppShell } from "@/components/AppShell/index.tsx";
-import { jetBrainsMono, pressStart2P } from "@/styles/fonts.ts";
+import { clashDisplay, hankenGrotesk, ibmPlexMono } from "@/styles/fonts.ts";
 import "@/styles/globals.scss";
 
 const THEME_INIT = `(function(){try{var s=localStorage.getItem('theme');var t=s||(window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.setAttribute('data-theme',t);}catch(e){}})();`;
@@ -20,7 +20,7 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning={true}
-      className={`${pressStart2P.variable} ${jetBrainsMono.variable}`}
+      className={`${clashDisplay.variable} ${hankenGrotesk.variable} ${ibmPlexMono.variable}`}
     >
       <body>
         {/* biome-ignore lint/security/noDangerouslySetInnerHtml: pre-paint theme init to avoid FOUC */}

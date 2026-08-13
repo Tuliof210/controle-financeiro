@@ -40,11 +40,11 @@ describe("RootLayout", () => {
     expect(script?.innerHTML).toContain("prefers-color-scheme");
   });
 
-  it("carries both font variables onto the root element", () => {
+  it("carries all three font variables onto the root element", () => {
     const element = RootLayout({ children: "x" }) as {
       props: { className: string };
     };
 
-    expect(element.props.className.split(" ")).toHaveLength(2);
+    expect(element.props.className.split(" ")).toHaveLength(3);
   });
 });

@@ -1,35 +1,50 @@
 import { describe, expect, it } from "@jest/globals";
-import { JetBrains_Mono, Press_Start_2P } from "next/font/google";
-import { jetBrainsMono, pressStart2P } from "@/styles/fonts.ts";
+import { Hanken_Grotesk, IBM_Plex_Mono } from "next/font/google";
+import localFont from "next/font/local";
+import { clashDisplay, hankenGrotesk, ibmPlexMono } from "@/styles/fonts.ts";
 
 // next/jest already mocks next/font, so the loader's RETURN says nothing about
 // how it was called — and the CSS variable names are the whole contract with
-// `src/styles/_tokens.scss`. Asserting the argument is what pins them.
+// `src/styles/_tokens-type.scss`. Asserting the argument is what pins them.
+// ONE factory for all three faces, not one per specifier: next/jest maps every
+// `next/font/*` import to a single mock module, so a second jest.mock() for
+// "next/font/local" would replace this one rather than sit beside it.
 jest.mock("next/font/google", () => ({
-  JetBrains_Mono: jest.fn(() => ({ variable: "mono", className: "mono" })),
-  Press_Start_2P: jest.fn(() => ({
-    variable: "display",
-    className: "display",
-  })),
+  __esModule: true,
+  default: jest.fn(() => ({ variable: "display", className: "display" })),
+  Hanken_Grotesk: jest.fn(() => ({ variable: "sans", className: "sans" })),
+  IBM_Plex_Mono: jest.fn(() => ({ variable: "mono", className: "mono" })),
 }));
 
-describe("pressStart2P", () => {
-  it("loads the display face on the --font-display variable", () => {
-    expect(Press_Start_2P).toHaveBeenCalledWith({
-      weight: "400",
-      subsets: ["latin"],
+describe("clashDisplay", () => {
+  it("loads the display face locally on the --font-display variable", () => {
+    expect(localFont).toHaveBeenCalledWith({
+      src: "./fonts/clash-display-600.woff2",
+      weight: "600",
+      display: "swap",
       variable: "--font-display",
     });
-    expect(pressStart2P.variable).toBe("display");
+    expect(clashDisplay.variable).toBe("display");
   });
 });
 
-describe("jetBrainsMono", () => {
+describe("hankenGrotesk", () => {
+  it("loads the body face on the --font-sans variable", () => {
+    expect(Hanken_Grotesk).toHaveBeenCalledWith({
+      subsets: ["latin"],
+      variable: "--font-sans",
+    });
+    expect(hankenGrotesk.variable).toBe("sans");
+  });
+});
+
+describe("ibmPlexMono", () => {
   it("loads the mono face on the --font-mono variable", () => {
-    expect(JetBrains_Mono).toHaveBeenCalledWith({
+    expect(IBM_Plex_Mono).toHaveBeenCalledWith({
+      weight: ["400", "500", "600"],
       subsets: ["latin"],
       variable: "--font-mono",
     });
-    expect(jetBrainsMono.variable).toBe("mono");
+    expect(ibmPlexMono.variable).toBe("mono");
   });
 });
