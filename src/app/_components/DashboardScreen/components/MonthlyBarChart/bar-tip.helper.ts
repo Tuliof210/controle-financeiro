@@ -11,10 +11,18 @@ import type {
 // this one is the text of a caption, and neither has room for the other under
 // the 100-line cap.
 
-// The word the bubble prints, and the only channel that still says "projection"
-// once the chart is read in greyscale. A month counts as estimated when either
-// side of it is — the pair is read as one month's answer.
+// The word the bubble prints, and the only channel that still says which KIND of
+// fact this is once the chart is read in greyscale. A month counts as estimated
+// when either side of it is — the pair is read as one month's answer.
+//
+// Three outcomes, not two. "simulado" wins over "estimado": a what-if is a
+// weaker claim than a committed forecast, so the weaker word has to be the one
+// the reader sees. PRODUCT.md's invariant is that the three never read alike, and
+// with ?simulation=all they did.
 const tagFor = (point: MonthPoint): string => {
+  if (point.simulated) {
+    return "simulado";
+  }
   if (point.incomeEstimated || point.expenseEstimated) {
     return "estimado";
   }

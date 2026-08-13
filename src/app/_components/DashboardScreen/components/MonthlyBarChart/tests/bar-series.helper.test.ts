@@ -9,6 +9,7 @@ import type { MonthPoint } from "@/app/api/dashboard/types.ts";
 const point = {
   incomeEstimated: true,
   expenseEstimated: false,
+  simulated: false,
 } as MonthPoint;
 
 describe("estimatedFor", () => {

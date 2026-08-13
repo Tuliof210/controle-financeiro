@@ -8,6 +8,11 @@ interface Sums {
   realExpense: number;
   estIncome: number;
   estExpense: number;
+  // Whether a SIMULATED forecast contributed to each estimated side. Tracked per
+  // side, not per month, because only the side that wins the reconciliation is
+  // actually on screen — see buildSeries.
+  simIncome: boolean;
+  simExpense: boolean;
 }
 
 const emptySums = (): Sums => ({
@@ -15,6 +20,8 @@ const emptySums = (): Sums => ({
   realExpense: 0,
   estIncome: 0,
   estExpense: 0,
+  simIncome: false,
+  simExpense: false,
 });
 
 // Seeded from `months` so a month with no data at all still yields a zeroed
@@ -54,8 +61,10 @@ function addForecasts(sums: Map<number, Sums>, forecasts: Forecast[]): void {
       if (month) {
         if (forecast.type === "income") {
           month.estIncome += forecast.valueCents;
+          month.simIncome = month.simIncome || forecast.simulated;
         } else {
           month.estExpense += forecast.valueCents;
+          month.simExpense = month.simExpense || forecast.simulated;
         }
       }
     }

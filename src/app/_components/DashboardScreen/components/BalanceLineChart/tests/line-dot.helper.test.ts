@@ -12,12 +12,21 @@ const point = {
   cumulative: 5000,
   incomeEstimated: false,
   expenseEstimated: false,
+  simulated: false,
 };
 
 describe("tagFor", () => {
   it("says the projection in words, both ways", () => {
-    expect(tagFor(false)).toBe("real");
-    expect(tagFor(true)).toBe("estimado");
+    expect(tagFor(false, false)).toBe("real");
+    expect(tagFor(true, false)).toBe("estimado");
+  });
+
+  // PRODUCT.md: projected, real and simulated must never read as the same kind of
+  // fact. A what-if used to get the word "estimado", exactly like a committed
+  // forecast, with only a persisted select saying otherwise.
+  it("says simulated in its own word, and wins over estimated", () => {
+    expect(tagFor(true, true)).toBe("simulado");
+    expect(tagFor(false, true)).toBe("simulado");
   });
 });
 

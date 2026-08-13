@@ -9,7 +9,7 @@ const DOT_RADIUS = 4;
 const HIT_RADIUS = 12;
 
 export function DotMark(props: DotMarkProps) {
-  const { cx, cy, label, opacity, show, focus, hide } = useDotMark(props);
+  const { cx, cy, label, opacity, dash, show, focus, hide } = useDotMark(props);
 
   return (
     <g>
@@ -24,6 +24,7 @@ export function DotMark(props: DotMarkProps) {
         stroke="var(--color-brand)"
         strokeWidth={2}
         strokeOpacity={opacity}
+        strokeDasharray={dash}
       />
       {/* Focusable, with a role, and reachable by keyboard — it used to answer
           pointer events only, so the per-month figures (which exist nowhere else

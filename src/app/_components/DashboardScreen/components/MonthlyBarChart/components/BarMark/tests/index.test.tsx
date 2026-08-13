@@ -10,6 +10,7 @@ const props = {
   height: 40,
   fill: "var(--color-positive)",
   estimated: false,
+  simulated: false,
   tip: {
     title: "Ago/26",
     tag: "real",

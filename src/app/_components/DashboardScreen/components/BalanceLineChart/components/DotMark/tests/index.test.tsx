@@ -8,6 +8,7 @@ const props = {
   cy: 20,
   title: "ignored",
   projected: false,
+  simulated: false,
   tip: {
     title: "Ago/26",
     tag: "real",

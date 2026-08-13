@@ -1,4 +1,5 @@
 import type { FocusEvent } from "react";
+import { SIMULATED_DASHARRAY } from "../../../../chart-marks.config.ts";
 import type { TooltipContent } from "../../../ChartTooltip/chart-tooltip.types.ts";
 import { markLabel } from "../../../ChartTooltip/mark-label.helper.ts";
 
@@ -6,6 +7,14 @@ import { markLabel } from "../../../ChartTooltip/mark-label.helper.ts";
 // stroke of the path it sits on, and the ESTIMADO word in the bubble, are what
 // carry the fact without colour.
 const PROJECTED_OPACITY = 0.5;
+
+// undefined, not "none": an absent attribute leaves the ring solid, and React
+// drops it rather than writing an override.
+const dotDash = (simulated: boolean): string | undefined => {
+  if (simulated) {
+    return SIMULATED_DASHARRAY;
+  }
+};
 
 const dotOpacity = (projected: boolean): number => {
   if (projected) {
@@ -23,6 +32,9 @@ interface DotMarkProps {
   cx: number;
   cy: number;
   projected: boolean;
+  // A what-if is visible in this month's figures. It takes a DOTTED ring where a
+  // projection is a plain half-opacity one, so the two never draw alike.
+  simulated: boolean;
   tip: TooltipContent;
   showTooltip: (event: PointerLocation, content: TooltipContent) => void;
   hideTooltip: () => void;
@@ -34,6 +46,7 @@ function useDotMark({
   cx,
   cy,
   projected,
+  simulated,
   tip,
   showTooltip,
   hideTooltip,
@@ -46,6 +59,7 @@ function useDotMark({
     // figures. A `title` prop used to carry a shorter readout; it is gone.
     label: markLabel(tip),
     opacity: dotOpacity(projected),
+    dash: dotDash(simulated),
     show: (event: PointerLocation) => showTooltip(event, tip),
     // A focus event has no clientX/clientY, so the bubble is anchored to the
     // mark's own box instead of to a pointer that is not there.

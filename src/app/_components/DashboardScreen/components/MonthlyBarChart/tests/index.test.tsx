@@ -12,6 +12,7 @@ const point = (month: number) =>
     cumulative: 600,
     incomeEstimated: false,
     expenseEstimated: false,
+    simulated: false,
   }) as MonthPoint;
 
 const points = [point(202_601), point(202_602)];

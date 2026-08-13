@@ -16,8 +16,14 @@ export function buildSeries(
   let cumulative = 0;
 
   return months.map((month) => {
-    const { realIncome, realExpense, estIncome, estExpense } =
-      sums.get(month) ?? emptySums();
+    const {
+      realIncome,
+      realExpense,
+      estIncome,
+      estExpense,
+      simIncome,
+      simExpense,
+    } = sums.get(month) ?? emptySums();
     const income = Math.max(realIncome, estIncome);
     const expense = Math.max(realExpense, estExpense);
     const balance = income - expense;
@@ -33,6 +39,13 @@ export function buildSeries(
       // so the month is history, not projection.
       incomeEstimated: estIncome > realIncome,
       expenseEstimated: estExpense > realExpense,
+      // Only when a what-if is what the reader is actually LOOKING at: a
+      // simulated forecast on a side the actuals already cover changes no figure
+      // on screen, so calling that month simulated would be a lie. Always false
+      // on ?simulation=real, where simulations never reach this function.
+      simulated:
+        (estIncome > realIncome && simIncome) ||
+        (estExpense > realExpense && simExpense),
     };
   });
 }

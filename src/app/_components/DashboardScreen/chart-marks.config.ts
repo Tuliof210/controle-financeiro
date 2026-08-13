@@ -32,6 +32,21 @@ const ESTIMATED_BAR = {
 } as const;
 const REAL_BAR = { fillOpacity: 1, strokeOpacity: 0 } as const;
 
+// A SIMULATED month gets its own contour, not the projected one. PRODUCT.md says
+// projected, real and simulated must never read as the same kind of fact, and a
+// what-if used to draw exactly like a committed forecast.
+//
+// DOTTED against the projection's DASHED: told apart by pattern rather than hue,
+// the same reasoning the dashed contour exists for at all. Only the dash array
+// changes — the width and the wash stay, so a simulated bar still reads as an
+// outline of the same family rather than as a different chart.
+const SIMULATED_DASHARRAY = "1 3";
+const SIMULATED_BAR = {
+  fillOpacity: "var(--opacity-data-wash)",
+  strokeOpacity: 1,
+  strokeDasharray: SIMULATED_DASHARRAY,
+} as const;
+
 // Filled tags. Each pairs a fill with the token that is already its counterpart,
 // so the two flip together and one measurement covers both themes:
 //   --color-text-muted on --color-bg  ->  7.26:1 light,  7.30:1 dark
@@ -69,6 +84,8 @@ export {
   PROJECTED_BAND_FILL,
   projectedRuleProps,
   REAL_BAR,
+  SIMULATED_BAR,
+  SIMULATED_DASHARRAY,
   TAG_CHAR_PX,
   TAG_HEIGHT,
   TAG_LABEL_PROPS,

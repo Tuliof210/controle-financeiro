@@ -47,6 +47,7 @@ export function buildBars(points: MonthPoint[], width: number, height: number) {
         height: Math.max(0, frame.valueScale(0) - frame.valueScale(value)),
         fill: series.fill,
         estimated: estimatedFor(point, series.key),
+        simulated: point.simulated,
         tip,
       };
     });

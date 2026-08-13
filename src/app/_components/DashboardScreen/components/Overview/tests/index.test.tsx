@@ -33,6 +33,7 @@ const data = {
       cumulative: 600,
       incomeEstimated: false,
       expenseEstimated: false,
+      simulated: false,
     },
   ],
   dashedFrom: null,

@@ -22,6 +22,7 @@ const props = {
   height: 4,
   fill: "var(--color-positive)",
   estimated: false,
+  simulated: false,
   title: "Ago/26 · Entradas · R$ 10,00 · lançado",
   tip,
   plotHeight: 100,

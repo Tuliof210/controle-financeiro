@@ -15,6 +15,16 @@ export interface MonthPoint {
   cumulative: number; // running sum of balance from the range's first month
   incomeEstimated: boolean; // estimated > real -> projection, render at 50% opacity
   expenseEstimated: boolean;
+  // A SIMULATED forecast is visible in this month's figures. PRODUCT.md's
+  // invariant is that projected, real and simulated must never read as the same
+  // kind of fact, and they did: with ?simulation=all a what-if folded into the
+  // same numbers and got the same word, the same dash and the same outline as a
+  // committed forecast, with only a persisted select saying otherwise.
+  //
+  // True only when the simulated side is the one that WON the reconciliation, so
+  // it never claims a month whose figures a what-if did not move. Always false on
+  // ?simulation=real, where simulations are filtered out upstream.
+  simulated: boolean;
 }
 
 // `stdDev` and `median` used to ride here too. They were read by exactly one

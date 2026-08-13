@@ -82,13 +82,12 @@ export function BalanceLineChart(props: BalanceLineChartProps) {
         {tightestMark !== null && (
           <TightestMark {...tightestMark} height={frame.innerHeight} />
         )}
-        {dots.map((dot) => (
+        {/* `key` destructured out rather than spread: the rest of the object IS
+            the mark's props, and React warns when key arrives via a spread. */}
+        {dots.map(({ key, ...dot }) => (
           <DotMark
-            key={dot.key}
-            cx={dot.cx}
-            cy={dot.cy}
-            projected={dot.projected}
-            tip={dot.tip}
+            key={key}
+            {...dot}
             showTooltip={showTooltip}
             hideTooltip={hideTooltip}
           />
