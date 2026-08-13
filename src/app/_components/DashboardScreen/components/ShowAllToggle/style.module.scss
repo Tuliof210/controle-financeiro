@@ -1,7 +1,7 @@
 @use "theme" as t;
 
 // A full-width row rather than a right-aligned chip: it reads as one more row
-// in the list above it — the same --color-border-subtle rule MeterRow uses
+// in the list above it — the same --color-border-subtle rule the rows above use
 // between months — instead of a control floating disconnected in the corner.
 .toggle {
   display: flex;
