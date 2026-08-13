@@ -2,7 +2,8 @@ import { Button } from "@/components/Button/index.tsx";
 import { type FilePickerProps, useFilePicker } from "./hook.ts";
 
 export function FilePicker(props: FilePickerProps) {
-  const { label, disabled, inputRef, open, change } = useFilePicker(props);
+  const { label, variant, disabled, inputRef, open, change } =
+    useFilePicker(props);
 
   return (
     <>
@@ -16,7 +17,7 @@ export function FilePicker(props: FilePickerProps) {
         onChange={change}
         hidden={true}
       />
-      <Button onClick={open} disabled={disabled}>
+      <Button variant={variant} onClick={open} disabled={disabled}>
         {label}
       </Button>
     </>

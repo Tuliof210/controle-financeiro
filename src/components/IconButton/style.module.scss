@@ -1,4 +1,5 @@
 @use "theme" as t;
+@use "./variants" as *;
 
 // Compact square button for a single lucide icon (row Editar/Excluir).
 // Border matches the reworked Button (angular, subtle structural edge).
@@ -63,37 +64,5 @@
   }
 }
 
-.ghost {
-  color: var(--color-text);
-
-  &:hover:not(:disabled),
-  &:active:not(:disabled) {
-    background: var(--color-hover-wash);
-  }
-}
-
-// Trash action: at rest the icon carries the negative hue and the surface stays
-// quiet, so a row full of controls doesn't scream red. Hover commits to the
-// full negative fill — the design's behaviour, and the signal that the next
-// click destroys something.
-.danger {
-  color: var(--color-negative);
-
-  // :active is grouped with :hover, not left on its own: a Space-hold keyboard
-  // activation fires :active WITHOUT :hover, and a tint of a red glyph on a
-  // transparent surface is no press feedback at all.
-  // --color-bg, not --white — the fill is themed, and white on its dark-theme
-  // end measures 2.35:1. See _tokens-theme.scss for the rule.
-  &:hover:not(:disabled),
-  &:active:not(:disabled) {
-    background: var(--color-negative);
-    border-color: var(--color-negative);
-    color: var(--color-bg);
-  }
-
-  // Same recipe as Button's semantic fills: toward --color-text, so it darkens
-  // in light and lightens in dark, where the negative ramp is the light one.
-  &:active:not(:disabled) {
-    background: color-mix(in srgb, var(--color-negative) 88%, var(--color-text));
-  }
-}
+// The two variants live in `_variants.scss` — see the note there on why.
+@include variants;

@@ -67,7 +67,8 @@
       "headline": { "displayName": "Headline", "purpose": "Page-level titles." },
       "title": { "displayName": "Title", "purpose": "Card and modal titles; what the base h1 renders." },
       "body": { "displayName": "Body", "purpose": "Prose and explanations, capped at 65-75ch." },
-      "label": { "displayName": "Label", "purpose": "Field labels, buttons, table headers, nav items. Sentence case." },
+      "label": { "displayName": "Label", "purpose": "Field labels, table headers, nav items, legends. Sentence case." },
+      "button": { "displayName": "Button", "purpose": "Label size at 700 — the one control that goes bold." },
       "money": { "displayName": "Money", "purpose": "Every currency figure, in the body face with tabular figures." },
       "eyebrow": { "displayName": "Eyebrow", "purpose": "Card kickers, IDs, YYYY-MM dates, hex, chart axis and tag labels. The only uppercase in the system." }
     },

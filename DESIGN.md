@@ -57,6 +57,12 @@ typography:
     fontWeight: 500
     lineHeight: 1.3
     letterSpacing: "0"
+  button:
+    fontFamily: "Hanken Grotesk, system-ui, sans-serif"
+    fontSize: "0.875rem"
+    fontWeight: 700
+    lineHeight: 1.3
+    letterSpacing: "0"
   money:
     fontFamily: "Hanken Grotesk, system-ui, sans-serif"
     fontSize: "0.9375rem"
@@ -99,7 +105,7 @@ components:
   button-primary:
     backgroundColor: "{colors.signal-cobalt}"
     textColor: "{colors.cold-paper}"
-    typography: "{typography.label}"
+    typography: "{typography.button}"
     rounded: "{rounded.md}"
     padding: "8px 16px"
     height: "44px"
@@ -110,14 +116,14 @@ components:
   button-ghost:
     backgroundColor: "transparent"
     textColor: "{colors.ink}"
-    typography: "{typography.label}"
+    typography: "{typography.button}"
     rounded: "{rounded.md}"
     padding: "8px 16px"
     height: "44px"
   button-dashed:
     backgroundColor: "transparent"
     textColor: "{colors.ink}"
-    typography: "{typography.label}"
+    typography: "{typography.button}"
     rounded: "{rounded.md}"
     padding: "8px 16px"
     height: "44px"
@@ -125,7 +131,7 @@ components:
   button-danger:
     backgroundColor: "{colors.negative}"
     textColor: "{colors.cold-paper}"
-    typography: "{typography.label}"
+    typography: "{typography.button}"
     rounded: "{rounded.md}"
     padding: "8px 16px"
     height: "44px"
@@ -250,7 +256,8 @@ Seven owner/category hues (`{colors.category-violet}` through `{colors.category-
 - **Headline** (Clash Display 600, 1.75rem/28px, 1.08, -0.02em): page-level titles.
 - **Title** (Clash Display 600, 1.125rem/18px, 1.3): card and modal titles — what the base `h1` actually renders.
 - **Body** (400, 0.9375rem/15px, 1.55): prose and explanations, capped at 65–75ch.
-- **Label** (500, 0.875rem/14px, 1.3): field labels, buttons, table headers, nav items. Sentence case.
+- **Label** (500, 0.875rem/14px, 1.3): field labels, table headers, nav items, legends. Sentence case.
+- **Button** (700, 0.875rem/14px, 1.3): the same size as a label and the only control that goes bold. A button is the one thing on a surface a reader looks for rather than reads.
 - **Money** (600, tabular figures): every currency figure, in the body face — never the display face.
 - **Hero figure** (700, 1.75rem/28px, tabular figures): the answer on the inverted band. Grotesque, not display: it is money, and money keeps the body face. Cents dim to 70% opacity — measured, not the 45% that would drop them under the text floor. It breaks rather than widening the page at 375px.
 - **Eyebrow** (mono, 0.6875rem/11px, +0.14em, uppercase): the card kicker, IDs, `YYYY-MM` dates, hex values, chart axis and tag labels.
@@ -291,7 +298,7 @@ Contained and unfussy: hairline frames, soft corners, nothing extruded. A contro
 - **Danger / Success:** the semantic fill with page-colour ink on top. Hover mixes 88% of the fill toward the text colour, so it darkens in light and lightens in dark.
 - **Dashed:** a full-width dashed 2px outline — the "Adicionar …" affordance at the foot of every list card. On hover it fills cobalt and the border goes solid.
 - **Focus:** the two-layer ring on every variant. **Disabled:** a muted fill *and* a muted border, not just reduced opacity.
-- **Loading:** takes the disabled treatment and adds what separates working from unavailable — a turning `currentcolor` ring in the gap after the label, `cursor: progress`, and `aria-busy`. The ring holds still under `prefers-reduced-motion` rather than trading one animation for another.
+- **Loading:** keeps its variant fill — the muted disabled treatment measures 1.24:1 against the page and "working" must never read as "unavailable" — and adds a turning `currentcolor` ring in the gap after the label, `cursor: progress`, `aria-busy`, and a polite live region so the label swap is announced. The ring holds still under `prefers-reduced-motion` rather than trading one animation for another.
 - **Hover** is scoped to `@media (hover: hover)`, so a tap never leaves a touch device holding a hover state.
 
 ### Cards / Containers
@@ -300,6 +307,11 @@ Contained and unfussy: hairline frames, soft corners, nothing extruded. A contro
 - **Shadow Strategy:** flat by default. See Elevation.
 - **Border:** a single hairline. **Internal Padding:** 24px, with a 16px stack gap.
 - **Anatomy:** a mono eyebrow title, an optional trailing slot pushed right, then the body. Cards are never nested inside cards.
+
+### Segmented Control
+- **Shape:** a capsule track (`{rounded.full}` — one of the four shapes full radius is for) on the sunken tier with a hairline, holding one capsule segment per option at 44px minimum.
+- **Selected:** the rail's current-item recipe, reused rather than reinvented — a 12% cobalt wash mixed over the surface, Cobalt Deep text, semibold. Weight carries the state a second time and the native `checked` a third.
+- **Structure:** a real `<fieldset>` + `<legend>` over transparent native radios. The pill is the affordance, so the radio's dot is dropped — but never the radio, which owns the role, the checked state and arrow-key navigation.
 
 ### Inputs / Fields
 - **Style:** Sheet background, hairline border, 10px corners, 44px minimum height, label above the control at 13px.

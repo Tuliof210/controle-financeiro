@@ -35,6 +35,13 @@ export function useButton({
     // other.
     disabled: Boolean(disabled) || loading,
     "aria-busy": loading,
+    // `disabled` takes the button out of the tab order the instant it is
+    // pressed, so aria-busy on its own announces to nobody. The live region is
+    // the button itself: consumers swap the label ("Importar" → "Importando…")
+    // and `polite` reads the change out. Spread rather than always-on, because
+    // a live region on every button in the app would announce every label
+    // change in it, forever.
+    ...(loading && { "aria-live": "polite" as const }),
     ...rest,
   };
 }

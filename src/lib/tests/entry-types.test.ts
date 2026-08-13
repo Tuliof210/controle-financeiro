@@ -2,11 +2,7 @@
  * @jest-environment node
  */
 import { describe, expect, it } from "@jest/globals";
-import {
-  ENTRY_TYPES,
-  SELECTED_VARIANT,
-  TYPE_LABELS,
-} from "@/lib/entry-types.ts";
+import { ENTRY_TYPES, TYPE_LABELS } from "@/lib/entry-types.ts";
 
 describe("ENTRY_TYPES", () => {
   it("is income then expense", () => {
@@ -24,12 +20,5 @@ describe("TYPE_LABELS", () => {
     for (const type of ENTRY_TYPES) {
       expect(TYPE_LABELS[type]).toBeTruthy();
     }
-  });
-});
-
-describe("SELECTED_VARIANT", () => {
-  it("maps income to success and expense to danger", () => {
-    expect(SELECTED_VARIANT.income).toBe("success");
-    expect(SELECTED_VARIANT.expense).toBe("danger");
   });
 });

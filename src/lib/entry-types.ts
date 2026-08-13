@@ -17,7 +17,3 @@ export const TYPE_LABELS: Record<EntryType, string> = {
   income: "Entrada",
   expense: "Saída",
 };
-export const SELECTED_VARIANT = {
-  income: "success",
-  expense: "danger",
-} as const;

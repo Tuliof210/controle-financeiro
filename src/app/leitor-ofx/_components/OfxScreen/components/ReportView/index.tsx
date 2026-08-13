@@ -61,7 +61,7 @@ export function ReportView(props: ReportViewProps) {
       <MonthTable rows={view.rows} totals={view.totals} />
 
       {Boolean(view.error) && (
-        <p className={styles.error}>
+        <p className={styles.error} role="alert">
           <span aria-hidden={true}>{ERROR_GLYPH}</span> {view.error}
         </p>
       )}
@@ -74,8 +74,11 @@ export function ReportView(props: ReportViewProps) {
         <Button variant="ghost" onClick={view.onClose} disabled={view.loading}>
           {COPY.fechar}
         </Button>
+        {/* ghost, not the default: this discards the parsed report, and the
+            screen's one cobalt belongs on ImportAction's "Importar". */}
         <FilePicker
           label="Trocar arquivo"
+          variant="ghost"
           disabled={view.loading}
           onFile={view.onFile}
         />

@@ -18,7 +18,7 @@ beforeAll(() => {
 const props = {
   open: true,
   onClose: jest.fn(),
-  onConfirm: jest.fn(),
+  onConfirm: jest.fn<() => void>(),
   title: "Excluir pessoa",
   message: "Isso não pode ser desfeito.",
 };
@@ -41,7 +41,7 @@ describe("ConfirmDialog", () => {
   });
 
   it("confirms and cancels through their own buttons", async () => {
-    const onConfirm = jest.fn();
+    const onConfirm = jest.fn<() => void>();
     const onClose = jest.fn();
     render(
       <ConfirmDialog

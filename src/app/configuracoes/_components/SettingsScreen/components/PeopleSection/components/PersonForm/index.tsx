@@ -1,6 +1,7 @@
 import { Button } from "@/components/Button/index.tsx";
 import { ColorPicker } from "@/components/ColorPicker/index.tsx";
 import { TextField } from "@/components/TextField/index.tsx";
+import { onSubmitForm } from "@/lib/form.helper.ts";
 import { type PersonFormProps, usePersonForm } from "./hook.ts";
 import styles from "./style.module.scss";
 
@@ -18,7 +19,7 @@ export function PersonForm({
   });
 
   return (
-    <div className={styles.form}>
+    <form className={styles.form} onSubmit={onSubmitForm(submit)}>
       <TextField
         id={NAME_ID}
         label="Nome"
@@ -27,9 +28,9 @@ export function PersonForm({
         error={error}
       />
       <ColorPicker value={color} onChange={setColor} />
-      <Button onClick={submit} disabled={!name.trim()}>
+      <Button type="submit" disabled={!name.trim()}>
         {submitLabel}
       </Button>
-    </div>
+    </form>
   );
 }

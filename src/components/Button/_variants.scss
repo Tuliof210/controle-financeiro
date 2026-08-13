@@ -1,3 +1,5 @@
+@use "theme" as t;
+
 // The five variants, split off `style.module.scss` under the exception
 // ARCHITECTURE.md grants `RowGrid/_tiers.scss`: a mixin that emits nothing on
 // its own, included once by the stylesheet beside it, so neither file crosses
@@ -57,18 +59,17 @@
   // at the bottom of every list card. A consumer needing the negative tint
   // composes it at the call site; one use does not earn a `dashed-danger`.
   .dashed {
-    justify-content: center;
     width: 100%;
     background: transparent;
     color: var(--color-text);
     border: var(--border-2) dashed var(--color-border);
   }
 
-  // Hover is a POINTER affordance, and the five rules live together here for
-  // that reason: on a touch screen a tap latches :hover and it stays until
-  // focus moves — most visible on `.dashed`, which would sit filled and
-  // solid-bordered, reading as a different control than the one tapped.
-  @media (hover: hover) {
+  // The five hover rules live together because they share one gate: see
+  // `on-hover` in _theme.scss for why a painted :hover must not fire on touch.
+  // Any call site composing its own hover on top of these (EntrySection) has to
+  // reach for the same mixin, or it latches with half the paint.
+  @include t.on-hover {
     .primary:hover:not(:disabled) {
       background: var(--color-brand-hover);
     }
@@ -86,10 +87,13 @@
     }
 
     // Also --color-bg, for the same reason `.primary` is: this IS the primary
-    // fill, arrived at from the dashed rest state.
+    // fill, arrived at from the dashed rest state — including its border, which
+    // `.primary` drops. `border-style: solid` alone left a grey frame around a
+    // cobalt fill, the one thing a filled action in this system never has.
     .dashed:hover:not(:disabled) {
       background: var(--color-brand);
       color: var(--color-bg);
+      border-color: transparent;
       border-style: solid;
     }
   }

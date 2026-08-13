@@ -1,0 +1,55 @@
+@use "theme" as t;
+
+// The two variants, split off `style.module.scss` under the exception
+// ARCHITECTURE.md grants `RowGrid/_tiers.scss`: a mixin that emits nothing on
+// its own, included once by the stylesheet beside it, so neither file crosses
+// the 100-line cap. Not a component — the base box lives next door.
+//
+// :hover and :active are no longer one selector list. They were grouped while
+// both were ungated; now that the paint is behind `on-hover` (see _theme.scss)
+// they have to be declared apart, because :active must NOT be gated — on a
+// touch screen it is the only press feedback there is, and a Space-hold
+// keyboard activation fires :active WITHOUT :hover.
+
+@mixin variants {
+  .ghost {
+    color: var(--color-text);
+
+    &:active:not(:disabled) {
+      background: var(--color-hover-wash);
+    }
+
+    @include t.on-hover {
+      &:hover:not(:disabled) {
+        background: var(--color-hover-wash);
+      }
+    }
+  }
+
+  // Trash action: at rest the icon carries the negative hue and the surface
+  // stays quiet, so a row full of controls doesn't scream red. Hover commits to
+  // the full negative fill — the signal that the next click destroys something.
+  // Gated, or a tap on a row's delete leaves it filled red until focus moves,
+  // which on `/previsoes` means up to 25 latched red squares.
+  .danger {
+    color: var(--color-negative);
+
+    // --color-bg, not --white — the fill is themed, and white on its dark-theme
+    // end measures 2.35:1. See _tokens-theme.scss for the rule. The press mixes
+    // toward --color-text, the same recipe as Button's semantic fills: it
+    // darkens in light and lightens in dark, where the negative ramp is light.
+    &:active:not(:disabled) {
+      background: color-mix(in srgb, var(--color-negative) 88%, var(--color-text));
+      border-color: var(--color-negative);
+      color: var(--color-bg);
+    }
+
+    @include t.on-hover {
+      &:hover:not(:disabled) {
+        background: var(--color-negative);
+        border-color: var(--color-negative);
+        color: var(--color-bg);
+      }
+    }
+  }
+}

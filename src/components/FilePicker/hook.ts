@@ -1,12 +1,22 @@
 import { type ChangeEvent, useRef } from "react";
+import type { ButtonProps } from "@/components/Button/hook.ts";
 
 export interface FilePickerProps {
   label: string;
+  // Defaults to Button's own default. It exists because ReportView needs this
+  // one ghost: cobalt marks the action a screen is FOR, and on the OFX report
+  // that is "Importar", not the picker that throws the parsed report away.
+  variant?: ButtonProps["variant"];
   disabled?: boolean;
   onFile: (file: File) => void;
 }
 
-export function useFilePicker({ label, disabled, onFile }: FilePickerProps) {
+export function useFilePicker({
+  label,
+  variant,
+  disabled,
+  onFile,
+}: FilePickerProps) {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const open = () => inputRef.current?.click();
@@ -21,5 +31,5 @@ export function useFilePicker({ label, disabled, onFile }: FilePickerProps) {
     event.target.value = "";
   };
 
-  return { label, disabled, inputRef, open, change };
+  return { label, variant, disabled, inputRef, open, change };
 }

@@ -2,20 +2,15 @@ import { useEffect, useState } from "react";
 import type { Settings } from "@/core/entities/settings.entity.ts";
 import { apiGet, apiPut } from "@/lib/api.ts";
 
-// The button reports the last save rather than offering the same action twice,
-// so the label and the variant move together.
-const saveVariantFor = (saved: boolean) => {
+// The save is reported beside the button, not on it. It used to swap the label
+// to "Salvo" and the variant to `success`, which spent the semantic green on a
+// past-tense readout, renamed the focused control without announcing it, and
+// left the reader with a button that no longer said what pressing it would do.
+const savedMessageFor = (saved: boolean): string => {
   if (saved) {
-    return "success" as const;
+    return "Meta salva.";
   }
-  return "primary" as const;
-};
-
-const saveLabelFor = (saved: boolean): string => {
-  if (saved) {
-    return "Salvo";
-  }
-  return "Salvar";
+  return "";
 };
 
 // No modal and no refetch, unlike its two neighbours: this section is one row
@@ -38,8 +33,8 @@ export function useSpendingGoalSection() {
     });
   }, []);
 
-  // Typing invalidates the "Salvo" label — otherwise the button claims an
-  // amount is stored while the field shows a different one.
+  // Typing clears the confirmation — otherwise the card claims an amount is
+  // stored while the field shows a different one.
   const onChange = (value: number) => {
     setCents(value);
     setSaved(false);
@@ -56,9 +51,8 @@ export function useSpendingGoalSection() {
     error,
     onChange,
     onSave,
-    // The button reports the last save rather than offering the same action
-    // twice, so the label and the variant move together.
-    saveVariant: saveVariantFor(saved),
-    saveLabel: saveLabelFor(saved),
+    // Empty rather than absent: the <p> carrying this is a live region, and a
+    // region has to be in the DOM before its text changes to be announced.
+    savedMessage: savedMessageFor(saved),
   };
 }

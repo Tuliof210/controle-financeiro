@@ -36,7 +36,14 @@
 
   // Distinct disabled: muted fill + border, not just opacity. No box-shadow
   // reset any more — no variant casts one.
-  &:disabled {
+  //
+  // `:not(.loading)` is the whole difference between "unavailable" and
+  // "working". A busy button is disabled (one submit, not two) but it must not
+  // LOOK disabled: the muted fill measures 1.24:1 against the page in dark and
+  // 1.05:1 in light, so the one control that matters used to dissolve at the
+  // exact moment it was writing to the database. It keeps its variant fill now
+  // and says the rest with the ring below.
+  &:disabled:not(.loading) {
     cursor: not-allowed;
     background: var(--color-surface-raised);
     border-color: var(--color-border-subtle);
@@ -44,9 +51,8 @@
   }
 }
 
-// Busy. The hook disables the button while it loads, so it takes the muted
-// disabled fill above and this adds what tells the two apart: a ring that turns,
-// and a cursor that says wait rather than no.
+// Busy: the variant's own fill, a ring that turns, and a cursor that says wait
+// rather than no.
 .loading {
   cursor: progress;
 

@@ -1,3 +1,5 @@
+@use "theme" as t;
+
 // `.positive`/`.negative` are reached by a CSS-Modules string lookup
 // (`styles[tone]` in index.tsx) — renaming either kills the tint and the
 // Saídas hover with no compile error and no test failure.
@@ -23,14 +25,19 @@
   color: var(--color-negative);
 }
 
-.add {
-  gap: var(--space-2);
-}
-
 // The Saídas add button fills negative instead of brand on hover. Composed at
 // the call site on the shared `dashed` variant rather than a new variant, per
 // the note in Button/style.module.scss.
-.add.negative:hover:not(:disabled) {
-  background: var(--color-negative);
-  border-color: var(--color-negative);
+//
+// Same gate as the variant it composes over, and the `color` is NOT optional:
+// this rule used to inherit it from `.dashed:hover` firing alongside, so when
+// that one moved behind the gate and this one did not, a tap on a touch screen
+// latched --color-text on --color-negative — 2.23:1 dark, 3.31:1 light. With
+// the ink declared here it is 8.21:1 dark, 5.15:1 light, gate or no gate.
+@include t.on-hover {
+  .add.negative:hover:not(:disabled) {
+    background: var(--color-negative);
+    border-color: var(--color-negative);
+    color: var(--color-bg);
+  }
 }

@@ -28,7 +28,7 @@ describe("SpendingGoalSection", () => {
     );
   });
 
-  it("reports the save on the button", async () => {
+  it("confirms the save in a live region beside the button", async () => {
     render(<SpendingGoalSection />);
     await waitFor(() =>
       expect(screen.getByLabelText("Meta mensal")).toHaveValue("7,00"),
@@ -36,9 +36,8 @@ describe("SpendingGoalSection", () => {
 
     await userEvent.click(screen.getByRole("button", { name: "Salvar" }));
 
-    expect(
-      await screen.findByRole("button", { name: "Salvo" }),
-    ).toBeInTheDocument();
+    expect(await screen.findByRole("status")).toHaveTextContent("Meta salva.");
+    expect(screen.getByRole("button", { name: "Salvar" })).toBeInTheDocument();
   });
 
   it("shows a refused save", async () => {

@@ -1,4 +1,87 @@
+@use "theme" as t;
+
+// A segmented pill — one of the four shapes README rule 2 licenses
+// --radius-full for, and the shape this control was faking with two Buttons.
 .toggle {
   display: flex;
-  gap: var(--space-2);
+  flex-direction: column;
+  gap: var(--space-1);
+  // The <fieldset> reset. Its default min-inline-size is min-content, which
+  // makes the pill refuse to shrink inside the 375px modal.
+  min-inline-size: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+// Visible, not screen-reader-only: every other field in this form carries a
+// label above it (Nome, Valor, Responsável), and a bare pill in that column
+// would be the one control the reader has to infer.
+.legend {
+  padding: 0;
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  color: var(--color-text);
+}
+
+.segments {
+  display: flex;
+  gap: var(--space-1);
+  padding: var(--space-1);
+  background: var(--color-surface-raised);
+  border: var(--border-1) solid var(--color-border);
+  border-radius: var(--radius-full);
+}
+
+.segment {
+  position: relative;
+  display: flex;
+  flex: 1;
+}
+
+// The native radio is kept and made transparent rather than replaced or
+// `display: none`d: it carries the role, the checked state and the arrow-key
+// navigation the browser gives a radio group for free. Only its dot is
+// dropped, because inside a segmented pill the pill IS the affordance — a dot
+// beside a highlighted label is the same state drawn twice.
+.input {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.option {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--size-tap);
+  padding: 0 var(--space-3);
+  border-radius: var(--radius-full);
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  color: var(--color-text);
+  transition: background var(--duration-fast) var(--ease-snappy);
+}
+
+// The current-selection recipe, taken from the rail's active item rather than
+// invented: a 12% cobalt wash mixed over the surface, brand-tone text, and
+// semibold. Weight carries the state a second time and the radio's own
+// `checked` a third, so it is never colour-only.
+.input:checked + .option {
+  background: color-mix(in srgb, var(--color-brand) 12%, var(--color-surface));
+  color: var(--color-brand-text);
+  font-weight: var(--weight-semibold);
+}
+
+.input:focus-visible + .option {
+  @include t.focus-ring;
+}
+
+@include t.on-hover {
+  .input:not(:checked):hover + .option {
+    background: var(--color-hover-wash);
+  }
 }

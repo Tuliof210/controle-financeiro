@@ -19,8 +19,7 @@ describe("useSpendingGoalSection", () => {
     const { result } = renderHook(() => useSpendingGoalSection());
 
     await waitFor(() => expect(result.current.cents).toBe(700));
-    expect(result.current.saveLabel).toBe("Salvar");
-    expect(result.current.saveVariant).toBe("primary");
+    expect(result.current.savedMessage).toBe("");
   });
 
   it("reads a never-saved singleton as zero", async () => {
@@ -40,7 +39,7 @@ describe("useSpendingGoalSection", () => {
     await waitFor(() => expect(result.current.error).toBe("Erro ao carregar"));
   });
 
-  it("reports the save on the button itself", async () => {
+  it("confirms the save beside the button", async () => {
     const { result } = renderHook(() => useSpendingGoalSection());
     await waitFor(() => expect(result.current.cents).toBe(700));
 
@@ -51,11 +50,10 @@ describe("useSpendingGoalSection", () => {
     expect(apiPut).toHaveBeenCalledWith("/api/settings", {
       monthlyGoalCents: 700,
     });
-    expect(result.current.saveLabel).toBe("Salvo");
-    expect(result.current.saveVariant).toBe("success");
+    expect(result.current.savedMessage).toBe("Meta salva.");
   });
 
-  it("stops claiming Salvo the moment the field changes", async () => {
+  it("drops the confirmation the moment the field changes", async () => {
     const { result } = renderHook(() => useSpendingGoalSection());
     await waitFor(() => expect(result.current.cents).toBe(700));
     await act(async () => {
@@ -67,7 +65,7 @@ describe("useSpendingGoalSection", () => {
     });
 
     expect(result.current.cents).toBe(900);
-    expect(result.current.saveLabel).toBe("Salvar");
+    expect(result.current.savedMessage).toBe("");
   });
 
   it("reports a refused save", async () => {
@@ -80,6 +78,6 @@ describe("useSpendingGoalSection", () => {
     });
 
     expect(result.current.error).toBe("Dados inválidos");
-    expect(result.current.saveLabel).toBe("Salvar");
+    expect(result.current.savedMessage).toBe("");
   });
 });

@@ -3,6 +3,7 @@
 import { Button } from "@/components/Button/index.tsx";
 import { MoneyInput } from "@/components/MoneyInput/index.tsx";
 import { TextField } from "@/components/TextField/index.tsx";
+import { onSubmitForm } from "@/lib/form.helper.ts";
 import { ERROR_GLYPH } from "@/lib/glyphs.ts";
 import { type GoalFormProps, useGoalForm } from "./hook.ts";
 import styles from "./style.module.scss";
@@ -26,7 +27,7 @@ export function GoalForm({
   const shownError = localError ?? error;
 
   return (
-    <div className={styles.form}>
+    <form className={styles.form} onSubmit={onSubmitForm(handleSubmit)}>
       <TextField id={NAME_ID} label="Nome" value={name} onChange={setName} />
       <MoneyInput
         valueCents={targetCents}
@@ -34,11 +35,11 @@ export function GoalForm({
         ariaLabel="Valor alvo"
       />
       {Boolean(shownError) && (
-        <p className={styles.error}>
+        <p className={styles.error} role="alert">
           <span aria-hidden={true}>{ERROR_GLYPH}</span> {shownError}
         </p>
       )}
-      <Button onClick={handleSubmit}>{submitLabel}</Button>
-    </div>
+      <Button type="submit">{submitLabel}</Button>
+    </form>
   );
 }

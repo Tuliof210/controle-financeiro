@@ -14,23 +14,24 @@ describe("useTypeToggle", () => {
     ]);
   });
 
-  it("accents the selected type and quiets the rest", () => {
+  it("checks the selected type and only that one", () => {
     const { result } = renderHook(() =>
       useTypeToggle({ value: "expense", onChange: jest.fn() }),
     );
 
-    expect(result.current.options.map((option) => option.variant)).toEqual([
-      "ghost",
-      "danger",
+    expect(result.current.options.map((option) => option.checked)).toEqual([
+      false,
+      true,
     ]);
   });
 
-  it("accents an income selection with the success variant", () => {
+  it("groups both options under one radio name", () => {
     const { result } = renderHook(() =>
       useTypeToggle({ value: "income", onChange: jest.fn() }),
     );
 
-    expect(result.current.options[0].variant).toBe("success");
+    expect(result.current.name).toBe("entry-type");
+    expect(result.current.options[0].checked).toBe(true);
   });
 
   it("reports the type an option stands for", () => {

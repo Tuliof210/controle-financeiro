@@ -3,6 +3,7 @@ import { Modal } from "@/components/Modal/index.tsx";
 import { SelectField } from "@/components/SelectField/index.tsx";
 import { TextField } from "@/components/TextField/index.tsx";
 import { Tooltip } from "@/components/Tooltip/index.tsx";
+import { onSubmitForm } from "@/lib/form.helper.ts";
 import { ERROR_GLYPH } from "@/lib/glyphs.ts";
 import { type ImportActionProps, useImportAction } from "./hook.ts";
 import styles from "./style.module.scss";
@@ -12,6 +13,7 @@ const COPY = {
   cancelar: "Cancelar",
 } as const;
 
+const FORM_ID = "ofx-import-form";
 const IDENTIFIER_ID = "ofx-import-identifier";
 const OWNER_ID = "ofx-import-owner";
 
@@ -20,15 +22,10 @@ export function ImportAction(props: ImportActionProps) {
 
   return (
     <>
-      {/* `success`, not the default primary: "Trocar arquivo" beside it is
-          already primary and FilePicker takes no variant, so a second one
-          would leave the row with two equal-weight actions. This is also the
-          only control on the screen that writes anything. */}
-      <Button
-        variant="success"
-        onClick={view.openDialog}
-        disabled={view.imported}
-      >
+      {/* The default primary, now that FilePicker takes a variant and
+          "Trocar arquivo" is ghost: this is the only control on the screen
+          that writes anything, so it is the one that gets the cobalt. */}
+      <Button onClick={view.openDialog} disabled={view.imported}>
         {COPY.importar}
       </Button>
       {/* Beside the button, never wrapping it: a disabled <button> fires no
@@ -48,8 +45,12 @@ export function ImportAction(props: ImportActionProps) {
             <Button variant="ghost" onClick={view.close}>
               {COPY.cancelar}
             </Button>
+            {/* The commit sits in Modal's footer, outside the <form> it
+                submits — `form` is the attribute that reunites them, and it is
+                what makes Enter in either field commit the import. */}
             <Button
-              onClick={view.submit}
+              type="submit"
+              form={FORM_ID}
               disabled={!view.canSubmit}
               loading={view.busy}
             >
@@ -59,7 +60,11 @@ export function ImportAction(props: ImportActionProps) {
         }
       >
         {Boolean(view.open) && (
-          <div className={styles.form}>
+          <form
+            id={FORM_ID}
+            className={styles.form}
+            onSubmit={onSubmitForm(view.submit)}
+          >
             <TextField
               id={IDENTIFIER_ID}
               label="Identificador do documento"
@@ -77,11 +82,11 @@ export function ImportAction(props: ImportActionProps) {
             />
             <p className={styles.summary}>{view.summary}</p>
             {Boolean(view.error) && (
-              <p className={styles.error}>
+              <p className={styles.error} role="alert">
                 <span aria-hidden={true}>{ERROR_GLYPH}</span> {view.error}
               </p>
             )}
-          </div>
+          </form>
         )}
       </Modal>
     </>

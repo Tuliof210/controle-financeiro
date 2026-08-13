@@ -67,4 +67,13 @@ describe("EntryForm", () => {
 
     expect(onSubmit).toHaveBeenCalled();
   });
+
+  it("submits on Enter from a field, without reloading the page", async () => {
+    const onSubmit = jest.fn();
+    render(<EntryForm {...props} onSubmit={onSubmit} />);
+
+    await userEvent.type(screen.getByLabelText("Nome"), "{Enter}");
+
+    expect(onSubmit).toHaveBeenCalledTimes(1);
+  });
 });

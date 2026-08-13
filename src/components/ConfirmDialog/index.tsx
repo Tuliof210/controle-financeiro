@@ -19,10 +19,12 @@ export function ConfirmDialog({
   confirmLabel,
   danger,
 }: ConfirmDialogProps) {
-  const { confirmLabel: label, variant } = useConfirmDialog({
-    confirmLabel,
-    danger,
-  });
+  const {
+    confirmLabel: label,
+    variant,
+    busy,
+    confirm,
+  } = useConfirmDialog({ confirmLabel, danger, onConfirm });
 
   return (
     <Modal
@@ -34,7 +36,7 @@ export function ConfirmDialog({
           <Button variant="ghost" onClick={onClose}>
             {COPY.cancelar}
           </Button>
-          <Button variant={variant} onClick={onConfirm}>
+          <Button variant={variant} onClick={confirm} loading={busy}>
             {label}
           </Button>
         </>
@@ -42,7 +44,7 @@ export function ConfirmDialog({
     >
       <p className={styles.message}>{message}</p>
       {Boolean(error) && (
-        <p className={styles.error}>
+        <p className={styles.error} role="alert">
           <span aria-hidden={true}>{ERROR_GLYPH}</span> {error}
         </p>
       )}

@@ -5,18 +5,19 @@ import userEvent from "@testing-library/user-event";
 import { TypeToggle } from "@/components/EntryForm/components/TypeToggle/index.tsx";
 
 describe("TypeToggle", () => {
-  it("renders one button per entry type", () => {
+  it("renders a labelled radio per entry type, with the current one checked", () => {
     render(<TypeToggle value="income" onChange={jest.fn()} />);
 
-    expect(screen.getByRole("button", { name: "Entrada" })).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "Saída" })).toBeInTheDocument();
+    expect(screen.getByRole("group", { name: "Tipo" })).toBeInTheDocument();
+    expect(screen.getByRole("radio", { name: "Entrada" })).toBeChecked();
+    expect(screen.getByRole("radio", { name: "Saída" })).not.toBeChecked();
   });
 
   it("reports the type that was picked", async () => {
     const onChange = jest.fn();
     render(<TypeToggle value="income" onChange={onChange} />);
 
-    await userEvent.click(screen.getByRole("button", { name: "Saída" }));
+    await userEvent.click(screen.getByRole("radio", { name: "Saída" }));
 
     expect(onChange).toHaveBeenCalledWith("expense");
   });

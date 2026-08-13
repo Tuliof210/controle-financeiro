@@ -38,6 +38,18 @@ $row-one-line-floor: 440px;
   box-shadow: var(--focus-ring);
 }
 
+// Hover is a POINTER affordance. Without this gate a tap latches :hover on a
+// touch screen and it stays until focus moves — and a rule that only composes
+// correctly WITH a sibling :hover (EntrySection's negative add button over
+// Button's `.dashed`) latches half-painted, which is how that one reached
+// 2.23:1. Every :hover that PAINTS goes inside; :active does not — on a touch
+// device it is the only press feedback there is.
+@mixin on-hover {
+  @media (hover: hover) {
+    @content;
+  }
+}
+
 @mixin elevation($level) {
   @if $level == flat {
     box-shadow: var(--elevation-flat);

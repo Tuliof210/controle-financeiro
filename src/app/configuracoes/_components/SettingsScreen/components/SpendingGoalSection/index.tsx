@@ -4,6 +4,7 @@ import { Wallet } from "lucide-react";
 import { Button } from "@/components/Button/index.tsx";
 import { MoneyInput } from "@/components/MoneyInput/index.tsx";
 import { SectionCard } from "@/components/SectionCard/index.tsx";
+import { onSubmitForm } from "@/lib/form.helper.ts";
 import { ERROR_GLYPH } from "@/lib/glyphs.ts";
 import { useSpendingGoalSection } from "./hook.ts";
 import styles from "./style.module.scss";
@@ -14,10 +15,11 @@ const COPY = {
     "Quanto você pretende gastar por mês. Com ela salva, o Teto de Gastos ganha o alvo",
   queLiberaEste:
     ", que libera este valor ou o teto do mês — o que for menor. Zero desliga o alvo.",
+  salvar: "Salvar",
 } as const;
 
 export function SpendingGoalSection() {
-  const { cents, error, onChange, onSave, saveVariant, saveLabel } =
+  const { cents, error, onChange, onSave, savedMessage } =
     useSpendingGoalSection();
 
   return (
@@ -26,19 +28,24 @@ export function SpendingGoalSection() {
         {COPY.quantoVocePretende} <strong>{COPY.meta}</strong>
         {COPY.queLiberaEste}
       </p>
-      <MoneyInput
-        valueCents={cents}
-        onChange={onChange}
-        ariaLabel="Meta mensal"
-      />
-      {Boolean(error) && (
-        <p className={styles.error}>
-          <span aria-hidden={true}>{ERROR_GLYPH}</span> {error}
+      <form className={styles.form} onSubmit={onSubmitForm(onSave)}>
+        <MoneyInput
+          valueCents={cents}
+          onChange={onChange}
+          ariaLabel="Meta mensal"
+        />
+        {Boolean(error) && (
+          <p className={styles.error} role="alert">
+            <span aria-hidden={true}>{ERROR_GLYPH}</span> {error}
+          </p>
+        )}
+        <Button type="submit">{COPY.salvar}</Button>
+        {/* Always rendered, empty until a save lands: a live region announces a
+            text change, not its own insertion. */}
+        <p className={styles.saved} role="status">
+          {savedMessage}
         </p>
-      )}
-      <Button variant={saveVariant} onClick={onSave}>
-        {saveLabel}
-      </Button>
+      </form>
     </SectionCard>
   );
 }
