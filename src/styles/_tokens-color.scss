@@ -1,37 +1,74 @@
 // ---- Color primitives (theme-independent) ---------------------------------
+// The Monevo ramps: a cool neutral scale carrying ~90% of the interface, and
+// cobalt as the single brand hue, spent only on the primary action and the
+// mark. Semantics speak financial state and nothing else — a normal expense is
+// not red. Values come from the target's tokens/colors.css except where a
+// contrast measurement forced a step darker; those carry their own note.
 :root {
-  --violet-300: #b5a3ff;
-  --violet-400: #8b6bff;
-  --violet-500: #6c4cf1;
-  --violet-600: #5433d6;
-  --lime-300: #c6ff57;
-  --lime-400: #b4e86d;
-  --lime-500: #a3e635;
-  --green-400: #3be38a;
-  --green-500: #1fb86a;
-  --red-400: #ff5a52;
-  --red-500: #f0453d;
-  --amber-400: #ffb84d;
-  --amber-500: #f5a524;
-  --cyan-400: #4fd0ff;
-  --cyan-500: #2ab6e6;
-  --magenta-400: #ff5cbe;
-  --magenta-500: #f03da6;
-  --ink-900: #0e0f14;
-  --ink-800: #181a22;
-  --ink-700: #242733;
-  --ink-600: #3a3e4d;
-  // Darkened from #6b7180. Its sole consumer is --color-text-muted, and that
-  // token was marginal: 4.88:1 on --color-surface (white) but 4.40:1 on
-  // --color-bg (paper), under rule 7's 4.5:1 floor. Every muted text in the app
-  // sat on a surface until PageHeader put one on the page background. #5f6573
-  // measures 5.26:1 on paper and 5.84:1 on white — still clearly muted.
-  --ink-500: #5f6573;
-  --ink-400: #9aa0ae;
-  --ink-300: #c7cbd4;
-  --ink-200: #e4e6ec;
-  --ink-100: #f0f1f4;
-  --ink-050: #ededf2;
-  --paper: #f5f3ec;
   --white: #ffffff;
+
+  // Neutrals — ink (#14171c) → cold off-white (#f8f9fb).
+  --neutral-950: #0c0e12;
+  --neutral-900: #14171c;
+  --neutral-800: #20242c;
+  --neutral-700: #333a45;
+  --neutral-600: #4c5460;
+  --neutral-500: #6b7480;
+  --neutral-400: #99a1ad;
+  --neutral-300: #c4c9d1;
+  --neutral-200: #e2e5ea;
+  --neutral-150: #ebeef1;
+  --neutral-100: #f2f4f6;
+  --neutral-50: #f8f9fb;
+
+  // Cobalt — the only brand hue. 600 is the anchor.
+  --cobalt-900: #182c69;
+  --cobalt-800: #1b3585;
+  --cobalt-700: #1e40a6;
+  --cobalt-600: #2550cc;
+  --cobalt-500: #3a61d9;
+  --cobalt-400: #5e81e7;
+  --cobalt-300: #92abf3;
+  --cobalt-200: #bbcbfa;
+  --cobalt-100: #dce4fd;
+  --cobalt-50: #eef2fe;
+
+  // Semantic trios — foreground paired with its own wash and hairline. Light
+  // values here; --tokens-dark.scss overrides all twelve for the dark theme.
+  // Three foregrounds are one step darker than the target's: #0e8c57 measured
+  // 3.88:1 on --neutral-100, #b5560e 4.43:1 and #0f73a6 4.47:1 on their own
+  // washes — all under rule 7's 4.5:1 floor, the same trade --neutral-600
+  // (below) already carries for muted text.
+  --positive-fg: #0a7548;
+  --positive-bg: #e3f4ec;
+  --positive-border: #b6e2cc;
+  --negative-fg: #c92a36;
+  --negative-bg: #fbe7e8;
+  --negative-border: #f2c2c5;
+  --alert-fg: #9c4a0c;
+  --alert-bg: #fbebdd;
+  --alert-border: #f1d2b2;
+  --info-fg: #0c6b9b;
+  --info-bg: #e0f0f8;
+  --info-border: #bbddec;
+
+  // Category hues — one per PALETTE key in src/lib/palette.ts. The keys are
+  // persisted strings validated by a z.enum, so they are renames-forbidden and
+  // the VALUE is what moves: seven of the target's ten editorial hues, each
+  // distinguishable from the others and from cobalt.
+  --cat-violet: #7b5bc4;
+  --cat-lime: #5e8c36;
+  --cat-magenta: #9c57a0;
+  --cat-green: #2e7d6b;
+  --cat-red: #b14a5c;
+  --cat-amber: #a56a2e;
+  --cat-cyan: #2c84a8;
+
+  // Deprecated — the two pre-Monevo primitives still read from a *.module.scss
+  // as literal ink-on-fill values (--ink-900 nine times, --violet-600 once as
+  // the brand band's fill). T2 removes them when it sweeps those files; until
+  // then they must resolve, or the text they paint goes transparent with no
+  // build or runtime error. See the PR body for the exact call sites.
+  --ink-900: var(--neutral-900);
+  --violet-600: var(--cobalt-700);
 }
