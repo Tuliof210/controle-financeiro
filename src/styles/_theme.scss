@@ -47,14 +47,8 @@ $row-one-line-floor: 440px;
     box-shadow: var(--elevation-overlay);
   } @else if $level == modal {
     box-shadow: var(--elevation-modal);
-  } @else if $level == press {
-    box-shadow: var(--elevation-press);
-  } @else if $level == press-active {
-    box-shadow: var(--elevation-press-active);
-  } @else if $level == panel {
-    box-shadow: var(--elevation-panel);
   } @else {
-    @error "Unknown elevation level: #{$level}. Use flat, raised, overlay, modal, press, press-active, or panel.";
+    @error "Unknown elevation level: #{$level}. Use flat, raised, overlay, or modal.";
   }
 }
 

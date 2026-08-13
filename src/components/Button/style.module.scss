@@ -20,21 +20,29 @@
   cursor: pointer;
   transition:
     background var(--duration-fast) var(--ease-snappy),
-    filter var(--duration-fast) var(--ease-snappy);
+    filter var(--duration-fast) var(--ease-snappy),
+    transform var(--duration-fast) var(--ease-snappy);
 
   &:focus-visible {
     @include t.focus-ring;
   }
 
-  // Distinct disabled: muted fill + border, not just opacity. The explicit flat
-  // elevation is load-bearing — without it a disabled primary keeps casting a
-  // press shadow it cannot act on.
+  // Press, for every variant at once. It replaces the old `translate(2px, 2px)`
+  // that only `.primary` had: that displacement only read as physical because a
+  // hard offset shadow shortened under it, and with the extrusion gone a 2px
+  // jump is motion with nothing behind it. A uniform sub-1% scale is the
+  // target's press, and it needs no shadow to explain itself.
+  &:active:not(:disabled) {
+    transform: scale(0.985);
+  }
+
+  // Distinct disabled: muted fill + border, not just opacity. No box-shadow
+  // reset needed any more — no variant casts one to begin with.
   &:disabled {
     cursor: not-allowed;
     background: var(--color-surface-raised);
     border-color: var(--color-border-subtle);
     color: var(--color-text-muted);
-    box-shadow: var(--elevation-flat);
   }
 }
 
@@ -56,16 +64,6 @@
 
 .primary {
   background: var(--color-brand);
-  // README rule 3, as amended: the hard offset shadow is scoped to the primary
-  // action and the modal panel. `danger`/`success` deliberately go without.
-  @include t.elevation(press);
-
-  // The 2px displacement plus the shortened shadow is what makes the press read
-  // as physical — both or neither.
-  &:active:not(:disabled) {
-    transform: translate(2px, 2px);
-    @include t.elevation(press-active);
-  }
 }
 
 .danger {

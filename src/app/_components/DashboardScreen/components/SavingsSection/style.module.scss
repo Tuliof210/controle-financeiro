@@ -24,11 +24,9 @@
   background: var(--color-surface);
   border: var(--border-2) solid var(--color-border);
   border-radius: var(--radius-md);
-  // README rule 3, as amended: a card carrying a filled BAND is the third scope
-  // for the hard offset shadow. The fill moved from the whole card to its header
-  // here, which is the rule's other admitted shape — the extrusion moves with it
-  // rather than being lost.
-  @include t.elevation(press);
+  // Same reading as SectionCard's banded card, and the same level: a filled
+  // header makes this a distinct object on the page rather than a region of it.
+  @include t.elevation(raised);
 
   @include t.bp("lg") {
     --goal-cols: minmax(180px, 1.2fr) repeat(3, minmax(0, 1fr));

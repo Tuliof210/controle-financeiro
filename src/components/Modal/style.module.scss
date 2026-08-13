@@ -10,9 +10,9 @@
   // ponytail: no container-width token exists in the DS; matches the `sm` bp.
   max-width: 480px;
   z-index: var(--z-modal);
-  // README rule 3, as amended: the large hard offset shadow is scoped to the
-  // modal panel, and replaces the blur overlay shadow that used to sit here.
-  @include t.elevation(panel);
+  // README rule 3: the modal is the one layer that genuinely floats over the
+  // whole page, so it takes the deepest level on the scale.
+  @include t.elevation(modal);
 
   // Dimmed scrim derived from the bg token — theme-aware, no hardcoded color.
   &::backdrop {

@@ -48,10 +48,10 @@ read as the light value.
    something. Reach for a shadow only when the layer genuinely floats over
    content: `--elevation-raised` is the resting card, `--elevation-overlay` the
    dropdown/popover/sheet, `--elevation-modal` the modal. Shadows are cool and
-   discreet, never decorative. `--elevation-press`, `--elevation-press-active`
-   and `--elevation-panel` are **deprecated aliases** kept alive only for the
-   five `*.module.scss` files that still `@include t.elevation(...)` them —
-   nothing new may use them.
+   discreet, never decorative. Those four are the whole scale: the hard offset
+   shadows of the pixel-art skin are gone, tokens and mixin branches both, so
+   asking the mixin for one is now a build error rather than a silent alias. A
+   control's press is `transform: scale(0.985)`, not a displacement.
 4. **Typography has three faces, each with one job.** `--font-display` (Clash
    Display, weight 600) is heros and titles only. `--font-sans` (Hanken
    Grotesk) is body copy, labels and **every money figure**, which additionally

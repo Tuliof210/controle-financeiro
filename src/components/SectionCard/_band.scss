@@ -61,11 +61,11 @@
     color: var(--color-bg);
   }
 
-  // README rule 3, as amended: a card carrying a filled band is the third scope
-  // for the hard offset shadow. The design draws 5px 5px 0 — 5 is not on the 4px
-  // scale and no 5px token exists, so --elevation-press (3px) wins, the same way
-  // CapSelector's 44px floor beat the design's shorter chip.
-  .extruded {
-    @include t.elevation(press);
+  // A card carrying a filled band is the one card that reads as a distinct
+  // object rather than a region of the page, so it takes the resting-card level
+  // — the shadow the scale actually has for that, not an offset pretending the
+  // frame is displaced.
+  .raised {
+    @include t.elevation(raised);
   }
 }
