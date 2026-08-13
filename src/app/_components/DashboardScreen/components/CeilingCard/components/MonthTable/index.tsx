@@ -26,10 +26,10 @@ const COPY = {
 // hypothesis renders them once, and ARCHITECTURE only asks for a child when a
 // structure repeats.
 export function MonthTable(props: MonthTableProps) {
-  const { rows } = useMonthTable(props);
+  const { rows, id } = useMonthTable(props);
 
   return (
-    <div className={styles.wrap}>
+    <div className={styles.wrap} id={id}>
       <table className={styles.table}>
         <caption className={styles.caption}>{COPY.saldoAcumuladoMes}</caption>
         <thead className={styles.head}>

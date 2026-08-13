@@ -2,9 +2,11 @@ import { Wallet } from "lucide-react";
 import { SectionCard } from "@/components/SectionCard/index.tsx";
 import { cx } from "@/lib/cx.ts";
 import { HINTS } from "../../hints.ts";
+import { CEILING_MONTHS_ID } from "../../ids.ts";
 import { Headline } from "../Headline/index.tsx";
 import { MoneyFigure } from "../MoneyFigure/index.tsx";
 import { ShowAllToggle } from "../ShowAllToggle/index.tsx";
+import { Badges } from "./components/Badges/index.tsx";
 import { CapSelector } from "./components/CapSelector/index.tsx";
 import { MonthTable } from "./components/MonthTable/index.tsx";
 import { RateList } from "./components/RateList/index.tsx";
@@ -16,6 +18,7 @@ export function CeilingCard(props: CeilingCardProps) {
     empty,
     note,
     definition,
+    currentPrefix,
     limitedBy,
     currentLabel,
     count,
@@ -49,28 +52,20 @@ export function CeilingCard(props: CeilingCardProps) {
     >
       <div className={cx(styles.split, empty && styles.alone)}>
         <div className={styles.summary}>
-          {/* Prose, not a hint: this is what the whole screen turns on, and it
-              used to open a 687-character bubble no touch reader reaches. */}
+          {/* Prose, not a hint: the concept the screen turns on. */}
           <p className={styles.definition}>{definition}</p>
 
-          {/* The badges head the summary pane rather than the title row: that
-              slot holds the one control, and four elements wrap at 375px. */}
-          <div className={styles.badges}>
-            {Boolean(limitedBy) && (
-              <span className={styles.limit} title={`${limitedBy}.`}>
-                {limitedBy}
-              </span>
-            )}
-            <span className={styles.now} title="Mês em curso">
-              {currentLabel}
-            </span>
-          </div>
+          {/* Badges head the summary pane: the title row holds the one control. */}
+          <Badges
+            limitedBy={limitedBy}
+            currentLabel={currentLabel}
+            currentPrefix={currentPrefix}
+          />
 
           {Boolean(empty) && <p className={styles.note}>{note}</p>}
           {!empty && (
             <>
-              {/* Stays the card's first <dd>: the ceiling spec reads it as this
-                  month's figure. The rates below add <dd>s AFTER it. */}
+              {/* Stays the card's first <dd>: the spec anchors on it. */}
               <Headline caption="Gasto extra este mês">
                 <MoneyFigure cents={monthly} />
                 <span className={styles.chip}>{monthsLeft}</span>
@@ -83,11 +78,16 @@ export function CeilingCard(props: CeilingCardProps) {
 
         {!empty && (
           <div className={styles.pane}>
-            <MonthTable rows={rows} />
+            <MonthTable rows={rows} id={CEILING_MONTHS_ID} />
             <div className={styles.footer}>
               <span>{count}</span>
               {Boolean(hidden) && (
-                <ShowAllToggle label={label} expanded={all} onClick={toggle} />
+                <ShowAllToggle
+                  label={label}
+                  expanded={all}
+                  controls={CEILING_MONTHS_ID}
+                  onClick={toggle}
+                />
               )}
             </div>
           </div>

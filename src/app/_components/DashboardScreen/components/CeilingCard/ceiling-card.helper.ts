@@ -29,6 +29,10 @@ function shareOf(budget: number, ceilingBalance: number): number {
   return Math.min(1, Math.max(0, budget / ceilingBalance));
 }
 
+// Prefixes the bare month in `.now`, clipped. It replaces a hover-only `title`,
+// which touch never reached.
+const CURRENT_MONTH_PREFIX = "Mês em curso: ";
+
 // The card's own one-sentence definition, visible in the body rather than buried
 // in the hint bubble it used to open with. It is the concept the whole screen
 // turns on, and a hover tooltip is the one place a touch reader never reaches.
@@ -67,6 +71,7 @@ function monthsWord(count: number): string {
 
 export {
   CEILING_DEFINITION,
+  CURRENT_MONTH_PREFIX,
   limitedByMeta,
   limitLabel,
   monthsWord,

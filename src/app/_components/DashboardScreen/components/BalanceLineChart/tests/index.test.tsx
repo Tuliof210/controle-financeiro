@@ -24,13 +24,13 @@ const JAN = /Jan\/26 · real · acumulado/;
 const FEB = /Fev\/26 · real · acumulado/;
 
 describe("BalanceLineChart", () => {
-  it("names its own plot region and draws one dot per month", () => {
+  it("names its own plot and draws one dot per month", () => {
     chart(null, null);
 
+    // The name lives on the <svg>'s <title> now: the scroll box carried the same
+    // string as an aria-label AND a tab stop, and the chart was named twice.
     expect(
-      screen.getByRole("region", {
-        name: "Saldo acumulado de cada mês do período",
-      }),
+      screen.getByTitle("Saldo acumulado de cada mês do período"),
     ).toBeInTheDocument();
     expect(screen.getByLabelText(JAN)).toBeInTheDocument();
     expect(screen.getByLabelText(FEB)).toBeInTheDocument();

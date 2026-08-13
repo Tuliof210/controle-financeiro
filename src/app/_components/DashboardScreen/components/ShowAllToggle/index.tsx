@@ -21,7 +21,7 @@ const chevronFor = (expanded: boolean) => {
 };
 
 export function ShowAllToggle(props: ShowAllToggleProps) {
-  const { label, expanded, onClick } = useShowAllToggle(props);
+  const { label, expanded, controls, onClick } = useShowAllToggle(props);
   const Chevron = chevronFor(expanded);
 
   return (
@@ -29,6 +29,7 @@ export function ShowAllToggle(props: ShowAllToggleProps) {
       type="button"
       className={styles.toggle}
       aria-expanded={expanded}
+      aria-controls={controls}
       onClick={onClick}
     >
       {label}

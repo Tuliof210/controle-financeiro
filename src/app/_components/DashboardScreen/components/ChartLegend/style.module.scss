@@ -30,10 +30,13 @@
   white-space: nowrap;
 }
 
+// --radius-sm, not square: rule 2 puts soft corners on marks like this, and it
+// was the last square one on the screen.
 .swatch {
   flex: none;
   width: var(--space-3);
   height: var(--space-3);
+  border-radius: var(--radius-sm);
 }
 
 .note {

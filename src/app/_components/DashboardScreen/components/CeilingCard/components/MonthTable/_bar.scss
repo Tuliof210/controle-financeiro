@@ -1,3 +1,5 @@
+@use "theme" as t;
+
 // The month row's share bar, split off `style.module.scss` under the exception
 // ARCHITECTURE.md grants `RowGrid/_tiers.scss`: a mixin that emits nothing on
 // its own, included once by the stylesheet beside it, so neither file crosses
@@ -15,11 +17,17 @@
   //
   // It restates the two figures either side of it and carries nothing on its own,
   // which is why it needs no accessible name.
+  //
+  // The unspent half is --color-border, NOT --color-border-subtle: in dark that
+  // subtle token resolves to the same swatch as --color-row-hover, so on a hovered
+  // row the bar's 100% reference vanished entirely and the gauge lost its scale.
+  // The comment that used to sit here asserting it "stays legible" was measured in
+  // light only.
   .table .row {
     background-image: linear-gradient(
       to right,
       var(--color-caution) 0 var(--share),
-      var(--color-border-subtle) var(--share) 100%
+      var(--color-border) var(--share) 100%
     );
     background-repeat: no-repeat;
     background-position: bottom;
@@ -32,7 +40,10 @@
   // `background-color`, never the `background` shorthand: the shorthand resets
   // background-image and would wipe the gauge above on every hover. The colour
   // paints under the gradient, so the ruler stays legible over it.
-  .table .row:hover {
-    background-color: var(--color-row-hover);
+  // Gated: on a touch screen an ungated hover latches on tap and stays.
+  @include t.on-hover {
+    .table .row:hover {
+      background-color: var(--color-row-hover);
+    }
   }
 }

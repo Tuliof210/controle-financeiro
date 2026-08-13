@@ -34,13 +34,13 @@ const chart = (dashedFrom: number | null) =>
 const JAN = /Jan\/26 · real · entradas R\$ 10,00 · saídas R\$ 4,00/;
 
 describe("MonthlyBarChart", () => {
-  it("names its own plot region and draws both sides of each month", () => {
+  it("names its own plot and draws both sides of each month", () => {
     chart(null);
 
+    // The name lives on the <svg>'s <title> now: the scroll box carried the same
+    // string as an aria-label AND a tab stop, and the chart was named twice.
     expect(
-      screen.getByRole("region", {
-        name: "Entradas e saídas de cada mês do período",
-      }),
+      screen.getByTitle("Entradas e saídas de cada mês do período"),
     ).toBeInTheDocument();
     // One hit target per bar, both naming the same month.
     expect(screen.getAllByLabelText(JAN)).toHaveLength(2);
