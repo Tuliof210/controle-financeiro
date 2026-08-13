@@ -52,6 +52,10 @@ $row-one-line-floor: 440px;
   }
 }
 
-@function token($name) {
-  @return var(--#{$name});
-}
+// `@function token($name)` used to sit here, returning `var(--#{$name})`. It is
+// deleted rather than adopted: it shipped with zero call sites, and it never
+// earned any because it is strictly worse than what it wraps. `var(--space-4)`
+// is one token lookup a reader already knows; `token("space-4")` is the same
+// thing spelled in a second, repo-private dialect, and it cannot be typo-checked
+// either — a wrong name compiles to a `var()` that resolves to nothing, exactly
+// as the raw form does. The rule is `var(--token-name)`, everywhere.

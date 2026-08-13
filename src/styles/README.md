@@ -9,8 +9,8 @@ holds no values; `_tokens-color.scss` (primitives),
 `_tokens-dark.scss` (`@mixin dark-theme`, emits nothing on its own),
 `_tokens-theme.scss` (semantic aliases, light then both dark selectors),
 `_tokens-type.scss`, `_tokens-shape.scss` and `_tokens-motion.scss` hold them.
-`_theme.scss` is the Sass helper layer (`bp`, `focus-ring`, `elevation`,
-`token`), `_base.scss` the element reset.
+`_theme.scss` is the Sass helper layer (`bp`, `focus-ring`, `elevation`),
+`_base.scss` the element reset.
 
 **Light always precedes dark.** The Design System cards read declared values by
 parsing first-wins, so a dark override placed above its light declaration is
@@ -36,8 +36,10 @@ read as the light value.
 ## Non-negotiable rules
 
 1. **Never hardcode** a color, spacing, radius, shadow, or duration value.
-   Always a token (`var(--token-name)` in CSS/Sass, or `token("name")` /
-   the dedicated mixins from `_theme.scss`). The single documented exception is
+   Always `var(--token-name)`, or one of the dedicated mixins from
+   `_theme.scss`. There is no `token("name")` helper — it existed with zero call
+   sites and was deleted; see the note in `_theme.scss` for why a second dialect
+   for `var()` is not worth having. The single documented exception is
    `src/app/icon.svg`: a static asset cannot read a custom property, so its
    four hexes are kept in lockstep by hand and named in a comment there.
 2. **Radius is chosen by surface type, not by taste.** Card / section / modal
