@@ -32,7 +32,9 @@
 
 // The word is the signal; the border only makes it findable. Meaning is never
 // colour-only (styles README rule 7c), and a reader who cannot tell violet from
-// grey still reads "SIMULADO".
+// grey still reads "Simulado". Sentence case now: the CSS uppercase was
+// compensation for a bitmap face with no sidebearing, and on a grotesque it
+// reads as shouting.
 //
 // Outlined rather than filled, and --color-text rather than a paired ink:
 // --color-brand as a fill admits no foreground that clears 4.5:1 in both themes
@@ -45,6 +47,4 @@
   border-radius: var(--radius-sm);
   color: var(--color-text);
   font-weight: var(--weight-bold);
-  // Uppercased in CSS, not in the copy, so the accessible text stays "Simulado".
-  text-transform: uppercase;
 }

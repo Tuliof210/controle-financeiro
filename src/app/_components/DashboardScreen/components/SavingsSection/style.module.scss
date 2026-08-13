@@ -55,7 +55,6 @@
     border-bottom: var(--border-1) solid var(--color-border);
     font-family: var(--font-display);
     font-size: var(--text-2xs);
-    letter-spacing: var(--tracking-wide);
     line-height: var(--leading-normal);
 
     // Every column but the first states a figure, and a figure is read from its
@@ -76,7 +75,7 @@
   margin: 0;
   padding: var(--space-6);
   color: var(--color-text-muted);
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   font-size: var(--text-sm);
   line-height: var(--leading-normal);
 

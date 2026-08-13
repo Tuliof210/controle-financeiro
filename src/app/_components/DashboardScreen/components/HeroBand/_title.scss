@@ -12,7 +12,6 @@
     margin: 0;
     font-family: var(--font-display);
     font-size: var(--text-2xs);
-    letter-spacing: var(--tracking-wide);
     line-height: var(--leading-normal);
     // 8.69:1 light / 6.71:1 dark against the band fill — measured, not assumed.
     opacity: 0.7;
@@ -63,7 +62,7 @@
   .subtitle {
     max-width: 46ch;
     margin: 0;
-    font-family: var(--font-mono);
+    font-family: var(--font-sans);
     font-size: var(--text-sm);
     line-height: var(--leading-normal);
     text-wrap: pretty;

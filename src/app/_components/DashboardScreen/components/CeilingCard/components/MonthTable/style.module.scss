@@ -11,7 +11,7 @@
 .caption {
   padding-bottom: var(--space-2);
   color: var(--color-text-muted);
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   font-size: var(--text-xs);
   text-align: left;
 }
@@ -21,7 +21,7 @@
 .table {
   width: 100%;
   border-collapse: collapse;
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   font-size: var(--text-sm);
 
   th,
@@ -36,30 +36,25 @@
     // still reads as a plain separator — only thicker.
   }
 
-  // Mono, not the display face. Not cosmetic: measured in the browser, the pixel
-  // face set every column's min-content width and cost the table ~66px it does
-  // not have to spare.
+  // The column headers are sentence case now — they are labels above figures,
+  // not eyebrows, and the wide tracking they carried was there to open up a
+  // bitmap face.
   thead th {
     color: var(--color-text-muted);
     font-size: var(--text-2xs);
     font-weight: var(--weight-regular);
-    letter-spacing: var(--tracking-wide);
-    text-transform: uppercase;
     border-bottom: var(--border-1) solid var(--color-border);
   }
 }
 
 // The month is a label, not a figure: left-aligned against the three columns of
-// right-aligned money, and in the head it drops the uppercase and the tracking
-// the other column headers carry. Nested under `.table` and it has to be: the
+// right-aligned money. Nested under `.table` and it has to be: the
 // base cell rules above are themselves nested, so `.table th` is (0,1,1) and
 // `.table thead th` is (0,1,2). A bare `.month` is (0,1,0) and loses to both
 // however late it is written; `.table .month` is (0,2,0) and wins on class count.
 .table .month {
   text-align: left;
   font-weight: var(--weight-regular);
-  text-transform: none;
-  letter-spacing: normal;
   color: var(--color-text);
 }
 
@@ -71,8 +66,6 @@
   background: var(--color-positive);
   color: var(--ink-900);
   font-size: var(--text-2xs);
-  letter-spacing: var(--tracking-wide);
-  text-transform: uppercase;
 }
 
 // The balance arriving at the month and the amount being subtracted are both

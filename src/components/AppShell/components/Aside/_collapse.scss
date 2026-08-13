@@ -50,9 +50,8 @@
     border-radius: var(--radius-md);
     background: transparent;
     color: var(--color-text-muted);
-    font-family: var(--font-mono);
+    font-family: var(--font-sans);
     font-size: var(--text-2xs);
-    letter-spacing: var(--tracking-wide);
     white-space: nowrap;
     cursor: pointer;
     transition: background var(--duration-fast) var(--ease-snappy);

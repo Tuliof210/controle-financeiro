@@ -1,7 +1,7 @@
 // The muted line under the name: who the entry belongs to and when it applies.
 @mixin meta-line {
-  // Owner and period, one tier down in size and tone — mono, not the display face
-  // `--text-2xs` usually pairs with, since a name and a month are body copy.
+  // Owner and period, one tier down in size and tone — the body face, since a
+  // name and a month are body copy.
   // `nowrap` on both axes, not the design's `wrap`: the seeded 51-char spaceless
   // name is unwrappable and set this line's min-content at 306px, pushing the row
   // 109px past the card at 375px, and without it intervals broke mid-range.
@@ -11,9 +11,8 @@
     align-items: center;
     gap: var(--space-2);
     color: var(--color-text-muted);
-    font-family: var(--font-mono);
+    font-family: var(--font-sans);
     font-size: var(--text-2xs);
-    letter-spacing: var(--tracking-wide);
     white-space: nowrap;
   }
 

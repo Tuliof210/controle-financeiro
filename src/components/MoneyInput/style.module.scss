@@ -17,7 +17,7 @@
 
 .prefix {
   color: var(--color-text-muted);
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   font-size: var(--text-base);
 }
 
@@ -28,7 +28,7 @@
   outline: none;
   background: none;
   color: var(--color-text);
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   font-size: var(--text-base);
   font-variant-numeric: tabular-nums;
   text-align: right;

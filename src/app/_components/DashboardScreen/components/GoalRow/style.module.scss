@@ -47,7 +47,7 @@
 // 63-character unbroken name inside the track at 375px.
 .name {
   color: var(--color-text);
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   font-size: var(--text-base);
   overflow-wrap: anywhere;
 }
@@ -67,7 +67,7 @@
   color: var(--color-text-muted);
   border: var(--border-1) solid var(--color-border-subtle);
   border-radius: var(--radius-sm);
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   font-size: var(--text-2xs);
   font-weight: var(--weight-bold);
   font-variant-numeric: tabular-nums;

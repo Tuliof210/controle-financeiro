@@ -8,7 +8,7 @@
   .value {
     margin: var(--space-3) 0 0;
     color: inherit;
-    font-family: var(--font-mono);
+    font-family: var(--font-sans);
     font-size: var(--text-2xl);
     font-weight: var(--weight-bold);
     font-variant-numeric: tabular-nums;
@@ -24,7 +24,7 @@
 
   .caption {
     margin: var(--space-2) 0 0;
-    font-family: var(--font-mono);
+    font-family: var(--font-sans);
     font-size: var(--text-xs);
     line-height: var(--leading-normal);
     opacity: 0.7;
@@ -40,14 +40,13 @@
   .factLabel {
     font-family: var(--font-display);
     font-size: var(--text-2xs);
-    letter-spacing: var(--tracking-wide);
     line-height: var(--leading-normal);
     opacity: 0.7;
   }
 
   .factValue {
     margin: var(--space-2) 0 0;
-    font-family: var(--font-mono);
+    font-family: var(--font-sans);
     font-size: var(--text-lg);
     font-variant-numeric: tabular-nums;
   }

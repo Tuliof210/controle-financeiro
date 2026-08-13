@@ -20,7 +20,7 @@
   border: var(--border-1) solid var(--color-border);
   border-radius: var(--radius-sm);
   color: var(--ink-900);
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   font-size: var(--text-2xs);
 }
 
@@ -41,7 +41,7 @@
   display: block;
   overflow: hidden;
   color: var(--color-text);
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   font-size: var(--text-base);
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -52,7 +52,7 @@
 // `getByText(/^R\$/)`, which matches a wrapper too — strict mode dies.
 .value {
   color: var(--color-text);
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   font-size: var(--text-md);
   font-variant-numeric: tabular-nums;
   white-space: nowrap;

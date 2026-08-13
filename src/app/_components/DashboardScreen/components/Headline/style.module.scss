@@ -12,6 +12,8 @@
   margin: 0;
 }
 
+// An eyebrow under its figure — mono, uppercase, wide tracking, like every
+// other eyebrow in the app.
 .caption {
   color: var(--color-text-muted);
   font-family: var(--font-mono);
@@ -23,7 +25,7 @@
 .total {
   margin: 0;
   color: var(--color-text);
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   // --text-xl, not --text-2xl: at three columns a card is ~300px, and
   // "▲ R$ 100.500,00" wraps at 2rem. One step down leaves headroom for the
   // glyph and for larger totals.

@@ -15,8 +15,14 @@ export const weights = [
 
 Three faces, one job each. `--font-display` (Clash Display, weight 600) is
 heros and titles. `--font-sans` (Hanken Grotesk) is body copy, labels and
-**every money figure**. `--font-mono` (IBM Plex Mono) is scoped to uppercase
-eyebrows, IDs, `YYYY-MM` dates and hex — never body copy.
+**every money figure**, always with `font-variant-numeric: tabular-nums`.
+`--font-mono` (IBM Plex Mono) is scoped to uppercase eyebrows, IDs, `YYYY-MM`
+dates, hex, and chart axis/tag labels — never body copy.
+
+`text-transform: uppercase` and `--tracking-wide` travel with that eyebrow case
+and nowhere else. The wide tracking existed to open up a bitmap face with no
+sidebearing; on a grotesque it reads as shouting. A status badge, a table
+header and a checkbox label are sentence case.
 
 ## Display — heros and titles
 

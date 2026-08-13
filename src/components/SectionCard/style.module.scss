@@ -49,12 +49,14 @@
   color: var(--color-negative);
 }
 
-// text-transform rather than uppercasing the strings: the titles are read by
-// screen readers and reused verbatim as Tooltip labels ("Como {title} é
-// calculado").
+// The canonical eyebrow, and one of the few places uppercase survives: mono at
+// --text-2xs with --tracking-wide is what the eyebrow IS in this system, not a
+// bitmap face being propped up. text-transform rather than uppercasing the
+// strings, because the titles are read by screen readers and reused verbatim as
+// Tooltip labels ("Como {title} é calculado").
 .title {
   margin: 0;
-  font-family: var(--font-display);
+  font-family: var(--font-mono);
   font-size: var(--text-2xs);
   font-weight: var(--weight-regular);
   letter-spacing: var(--tracking-wide);

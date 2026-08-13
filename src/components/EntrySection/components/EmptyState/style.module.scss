@@ -24,7 +24,7 @@
 .title {
   margin: 0;
   color: var(--color-text);
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   font-size: var(--text-sm);
 }
 
@@ -32,7 +32,7 @@
   margin: 0;
   max-width: 34ch;
   color: var(--color-text-muted);
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   font-size: var(--text-xs);
   text-wrap: pretty;
 }

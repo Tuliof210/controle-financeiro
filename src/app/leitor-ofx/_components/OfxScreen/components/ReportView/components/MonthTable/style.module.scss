@@ -10,7 +10,7 @@
   // than any floor worth setting, and .wrap scrolls on that intrinsic width
   // instead of the page body.
   border-collapse: collapse;
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   font-size: var(--text-sm);
 
   th,
@@ -27,8 +27,6 @@
     font-family: var(--font-display);
     font-size: var(--text-2xs);
     font-weight: var(--weight-regular);
-    letter-spacing: var(--tracking-wide);
-    text-transform: uppercase;
     border-bottom: var(--border-1) solid var(--color-border);
   }
 

@@ -62,8 +62,12 @@ read as the light value.
    Display, weight 600) is heros and titles only. `--font-sans` (Hanken
    Grotesk) is body copy, labels and **every money figure**, which additionally
    sets `font-variant-numeric: tabular-nums`. `--font-mono` (IBM Plex Mono) is
-   for eyebrows in uppercase, IDs, `YYYY-MM` dates and hex — never body copy.
-   All three are loaded through `next/font` (`fonts.ts`) and applied as
+   for eyebrows in uppercase, IDs, `YYYY-MM` dates, hex, and chart axis/tag
+   labels — never body copy. `text-transform: uppercase` and `--tracking-wide`
+   belong to that eyebrow case and nowhere else: the wide tracking existed to
+   open up a bitmap face with no sidebearing, and on a grotesque it reads as
+   shouting. A status badge, a table header and a checkbox label are sentence
+   case. All three faces are loaded through `next/font` (`fonts.ts`) and applied as
    variable classes in `src/app/layout.tsx` **and** `.storybook/preview.ts`;
    changing one without the other leaves Storybook unstyled. Nothing may load a
    face over the network at runtime.

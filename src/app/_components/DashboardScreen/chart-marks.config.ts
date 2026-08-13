@@ -30,10 +30,15 @@ const TAG_LABEL_PROPS = {
   letterSpacing: "var(--tracking-wide)",
 } as const;
 
-// JetBrains Mono at --text-2xs runs ~6px/char — the same figure
-// chart-frame.helper keeps privately to size the axis gutter. A tag measures its
-// own box from its own label, so no per-label pixel width is hand-written.
-const TAG_CHAR_PX = 6;
+// IBM Plex Mono at --text-2xs, MEASURED in the browser: 6.60px per character
+// plain, 8.14px once TAG_LABEL_PROPS' --tracking-wide (0.14em) is added — and
+// it is the tracked figure that sizes this box. Rounded up: a tag box a pixel
+// wide is invisible, a tag box a pixel short clips its own label, and nothing
+// in the suite catches either. Higher than chart-gutter's CHAR_PX for exactly
+// that reason — the axis labels are not tracked.
+// A tag measures its own box from its own label, so no per-label pixel width is
+// hand-written.
+const TAG_CHAR_PX = 9;
 const TAG_PAD_X = 8;
 const TAG_HEIGHT = 20;
 

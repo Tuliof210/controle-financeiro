@@ -14,8 +14,11 @@
   border: var(--border-1) solid var(--color-border);
   border-radius: var(--radius-md);
   color: var(--color-text);
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   font-size: var(--text-xs);
+  // It reads out a month and a money figure, so the digits are tabular like
+  // every other figure on this screen.
+  font-variant-numeric: tabular-nums;
   white-space: nowrap;
   pointer-events: none;
   @include t.elevation(overlay);

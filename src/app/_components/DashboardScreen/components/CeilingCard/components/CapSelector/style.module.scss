@@ -59,9 +59,8 @@
   background: transparent;
   color: inherit;
   opacity: 0.7;
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   font-size: var(--text-2xs);
-  letter-spacing: var(--tracking-wide);
   white-space: nowrap;
   transition:
     background var(--duration-fast) var(--ease-snappy),
