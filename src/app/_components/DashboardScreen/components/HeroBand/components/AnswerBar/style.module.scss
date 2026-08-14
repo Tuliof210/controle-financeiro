@@ -1,0 +1,96 @@
+@use "theme" as t;
+@use "./reveal" as *;
+
+// Sticky, and it costs the page NOTHING: the negative margin-bottom cancels its
+// own height AND the flex gap it earns as a child of `.screen` (--space-6, and
+// the one value here that is borrowed rather than owned — without it the bar
+// pushed the band 24px down the page). The flow is byte-for-byte what it was
+// before the bar existed, which is also what keeps this jank-free: nothing below
+// ever reflows, because the only properties the scroll drives are `opacity` and
+// `transform`.
+//
+// ponytail: raw 72px, the same exception AppShell's Header takes for its own
+// height. The bar pins directly under it; if that height ever earns a token,
+// both read it.
+//
+// One layer under --z-sticky rather than a new token: the header owns the app's
+// sticky plane and this slides beneath it.
+.bar {
+  position: sticky;
+  top: 72px;
+  z-index: calc(var(--z-sticky) - 1);
+  height: var(--space-16);
+  margin: 0 calc(var(--space-4) * -1)
+    calc((var(--space-16) + var(--space-6)) * -1);
+  padding: 0 var(--space-4);
+  border-top: var(--space-1) solid var(--color-brand);
+  background: var(--color-text);
+  color: var(--color-bg);
+  // The default state, and the whole fallback: with no scroll-timeline support
+  // the bar simply never appears and the page is exactly what it was.
+  opacity: 0;
+  pointer-events: none;
+
+  @include t.bp("md") {
+    margin: 0 calc(var(--space-10) * -1)
+      calc((var(--space-16) + var(--space-6)) * -1);
+    padding: 0 var(--space-10);
+  }
+}
+
+.inner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  height: 100%;
+  min-width: 0;
+}
+
+.mark {
+  flex: none;
+  width: var(--space-2);
+  height: var(--space-2);
+  background: var(--color-brand);
+}
+
+// Below `md` there is no room for the caption AND the figure AND the delta at
+// 375px, and of the three the caption is the one the reader has just scrolled
+// past. It comes back the moment the width pays for it.
+.label {
+  display: none;
+
+  @include t.bp("md") {
+    display: block;
+    flex: none;
+    font-family: var(--font-mono);
+    font-size: var(--text-2xs);
+    letter-spacing: var(--tracking-wide);
+    opacity: var(--opacity-muted);
+  }
+}
+
+// --text-xl, not --text-display: this is the answer RESTATED, not the answer.
+// Sized to the h1 it replaces at the top of the viewport.
+.value {
+  min-width: 0;
+  font-family: var(--font-sans);
+  font-size: var(--text-xl);
+  font-weight: var(--weight-bold);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: var(--tracking-display);
+}
+
+// No semantic fill: `_figure.scss` records why a second filled pill on this
+// inverted surface is wrong, and the ▲/▼ glyph already carries the direction
+// without asking a colour to.
+.delta {
+  margin-left: auto;
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  opacity: var(--opacity-muted);
+}
+
+// The scroll-driven reveal lives in `_reveal.scss` — see the note there.
+@include reveal;

@@ -1,0 +1,75 @@
+// The reveal, split off `style.module.scss` under the exception
+// ARCHITECTURE.md grants `RowGrid/_tiers.scss`: a mixin that emits nothing on
+// its own, included once by the stylesheet beside it, so neither file crosses
+// the 100-line cap.
+@use "theme" as t;
+
+@mixin reveal {
+  // Scroll-driven, with no JavaScript and no listener: the timeline IS the
+  // document's scroll position, so the compositor runs it and a busy main
+  // thread cannot make it stutter. Only `opacity` and `transform` animate —
+  // nothing here can reflow the page under it.
+  //
+  // The whole feature is inside @supports, which is the fallback: a browser
+  // without scroll timelines leaves `.bar` at its declared `opacity: 0` and the
+  // page behaves exactly as it did before the bar existed.
+  //
+  // NOTE: the `animation` shorthand resets `animation-timeline` and
+  // `animation-range` to `auto` — both have to be declared AFTER it or the bar
+  // plays once on load instead of tracking the scroll.
+  //
+  // The range ENDS where the band's last pixel passes under the header, so the
+  // bar finishes arriving exactly as the thing it restates leaves: ~528px on a
+  // stacked mobile band, ~336px once the band composes into two columns and
+  // halves its height. Multiples of --space-12, because the figures the band
+  // measures are not steps on the spacing scale and .5 multipliers are not a
+  // scale either.
+  @supports (animation-timeline: scroll()) {
+    .bar {
+      animation: bar-in linear both;
+      animation-timeline: scroll(root block);
+      animation-range: calc(var(--space-12) * 9) calc(var(--space-12) * 11);
+
+      @include t.bp("md") {
+        animation-range: calc(var(--space-12) * 5) calc(var(--space-12) * 7);
+      }
+    }
+
+    // The bar still appears — it is information, and a scroll-linked fade is
+    // driven by the reader rather than at them. What goes is the drop, which is
+    // the decorative half. Durations collapse at the token layer; this
+    // animation has no duration to collapse, so it swaps its keyframes instead.
+    @media (prefers-reduced-motion: reduce) {
+      .bar {
+        animation-name: bar-in-flat;
+      }
+    }
+  }
+
+  // It EMERGES FROM UNDER THE HEADER rather than dissolving into place: at
+  // -100% the bar sits entirely inside the header's 72px, which paints over it
+  // at a higher --z-sticky, so the translucent half of the fade happens where
+  // nothing can be seen through it. A plain opacity fade left a ghost bar with
+  // the page legible straight through its fill.
+  @keyframes bar-in {
+    from {
+      opacity: 0;
+      transform: translateY(-100%);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes bar-in-flat {
+    from {
+      opacity: 0;
+    }
+
+    to {
+      opacity: 1;
+    }
+  }
+}

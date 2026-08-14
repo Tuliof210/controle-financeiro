@@ -8,32 +8,30 @@
 //
 // Full-bleed: the negative margins cancel AppShell's <main> padding — --space-4,
 // and --space-10 from `md` up — and the padding pays the horizontal half back so
-// the band's content still lines up with the cards below. It bleeds to the
-// CONTENT COLUMN, not the viewport: above ~1640px `.page`'s max-width centres
-// that column and its margin stays visible either side.
+// the content still lines up with the cards below. It bleeds to the CONTENT
+// COLUMN, not the viewport: once `.page` hits its max-width (~1904px with the
+// rail expanded, ~1720px collapsed) that column centres.
+//
+// No `border-bottom`: --color-border is a mid-grey hairline between near-black
+// and near-white, invisible against both. The 8px below pays for the screen's
+// largest structural break, which `.screen`'s uniform 24px gap underpaid.
 .band {
   position: relative;
   overflow: hidden;
   margin: calc(var(--space-4) * -1);
-  margin-bottom: 0;
+  margin-bottom: var(--space-2);
   padding: var(--space-8) var(--space-4);
   background: var(--color-text);
   color: var(--color-bg);
-  border-bottom: var(--border-1) solid var(--color-border);
 
   @include t.bp("md") {
     margin: calc(var(--space-10) * -1);
-    margin-bottom: 0;
+    margin-bottom: var(--space-2);
     padding: var(--space-12) var(--space-10);
   }
 }
 
-// A flat cobalt rule across the top of the band, and the last consumer of
-// --gradient-toxic, which is now deleted: the ramp swap turned its lime→violet
-// into cobalt→cobalt, a gradient drawn between a colour and itself. A
-// decorative gradient is forbidden regardless, so this resolves to the fill the
-// gradient had already collapsed into.
-// 6px is not on the 4px scale; --space-1 is one step thinner.
+// A flat cobalt rule across the top. --space-1, not the design's off-scale 6px.
 .edge {
   position: absolute;
   inset: 0 0 auto;
@@ -41,26 +39,27 @@
   background: var(--color-brand);
 }
 
-// The target's cobalt glow, off the band's top-right corner. It is the one
-// gradient the constitution allows (rule 8, --glow-brand — "a cobalt radial glow
-// on a dark hero, never on the mark"), and it holds in BOTH themes because the
-// band inverts under it: cobalt at 40% reads on near-black and on near-white.
-//
-// Sized off the 4px scale rather than the target's raw 720/320/140, none of
-// which is a step on it. `.band` already carries `overflow: hidden`, so nothing
-// here escapes; `pointer-events: none` keeps it out of the hit test.
+// The cobalt glow off the top-right corner — the one gradient the constitution
+// allows (rule 8, --glow-brand), and it holds in BOTH themes because the band
+// inverts under it. It is an ACCENT ABOVE the content, not a wash across it:
+// --glow-brand is a centred radial fading out at 70% of its radius, so a 672px
+// box inside a 336px band bled over the strip's 11px labels, and at 375px its
+// centre landed at 49% — behind the h1. These offsets keep the falloff clear of
+// everything under the title row. `.band` clips it.
 .glow {
   position: absolute;
-  top: calc(var(--space-24) * -3);
-  right: calc(var(--space-24) * -1.5);
-  width: calc(var(--space-24) * 7);
-  height: calc(var(--space-24) * 7);
+  inset: calc(var(--space-24) * -2) calc(var(--space-24) * -1) auto auto;
+  width: calc(var(--space-24) * 3);
+  aspect-ratio: 1;
   background: var(--glow-brand);
   pointer-events: none;
+
+  @include t.bp("md") {
+    inset: calc(var(--space-24) * -3) calc(var(--space-24) * -2) auto auto;
+    width: calc(var(--space-24) * 5);
+  }
 }
 
-// The scanline overlay is gone with it — a repeating gradient over the band is
-// texture, and the target draws none.
 .inner {
   position: relative;
   display: flex;
@@ -68,26 +67,27 @@
   gap: var(--space-8);
 }
 
-// The design splits at 1180px; `xl` is the nearest stop in this repo's closed
-// breakpoint map, and the safer side of it — at `lg` the rail has already taken
-// its column and the figure would be sharing ~680px with the title.
-.head {
+// The band's composition, and the reason the old title/figure split is gone:
+// that split gave the 1fr track to the TITLE and pushed the figure to the right
+// margin, leaving 258px of dead centre and the page's most important number as
+// the only element aligned with nothing (x=897, against x=304 for every card
+// below). The figure now sits on the content column's left edge, on the cards'
+// own axis, and the facts fill the space to its right instead of stretching
+// into a ribbon of marooned clusters — answer left, evidence right, PRODUCT.md's
+// first principle read across. `auto` sizes the figure (~465px at
+// --text-display) so the strip takes the remainder; `end` drops the strip onto
+// the figure's baseline instead of floating it in a taller track.
+.body {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  gap: var(--space-8);
-  align-items: end;
+  gap: var(--space-6);
+  min-width: 0;
 
   @include t.bp("xl") {
-    grid-template-columns: minmax(0, 1fr) auto;
-    gap: var(--space-16);
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: var(--space-8);
+    align-items: end;
   }
-}
-
-.titleCol {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-4);
-  min-width: 0;
 }
 
 // The title column lives in `_title.scss` and the figure in `_figure.scss` —

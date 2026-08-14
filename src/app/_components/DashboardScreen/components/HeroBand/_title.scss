@@ -1,20 +1,40 @@
 // The band's title column, split off `style.module.scss` for the same reason
 // `_figure.scss` beside it was: a mixin that emits nothing on its own, so the
 // stylesheet stays under the 100-line cap. Its markup is this folder's
-// `index.tsx`.
-@use "theme" as t;
+// `index.tsx`. No `@use "theme"`: nothing in this column breaks by width any
+// more — the title is one flat size and the caret follows it.
 
 @mixin title {
+  // Wayfinding only, and the whole reason it is a ROW above the answer rather
+  // than a column beside it: as a `1fr` track it took the band's prime slot and
+  // exiled the figure to the right margin. 8px, not 16px, because the eyebrow
+  // labels the h1 and bonds to it; the subtitle buys its separation back below.
+  .titleRow {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    min-width: 0;
+  }
+
+  // Mono at --text-2xs with --tracking-wide, like every other eyebrow in the
+  // app (StatCard, SectionCard, Headline) — the strings are already uppercase,
+  // so no text-transform. The display face at 0 tracking read as a smudge here
+  // and broke the one vocabulary the reader sees four times just below.
+  //
+  // Muted on the COLOUR, not with `opacity`: `.mark` is a child, and an
+  // `opacity` on the box dragged the cobalt square to ~2.6:1 while the
+  // identical cobalt caret 30px away painted at full strength.
+  // 8.69:1 light / 6.71:1 dark against the band fill — measured, not assumed.
   .eyebrow {
     display: flex;
     align-items: center;
     gap: var(--space-2);
     margin: 0;
-    font-family: var(--font-display);
+    color: color-mix(in srgb, currentcolor 70%, transparent);
+    font-family: var(--font-mono);
     font-size: var(--text-2xs);
+    letter-spacing: var(--tracking-wide);
     line-height: var(--leading-normal);
-    // 8.69:1 light / 6.71:1 dark against the band fill — measured, not assumed.
-    opacity: var(--opacity-muted);
   }
 
   // The design paints both marks lime. This band INVERTS, so lime would land on
@@ -53,18 +73,20 @@
   // Static, never blinking: the design loops it at 1.1s, and anything blinking
   // for more than five seconds has to be stoppable (WCAG 2.2.2) — which
   // prefers-reduced-motion does not discharge.
+  //
+  // 24px flat, matching the 22px title's line box. The old `md` step to 32px was
+  // sized for the 28px title this column no longer has, and overshot the cap
+  // height by ~4px either side — a stray cobalt bar rather than a caret.
   .cursor {
     width: var(--space-3);
     height: var(--space-6);
-
-    @include t.bp("md") {
-      height: var(--space-8);
-    }
   }
 
+  // The subtitle is a separate statement, not part of the eyebrow→h1 bond, so
+  // it pays double the column's gap: 8px above the h1, 16px below it.
   .subtitle {
     max-width: 46ch;
-    margin: 0;
+    margin: var(--space-2) 0 0;
     font-family: var(--font-sans);
     font-size: var(--text-sm);
     line-height: var(--leading-normal);
