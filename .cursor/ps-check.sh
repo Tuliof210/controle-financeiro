@@ -2,11 +2,11 @@
 # pocket-squad — the mechanical half of the workflow. Meant to be RUN, never read
 # into a model's context: the /ps-* commands call it and quote its output.
 #
-#   sh .agents/ps-check.sh warm <path>     share this checkout's installed deps with a
+#   sh /ps-check.sh warm <path>     share this checkout's installed deps with a
 #                                          fresh worktree — no install per task
-#   sh .agents/ps-check.sh publish <pr>    squash-merge, delete the branch everywhere,
+#   sh /ps-check.sh publish <pr>    squash-merge, delete the branch everywhere,
 #                                          remove the worktree, go home and pull
-#   sh .agents/ps-check.sh sweep           remove worktrees/branches of merged PRs
+#   sh /ps-check.sh sweep           remove worktrees/branches of merged PRs
 #
 # Provider-agnostic: plain git, plus gh or glab if the machine happens to have one.
 # Without a provider CLI it can read merge state from nowhere, so it removes nothing
@@ -155,7 +155,7 @@ fi
 # `ps-story/*` and `ps/*` are still matched so branches left by v3 and earlier get
 # swept too.
 if [ "$MODE" != sweep ]; then
-  echo "usage: sh .agents/ps-check.sh warm <path> | publish <pr> | sweep"
+  echo "usage: sh /ps-check.sh warm <path> | publish <pr> | sweep"
   exit 1
 fi
 

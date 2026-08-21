@@ -46,7 +46,7 @@ collapses to one inline look):
   that does not exist.
 - **Risks** — edge cases, hidden couplings, invariants.
 
-Ask each subagent for the finding *and its substance*: the exemplar's path **plus the
+Ask each subagent for the finding _and its substance_: the exemplar's path **plus the
 lines that make it the exemplar**, the symbol **plus its signature**, the command **plus
 proof it runs**. An address alone forces the executor to re-open the repo and the
 reviewer to do it a second time — which is the cost this step exists to pay once.
@@ -93,20 +93,20 @@ The test is scope, never line count. Check the prompt against these — **any on
 holds is a decomposition error**: go back to step 2 and split the request.
 
 - Two observable outcomes a reviewer could accept or reject independently.
-- A step that can only start once another step's result has been *reviewed* — a
+- A step that can only start once another step's result has been _reviewed_ — a
   migration and the code that depends on the new shape.
 - Two verification recipes that never overlap: different suites, different surfaces.
 - More steps than one branch can carry as readable conventional commits.
 
 None holds → the prompt is one task and is exactly as long as its contract requires. A
-long prompt made of *contract* — signatures, payload shapes, edge cases, exact commands,
+long prompt made of _contract_ — signatures, payload shapes, edge cases, exact commands,
 file paths — is correct and must not be trimmed. A long prompt made of prose —
 restatement, rationale, encouragement, anything already in `.squad/ARCHITECTURE.md` — is
 the actual defect: cut the prose, keep every line that changes what gets built.
 
 What does **not** belong in the file:
 
-- Implementation code. A snippet is allowed only when it *is* the contract — a
+- Implementation code. A snippet is allowed only when it _is_ the contract — a
   signature, a payload shape — never a function body, markup or styles.
 - A hand-measured number. If a decision depends on a measurement, name the command that
   takes it at execution time.
@@ -124,7 +124,7 @@ leaves the commit local, which is fine; say so.
 
 ## 6. Report
 
-**Follow `.agents/ps-report.md`. It is the whole final message.** Your lines:
+**Follow `/ps-report.md`. It is the whole final message.** Your lines:
 
     **task · <title>**
 

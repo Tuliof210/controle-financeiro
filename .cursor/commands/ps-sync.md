@@ -16,7 +16,7 @@ allowed-tools: Task, Agent, Read, Write, Edit, Grep, Glob, Bash(git:*), Bash(ls:
   commands, the conventions to imitate (each with an exemplar file path), the boundaries
   and the do-not-touch list.
 
-Two files, so that everything loaded is either *what* or *how*. A third file saying a
+Two files, so that everything loaded is either _what_ or _how_. A third file saying a
 bit of both is the state this command exists to end.
 
 ## 1. Empty AGENTS.md, then fill the other two
@@ -56,7 +56,7 @@ what you found. Mark anything inferred and ask about it **with a suggested defau
 
 ## 4. Interview the gaps
 
-Only what the repo genuinely cannot answer — the *why*, the users, the decisions behind
+Only what the repo genuinely cannot answer — the _why_, the users, the decisions behind
 the structure. Never ask what you just read. Converse in the owner's language; file
 content in the repo's language.
 
@@ -80,7 +80,7 @@ and has to be able to see where each line went. Do not create or dual-write `CLA
 
 ## 6. Check what can stop a run
 
-- **`.agents/settings.json`** ships with this package and pre-approves the git / gh /
+- **`/settings.json`** ships with this package and pre-approves the git / gh /
   test calls the workflow is made of, for the whole session. `install` merges our rules
   into an existing one — confirm they are there. A command's `allowed-tools` frontmatter
   is not a substitute: it grants only for the turn that invoked the command.

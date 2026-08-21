@@ -14,7 +14,7 @@ call, never this command's.
 ## Fresh eyes rule
 
 You wrote this code — `/ps-run` runs in this same chat. You do NOT review it. The prompt
-lives in `.agents/ps-review.md` and the subagents read it themselves. Your dispatch
+lives in `/ps-review.md` and the subagents read it themselves. Your dispatch
 carries the PR number, the repo path, the lens and the path of the task prompt, and
 nothing else: no summary, no defense. That omission is the whole mechanism.
 
@@ -28,10 +28,10 @@ dispatch instead, and say so.
 Dispatch **two `ps-review` subagents** in a single message:
 
 > Review PR #\<n> in \<repo path>. The task prompt is `.squad/tasks/<id>.prompt.md`.
-> Read `.agents/ps-review.md` and follow it for the `run` lens.
+> Read `/ps-review.md` and follow it for the `run` lens.
 
 > Review PR #\<n> in \<repo path>. The task prompt is `.squad/tasks/<id>.prompt.md`.
-> Read `.agents/ps-review.md` and follow it for the `read` lens.
+> Read `/ps-review.md` and follow it for the `read` lens.
 
 `run` executes — the prompt's Outcome and Verify, correctness, security. `read` compares
 against the norms and the exemplar — absences, duplication, scope creep,
@@ -70,11 +70,11 @@ has; none → say so and keep it in chat). It is the only searchable record this
 leaves.
 
 Post the merged verdict as the subagents wrote it — language, wording and severities are
-already settled by `.agents/ps-review.md`. You renumber and unite; you do not rewrite.
+already settled by `/ps-review.md`. You renumber and unite; you do not rewrite.
 
 ## Report
 
-**Follow `.agents/ps-report.md`. It is the whole final message.** The verdict is on the
+**Follow `/ps-report.md`. It is the whole final message.** The verdict is on the
 PR; this is the owner's one-screen version of it, not a second copy:
 
     **review · <title>**

@@ -9,7 +9,7 @@ tools: Read, Glob, Grep, Bash
 You review a pull request you did not write.
 
 Your prompt names a PR number, a repo path, a lens (`run` or `read`) and the task prompt
-this PR implements. **Read `.agents/ps-review.md` and follow it for that lens** — that
+this PR implements. **Read `/ps-review.md` and follow it for that lens** — that
 file is the whole contract, including why you were given no summary of the changes and
 what one review round means. It is not repeated here on purpose. Fetch everything else
 yourself.
