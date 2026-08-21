@@ -30,17 +30,23 @@ describe("useForecastForm", () => {
     const { result } = mount();
 
     expect(result.current.simulated).toBe(false);
+    expect(result.current.kind).toBe("fixed");
     expect(result.current.intervals).toHaveLength(1);
     expect(result.current.canSubmit).toBe(false);
   });
 
   it("seeds the intervals and the flag of the forecast being edited", () => {
-    const { result } = mount({ ...filled, simulated: true });
+    const { result } = mount({
+      ...filled,
+      simulated: true,
+      kind: "commitment",
+    });
 
     expect(result.current.intervals).toEqual([
       { key: 0, start: 202_601, end: 202_602 },
     ]);
     expect(result.current.simulated).toBe(true);
+    expect(result.current.kind).toBe("commitment");
     expect(result.current.canSubmit).toBe(true);
   });
 
@@ -86,6 +92,7 @@ describe("useForecastForm", () => {
       ownerId: "p1",
       months: [202_601, 202_602],
       simulated: true,
+      kind: "fixed",
     });
   });
 });

@@ -2,6 +2,7 @@
 
 import { EntryForm } from "@/components/EntryForm/index.tsx";
 import { IntervalList } from "./components/IntervalList/index.tsx";
+import { KindToggle } from "./components/KindToggle/index.tsx";
 import { type ForecastFormProps, useForecastForm } from "./hook.ts";
 import styles from "./style.module.scss";
 
@@ -22,6 +23,8 @@ export function ForecastForm(props: ForecastFormProps) {
     removeInterval,
     simulated,
     toggleSimulated,
+    kind,
+    setKind,
     localError,
     canSubmit,
     handleSubmit,
@@ -33,7 +36,7 @@ export function ForecastForm(props: ForecastFormProps) {
       people={people}
       fields={fields}
       // EntryForm's `period` is the slot for whatever a forecast has and a
-      // movement does not. That is two things now, so it takes a fragment.
+      // movement does not: intervals, kind, and the simulation switch.
       period={
         <div className={styles.period}>
           <IntervalList
@@ -42,6 +45,7 @@ export function ForecastForm(props: ForecastFormProps) {
             onAdd={addInterval}
             onRemove={removeInterval}
           />
+          <KindToggle value={kind} onChange={setKind} />
           <div>
             <label className={styles.simulated} htmlFor={SIMULATED_ID}>
               <input
