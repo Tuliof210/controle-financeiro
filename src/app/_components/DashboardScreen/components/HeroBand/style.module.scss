@@ -1,4 +1,5 @@
 @use "theme" as t;
+@use "./caret" as *;
 @use "./figure" as *;
 @use "./title" as *;
 
@@ -90,7 +91,9 @@
   }
 }
 
-// The title column lives in `_title.scss` and the figure in `_figure.scss` —
-// see the note in each on why they are split off.
+// The title column lives in `_title.scss`, the figure in `_figure.scss` and the
+// two cobalt marks in `_caret.scss` — see the note in each on why they are
+// split off.
 @include title;
 @include figure;
+@include caret;

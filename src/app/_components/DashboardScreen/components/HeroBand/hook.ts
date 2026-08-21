@@ -6,6 +6,7 @@ import { useRollingCents } from "./rolling-cents.hook.ts";
 
 interface HeroBandProps {
   data?: BoardData;
+  refreshing?: boolean;
 }
 
 // `figures` is null in every state but `ok`. The band's title half is static
@@ -16,14 +17,19 @@ interface HeroBandProps {
 // The three useRollingCents calls sit ABOVE that guard and go `undefined` for
 // the no-payload case: a hook cannot be called conditionally, and the optional
 // chain is also what tells the hook there is nothing to walk from yet.
-function useHeroBand({ data }: HeroBandProps) {
+function useHeroBand({ data, refreshing }: HeroBandProps) {
   const figures = buildFigures(data);
   const value = useRollingCents(figures?.valueCents);
   const now = useRollingCents(figures?.nowCents);
   const delta = useRollingCents(figures?.deltaCents);
 
+  // Is the answer on screen the current one? Two ways for it not to be, and the
+  // caret reports both as one state: there is no payload yet (or the status is
+  // not `ok`), or the figures showing are a previous request's while the next
+  // is in flight. The board below already dims for the second; the band, which
+  // sits outside that wrapper, said nothing at all until now.
   if (!figures) {
-    return { figures: null };
+    return { figures: null, live: false };
   }
 
   // Read off the ROLLING delta, not the payload's: mid-flight the sign the
@@ -32,6 +38,7 @@ function useHeroBand({ data }: HeroBandProps) {
   const deltaUp = delta >= 0;
 
   return {
+    live: !refreshing,
     figures: {
       endLabel: figures.endLabel,
       facts: figures.facts,

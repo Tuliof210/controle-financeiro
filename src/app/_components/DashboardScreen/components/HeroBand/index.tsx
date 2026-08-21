@@ -17,7 +17,7 @@ const COPY = {
 // PageHeader on this route only: the other five screens still render that
 // component, which is why none of this copy moved into it.
 export function HeroBand(props: HeroBandProps) {
-  const { figures } = useHeroBand(props);
+  const { figures, live } = useHeroBand(props);
 
   return (
     <>
@@ -37,7 +37,10 @@ export function HeroBand(props: HeroBandProps) {
         />
       )}
 
-      <section className={styles.band}>
+      {/* `waiting` when the figures on screen are not the current answer — no
+          payload yet, or a request in flight replacing the one showing. It
+          drives the caret and nothing else; see `_caret.scss`. */}
+      <section className={cx(styles.band, !live && styles.waiting)}>
         <div className={styles.edge} aria-hidden={true} />
         <div className={styles.glow} aria-hidden={true} />
 

@@ -44,11 +44,11 @@ export function DashboardScreen() {
 
   return (
     <div className={styles.screen}>
-      {/* PageHeader's job on this route only. Its copy moved into the band
-          verbatim; the other five screens still render that component. The band
-          takes `data` only when the payload is ok — its title half renders in
-          every state, so the page never opens on a bare notice. */}
-      <HeroBand data={heroData} />
+      {/* PageHeader's job on this route only. `data` only when the payload is
+          ok — the title half renders in every state, so the page never opens on
+          a bare notice. `refreshing` because the band sits OUTSIDE the wrapper
+          that dims the board, and alone still claimed to be current. */}
+      <HeroBand data={heroData} refreshing={refreshing} />
 
       {/* Under the band, not over it: the band is full-bleed and cancels
           <main>'s padding with a negative margin on all four sides, so anything

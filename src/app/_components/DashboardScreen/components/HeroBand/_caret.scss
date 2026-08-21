@@ -1,0 +1,55 @@
+// The band's two cobalt marks — the bullet before the eyebrow and the caret
+// after the h1 — split off `_title.scss` for the reason that file was split off
+// the stylesheet: a mixin that emits nothing on its own, included once beside
+// it, so neither crosses the 100-line cap. Their markup is this folder's
+// `index.tsx`.
+
+@mixin caret {
+  // The design paints both marks lime. This band INVERTS, so lime would land on
+  // near-white in the dark theme and all but disappear; --color-brand is the one
+  // accent visible on both fills (3.59:1 light, 3.19:1 dark — they are
+  // decorative, so the bar is 3:1 for non-text, not 4.5:1).
+  .mark,
+  .cursor {
+    flex: none;
+    background: var(--color-brand);
+  }
+
+  .mark {
+    width: var(--space-2);
+    height: var(--space-2);
+  }
+
+  // Never blinking: the design loops it at 1.1s, and anything blinking for more
+  // than five seconds has to be stoppable (WCAG 2.2.2) — which
+  // prefers-reduced-motion does not discharge. It moves once per state change
+  // instead, in one direction at a time, which is a report rather than an
+  // animation and has nothing to keep stopping.
+  //
+  // 24px flat, matching the 22px title's line box. The old `md` step to 32px was
+  // sized for the 28px title this column no longer has, and overshot the cap
+  // height by ~4px either side — a stray cobalt bar rather than a caret.
+  .cursor {
+    width: var(--space-3);
+    height: var(--space-6);
+    transition: transform var(--duration-slow) var(--ease-out);
+  }
+
+  // The one thing on this screen that used to claim currency it did not have.
+  // While a request is in flight the board below dims and takes `aria-busy`;
+  // the band sits OUTSIDE that wrapper and kept its old figures at full
+  // strength, so the page's headline number was the only figure on it not
+  // saying it was about to be replaced. The caret says it: it folds to a seam
+  // while the desk recomputes and stands back up as the new figure lands.
+  //
+  // scaleY, not `height` — the fold must not resize the h1's line box under the
+  // title beside it. --duration-slow is `rolling-cents.hook.ts`'s own duration,
+  // and deliberately the same one: the caret finishes standing up on the frame
+  // the figures stop moving, so the mark and the money land together.
+  //
+  // A state, not decoration, so it survives prefers-reduced-motion — the token
+  // collapses the 320ms to 0ms and the caret simply arrives folded or upright.
+  .waiting .cursor {
+    transform: scaleY(0.15);
+  }
+}

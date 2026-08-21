@@ -13,8 +13,8 @@ const data = (points: MonthPoint[], current = 202_601) =>
     range: { start: 202_601, end: 202_603, current },
   }) as BoardData;
 
-const band = (payload?: BoardData) =>
-  renderHook(() => useHeroBand({ data: payload })).result.current;
+const band = (payload?: BoardData, refreshing?: boolean) =>
+  renderHook(() => useHeroBand({ data: payload, refreshing })).result.current;
 
 describe("useHeroBand", () => {
   it("renders no figure while the payload has not landed", () => {
@@ -50,6 +50,16 @@ describe("useHeroBand", () => {
     );
 
     expect(figures?.now).toBe("R$ 1,00");
+  });
+
+  // The caret reads off `live`, so the two states it has to tell apart are a
+  // band with no answer at all and a band whose answer is being replaced.
+  it("is not live until a payload lands, and not while one is in flight", () => {
+    const points = [point(202_601, 100), point(202_603, 500)];
+
+    expect(band().live).toBe(false);
+    expect(band(data(points), true).live).toBe(false);
+    expect(band(data(points)).live).toBe(true);
   });
 
   it("carries the bottom strip's facts", () => {

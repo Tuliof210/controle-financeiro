@@ -60,6 +60,23 @@ describe("HeroBand", () => {
     expect(bar).toHaveTextContent("▲ R$ 4,00");
   });
 
+  // The caret's fold is a CSS rule on this class, so the class IS the contract
+  // between the screen's `refreshing` flag and what the reader sees.
+  it("marks the band as waiting until its figures are the current ones", () => {
+    const { container, rerender } = render(
+      <HeroBand data={data} refreshing={true} />,
+    );
+    const section = () => container.querySelector("section");
+
+    expect(section()).toHaveClass("waiting");
+
+    rerender(<HeroBand data={data} />);
+    expect(section()).not.toHaveClass("waiting");
+
+    rerender(<HeroBand />);
+    expect(section()).toHaveClass("waiting");
+  });
+
   it("renders no echo while the payload has not landed", () => {
     const { container } = render(<HeroBand />);
 
