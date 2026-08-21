@@ -1,4 +1,5 @@
 ---
+name: ps-sync
 description: Move every product and architecture rule scattered around the repo into .squad/PRODUCT.md and .squad/ARCHITECTURE.md, then interview to fill what is still missing. Usage - /ps-sync
 effort: medium
 allowed-tools: Task, Agent, Read, Write, Edit, Grep, Glob, Bash(git:*), Bash(ls:*), Bash(cat:*)
@@ -16,12 +17,12 @@ allowed-tools: Task, Agent, Read, Write, Edit, Grep, Glob, Bash(git:*), Bash(ls:
   commands, the conventions to imitate (each with an exemplar file path), the boundaries
   and the do-not-touch list.
 
-Two files, so that everything loaded is either _what_ or _how_. A third file saying a
-bit of both is the state this command exists to end.
+Two files, so that everything loaded is either *what* or *how*. A third file saying a
+bit of both is the state this skill exists to end.
 
 ## 1. Empty AGENTS.md, then fill the other two
 
-**This command's primary job is a move, not an interview.** Product and architecture
+**This skill's primary job is a move, not an interview.** Product and architecture
 rules are almost never missing — they are scattered. Sweep the repo read-only
 (`AGENTS.md`, `CLAUDE.md`, `README.md`, `CONTRIBUTING.md`, `docs/`, `.cursorrules`,
 ADRs, long comment blocks) and route every rule you find:
@@ -56,7 +57,7 @@ what you found. Mark anything inferred and ask about it **with a suggested defau
 
 ## 4. Interview the gaps
 
-Only what the repo genuinely cannot answer — the _why_, the users, the decisions behind
+Only what the repo genuinely cannot answer — the *why*, the users, the decisions behind
 the structure. Never ask what you just read. Converse in the owner's language; file
 content in the repo's language.
 
@@ -70,7 +71,7 @@ missing):
 ```markdown
 ## Mandatory first step
 
-Before answering anything in this repository — a `/ps-*` command or an ordinary
+Before answering anything in this repository — a `/ps-*` skill or an ordinary
 question, every session, every message — read `.squad/PRODUCT.md` and
 `.squad/ARCHITECTURE.md`. They are the norm this project is judged against.
 ```
@@ -80,7 +81,7 @@ and has to be able to see where each line went. Do not create or dual-write `CLA
 
 ## 6. Check what can stop a run
 
-- **`/settings.json`** ships with this package and pre-approves the git / gh /
+- **`.agents/settings.json`** ships with this package and pre-approves the git / gh /
   test calls the workflow is made of, for the whole session. `install` merges our rules
-  into an existing one — confirm they are there. A command's `allowed-tools` frontmatter
-  is not a substitute: it grants only for the turn that invoked the command.
+  into an existing one — confirm they are there. A skill's `allowed-tools` frontmatter
+  is not a substitute: it grants only for the turn that invoked the skill.
