@@ -23,6 +23,7 @@ const forecast = {
   ownerId: "p1",
   months: [202_601, 202_602],
   simulated: true,
+  kind: "commitment",
 };
 
 const seedApi = (period: unknown) => {
@@ -51,12 +52,13 @@ describe("ForecastsScreen", () => {
     ).toBeInTheDocument();
   });
 
-  it("reads a row's period as its intervals, badged when simulated", async () => {
+  it("reads a row's period as its intervals, badged by kind and when simulated", async () => {
     render(<ForecastsScreen />);
 
     await waitFor(() =>
       expect(screen.getByText("Jan/26–Fev/26")).toBeInTheDocument(),
     );
+    expect(screen.getByText("Compromisso futuro")).toBeInTheDocument();
     expect(screen.getByText("Simulado")).toBeInTheDocument();
   });
 

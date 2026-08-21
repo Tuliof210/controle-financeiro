@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { ENTRY_TYPES } from "@/lib/entry-types.ts";
+import { DEFAULT_FORECAST_KIND, FORECAST_KINDS } from "@/lib/forecast-kinds.ts";
 
 const NAME_MAX = 80;
 // 2000-2099: the picker's own domain.
@@ -21,6 +22,9 @@ const forecastShape = {
   // Defaulted rather than required: a body that predates simulations — the e2e
   // seeds, a saved curl — is a real forecast, not a validation error.
   simulated: z.boolean().default(false),
+  // Defaulted rather than required: a body that predates kinds is a fixed
+  // forecast, not a validation error.
+  kind: z.enum(FORECAST_KINDS).default(DEFAULT_FORECAST_KIND),
 };
 
 export const createSchema = z.object(forecastShape);

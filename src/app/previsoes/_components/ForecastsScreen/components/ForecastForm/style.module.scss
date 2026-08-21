@@ -1,7 +1,7 @@
 @use "checkbox";
 
-// The two halves of the form's forecast-only slot: the vigência card, then the
-// simulation switch under it. The gap matches EntryForm's own field rhythm.
+// The three halves of the form's forecast-only slot: vigência, kind, then the
+// simulation switch. The gap matches EntryForm's own field rhythm.
 .period {
   display: flex;
   flex-direction: column;

@@ -30,6 +30,22 @@ describe("createSchema", () => {
     );
   });
 
+  it("defaults a body that predates kinds to a fixed forecast", () => {
+    expect(createSchema.parse(valid).kind).toBe("fixed");
+  });
+
+  it("keeps an explicit kind", () => {
+    expect(createSchema.parse({ ...valid, kind: "commitment" }).kind).toBe(
+      "commitment",
+    );
+  });
+
+  it("rejects an unknown kind", () => {
+    expect(createSchema.safeParse({ ...valid, kind: "maybe" }).success).toBe(
+      false,
+    );
+  });
+
   it("requires at least one active month", () => {
     expect(createSchema.safeParse({ ...valid, months: [] }).success).toBe(
       false,

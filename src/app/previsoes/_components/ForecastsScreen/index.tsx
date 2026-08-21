@@ -3,6 +3,7 @@
 import { EntryScreen } from "@/components/EntryScreen/index.tsx";
 import type { Forecast } from "@/core/entities/forecast.entity.ts";
 import type { Period } from "@/core/use-cases/period.service.ts";
+import { KIND_LABELS } from "@/lib/forecast-kinds.ts";
 import { CoverageBar } from "./components/CoverageBar/index.tsx";
 import type { ForecastFormValues } from "./components/ForecastForm/hook.ts";
 import { ForecastForm } from "./components/ForecastForm/index.tsx";
@@ -13,15 +14,11 @@ const COPY = {
   simulado: "Simulado",
 } as const;
 
-// Pure and free of component state, so they are module functions rather than
-// closures the JSX rebuilds on every render.
-//
-// The badge rides here rather than in EntryRow because EntryRow types its entry
-// as the shared `Entry` and cannot see `simulated` at all. This callback is the
-// one place the item is known to be a Forecast, and it is forecast-only code —
-// Movimentações passes its own.
+// The badges ride here rather than in EntryRow because EntryRow types its
+// entry as the shared `Entry` and cannot see `kind` or `simulated` at all.
 const renderPeriod = (forecast: Forecast) => (
   <span className={styles.period}>
+    <span className={styles.badge}>{KIND_LABELS[forecast.kind]}</span>
     {Boolean(forecast.simulated) && (
       <span className={styles.badge}>{COPY.simulado}</span>
     )}
@@ -61,13 +58,8 @@ export function ForecastsScreen() {
           emptyHint: "Aluguel, financiamento e assinaturas entram aqui.",
         },
       }}
-      // The two halves of a forecast's period now land in two places: the
-      // intervals read in the row's metadata line, the band under the row.
-      //
-      // The badge rides in here rather than in EntryRow because EntryRow types
-      // its entry as the shared `Entry` and cannot see `simulated` at all. This
-      // callback is the one place the item is known to be a Forecast, and it is
-      // forecast-only code — Movimentações passes its own.
+      // Intervals in the row's metadata line, the band under the row. Kind and
+      // simulated badges ride here: EntryRow types its entry as `Entry`.
       renderPeriod={renderPeriod}
       renderBand={renderBand}
       form={ForecastForm}

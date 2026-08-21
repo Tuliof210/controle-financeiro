@@ -25,6 +25,7 @@ const row = {
   type: "expense",
   ownerId: "p1",
   simulated: false,
+  kind: "fixed",
   createdAt: new Date(0),
   months: [{ month: 202_612 }, { month: 202_601 }],
 };
@@ -35,6 +36,7 @@ const input = {
   type: "expense" as const,
   ownerId: "p1",
   simulated: false,
+  kind: "fixed" as const,
   months: [202_601],
 };
 
@@ -64,6 +66,7 @@ describe("forecastRepository", () => {
         type: input.type,
         ownerId: input.ownerId,
         simulated: false,
+        kind: "fixed",
         months: { create: [{ month: 202_601 }] },
       },
       include: { months: true },

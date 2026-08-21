@@ -28,6 +28,7 @@ const input = {
   ownerId: "p1",
   months: [202_608],
   simulated: false,
+  kind: "fixed" as const,
 };
 
 beforeEach(() => {

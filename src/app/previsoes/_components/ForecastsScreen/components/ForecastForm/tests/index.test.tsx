@@ -10,10 +10,18 @@ jest.mock("@/components/ProfileProvider/hook.ts", () => ({
   useProfile: jest.fn(),
 }));
 
+const people = [{ id: "p1", name: "Ana" }] as Person[];
 const props = {
   submitLabel: "Adicionar",
-  people: [{ id: "p1", name: "Ana" }] as Person[],
+  people,
   onSubmit: jest.fn(),
+};
+const filled = {
+  name: "Aluguel",
+  valueCents: 150_000,
+  type: "expense" as const,
+  ownerId: "p1",
+  months: [202_601, 202_602],
 };
 
 beforeEach(() => {
@@ -21,12 +29,13 @@ beforeEach(() => {
 });
 
 describe("ForecastForm", () => {
-  it("puts the interval list and the simulation flag in the period slot", () => {
+  it("puts intervals, kind radios and the simulation flag in the period slot", () => {
     render(<ForecastForm {...props} />);
 
     expect(
       screen.getByRole("button", { name: "Adicionar intervalo" }),
     ).toBeInTheDocument();
+    expect(screen.getByRole("radio", { name: "Fixa" })).toBeChecked();
     expect(screen.getByLabelText("Simulação")).not.toBeChecked();
   });
 
@@ -44,6 +53,30 @@ describe("ForecastForm", () => {
     await userEvent.click(screen.getByLabelText("Simulação"));
 
     expect(screen.getByLabelText("Simulação")).toBeChecked();
+  });
+
+  it("submits the kind the reader picked", async () => {
+    const onSubmit = jest.fn();
+    render(<ForecastForm {...props} initial={filled} onSubmit={onSubmit} />);
+
+    await userEvent.click(
+      screen.getByRole("radio", { name: "Compromisso futuro" }),
+    );
+    await userEvent.click(screen.getByRole("button", { name: "Adicionar" }));
+
+    expect(onSubmit).toHaveBeenCalledWith(
+      expect.objectContaining({ kind: "commitment" }),
+    );
+  });
+
+  it("seeds the kind of the forecast being edited", () => {
+    render(
+      <ForecastForm {...props} initial={{ ...filled, kind: "commitment" }} />,
+    );
+
+    expect(
+      screen.getByRole("radio", { name: "Compromisso futuro" }),
+    ).toBeChecked();
   });
 
   it("prefixes the shared fields with forecast", () => {
