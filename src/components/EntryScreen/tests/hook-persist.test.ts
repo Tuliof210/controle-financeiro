@@ -30,6 +30,7 @@ const config: EntryScreenConfig<Entry, Values> = {
   labels: {} as EntryScreenLabels,
   renderPeriod: () => null,
   form: () => null,
+  list: { getInitialDate: () => 0, getCreatedAt: () => "" },
 };
 
 const entries = [

@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it } from "@jest/globals";
-import { renderHook, waitFor } from "@testing-library/react";
+import { act, renderHook, waitFor } from "@testing-library/react";
 import { useEntryScreen } from "@/components/EntryScreen/hook.ts";
 import type {
   EntryScreenConfig,
@@ -7,6 +7,7 @@ import type {
 } from "@/components/EntryScreen/types.ts";
 import { useProfile } from "@/components/ProfileProvider/hook.ts";
 import { apiGet } from "@/lib/api.ts";
+import { DEFAULT_ENTRY_LIST_QUERY } from "@/lib/entry-list-query.ts";
 import type { Entry, EntryType } from "@/lib/entry-types.ts";
 import { FAMILY_PROFILE } from "@/lib/ownership.ts";
 
@@ -30,6 +31,7 @@ const config: EntryScreenConfig<Entry, Values> = {
   labels: {} as EntryScreenLabels,
   renderPeriod: () => null,
   form: () => null,
+  list: { getInitialDate: () => 0, getCreatedAt: () => "" },
 };
 
 const entries = [
@@ -74,6 +76,21 @@ describe("useEntryScreen", () => {
     const { result } = await mount();
 
     expect(result.current.income).toHaveLength(1);
+    expect(result.current.expense).toHaveLength(0);
+  });
+
+  it("applies the profile before the name query", async () => {
+    jest.mocked(useProfile).mockReturnValue({ profile: "p1" } as never);
+    const { result } = await mount();
+
+    act(() => {
+      result.current.onQueryChange({
+        ...DEFAULT_ENTRY_LIST_QUERY,
+        name: "Luz",
+      });
+    });
+
+    expect(result.current.income).toHaveLength(0);
     expect(result.current.expense).toHaveLength(0);
   });
 });

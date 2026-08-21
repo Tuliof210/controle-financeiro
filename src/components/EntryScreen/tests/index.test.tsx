@@ -25,7 +25,6 @@ jest.mock("@/lib/api.ts", () => ({
 interface Values {
   type: EntryType;
 }
-
 const config: EntryScreenConfig<Entry, Values> = {
   resource: "forecasts",
   labels: {
@@ -42,6 +41,7 @@ const config: EntryScreenConfig<Entry, Values> = {
   } as EntryScreenLabels,
   renderPeriod: () => null,
   form: () => null,
+  list: { getInitialDate: () => 0, getCreatedAt: () => "" },
 };
 
 const entries = [

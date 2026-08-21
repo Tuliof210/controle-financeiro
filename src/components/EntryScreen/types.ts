@@ -3,6 +3,7 @@ import type { PageHeaderProps } from "@/components/PageHeader/hook.ts";
 import type { Person } from "@/core/entities/person.entity.ts";
 import type { Period } from "@/core/use-cases/period.service.ts";
 import type { Entry, EntryType } from "@/lib/entry-types.ts";
+import type { EntryListConfig } from "./list.hook.ts";
 
 export type ModalState<T> =
   | { type: "none" }
@@ -61,4 +62,7 @@ export interface EntryScreenConfig<
   // Movimentações has no band at all, so it simply never passes this.
   renderBand?: (item: T, period: Period | null) => ReactNode;
   form: ComponentType<EntryFormSlotProps<V>>;
+  // Sort/filter keys that `Entry` does not share.
+  // Omit `kinds` to hide Classificação.
+  list: EntryListConfig<T>;
 }

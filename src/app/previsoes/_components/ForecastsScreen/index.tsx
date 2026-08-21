@@ -3,6 +3,7 @@
 import { EntryScreen } from "@/components/EntryScreen/index.tsx";
 import type { Forecast } from "@/core/entities/forecast.entity.ts";
 import type { Period } from "@/core/use-cases/period.service.ts";
+import { FORECAST_KINDS, KIND_LABELS } from "@/lib/forecast-kinds.ts";
 import { CoverageBar } from "./components/CoverageBar/index.tsx";
 import { ForecastBadges } from "./components/ForecastBadges/index.tsx";
 import type { ForecastFormValues } from "./components/ForecastForm/hook.ts";
@@ -53,6 +54,15 @@ export function ForecastsScreen() {
       renderPeriod={renderPeriod}
       renderBadges={renderBadges}
       renderBand={renderBand}
+      list={{
+        getInitialDate: (forecast) => forecast.months[0] ?? 0,
+        getCreatedAt: (forecast) => forecast.createdAt,
+        getKind: (forecast) => forecast.kind,
+        kinds: FORECAST_KINDS.map((value) => ({
+          value,
+          label: KIND_LABELS[value],
+        })),
+      }}
       form={ForecastForm}
     />
   );

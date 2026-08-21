@@ -37,6 +37,10 @@ export function MovementsScreen() {
         },
       }}
       renderPeriod={renderPeriod}
+      list={{
+        getInitialDate: (movement) => movement.month,
+        getCreatedAt: (movement) => movement.createdAt,
+      }}
       form={MovementForm}
     />
   );
