@@ -37,9 +37,8 @@
   --color-hover-wash: var(--neutral-800);
   --color-row-hover: var(--neutral-800);
 
-  // Dark counterparts for the twelve trio members. The washes are the same
-  // hues at low lightness; each fg measures ≥ 6.5:1 on its own wash, and
-  // 7.55 / 6.61 / 6.52 / 7.07:1 on the worst dark surface.
+  // Dark counterparts for the trio members. The washes are the same hues at
+  // low lightness; each fg measures ≥ 6.5:1 on its own wash and on --neutral-800.
   --positive-fg: #3fcb95;
   --positive-bg: #0f2a20;
   --positive-border: #1c4a38;
@@ -52,11 +51,23 @@
   --info-fg: #4fbbe3;
   --info-bg: #0d2733;
   --info-border: #1b4557;
+  // 8.48:1 on own wash, 7.60:1 on --neutral-800.
+  --ai-fg: #c4a8f5;
+  --ai-bg: #1e1533;
+  --ai-border: #3a2860;
 
   --color-positive: var(--positive-fg);
   --color-negative: var(--negative-fg);
   --color-caution: var(--alert-fg);
   --color-info: var(--info-fg);
+  --color-ai: var(--ai-fg);
+
+  --proj-real-fg: var(--neutral-100);
+  --proj-real-bg: var(--neutral-900);
+  --proj-est-fg: var(--neutral-50);
+  --proj-est-bg: var(--neutral-600);
+  --proj-sim-fg: var(--cobalt-50);
+  --proj-sim-bg: var(--cobalt-700);
 
   // The target's shadows are translucent ink on an off-white page; at 3–12%
   // alpha they disappear entirely against a dark surface. Same geometry, much

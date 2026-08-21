@@ -36,4 +36,13 @@
   --tracking-normal: 0;
   // Eyebrow tracking — uppercase mono only.
   --tracking-wide: 0.14em;
+
+  // Money scale — grotesque (`--font-sans`) at every size; the kit's Clash
+  // hero is not copied. Decimals in large figures use --money-decimal-opacity.
+  --money-hero: 3rem;
+  --money-large: 1.875rem;
+  --money-base: 1.0625rem;
+  --money-small: 0.875rem;
+  --money-delta: 0.8125rem;
+  --money-decimal-opacity: 0.45;
 }
