@@ -1,5 +1,5 @@
 import type { Forecast } from "@/core/entities/forecast.entity.ts";
-import { KIND_LABELS } from "@/lib/forecast-kinds.ts";
+import { type ForecastKind, KIND_LABELS } from "@/lib/forecast-kinds.ts";
 import styles from "./style.module.scss";
 
 const COPY = {
@@ -8,10 +8,16 @@ const COPY = {
 
 type ForecastBadgesProps = Pick<Forecast, "kind" | "simulated">;
 
+interface Badge {
+  key: ForecastKind | "simulated";
+  label: string;
+  className: string;
+}
+
 // Kind first, simulated after when it is set. Both are labels, not projection
 // inputs; the className is resolved here so index.tsx never concatenates.
 function useForecastBadges({ kind, simulated }: ForecastBadgesProps) {
-  const items = [
+  const items: Badge[] = [
     {
       key: kind,
       label: KIND_LABELS[kind],
