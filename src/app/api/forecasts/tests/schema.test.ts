@@ -35,15 +35,15 @@ describe("createSchema", () => {
   });
 
   it("keeps an explicit kind", () => {
-    expect(
-      createSchema.parse({ ...valid, kind: "commitment" }).kind,
-    ).toBe("commitment");
+    expect(createSchema.parse({ ...valid, kind: "commitment" }).kind).toBe(
+      "commitment",
+    );
   });
 
   it("rejects an unknown kind", () => {
-    expect(
-      createSchema.safeParse({ ...valid, kind: "maybe" }).success,
-    ).toBe(false);
+    expect(createSchema.safeParse({ ...valid, kind: "maybe" }).success).toBe(
+      false,
+    );
   });
 
   it("requires at least one active month", () => {

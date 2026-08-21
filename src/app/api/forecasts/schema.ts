@@ -1,9 +1,6 @@
 import { z } from "zod";
 import { ENTRY_TYPES } from "@/lib/entry-types.ts";
-import {
-  DEFAULT_FORECAST_KIND,
-  FORECAST_KINDS,
-} from "@/lib/forecast-kinds.ts";
+import { DEFAULT_FORECAST_KIND, FORECAST_KINDS } from "@/lib/forecast-kinds.ts";
 
 const NAME_MAX = 80;
 // 2000-2099: the picker's own domain.
