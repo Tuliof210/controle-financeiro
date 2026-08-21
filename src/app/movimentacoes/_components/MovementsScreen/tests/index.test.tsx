@@ -59,4 +59,13 @@ describe("MovementsScreen", () => {
       screen.getByText("Nenhuma entrada para este filtro"),
     ).toBeInTheDocument();
   });
+
+  it("offers name, sort and direction, but not classification", () => {
+    render(<MovementsScreen />);
+
+    expect(screen.getByLabelText("Nome")).toBeInTheDocument();
+    expect(screen.getByLabelText("Ordenar por")).toBeInTheDocument();
+    expect(screen.getByLabelText("Direção")).toBeInTheDocument();
+    expect(screen.queryByLabelText("Classificação")).not.toBeInTheDocument();
+  });
 });

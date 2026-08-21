@@ -59,7 +59,7 @@ describe("ForecastsScreen", () => {
       expect(screen.getByText("Jan/26–Fev/26")).toBeInTheDocument(),
     );
     const name = screen.getByText("Aluguel");
-    const kind = screen.getByText("Compromisso futuro");
+    const kind = screen.getByText("Compromisso futuro", { selector: "span" });
     const simulated = screen.getByText("Simulado");
     const months = screen.getByText("Jan/26–Fev/26");
 

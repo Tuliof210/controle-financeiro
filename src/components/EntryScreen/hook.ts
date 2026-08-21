@@ -4,14 +4,13 @@ import type { Person } from "@/core/entities/person.entity.ts";
 import type { Period } from "@/core/use-cases/period.service.ts";
 import { apiDelete, apiGet, apiPost, apiPut } from "@/lib/api.ts";
 import type { Entry, EntryType } from "@/lib/entry-types.ts";
-import { splitByType, visibleFor } from "@/lib/ownership.ts";
+import { useEntryList } from "./list.hook.ts";
 import type { EntryScreenConfig, ModalState } from "./types.ts";
 
-// `T` is the entity; `V` is its form-values shape. Seeding the form from either
-// a `T` (edit) or a bare `{ type }` (add) is handled by EntryFormSlotProps.initial.
 export function useEntryScreen<T extends Entry, V extends { type: EntryType }>({
   resource,
   labels,
+  list,
 }: EntryScreenConfig<T, V>) {
   const { profile } = useProfile();
   const [items, setItems] = useState<T[]>([]);
@@ -47,7 +46,7 @@ export function useEntryScreen<T extends Entry, V extends { type: EntryType }>({
     });
   }, [refetch]);
 
-  const { income, expense } = splitByType(visibleFor(items, profile));
+  const listed = useEntryList(items, profile, list);
 
   const openModal = (state: ModalState<T>) => {
     setError(undefined);
@@ -83,8 +82,7 @@ export function useEntryScreen<T extends Entry, V extends { type: EntryType }>({
 
   return {
     labels,
-    income,
-    expense,
+    ...listed,
     people,
     period,
     modal,

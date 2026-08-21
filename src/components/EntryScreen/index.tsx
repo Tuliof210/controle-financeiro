@@ -1,6 +1,7 @@
 "use client";
 
 import { ConfirmDialog } from "@/components/ConfirmDialog/index.tsx";
+import { EntryListControls } from "@/components/EntryListControls/index.tsx";
 import { PageHeader } from "@/components/PageHeader/index.tsx";
 import type { Entry, EntryType } from "@/lib/entry-types.ts";
 import { Modals } from "./components/Modals/index.tsx";
@@ -40,11 +41,19 @@ export function EntryScreen<T extends Entry, V extends { type: EntryType }>(
     onAdd,
     onUpdate,
     onConfirmDelete,
+    query,
+    onQueryChange,
   } = useEntryScreen(config);
 
   return (
     <div className={styles.screen}>
       <PageHeader {...labels.header} />
+
+      <EntryListControls
+        query={query}
+        onChange={onQueryChange}
+        kinds={config.list.kinds}
+      />
 
       <Sections
         labels={labels}
