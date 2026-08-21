@@ -15,6 +15,7 @@ export interface EntrySectionProps<T extends Entry> {
   period: Period | null;
   labels: EntrySectionLabels;
   renderPeriod: (item: T, period: Period | null) => ReactNode;
+  renderBadges?: (item: T, period: Period | null) => ReactNode;
   renderBand?: (item: T, period: Period | null) => ReactNode;
   onAdd: () => void;
   onEdit: (item: T) => void;
@@ -32,6 +33,7 @@ export function useEntrySection<T extends Entry>({
   period,
   labels,
   renderPeriod,
+  renderBadges,
   renderBand,
   onAdd,
   onEdit,
@@ -41,6 +43,7 @@ export function useEntrySection<T extends Entry>({
     entry: item,
     person: people.find((person) => person.id === item.ownerId),
     period: renderPeriod(item, period),
+    badges: renderBadges?.(item, period),
     band: renderBand?.(item, period),
     onEdit: () => onEdit(item),
     onDelete: () => onDelete(item),

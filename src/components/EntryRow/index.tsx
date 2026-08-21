@@ -5,8 +5,8 @@ import styles from "./style.module.scss";
 
 // Four cells, each tagged with the grid area RowGrid places it in: the owner
 // chip, the name-plus-metadata block, the amount, and the action pair. Owner
-// and period live inside `main` now — they read as one muted line under the
-// name instead of claiming two columns of their own.
+// and period live inside `main` — a muted line under the name (and under the
+// optional badges row a forecast inserts between the two).
 export function EntryRow(props: EntryRowProps) {
   const {
     name,
@@ -16,6 +16,7 @@ export function EntryRow(props: EntryRowProps) {
     value,
     owner,
     period,
+    badges,
     band,
     onEdit,
     onDelete,
@@ -31,6 +32,7 @@ export function EntryRow(props: EntryRowProps) {
       </span>
       <span data-cell="main" className={styles.main}>
         <span className={styles.name}>{name}</span>
+        {badges}
         <span className={styles.meta}>
           <span className={styles.owner}>{owner}</span>
           <span className={styles.separator} aria-hidden={true} />

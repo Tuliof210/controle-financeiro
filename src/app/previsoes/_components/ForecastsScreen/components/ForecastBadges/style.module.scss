@@ -1,0 +1,44 @@
+// Own row under the name, so the flags no longer compete with the months for
+// width on the metadata line. Wrap is load-bearing at 375px: "Compromisso
+// futuro" + "Simulado" is wider than the main cell once the chip and amount
+// have taken their columns.
+.badges {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+// The word is the signal; the tint only makes the two kinds findable. Ink
+// stays --color-text so both themes clear 4.5:1. The category hue is the
+// border (and a 12% wash), which is non-text contrast — cyan 3.83:1 / 3.68:1
+// and magenta 4.45:1 / 3.17:1 on the worst surface of each theme.
+//
+// Category primitives, not the financial trios: kind is a label, not a money
+// state, and --color-caution on a commitment would read as "the ceiling is
+// tight". Same axis a person chip already uses.
+.badge {
+  flex: none;
+  padding: 0 var(--space-1);
+  border: var(--border-1) solid var(--color-border);
+  border-radius: var(--radius-sm);
+  color: var(--color-text);
+  font-weight: var(--weight-bold);
+}
+
+.fixed {
+  border-color: var(--cat-cyan);
+  background: color-mix(in srgb, var(--cat-cyan) 12%, var(--color-surface));
+}
+
+.commitment {
+  border-color: var(--cat-magenta);
+  background: color-mix(in srgb, var(--cat-magenta) 12%, var(--color-surface));
+}
+
+// Orthogonal to kind. A dashed hairline, not a third hue: README 7c pairs
+// simulated with a border style so colour never carries it.
+.simulated {
+  border-style: dashed;
+  border-color: var(--color-border-strong);
+}

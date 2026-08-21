@@ -63,14 +63,20 @@ describe("useEntryRow", () => {
     expect(result.current.initial).toBeNull();
   });
 
-  it("passes the period, band and actions through", () => {
+  it("passes the period, badges, band and actions through", () => {
     const { result } = renderHook(() =>
-      useEntryRow({ ...props, person: ana, band: "barra" }),
+      useEntryRow({
+        ...props,
+        person: ana,
+        badges: "flags",
+        band: "barra",
+      }),
     );
 
     expect(result.current).toMatchObject({
       name: "Aluguel",
       period: "Ago/26",
+      badges: "flags",
       band: "barra",
       onEdit: props.onEdit,
       onDelete: props.onDelete,

@@ -52,14 +52,26 @@ describe("ForecastsScreen", () => {
     ).toBeInTheDocument();
   });
 
-  it("reads a row's period as its intervals, badged by kind and when simulated", async () => {
+  it("reads a row's period as its intervals, with kind and simulated as badges", async () => {
     render(<ForecastsScreen />);
 
     await waitFor(() =>
       expect(screen.getByText("Jan/26–Fev/26")).toBeInTheDocument(),
     );
-    expect(screen.getByText("Compromisso futuro")).toBeInTheDocument();
-    expect(screen.getByText("Simulado")).toBeInTheDocument();
+    const name = screen.getByText("Aluguel");
+    const kind = screen.getByText("Compromisso futuro");
+    const simulated = screen.getByText("Simulado");
+    const months = screen.getByText("Jan/26–Fev/26");
+
+    expect(name.compareDocumentPosition(kind)).toBe(
+      Node.DOCUMENT_POSITION_FOLLOWING,
+    );
+    expect(kind.compareDocumentPosition(simulated)).toBe(
+      Node.DOCUMENT_POSITION_FOLLOWING,
+    );
+    expect(simulated.compareDocumentPosition(months)).toBe(
+      Node.DOCUMENT_POSITION_FOLLOWING,
+    );
   });
 
   it("draws no band while there is no range to measure against", async () => {

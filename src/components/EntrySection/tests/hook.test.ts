@@ -46,6 +46,18 @@ describe("useEntrySection", () => {
     expect(result.current.rows[0].period).toBe("periodo de Aluguel");
   });
 
+  it("threads badges only when the caller draws them", () => {
+    expect(
+      renderHook(() => useEntrySection(props)).result.current.rows[0].badges,
+    ).toBeUndefined();
+
+    const { result } = renderHook(() =>
+      useEntrySection({ ...props, renderBadges: () => "flags" }),
+    );
+
+    expect(result.current.rows[0].badges).toBe("flags");
+  });
+
   it("leaves the band absent unless the entity draws one", () => {
     const { result } = renderHook(() => useEntrySection(props));
 

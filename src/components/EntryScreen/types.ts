@@ -53,6 +53,9 @@ export interface EntryScreenConfig<
   // can draw itself relative to it (the forecast coverage bar). Callers that
   // do not need it — Movimentações — just ignore the second argument.
   renderPeriod: (item: T, period: Period | null) => ReactNode;
+  // Kind/simulated chips between the name and the owner/date line. A third
+  // slot: they are neither a period nor a band, and Movimentações has none.
+  renderBadges?: (item: T, period: Period | null) => ReactNode;
   // The band under the row, when the entity has one. A second slot rather than
   // one that returns both halves: they land in different grid areas, and
   // Movimentações has no band at all, so it simply never passes this.

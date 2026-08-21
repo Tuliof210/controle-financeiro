@@ -34,6 +34,21 @@ describe("EntryRow", () => {
     expect(screen.getByText("R$ 1.500,00")).toBeInTheDocument();
   });
 
+  it("renders badges between the name and the owner", () => {
+    render(<EntryRow {...props} badges={<span>Fixa</span>} />);
+
+    const name = screen.getByText("Aluguel");
+    const badge = screen.getByText("Fixa");
+    const owner = screen.getByText("Ana");
+
+    expect(name.compareDocumentPosition(badge)).toBe(
+      Node.DOCUMENT_POSITION_FOLLOWING,
+    );
+    expect(badge.compareDocumentPosition(owner)).toBe(
+      Node.DOCUMENT_POSITION_FOLLOWING,
+    );
+  });
+
   it("names both row actions after the entry", () => {
     render(<EntryRow {...props} />);
 

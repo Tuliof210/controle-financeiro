@@ -12,6 +12,7 @@ export interface SectionsProps<T extends Entry> {
   people: Person[];
   period: Period | null;
   renderPeriod: (item: T, period: Period | null) => ReactNode;
+  renderBadges?: (item: T, period: Period | null) => ReactNode;
   renderBand?: (item: T, period: Period | null) => ReactNode;
   onAdd: (kind: EntryType) => void;
   onEdit: (entry: T) => void;
@@ -19,8 +20,8 @@ export interface SectionsProps<T extends Entry> {
 }
 
 // One array instead of two near-identical JSX blocks — Entradas/Saídas differ
-// only in the fields below; people/period/renderPeriod/renderBand/onEdit/
-// onDelete thread to both unchanged.
+// only in the fields below; people/period/renderPeriod/renderBadges/renderBand/
+// onEdit/onDelete thread to both unchanged.
 export function useSections<T extends Entry>({
   labels,
   income,
@@ -28,12 +29,21 @@ export function useSections<T extends Entry>({
   people,
   period,
   renderPeriod,
+  renderBadges,
   renderBand,
   onAdd,
   onEdit,
   onDelete,
 }: SectionsProps<T>) {
-  const shared = { people, period, renderPeriod, renderBand, onEdit, onDelete };
+  const shared = {
+    people,
+    period,
+    renderPeriod,
+    renderBadges,
+    renderBand,
+    onEdit,
+    onDelete,
+  };
   return {
     sections: [
       {

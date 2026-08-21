@@ -24,7 +24,7 @@ const deleteTitle = (modal: {
 export function EntryScreen<T extends Entry, V extends { type: EntryType }>(
   config: EntryScreenConfig<T, V>,
 ) {
-  const { renderPeriod, renderBand, form } = config;
+  const { renderPeriod, renderBadges, renderBand, form } = config;
   const {
     labels,
     income,
@@ -53,6 +53,7 @@ export function EntryScreen<T extends Entry, V extends { type: EntryType }>(
         people={people}
         period={period}
         renderPeriod={renderPeriod}
+        renderBadges={renderBadges}
         renderBand={renderBand}
         onAdd={openAdd}
         onEdit={openEdit}

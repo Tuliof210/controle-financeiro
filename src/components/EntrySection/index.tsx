@@ -27,17 +27,20 @@ export function EntrySection<T extends Entry>(props: EntrySectionProps<T>) {
       )}
       {rows.length > 0 && (
         <RowGrid>
-          {rows.map(({ entry, person, period, band, onEdit, onDelete }) => (
-            <EntryRow
-              key={entry.id}
-              entry={entry}
-              person={person}
-              period={period}
-              band={band}
-              onEdit={onEdit}
-              onDelete={onDelete}
-            />
-          ))}
+          {rows.map(
+            ({ entry, person, period, badges, band, onEdit, onDelete }) => (
+              <EntryRow
+                key={entry.id}
+                entry={entry}
+                person={person}
+                period={period}
+                badges={badges}
+                band={band}
+                onEdit={onEdit}
+                onDelete={onDelete}
+              />
+            ),
+          )}
         </RowGrid>
       )}
       <Button
