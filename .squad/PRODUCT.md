@@ -4,9 +4,9 @@
 A family financial control app that runs locally on the user's machine.
 
 ## Who it's for
-One operator at a time on the local instance. Household members exist as
-**people** (name + colour); the header switches the active profile, and the
-operator can manipulate data for any profile when they choose.
+The user and other members of their household/family, all using the same
+local instance. Each member is a **person** with a name and a colour; the
+header switches the active profile.
 
 ## Why it exists
 To answer: are we financially healthy right now? How much room is there to

@@ -1,9 +1,0 @@
-{
-  "version": "5.0.0",
-  "harness": "cursor",
-  "installedAt": "2026-08-21T04:13:44.367Z",
-  "files": {
-    "skill/ps-sync/SKILL.md": "28e38d0bba284902289cf051101550a45acee44eb903c9bc76e03c5ab0078a78",
-    "squad/PROTOCOLS.md": "766716cc7dc0d6bce4072b0b8de9afe874e21b78b1f1decffa115b211428dbbe"
-  }
-}

@@ -5,7 +5,7 @@ in one unit, over a local SQLite file. No backend service, no hosted DB, not
 deployed — it runs on the user's own machine.
 
 ## Stack
-Node 22 · Next 16 · React 19 · TypeScript · Prisma 7 over SQLite
+Next 16 · React 19 · TypeScript · Prisma 7 over SQLite
 (`@prisma/adapter-better-sqlite3`) · Sass Modules · visx (charts) ·
 lucide-react (icons) · Zod (validation) · Biome (lint + format) · Jest
 (unit tests, the project's single runner) · Storybook 10 (DS Foundations docs).
@@ -22,8 +22,6 @@ lucide-react (icons) · Zod (validation) · Biome (lint + format) · Jest
 - `npm run typecheck` — `tsc --noEmit`.
 - `npm run db:clean` — DELETE every row from `dev.db`.
 - `npm run storybook` (:6006) · `npm run build-storybook`
-- CI (`.github/workflows/ci.yml`) on PR and push to `main`/`develop`: `npm run
-  lint`, `npx tsc --noEmit`, `npm run test:coverage`, `npm run build`.
 
 ## Do-not-touch
 `src/generated/prisma/` (regenerated, never hand-edited, exempt from the line
