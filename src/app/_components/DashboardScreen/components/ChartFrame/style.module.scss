@@ -24,14 +24,25 @@
 // content size — here, the plot <svg>'s full unscrolled width — and this box
 // would widen to fit it instead of scrolling.
 //
-// No `overflow: hidden`, ever (see SectionCard's comment: an overflow
-// ancestor clips an outline-offset focus ring). This box relies on that too —
-// its own :focus-visible ring is drawn at its own border, not clipped by its
-// own overflow-x, but would be by a hidden ancestor. Nothing inside the box
-// (the marks) is itself focusable, so no ring ever needs to survive a scroll.
+// overflow-y must be set explicitly: leaving it at `visible` while overflow-x
+// is not visible makes the browser compute overflow-y as `auto` too (CSS
+// overflow pairing), which sprouted a vertical scrollbar when the plot SVG
+// or the horizontal scrollbar gutter nudged past the measured height.
+// overflow-y: hidden on THIS box is fine — the :focus-visible ring lives on
+// the same element and is not clipped by its own overflow; a hidden ANCESTOR
+// would clip it (see SectionCard). Nothing inside (the marks) is focusable.
+//
+// scrollbar-width / ::-webkit-scrollbar hide the horizontal bar so pan stays
+// (trackpad, wheel, arrow keys once focused) without a visible gutter.
 .scroll {
   min-width: 0;
   overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 
   &:focus-visible {
     @include t.focus-ring;
