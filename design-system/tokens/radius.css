@@ -1,0 +1,13 @@
+/* ============================================================
+   Monevo — Radius
+   Cards de produto ~14, botões ~10, pills full.
+   ============================================================ */
+:root {
+  --mv-radius-sm:   6px;   /* chips pequenos, inputs internos */
+  --mv-radius-md:   10px;  /* botões, campos */
+  --mv-radius-lg:   14px;  /* cards de produto */
+  --mv-radius-xl:   20px;  /* superfícies grandes / sheets */
+  --mv-radius-2xl:  28px;  /* hero containers */
+  --mv-radius-pill: 9999px;/* pills/badges */
+  --mv-radius-full: 9999px;/* avatares circulares */
+}

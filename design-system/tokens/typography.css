@@ -1,0 +1,102 @@
+/* ============================================================
+   Monevo — Typography tokens
+   Clash Display (display/marca) · Hanken Grotesk (UI/corpo) ·
+   IBM Plex Mono (código/IDs/datas/eyebrow/hex).
+   Algarismos tabulares em TODO dinheiro e métrica.
+   ============================================================ */
+:root {
+  /* ---- Famílias ---- */
+  --mv-font-display: "Clash Display", "Hanken Grotesk", system-ui, sans-serif;
+  --mv-font-sans:    "Hanken Grotesk", system-ui, -apple-system, sans-serif;
+  --mv-font-mono:    "IBM Plex Mono", ui-monospace, "SFMono-Regular", monospace;
+
+  /* ---- Pesos ---- */
+  --mv-fw-regular: 400; /* @kind font */
+  --mv-fw-medium:  500; /* @kind font */
+  --mv-fw-semibold:600; /* @kind font */
+  --mv-fw-bold:    700; /* @kind font */
+
+  /* ---- Numérico ---- */
+  --mv-num-tabular: tabular-nums;   /* @kind other */
+
+  /* ---- Escala tipográfica (tamanho / line-height / peso / tracking) ----
+     Mobile-first; valores em px. line-height/tracking marcados @kind other. */
+  /* Display — Clash Display, heros e números de impacto */
+  --mv-display-lg-size: 56px; /* @kind font */
+  --mv-display-lg-lh: 1.02; /* @kind other */
+  --mv-display-lg-weight: 600; /* @kind font */
+  --mv-display-lg-tracking: -0.02em; /* @kind other */
+  --mv-display-md-size: 44px; /* @kind font */
+  --mv-display-md-lh: 1.04; /* @kind other */
+  --mv-display-md-weight: 600; /* @kind font */
+  --mv-display-md-tracking: -0.02em; /* @kind other */
+  --mv-display-sm-size: 34px; /* @kind font */
+  --mv-display-sm-lh: 1.08; /* @kind other */
+  --mv-display-sm-weight: 600; /* @kind font */
+  --mv-display-sm-tracking: -0.015em; /* @kind other */
+
+  /* Headings — Clash Display */
+  --mv-h1-size: 28px; /* @kind font */
+  --mv-h1-lh: 1.14; /* @kind other */
+  --mv-h1-weight: 600; /* @kind font */
+  --mv-h1-tracking: -0.015em; /* @kind other */
+  --mv-h2-size: 22px; /* @kind font */
+  --mv-h2-lh: 1.20; /* @kind other */
+  --mv-h2-weight: 600; /* @kind font */
+  --mv-h2-tracking: -0.01em; /* @kind other */
+  --mv-h3-size: 18px; /* @kind font */
+  --mv-h3-lh: 1.28; /* @kind other */
+  --mv-h3-weight: 600; /* @kind font */
+  --mv-h3-tracking: -0.005em; /* @kind other */
+
+  /* Body — Hanken Grotesk */
+  --mv-body-lg-size: 17px; /* @kind font */
+  --mv-body-lg-lh: 1.55; /* @kind other */
+  --mv-body-lg-weight: 400; /* @kind font */
+  --mv-body-lg-tracking: 0; /* @kind other */
+  --mv-body-md-size: 15px; /* @kind font */
+  --mv-body-md-lh: 1.55; /* @kind other */
+  --mv-body-md-weight: 400; /* @kind font */
+  --mv-body-md-tracking: 0; /* @kind other */
+  --mv-body-sm-size: 13px; /* @kind font */
+  --mv-body-sm-lh: 1.50; /* @kind other */
+  --mv-body-sm-weight: 400; /* @kind font */
+  --mv-body-sm-tracking: 0; /* @kind other */
+
+  /* Label / UI — Hanken Grotesk */
+  --mv-label-size: 14px; /* @kind font */
+  --mv-label-lh: 1.30; /* @kind other */
+  --mv-label-weight: 500; /* @kind font */
+  --mv-label-tracking: 0; /* @kind other */
+  --mv-caption-size: 12px; /* @kind font */
+  --mv-caption-lh: 1.35; /* @kind other */
+  --mv-caption-weight: 500; /* @kind font */
+  --mv-caption-tracking: 0.005em; /* @kind other */
+
+  /* Eyebrow — IBM Plex Mono, caixa-alta */
+  --mv-eyebrow-size: 12px; /* @kind font */
+  --mv-eyebrow-lh: 1.2; /* @kind other */
+  --mv-eyebrow-weight: 500; /* @kind font */
+  --mv-eyebrow-tracking: 0.14em; /* @kind other */
+
+  /* ---- Variantes de DINHEIRO (MoneyDisplay) ----
+     Clash Display nos heros; Hanken tabular nos demais. */
+  --mv-money-hero-size:  48px; /* @kind font */
+  --mv-money-hero-lh: 1.0; /* @kind other */
+  --mv-money-hero-weight: 600; /* @kind font */
+  --mv-money-large-size: 30px; /* @kind font */
+  --mv-money-large-lh: 1.05; /* @kind other */
+  --mv-money-large-weight: 600; /* @kind font */
+  --mv-money-base-size:  17px; /* @kind font */
+  --mv-money-base-lh: 1.3; /* @kind other */
+  --mv-money-base-weight: 600; /* @kind font */
+  --mv-money-small-size: 14px; /* @kind font */
+  --mv-money-small-lh: 1.3; /* @kind other */
+  --mv-money-small-weight: 600; /* @kind font */
+  --mv-money-delta-size: 13px; /* @kind font */
+  --mv-money-delta-lh: 1.2; /* @kind other */
+  --mv-money-delta-weight: 600; /* @kind font */
+
+  /* Decimais esmaecidos em valores grandes (hero/large) */
+  --mv-money-decimal-opacity: 0.45; /* @kind other */
+}

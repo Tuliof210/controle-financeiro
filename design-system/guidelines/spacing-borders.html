@@ -1,0 +1,15 @@
+<!-- @dsCard group="Spacing" viewport="700x160" name="Bordas & real/estimado/simulado" subtitle="Forma carrega o estado: sólido / pontilhado / tracejado" -->
+<!DOCTYPE html>
+<html lang="pt-BR"><head><meta charset="utf-8" /><link rel="stylesheet" href="../styles.css" />
+<style>
+  body{margin:0;background:var(--mv-surface);font-family:var(--mv-font-sans);}
+  .wrap{padding:28px;display:flex;gap:18px;align-items:center;flex-wrap:wrap;}
+  .sw{display:flex;flex-direction:column;gap:10px;align-items:center;}
+  .box{width:150px;height:64px;border-radius:var(--mv-radius-md);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;}
+  .n{font-family:var(--mv-font-mono);font-size:10px;color:var(--mv-text-muted);}
+</style></head>
+<body><div class="wrap">
+  <div class="sw"><div class="box" style="border:var(--mv-border-solid);background:var(--mv-proj-real-bg);color:var(--mv-proj-real-fg)">Real</div><div class="n">sólido</div></div>
+  <div class="sw"><div class="box" style="border:var(--mv-border-dotted);background:var(--mv-proj-est-bg);color:var(--mv-proj-est-fg)">Estimado</div><div class="n">pontilhado</div></div>
+  <div class="sw"><div class="box" style="border:var(--mv-border-dashed);background:var(--mv-proj-sim-bg);color:var(--mv-proj-sim-fg)">Simulado</div><div class="n">tracejado · cobalto</div></div>
+</div></body></html>

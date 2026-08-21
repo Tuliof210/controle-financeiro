@@ -1,0 +1,31 @@
+/* ============================================================
+   Monevo — Base & helpers
+   Resets mínimos + utilitários (tabular nums, eyebrow, mono).
+   ============================================================ */
+:root {
+  color-scheme: light;
+}
+
+.mv-tabular { font-variant-numeric: tabular-nums; }
+
+.mv-mono {
+  font-family: var(--mv-font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Eyebrow em caixa-alta (IBM Plex Mono) */
+.mv-eyebrow {
+  font-family: var(--mv-font-mono);
+  font-size: var(--mv-eyebrow-size);
+  line-height: var(--mv-eyebrow-lh);
+  font-weight: var(--mv-eyebrow-weight);
+  letter-spacing: var(--mv-eyebrow-tracking);
+  text-transform: uppercase;
+  color: var(--mv-text-muted);
+}
+
+/* Foco visível consistente (a11y) */
+.mv-focusable:focus-visible {
+  outline: none;
+  box-shadow: var(--mv-shadow-focus);
+}

@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Monevo — Screens</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      /* Surfaces */
+      --bg: #fafafa;
+      --surface: #ffffff;
+      --surface-elev: #ffffff;
+      --surface-sunken: #f4f4f5;
+      /* Borders */
+      --border: #e4e4e7;
+      --border-strong: #d4d4d8;
+      --border-subtle: #f4f4f5;
+      /* Text */
+      --t-primary: #18181b;
+      --t-secondary: #52525b;
+      --t-tertiary: #71717a;
+      --t-disabled: #a1a1aa;
+      /* Brand */
+      --brand-50: #fffbeb;
+      --brand-100: #fef3c7;
+      --brand-200: #fde68a;
+      --brand-300: #fcd34d;
+      --brand-400: #fbbf24;
+      --brand-500: #f59e0b;
+      --brand-600: #d97706;
+      --brand-700: #b45309;
+      --brand-800: #92400e;
+      --brand-900: #78350f;
+      /* Semantic */
+      --positive: #10b981;
+      --positive-bg: #d1fae5;
+      --negative: #f43f5e;
+      --negative-bg: #ffe4e6;
+      --warning: #ea580c;
+      --warning-bg: #ffedd5;
+      --info: #0ea5e9;
+      --info-bg: #e0f2fe;
+      --ai: #8b5cf6;
+      --ai-bg: #ede9fe;
+      /* Category */
+      --cat-01: #06b6d4;
+      --cat-02: #8b5cf6;
+      --cat-03: #ec4899;
+      --cat-04: #f59e0b;
+      --cat-05: #10b981;
+      --cat-06: #6366f1;
+      --cat-07: #f43f5e;
+      --cat-08: #14b8a6;
+      --cat-09: #a855f7;
+      --cat-10: #64748b;
+      /* Radius */
+      --r-sm: 6px;
+      --r-md: 10px;
+      --r-lg: 14px;
+      --r-xl: 20px;
+      --r-2xl: 28px;
+      --r-full: 9999px;
+      /* Shadows */
+      --shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
+      --shadow-md: 0 4px 12px rgba(0,0,0,0.06);
+      --shadow-lg: 0 12px 32px rgba(0,0,0,0.10);
+      --shadow-xl: 0 24px 64px rgba(0,0,0,0.14);
+    }
+    html, body { margin: 0; padding: 0; background: #f0eee9; }
+    body {
+      font-family: 'Geist', 'Inter', system-ui, -apple-system, sans-serif;
+      font-feature-settings: "tnum" 1, "ss01" 1, "cv11" 1;
+      color: var(--t-primary);
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+    /* Reset inside artboards so canvas font sticks */
+    .mv-app { font-family: 'Geist', 'Inter', system-ui, sans-serif; color: var(--t-primary); }
+    .mv-app, .mv-app * { box-sizing: border-box; }
+    .mv-app .mono { font-family: 'Geist Mono', 'JetBrains Mono', ui-monospace, monospace; }
+    .mv-app .tabular { font-variant-numeric: tabular-nums; }
+    /* Scrollbars in static artboards: hide */
+    .mv-app *::-webkit-scrollbar { display: none; }
+    .mv-app * { scrollbar-width: none; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+  <script type="text/babel" src="design-canvas.jsx"></script>
+  <script type="text/babel" src="monevo-primitives.jsx"></script>
+  <script type="text/babel" src="monevo-auth.jsx"></script>
+  <script type="text/babel" src="monevo-mobile.jsx"></script>
+  <script type="text/babel" src="monevo-desktop.jsx"></script>
+  <script type="text/babel" src="monevo-containers.jsx"></script>
+  <script type="text/babel" src="monevo-transactions.jsx"></script>
+  <script type="text/babel" src="monevo-goals.jsx"></script>
+  <script type="text/babel" src="monevo-insights.jsx"></script>
+  <script type="text/babel" src="monevo-simulations.jsx"></script>
+  <script type="text/babel" src="monevo-settings.jsx"></script>
+  <script type="text/babel" src="monevo-app.jsx"></script>
+</body>
+</html>

@@ -1,0 +1,12 @@
+/* ============================================================
+   Monevo — Webfonts
+   Display/marca: Clash Display (Fontshare)
+   Sans/UI/corpo:  Hanken Grotesk (Fontshare) — algarismos tabulares
+   Mono companheiro: IBM Plex Mono (Google Fonts) — justificativa no readme:
+     legibilidade técnica + 0 cortado opcional, calor humanista que
+     combina com Hanken; usado SÓ em código, IDs, datas-chave,
+     eyebrows em caixa-alta e hex.
+   Substituição: fontes servidas via CDN (sem binários locais).
+   ============================================================ */
+@import url("https://api.fontshare.com/v2/css?f[]=clash-display@400,500,600,700&f[]=hanken-grotesk@400,500,600,700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap");

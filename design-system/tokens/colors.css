@@ -1,0 +1,121 @@
+/* ============================================================
+   Monevo — Color tokens
+   Neutros carregam ~90% da interface. Cobalto = única ação
+   primária + marca, usado com contenção. Semânticas falam APENAS
+   estado financeiro. Sem amber como marca. Texto sobre cobalto
+   é sempre branco.
+   ============================================================ */
+:root {
+  /* ---- Pure ---- */
+  --mv-white: #FFFFFF;
+
+  /* ---- Neutros (tinta → off-white frio) ----
+     Escala cinza levemente azulada; carrega texto e superfícies. */
+  --mv-neutral-950: #0C0E12; /* near-black para overlays/scrim */
+  --mv-neutral-900: #14171C; /* TINTA — texto principal, superfície escura */
+  --mv-neutral-800: #20242C;
+  --mv-neutral-700: #333A45;
+  --mv-neutral-600: #4C5460;
+  --mv-neutral-500: #6B7480; /* texto terciário / ícones suaves */
+  --mv-neutral-400: #99A1AD; /* placeholder / disabled fg */
+  --mv-neutral-300: #C4C9D1;
+  --mv-neutral-200: #E2E5EA; /* borda padrão */
+  --mv-neutral-150: #EBEEF1;
+  --mv-neutral-100: #F2F4F6; /* superfície afundada / hover suave */
+  --mv-neutral-50:  #F8F9FB; /* off-white frio — fundo do app */
+
+  /* ---- Cobalto (ação primária + marca) ---- */
+  --mv-cobalt-50:  #EEF2FE;
+  --mv-cobalt-100: #DCE4FD;
+  --mv-cobalt-200: #BBCBFA;
+  --mv-cobalt-300: #92ABF3;
+  --mv-cobalt-400: #5E81E7;
+  --mv-cobalt-500: #3A61D9;
+  --mv-cobalt-600: #2550CC; /* ÂNCORA — ação primária + logo */
+  --mv-cobalt-700: #1E40A6;
+  --mv-cobalt-800: #1B3585;
+  --mv-cobalt-900: #182C69;
+
+  /* ---- Semânticas (SÓ estado financeiro) — cor + background pareado ---- */
+  /* positivo — entrada / variação a favor */
+  --mv-positive-fg:   #0E8C57;
+  --mv-positive-bg:   #E3F4EC;
+  --mv-positive-border:#B6E2CC;
+  /* negativo — variação negativa / ação destrutiva (NUNCA despesa normal) */
+  --mv-negative-fg:   #C92A36;
+  --mv-negative-bg:   #FBE7E8;
+  --mv-negative-border:#F2C2C5;
+  /* alerta — atenção / risco (laranja queimado, NÃO amber-dourado de marca) */
+  --mv-alert-fg:      #B5560E;
+  --mv-alert-bg:      #FBEBDD;
+  --mv-alert-border:  #F1D2B2;
+  /* info — neutro informativo (teal-azul, distinto do cobalto) */
+  --mv-info-fg:       #0F73A6;
+  --mv-info-bg:       #E0F0F8;
+  --mv-info-border:   #BBDDEC;
+  /* IA — conteúdo gerado / sugestão (violeta, distinto do cobalto) */
+  --mv-ai-fg:         #6D45C7;
+  --mv-ai-bg:         #EEE8FB;
+  --mv-ai-border:     #D6C8F2;
+
+  /* ---- Categorias (~10) — editoriais e mútuamente distinguíveis,
+     todas separadas do cobalto de marca. Para classificar gastos. ---- */
+  --mv-cat-01: #2E7D6B; /* teal-pinheiro */
+  --mv-cat-02: #B5557C; /* rosa-vinho   */
+  --mv-cat-03: #7B5BC4; /* violeta      */
+  --mv-cat-04: #2C84A8; /* ciano        */
+  --mv-cat-05: #A56A2E; /* clay / ocre  */
+  --mv-cat-06: #4E74A6; /* azul-aço (≠ cobalto) */
+  --mv-cat-07: #5E8C36; /* oliva        */
+  --mv-cat-08: #B14A5C; /* framboesa (≠ negativo) */
+  --mv-cat-09: #6E7888; /* ardósia      */
+  --mv-cat-10: #9C57A0; /* magenta-uva  */
+
+  /* ---- Projeção: real / estimado / simulado ----
+     Distinção primária é rótulo + FORMA (ver ProjectionBadge);
+     cor é reforço secundário, nunca o único sinal. */
+  --mv-proj-real-fg:    var(--mv-neutral-900);
+  --mv-proj-real-bg:    var(--mv-neutral-100);
+  --mv-proj-est-fg:     var(--mv-neutral-600);
+  --mv-proj-est-bg:     var(--mv-neutral-50);
+  --mv-proj-sim-fg:     var(--mv-cobalt-700);
+  --mv-proj-sim-bg:     var(--mv-cobalt-50);
+
+  /* ---- Hero escuro: ÚNICO glow cobalto permitido (nunca sobre o símbolo) ---- */
+  --mv-glow-cobalt: radial-gradient(circle, rgba(37,80,204,0.40), transparent 70%); /* @kind other */
+
+  /* ============================================================
+     ALIASES SEMÂNTICOS — use estes na UI, não os primitivos acima
+     ============================================================ */
+  /* superfícies */
+  --mv-bg:            var(--mv-neutral-50);
+  --mv-surface:       var(--mv-white);
+  --mv-surface-elev:  var(--mv-white);
+  --mv-surface-sunken:var(--mv-neutral-100);
+  --mv-surface-dark:  var(--mv-neutral-900);
+  --mv-scrim:         rgba(12,14,18,0.55);
+
+  /* texto */
+  --mv-text-primary:   var(--mv-neutral-900);
+  --mv-text-secondary: var(--mv-neutral-600);
+  --mv-text-muted:     var(--mv-neutral-500);
+  --mv-text-disabled:  var(--mv-neutral-400);
+  --mv-text-on-cobalt: var(--mv-white);   /* REGRA: texto sobre cobalto é branco */
+  --mv-text-on-dark:   var(--mv-white);
+
+  /* ação primária */
+  --mv-primary:        var(--mv-cobalt-600);
+  --mv-primary-hover:  var(--mv-cobalt-700);
+  --mv-primary-active: var(--mv-cobalt-800);
+  --mv-primary-50:     var(--mv-cobalt-50);
+  --mv-primary-100:    var(--mv-cobalt-100);
+  --mv-primary-600:    var(--mv-cobalt-600);
+  --mv-primary-800:    var(--mv-cobalt-800);
+  --mv-on-primary:     var(--mv-white);
+  --mv-focus-ring:     var(--mv-cobalt-400);
+
+  /* bordas */
+  --mv-border:         var(--mv-neutral-200);
+  --mv-border-strong:  var(--mv-neutral-300);
+  --mv-border-subtle:  var(--mv-neutral-150);
+}

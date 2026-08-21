@@ -1,0 +1,18 @@
+/* ============================================================
+   Monevo — Elevação / sombra
+   REGRA: superfícies são planas por padrão. Use `sm` como padrão
+   de card; `md` SÓ quando o card flutua sobre conteúdo (dropdown,
+   popover, sheet, item arrastado). `lg`/`xl` para modais/overlays.
+   Sombras frias e discretas — nunca decorativas. (Logo/símbolo
+   nunca recebem sombra — regra de marca.)
+   ============================================================ */
+:root {
+  --mv-shadow-none: none;
+  --mv-shadow-sm: 0 1px 2px rgba(20,23,28,0.05), 0 1px 1px rgba(20,23,28,0.03);
+  --mv-shadow-md: 0 6px 16px rgba(20,23,28,0.08), 0 2px 4px rgba(20,23,28,0.04);
+  --mv-shadow-lg: 0 16px 40px rgba(20,23,28,0.12), 0 4px 8px rgba(20,23,28,0.05);
+  --mv-shadow-xl: 0 28px 64px rgba(20,23,28,0.16);
+
+  /* foco — anel cobalto translúcido (ver borders/motion) */
+  --mv-shadow-focus: 0 0 0 3px rgba(37,80,204,0.35);
+}

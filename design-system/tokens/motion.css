@@ -1,0 +1,28 @@
+/* ============================================================
+   Monevo — Movimento
+   Calmo e preciso, nunca eufórico. Sem bounce. Fades e deslizes
+   curtos. Respeite prefers-reduced-motion.
+   ============================================================ */
+:root {
+  /* durações */
+  --mv-dur-instant: 80ms; /* @kind other */
+  --mv-dur-fast:    140ms; /* @kind other */
+  --mv-dur-base:    220ms; /* @kind other */
+  --mv-dur-slow:    320ms; /* @kind other */
+
+  /* easings */
+  --mv-ease-standard: cubic-bezier(0.2, 0, 0, 1); /* @kind other */
+  --mv-ease-out:      cubic-bezier(0.16, 1, 0.3, 1); /* @kind other */
+  --mv-ease-in:       cubic-bezier(0.4, 0, 1, 1); /* @kind other */
+
+  --mv-transition-base: all var(--mv-dur-base) var(--mv-ease-standard);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --mv-dur-instant: 0ms; /* @kind other */
+    --mv-dur-fast:    0ms; /* @kind other */
+    --mv-dur-base:    0ms; /* @kind other */
+    --mv-dur-slow:    0ms; /* @kind other */
+  }
+}

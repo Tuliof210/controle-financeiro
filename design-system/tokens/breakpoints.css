@@ -1,0 +1,12 @@
+/* ============================================================
+   Monevo — Breakpoints
+   Mobile-first (~390) expandindo para workspaces densos (~1440).
+   Use em @media (min-width: var não funciona em @media — valores
+   documentados aqui e replicados nos media queries dos componentes).
+   ============================================================ */
+:root {
+  --mv-bp-sm: 390px;  /* mobile base */
+  --mv-bp-md: 768px;  /* tablet / split */
+  --mv-bp-lg: 1024px; /* desktop */
+  --mv-bp-xl: 1440px; /* workspace denso */
+}

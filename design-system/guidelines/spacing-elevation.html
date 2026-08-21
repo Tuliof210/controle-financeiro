@@ -1,0 +1,16 @@
+<!-- @dsCard group="Spacing" viewport="700x180" name="Elevação — plano por padrão" subtitle="sm padrão · md só quando flutua sobre conteúdo" -->
+<!DOCTYPE html>
+<html lang="pt-BR"><head><meta charset="utf-8" /><link rel="stylesheet" href="../styles.css" />
+<style>
+  body{margin:0;background:var(--mv-bg);font-family:var(--mv-font-sans);}
+  .wrap{padding:28px;display:flex;gap:22px;align-items:center;flex-wrap:wrap;}
+  .sw{display:flex;flex-direction:column;gap:10px;align-items:center;}
+  .box{width:120px;height:72px;background:var(--mv-surface);border:1px solid var(--mv-border);border-radius:var(--mv-radius-lg);}
+  .n{font-family:var(--mv-font-mono);font-size:10px;color:var(--mv-text-muted);text-align:center;}
+</style></head>
+<body><div class="wrap">
+  <div class="sw"><div class="box" style="box-shadow:var(--mv-shadow-none)"></div><div class="n">none · seções</div></div>
+  <div class="sw"><div class="box" style="box-shadow:var(--mv-shadow-sm)"></div><div class="n">sm · card padrão</div></div>
+  <div class="sw"><div class="box" style="box-shadow:var(--mv-shadow-md)"></div><div class="n">md · popover/sheet</div></div>
+  <div class="sw"><div class="box" style="box-shadow:var(--mv-shadow-lg)"></div><div class="n">lg · modal</div></div>
+</div></body></html>

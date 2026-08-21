@@ -1,0 +1,25 @@
+<!-- @dsCard group="Type" viewport="700x180" name="Dinheiro — tabular & decimais esmaecidos" subtitle="hero/large esmaecem decimais (~0.45) · minus Unicode − · pt-BR" -->
+<!DOCTYPE html>
+<html lang="pt-BR"><head><meta charset="utf-8" />
+<link rel="stylesheet" href="../styles.css" />
+<style>
+  body{margin:0;background:var(--mv-surface);font-family:var(--mv-font-sans);color:var(--mv-text-primary);}
+  .wrap{padding:24px;display:flex;gap:40px;align-items:center;flex-wrap:wrap;}
+  .money{font-family:var(--mv-font-display);font-variant-numeric:tabular-nums;font-weight:600;letter-spacing:-0.01em;line-height:1;}
+  .dim{opacity:var(--mv-money-decimal-opacity);}
+  .stack{display:flex;flex-direction:column;gap:8px;}
+  .lbl{font-family:var(--mv-font-mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--mv-text-muted);}
+  .neg{color:var(--mv-negative-fg);}
+  .pos{color:var(--mv-positive-fg);}
+</style></head>
+<body><div class="wrap">
+  <div class="stack">
+    <span class="lbl">hero · saldo real</span>
+    <span class="money" style="font-size:52px">R$&nbsp;1.250<span class="dim">,90</span></span>
+  </div>
+  <div class="stack">
+    <span class="lbl">large · variação</span>
+    <span class="money neg" style="font-size:30px">−R$&nbsp;89<span class="dim">,90</span></span>
+    <span class="money pos" style="font-size:30px">+R$&nbsp;1.200<span class="dim">,00</span></span>
+  </div>
+</div></body></html>

@@ -1,0 +1,18 @@
+/* ============================================================
+   Monevo — Bordas
+   Hairlines frias. Bordas carregam separação antes da sombra.
+   ============================================================ */
+:root {
+  --mv-border-width:        1px;
+  --mv-border-width-strong: 1.5px;
+  --mv-border-color:        var(--mv-neutral-200);
+  --mv-border-color-strong: var(--mv-neutral-300);
+  --mv-border-color-subtle: var(--mv-neutral-150);
+
+  /* contorno tracejado — usado em estado SIMULADO (forma, não só cor) */
+  --mv-border-dashed:  1.5px dashed var(--mv-cobalt-300);
+  /* contorno pontilhado — usado em estado ESTIMADO */
+  --mv-border-dotted:  1.5px dotted var(--mv-neutral-400);
+  /* contorno sólido — estado REAL */
+  --mv-border-solid:   1px solid var(--mv-neutral-200);
+}

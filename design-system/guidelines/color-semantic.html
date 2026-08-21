@@ -1,0 +1,19 @@
+<!-- @dsCard group="Colors" viewport="700x150" name="Semânticas — só estado financeiro" subtitle="Cor + background pareado · despesa normal NÃO é vermelha" -->
+<!DOCTYPE html>
+<html lang="pt-BR"><head><meta charset="utf-8" /><link rel="stylesheet" href="../styles.css" />
+<style>
+  body{margin:0;background:var(--mv-surface);font-family:var(--mv-font-sans);}
+  .wrap{padding:20px;display:grid;grid-template-columns:repeat(5,1fr);gap:12px;}
+  .sem{border-radius:12px;padding:14px;border:1px solid;}
+  .dot{width:14px;height:14px;border-radius:5px;margin-bottom:10px;}
+  .name{font-weight:600;font-size:14px;}
+  .use{font-size:11px;margin-top:2px;opacity:.85;}
+  .hex{font-family:var(--mv-font-mono);font-size:10px;margin-top:8px;opacity:.7;}
+</style></head>
+<body><div class="wrap">
+  <div class="sem" style="background:var(--mv-positive-bg);border-color:var(--mv-positive-border);color:var(--mv-positive-fg)"><div class="dot" style="background:var(--mv-positive-fg)"></div><div class="name">Positivo</div><div class="use">entrada · ganho</div><div class="hex">#0E8C57</div></div>
+  <div class="sem" style="background:var(--mv-negative-bg);border-color:var(--mv-negative-border);color:var(--mv-negative-fg)"><div class="dot" style="background:var(--mv-negative-fg)"></div><div class="name">Negativo</div><div class="use">variação − · destrutivo</div><div class="hex">#C92A36</div></div>
+  <div class="sem" style="background:var(--mv-alert-bg);border-color:var(--mv-alert-border);color:var(--mv-alert-fg)"><div class="dot" style="background:var(--mv-alert-fg)"></div><div class="name">Alerta</div><div class="use">atenção · risco</div><div class="hex">#B5560E</div></div>
+  <div class="sem" style="background:var(--mv-info-bg);border-color:var(--mv-info-border);color:var(--mv-info-fg)"><div class="dot" style="background:var(--mv-info-fg)"></div><div class="name">Info</div><div class="use">informativo</div><div class="hex">#0F73A6</div></div>
+  <div class="sem" style="background:var(--mv-ai-bg);border-color:var(--mv-ai-border);color:var(--mv-ai-fg)"><div class="dot" style="background:var(--mv-ai-fg)"></div><div class="name">IA</div><div class="use">sugestão gerada</div><div class="hex">#6D45C7</div></div>
+</div></body></html>

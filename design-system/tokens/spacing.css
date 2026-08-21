@@ -1,0 +1,28 @@
+/* ============================================================
+   Monevo — Spacing (base 4px)
+   Ritmo vertical e horizontal calmo; densidades maiores no desktop.
+   ============================================================ */
+:root {
+  --mv-space-0:  0px;
+  --mv-space-1:  4px;
+  --mv-space-2:  8px;
+  --mv-space-3:  12px;
+  --mv-space-4:  16px;
+  --mv-space-5:  20px;
+  --mv-space-6:  24px;
+  --mv-space-8:  32px;
+  --mv-space-10: 40px;
+  --mv-space-12: 48px;
+  --mv-space-16: 64px;
+  --mv-space-20: 80px;
+  --mv-space-24: 96px;
+
+  /* Alvos de toque — mín. 44px em ações primárias (a11y mobile) */
+  --mv-tap-min: 44px;
+
+  /* Larguras de conteúdo */
+  --mv-container-narrow: 560px;
+  --mv-container-app:    1200px;
+  --mv-gutter-mobile:    16px;
+  --mv-gutter-desktop:   24px;
+}

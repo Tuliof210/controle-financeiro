@@ -1,0 +1,18 @@
+<!-- @dsCard group="Spacing" viewport="700x150" name="Radius" subtitle="Cards ~14 · botões ~10 · pills full" -->
+<!DOCTYPE html>
+<html lang="pt-BR"><head><meta charset="utf-8" /><link rel="stylesheet" href="../styles.css" />
+<style>
+  body{margin:0;background:var(--mv-surface);font-family:var(--mv-font-sans);}
+  .wrap{padding:24px;display:flex;gap:18px;align-items:flex-end;flex-wrap:wrap;}
+  .sw{display:flex;flex-direction:column;gap:8px;align-items:center;}
+  .box{width:72px;height:56px;background:var(--mv-cobalt-50);border:1.5px solid var(--mv-cobalt-300);}
+  .n{font-family:var(--mv-font-mono);font-size:10px;color:var(--mv-text-muted);}
+</style></head>
+<body><div class="wrap">
+  <div class="sw"><div class="box" style="border-radius:var(--mv-radius-sm)"></div><div class="n">sm · 6</div></div>
+  <div class="sw"><div class="box" style="border-radius:var(--mv-radius-md)"></div><div class="n">md · 10 · botão</div></div>
+  <div class="sw"><div class="box" style="border-radius:var(--mv-radius-lg)"></div><div class="n">lg · 14 · card</div></div>
+  <div class="sw"><div class="box" style="border-radius:var(--mv-radius-xl)"></div><div class="n">xl · 20</div></div>
+  <div class="sw"><div class="box" style="border-radius:var(--mv-radius-2xl)"></div><div class="n">2xl · 28</div></div>
+  <div class="sw"><div class="box" style="border-radius:var(--mv-radius-pill);width:96px"></div><div class="n">pill · full</div></div>
+</div></body></html>
