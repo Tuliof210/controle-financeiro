@@ -9,6 +9,7 @@ interface ForecastRow {
   type: string;
   ownerId: string;
   simulated: boolean;
+  kind: string;
   createdAt: Date;
   months: { month: number }[];
 }
@@ -25,6 +26,7 @@ function toEntity(row: ForecastRow): Forecast {
     ownerId: row.ownerId,
     months: row.months.map((m) => m.month).sort((a, b) => a - b),
     simulated: row.simulated,
+    kind: row.kind as Forecast["kind"],
     createdAt: row.createdAt,
   };
 }

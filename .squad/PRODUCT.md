@@ -20,6 +20,9 @@ projection with what actually happened.
   that is active in an explicit set of months (`YYYYMM`), not a date range.
   A forecast flagged **simulated** is a what-if: registered exactly like any
   other, but left out of the dashboard unless the reader asks for it.
+  A forecast also has a **kind**: `fixed` (already in the household's rhythm)
+  or `commitment` (a future obligation). Kind is a label for the reader; it
+  does not change the projection. It is orthogonal to **simulated**.
 - **Movement** — what actually happened, recorded against a single month and
   an owner.
 - **Goal** — a savings target in cents. The dashboard reports **pace**: is the

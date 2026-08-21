@@ -39,6 +39,9 @@ model Forecast {
   // leaves it out unless the reader asks for it. Not a separate model — nothing
   // about it differs beyond this flag.
   simulated  Boolean         @default(false)
+  // Label for the reader: already in the household's rhythm, or a future
+  // obligation. Does not change the projection. Orthogonal to simulated.
+  kind       String          @default("fixed")
   months     ForecastMonth[]
   createdAt  DateTime        @default(now())
 }

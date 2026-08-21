@@ -1,5 +1,6 @@
 import type { Forecast } from "@/core/entities/forecast.entity.ts";
 import type { EntryType } from "@/lib/entry-types.ts";
+import type { ForecastKind } from "@/lib/forecast-kinds.ts";
 
 export interface ForecastInput {
   name: string;
@@ -8,6 +9,7 @@ export interface ForecastInput {
   ownerId: string;
   months: number[]; // active YYYYMM months
   simulated: boolean;
+  kind: ForecastKind;
 }
 
 export interface ForecastRepository {
