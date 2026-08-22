@@ -1,4 +1,4 @@
-import type { HTMLAttributes, ReactNode } from "react";
+import type { HTMLAttributes, JSX, ReactNode } from "react";
 import { cx } from "@/lib/cx.ts";
 import styles from "./style.module.scss";
 
