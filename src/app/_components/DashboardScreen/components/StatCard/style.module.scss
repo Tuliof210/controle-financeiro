@@ -51,12 +51,6 @@
   gap: var(--space-4);
 }
 
-// Delta next to the headline is the sign of the total; its money figure is the
-// same number MoneyDisplay already prints, so only the arrow stays visible.
-.sign > span > span {
-  display: none;
-}
-
 // The strip on the card's bottom edge. `margin-top: auto` is what pins it there
 // however tall the tile grows beside its neighbours; the negative margins cancel
 // the card's own padding so it reaches the inner edge without an `overflow`

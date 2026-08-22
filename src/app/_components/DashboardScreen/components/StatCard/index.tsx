@@ -33,7 +33,7 @@ export function StatCard(props: StatCardProps) {
         <Headline caption="Valor total no período" tone={tone}>
           {signed === true && (
             <span className={styles.sign} aria-hidden={true}>
-              <Delta value={total} money={true} />
+              <Delta value={total} percent={false} />
             </span>
           )}
           <MoneyDisplay value={total} variant="large" />
