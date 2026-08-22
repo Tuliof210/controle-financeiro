@@ -2,8 +2,6 @@
 // ARCHITECTURE.md grants `RowGrid/_tiers.scss`: a mixin that emits nothing on
 // its own, included once by the stylesheet beside it, so neither file crosses
 // the 100-line cap. Not a component — its markup is this folder's `index.tsx`.
-@use "theme" as t;
-
 @mixin band {
   // The title row, turned into a strip. It cancels `.card`'s padding on three
   // sides so the fill reaches the card's inner edge and pays its own back.
@@ -69,13 +67,5 @@
   .bandInk {
     background: var(--color-text);
     color: var(--color-bg);
-  }
-
-  // A card carrying a filled band is the one card that reads as a distinct
-  // object rather than a region of the page, so it takes the resting-card level
-  // — the shadow the scale actually has for that, not an offset pretending the
-  // frame is displaced.
-  .raised {
-    @include t.elevation(raised);
   }
 }

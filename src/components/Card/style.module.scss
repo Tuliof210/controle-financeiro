@@ -1,0 +1,52 @@
+@use "theme" as t;
+
+.card {
+  border-radius: var(--radius-lg);
+}
+
+.flat {
+  background: var(--color-surface);
+  border: var(--border-1) solid var(--color-border);
+}
+
+.elevated {
+  background: var(--color-surface);
+  border: var(--border-1) solid var(--color-border);
+  @include t.elevation(raised);
+}
+
+.sunken {
+  background: var(--color-surface-raised);
+  border: var(--border-1) solid var(--color-border-subtle);
+}
+
+.outline {
+  background: transparent;
+  border: var(--border-1) solid var(--color-border);
+}
+
+.sm {
+  padding: var(--space-4);
+}
+
+.md {
+  padding: var(--space-5);
+}
+
+.lg {
+  padding: var(--space-6);
+}
+
+.interactive {
+  cursor: pointer;
+  transition:
+    box-shadow var(--duration-fast) var(--ease-snappy),
+    transform var(--duration-fast) var(--ease-snappy);
+
+  @include t.on-hover {
+    &:hover {
+      transform: translateY(-1px);
+      @include t.elevation(overlay);
+    }
+  }
+}
