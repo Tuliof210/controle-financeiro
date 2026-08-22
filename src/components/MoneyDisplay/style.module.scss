@@ -1,0 +1,47 @@
+.money {
+  display: inline-flex;
+  align-items: baseline;
+  color: inherit;
+  font-family: var(--font-sans);
+  font-weight: var(--weight-semibold);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.hero {
+  font-size: var(--money-hero);
+  letter-spacing: var(--tracking-display);
+  line-height: var(--leading-tight);
+}
+
+.large {
+  font-size: var(--money-large);
+  letter-spacing: var(--tracking-display);
+  line-height: var(--leading-tight);
+}
+
+.base {
+  font-size: var(--money-base);
+  line-height: var(--leading-snug);
+}
+
+.small {
+  font-size: var(--money-small);
+  line-height: var(--leading-snug);
+}
+
+.delta {
+  font-size: var(--money-delta);
+}
+
+.fraction {
+  opacity: var(--money-decimal-opacity);
+}
+
+.positive {
+  color: var(--color-positive);
+}
+
+.negative {
+  color: var(--color-negative);
+}

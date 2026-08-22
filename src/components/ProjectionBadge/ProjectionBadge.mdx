@@ -1,0 +1,15 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+import { ProjectionBadge } from "./index.tsx";
+
+<Meta title="Components/ProjectionBadge" />
+
+# ProjectionBadge
+
+Real / estimado / simulado. The three are told apart by label plus border
+shape (solid / dotted / dashed cobalt) — never by colour alone.
+
+<div style={{ display: "flex", flexWrap: "wrap", gap: "var(--space-2)", padding: "var(--space-4)", background: "var(--color-surface)", borderRadius: "var(--radius-lg)" }}>
+  <ProjectionBadge kind="real" />
+  <ProjectionBadge kind="estimado" />
+  <ProjectionBadge kind="simulado" />
+</div>

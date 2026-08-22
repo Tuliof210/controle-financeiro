@@ -31,7 +31,7 @@ describe("EntryRow", () => {
     expect(screen.getByText("Aluguel")).toBeInTheDocument();
     expect(screen.getByText("Ana")).toBeInTheDocument();
     expect(screen.getByText("Ago/26")).toBeInTheDocument();
-    expect(screen.getByText("R$ 1.500,00")).toBeInTheDocument();
+    expect(screen.getByLabelText("R$ 1.500,00")).toBeInTheDocument();
   });
 
   it("renders badges between the name and the owner", () => {

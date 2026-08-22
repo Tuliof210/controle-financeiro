@@ -1,3 +1,4 @@
+import { Card } from "@/components/Card/index.tsx";
 import { Icon } from "@/components/Icon/index.tsx";
 import { Tooltip } from "@/components/Tooltip/index.tsx";
 import {
@@ -18,11 +19,8 @@ const BAND_CLASS: Record<BandTone, string> = {
 };
 
 export function SectionCard(props: SectionCardProps) {
-  const { title, icon, tone, hint, headerEnd, band, children } =
+  const { title, icon, tone, hint, headerEnd, band, shell, children } =
     useSectionCard(props);
-  const cardClassName = [styles.card, band && styles.raised]
-    .filter(Boolean)
-    .join(" ");
   const titleRowClassName = [
     styles.titleRow,
     tone && styles[tone],
@@ -33,7 +31,7 @@ export function SectionCard(props: SectionCardProps) {
     .join(" ");
 
   return (
-    <section className={cardClassName}>
+    <Card as="section" variant={shell} padding="lg" className={styles.card}>
       <div className={titleRowClassName}>
         {/* 16, not 18: the title next to it is now a --text-2xs eyebrow. */}
         {icon !== undefined && <Icon name={icon} size={16} />}
@@ -48,6 +46,6 @@ export function SectionCard(props: SectionCardProps) {
         )}
       </div>
       <div className={styles.body}>{children}</div>
-    </section>
+    </Card>
   );
 }

@@ -19,28 +19,23 @@ const props = {
   series: [1, 2, 3],
 };
 
-const UP_GLYPH = /▲/;
-
 describe("StatCard", () => {
   it("heads the card with its own total and four secondary rows", () => {
     const { container } = render(<StatCard {...props} />);
 
     expect(screen.getByRole("heading", { name: "Saldo" })).toBeInTheDocument();
-    // toHaveTextContent, not getByText: the headline is two text nodes now —
-    // its cents are their own dimmed span — and getByText reads only an
-    // element's DIRECT text children.
     expect(container.querySelector(".total")).toHaveTextContent("R$ 10,00");
     expect(screen.getByText("Desvio padrão")).toBeInTheDocument();
   });
 
-  it("draws the sign glyph only on a signed card", () => {
-    const { rerender } = render(<StatCard {...props} />);
+  it("draws the sign arrow only on a signed card", () => {
+    const { container, rerender } = render(<StatCard {...props} />);
 
-    expect(screen.queryByText("▲")).not.toBeInTheDocument();
+    expect(container.querySelector(".sign")).toBeNull();
 
     rerender(<StatCard {...props} signed={true} />);
 
-    expect(screen.getByText(UP_GLYPH)).toBeInTheDocument();
+    expect(container.querySelector(".sign svg")).toBeInTheDocument();
   });
 
   it("draws the sparkline from the card's own series", () => {
@@ -58,7 +53,6 @@ describe("StatCard", () => {
 
     rerender(<StatCard {...props} tone="negative" />);
 
-    // The NEUTRAL pair, not the negative one: a normal expense is not red.
     expect(container.querySelector(".chipNeutral")).not.toBeNull();
   });
 

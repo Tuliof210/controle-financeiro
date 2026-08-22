@@ -38,8 +38,9 @@ describe("EntrySection", () => {
   it("shows the total over one row per item", () => {
     render(<EntrySection {...props} />);
 
-    // Twice: the section total and the single row that makes it up.
-    expect(screen.getAllByText("R$ 1.500,00")).toHaveLength(2);
+    // Total is plain text; the row amount is MoneyDisplay (aria-label).
+    expect(screen.getByText("R$ 1.500,00")).toBeInTheDocument();
+    expect(screen.getByLabelText("R$ 1.500,00")).toBeInTheDocument();
     expect(screen.getAllByRole("listitem")).toHaveLength(1);
   });
 

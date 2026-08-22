@@ -25,8 +25,8 @@ describe("useEntryRow", () => {
   it("formats the amount and tints it by type", () => {
     const { result } = renderHook(() => useEntryRow({ ...props, person: ana }));
 
-    expect(result.current.value).toBe("R$ 1.500,00");
-    expect(result.current.valueClass).toContain("expense");
+    expect(result.current.valueCents).toBe(150_000);
+    expect(result.current.valueClass).not.toContain("income");
   });
 
   it("takes the owner's uppercased initial for the chip", () => {

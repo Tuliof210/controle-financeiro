@@ -2,15 +2,6 @@ import type { MonthPoint } from "@/app/api/dashboard/types.ts";
 import { formatMoneyShort } from "@/lib/money.ts";
 import { addMonths, formatYyyymm } from "@/lib/months.ts";
 
-// Drives the glyph AND the badge tone, so the two can never disagree —
-// src/styles/README.md rule 7: meaning is never colour-only.
-function deltaGlyphFor(up: boolean): string {
-  if (up) {
-    return "▲";
-  }
-  return "▼";
-}
-
 const sum = (values: number[]): number =>
   values.reduce((total, value) => total + value, 0);
 
@@ -63,4 +54,4 @@ function buildFacts(points: MonthPoint[]) {
   ];
 }
 
-export { buildFacts, deltaGlyphFor };
+export { buildFacts };

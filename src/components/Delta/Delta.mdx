@@ -1,0 +1,18 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+import { Delta } from "./index.tsx";
+
+<Meta title="Components/Delta" />
+
+# Delta
+
+Signed KPI variation: colour plus a direction arrow. Up is
+`--color-positive`; down is `--color-negative`. `invert` when a drop is
+good (expenses).
+
+<div style={{ display: "flex", flexWrap: "wrap", gap: "var(--space-4)", padding: "var(--space-4)", background: "var(--color-surface)", borderRadius: "var(--radius-lg)" }}>
+  <Delta value={12.5} />
+  <Delta value={-3} />
+  <Delta value={-8} invert={true} />
+  <Delta value={400} money={true} />
+  <Delta value={-64000} money={true} />
+</div>

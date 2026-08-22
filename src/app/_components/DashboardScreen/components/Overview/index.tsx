@@ -12,7 +12,7 @@ import styles from "./style.module.scss";
 // chart's internals into its container is what makes a chart hard to replace.
 const BAR_LEGEND = [
   { key: "income", label: "Entradas", color: "var(--color-positive)" },
-  { key: "expense", label: "Saídas", color: "var(--color-negative)" },
+  { key: "expense", label: "Saídas", color: "var(--color-text-secondary)" },
 ];
 
 export function Overview(props: OverviewProps) {

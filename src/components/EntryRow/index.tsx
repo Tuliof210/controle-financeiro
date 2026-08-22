@@ -1,5 +1,6 @@
 import { Icon } from "@/components/Icon/index.tsx";
 import { IconButton } from "@/components/IconButton/index.tsx";
+import { MoneyDisplay } from "@/components/MoneyDisplay/index.tsx";
 import { type EntryRowProps, useEntryRow } from "./hook.ts";
 import styles from "./style.module.scss";
 
@@ -13,7 +14,7 @@ export function EntryRow(props: EntryRowProps) {
     chipClass,
     initial,
     valueClass,
-    value,
+    valueCents,
     owner,
     period,
     badges,
@@ -39,9 +40,12 @@ export function EntryRow(props: EntryRowProps) {
           <span className={styles.period}>{period}</span>
         </span>
       </span>
-      <span data-cell="amt" className={valueClass}>
-        {value}
-      </span>
+      <MoneyDisplay
+        data-cell="amt"
+        className={valueClass}
+        value={valueCents}
+        variant="small"
+      />
       <span data-cell="act">
         <IconButton aria-label={`Editar ${name}`} onClick={onEdit}>
           <Icon name="pencil" size={14} />

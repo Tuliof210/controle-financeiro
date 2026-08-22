@@ -1,0 +1,18 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+import { Card } from "./index.tsx";
+
+<Meta title="Components/Card" />
+
+# Card
+
+The product's one surface. Flat is the default: hairline, no shadow.
+`elevated` when the card floats; `sunken` for a nested reading area;
+`outline` is a transparent frame.
+
+export const variants = ["flat", "elevated", "sunken", "outline"];
+
+<div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))", gap: "var(--space-4)", padding: "var(--space-4)", background: "var(--color-bg)" }}>
+  {variants.map((variant) => (
+    <Card key={variant} variant={variant}>{variant}</Card>
+  ))}
+</div>

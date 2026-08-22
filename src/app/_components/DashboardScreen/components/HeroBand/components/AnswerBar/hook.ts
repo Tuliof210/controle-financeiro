@@ -1,8 +1,7 @@
 export interface AnswerBarProps {
   label: string;
   value: number;
-  delta: string;
-  deltaGlyph: string;
+  delta: number;
 }
 
 // A pass-through: every figure here is the band's own, already derived and

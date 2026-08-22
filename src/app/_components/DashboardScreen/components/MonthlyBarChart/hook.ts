@@ -27,7 +27,7 @@ interface MonthlyBarChartProps {
 // re-derived by comparing numbers here — the API already resolved which side won.
 const SERIES = [
   { key: "income", label: "Entradas", fill: "var(--color-positive)" },
-  { key: "expense", label: "Saídas", fill: "var(--color-negative)" },
+  { key: "expense", label: "Saídas", fill: "var(--color-text-secondary)" },
 ] as const;
 
 function useMonthlyBarChart({

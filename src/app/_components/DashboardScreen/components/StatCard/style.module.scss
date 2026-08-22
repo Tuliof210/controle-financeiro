@@ -1,4 +1,3 @@
-@use "theme" as t;
 @use "./chip" as *;
 @use "./quadrant" as *;
 
@@ -11,18 +10,14 @@
 // bleed its sparkline; here the strip pays its own negative margin instead, so
 // the bleed survives without the clip.
 .card {
-  // The radius the sparkline at the bottom has to meet, derived from this card's
-  // own outer radius and border exactly as SectionCard derives its band's.
+  // Layout only: Card owns the skin. The radius the sparkline at the bottom
+  // has to meet, derived from this card's own outer radius and border exactly
+  // as SectionCard derives its band's.
   --band-radius: calc(var(--radius-lg) - var(--border-1));
 
   display: flex;
   flex-direction: column;
   gap: var(--space-4);
-  padding: var(--space-6);
-  background: var(--color-surface);
-  border: var(--border-1) solid var(--color-border);
-  border-radius: var(--radius-lg);
-  @include t.elevation(raised);
 }
 
 .header {

@@ -1,0 +1,43 @@
+@mixin tones {
+  .neutral {
+    --badge-fg: var(--color-text-secondary);
+    --badge-bg: var(--color-surface-raised);
+    --badge-bd: var(--color-border);
+  }
+
+  .positive {
+    --badge-fg: var(--positive-fg);
+    --badge-bg: var(--positive-bg);
+    --badge-bd: var(--positive-border);
+  }
+
+  .negative {
+    --badge-fg: var(--negative-fg);
+    --badge-bg: var(--negative-bg);
+    --badge-bd: var(--negative-border);
+  }
+
+  .alert {
+    --badge-fg: var(--alert-fg);
+    --badge-bg: var(--alert-bg);
+    --badge-bd: var(--alert-border);
+  }
+
+  .info {
+    --badge-fg: var(--info-fg);
+    --badge-bg: var(--info-bg);
+    --badge-bd: var(--info-border);
+  }
+
+  .ai {
+    --badge-fg: var(--ai-fg);
+    --badge-bg: var(--ai-bg);
+    --badge-bd: var(--ai-border);
+  }
+
+  .cobalt {
+    --badge-fg: var(--color-brand-text);
+    --badge-bg: color-mix(in srgb, var(--color-brand) 12%, var(--color-surface));
+    --badge-bd: color-mix(in srgb, var(--color-brand) 24%, var(--color-surface));
+  }
+}

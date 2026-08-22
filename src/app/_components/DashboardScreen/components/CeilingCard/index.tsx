@@ -1,8 +1,8 @@
+import { MoneyDisplay } from "@/components/MoneyDisplay/index.tsx";
 import { SectionCard } from "@/components/SectionCard/index.tsx";
 import { cx } from "@/lib/cx.ts";
 import { HINTS } from "../../hints.ts";
 import { Headline } from "../Headline/index.tsx";
-import { MoneyFigure } from "../MoneyFigure/index.tsx";
 import { ShowAllToggle } from "../ShowAllToggle/index.tsx";
 import { CapSelector } from "./components/CapSelector/index.tsx";
 import { MonthTable } from "./components/MonthTable/index.tsx";
@@ -64,7 +64,7 @@ export function CeilingCard(props: CeilingCardProps) {
                   month's figure, anchored at the start of the string. The rates
                   below add <dd>s AFTER it, never before. */}
               <Headline caption="Gasto extra este mês">
-                <MoneyFigure cents={monthly} />
+                <MoneyDisplay value={monthly} variant="large" />
                 <span className={styles.chip}>{monthsLeft}</span>
               </Headline>
 
