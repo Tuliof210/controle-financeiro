@@ -33,7 +33,6 @@ export function SectionCard(props: SectionCardProps) {
   return (
     <Card as="section" variant={shell} padding="lg" className={styles.card}>
       <div className={titleRowClassName}>
-        {/* 16, not 18: the title next to it is now a --text-2xs eyebrow. */}
         {icon !== undefined && <Icon name={icon} size={16} />}
         <h2 className={styles.title}>{title}</h2>
         {/* Named after the card: a dashboard renders many of these, and a

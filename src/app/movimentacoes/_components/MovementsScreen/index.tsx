@@ -14,7 +14,6 @@ export function MovementsScreen() {
       resource="movements"
       labels={{
         header: {
-          eyebrow: "LANÇAMENTOS",
           title: "Movimentações",
           subtitle: "Entradas e saídas pontuais de cada pessoa da casa.",
         },

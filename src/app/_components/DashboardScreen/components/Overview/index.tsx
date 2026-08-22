@@ -3,51 +3,20 @@ import { BalanceLineChart } from "../BalanceLineChart/index.tsx";
 import { ChartCard } from "../ChartCard/index.tsx";
 import { ChartLegend } from "../ChartLegend/index.tsx";
 import { MonthlyBarChart } from "../MonthlyBarChart/index.tsx";
-import { StatCard } from "../StatCard/index.tsx";
+import { PeriodFacts } from "./components/PeriodFacts/index.tsx";
 import { type OverviewProps, useOverview } from "./hook.ts";
-import styles from "./style.module.scss";
 
-// The same two fills MonthlyBarChart's SERIES uses. Written out rather than
-// imported from that hook: the legend belongs to the CARD, and importing a
-// chart's internals into its container is what makes a chart hard to replace.
 const BAR_LEGEND = [
   { key: "income", label: "Entradas", color: "var(--color-positive)" },
   { key: "expense", label: "Saídas", color: "var(--color-text-secondary)" },
 ];
 
 export function Overview(props: OverviewProps) {
-  const { data, income, expense, balance } = useOverview(props);
+  const { data, facts } = useOverview(props);
 
-  // A fragment, not a wrapper: Board is the one column, and a nested one here
-  // would only be a second place for the card spacing to be decided.
   return (
     <>
-      <div className={styles.kpis}>
-        <StatCard
-          title="Entradas"
-          icon="arrowDownCircle"
-          tone="positive"
-          hint={HINTS.income}
-          stats={data.income}
-          series={income}
-        />
-        <StatCard
-          title="Saídas"
-          icon="arrowUpCircle"
-          tone="negative"
-          hint={HINTS.expense}
-          stats={data.expense}
-          series={expense}
-        />
-        <StatCard
-          title="Saldo"
-          icon="scale"
-          hint={HINTS.balance}
-          stats={data.balance}
-          series={balance}
-          signed={true}
-        />
-      </div>
+      <PeriodFacts facts={facts} />
 
       <ChartCard
         title="Evolução mensal"

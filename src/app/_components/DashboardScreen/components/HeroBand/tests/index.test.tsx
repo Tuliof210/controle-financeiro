@@ -13,11 +13,11 @@ const data = {
   range: { start: 202_601, end: 202_603, current: 202_601 },
 } as BoardData;
 
-const PROJECTED_LABEL = /SALDO PROJETADO/;
+const PROJECTED = /Saldo projetado/;
+const ENTRADAS = /Entradas/;
+const RED_MONTHS = /Meses no vermelho/;
 const VS_NOW = /vs\. saldo atual de R\$ 1,00/;
 
-// The band and its sticky echo both carry the projected balance, so every
-// assertion about the band's own copy has to say WHICH of the two it means.
 const band = (container: HTMLElement) =>
   within(container.querySelector("section") as HTMLElement);
 
@@ -28,40 +28,26 @@ describe("HeroBand", () => {
     expect(
       screen.getByRole("heading", { level: 1, name: "Dashboard" }),
     ).toBeInTheDocument();
-    expect(screen.queryByText(PROJECTED_LABEL)).not.toBeInTheDocument();
+    expect(screen.queryByText(PROJECTED)).not.toBeInTheDocument();
   });
 
   it("shows the projected balance against the current one", () => {
     const { container } = render(<HeroBand data={data} />);
 
     expect(
-      band(container).getByText("SALDO PROJETADO · Mar/26"),
+      band(container).getByText("Saldo projetado em Mar/26."),
     ).toBeInTheDocument();
-    // toHaveTextContent, not getByText: the figure is two text nodes now — its
-    // cents are their own dimmed span — and getByText reads only an element's
-    // DIRECT text children.
     expect(container.querySelector(".value")).toHaveTextContent("R$ 5,00");
     expect(band(container).getByText(VS_NOW)).toBeInTheDocument();
   });
 
-  it("carries the bottom strip once there are figures", () => {
-    const { container } = render(<HeroBand data={data} />);
+  it("does not carry a supporting stats row under the figure", () => {
+    render(<HeroBand data={data} />);
 
-    expect(band(container).getByText("ENTRADAS 2M")).toBeInTheDocument();
-    expect(band(container).getByText("MESES NO VERMELHO")).toBeInTheDocument();
+    expect(screen.queryByText(ENTRADAS)).not.toBeInTheDocument();
+    expect(screen.queryByText(RED_MONTHS)).not.toBeInTheDocument();
   });
 
-  it("echoes the answer in a bar the screen reader never hears twice", () => {
-    const { container } = render(<HeroBand data={data} />);
-    const bar = container.querySelector("[aria-hidden='true']:not(section *)");
-
-    expect(bar).toHaveTextContent("SALDO PROJETADO · Mar/26");
-    expect(bar).toHaveTextContent("R$ 5,00");
-    expect(bar).toHaveTextContent("R$ 4,00");
-  });
-
-  // The caret's fold is a CSS rule on this class, so the class IS the contract
-  // between the screen's `refreshing` flag and what the reader sees.
   it("marks the band as waiting until its figures are the current ones", () => {
     const { container, rerender } = render(
       <HeroBand data={data} refreshing={true} />,
@@ -75,13 +61,5 @@ describe("HeroBand", () => {
 
     rerender(<HeroBand />);
     expect(section()).toHaveClass("waiting");
-  });
-
-  it("renders no echo while the payload has not landed", () => {
-    const { container } = render(<HeroBand />);
-
-    expect(
-      container.querySelector("[aria-hidden='true']:not(section *)"),
-    ).toBeNull();
   });
 });

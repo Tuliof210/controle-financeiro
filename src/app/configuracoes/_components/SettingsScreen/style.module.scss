@@ -1,34 +1,19 @@
-@use "theme" as t;
-
 .screen {
-  // Query container for `.grid` below — the two-column switch has to read the
-  // space the cards actually get, not the window, the same way EntryScreen's
-  // does.
+  // Query container kept so nested lists still size against the column, not
+  // the window — same reason EntryScreen does.
   container-type: inline-size;
   display: flex;
   flex-direction: column;
   gap: var(--space-6);
 }
 
-// minmax(0, …) rather than a bare 1fr: a bare fr track never shrinks below its
-// content's min-content width, so at 375px the cards measured 384px wide and
-// the page scrolled sideways. Measured 400px -> 375px scrollWidth.
-.grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: var(--space-6);
-  // Without it the two cards of a row stretch to the taller one, and the
-  // shorter one grows a block of dead space under its last control.
-  align-items: start;
-
-  // A container query, not the `md` viewport breakpoint this used to carry.
-  // That one is what put a 148px row on screen: at a 768px viewport the second
-  // column arrived before the window had grown to pay for it, so a card here
-  // was narrower than the same card on a 375px phone and the name inside it
-  // collapsed. Same threshold and same derivation as EntryScreen's — twice
-  // `$row-one-line-floor` plus each card's 48px of padding, the 24px gap and
-  // 16px of slack against sub-pixel rounding.
-  @container (min-width: #{2 * (t.$row-one-line-floor + 48px) + 24px + 16px}) {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
+// One column: people, goals and the monthly cap are different jobs, not three
+// interchangeable tiles. A 2-col grid of identical SectionCards was the clone.
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+  // minmax(0) via the children: a name or amount must shrink, not widen
+  // the page at 375px.
+  min-width: 0;
 }

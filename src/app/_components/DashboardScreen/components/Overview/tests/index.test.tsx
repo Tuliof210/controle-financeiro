@@ -45,12 +45,16 @@ const data = {
 } as BoardData;
 
 describe("Overview", () => {
-  it("renders the three KPI cards", () => {
+  it("renders one period panel, not three KPI cards", () => {
     render(<Overview data={data} />);
 
-    for (const title of ["Entradas", "Saídas", "Saldo"]) {
-      expect(screen.getByRole("heading", { name: title })).toBeInTheDocument();
-    }
+    expect(
+      screen.getByRole("heading", { name: "No período" }),
+    ).toBeInTheDocument();
+    expect(screen.getByText("Entradas · 1 mês")).toBeInTheDocument();
+    expect(
+      screen.queryByRole("heading", { name: "Entradas" }),
+    ).not.toBeInTheDocument();
   });
 
   it("renders both chart cards, each with its own legend", () => {

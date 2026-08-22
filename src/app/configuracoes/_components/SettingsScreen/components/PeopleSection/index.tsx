@@ -33,7 +33,7 @@ export function PeopleSection() {
   const noPeople = people?.length === 0;
 
   return (
-    <SectionCard title="Pessoas" icon="users">
+    <SectionCard title="Pessoas">
       {noPeople && (
         <p className={styles.empty}>{COPY.nenhumaPessoaCadastradaAinda}</p>
       )}
@@ -53,23 +53,13 @@ export function PeopleSection() {
         {COPY.adicionarPessoa}
       </Button>
 
-      <Modal
-        open={modal === "add"}
-        onClose={close}
-        eyebrow="PESSOA"
-        title="Adicionar pessoa"
-      >
+      <Modal open={modal === "add"} onClose={close} title="Adicionar pessoa">
         {modal === "add" && (
           <PersonForm error={error} onSubmit={onAdd} submitLabel="Adicionar" />
         )}
       </Modal>
 
-      <Modal
-        open={modal === "edit"}
-        onClose={close}
-        eyebrow="PESSOA"
-        title="Editar pessoa"
-      >
+      <Modal open={modal === "edit"} onClose={close} title="Editar pessoa">
         {modal === "edit" && target && (
           <PersonForm
             initial={{ name: target.name, color: target.color }}

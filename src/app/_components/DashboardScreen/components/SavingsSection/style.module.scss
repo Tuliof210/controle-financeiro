@@ -57,11 +57,9 @@
     background: var(--color-surface-raised);
     color: var(--color-text-muted);
     border-bottom: var(--border-1) solid var(--color-border);
-    // Mono and tracked like the Teto table's header — the rule-4 review note
-    // lives there. The strings are already uppercase in `index.tsx`.
-    font-family: var(--font-mono);
-    font-size: var(--text-2xs);
-    letter-spacing: var(--tracking-wide);
+    font-family: var(--font-sans);
+    font-size: var(--text-xs);
+    font-weight: var(--weight-medium);
     line-height: var(--leading-normal);
 
     // Every column but the first states a figure, and a figure is read from its

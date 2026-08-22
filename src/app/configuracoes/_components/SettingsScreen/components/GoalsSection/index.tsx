@@ -33,7 +33,7 @@ export function GoalsSection() {
   const noGoals = goals?.length === 0;
 
   return (
-    <SectionCard title="Objetivos" icon="target">
+    <SectionCard title="Objetivos">
       {noGoals && (
         <p className={styles.empty}>{COPY.nenhumObjetivoCadastradoAinda}</p>
       )}
@@ -56,7 +56,6 @@ export function GoalsSection() {
       <Modal
         open={modal.type === "add"}
         onClose={close}
-        eyebrow="OBJETIVO"
         title="Adicionar objetivo"
       >
         {modal.type === "add" && (
@@ -67,7 +66,6 @@ export function GoalsSection() {
       <Modal
         open={modal.type === "edit"}
         onClose={close}
-        eyebrow="OBJETIVO"
         title="Editar objetivo"
       >
         {modal.type === "edit" && (

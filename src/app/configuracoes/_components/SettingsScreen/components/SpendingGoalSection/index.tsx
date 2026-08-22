@@ -24,7 +24,7 @@ export function SpendingGoalSection() {
     useSpendingGoalSection();
 
   return (
-    <SectionCard title="Meta mensal" icon="wallet">
+    <SectionCard title="Meta mensal">
       <p className={styles.help}>
         {COPY.quantoVocePretende} <strong>{COPY.meta}</strong>
         {COPY.queLiberaEste}

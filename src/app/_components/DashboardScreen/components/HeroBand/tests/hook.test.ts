@@ -33,14 +33,13 @@ describe("useHeroBand", () => {
       value: 500,
       now: "R$ 1,00",
       delta: 400,
-      deltaUp: true,
     });
   });
 
   it("points the glyph down when the projection loses ground", () => {
     const { figures } = band(data([point(202_601, 500), point(202_603, 100)]));
 
-    expect(figures).toMatchObject({ deltaUp: false, delta: -400 });
+    expect(figures).toMatchObject({ delta: -400 });
   });
 
   it("falls back to the first point when the clock is outside the range", () => {
@@ -51,19 +50,11 @@ describe("useHeroBand", () => {
     expect(figures?.now).toBe("R$ 1,00");
   });
 
-  // The caret reads off `live`, so the two states it has to tell apart are a
-  // band with no answer at all and a band whose answer is being replaced.
   it("is not live until a payload lands, and not while one is in flight", () => {
     const points = [point(202_601, 100), point(202_603, 500)];
 
     expect(band().live).toBe(false);
     expect(band(data(points), true).live).toBe(false);
     expect(band(data(points)).live).toBe(true);
-  });
-
-  it("carries the bottom strip's facts", () => {
-    const { figures } = band(data([point(202_601, 100)]));
-
-    expect(figures?.facts).toHaveLength(3);
   });
 });

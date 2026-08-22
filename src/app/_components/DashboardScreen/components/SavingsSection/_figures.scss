@@ -37,21 +37,10 @@
     margin: 0;
   }
 
-  // Mono and tracked like the eyebrow above it — the strings are already
-  // uppercase in `index.tsx`.
-  //
-  // NO `opacity` here, unlike the target's 0.72 label. These are 11px / 400, so
-  // they are not large text and rule 7's floor is 4.5:1, and the alpha is what
-  // took them under it: --color-brand-text at --opacity-muted COMPOSITES to
-  // 3.91:1 light and 4.30:1 dark on --band-fill. At full alpha the same pair
-  // measures 7.96:1 light and 7.32:1 dark. The ratio recorded beside the mix in
-  // `style.module.scss` is the eyebrow's, and only ever held at alpha 1 — do not
-  // read it as covering anything that stacks an opacity on top.
   .factLabel {
     color: var(--color-brand-text);
-    font-family: var(--font-mono);
-    font-size: var(--text-2xs);
-    letter-spacing: var(--tracking-wide);
+    font-family: var(--font-sans);
+    font-size: var(--text-xs);
     line-height: var(--leading-normal);
   }
 

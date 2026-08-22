@@ -3,8 +3,6 @@ import { type ReactNode, useEffect, useRef } from "react";
 export interface ModalProps {
   open: boolean;
   onClose: () => void;
-  // Optional display-font kicker above the title. ConfirmDialog omits it.
-  eyebrow?: string;
   title: string;
   children: ReactNode;
   footer?: ReactNode;

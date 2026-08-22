@@ -14,7 +14,6 @@ export function OfxScreen() {
   return (
     <div className={styles.screen}>
       <PageHeader
-        eyebrow="IMPORTAÇÃO"
         title="Leitor OFX"
         subtitle="Leia o extrato do banco direto no navegador, sem subir nada."
       />

@@ -29,7 +29,6 @@ export function ForecastsScreen() {
       resource="forecasts"
       labels={{
         header: {
-          eyebrow: "AUTOMÁTICO",
           title: "Previsões",
           subtitle: "O que você espera todo mês — a base de toda a projeção.",
         },

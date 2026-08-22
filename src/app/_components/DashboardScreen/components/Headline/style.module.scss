@@ -1,6 +1,5 @@
-// Extracted for the reason MeterRow, MeterList and ShowAllToggle were: it was
-// byte-identical in StatCard and CeilingCard, and two cards on the same screen
-// should not be able to drift apart on the size of their biggest number.
+// Extracted because CeilingCard needs a labelled figure and two cards on the
+// same screen should not drift apart on the size of their biggest number.
 
 // The headline figure: same dt/dd pairing as the rows below it, but stacked and
 // reversed so the number leads and the caption sits under it. Reversed in CSS,
@@ -12,14 +11,10 @@
   margin: 0;
 }
 
-// An eyebrow under its figure — mono, uppercase, wide tracking, like every
-// other eyebrow in the app.
 .caption {
   color: var(--color-text-muted);
-  font-family: var(--font-mono);
-  font-size: var(--text-2xs);
-  letter-spacing: var(--tracking-wide);
-  text-transform: uppercase;
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
 }
 
 .total {

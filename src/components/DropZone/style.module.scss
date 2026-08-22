@@ -29,13 +29,12 @@
   border-radius: var(--radius-lg);
 }
 
-.eyebrow {
+.prompt {
   margin: 0;
   color: var(--color-text);
-  font-family: var(--font-mono);
-  font-size: var(--text-2xs);
-  letter-spacing: var(--tracking-wide);
-  text-transform: uppercase;
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
 }
 
 // A measure, not a spacing value: without it the sentence runs the full width

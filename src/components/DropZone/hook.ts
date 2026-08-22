@@ -31,7 +31,7 @@ export function useDropZone({ onFile, note = DEFAULT_NOTE }: DropZoneProps) {
       setOver(true);
     };
     // dragleave bubbles from every child of the panel, so crossing from its
-    // padding onto the glyph, the eyebrow or the button fires one while the
+    // padding onto the glyph, the prompt or the button fires one while the
     // pointer never left — and the violet border, which does not transition,
     // would visibly snap off and back. Only a relatedTarget outside the panel
     // means the drag really left it.

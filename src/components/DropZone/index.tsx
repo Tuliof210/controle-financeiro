@@ -22,7 +22,7 @@ export function DropZone(props: DropZoneProps) {
       <span className={styles.glyph}>
         <Icon name="upload" size={28} />
       </span>
-      <p className={styles.eyebrow}>{COPY.prompt}</p>
+      <p className={styles.prompt}>{COPY.prompt}</p>
       <p className={styles.note}>{note}</p>
       <FilePicker label="Escolher arquivo" onFile={onFile} />
       {/* 5 MB, not the design's 10: the route's cap is 5 and is not changing. */}

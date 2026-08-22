@@ -29,7 +29,6 @@ const config: EntryScreenConfig<Entry, Values> = {
   resource: "forecasts",
   labels: {
     header: {
-      eyebrow: "Planejamento",
       title: "Previsões",
       subtitle: "O plano",
     },
