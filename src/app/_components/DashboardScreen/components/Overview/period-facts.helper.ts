@@ -20,10 +20,14 @@ function redSub(points: MonthPoint[]): string {
     return "espalhados pelo período";
   }
 
-  // addMonths rather than the next point's month: when the whole range is red
-  // there is no next point, and the month after the last red one still reads
-  // correctly.
   return `todos antes de ${formatYyyymm(addMonths(lastRed.month, 1))}`;
+}
+
+function monthLabel(months: number): string {
+  if (months === 1) {
+    return "1 mês";
+  }
+  return `${months} meses`;
 }
 
 function buildFacts(points: MonthPoint[]) {
@@ -31,23 +35,24 @@ function buildFacts(points: MonthPoint[]) {
   const income = sum(points.map((point) => point.income));
   const expense = sum(points.map((point) => point.expense));
   const red = points.filter((point) => point.cumulative < 0).length;
+  const span = monthLabel(months);
 
   return [
     {
       key: "income",
-      label: `ENTRADAS ${months}M`,
+      label: `Entradas · ${span}`,
       value: formatMoneyShort(income),
       sub: `média ${formatMoneyShort(income / months)}/mês`,
     },
     {
       key: "expense",
-      label: `SAÍDAS ${months}M`,
+      label: `Saídas · ${span}`,
       value: formatMoneyShort(expense),
       sub: `média ${formatMoneyShort(expense / months)}/mês`,
     },
     {
       key: "red",
-      label: "MESES NO VERMELHO",
+      label: "Meses no vermelho",
       value: String(red),
       sub: redSub(points),
     },

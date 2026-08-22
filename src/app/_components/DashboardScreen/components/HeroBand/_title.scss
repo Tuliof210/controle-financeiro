@@ -1,56 +1,11 @@
-// The band's title column, split off `style.module.scss` for the same reason
-// `_figure.scss` beside it was: a mixin that emits nothing on its own, so the
-// stylesheet stays under the 100-line cap. Its markup is this folder's
-// `index.tsx`. No `@use "theme"`: nothing in this column breaks by width any
-// more — the title is one flat size and the caret in `_caret.scss` follows it.
+// The band's title column, split off `style.module.scss` so the stylesheet
+// stays under the 100-line cap. Markup lives in this folder's `index.tsx`.
 
 @mixin title {
-  // Wayfinding only, and the whole reason it is a ROW above the answer rather
-  // than a column beside it: as a `1fr` track it took the band's prime slot and
-  // exiled the figure to the right margin. 8px, not 16px, because the eyebrow
-  // labels the h1 and bonds to it; the subtitle buys its separation back below.
-  .titleRow {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-2);
-    min-width: 0;
-  }
-
-  // Mono at --text-2xs with --tracking-wide, like every other eyebrow in the
-  // app (StatCard, SectionCard, Headline) — the strings are already uppercase,
-  // so no text-transform. The display face at 0 tracking read as a smudge here
-  // and broke the one vocabulary the reader sees four times just below.
-  //
-  // Muted on the COLOUR, not with `opacity`: `.mark` is a child, and an
-  // `opacity` on the box dragged the cobalt square to ~2.6:1 while the
-  // identical cobalt caret 30px away painted at full strength.
-  // 8.69:1 light / 6.71:1 dark against the band fill — measured, not assumed.
-  .eyebrow {
-    display: flex;
-    align-items: center;
-    gap: var(--space-2);
-    margin: 0;
-    color: color-mix(in srgb, currentcolor 70%, transparent);
-    font-family: var(--font-mono);
-    font-size: var(--text-2xs);
-    letter-spacing: var(--tracking-wide);
-    line-height: var(--leading-normal);
-  }
-
-  // `.mark` and `.cursor` — the column's two cobalt squares — live in
-  // `_caret.scss`, because the caret now reports whether the figures beside it
-  // are current and that rule wanted more prose than this file had left.
-
-  // h1 inherits --font-display, --leading-tight and --tracking-display from
-  // _base.scss — but also `color: var(--color-text)`, which on this fill is
-  // near-black on near-black. `inherit` is what puts it back.
-  //
-  // --text-xl flat, down from 28/34px. "Dashboard" is wayfinding, not the
-  // message: it was the largest type on the screen while the ceiling — the one
-  // figure the page exists to produce — merely matched it. It stays the page's
-  // only <h1>; it just stops competing with the answer for the eye. The other
-  // five screens keep PageHeader's 18/28, where the title IS the top of the
-  // hierarchy because no hero figure outranks it.
+  // h1 inherits --font-display from _base.scss — but also `color: var(--color-
+  // text)`, which on this fill is near-black on near-black. `inherit` puts it
+  // back. --text-xl: wayfinding, not the message; the projected balance below
+  // it is the answer.
   .title {
     display: flex;
     align-items: center;
@@ -59,11 +14,9 @@
     font-size: var(--text-xl);
   }
 
-  // The subtitle is a separate statement, not part of the eyebrow→h1 bond, so
-  // it pays double the column's gap: 8px above the h1, 16px below it.
-  .subtitle {
+  .lede {
     max-width: 46ch;
-    margin: var(--space-2) 0 0;
+    margin: 0;
     font-family: var(--font-sans);
     font-size: var(--text-sm);
     line-height: var(--leading-normal);

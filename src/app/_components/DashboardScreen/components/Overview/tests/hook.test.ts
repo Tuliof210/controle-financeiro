@@ -11,16 +11,10 @@ const data = {
 } as BoardData;
 
 describe("useOverview", () => {
-  it("splits one series per KPI card", () => {
+  it("builds the period facts from the month points", () => {
     const { result } = renderHook(() => useOverview({ data }));
 
-    expect(result.current.income).toEqual([10, 20]);
-    expect(result.current.expense).toEqual([4, 5]);
-  });
-
-  it("draws Saldo from the running balance, not the monthly delta", () => {
-    const { result } = renderHook(() => useOverview({ data }));
-
-    expect(result.current.balance).toEqual([6, 21]);
+    expect(result.current.facts).toHaveLength(3);
+    expect(result.current.facts[0]).toMatchObject({ key: "income" });
   });
 });

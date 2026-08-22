@@ -1,5 +1,5 @@
 import { describe, expect, it } from "@jest/globals";
-import { buildFacts } from "@/app/_components/DashboardScreen/components/HeroBand/hero-band.helper.ts";
+import { buildFacts } from "@/app/_components/DashboardScreen/components/Overview/period-facts.helper.ts";
 import type { MonthPoint } from "@/app/api/dashboard/types.ts";
 
 const point = (month: number, cumulative: number) =>
@@ -11,7 +11,7 @@ describe("buildFacts", () => {
   it("totals each side over the range, with its monthly mean", () => {
     expect(facts[0]).toMatchObject({
       key: "income",
-      label: "ENTRADAS 2M",
+      label: "Entradas · 2 meses",
       value: "R$ 20",
       sub: "média R$ 10/mês",
     });

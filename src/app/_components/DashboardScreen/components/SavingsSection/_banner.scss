@@ -49,27 +49,22 @@
     min-inline-size: 0;
   }
 
-  .eyebrowRow {
+  .titleRow {
     display: flex;
     align-items: center;
     gap: var(--space-2);
   }
 
-  // The target's cobalt eyebrow: mono, tracked, in the brand's own text tone
-  // (8.0:1 on --band-fill in light, 7.4:1 in dark). The string is already
-  // uppercase in `index.tsx`, so no text-transform is needed.
-  .eyebrow {
+  .title {
     margin: 0;
     color: var(--color-brand-text);
-    font-family: var(--font-mono);
-    font-size: var(--text-xs);
-    font-weight: var(--weight-regular);
-    letter-spacing: var(--tracking-wide);
-    line-height: var(--leading-normal);
+    font-family: var(--font-sans);
+    font-size: var(--text-sm);
+    font-weight: var(--weight-semibold);
+    line-height: var(--leading-tight);
   }
 
-  // Reached by tag, not class: `.trigger` lives in Tooltip's own module.
-  .eyebrowRow button {
+  .titleRow button {
     color: var(--color-brand-text);
   }
 
