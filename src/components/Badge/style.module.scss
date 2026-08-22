@@ -1,0 +1,54 @@
+@use "./tones" as *;
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  flex: none;
+  border: var(--border-1) solid var(--badge-bd);
+  border-radius: var(--radius-sm);
+  color: var(--badge-fg);
+  background: var(--badge-bg);
+  font-family: var(--font-sans);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-normal);
+  white-space: nowrap;
+}
+
+.sm {
+  height: var(--space-5);
+  padding: 0 var(--space-2);
+  font-size: var(--text-2xs);
+}
+
+.md {
+  height: var(--space-6);
+  padding: 0 var(--space-3);
+  font-size: var(--text-xs);
+}
+
+.dot {
+  width: var(--space-2);
+  height: var(--space-2);
+  flex: none;
+  border-radius: var(--radius-full);
+  background: currentcolor;
+}
+
+.soft {
+  color: var(--badge-fg);
+  background: var(--badge-bg);
+  border-color: var(--badge-bd);
+}
+
+.solid {
+  color: var(--color-bg);
+  background: var(--badge-fg);
+  border-color: transparent;
+}
+
+.outline {
+  background: transparent;
+}
+
+@include tones;

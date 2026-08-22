@@ -1,0 +1,28 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+import { Badge } from "./index.tsx";
+
+<Meta title="Components/Badge" />
+
+# Badge
+
+A status pill. Colour reinforces the label; it is never the only signal.
+Forecast kind is `tone="neutral"` — kind is a reader label, not a money state.
+
+export const tones = ["neutral", "positive", "negative", "alert", "info", "ai", "cobalt"];
+
+## Tones
+
+<div style={{ display: "flex", flexWrap: "wrap", gap: "var(--space-2)", padding: "var(--space-4)", background: "var(--color-surface)", borderRadius: "var(--radius-lg)" }}>
+  {tones.map((tone) => (
+    <Badge key={tone} tone={tone}>{tone}</Badge>
+  ))}
+</div>
+
+## Outline · solid · sm
+
+<div style={{ display: "flex", flexWrap: "wrap", gap: "var(--space-2)", alignItems: "center", padding: "var(--space-4)", background: "var(--color-surface)", borderRadius: "var(--radius-lg)" }}>
+  <Badge variant="outline">Fixa</Badge>
+  <Badge tone="positive" variant="solid">ok</Badge>
+  <Badge size="sm" icon="check">sm</Badge>
+  <Badge dot={true} tone="info">com ponto</Badge>
+</div>
