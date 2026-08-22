@@ -32,16 +32,15 @@ describe("useHeroBand", () => {
       endLabel: "Mar/26",
       value: 500,
       now: "R$ 1,00",
-      delta: "R$ 4,00",
+      delta: 400,
       deltaUp: true,
-      deltaGlyph: "▲",
     });
   });
 
   it("points the glyph down when the projection loses ground", () => {
     const { figures } = band(data([point(202_601, 500), point(202_603, 100)]));
 
-    expect(figures).toMatchObject({ deltaUp: false, deltaGlyph: "▼" });
+    expect(figures).toMatchObject({ deltaUp: false, delta: -400 });
   });
 
   it("falls back to the first point when the clock is outside the range", () => {

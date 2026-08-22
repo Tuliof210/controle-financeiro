@@ -1,8 +1,9 @@
 import Link from "next/link";
+import { Card } from "@/components/Card/index.tsx";
+import { MoneyDisplay } from "@/components/MoneyDisplay/index.tsx";
 import { Tooltip } from "@/components/Tooltip/index.tsx";
 import { HINTS } from "../../hints.ts";
 import { GoalRow } from "../GoalRow/index.tsx";
-import { MoneyFigure } from "../MoneyFigure/index.tsx";
 import { type SavingsSectionProps, useSavingsSection } from "./hook.ts";
 import styles from "./style.module.scss";
 
@@ -24,17 +25,11 @@ export function SavingsSection(props: SavingsSectionProps) {
   const { goals, empty, capacity, caption, goalCount, total, horizon } =
     useSavingsSection(props);
 
-  // One <section>, and exactly one: the band is a <div> inside it now. A second
-  // nested <section> here would be a Playwright strict-mode violation — the
-  // goals suite reaches this block as THE section carrying the heading below.
   return (
-    <section className={styles.card}>
+    <Card as="section" variant="elevated" className={styles.card}>
       <div className={styles.banner}>
         <div className={styles.capacity}>
           <div className={styles.eyebrowRow}>
-            {/* The eyebrow already reads as this card's title, and it is the
-                only one the card has — so it IS the h2, matching the one
-                SectionCard renders on every other card in the shell. */}
             <h2 className={styles.eyebrow}>{COPY.capacidadeDePoupanca}</h2>
             <Tooltip
               text={HINTS.goals}
@@ -42,14 +37,12 @@ export function SavingsSection(props: SavingsSectionProps) {
             />
           </div>
           <p className={styles.value}>
-            <MoneyFigure cents={capacity} />
+            <MoneyDisplay value={capacity} variant="large" />
             <span className={styles.per}> {COPY.mes}</span>
           </p>
           <p className={styles.caption}>{caption}</p>
         </div>
 
-        {/* The wrappers carry no class: `.facts` is the flex row that does the
-            spacing, and each <div> only keeps its dt/dd together. */}
         <dl className={styles.facts}>
           <div>
             <dt className={styles.factLabel}>{COPY.objetivos}</dt>
@@ -71,10 +64,6 @@ export function SavingsSection(props: SavingsSectionProps) {
       )}
       {!empty && (
         <>
-          {/* Drawn once for the whole table, and only from `lg` — below it
-              every row states its own labels. No table ARIA role on any of
-              this: Biome's noRedundantRoles/useSemanticElements pincer means a
-              grid that reflows cannot declare the roles the reflow destroys. */}
           <div className={styles.columns}>
             <span>{COPY.meta}</span>
             <span>{COPY.dedicado}</span>
@@ -88,6 +77,6 @@ export function SavingsSection(props: SavingsSectionProps) {
           </ul>
         </>
       )}
-    </section>
+    </Card>
   );
 }

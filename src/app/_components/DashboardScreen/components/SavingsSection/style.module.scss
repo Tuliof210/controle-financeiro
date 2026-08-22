@@ -31,12 +31,9 @@
 
   display: flex;
   flex-direction: column;
-  background: var(--color-surface);
-  border: var(--border-1) solid var(--color-border);
-  border-radius: var(--radius-lg);
-  // Same reading as SectionCard's banded card, and the same level: a filled
-  // header makes this a distinct object on the page rather than a region of it.
-  @include t.elevation(raised);
+  // Rows run edge to edge; Card's padding step would inset them. This file
+  // loads after Card, so the zero wins at equal specificity.
+  padding: 0;
 
   @include t.bp("lg") {
     --goal-cols: minmax(180px, 1.2fr) repeat(3, minmax(0, 1fr));

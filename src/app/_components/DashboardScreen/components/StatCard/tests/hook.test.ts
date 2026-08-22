@@ -24,7 +24,7 @@ describe("useStatCard", () => {
       useStatCard({ ...base, tone: "positive" }),
     );
 
-    expect(result.current.glyph).toBeNull();
+    expect(result.current.signed).toBe(false);
     expect(result.current.tone).toBe("positive");
     expect(result.current.chip).toBe("positive");
   });
@@ -32,7 +32,7 @@ describe("useStatCard", () => {
   it("points the glyph up on a signed card in the black", () => {
     const { result } = renderHook(() => useStatCard({ ...base, signed: true }));
 
-    expect(result.current.glyph).toBe("▲");
+    expect(result.current.signed).toBe(true);
     expect(result.current.tone).toBe("positive");
   });
 
@@ -41,7 +41,7 @@ describe("useStatCard", () => {
       useStatCard({ ...base, signed: true, stats: { ...stats, total: -1 } }),
     );
 
-    expect(result.current.glyph).toBe("▼");
+    expect(result.current.signed).toBe(true);
     expect(result.current.tone).toBe("negative");
   });
 
@@ -52,6 +52,15 @@ describe("useStatCard", () => {
 
     expect(result.current.chip).toBe("brand");
     expect(result.current.color).toBe("var(--color-brand)");
+  });
+
+  it("does not paint a normal expense red", () => {
+    const { result } = renderHook(() =>
+      useStatCard({ ...base, tone: "negative" }),
+    );
+
+    expect(result.current.tone).toBeUndefined();
+    expect(result.current.color).toBe("var(--color-text-secondary)");
   });
 
   it("formats the headline and the four secondary rows", () => {

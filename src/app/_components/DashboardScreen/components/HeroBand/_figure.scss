@@ -69,8 +69,14 @@
     // The one seam left in the roll: the figure glides across zero over
     // --duration-slow while the pill it labels snapped green→red in a single
     // frame. Same duration, same curve, so the tone crosses when the number
-    // does. The ▲/▼ still swaps instantly — a glyph has nothing to cross.
+    // does. Delta's arrow still swaps instantly — a glyph has nothing to cross.
     transition: background-color var(--duration-slow) var(--ease-out);
+
+    // Delta paints its own semantic colour; on this filled pill the ink is
+    // --color-bg, already measured against the fill.
+    * {
+      color: inherit;
+    }
   }
 
   .up {

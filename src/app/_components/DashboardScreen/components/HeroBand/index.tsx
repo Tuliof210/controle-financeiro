@@ -1,5 +1,6 @@
+import { Delta } from "@/components/Delta/index.tsx";
+import { MoneyDisplay } from "@/components/MoneyDisplay/index.tsx";
 import { cx } from "@/lib/cx.ts";
-import { MoneyFigure } from "../MoneyFigure/index.tsx";
 import { AnswerBar } from "./components/AnswerBar/index.tsx";
 import { Facts } from "./components/Facts/index.tsx";
 import { type HeroBandProps, useHeroBand } from "./hook.ts";
@@ -33,7 +34,6 @@ export function HeroBand(props: HeroBandProps) {
           label={`${COPY.saldoProjetado} ${figures.endLabel}`}
           value={figures.value}
           delta={figures.delta}
-          deltaGlyph={figures.deltaGlyph}
         />
       )}
 
@@ -68,7 +68,7 @@ export function HeroBand(props: HeroBandProps) {
                   {COPY.saldoProjetado} {figures.endLabel}
                 </p>
                 <p className={styles.value}>
-                  <MoneyFigure cents={figures.value} />
+                  <MoneyDisplay value={figures.value} variant="hero" />
                 </p>
                 <div className={styles.deltaRow}>
                   <span
@@ -78,8 +78,7 @@ export function HeroBand(props: HeroBandProps) {
                       !figures.deltaUp && styles.down,
                     )}
                   >
-                    <span aria-hidden={true}>{figures.deltaGlyph}</span>{" "}
-                    {figures.delta}
+                    <Delta value={figures.delta} money={true} />
                   </span>
                   <span className={styles.vs}>
                     {COPY.vsSaldoAtual} {figures.now}

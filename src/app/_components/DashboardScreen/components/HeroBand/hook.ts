@@ -1,6 +1,5 @@
 import { formatMoney } from "@/lib/money.ts";
 import type { BoardData } from "../Board/hook.ts";
-import { deltaGlyphFor } from "./hero-band.helper.ts";
 import { buildFigures } from "./hero-figures.helper.ts";
 import { useRollingCents } from "./rolling-cents.hook.ts";
 
@@ -44,11 +43,10 @@ function useHeroBand({ data, refreshing }: HeroBandProps) {
       facts: figures.facts,
       value,
       now: formatMoney(now),
-      delta: formatMoney(delta),
-      // Drives the ▲/▼ glyph AND the badge tone, so the two can never disagree
-      // — README rule 7: meaning is never colour-only.
+      delta,
+      // Drives the badge tone; Delta draws the arrow, so the two can never
+      // disagree — README rule 7: meaning is never colour-only.
       deltaUp,
-      deltaGlyph: deltaGlyphFor(deltaUp),
     },
   };
 }

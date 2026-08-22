@@ -1,4 +1,5 @@
-import { MoneyFigure } from "../../../MoneyFigure/index.tsx";
+import { Delta } from "@/components/Delta/index.tsx";
+import { MoneyDisplay } from "@/components/MoneyDisplay/index.tsx";
 import { type AnswerBarProps, useAnswerBar } from "./hook.ts";
 import styles from "./style.module.scss";
 
@@ -12,7 +13,7 @@ import styles from "./style.module.scss";
 // of the same number is noise, and the bar has no affordance of its own — it is
 // a visual echo, which is also why it never takes a hit test.
 export function AnswerBar(props: AnswerBarProps) {
-  const { label, value, delta, deltaGlyph } = useAnswerBar(props);
+  const { label, value, delta } = useAnswerBar(props);
 
   return (
     <div className={styles.bar} aria-hidden={true}>
@@ -20,10 +21,10 @@ export function AnswerBar(props: AnswerBarProps) {
         <span className={styles.mark} />
         <span className={styles.label}>{label}</span>
         <span className={styles.value}>
-          <MoneyFigure cents={value} />
+          <MoneyDisplay value={value} variant="large" />
         </span>
         <span className={styles.delta}>
-          {deltaGlyph} {delta}
+          <Delta value={delta} money={true} />
         </span>
       </div>
     </div>

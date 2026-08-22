@@ -81,7 +81,7 @@
 }
 
 // No semantic fill: `_figure.scss` records why a second filled pill on this
-// inverted surface is wrong, and the ▲/▼ glyph already carries the direction
+// inverted surface is wrong, and Delta's arrow already carries the direction
 // without asking a colour to.
 .delta {
   margin-left: auto;
@@ -90,6 +90,10 @@
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
   opacity: var(--opacity-muted);
+
+  * {
+    color: inherit;
+  }
 }
 
 // The scroll-driven reveal lives in `_reveal.scss` — see the note there.

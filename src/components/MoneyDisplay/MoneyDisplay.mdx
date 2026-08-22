@@ -1,0 +1,18 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+import { MoneyDisplay } from "./index.tsx";
+
+<Meta title="Components/MoneyDisplay" />
+
+# MoneyDisplay
+
+Cents in, tabular pt-BR out. The minus is U+2212. Hero and large dim the
+fraction with `--money-decimal-opacity`. `colorBySign` defaults to false —
+a normal expense is not red.
+
+<div style={{ display: "flex", flexDirection: "column", gap: "var(--space-3)", padding: "var(--space-4)", background: "var(--color-surface)", borderRadius: "var(--radius-lg)", color: "var(--color-text)" }}>
+  <MoneyDisplay value={125090} variant="hero" />
+  <MoneyDisplay value={-64000} variant="large" />
+  <MoneyDisplay value={1099} />
+  <MoneyDisplay value={250} variant="small" />
+  <MoneyDisplay value={400} variant="delta" showPositiveSign={true} colorBySign={true} />
+</div>

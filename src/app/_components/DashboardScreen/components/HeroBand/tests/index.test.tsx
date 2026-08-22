@@ -57,7 +57,7 @@ describe("HeroBand", () => {
 
     expect(bar).toHaveTextContent("SALDO PROJETADO · Mar/26");
     expect(bar).toHaveTextContent("R$ 5,00");
-    expect(bar).toHaveTextContent("▲ R$ 4,00");
+    expect(bar).toHaveTextContent("R$ 4,00");
   });
 
   // The caret's fold is a CSS rule on this class, so the class IS the contract

@@ -1,19 +1,9 @@
 import { describe, expect, it } from "@jest/globals";
-import {
-  buildFacts,
-  deltaGlyphFor,
-} from "@/app/_components/DashboardScreen/components/HeroBand/hero-band.helper.ts";
+import { buildFacts } from "@/app/_components/DashboardScreen/components/HeroBand/hero-band.helper.ts";
 import type { MonthPoint } from "@/app/api/dashboard/types.ts";
 
 const point = (month: number, cumulative: number) =>
   ({ month, cumulative, income: 1000, expense: 400 }) as MonthPoint;
-
-describe("deltaGlyphFor", () => {
-  it("drives the glyph, so the badge tone can never disagree", () => {
-    expect(deltaGlyphFor(true)).toBe("▲");
-    expect(deltaGlyphFor(false)).toBe("▼");
-  });
-});
 
 describe("buildFacts", () => {
   const facts = buildFacts([point(202_601, 100), point(202_602, 200)]);
