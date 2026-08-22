@@ -1,7 +1,6 @@
 import type { ReactNode } from "react";
 import type { Person } from "@/core/entities/person.entity.ts";
 import type { Entry } from "@/lib/entry-types.ts";
-import { formatMoney } from "@/lib/money.ts";
 import styles from "./style.module.scss";
 
 interface EntryRowProps {
@@ -50,12 +49,14 @@ function useEntryRow({ entry, person, ...rest }: EntryRowProps) {
   return {
     ...rest,
     name: entry.name,
-    // Chip colour and income/expense tint are both CSS-Modules string lookups;
-    // resolving them here keeps index.tsx free of the concatenation.
+    // Chip colour is a CSS-Modules string lookup; resolving it here keeps
+    // index.tsx free of the concatenation.
     chipClass: `${styles.chip} ${chipFill(color)}`,
     initial: initialOf(person?.name),
-    valueClass: `${styles.value} ${styles[entry.type]}`,
-    value: formatMoney(entry.valueCents),
+    valueClass: [styles.value, entry.type === "income" && styles.income]
+      .filter(Boolean)
+      .join(" "),
+    valueCents: entry.valueCents,
     owner,
   };
 }

@@ -54,8 +54,8 @@
 }
 
 
-// One leaf, never a wrapper around an inner span: the e2e finds it with
-// `getByText(/^R\$/)`, which matches a wrapper too — strict mode dies.
+// MoneyDisplay is this cell: an inner cents span is fine because it does not
+// contain `R$`, so the e2e's `getByText(/^R\$/)` still has one match.
 .value {
   color: var(--color-text);
   font-family: var(--font-sans);
@@ -68,10 +68,6 @@
 // around the row carries the meaning.
 .income {
   color: var(--color-positive);
-}
-
-.expense {
-  color: var(--color-negative);
 }
 
 @include meta-line;

@@ -1,3 +1,4 @@
+import type { HTMLAttributes } from "react";
 import { formatMoney, splitMoney } from "@/lib/money.ts";
 import { cx } from "@/lib/cx.ts";
 import styles from "./style.module.scss";
@@ -10,7 +11,7 @@ export type MoneyDisplayProps = {
   dimDecimals?: boolean;
   hideSymbol?: boolean;
   hideCents?: boolean;
-};
+} & Omit<HTMLAttributes<HTMLSpanElement>, "children">;
 
 const DIM_BY_DEFAULT: Record<string, boolean> = {
   hero: true,
@@ -44,18 +45,24 @@ export function useMoneyDisplay({
   dimDecimals,
   hideSymbol = false,
   hideCents = false,
+  className,
+  ...rest
 }: MoneyDisplayProps) {
   const dim = dimDecimals ?? Boolean(DIM_BY_DEFAULT[variant]);
 
   return {
-    className: cx(
-      styles.money,
-      styles[variant],
-      colorBySign && (value < 0 ? styles.negative : styles.positive),
-    ),
+    moneyProps: {
+      className: cx(
+        styles.money,
+        styles[variant],
+        colorBySign && (value < 0 ? styles.negative : styles.positive),
+        className,
+      ),
+      "aria-label": formatMoney(value),
+      ...rest,
+    },
     head: headOf(value, showPositiveSign, hideSymbol, hideCents),
     fraction: hideCents ? undefined : splitMoney(value).fraction,
     dim,
-    label: formatMoney(value),
   };
 }
