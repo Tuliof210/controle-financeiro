@@ -1,8 +1,8 @@
 "use client";
 
+import { Avatar } from "@/components/Avatar/index.tsx";
 import { Icon } from "@/components/Icon/index.tsx";
 import { SIDEBAR_ID } from "../../ids.ts";
-import { Avatar } from "./components/Avatar/index.tsx";
 import { ProfileSelect } from "./components/ProfileSelect/index.tsx";
 import { ThemeToggle } from "./components/ThemeToggle/index.tsx";
 import { useHeader } from "./hook.ts";
@@ -14,8 +14,14 @@ interface HeaderProps {
 }
 
 export function Header(props: HeaderProps) {
-  const { greeting, today, sidebarExpanded, onToggleSidebar } =
-    useHeader(props);
+  const {
+    greeting,
+    today,
+    sidebarExpanded,
+    onToggleSidebar,
+    avatarName,
+    avatarColor,
+  } = useHeader(props);
 
   return (
     <header className={styles.header}>
@@ -39,7 +45,7 @@ export function Header(props: HeaderProps) {
 
       <ProfileSelect />
       <ThemeToggle />
-      <Avatar />
+      <Avatar name={avatarName} color={avatarColor} />
     </header>
   );
 }

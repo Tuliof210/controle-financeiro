@@ -1,7 +1,7 @@
 import "@testing-library/jest-dom/jest-globals";
 import { beforeEach, describe, expect, it } from "@jest/globals";
-import { render, screen, waitFor } from "@testing-library/react";
-import { Avatar } from "@/components/AppShell/components/Header/components/Avatar/index.tsx";
+import { renderHook, waitFor } from "@testing-library/react";
+import { useProfile } from "@/components/ProfileProvider/hook.ts";
 import { ProfileProvider } from "@/components/ProfileProvider/index.tsx";
 import { apiGet } from "@/lib/api.ts";
 
@@ -19,14 +19,10 @@ describe("ProfileProvider", () => {
   it("gives its children the active profile", async () => {
     localStorage.setItem("profile", "p1");
 
-    render(
-      <ProfileProvider>
-        <Avatar />
-      </ProfileProvider>,
-    );
+    const { result } = renderHook(() => useProfile(), {
+      wrapper: ProfileProvider,
+    });
 
-    // Avatar is a real consumer of the context, so the assertion needs no
-    // local component of its own — the initials come from the active profile.
-    await waitFor(() => expect(screen.getByText("A")).toBeInTheDocument());
+    await waitFor(() => expect(result.current.label).toBe("Ana"));
   });
 });
