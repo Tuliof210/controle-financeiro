@@ -2,8 +2,8 @@ import { useBrandMark } from "./hook.ts";
 import styles from "./style.module.scss";
 
 // Four rounded bars from design-system/assets/monevo-mark.svg. `currentColor`
-// so the mark inherits the cobalt tile; the cap accent of the pixel-block mark
-// is gone — the bars are the symbol.
+// so the mark inherits the cobalt tile; the old cap accent is gone — the bars
+// are the symbol.
 export function BrandMark() {
   const { label } = useBrandMark();
 

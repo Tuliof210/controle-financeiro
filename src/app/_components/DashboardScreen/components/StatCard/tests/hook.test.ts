@@ -12,7 +12,7 @@ const stats = {
 
 const base = {
   title: "Saldo",
-  icon: "wallet",
+  icon: "wallet" as const,
   hint: "x",
   stats,
   series: [1, 2, 3],

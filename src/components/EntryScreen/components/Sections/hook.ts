@@ -48,7 +48,7 @@ export function useSections<T extends Entry>({
       {
         key: "income",
         title: "Entradas",
-        icon: "arrowDownCircle",
+        icon: "arrowDownCircle" as const,
         tone: "positive" as const,
         items: income,
         labels: labels.income,
@@ -58,7 +58,7 @@ export function useSections<T extends Entry>({
       {
         key: "expense",
         title: "Saídas",
-        icon: "arrowUpCircle",
+        icon: "arrowUpCircle" as const,
         tone: "negative" as const,
         items: expense,
         labels: labels.expense,

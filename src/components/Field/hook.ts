@@ -54,6 +54,11 @@ export function useField(props: FieldProps) {
     inputMode = "decimal";
   }
 
+  let ariaLabel: string | undefined;
+  if (props.money === true) {
+    ariaLabel = props.ariaLabel;
+  }
+
   return {
     ...props,
     display,
@@ -68,6 +73,7 @@ export function useField(props: FieldProps) {
       .filter(Boolean)
       .join(" "),
     isMoney,
+    ariaLabel,
     onChange,
     onFocus,
     onSelect,

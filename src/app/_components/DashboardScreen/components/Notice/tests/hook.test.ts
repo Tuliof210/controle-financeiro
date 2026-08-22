@@ -6,7 +6,7 @@ describe("useNotice", () => {
   it("hands the title, icon and body straight back", () => {
     const props = {
       title: "Período global",
-      icon: "calendar",
+      icon: "calendar" as const,
       children: "x",
     };
     const { result } = renderHook(() => useNotice(props));

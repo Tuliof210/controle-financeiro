@@ -18,7 +18,7 @@ const items = [
 
 const props = {
   title: "Saídas",
-  icon: "wallet",
+  icon: "wallet" as const,
   tone: "negative" as const,
   items,
   people: [{ id: "p1", name: "Ana" }] as Person[],

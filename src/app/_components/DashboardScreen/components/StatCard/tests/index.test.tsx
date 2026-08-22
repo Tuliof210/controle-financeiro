@@ -13,7 +13,7 @@ const stats = {
 
 const props = {
   title: "Saldo",
-  icon: "scale",
+  icon: "scale" as const,
   hint: "Como o saldo sai",
   stats,
   series: [1, 2, 3],

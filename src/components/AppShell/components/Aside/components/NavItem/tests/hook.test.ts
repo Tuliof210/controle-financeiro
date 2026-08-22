@@ -7,7 +7,7 @@ const props = {
   label: "Previsões",
   active: false,
   collapsed: false,
-  icon: "layoutDashboard",
+  icon: "layoutDashboard" as const,
 };
 
 describe("useNavItem", () => {
