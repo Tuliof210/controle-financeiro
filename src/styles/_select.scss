@@ -1,4 +1,4 @@
-// The DS skin for a native <select>, shared verbatim by SelectField and
+// The DS skin for a native <select>, shared by Select and MonthPicker.
 // MonthPicker (whose `.select` blocks were byte-for-byte duplicates). A mixin
 // rather than a class: both consumers are `.module.scss` files owning their own
 // scoped class names.

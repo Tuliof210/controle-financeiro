@@ -2,7 +2,6 @@ import "@testing-library/jest-dom/jest-globals";
 import { describe, expect, it, jest } from "@jest/globals";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { Wallet } from "lucide-react";
 import { EntrySection } from "@/components/EntrySection/index.tsx";
 import type { Person } from "@/core/entities/person.entity.ts";
 import type { Entry } from "@/lib/entry-types.ts";
@@ -19,7 +18,7 @@ const items = [
 
 const props = {
   title: "Saídas",
-  icon: Wallet,
+  icon: "wallet" as const,
   tone: "negative" as const,
   items,
   people: [{ id: "p1", name: "Ana" }] as Person[],

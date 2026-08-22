@@ -1,0 +1,17 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+import { Avatar } from "./index.tsx";
+
+<Meta title="Components/Avatar" />
+
+# Avatar
+
+Initials from the first and last word, on a `--cat-*` wash. Pass `color` to
+pin a palette key (`var(--cat-violet)`); without it the name hashes over the
+seven persisted keys. Header uses this for the active profile.
+
+<div style={{ display: "flex", flexWrap: "wrap", gap: "var(--space-4)", alignItems: "center", padding: "var(--space-4)", background: "var(--color-surface)", borderRadius: "var(--radius-lg)" }}>
+  <Avatar name="Ana Silva" color="var(--cat-violet)" />
+  <Avatar name="Família" />
+  <Avatar name="Bia" size="lg" shape="square" color="var(--cat-cyan)" />
+  <Avatar name="Ana" size="sm" />
+</div>

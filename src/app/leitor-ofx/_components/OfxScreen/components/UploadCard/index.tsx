@@ -1,4 +1,3 @@
-import { FileUp } from "lucide-react";
 import { DropZone } from "@/components/DropZone/index.tsx";
 import { SectionCard } from "@/components/SectionCard/index.tsx";
 import { ERROR_GLYPH } from "@/lib/glyphs.ts";
@@ -11,7 +10,7 @@ export function UploadCard(props: UploadCardProps) {
   const { error, onFile } = useUploadCard(props);
 
   return (
-    <SectionCard title="Enviar extrato OFX" icon={FileUp}>
+    <SectionCard title="Enviar extrato OFX" icon="fileUp">
       {/* Not the default note: this screen can write to the database. The
           file itself still never lands there — only the monthly totals the
           user confirms in the import dialog do. */}

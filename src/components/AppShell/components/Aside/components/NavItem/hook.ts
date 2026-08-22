@@ -1,4 +1,4 @@
-import type { LucideIcon } from "lucide-react";
+import type { MvIconName } from "@/components/Icon/hook.ts";
 import styles from "./style.module.scss";
 
 interface UseNavItemProps {
@@ -6,7 +6,7 @@ interface UseNavItemProps {
   label: string;
   active: boolean;
   collapsed: boolean;
-  icon: LucideIcon;
+  icon: MvIconName;
 }
 
 // `undefined` removes the attribute; "page" is only correct on the active link,

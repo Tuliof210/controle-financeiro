@@ -1,3 +1,4 @@
+import { Icon } from "@/components/Icon/index.tsx";
 import { Tooltip } from "@/components/Tooltip/index.tsx";
 import { cx } from "@/lib/cx.ts";
 import { SPARK_H, SPARK_W } from "../../spark.helper.ts";
@@ -20,24 +21,14 @@ const CHIP_CLASS = {
 // semantic pair — and SectionCard has no slot for one. Thirteen other call sites
 // render that component unchanged, which is exactly why this one stopped.
 export function StatCard(props: StatCardProps) {
-  const {
-    title,
-    icon: Icon,
-    hint,
-    chip,
-    glyph,
-    total,
-    tone,
-    rows,
-    spark,
-    color,
-  } = useStatCard(props);
+  const { title, icon, hint, chip, glyph, total, tone, rows, spark, color } =
+    useStatCard(props);
 
   return (
     <section className={styles.card}>
       <div className={styles.header}>
         <span className={cx(styles.chip, CHIP_CLASS[chip])}>
-          <Icon size={16} aria-hidden={true} />
+          <Icon name={icon} size={16} />
         </span>
         <h2 className={styles.title}>{title}</h2>
         {/* Named after the card: the dashboard renders many of these, and a

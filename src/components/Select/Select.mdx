@@ -1,0 +1,22 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+import { Select } from "./index.tsx";
+
+<Meta title="Components/Select" />
+
+# Select
+
+Native `<select>` with the shared skin. `onChange` is `(value: string) => void`,
+the same dialect as Field.
+
+<div style={{ maxWidth: "360px", padding: "var(--space-4)", background: "var(--color-surface)", borderRadius: "var(--radius-lg)" }}>
+  <Select
+    id="dono"
+    label="Responsável"
+    value="p1"
+    onChange={() => undefined}
+    options={[
+      { value: "p1", label: "Ana" },
+      { value: "p2", label: "Bia" },
+    ]}
+  />
+</div>

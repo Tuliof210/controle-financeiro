@@ -42,7 +42,7 @@
   //
   // CALLER CONTRACT: two adjacent shrunk IconButtons must sit at least
   // `44px - <size>` apart, or their overlays overlap and a tap near the seam
-  // fires the wrong button — and since `danger` is the later sibling, the one
+  // fires the wrong button — and since `destructive` is the later sibling, the one
   // it wrongly fires is the destructive one. At the rows' 30px that is 14px,
   // which is why they gap with --space-4 and not the --space-2 a 44px pair
   // could afford. Vertically the same overhang (7px at 30px) must stay inside

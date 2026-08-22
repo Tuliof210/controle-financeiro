@@ -1,7 +1,6 @@
 import "@testing-library/jest-dom/jest-globals";
 import { describe, expect, it } from "@jest/globals";
 import { render, screen } from "@testing-library/react";
-import { LayoutDashboard } from "lucide-react";
 import { NavItem } from "@/components/AppShell/components/Aside/components/NavItem/index.tsx";
 
 const props = {
@@ -9,7 +8,7 @@ const props = {
   label: "Previsões",
   active: false,
   collapsed: true,
-  icon: LayoutDashboard,
+  icon: "layoutDashboard" as const,
 };
 
 describe("NavItem", () => {

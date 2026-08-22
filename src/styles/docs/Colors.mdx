@@ -18,6 +18,7 @@ export const trios = [
   "negative-fg", "negative-bg", "negative-border",
   "alert-fg", "alert-bg", "alert-border",
   "info-fg", "info-bg", "info-border",
+  "ai-fg", "ai-bg", "ai-border",
 ];
 
 export const categories = [
@@ -31,7 +32,9 @@ export const semantics = [
   "color-border-subtle", "color-border-strong", "color-brand",
   "color-brand-text", "color-brand-hover", "color-brand-active",
   "color-accent", "color-positive", "color-negative", "color-caution",
-  "color-info", "color-focus", "color-hover-wash", "color-row-hover",
+  "color-info", "color-ai", "color-focus", "color-hover-wash", "color-row-hover",
+  "proj-real-fg", "proj-real-bg", "proj-est-fg", "proj-est-bg",
+  "proj-sim-fg", "proj-sim-bg",
 ];
 
 export const Swatch = ({ name }) => (
@@ -72,6 +75,7 @@ light theme: on dark cobalt it measures 3.64:1 at rest and 2.25:1 on hover.
 
 Financial state only: a normal expense is **not** red. Each foreground pairs
 with its own wash and hairline, and every pair clears 4.5:1 in both themes.
+`--ai-*` is generated / suggestion (violet, distinct from cobalt).
 Three of the foregrounds sit one step darker than the source design system —
 `#0e8c57`, `#b5560e` and `#0f73a6` measured 3.88, 4.43 and 4.47:1 on their own
 washes, under rule 7's floor.
@@ -87,6 +91,11 @@ moved. Each hue is distinguishable from the others and from cobalt.
 <Grid names={categories} />
 
 ## Semantic (theme-aware — toggle light/dark in the toolbar)
+
+`--color-ai` aliases `--ai-fg`. Projection tokens (`--proj-real-*`,
+`--proj-est-*`, `--proj-sim-*`) swap fg/bg in dark. Border shape is the primary
+signal: real `var(--border-1) solid var(--color-border-strong)`; estimated
+`1.5px dotted var(--neutral-400)`; simulated `1.5px dashed var(--cobalt-300)`.
 
 <Grid names={semantics} min="150px" />
 

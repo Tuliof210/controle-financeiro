@@ -1,5 +1,5 @@
 // cents -> "1234,56". padStart(3) guarantees at least "0,0X".
-// Sign-less and ungrouped ON PURPOSE: MoneyInput reformats its value on every
+// Sign-less and ungrouped ON PURPOSE: Field money reformats its value on every
 // keystroke and its caret handlers depend on this exact output. formatMoney
 // below is the grouped, signed variant every display site uses.
 // (This retires the old "ponytail: add a '.' grouper when large goals need it"

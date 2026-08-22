@@ -1,26 +1,18 @@
-import {
-  ArrowLeftRight,
-  FileUp,
-  LayoutDashboard,
-  ListTree,
-  type LucideIcon,
-  Settings,
-  TrendingUp,
-} from "lucide-react";
+import type { MvIconName } from "@/components/Icon/hook.ts";
 
 export interface NavEntry {
   href: string;
   label: string;
-  icon: LucideIcon;
+  icon: MvIconName;
 }
 
 export const NAV: NavEntry[] = [
-  { href: "/", label: "Dashboard", icon: LayoutDashboard },
-  { href: "/movimentacoes", label: "Movimentações", icon: ArrowLeftRight },
-  { href: "/previsoes", label: "Previsões", icon: TrendingUp },
-  { href: "/leitor-ofx", label: "Leitor OFX", icon: FileUp },
-  { href: "/ofx-decoder", label: "OFX Decoder", icon: ListTree },
-  { href: "/configuracoes", label: "Configurações", icon: Settings },
+  { href: "/", label: "Dashboard", icon: "layoutDashboard" },
+  { href: "/movimentacoes", label: "Movimentações", icon: "arrowLeftRight" },
+  { href: "/previsoes", label: "Previsões", icon: "trendingUp" },
+  { href: "/leitor-ofx", label: "Leitor OFX", icon: "fileUp" },
+  { href: "/ofx-decoder", label: "OFX Decoder", icon: "listTree" },
+  { href: "/configuracoes", label: "Configurações", icon: "settings" },
 ];
 
 // Exact equality, never prefix matching: no destination here is nested under

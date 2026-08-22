@@ -1,10 +1,9 @@
 import { useBrandMark } from "./hook.ts";
 import styles from "./style.module.scss";
 
-// The Monevo mark: a four-column ascending bar chart in pixel blocks, tallest
-// column capped by an accent block. The story's one inline SVG — lucide has no
-// equivalent, and this is the product's own logo. `currentColor` everywhere but
-// the cap, so the mark inherits whatever box it sits in.
+// Four rounded bars from design-system/assets/monevo-mark.svg. `currentColor`
+// so the mark inherits the cobalt tile; the old cap accent is gone — the bars
+// are the symbol.
 export function BrandMark() {
   const { label } = useBrandMark();
 
@@ -17,26 +16,38 @@ export function BrandMark() {
         role="img"
         aria-label={label}
       >
-        <rect x="1" y="25" width="6" height="4" rx="1" fill="currentColor" />
-        <rect x="1" y="19.5" width="6" height="4" rx="1" fill="currentColor" />
-        <rect x="1" y="14" width="6" height="4" rx="1" fill="currentColor" />
-        <rect x="1" y="8.5" width="6" height="4" rx="1" fill="currentColor" />
-        <rect x="9" y="25" width="6" height="4" rx="1" fill="currentColor" />
-        <rect x="9" y="19.5" width="6" height="4" rx="1" fill="currentColor" />
-        <rect x="17" y="25" width="6" height="4" rx="1" fill="currentColor" />
-        <rect x="17" y="19.5" width="6" height="4" rx="1" fill="currentColor" />
-        <rect x="17" y="14" width="6" height="4" rx="1" fill="currentColor" />
-        <rect x="25" y="25" width="6" height="4" rx="1" fill="currentColor" />
-        <rect x="25" y="19.5" width="6" height="4" rx="1" fill="currentColor" />
-        <rect x="25" y="14" width="6" height="4" rx="1" fill="currentColor" />
-        <rect x="25" y="8.5" width="6" height="4" rx="1" fill="currentColor" />
+        <title>{label}</title>
         <rect
-          x="25"
-          y="3"
-          width="6"
-          height="4"
-          rx="1"
-          fill="var(--color-accent)"
+          x="4.5"
+          y="10"
+          width="4.6"
+          height="17"
+          rx="2.3"
+          fill="currentColor"
+        />
+        <rect
+          x="11.5"
+          y="18"
+          width="4.6"
+          height="9"
+          rx="2.3"
+          fill="currentColor"
+        />
+        <rect
+          x="18"
+          y="14"
+          width="4.6"
+          height="13"
+          rx="2.3"
+          fill="currentColor"
+        />
+        <rect
+          x="24.9"
+          y="5"
+          width="4.6"
+          height="22"
+          rx="2.3"
+          fill="currentColor"
         />
       </svg>
     </span>

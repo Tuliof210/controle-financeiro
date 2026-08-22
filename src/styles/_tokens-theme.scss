@@ -34,34 +34,24 @@
   // on it, 11.15:1.
   --color-accent: var(--cobalt-200);
 
-  // Financial state only. As TEXT on a surface: 5.22 / 4.92 / 5.60 / 5.30:1 on
-  // the worst of the three.
-  //
-  // AS A FILL, the ink on top must be --color-bg and nothing else. These four
-  // are themed: dark in the light theme, light in the dark one, so a FIXED ink
-  // fails at one end or the other. A fixed dark ink measured 3.12 / 3.31 / 2.91
-  // / 3.07:1 on them in LIGHT; white measured 2.06:1 (positive) and 2.40:1
-  // (negative) in DARK. Both under rule 7's 4.5:1. --color-bg flips with them
-  // and lands 5.15-5.87:1 light, 8.10-9.37:1 dark.
-  // The rule holds wherever one of these four is a background, with no
-  // exception: the two tinted SectionCard bands, CeilingCard's MonthTable
-  // `.current`, HeroBand's badge, ReportView's badge, the caution chart tag,
-  // and the filled controls — Button's `.danger`/`.success` and IconButton's
-  // `.danger` hover.
-  //
-  // --color-brand is a fifth themed fill and takes the same ink, which this
-  // comment used to deny: it read "--white belongs on cobalt, which is dark in
-  // both themes", and cobalt is NOT — it is --cobalt-600 in light and
-  // --cobalt-400 in dark. White on it measured 3.64:1 at rest and 2.25 / 1.61:1
-  // on hover / active in dark. --color-bg on it measures 6.43 / 8.52 / 10.52:1
-  // light and 5.31 / 8.59 / 11.99:1 dark. --white is now only for a fill that
-  // really is dark in both themes: the seven category hues (EntryRow) and the
-  // mark (BrandMark).
+  // Financial state as TEXT: 5.22 / 4.92 / 5.60 / 5.30:1 on the worst surface.
+  // As FILL, ink is --color-bg (flips with the themed fills). --white is only
+  // for fills that stay dark in both themes: category hues and the mark.
   --color-positive: var(--positive-fg);
   --color-negative: var(--negative-fg);
   --color-caution: var(--alert-fg);
   --color-info: var(--info-fg);
+  --color-ai: var(--ai-fg);
   --color-focus: var(--cobalt-600);
+
+  // Projection: real / estimated / simulated. Colour is secondary to label +
+  // border shape (solid / dotted / dashed). Light values match the kit.
+  --proj-real-fg: var(--neutral-900);
+  --proj-real-bg: var(--neutral-100);
+  --proj-est-fg: var(--neutral-600);
+  --proj-est-bg: var(--neutral-50);
+  --proj-sim-fg: var(--cobalt-700);
+  --proj-sim-bg: var(--cobalt-50);
 
   // Hover family — replaces the `filter: brightness(...)` calls scattered
   // across the components T2 sweeps. Wash for neutral surfaces, row-hover for

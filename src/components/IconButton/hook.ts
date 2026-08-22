@@ -1,7 +1,7 @@
 import type { ButtonHTMLAttributes, ReactNode } from "react";
 import styles from "./style.module.scss";
 
-type Variant = "ghost" | "danger";
+type Variant = "ghost" | "destructive";
 
 // `aria-label` is required: an icon-only button has no text label, so it must
 // carry an accessible name.

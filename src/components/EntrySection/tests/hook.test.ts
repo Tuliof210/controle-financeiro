@@ -1,6 +1,5 @@
 import { describe, expect, it, jest } from "@jest/globals";
 import { renderHook } from "@testing-library/react";
-import { Wallet } from "lucide-react";
 import { useEntrySection } from "@/components/EntrySection/hook.ts";
 import type { Person } from "@/core/entities/person.entity.ts";
 import type { Entry } from "@/lib/entry-types.ts";
@@ -20,7 +19,7 @@ const people = [{ id: "p1", name: "Ana" }] as Person[];
 
 const props = {
   title: "Saídas",
-  icon: Wallet,
+  icon: "wallet" as const,
   tone: "negative" as const,
   items,
   people,

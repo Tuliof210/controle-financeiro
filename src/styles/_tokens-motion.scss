@@ -1,6 +1,7 @@
 // ---- Motion — collapses under prefers-reduced-motion -----------------------
 // Calm and precise: short fades and slides, no bounce.
 :root {
+  --duration-instant: 80ms;
   --duration-fast: 140ms;
   --duration-base: 220ms;
   --duration-slow: 320ms;
@@ -10,6 +11,7 @@
 
 @media (prefers-reduced-motion: reduce) {
   :root {
+    --duration-instant: 0ms;
     --duration-fast: 0ms;
     --duration-base: 0ms;
     --duration-slow: 0ms;

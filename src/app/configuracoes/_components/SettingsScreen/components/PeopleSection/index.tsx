@@ -1,6 +1,5 @@
 "use client";
 
-import { Plus, Users } from "lucide-react";
 import { Button } from "@/components/Button/index.tsx";
 import { ConfirmDialog } from "@/components/ConfirmDialog/index.tsx";
 import { Modal } from "@/components/Modal/index.tsx";
@@ -34,7 +33,7 @@ export function PeopleSection() {
   const noPeople = people?.length === 0;
 
   return (
-    <SectionCard title="Pessoas" icon={Users}>
+    <SectionCard title="Pessoas" icon="users">
       {noPeople && (
         <p className={styles.empty}>{COPY.nenhumaPessoaCadastradaAinda}</p>
       )}
@@ -50,8 +49,7 @@ export function PeopleSection() {
           ))}
         </RowGrid>
       )}
-      <Button variant="dashed" onClick={openAdd}>
-        <Plus size={16} aria-hidden={true} />
+      <Button variant="dashed" onClick={openAdd} iconLeft="plus">
         {COPY.adicionarPessoa}
       </Button>
 

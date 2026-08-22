@@ -34,7 +34,7 @@
   --cobalt-50: #eef2fe;
 
   // Semantic trios — foreground paired with its own wash and hairline. Light
-  // values here; --tokens-dark.scss overrides all twelve for the dark theme.
+  // values here; --tokens-dark.scss overrides them for the dark theme.
   // Three foregrounds are one step darker than the target's: #0e8c57 measured
   // 3.88:1 on --neutral-100, #b5560e 4.43:1 and #0f73a6 4.47:1 on their own
   // washes — all under rule 7's 4.5:1 floor, the same trade --neutral-600
@@ -51,6 +51,10 @@
   --info-fg: #0c6b9b;
   --info-bg: #e0f0f8;
   --info-border: #bbddec;
+  // AI — generated / suggestion. Distinct from cobalt. 5.28:1 on its wash.
+  --ai-fg: #6d45c7;
+  --ai-bg: #eee8fb;
+  --ai-border: #d6c8f2;
 
   // Category hues — one per PALETTE key in src/lib/palette.ts. The keys are
   // persisted strings validated by a z.enum, so they are renames-forbidden and

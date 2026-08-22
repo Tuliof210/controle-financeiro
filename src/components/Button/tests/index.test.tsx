@@ -15,4 +15,25 @@ describe("Button", () => {
 
     expect(screen.getByRole("button")).toHaveAttribute("type", "button");
   });
+
+  it("draws secondary, destructive, sm and a leading icon", () => {
+    const { rerender, container } = render(
+      <Button variant="secondary" size="sm" iconLeft="plus">
+        Adicionar
+      </Button>,
+    );
+
+    expect(
+      screen.getByRole("button", { name: "Adicionar" }),
+    ).toBeInTheDocument();
+    expect(container.querySelector("svg")).toBeInTheDocument();
+
+    rerender(
+      <Button variant="destructive" size="sm">
+        Excluir
+      </Button>,
+    );
+
+    expect(screen.getByRole("button", { name: "Excluir" })).toBeInTheDocument();
+  });
 });

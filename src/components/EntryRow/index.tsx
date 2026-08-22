@@ -1,4 +1,4 @@
-import { Pencil, Trash2 } from "lucide-react";
+import { Icon } from "@/components/Icon/index.tsx";
 import { IconButton } from "@/components/IconButton/index.tsx";
 import { type EntryRowProps, useEntryRow } from "./hook.ts";
 import styles from "./style.module.scss";
@@ -44,14 +44,14 @@ export function EntryRow(props: EntryRowProps) {
       </span>
       <span data-cell="act">
         <IconButton aria-label={`Editar ${name}`} onClick={onEdit}>
-          <Pencil size={14} aria-hidden={true} />
+          <Icon name="pencil" size={14} />
         </IconButton>
         <IconButton
-          variant="danger"
+          variant="destructive"
           aria-label={`Excluir ${name}`}
           onClick={onDelete}
         >
-          <Trash2 size={14} aria-hidden={true} />
+          <Icon name="trash" size={14} />
         </IconButton>
       </span>
       {Boolean(band) && <span data-cell="bar">{band}</span>}

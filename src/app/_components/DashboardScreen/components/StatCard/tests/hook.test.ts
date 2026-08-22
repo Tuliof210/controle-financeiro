@@ -1,6 +1,5 @@
 import { describe, expect, it } from "@jest/globals";
 import { renderHook } from "@testing-library/react";
-import { Wallet } from "lucide-react";
 import { useStatCard } from "@/app/_components/DashboardScreen/components/StatCard/hook.ts";
 
 const stats = {
@@ -13,7 +12,7 @@ const stats = {
 
 const base = {
   title: "Saldo",
-  icon: Wallet,
+  icon: "wallet" as const,
   hint: "x",
   stats,
   series: [1, 2, 3],

@@ -1,7 +1,6 @@
 import "@testing-library/jest-dom/jest-globals";
 import { describe, expect, it } from "@jest/globals";
 import { render, screen } from "@testing-library/react";
-import { Scale } from "lucide-react";
 import { StatCard } from "@/app/_components/DashboardScreen/components/StatCard/index.tsx";
 
 const stats = {
@@ -14,7 +13,7 @@ const stats = {
 
 const props = {
   title: "Saldo",
-  icon: Scale,
+  icon: "scale" as const,
   hint: "Como o saldo sai",
   stats,
   series: [1, 2, 3],

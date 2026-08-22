@@ -1,7 +1,6 @@
 import "@testing-library/jest-dom/jest-globals";
 import { describe, expect, it } from "@jest/globals";
 import { render, screen } from "@testing-library/react";
-import { Wallet } from "lucide-react";
 import { SectionCard } from "@/components/SectionCard/index.tsx";
 
 describe("SectionCard", () => {
@@ -42,7 +41,7 @@ describe("SectionCard", () => {
 
   it("renders the icon when given one", () => {
     const { container } = render(
-      <SectionCard title="Saldo" icon={Wallet} tone="negative">
+      <SectionCard title="Saldo" icon="wallet" tone="negative">
         x
       </SectionCard>,
     );

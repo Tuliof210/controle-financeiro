@@ -1,6 +1,6 @@
-import { Check, FileText } from "lucide-react";
 import { Button } from "@/components/Button/index.tsx";
 import { FilePicker } from "@/components/FilePicker/index.tsx";
+import { Icon } from "@/components/Icon/index.tsx";
 import { SectionCard } from "@/components/SectionCard/index.tsx";
 import { ERROR_GLYPH } from "@/lib/glyphs.ts";
 import { AccountLine } from "./components/AccountLine/index.tsx";
@@ -22,11 +22,11 @@ export function ReportView(props: ReportViewProps) {
   const view = useReportView(props);
 
   return (
-    <SectionCard title="Relatório OFX" icon={FileText}>
+    <SectionCard title="Relatório OFX" icon="fileText">
       <div className={styles.head}>
         <p className={styles.file}>{view.fileName}</p>
         <p className={styles.badge}>
-          <Check size={12} aria-hidden={true} /> {view.count}
+          <Icon name="check" size={12} /> {view.count}
         </p>
       </div>
       {/* No "Lançamentos" key here any more — the badge above carries it. */}

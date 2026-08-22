@@ -1,9 +1,8 @@
 "use client";
 
 import { Button } from "@/components/Button/index.tsx";
-import { MoneyInput } from "@/components/MoneyInput/index.tsx";
-import { SelectField } from "@/components/SelectField/index.tsx";
-import { TextField } from "@/components/TextField/index.tsx";
+import { Field } from "@/components/Field/index.tsx";
+import { Select } from "@/components/Select/index.tsx";
 import { onSubmitForm } from "@/lib/form.helper.ts";
 import { ERROR_GLYPH } from "@/lib/glyphs.ts";
 import { TypeToggle } from "./components/TypeToggle/index.tsx";
@@ -33,19 +32,21 @@ export function EntryForm({
 
   return (
     <form className={styles.form} onSubmit={onSubmitForm(onSubmit)}>
-      <TextField
+      <Field
         id={`${idPrefix}-name`}
         label="Nome"
         value={name}
         onChange={setName}
       />
-      <MoneyInput
-        valueCents={valueCents}
+      <Field
+        money={true}
+        id={`${idPrefix}-value`}
+        label="Valor"
+        value={valueCents}
         onChange={setValueCents}
-        ariaLabel="Valor"
       />
       <TypeToggle value={type} onChange={setType} />
-      <SelectField
+      <Select
         id={`${idPrefix}-owner`}
         label="Responsável"
         value={ownerId}

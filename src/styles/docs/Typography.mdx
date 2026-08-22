@@ -69,6 +69,10 @@ header and a checkbox label are sentence case.
 
 ## Money — sans + tabular-nums (mandatory)
 
-<div style={{ fontFamily: "var(--font-sans)", fontVariantNumeric: "tabular-nums", fontWeight: "var(--weight-semibold)", fontSize: "var(--text-xl)", background: "var(--color-surface)", color: "var(--color-text)", padding: "var(--space-4)", borderRadius: "var(--radius-lg)" }}>
+`--font-sans` at every size (`--money-hero` 3rem · `--money-large` 1.875rem ·
+`--money-base` 1.0625rem · `--money-small` 0.875rem · `--money-delta`
+0.8125rem). Decimals in large figures fade with `--money-decimal-opacity`.
+
+<div style={{ fontFamily: "var(--font-sans)", fontVariantNumeric: "tabular-nums", fontWeight: "var(--weight-semibold)", fontSize: "var(--money-large)", background: "var(--color-surface)", color: "var(--color-text)", padding: "var(--space-4)", borderRadius: "var(--radius-lg)" }}>
   {"R$ 1.234,56 · R$ 0,00 · −R$ 88,90"}
 </div>

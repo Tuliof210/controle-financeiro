@@ -1,0 +1,35 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+import { Button } from "./index.tsx";
+
+<Meta title="Components/Button" />
+
+# Button
+
+Cobalt is the only primary action. Text on cobalt (and on destructive red) is
+`--white`. Secondary is surface plus a hairline; ghost has no fill; `dashed`
+is the product's "Adicionar…" affordance.
+
+export const variants = ["primary", "secondary", "ghost", "destructive", "dashed"];
+export const sizes = ["sm", "md", "lg"];
+
+## Variants
+
+<div style={{ display: "flex", flexWrap: "wrap", gap: "var(--space-3)", alignItems: "center", padding: "var(--space-4)", background: "var(--color-surface)", borderRadius: "var(--radius-lg)" }}>
+  {variants.filter((v) => v !== "dashed").map((variant) => (
+    <Button key={variant} variant={variant}>{variant}</Button>
+  ))}
+</div>
+
+## Sizes
+
+<div style={{ display: "flex", flexWrap: "wrap", gap: "var(--space-3)", alignItems: "end", padding: "var(--space-4)", background: "var(--color-surface)", borderRadius: "var(--radius-lg)" }}>
+  {sizes.map((size) => (
+    <Button key={size} size={size} iconLeft="plus">{size}</Button>
+  ))}
+</div>
+
+## Dashed
+
+<div style={{ padding: "var(--space-4)", background: "var(--color-surface)", borderRadius: "var(--radius-lg)" }}>
+  <Button variant="dashed" iconLeft="plus">Adicionar pessoa</Button>
+</div>

@@ -51,5 +51,9 @@ describe("Header", () => {
     expect(
       screen.getByRole("button", { name: THEME_LABEL }),
     ).toBeInTheDocument();
+    expect(screen.getByRole("img", { name: "Família" })).toBeInTheDocument();
+    expect(screen.getByRole("img", { name: "Família" })).not.toHaveAttribute(
+      "aria-hidden",
+    );
   });
 });

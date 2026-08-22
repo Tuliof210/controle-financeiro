@@ -1,5 +1,5 @@
 import { useState } from "react";
-import type { SelectFieldOption } from "@/components/SelectField/hook.ts";
+import type { SelectOption } from "@/components/Select/hook.ts";
 import {
   applyEntryListQuery,
   DEFAULT_ENTRY_LIST_QUERY,
@@ -9,7 +9,7 @@ import type { Entry } from "@/lib/entry-types.ts";
 import { splitByType, visibleFor } from "@/lib/ownership.ts";
 
 type EntryListConfig<T> = EntryListAdapters<T> & {
-  kinds?: SelectFieldOption[];
+  kinds?: SelectOption[];
 };
 
 function useEntryList<T extends Entry>(

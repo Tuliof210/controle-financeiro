@@ -1,0 +1,15 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+import { Field } from "./index.tsx";
+
+<Meta title="Components/Field" />
+
+# Field
+
+One control for text and money. `label` and `id` are required. Money takes
+cents, displays `formatCents`, and pins the caret to the right — the odometer.
+
+<div style={{ display: "grid", gap: "var(--space-4)", maxWidth: "360px", padding: "var(--space-4)", background: "var(--color-surface)", borderRadius: "var(--radius-lg)" }}>
+  <Field id="nome" label="Nome" value="Ana Silva" onChange={() => undefined} />
+  <Field id="valor" label="Valor" money={true} value={123456} onChange={() => undefined} />
+  <Field id="erro" label="Com erro" value="" error="Nome é obrigatório" onChange={() => undefined} />
+</div>

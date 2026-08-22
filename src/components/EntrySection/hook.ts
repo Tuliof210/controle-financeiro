@@ -1,6 +1,6 @@
-import type { LucideIcon } from "lucide-react";
 import type { ReactNode } from "react";
 import type { EntrySectionLabels } from "@/components/EntryScreen/types.ts";
+import type { MvIconName } from "@/components/Icon/hook.ts";
 import type { Person } from "@/core/entities/person.entity.ts";
 import type { Period } from "@/core/use-cases/period.service.ts";
 import type { Entry } from "@/lib/entry-types.ts";
@@ -8,7 +8,7 @@ import { formatMoney } from "@/lib/money.ts";
 
 export interface EntrySectionProps<T extends Entry> {
   title: string;
-  icon: LucideIcon;
+  icon: MvIconName;
   tone: "positive" | "negative";
   items: T[];
   people: Person[];

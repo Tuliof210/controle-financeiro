@@ -1,5 +1,5 @@
-import { SelectField } from "@/components/SelectField/index.tsx";
-import { TextField } from "@/components/TextField/index.tsx";
+import { Field } from "@/components/Field/index.tsx";
+import { Select } from "@/components/Select/index.tsx";
 import { type EntryListControlsProps, useEntryListControls } from "./hook.ts";
 import styles from "./style.module.scss";
 
@@ -8,10 +8,10 @@ export function EntryListControls(props: EntryListControlsProps) {
 
   return (
     <div className={styles.bar}>
-      <TextField {...name} />
-      {kind !== undefined && <SelectField {...kind} />}
-      <SelectField {...sort} />
-      <SelectField {...dir} />
+      <Field {...name} />
+      {kind !== undefined && <Select {...kind} />}
+      <Select {...sort} />
+      <Select {...dir} />
     </div>
   );
 }

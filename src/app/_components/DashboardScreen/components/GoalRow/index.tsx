@@ -1,4 +1,4 @@
-import { Target } from "lucide-react";
+import { Icon } from "@/components/Icon/index.tsx";
 import { type GoalRowProps, useGoalRow } from "./hook.ts";
 import styles from "./style.module.scss";
 
@@ -12,7 +12,7 @@ export function GoalRow(props: GoalRowProps) {
   return (
     <li className={styles.row}>
       <div className={styles.head}>
-        <Target size={16} aria-hidden={true} className={styles.icon} />
+        <Icon name="target" size={16} className={styles.icon} />
         <span data-cell="name" className={styles.name}>
           {name}
         </span>

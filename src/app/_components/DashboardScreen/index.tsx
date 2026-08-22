@@ -1,6 +1,5 @@
 "use client";
 
-import { CalendarRange, LayoutDashboard, TriangleAlert } from "lucide-react";
 import type { DashboardData } from "@/app/api/dashboard/types.ts";
 import { cx } from "@/lib/cx.ts";
 import { formatYyyymm } from "@/lib/months.ts";
@@ -59,25 +58,25 @@ export function DashboardScreen() {
       <SimulationSelect value={simulation} onChange={setSimulation} />
 
       {Boolean(loading) && (
-        <Notice title="Carregando" icon={LayoutDashboard}>
+        <Notice title="Carregando" icon="layoutDashboard">
           {COPY.loading}
         </Notice>
       )}
 
       {Boolean(error) && (
-        <Notice title="Erro" icon={TriangleAlert}>
+        <Notice title="Erro" icon="alertTriangle">
           {error}
         </Notice>
       )}
 
       {data?.status === "no_range" && (
-        <Notice title="Período global" icon={CalendarRange}>
+        <Notice title="Período global" icon="calendar">
           {COPY.noRange}
         </Notice>
       )}
 
       {data?.status === "out_of_range" && (
-        <Notice title="Período global" icon={CalendarRange}>
+        <Notice title="Período global" icon="calendar">
           {`${COPY.outOfRangeLead} (${formatYyyymm(data.range.start)}–${formatYyyymm(data.range.end)}) ${COPY.outOfRangeMid} (${formatYyyymm(data.range.current)})${COPY.outOfRangeTail}`}
         </Notice>
       )}

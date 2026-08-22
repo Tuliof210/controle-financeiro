@@ -1,13 +1,14 @@
 "use client";
 
-import { Wallet } from "lucide-react";
 import { Button } from "@/components/Button/index.tsx";
-import { MoneyInput } from "@/components/MoneyInput/index.tsx";
+import { Field } from "@/components/Field/index.tsx";
 import { SectionCard } from "@/components/SectionCard/index.tsx";
 import { onSubmitForm } from "@/lib/form.helper.ts";
 import { ERROR_GLYPH } from "@/lib/glyphs.ts";
 import { useSpendingGoalSection } from "./hook.ts";
 import styles from "./style.module.scss";
+
+const CENTS_ID = "spending-goal";
 
 const COPY = {
   meta: "Meta",
@@ -23,16 +24,18 @@ export function SpendingGoalSection() {
     useSpendingGoalSection();
 
   return (
-    <SectionCard title="Meta mensal" icon={Wallet}>
+    <SectionCard title="Meta mensal" icon="wallet">
       <p className={styles.help}>
         {COPY.quantoVocePretende} <strong>{COPY.meta}</strong>
         {COPY.queLiberaEste}
       </p>
       <form className={styles.form} onSubmit={onSubmitForm(onSave)}>
-        <MoneyInput
-          valueCents={cents}
+        <Field
+          money={true}
+          id={CENTS_ID}
+          label="Meta mensal"
+          value={cents}
           onChange={onChange}
-          ariaLabel="Meta mensal"
         />
         {Boolean(error) && (
           <p className={styles.error} role="alert">

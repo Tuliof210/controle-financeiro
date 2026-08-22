@@ -16,7 +16,8 @@
       "!.claude",
       "!.agents",
       "!.impeccable",
-      "!.squad"
+      "!.squad",
+      "!design-system"
     ]
   },
   "formatter": {

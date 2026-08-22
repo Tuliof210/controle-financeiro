@@ -1,4 +1,3 @@
-import { Plus } from "lucide-react";
 import { Button } from "@/components/Button/index.tsx";
 import { EntryRow } from "@/components/EntryRow/index.tsx";
 import { RowGrid } from "@/components/RowGrid/index.tsx";
@@ -46,9 +45,10 @@ export function EntrySection<T extends Entry>(props: EntrySectionProps<T>) {
       <Button
         variant="dashed"
         className={`${styles.add} ${styles[tone]}`}
+        iconLeft="plus"
         onClick={onAdd}
       >
-        <Plus size={16} aria-hidden={true} /> {labels.add}
+        {labels.add}
       </Button>
     </SectionCard>
   );
