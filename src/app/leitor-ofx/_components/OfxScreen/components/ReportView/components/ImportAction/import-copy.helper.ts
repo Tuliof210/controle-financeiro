@@ -32,7 +32,7 @@ export const prefillIdentifier = (report: OfxReport): string => {
   return account.slice(0, IDENTIFIER_MAX);
 };
 
-// SelectField has no empty state of its own, so an account with nobody
+// Select has no empty state of its own, so an account with nobody
 // registered would otherwise render a select with no options at all.
 export const ownerOptions = (people: Person[]) => {
   if (people.length === 0) {

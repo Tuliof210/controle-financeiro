@@ -1,7 +1,4 @@
-import type {
-  SelectFieldOption,
-  SelectFieldProps,
-} from "@/components/SelectField/hook.ts";
+import type { SelectOption, SelectProps } from "@/components/Select/hook.ts";
 import {
   ENTRY_SORT_KEYS,
   type EntryListQuery,
@@ -12,7 +9,7 @@ import {
 interface EntryListControlsProps {
   query: EntryListQuery;
   onChange: (query: EntryListQuery) => void;
-  kinds?: SelectFieldOption[];
+  kinds?: SelectOption[];
 }
 
 const COPY = {
@@ -44,7 +41,7 @@ function useEntryListControls({
   const patch = (next: Partial<EntryListQuery>) =>
     onChange({ ...query, ...next });
 
-  let kind: SelectFieldProps | undefined;
+  let kind: SelectProps | undefined;
   if (kinds !== undefined) {
     kind = {
       id: "entry-list-kind",

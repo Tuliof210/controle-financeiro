@@ -1,7 +1,7 @@
 import { Button } from "@/components/Button/index.tsx";
+import { Field } from "@/components/Field/index.tsx";
 import { Modal } from "@/components/Modal/index.tsx";
-import { SelectField } from "@/components/SelectField/index.tsx";
-import { TextField } from "@/components/TextField/index.tsx";
+import { Select } from "@/components/Select/index.tsx";
 import { Tooltip } from "@/components/Tooltip/index.tsx";
 import { onSubmitForm } from "@/lib/form.helper.ts";
 import { ERROR_GLYPH } from "@/lib/glyphs.ts";
@@ -65,7 +65,7 @@ export function ImportAction(props: ImportActionProps) {
             className={styles.form}
             onSubmit={onSubmitForm(view.submit)}
           >
-            <TextField
+            <Field
               id={IDENTIFIER_ID}
               label="Identificador do documento"
               value={view.identifier}
@@ -73,7 +73,7 @@ export function ImportAction(props: ImportActionProps) {
               maxLength={view.maxLength}
               placeholder="Ex.: 12345-6"
             />
-            <SelectField
+            <Select
               id={OWNER_ID}
               label="Responsável"
               value={view.ownerId}

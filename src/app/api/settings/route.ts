@@ -7,7 +7,7 @@ import { getSettings, saveSettings } from "./service.ts";
 // `min(0)` and not `min(1)` like a Goal's target: zero is how the owner CLEARS
 // the goal. There is no DELETE here, because "no goal" and "a goal of nothing"
 // are the same state to the Meta target, and one write is a shorter path than
-// two endpoints. `max` is MoneyInput's own ceiling — the field cannot type a
+// two endpoints. `max` is Field money's own ceiling — the field cannot type a
 // larger number, so a larger one arrived from somewhere else.
 const saveSchema = z.object({
   monthlyGoalCents: z.number().int().min(0).max(MAX_CENTS),

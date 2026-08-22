@@ -1,0 +1,44 @@
+@use "select";
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.label {
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+}
+
+.select {
+  @include select.skin;
+}
+
+.invalid {
+  border-color: var(--negative-border);
+}
+
+.hint,
+.error {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
+}
+
+.hint {
+  color: var(--color-text-muted);
+}
+
+.error {
+  color: var(--color-negative);
+
+  svg {
+    width: var(--space-3);
+    height: var(--space-3);
+  }
+}

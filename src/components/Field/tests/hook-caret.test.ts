@@ -1,15 +1,15 @@
 import { describe, expect, it, jest } from "@jest/globals";
 import { act, render, renderHook, screen } from "@testing-library/react";
 import { createElement } from "react";
-import { useMoneyInput } from "@/components/MoneyInput/hook.ts";
+import { useField } from "@/components/Field/hook.ts";
 
-// The caret rules are the whole point of this hook and they only exist against
-// a real, focused <input> — so it runs inside the smallest host that can give
-// it one. createElement, not JSX: this stays the `.ts` sibling of `hook.ts`.
-function Host({ valueCents }: { valueCents: number }) {
-  const { display, inputRef, onFocus, onSelect } = useMoneyInput({
-    valueCents,
-    onChange: jest.fn(),
+function Host({ value }: { value: number }) {
+  const { display, inputRef, onFocus, onSelect } = useField({
+    money: true,
+    id: "valor",
+    label: "Valor",
+    value,
+    onChange: jest.fn<(value: number) => void>(),
   });
 
   return createElement("input", {
@@ -22,8 +22,8 @@ function Host({ valueCents }: { valueCents: number }) {
   });
 }
 
-const mount = (valueCents = 123_456) => {
-  const view = render(createElement(Host, { valueCents }));
+const mount = (value = 123_456) => {
+  const view = render(createElement(Host, { value }));
   return { view, input: screen.getByTestId("money") as HTMLInputElement };
 };
 
@@ -40,10 +40,17 @@ const stubInput = (selectionStart: number, selectionEnd: number) =>
   }) as unknown as HTMLInputElement & { setSelectionRange: jest.Mock };
 
 const handlerOf = () =>
-  renderHook(() => useMoneyInput({ valueCents: 123_456, onChange: jest.fn() }))
-    .result.current;
+  renderHook(() =>
+    useField({
+      money: true,
+      id: "valor",
+      label: "Valor",
+      value: 123_456,
+      onChange: jest.fn<(value: number) => void>(),
+    }),
+  ).result.current;
 
-describe("useMoneyInput caret", () => {
+describe("useField money caret", () => {
   it("drops the caret at the end on focus", () => {
     const { input } = mount();
     caretAt(input, 0);
@@ -55,9 +62,6 @@ describe("useMoneyInput caret", () => {
     expect(input.selectionStart).toBe(input.value.length);
   });
 
-  // The two selection guards go through the handler directly: React's onSelect
-  // is synthesised from several DOM events, so firing one is not a faithful way
-  // to state "the caret sits mid-field".
   it("pins a collapsed caret sitting mid-field back to the end", () => {
     const el = stubInput(2, 2);
 

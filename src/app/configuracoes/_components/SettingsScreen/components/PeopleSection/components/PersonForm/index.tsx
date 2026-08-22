@@ -1,6 +1,6 @@
 import { Button } from "@/components/Button/index.tsx";
 import { ColorPicker } from "@/components/ColorPicker/index.tsx";
-import { TextField } from "@/components/TextField/index.tsx";
+import { Field } from "@/components/Field/index.tsx";
 import { onSubmitForm } from "@/lib/form.helper.ts";
 import { type PersonFormProps, usePersonForm } from "./hook.ts";
 import styles from "./style.module.scss";
@@ -20,7 +20,7 @@ export function PersonForm({
 
   return (
     <form className={styles.form} onSubmit={onSubmitForm(submit)}>
-      <TextField
+      <Field
         id={NAME_ID}
         label="Nome"
         value={name}
