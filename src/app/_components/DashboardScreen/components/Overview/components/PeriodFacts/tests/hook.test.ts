@@ -5,7 +5,12 @@ import { usePeriodFacts } from "@/app/_components/DashboardScreen/components/Ove
 describe("usePeriodFacts", () => {
   it("hands the already-built facts straight back", () => {
     const facts = [
-      { key: "income", label: "Entradas · 3 meses", value: "R$ 1", sub: "média" },
+      {
+        key: "income",
+        label: "Entradas · 3 meses",
+        value: "R$ 1",
+        sub: "média",
+      },
     ];
     const { result } = renderHook(() => usePeriodFacts({ facts }));
 

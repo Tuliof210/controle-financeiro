@@ -53,21 +53,13 @@ export function PeopleSection() {
         {COPY.adicionarPessoa}
       </Button>
 
-      <Modal
-        open={modal === "add"}
-        onClose={close}
-        title="Adicionar pessoa"
-      >
+      <Modal open={modal === "add"} onClose={close} title="Adicionar pessoa">
         {modal === "add" && (
           <PersonForm error={error} onSubmit={onAdd} submitLabel="Adicionar" />
         )}
       </Modal>
 
-      <Modal
-        open={modal === "edit"}
-        onClose={close}
-        title="Editar pessoa"
-      >
+      <Modal open={modal === "edit"} onClose={close} title="Editar pessoa">
         {modal === "edit" && target && (
           <PersonForm
             initial={{ name: target.name, color: target.color }}

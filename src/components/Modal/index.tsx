@@ -4,13 +4,7 @@ import type { ModalProps } from "./hook.ts";
 import { useModal } from "./hook.ts";
 import styles from "./style.module.scss";
 
-export function Modal({
-  open,
-  onClose,
-  title,
-  children,
-  footer,
-}: ModalProps) {
+export function Modal({ open, onClose, title, children, footer }: ModalProps) {
   const { ref, handleClose } = useModal({ open, onClose });
 
   return (

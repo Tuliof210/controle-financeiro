@@ -13,6 +13,9 @@ const data = {
   range: { start: 202_601, end: 202_603, current: 202_601 },
 } as BoardData;
 
+const PROJECTED = /Saldo projetado/;
+const ENTRADAS = /Entradas/;
+const RED_MONTHS = /Meses no vermelho/;
 const VS_NOW = /vs\. saldo atual de R\$ 1,00/;
 
 const band = (container: HTMLElement) =>
@@ -25,13 +28,15 @@ describe("HeroBand", () => {
     expect(
       screen.getByRole("heading", { level: 1, name: "Dashboard" }),
     ).toBeInTheDocument();
-    expect(screen.queryByText(/Saldo projetado/)).not.toBeInTheDocument();
+    expect(screen.queryByText(PROJECTED)).not.toBeInTheDocument();
   });
 
   it("shows the projected balance against the current one", () => {
     const { container } = render(<HeroBand data={data} />);
 
-    expect(band(container).getByText("Saldo projetado em Mar/26.")).toBeInTheDocument();
+    expect(
+      band(container).getByText("Saldo projetado em Mar/26."),
+    ).toBeInTheDocument();
     expect(container.querySelector(".value")).toHaveTextContent("R$ 5,00");
     expect(band(container).getByText(VS_NOW)).toBeInTheDocument();
   });
@@ -39,8 +44,8 @@ describe("HeroBand", () => {
   it("does not carry a supporting stats row under the figure", () => {
     render(<HeroBand data={data} />);
 
-    expect(screen.queryByText(/Entradas/)).not.toBeInTheDocument();
-    expect(screen.queryByText(/Meses no vermelho/)).not.toBeInTheDocument();
+    expect(screen.queryByText(ENTRADAS)).not.toBeInTheDocument();
+    expect(screen.queryByText(RED_MONTHS)).not.toBeInTheDocument();
   });
 
   it("marks the band as waiting until its figures are the current ones", () => {

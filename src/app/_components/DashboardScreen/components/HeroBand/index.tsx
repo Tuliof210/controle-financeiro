@@ -31,7 +31,7 @@ export function HeroBand(props: HeroBandProps) {
         {figures !== null && (
           <div className={styles.answer}>
             <p className={styles.claim}>
-              {COPY.saldoProjetado} {figures.endLabel}.
+              {`${COPY.saldoProjetado} ${figures.endLabel}.`}
             </p>
             <p className={styles.value}>
               <MoneyDisplay value={figures.value} variant="hero" />
@@ -39,7 +39,7 @@ export function HeroBand(props: HeroBandProps) {
             <p className={styles.deltaLine}>
               <Delta value={figures.delta} money={true} />
               <span className={styles.vs}>
-                {COPY.vsSaldoAtual} {figures.now}.
+                {`${COPY.vsSaldoAtual} ${figures.now}.`}
               </span>
             </p>
           </div>
