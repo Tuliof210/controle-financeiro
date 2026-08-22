@@ -54,14 +54,9 @@
 }
 
 
-// MoneyDisplay is this cell: an inner cents span is fine because it does not
-// contain `R$`, so the e2e's `getByText(/^R\$/)` still has one match.
+// MoneyDisplay is this cell: colour only — size/family live on variant="small".
 .value {
   color: var(--color-text);
-  font-family: var(--font-sans);
-  font-size: var(--text-md);
-  font-variant-numeric: tabular-nums;
-  white-space: nowrap;
 }
 
 // Redundant reinforcement: valueCents is always positive and the section
