@@ -15,8 +15,8 @@ document.documentElement.classList.add(
 
 // `@storybook/addon-themes`'s decorators only run for stories with an
 // attached CSF story — this project's Foundations pages are docs-only
-// `<Meta>` blocks (no components yet), so the toggle is wired directly
-// against the core globals/channel API instead, which applies to any page.
+// `<Meta>` blocks, so the toggle is wired directly against the core
+// globals/channel API instead, which applies to any page.
 const urlTheme = new URLSearchParams(globalThis.location.search)
   .get("globals")
   ?.match(/theme:(\w+)/)?.[1];

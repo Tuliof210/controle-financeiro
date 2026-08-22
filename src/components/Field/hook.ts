@@ -56,7 +56,7 @@ export function useField(props: FieldProps) {
 
   let ariaLabel: string | undefined;
   if (props.money === true) {
-    ariaLabel = props.ariaLabel;
+    ({ ariaLabel } = props);
   }
 
   return {
