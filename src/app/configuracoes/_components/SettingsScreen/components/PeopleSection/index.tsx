@@ -33,7 +33,7 @@ export function PeopleSection() {
   const noPeople = people?.length === 0;
 
   return (
-    <SectionCard title="Pessoas" icon="users">
+    <SectionCard title="Pessoas">
       {noPeople && (
         <p className={styles.empty}>{COPY.nenhumaPessoaCadastradaAinda}</p>
       )}
@@ -56,7 +56,6 @@ export function PeopleSection() {
       <Modal
         open={modal === "add"}
         onClose={close}
-        eyebrow="PESSOA"
         title="Adicionar pessoa"
       >
         {modal === "add" && (
@@ -67,7 +66,6 @@ export function PeopleSection() {
       <Modal
         open={modal === "edit"}
         onClose={close}
-        eyebrow="PESSOA"
         title="Editar pessoa"
       >
         {modal === "edit" && target && (

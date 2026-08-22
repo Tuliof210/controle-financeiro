@@ -29,28 +29,28 @@ describe("Modal", () => {
     expect(screen.getByText("corpo")).toBeInTheDocument();
   });
 
-  it("renders the eyebrow and footer only when given", () => {
+  it("renders the footer only when given", () => {
     const { rerender } = render(
       <Modal open={true} onClose={jest.fn()} title="T">
         corpo
       </Modal>,
     );
 
-    expect(screen.queryByText("Cadastro")).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole("button", { name: "Salvar" }),
+    ).not.toBeInTheDocument();
 
     rerender(
       <Modal
         open={true}
         onClose={jest.fn()}
         title="T"
-        eyebrow="Cadastro"
         footer={<button type="button">Salvar</button>}
       >
         corpo
       </Modal>,
     );
 
-    expect(screen.getByText("Cadastro")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Salvar" })).toBeInTheDocument();
   });
 

@@ -38,7 +38,6 @@ export function ImportAction(props: ImportActionProps) {
       <Modal
         open={view.open}
         onClose={view.close}
-        eyebrow="Movimentações"
         title="Importar extrato"
         footer={
           <>

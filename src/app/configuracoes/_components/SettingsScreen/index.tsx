@@ -13,7 +13,7 @@ export function SettingsScreen() {
   return (
     <div className={styles.screen}>
       <PageHeader {...header} />
-      <div className={styles.grid}>
+      <div className={styles.stack}>
         <PeopleSection />
         <GoalsSection />
         <SpendingGoalSection />

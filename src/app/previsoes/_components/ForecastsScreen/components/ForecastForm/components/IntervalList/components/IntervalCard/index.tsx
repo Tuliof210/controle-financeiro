@@ -29,7 +29,7 @@ export function IntervalCard(props: IntervalCardProps) {
   return (
     <div className={styles.card}>
       <div className={styles.header}>
-        <span className={styles.eyebrow}>{COPY.vigencia}</span>
+        <span className={styles.label}>{COPY.vigencia}</span>
         <div className={styles.controls}>
           <label className={styles.lock} htmlFor={`${idPrefix}-lock`}>
             <input

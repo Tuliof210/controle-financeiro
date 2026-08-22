@@ -23,13 +23,11 @@
   gap: var(--space-4);
 }
 
-.eyebrow {
-  font-family: var(--font-mono);
+.label {
+  font-family: var(--font-sans);
   font-size: var(--text-xs);
-  letter-spacing: var(--tracking-wide);
+  font-weight: var(--weight-medium);
   color: var(--color-text-muted);
-  // Uppercased in CSS, not in the copy, so the accessible text stays "Vigência".
-  text-transform: uppercase;
 }
 
 .controls {
