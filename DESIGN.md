@@ -40,11 +40,11 @@ typography:
     lineHeight: 1.08
     letterSpacing: "-0.02em"
   title:
-    fontFamily: "Clash Display, system-ui, sans-serif"
+    fontFamily: "Hanken Grotesk, system-ui, sans-serif"
     fontSize: "1.125rem"
     fontWeight: 600
     lineHeight: 1.3
-    letterSpacing: "-0.02em"
+    letterSpacing: "0"
   body:
     fontFamily: "Hanken Grotesk, system-ui, sans-serif"
     fontSize: "0.9375rem"
@@ -201,7 +201,7 @@ spreadsheet-in-a-browser (grids with no hierarchy), and gamified finance
 **Key Characteristics:**
 - Cold-paper neutrals carry ~90% of every screen; cobalt is rationed.
 - Border-first elevation — a shadow only when a layer genuinely floats.
-- Three faces, one job each: display for titles, grotesque for body and money, mono for eyebrows and dates.
+- Three faces, one job each: display for the page h1 and the rail wordmark, grotesque for body, labels, card titles and money, mono for the one brand kicker plus dates and hex.
 - Soft corners by surface type (6 / 10 / 14 / 20), never square, never a capsule on a rectangle.
 - Both themes are first-class; the dark theme is derived by inverting the ramp, not by dimming the light one.
 - Every text pair carries its measured contrast ratio in a comment beside the token.
@@ -213,7 +213,7 @@ allowed to speak only about money.
 
 ### Primary
 - **Signal Cobalt** (`{colors.signal-cobalt}`): the fill and the mark. Primary buttons, the focus ring, the hero band's top rule, the active-state wash on rail items (mixed at 12% over the surface, never solid). It is the only brand hue in the system.
-- **Cobalt Deep** (`{colors.cobalt-deep}`): cobalt as *copy*. Any cobalt text — the modal eyebrow, the current rail label, a brand-tinted link — takes this step, because the fill tone measures under 4.5:1 as text on a raised surface. Also the primary button's hover fill.
+- **Cobalt Deep** (`{colors.cobalt-deep}`): cobalt as *copy*. Any cobalt text — the current rail label, a brand-tinted link — takes this step, because the fill tone measures under 4.5:1 as text on a raised surface. Also the primary button's hover fill.
 - **Cobalt Press** (`{colors.cobalt-press}`): the primary button's active fill. In the dark theme, hover and active *lighten* instead — darkening a fill on a dark surface reads as disabled.
 - **Cobalt Mist** (`{colors.cobalt-mist}`): a light accent that stays light in both themes, because its one consumer paints ink on top of it.
 
@@ -253,20 +253,20 @@ Seven owner/category hues (`{colors.category-violet}` through `{colors.category-
 
 ### Hierarchy
 - **Display** (Clash Display 600, 3.5rem/56px, 1.08, -0.02em): the top step of the scale, held in reserve. Nothing spends it today, and a new screen should need a reason to be the first.
-- **Headline** (Clash Display 600, 1.75rem/28px, 1.08, -0.02em): page-level titles.
-- **Title** (Clash Display 600, 1.125rem/18px, 1.3): card and modal titles — what the base `h1` actually renders.
+- **Headline** (Clash Display 600, 1.75rem/28px, 1.08, -0.02em): page-level titles — the `h1` on each screen, and the rail wordmark.
+- **Title** (Hanken Grotesk 600, 1.125rem/18px, 1.3): card and modal titles. Sentence case, no tracking. Display does not belong here.
 - **Body** (400, 0.9375rem/15px, 1.55): prose and explanations, capped at 65–75ch.
 - **Label** (500, 0.875rem/14px, 1.3): field labels, table headers, nav items, legends. Sentence case.
 - **Button** (700, 0.875rem/14px, 1.3): the same size as a label and the only control that goes bold. A button is the one thing on a surface a reader looks for rather than reads.
 - **Money** (600, tabular figures): every currency figure, in the body face — never the display face.
 - **Hero figure** (700, 1.75rem/28px, tabular figures): the answer on the inverted band. Grotesque, not display: it is money, and money keeps the body face. Cents dim to 70% opacity — measured, not the 45% that would drop them under the text floor. It breaks rather than widening the page at 375px.
-- **Eyebrow** (mono, 0.6875rem/11px, +0.14em, uppercase): the card kicker, IDs, `YYYY-MM` dates, hex values, chart axis and tag labels.
+- **Eyebrow** (mono, 0.6875rem/11px, +0.14em, uppercase): the **one** brand kicker on the Aside wordmark, plus IDs, `YYYY-MM` dates, hex values, and chart tag labels. Not a grammar on every card.
 
 ### Named Rules
 
-**The Three Faces Rule.** Display for heroes and titles. Grotesque for body, labels and every money figure. Mono for eyebrows, IDs, `YYYY-MM`, hex and chart labels. A face outside its job is a bug, not a variation.
+**The Three Faces Rule.** Display for the page `h1` and the rail wordmark. Grotesque for body, labels, card and modal titles, and every money figure. Mono for the one brand kicker, IDs, `YYYY-MM`, hex and chart tags. A face outside its job is a bug, not a variation.
 
-**The Shouting Rule.** `text-transform: uppercase` and wide tracking belong to the mono eyebrow and nowhere else. Status badges, table headers and checkbox labels are sentence case; wide tracking on a grotesque reads as shouting.
+**The Shouting Rule.** `text-transform: uppercase` and wide tracking belong to the Aside brand kicker and to technical chart tags — nowhere else. Status badges, table headers, card titles and checkbox labels are sentence case; wide tracking on a grotesque reads as shouting.
 
 **The Tabular Rule.** Money always sets `font-variant-numeric: tabular-nums`. Columns of figures must align on the decimal without the reader's eye doing the work.
 
@@ -306,7 +306,7 @@ Contained and unfussy: hairline frames, soft corners, nothing extruded. A contro
 - **Background:** Sheet on Cold Paper; the sunken tier for inner panes.
 - **Shadow Strategy:** flat by default. See Elevation.
 - **Border:** a single hairline. **Internal Padding:** 24px, with a 16px stack gap.
-- **Anatomy:** a mono eyebrow title, an optional trailing slot pushed right, then the body. Cards are never nested inside cards.
+- **Anatomy:** a sentence-case sans title, an optional trailing slot pushed right, then the body. Cards are never nested inside cards. No mono kicker on the title.
 
 ### Segmented Control
 - **Shape:** a capsule track (`{rounded.full}` — one of the four shapes full radius is for) on the sunken tier with a hairline, holding one capsule segment per option at 44px minimum.
@@ -324,10 +324,10 @@ Contained and unfussy: hairline frames, soft corners, nothing extruded. A contro
 - **Collapsed:** labels are hidden, not unmounted, so the DOM stays stable across the width transition.
 
 ### Modal
-- A native `<dialog>`: sunken panel, 14px corners, 480px cap, sticky header on the panel's own surface, footer actions right-aligned. The backdrop is one flat ink at 55% and does **not** flip with the theme — a light scrim brightens the page it is meant to push back.
+- A native `<dialog>`: sunken panel, 14px corners, 480px cap, sticky header on the panel's own surface, footer actions right-aligned. The backdrop is one flat ink at 55% and does **not** flip with the theme — a light scrim brightens the page it is meant to push back. Title is sans, sentence case; there is no kicker above it.
 
 ### Hero Band (signature)
-The one surface on the dashboard that inverts: near-black in light, near-white in dark, full-bleed to the content column. A 4px cobalt rule runs across its top and a single cobalt radial glow sits off its top-right corner — the only gradient the system permits, and it works in both themes because the band flips underneath it. It carries the display figure that answers the screen's question. Never more than one per page.
+The one surface on the dashboard that inverts: near-black in light, near-white in dark, full-bleed to the content column. A 4px cobalt rule runs across its top and a single cobalt radial glow sits off its top-right corner — the only gradient the system permits, and it works in both themes because the band flips underneath it. Composition is editorial: page title, a lede, then the projected balance as type (MoneyDisplay + Delta). Never the metric-tile template of giant number + caption + supporting stats. Never more than one per page.
 
 ### Money Figure (signature)
 Whole number at full strength, cents at 70% opacity, as a fragment rather than a wrapper so a screen reader still announces one uninterrupted figure and a copy/paste yields one number. Reserved for the few figures the reader is meant to land on first — spend it everywhere and it marks nothing.
@@ -357,6 +357,7 @@ Whole number at full strength, cents at 70% opacity, as a fragment rather than a
 - **Don't** use decorative gradients, glassmorphism or texture. The background is flat; the cobalt hero glow is the only gradient in the system and it belongs to the hero band, never to the mark.
 - **Don't** colour a routine expense red.
 - **Don't** put a capsule radius on a rectangle. Full radius is for avatars, status dots, progress tracks and segmented pills only.
-- **Don't** put mono on body copy, uppercase on a status badge, or the display face on a label, a button or a data figure.
+- **Don't** put mono on body copy, uppercase on a status badge, or the display face on a label, a button, a table header or a data figure.
+- **Don't** put a tracked uppercase kicker on every section or card. One brand kicker lives on the Aside wordmark.
 - **Don't** reach for a shadow where a hairline works, and don't reach for a modal where an inline or progressive alternative works.
 - **Don't** invent an alias token that adds no decision over the token it points at — that is a second name for a colour, not a token.
