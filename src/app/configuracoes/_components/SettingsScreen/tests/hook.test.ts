@@ -7,7 +7,6 @@ describe("useSettingsScreen", () => {
     const { result } = renderHook(() => useSettingsScreen());
 
     expect(result.current).toEqual({
-      eyebrow: "AJUSTES",
       title: "Configurações",
       subtitle: "Pessoas e objetivos da família.",
     });

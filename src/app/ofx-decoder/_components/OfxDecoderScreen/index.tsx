@@ -14,7 +14,6 @@ export function OfxDecoderScreen() {
   return (
     <div className={styles.screen}>
       <PageHeader
-        eyebrow="IMPORTAÇÃO"
         title="OFX Decoder"
         subtitle="Veja a árvore completa de tags do arquivo, sem enviar nada."
       />

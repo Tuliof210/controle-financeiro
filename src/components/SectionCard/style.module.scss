@@ -20,7 +20,7 @@
   gap: var(--space-2);
   color: var(--color-text);
   // The one row on a card allowed to wrap: `headerEnd` carries badges, and at
-  // 375px they cannot share a line with the eyebrow.
+  // 375px they cannot share a line with the title.
   flex-wrap: wrap;
 }
 
@@ -46,18 +46,15 @@
   color: var(--color-negative);
 }
 
-// The canonical eyebrow, and one of the few places uppercase survives: mono at
-// --text-2xs with --tracking-wide is what the eyebrow IS in this system, not a
-// bitmap face being propped up. text-transform rather than uppercasing the
-// strings, because the titles are read by screen readers and reused verbatim as
-// Tooltip labels ("Como {title} é calculado").
+// A section heading, not a brand kicker: sans, sentence case, no tracking.
+// The strings stay as written — screen readers and Tooltip labels reuse them
+// ("Como {title} é calculado").
 .title {
   margin: 0;
-  font-family: var(--font-mono);
-  font-size: var(--text-2xs);
-  font-weight: var(--weight-regular);
-  letter-spacing: var(--tracking-wide);
-  text-transform: uppercase;
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-tight);
 }
 
 .body {

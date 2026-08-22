@@ -6,9 +6,9 @@ import { useAside } from "./hook.ts";
 import styles from "./style.module.scss";
 
 const COPY = {
-  monevo: "MONEVO",
-  panoramaFinanceiro: "PANORAMA FINANCEIRO",
-  menu: "MENU",
+  monevo: "Monevo",
+  panoramaFinanceiro: "Panorama financeiro",
+  menu: "Menu",
 } as const;
 
 interface AsideProps {

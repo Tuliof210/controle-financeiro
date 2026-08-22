@@ -3,9 +3,8 @@ import { renderHook } from "@testing-library/react";
 import { usePageHeader } from "@/components/PageHeader/hook.ts";
 
 describe("usePageHeader", () => {
-  it("passes the three strings straight through", () => {
+  it("passes the two strings straight through", () => {
     const props = {
-      eyebrow: "Painel",
       title: "Visão geral",
       subtitle: "O mês em um olhar",
     };
