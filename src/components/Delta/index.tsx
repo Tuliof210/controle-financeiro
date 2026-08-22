@@ -8,15 +8,14 @@ export function Delta(props: DeltaProps) {
   return (
     <span {...deltaProps}>
       {arrow !== undefined && <Icon name={arrow} size={iconSize} />}
-      {money ? (
+      {money === true && (
         <MoneyDisplay
           value={value}
           variant="delta"
           showPositiveSign={value > 0}
         />
-      ) : (
-        label
       )}
+      {money !== true && label}
     </span>
   );
 }

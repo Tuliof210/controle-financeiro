@@ -28,7 +28,10 @@ function signedTone(
   tone: StatCardProps["tone"],
 ) {
   if (signed !== true) {
-    return tone === "negative" ? undefined : tone;
+    if (tone === "negative") {
+      return;
+    }
+    return tone;
   }
   if (negative) {
     return "negative" as const;

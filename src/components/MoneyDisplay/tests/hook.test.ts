@@ -9,7 +9,7 @@ describe("useMoneyDisplay", () => {
     expect(result.current.moneyProps.className).toContain("base");
     expect(result.current.moneyProps.className).not.toContain("positive");
     expect(result.current.moneyProps.className).not.toContain("negative");
-    expect(result.current.dim).toBe(false);
+    expect(result.current.fractionClass).toBeUndefined();
     expect(result.current.head).toBe("R$ 1.234,");
     expect(result.current.fraction).toBe("56");
   });
@@ -19,7 +19,7 @@ describe("useMoneyDisplay", () => {
       useMoneyDisplay({ value: 100, variant: "hero" }),
     );
 
-    expect(hero.result.current.dim).toBe(true);
+    expect(hero.result.current.fractionClass).toBeDefined();
     expect(hero.result.current.moneyProps.className).toContain("hero");
   });
 

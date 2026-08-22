@@ -12,9 +12,7 @@ describe("useDelta", () => {
   });
 
   it("treats a drop as good when inverted", () => {
-    const { result } = renderHook(() =>
-      useDelta({ value: -8, invert: true }),
-    );
+    const { result } = renderHook(() => useDelta({ value: -8, invert: true }));
 
     expect(result.current.deltaProps.className).toContain("positive");
     expect(result.current.arrow).toBe("trendingDown");
@@ -31,9 +29,7 @@ describe("useDelta", () => {
   });
 
   it("defers formatting to MoneyDisplay when money", () => {
-    const { result } = renderHook(() =>
-      useDelta({ value: 400, money: true }),
-    );
+    const { result } = renderHook(() => useDelta({ value: 400, money: true }));
 
     expect(result.current.money).toBe(true);
     expect(result.current.label).toBeUndefined();

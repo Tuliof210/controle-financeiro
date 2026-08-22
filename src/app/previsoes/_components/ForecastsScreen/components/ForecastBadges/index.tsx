@@ -9,7 +9,7 @@ export function ForecastBadges(props: ForecastBadgesProps) {
   return (
     <span className={styles.badges}>
       <Badge tone="neutral">{kindLabel}</Badge>
-      {simulated && <ProjectionBadge kind="simulado" />}
+      {Boolean(simulated) && <ProjectionBadge kind="simulado" />}
     </span>
   );
 }

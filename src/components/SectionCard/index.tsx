@@ -19,7 +19,7 @@ const BAND_CLASS: Record<BandTone, string> = {
 };
 
 export function SectionCard(props: SectionCardProps) {
-  const { title, icon, tone, hint, headerEnd, band, children } =
+  const { title, icon, tone, hint, headerEnd, band, shell, children } =
     useSectionCard(props);
   const titleRowClassName = [
     styles.titleRow,
@@ -31,12 +31,7 @@ export function SectionCard(props: SectionCardProps) {
     .join(" ");
 
   return (
-    <Card
-      as="section"
-      variant={band ? "elevated" : "flat"}
-      padding="lg"
-      className={styles.card}
-    >
+    <Card as="section" variant={shell} padding="lg" className={styles.card}>
       <div className={titleRowClassName}>
         {/* 16, not 18: the title next to it is now a --text-2xs eyebrow. */}
         {icon !== undefined && <Icon name={icon} size={16} />}

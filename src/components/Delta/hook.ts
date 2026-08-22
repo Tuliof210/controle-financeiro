@@ -1,6 +1,13 @@
 import type { HTMLAttributes } from "react";
 import type { MvIconName } from "@/components/Icon/hook.ts";
 import { cx } from "@/lib/cx.ts";
+import {
+  arrowOf,
+  iconSizeOf,
+  isGood,
+  percentLabel,
+  toneOf,
+} from "./delta.helper.ts";
 import styles from "./style.module.scss";
 
 export type DeltaProps = {
@@ -12,29 +19,6 @@ export type DeltaProps = {
   neutralThreshold?: number;
   size?: "sm" | "md" | "lg";
 } & Omit<HTMLAttributes<HTMLSpanElement>, "children">;
-
-function arrowOf(up: boolean, down: boolean): MvIconName | undefined {
-  if (up) {
-    return "trendingUp";
-  }
-  if (down) {
-    return "trendingDown";
-  }
-  return undefined;
-}
-
-function percentLabel(value: number, up: boolean, down: boolean): string {
-  const abs = Math.abs(value).toLocaleString("pt-BR", {
-    maximumFractionDigits: 1,
-  });
-  if (up) {
-    return `+${abs}%`;
-  }
-  if (down) {
-    return `−${abs}%`;
-  }
-  return `${abs}%`;
-}
 
 export function useDelta({
   value,
@@ -49,8 +33,15 @@ export function useDelta({
 }: DeltaProps) {
   const up = value > neutralThreshold;
   const down = value < -neutralThreshold;
-  const good = invert ? down : up;
-  const tone = !up && !down ? "muted" : good ? "positive" : "negative";
+  const tone = toneOf(up, down, isGood(invert, up, down));
+  let arrow: MvIconName | undefined;
+  if (showArrow) {
+    arrow = arrowOf(up, down);
+  }
+  let label: string | undefined;
+  if (!money && percent) {
+    label = percentLabel(value, up, down);
+  }
 
   return {
     deltaProps: {
@@ -58,10 +49,10 @@ export function useDelta({
       role: "status" as const,
       ...rest,
     },
-    arrow: showArrow ? arrowOf(up, down) : undefined,
-    iconSize: size === "sm" ? 12 : size === "lg" ? 16 : 14,
+    arrow,
+    iconSize: iconSizeOf(size),
     money,
     value,
-    label: money || !percent ? undefined : percentLabel(value, up, down),
+    label,
   };
 }

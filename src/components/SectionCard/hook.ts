@@ -37,5 +37,9 @@ export function useSectionCard({
   band,
   children,
 }: SectionCardProps) {
-  return { title, icon, tone, hint, headerEnd, band, children };
+  let shell: "elevated" | "flat" = "flat";
+  if (band !== undefined) {
+    shell = "elevated";
+  }
+  return { title, icon, tone, hint, headerEnd, band, shell, children };
 }

@@ -31,7 +31,7 @@ export function StatCard(props: StatCardProps) {
 
       <div className={styles.body}>
         <Headline caption="Valor total no período" tone={tone}>
-          {signed && (
+          {signed === true && (
             <span className={styles.sign} aria-hidden={true}>
               <Delta value={total} money={true} />
             </span>

@@ -17,13 +17,13 @@ export function useCard({
   variant = "flat",
   padding = "md",
   interactive = false,
-  as: Tag = "div",
+  as: tag = "div",
   className,
   children,
   ...rest
 }: CardProps) {
   return {
-    Tag,
+    tag,
     cardProps: {
       className: cx(
         styles.card,

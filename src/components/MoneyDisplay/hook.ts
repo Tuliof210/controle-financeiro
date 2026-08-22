@@ -1,22 +1,13 @@
 import type { HTMLAttributes } from "react";
-import { formatMoney, splitMoney } from "@/lib/money.ts";
 import { cx } from "@/lib/cx.ts";
+import { formatMoney, splitMoney } from "@/lib/money.ts";
 import styles from "./style.module.scss";
-
-export type MoneyDisplayProps = {
-  value: number;
-  variant?: "hero" | "large" | "base" | "small" | "delta";
-  showPositiveSign?: boolean;
-  colorBySign?: boolean;
-  dimDecimals?: boolean;
-  hideSymbol?: boolean;
-  hideCents?: boolean;
-} & Omit<HTMLAttributes<HTMLSpanElement>, "children">;
 
 const DIM_BY_DEFAULT: Record<string, boolean> = {
   hero: true,
   large: true,
 };
+const TRAILING_COMMA = /,$/;
 
 function headOf(
   cents: number,
@@ -29,13 +20,46 @@ function headOf(
     head = head.replace("R$ ", "");
   }
   if (hideCents) {
-    head = head.replace(/,$/, "");
+    head = head.replace(TRAILING_COMMA, "");
   }
   if (cents > 0 && showPositiveSign) {
     return `+${head}`;
   }
   return head;
 }
+
+function signClass(colorBySign: boolean, value: number): string | undefined {
+  if (!colorBySign) {
+    return;
+  }
+  if (value < 0) {
+    return styles.negative;
+  }
+  return styles.positive;
+}
+
+function fractionOf(value: number, hideCents: boolean): string | undefined {
+  if (hideCents) {
+    return;
+  }
+  return splitMoney(value).fraction;
+}
+
+function fractionClassOf(dim: boolean): string | undefined {
+  if (dim) {
+    return styles.fraction;
+  }
+}
+
+export type MoneyDisplayProps = {
+  value: number;
+  variant?: "hero" | "large" | "base" | "small" | "delta";
+  showPositiveSign?: boolean;
+  colorBySign?: boolean;
+  dimDecimals?: boolean;
+  hideSymbol?: boolean;
+  hideCents?: boolean;
+} & Omit<HTMLAttributes<HTMLSpanElement>, "children">;
 
 export function useMoneyDisplay({
   value,
@@ -55,14 +79,14 @@ export function useMoneyDisplay({
       className: cx(
         styles.money,
         styles[variant],
-        colorBySign && (value < 0 ? styles.negative : styles.positive),
+        signClass(colorBySign, value),
         className,
       ),
       "aria-label": formatMoney(value),
       ...rest,
     },
     head: headOf(value, showPositiveSign, hideSymbol, hideCents),
-    fraction: hideCents ? undefined : splitMoney(value).fraction,
-    dim,
+    fraction: fractionOf(value, hideCents),
+    fractionClass: fractionClassOf(dim),
   };
 }
