@@ -26,7 +26,7 @@ export function GoalRow(props: GoalRowProps) {
           <Icon name="pencil" size={14} />
         </IconButton>
         <IconButton
-          variant="danger"
+          variant="destructive"
           aria-label={`Excluir ${name}`}
           onClick={onDelete}
         >

@@ -2,7 +2,6 @@
 
 import { Button } from "@/components/Button/index.tsx";
 import { ConfirmDialog } from "@/components/ConfirmDialog/index.tsx";
-import { Icon } from "@/components/Icon/index.tsx";
 import { Modal } from "@/components/Modal/index.tsx";
 import { RowGrid } from "@/components/RowGrid/index.tsx";
 import { SectionCard } from "@/components/SectionCard/index.tsx";
@@ -50,8 +49,7 @@ export function GoalsSection() {
           ))}
         </RowGrid>
       )}
-      <Button variant="dashed" onClick={openAdd}>
-        <Icon name="plus" size={16} />
+      <Button variant="dashed" onClick={openAdd} iconLeft="plus">
         {COPY.adicionarObjetivo}
       </Button>
 

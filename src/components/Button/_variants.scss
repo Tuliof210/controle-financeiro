@@ -1,29 +1,13 @@
 @use "theme" as t;
 
-// The five variants, split off `style.module.scss` under the exception
-// ARCHITECTURE.md grants `RowGrid/_tiers.scss`: a mixin that emits nothing on
-// its own, included once by the stylesheet beside it, so neither file crosses
-// the 100-line cap. Not a component — the base box lives next door.
-
 @mixin variants {
-  // The target draws a filled action as fill alone — a frame on top of a solid
-  // fill is the extruded skin's frame, kept out of habit.
   .primary,
-  .danger,
-  .success {
+  .destructive {
     border-color: transparent;
+    color: var(--white);
   }
 
-  // The ink on a THEMED fill is --color-bg, and cobalt is themed: --color-brand
-  // is --cobalt-600 in light and --cobalt-400 in dark, so the --white that used
-  // to sit here rested on a premise ("cobalt is dark in both themes") the dark
-  // ramp does not keep. White measured 3.64:1 at rest and 2.25 / 1.61:1 on
-  // hover / active in DARK — the interactive states worse than rest, because
-  // dark cobalt must lighten (darkening a fill on a dark surface reads as
-  // disabled). --color-bg flips with the fill instead: 6.43 / 8.52 / 10.52:1
-  // light, 5.31 / 8.59 / 11.99:1 dark. Same rule the semantic fills follow.
   .primary {
-    color: var(--color-bg);
     background: var(--color-brand);
 
     &:active:not(:disabled) {
@@ -31,33 +15,30 @@
     }
   }
 
-  // The semantic fills have no hover tone, so they mix toward --color-text. That
-  // is also why this replaces `filter: brightness()`: brightness only darkens,
-  // and on the dark theme's LIGHTENED semantic ramp a darker fill reads as
-  // disabled. Mixing toward the text colour darkens in light, lightens in dark.
-  .danger,
-  .success {
-    color: var(--color-bg);
-  }
-
-  .danger {
+  .destructive {
     background: var(--color-negative);
+
+    &:active:not(:disabled) {
+      background: color-mix(in srgb, var(--color-negative) 88%, var(--color-text));
+    }
   }
 
-  .success {
-    background: var(--color-positive);
+  .secondary {
+    background: var(--color-surface);
+    border-color: var(--color-border-strong);
+    color: var(--color-text);
+
+    &:active:not(:disabled) {
+      background: var(--color-surface-raised);
+    }
   }
 
-  // Ghost: no solid border — a subtle structural edge at most.
   .ghost {
     background: transparent;
-    border-color: var(--color-border-subtle);
+    border-color: transparent;
     color: var(--color-text);
   }
 
-  // Full-width dashed outline that fills on hover — the "Adicionar …" affordance
-  // at the bottom of every list card. A consumer needing the negative tint
-  // composes it at the call site; one use does not earn a `dashed-danger`.
   .dashed {
     width: 100%;
     background: transparent;
@@ -65,34 +46,26 @@
     border: var(--border-2) dashed var(--color-border);
   }
 
-  // The five hover rules live together because they share one gate: see
-  // `on-hover` in _theme.scss for why a painted :hover must not fire on touch.
-  // Any call site composing its own hover on top of these (EntrySection) has to
-  // reach for the same mixin, or it latches with half the paint.
   @include t.on-hover {
     .primary:hover:not(:disabled) {
       background: var(--color-brand-hover);
     }
 
-    .danger:hover:not(:disabled) {
+    .destructive:hover:not(:disabled) {
       background: color-mix(in srgb, var(--color-negative) 88%, var(--color-text));
     }
 
-    .success:hover:not(:disabled) {
-      background: color-mix(in srgb, var(--color-positive) 88%, var(--color-text));
+    .secondary:hover:not(:disabled) {
+      background: var(--color-hover-wash);
     }
 
     .ghost:hover:not(:disabled) {
       background: var(--color-hover-wash);
     }
 
-    // Also --color-bg, for the same reason `.primary` is: this IS the primary
-    // fill, arrived at from the dashed rest state — including its border, which
-    // `.primary` drops. `border-style: solid` alone left a grey frame around a
-    // cobalt fill, the one thing a filled action in this system never has.
     .dashed:hover:not(:disabled) {
       background: var(--color-brand);
-      color: var(--color-bg);
+      color: var(--white);
       border-color: transparent;
       border-style: solid;
     }

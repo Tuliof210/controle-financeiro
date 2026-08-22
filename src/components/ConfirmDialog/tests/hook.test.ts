@@ -14,7 +14,7 @@ describe("useConfirmDialog", () => {
 
     expect(result.current).toMatchObject({
       confirmLabel: "Excluir",
-      variant: "danger",
+      variant: "destructive",
       busy: false,
     });
   });

@@ -26,7 +26,7 @@ export function Modal({
               red on hover. Resting state stays a quiet icon on a transparent
               surface either way. */}
           <IconButton
-            variant="danger"
+            variant="destructive"
             aria-label="Fechar"
             className={styles.close}
             onClick={onClose}

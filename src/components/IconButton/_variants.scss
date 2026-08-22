@@ -31,7 +31,7 @@
   // the full negative fill — the signal that the next click destroys something.
   // Gated, or a tap on a row's delete leaves it filled red until focus moves,
   // which on `/previsoes` means up to 25 latched red squares.
-  .danger {
+  .destructive {
     color: var(--color-negative);
 
     // --color-bg, not --white — the fill is themed, and white on its dark-theme

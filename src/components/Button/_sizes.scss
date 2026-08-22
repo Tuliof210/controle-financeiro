@@ -1,0 +1,28 @@
+@mixin sizes {
+  .sm {
+    min-height: calc(var(--size-tap) - var(--space-2));
+    padding: 0 var(--space-3);
+    font-size: var(--text-base);
+
+    svg {
+      width: var(--space-4);
+      height: var(--space-4);
+    }
+  }
+
+  .md {
+    min-height: var(--size-tap);
+    padding: 0 var(--space-4);
+    font-size: var(--text-md);
+  }
+
+  .lg {
+    min-height: calc(var(--size-tap) + var(--space-2));
+    padding: 0 var(--space-6);
+    font-size: var(--text-md);
+  }
+
+  .full {
+    width: 100%;
+  }
+}

@@ -1,6 +1,5 @@
 import { Button } from "@/components/Button/index.tsx";
 import { EntryRow } from "@/components/EntryRow/index.tsx";
-import { Icon } from "@/components/Icon/index.tsx";
 import { RowGrid } from "@/components/RowGrid/index.tsx";
 import { SectionCard } from "@/components/SectionCard/index.tsx";
 import type { Entry } from "@/lib/entry-types.ts";
@@ -46,9 +45,10 @@ export function EntrySection<T extends Entry>(props: EntrySectionProps<T>) {
       <Button
         variant="dashed"
         className={`${styles.add} ${styles[tone]}`}
+        iconLeft="plus"
         onClick={onAdd}
       >
-        <Icon name="plus" size={16} /> {labels.add}
+        {labels.add}
       </Button>
     </SectionCard>
   );

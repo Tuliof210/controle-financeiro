@@ -2,7 +2,7 @@ import { useState } from "react";
 
 const variantFor = (danger: boolean | undefined) => {
   if (danger) {
-    return "danger" as const;
+    return "destructive" as const;
   }
   return "primary" as const;
 };

@@ -1,7 +1,6 @@
 "use client";
 
 import { Button } from "@/components/Button/index.tsx";
-import { Icon } from "@/components/Icon/index.tsx";
 import { IntervalCard } from "./components/IntervalCard/index.tsx";
 import { type IntervalListProps, useIntervalList } from "./hook.ts";
 import styles from "./style.module.scss";
@@ -26,8 +25,8 @@ export function IntervalList(props: IntervalListProps) {
           onRemove={onRemove}
         />
       ))}
-      <Button variant="dashed" onClick={onAdd}>
-        <Icon name="plus" size={16} /> {COPY.adicionarIntervalo}
+      <Button variant="dashed" onClick={onAdd} iconLeft="plus">
+        {COPY.adicionarIntervalo}
       </Button>
     </div>
   );

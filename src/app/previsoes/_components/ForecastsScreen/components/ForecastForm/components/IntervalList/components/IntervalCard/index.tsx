@@ -43,7 +43,7 @@ export function IntervalCard(props: IntervalCardProps) {
           </label>
           {Boolean(canRemove) && (
             <IconButton
-              variant="danger"
+              variant="destructive"
               aria-label={removeLabel}
               onClick={onRemove}
             >

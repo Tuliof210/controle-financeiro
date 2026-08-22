@@ -14,10 +14,10 @@ describe("useIconButton", () => {
 
   it("uses the variant it is given", () => {
     const { result } = renderHook(() =>
-      useIconButton({ ...base, variant: "danger" }),
+      useIconButton({ ...base, variant: "destructive" }),
     );
 
-    expect(result.current.className).toContain("danger");
+    expect(result.current.className).toContain("destructive");
   });
 
   it("keeps the accessible name an icon-only button depends on", () => {
