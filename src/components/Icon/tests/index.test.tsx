@@ -16,6 +16,7 @@ describe("Icon", () => {
 
     expect(svg).toHaveAttribute("aria-hidden", "true");
     expect(svg).toHaveAttribute("role", "presentation");
+    expect(svg?.querySelector("title")).toBeNull();
   });
 
   it("draws the named path on the 24 grid", () => {

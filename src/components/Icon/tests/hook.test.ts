@@ -27,6 +27,6 @@ describe("useIcon", () => {
 
     expect(result.current.svg["aria-hidden"]).toBeUndefined();
     expect(result.current.svg.role).toBe("img");
-    expect(result.current.caption).toBe("Carteira");
+    expect(result.current.title).toBe("Carteira");
   });
 });

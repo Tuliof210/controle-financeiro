@@ -51,6 +51,6 @@ export function useIcon({
       ...rest,
     },
     d: MV_ICONS[name],
-    caption: title ?? name,
+    title,
   };
 }
