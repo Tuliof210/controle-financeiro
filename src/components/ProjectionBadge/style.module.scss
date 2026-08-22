@@ -1,0 +1,41 @@
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  flex: none;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-sans);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-normal);
+  white-space: nowrap;
+}
+
+.sm {
+  height: var(--space-5);
+  padding: 0 var(--space-2);
+  font-size: var(--text-2xs);
+}
+
+.md {
+  height: var(--space-6);
+  padding: 0 var(--space-3);
+  font-size: var(--text-xs);
+}
+
+.real {
+  color: var(--proj-real-fg);
+  background: var(--proj-real-bg);
+  border: var(--border-1) solid var(--color-border-strong);
+}
+
+.estimado {
+  color: var(--proj-est-fg);
+  background: var(--proj-est-bg);
+  border: var(--border-2) dotted var(--color-text-muted);
+}
+
+.simulado {
+  color: var(--proj-sim-fg);
+  background: var(--proj-sim-bg);
+  border: var(--border-2) dashed var(--color-brand);
+}
