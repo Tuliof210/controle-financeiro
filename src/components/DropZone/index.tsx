@@ -1,4 +1,4 @@
-import { Upload } from "lucide-react";
+import { Icon } from "@/components/Icon/index.tsx";
 import { cx } from "@/lib/cx.ts";
 import { FilePicker } from "../FilePicker/index.tsx";
 import { type DropZoneProps, useDropZone } from "./hook.ts";
@@ -20,7 +20,7 @@ export function DropZone(props: DropZoneProps) {
     // which is what a keyboard or screen-reader user reaches for.
     <div ref={ref} className={cx(styles.zone, over && styles.over)}>
       <span className={styles.glyph}>
-        <Upload size={28} aria-hidden={true} />
+        <Icon name="upload" size={28} />
       </span>
       <p className={styles.eyebrow}>{COPY.prompt}</p>
       <p className={styles.note}>{note}</p>

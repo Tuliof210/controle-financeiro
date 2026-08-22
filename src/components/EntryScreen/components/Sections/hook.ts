@@ -1,4 +1,3 @@
-import { ArrowDownCircle, ArrowUpCircle } from "lucide-react";
 import type { ReactNode } from "react";
 import type { Person } from "@/core/entities/person.entity.ts";
 import type { Period } from "@/core/use-cases/period.service.ts";
@@ -49,7 +48,7 @@ export function useSections<T extends Entry>({
       {
         key: "income",
         title: "Entradas",
-        icon: ArrowDownCircle,
+        icon: "arrowDownCircle",
         tone: "positive" as const,
         items: income,
         labels: labels.income,
@@ -59,7 +58,7 @@ export function useSections<T extends Entry>({
       {
         key: "expense",
         title: "Saídas",
-        icon: ArrowUpCircle,
+        icon: "arrowUpCircle",
         tone: "negative" as const,
         items: expense,
         labels: labels.expense,

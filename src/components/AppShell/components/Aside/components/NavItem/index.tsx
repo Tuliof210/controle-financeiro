@@ -1,5 +1,6 @@
-import type { LucideIcon } from "lucide-react";
 import Link from "next/link";
+import type { MvIconName } from "@/components/Icon/hook.ts";
+import { Icon } from "@/components/Icon/index.tsx";
 import { useNavItem } from "./hook.ts";
 import styles from "./style.module.scss";
 
@@ -8,11 +9,11 @@ interface NavItemProps {
   label: string;
   active: boolean;
   collapsed: boolean;
-  icon: LucideIcon;
+  icon: MvIconName;
 }
 
 export function NavItem(props: NavItemProps) {
-  const { href, label, icon: Icon, className, currentPage } = useNavItem(props);
+  const { href, label, icon, className, currentPage } = useNavItem(props);
 
   return (
     <li>
@@ -25,7 +26,7 @@ export function NavItem(props: NavItemProps) {
         aria-current={currentPage}
         aria-label={label}
       >
-        <Icon className={styles.icon} size={18} aria-hidden={true} />
+        <Icon name={icon} className={styles.icon} size={18} />
         <span className={styles.label}>{label}</span>
       </Link>
     </li>

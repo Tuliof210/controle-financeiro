@@ -1,3 +1,4 @@
+import { Icon } from "@/components/Icon/index.tsx";
 import { SIDEBAR_ID } from "../../ids.ts";
 import { BrandMark } from "../BrandMark/index.tsx";
 import { NavItem } from "./components/NavItem/index.tsx";
@@ -26,7 +27,7 @@ export function Aside(props: AsideProps) {
     onToggle,
     handleClose,
     className,
-    toggleIcon: ToggleIcon,
+    toggleIcon,
     toggleLabel,
   } = useAside(props);
 
@@ -74,11 +75,7 @@ export function Aside(props: AsideProps) {
           aria-expanded={!collapsed}
           onClick={onToggle}
         >
-          <ToggleIcon
-            className={styles.collapseIcon}
-            size={18}
-            aria-hidden={true}
-          />
+          <Icon name={toggleIcon} className={styles.collapseIcon} size={18} />
           <span className={styles.collapseLabel}>{toggleLabel}</span>
         </button>
       </div>

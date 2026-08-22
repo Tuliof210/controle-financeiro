@@ -1,10 +1,3 @@
-import {
-  ArrowDownCircle,
-  ArrowUpCircle,
-  ChartColumn,
-  Scale,
-  TrendingUp,
-} from "lucide-react";
 import { HINTS } from "../../hints.ts";
 import { BalanceLineChart } from "../BalanceLineChart/index.tsx";
 import { ChartCard } from "../ChartCard/index.tsx";
@@ -32,7 +25,7 @@ export function Overview(props: OverviewProps) {
       <div className={styles.kpis}>
         <StatCard
           title="Entradas"
-          icon={ArrowDownCircle}
+          icon="arrowDownCircle"
           tone="positive"
           hint={HINTS.income}
           stats={data.income}
@@ -40,7 +33,7 @@ export function Overview(props: OverviewProps) {
         />
         <StatCard
           title="Saídas"
-          icon={ArrowUpCircle}
+          icon="arrowUpCircle"
           tone="negative"
           hint={HINTS.expense}
           stats={data.expense}
@@ -48,7 +41,7 @@ export function Overview(props: OverviewProps) {
         />
         <StatCard
           title="Saldo"
-          icon={Scale}
+          icon="scale"
           hint={HINTS.balance}
           stats={data.balance}
           series={balance}
@@ -58,7 +51,7 @@ export function Overview(props: OverviewProps) {
 
       <ChartCard
         title="Evolução mensal"
-        icon={ChartColumn}
+        icon="chartColumn"
         hint={HINTS.bars}
         legend={<ChartLegend items={BAR_LEGEND} />}
       >
@@ -73,7 +66,7 @@ export function Overview(props: OverviewProps) {
 
       <ChartCard
         title="Saldo acumulado"
-        icon={TrendingUp}
+        icon="trendingUp"
         hint={HINTS.cumulative}
         legend={
           <ChartLegend note="sólida = realizado · tracejada = projeção" />

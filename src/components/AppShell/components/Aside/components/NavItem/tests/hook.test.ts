@@ -1,6 +1,5 @@
 import { describe, expect, it } from "@jest/globals";
 import { renderHook } from "@testing-library/react";
-import { LayoutDashboard } from "lucide-react";
 import { useNavItem } from "@/components/AppShell/components/Aside/components/NavItem/hook.ts";
 
 const props = {
@@ -8,7 +7,7 @@ const props = {
   label: "Previsões",
   active: false,
   collapsed: false,
-  icon: LayoutDashboard,
+  icon: "layoutDashboard",
 };
 
 describe("useNavItem", () => {
@@ -43,7 +42,7 @@ describe("useNavItem", () => {
     expect(result.current).toMatchObject({
       href: "/previsoes",
       label: "Previsões",
-      icon: LayoutDashboard,
+      icon: "layoutDashboard",
     });
   });
 });

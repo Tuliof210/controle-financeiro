@@ -1,4 +1,4 @@
-import { ChevronDown, ChevronUp } from "lucide-react";
+import { Icon } from "@/components/Icon/index.tsx";
 import { type ShowAllToggleProps, useShowAllToggle } from "./hook.ts";
 import styles from "./style.module.scss";
 
@@ -15,14 +15,14 @@ import styles from "./style.module.scss";
 // icon in place.
 const chevronFor = (expanded: boolean) => {
   if (expanded) {
-    return ChevronUp;
+    return "chevronUp" as const;
   }
-  return ChevronDown;
+  return "chevronDown" as const;
 };
 
 export function ShowAllToggle(props: ShowAllToggleProps) {
   const { label, expanded, onClick } = useShowAllToggle(props);
-  const Chevron = chevronFor(expanded);
+  const chevron = chevronFor(expanded);
 
   return (
     <button
@@ -32,7 +32,7 @@ export function ShowAllToggle(props: ShowAllToggleProps) {
       onClick={onClick}
     >
       {label}
-      <Chevron size={14} aria-hidden={true} />
+      <Icon name={chevron} size={14} />
     </button>
   );
 }

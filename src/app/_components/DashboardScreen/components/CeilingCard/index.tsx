@@ -1,4 +1,3 @@
-import { Wallet } from "lucide-react";
 import { SectionCard } from "@/components/SectionCard/index.tsx";
 import { cx } from "@/lib/cx.ts";
 import { HINTS } from "../../hints.ts";
@@ -33,7 +32,7 @@ export function CeilingCard(props: CeilingCardProps) {
   return (
     <SectionCard
       title="Teto de Gastos"
-      icon={Wallet}
+      icon="wallet"
       hint={HINTS.ceiling}
       band="ink"
       headerEnd={

@@ -1,4 +1,3 @@
-import type { LucideIcon } from "lucide-react";
 import {
   type ReactNode,
   useCallback,
@@ -6,10 +5,11 @@ import {
   useRef,
   useState,
 } from "react";
+import type { MvIconName } from "@/components/Icon/hook.ts";
 
 interface ChartCardProps {
   title: string;
-  icon: LucideIcon;
+  icon: MvIconName;
   hint: string;
   // Rides the card's header band at its far end, through SectionCard's existing
   // `headerEnd` slot — no new API on that component.

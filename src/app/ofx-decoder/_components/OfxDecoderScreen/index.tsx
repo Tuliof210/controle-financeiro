@@ -1,6 +1,5 @@
 "use client";
 
-import { FileUp } from "lucide-react";
 import { DropZone } from "@/components/DropZone/index.tsx";
 import { PageHeader } from "@/components/PageHeader/index.tsx";
 import { SectionCard } from "@/components/SectionCard/index.tsx";
@@ -29,7 +28,7 @@ export function OfxDecoderScreen() {
         />
       )}
       {parsed === null && (
-        <SectionCard title="Enviar arquivo OFX" icon={FileUp}>
+        <SectionCard title="Enviar arquivo OFX" icon="fileUp">
           <DropZone onFile={upload} />
           {Boolean(error) && (
             <p className={styles.error}>

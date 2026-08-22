@@ -1,5 +1,5 @@
-import type { LucideIcon } from "lucide-react";
 import type { ReactNode } from "react";
+import type { MvIconName } from "@/components/Icon/hook.ts";
 
 // The fill of an optional header band. `brand` and `ink` name the card's role,
 // not a token: `_band.scss` records which fill each one resolves to and the
@@ -8,7 +8,7 @@ export type BandTone = "positive" | "negative" | "brand" | "ink";
 
 export interface SectionCardProps {
   title: string;
-  icon?: LucideIcon;
+  icon?: MvIconName;
   // Optional semantic accent for the title row (income/expense). Omitted by
   // every other caller (e.g. Settings), which keeps the neutral text color.
   tone?: "positive" | "negative";

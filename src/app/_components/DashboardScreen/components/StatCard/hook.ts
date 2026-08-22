@@ -1,5 +1,5 @@
-import type { LucideIcon } from "lucide-react";
 import type { Stats } from "@/app/api/dashboard/types.ts";
+import type { MvIconName } from "@/components/Icon/hook.ts";
 import { formatMoney } from "@/lib/money.ts";
 import { spark } from "../../spark.helper.ts";
 
@@ -10,7 +10,7 @@ type ChipTone = "positive" | "negative" | "brand";
 
 interface StatCardProps {
   title: string;
-  icon: LucideIcon;
+  icon: MvIconName;
   hint: string;
   stats: Stats;
   // The card's own monthly series, drawn as the sparkline beside the headline.

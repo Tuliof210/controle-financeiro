@@ -1,7 +1,6 @@
 import "@testing-library/jest-dom/jest-globals";
 import { beforeAll, describe, expect, it } from "@jest/globals";
 import { render, screen } from "@testing-library/react";
-import { ChartColumn } from "lucide-react";
 import { ChartCard } from "@/app/_components/DashboardScreen/components/ChartCard/index.tsx";
 
 beforeAll(() => {
@@ -27,7 +26,7 @@ describe("ChartCard", () => {
   it("hands the measured box to the plot it wraps", () => {
     measured(884, 240);
     render(
-      <ChartCard title="Evolução mensal" icon={ChartColumn} hint="x">
+      <ChartCard title="Evolução mensal" icon="chartColumn" hint="x">
         {(size) => <p>{`${size.width}x${size.height}`}</p>}
       </ChartCard>,
     );
@@ -41,7 +40,7 @@ describe("ChartCard", () => {
   it("draws no plot before the card has a box", () => {
     measured(0, 0);
     render(
-      <ChartCard title="Evolução mensal" icon={ChartColumn} hint="x">
+      <ChartCard title="Evolução mensal" icon="chartColumn" hint="x">
         {() => <p>{PLOT}</p>}
       </ChartCard>,
     );
@@ -54,7 +53,7 @@ describe("ChartCard", () => {
     render(
       <ChartCard
         title="Evolução mensal"
-        icon={ChartColumn}
+        icon="chartColumn"
         hint="x"
         legend={<span>{LEGEND}</span>}
       >

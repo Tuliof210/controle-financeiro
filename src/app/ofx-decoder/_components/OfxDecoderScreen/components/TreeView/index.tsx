@@ -1,4 +1,3 @@
-import { ListTree } from "lucide-react";
 import { Button } from "@/components/Button/index.tsx";
 import { FilePicker } from "@/components/FilePicker/index.tsx";
 import { SectionCard } from "@/components/SectionCard/index.tsx";
@@ -14,7 +13,7 @@ export function TreeView(props: TreeViewProps) {
   const { fileName, header, root, onClose, onFile } = useTreeView(props);
 
   return (
-    <SectionCard title="Hierarquia de tags" icon={ListTree}>
+    <SectionCard title="Hierarquia de tags" icon="listTree">
       <p className={styles.file}>{fileName}</p>
       {header.length > 0 && (
         <ul className={styles.header}>

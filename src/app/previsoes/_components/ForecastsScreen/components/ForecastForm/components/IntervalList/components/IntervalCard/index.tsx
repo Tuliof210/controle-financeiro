@@ -1,4 +1,4 @@
-import { X } from "lucide-react";
+import { Icon } from "@/components/Icon/index.tsx";
 import { IconButton } from "@/components/IconButton/index.tsx";
 import { MonthPicker } from "@/components/MonthPicker/index.tsx";
 import { type IntervalCardProps, useIntervalCard } from "./hook.ts";
@@ -47,7 +47,7 @@ export function IntervalCard(props: IntervalCardProps) {
               aria-label={removeLabel}
               onClick={onRemove}
             >
-              <X size={16} aria-hidden={true} />
+              <Icon name="x" size={16} />
             </IconButton>
           )}
         </div>

@@ -1,6 +1,6 @@
 "use client";
 
-import { Menu } from "lucide-react";
+import { Icon } from "@/components/Icon/index.tsx";
 import { SIDEBAR_ID } from "../../ids.ts";
 import { Avatar } from "./components/Avatar/index.tsx";
 import { ProfileSelect } from "./components/ProfileSelect/index.tsx";
@@ -29,7 +29,7 @@ export function Header(props: HeaderProps) {
         aria-controls={SIDEBAR_ID}
         onClick={onToggleSidebar}
       >
-        <Menu size={20} aria-hidden={true} />
+        <Icon name="menu" size={20} />
       </button>
 
       <div className={styles.greetingBlock}>

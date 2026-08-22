@@ -1,6 +1,6 @@
-import { Plus } from "lucide-react";
 import { Button } from "@/components/Button/index.tsx";
 import { EntryRow } from "@/components/EntryRow/index.tsx";
+import { Icon } from "@/components/Icon/index.tsx";
 import { RowGrid } from "@/components/RowGrid/index.tsx";
 import { SectionCard } from "@/components/SectionCard/index.tsx";
 import type { Entry } from "@/lib/entry-types.ts";
@@ -48,7 +48,7 @@ export function EntrySection<T extends Entry>(props: EntrySectionProps<T>) {
         className={`${styles.add} ${styles[tone]}`}
         onClick={onAdd}
       >
-        <Plus size={16} aria-hidden={true} /> {labels.add}
+        <Icon name="plus" size={16} /> {labels.add}
       </Button>
     </SectionCard>
   );

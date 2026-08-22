@@ -1,8 +1,8 @@
 "use client";
 
-import { Plus, Target } from "lucide-react";
 import { Button } from "@/components/Button/index.tsx";
 import { ConfirmDialog } from "@/components/ConfirmDialog/index.tsx";
+import { Icon } from "@/components/Icon/index.tsx";
 import { Modal } from "@/components/Modal/index.tsx";
 import { RowGrid } from "@/components/RowGrid/index.tsx";
 import { SectionCard } from "@/components/SectionCard/index.tsx";
@@ -34,7 +34,7 @@ export function GoalsSection() {
   const noGoals = goals?.length === 0;
 
   return (
-    <SectionCard title="Objetivos" icon={Target}>
+    <SectionCard title="Objetivos" icon="target">
       {noGoals && (
         <p className={styles.empty}>{COPY.nenhumObjetivoCadastradoAinda}</p>
       )}
@@ -51,7 +51,7 @@ export function GoalsSection() {
         </RowGrid>
       )}
       <Button variant="dashed" onClick={openAdd}>
-        <Plus size={16} aria-hidden={true} />
+        <Icon name="plus" size={16} />
         {COPY.adicionarObjetivo}
       </Button>
 

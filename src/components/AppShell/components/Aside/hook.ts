@@ -1,6 +1,6 @@
-import { PanelLeftClose, PanelLeftOpen } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef } from "react";
+import type { MvIconName } from "@/components/Icon/hook.ts";
 import { useNavActive } from "../../nav.hook.ts";
 import styles from "./style.module.scss";
 
@@ -13,11 +13,11 @@ interface UseAsideProps {
 
 // The control says what it will DO, so both the glyph and the label name the
 // state it switches to.
-function toggleIconFor(collapsed: boolean) {
+function toggleIconFor(collapsed: boolean): MvIconName {
   if (collapsed) {
-    return PanelLeftOpen;
+    return "panelLeftOpen";
   }
-  return PanelLeftClose;
+  return "panelLeftClose";
 }
 
 function toggleLabelFor(collapsed: boolean): string {

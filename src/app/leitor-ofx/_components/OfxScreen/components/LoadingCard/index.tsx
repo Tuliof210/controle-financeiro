@@ -1,4 +1,3 @@
-import { FileUp } from "lucide-react";
 import { SectionCard } from "@/components/SectionCard/index.tsx";
 import { type LoadingCardProps, useLoadingCard } from "./hook.ts";
 import styles from "./style.module.scss";
@@ -7,7 +6,7 @@ export function LoadingCard(props: LoadingCardProps) {
   const { fileName, widths } = useLoadingCard(props);
 
   return (
-    <SectionCard title="Lendo arquivo" icon={FileUp}>
+    <SectionCard title="Lendo arquivo" icon="fileUp">
       <p className={styles.file}>{fileName}</p>
       {/* Indeterminate on purpose: role="progressbar" with no aria-valuenow is
           exactly how that is expressed, and one round trip to /api/ofx reports

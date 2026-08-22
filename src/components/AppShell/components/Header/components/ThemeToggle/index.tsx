@@ -1,6 +1,6 @@
 "use client";
 
-import { Moon, Sun } from "lucide-react";
+import { Icon } from "@/components/Icon/index.tsx";
 import { useThemeToggle } from "./hook.ts";
 import styles from "./style.module.scss";
 
@@ -17,8 +17,8 @@ export function ThemeToggle() {
       aria-label={ariaLabel}
     >
       {icon === "none" && <span className={styles.slot} aria-hidden={true} />}
-      {icon === "sun" && <Sun size={ICON_SIZE} aria-hidden={true} />}
-      {icon === "moon" && <Moon size={ICON_SIZE} aria-hidden={true} />}
+      {icon === "sun" && <Icon name="sun" size={ICON_SIZE} />}
+      {icon === "moon" && <Icon name="moon" size={ICON_SIZE} />}
     </button>
   );
 }

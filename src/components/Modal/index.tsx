@@ -1,4 +1,4 @@
-import { X } from "lucide-react";
+import { Icon } from "@/components/Icon/index.tsx";
 import { IconButton } from "../IconButton/index.tsx";
 import type { ModalProps } from "./hook.ts";
 import { useModal } from "./hook.ts";
@@ -31,7 +31,7 @@ export function Modal({
             className={styles.close}
             onClick={onClose}
           >
-            <X size={16} aria-hidden={true} />
+            <Icon name="x" size={16} />
           </IconButton>
         </header>
         <div className={styles.body}>{children}</div>

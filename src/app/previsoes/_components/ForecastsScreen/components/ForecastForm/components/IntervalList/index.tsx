@@ -1,7 +1,7 @@
 "use client";
 
-import { Plus } from "lucide-react";
 import { Button } from "@/components/Button/index.tsx";
+import { Icon } from "@/components/Icon/index.tsx";
 import { IntervalCard } from "./components/IntervalCard/index.tsx";
 import { type IntervalListProps, useIntervalList } from "./hook.ts";
 import styles from "./style.module.scss";
@@ -27,7 +27,7 @@ export function IntervalList(props: IntervalListProps) {
         />
       ))}
       <Button variant="dashed" onClick={onAdd}>
-        <Plus size={16} aria-hidden={true} /> {COPY.adicionarIntervalo}
+        <Icon name="plus" size={16} /> {COPY.adicionarIntervalo}
       </Button>
     </div>
   );

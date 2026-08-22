@@ -1,6 +1,5 @@
 "use client";
 
-import { Wallet } from "lucide-react";
 import { Button } from "@/components/Button/index.tsx";
 import { MoneyInput } from "@/components/MoneyInput/index.tsx";
 import { SectionCard } from "@/components/SectionCard/index.tsx";
@@ -23,7 +22,7 @@ export function SpendingGoalSection() {
     useSpendingGoalSection();
 
   return (
-    <SectionCard title="Meta mensal" icon={Wallet}>
+    <SectionCard title="Meta mensal" icon="wallet">
       <p className={styles.help}>
         {COPY.quantoVocePretende} <strong>{COPY.meta}</strong>
         {COPY.queLiberaEste}

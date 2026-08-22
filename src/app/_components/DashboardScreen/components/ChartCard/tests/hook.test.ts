@@ -1,6 +1,5 @@
 import { beforeAll, describe, expect, it } from "@jest/globals";
 import { render, screen } from "@testing-library/react";
-import { Wallet } from "lucide-react";
 import { createElement } from "react";
 import { useChartCard } from "@/app/_components/DashboardScreen/components/ChartCard/hook.ts";
 
@@ -24,7 +23,7 @@ let latest: ReturnType<typeof useChartCard>;
 function Host() {
   latest = useChartCard({
     title: "Saldo",
-    icon: Wallet,
+    icon: "wallet",
     hint: "x",
     children: () => null,
   });
@@ -51,6 +50,6 @@ describe("useChartCard", () => {
   it("passes the card's own chrome through", () => {
     render(createElement(Host));
 
-    expect(latest).toMatchObject({ title: "Saldo", icon: Wallet, hint: "x" });
+    expect(latest).toMatchObject({ title: "Saldo", icon: "wallet", hint: "x" });
   });
 });

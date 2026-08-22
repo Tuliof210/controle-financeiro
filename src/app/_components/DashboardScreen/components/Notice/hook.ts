@@ -1,9 +1,9 @@
-import type { LucideIcon } from "lucide-react";
 import type { ReactNode } from "react";
+import type { MvIconName } from "@/components/Icon/hook.ts";
 
 export interface NoticeProps {
   title: string;
-  icon: LucideIcon;
+  icon: MvIconName;
   children: ReactNode;
 }
 
