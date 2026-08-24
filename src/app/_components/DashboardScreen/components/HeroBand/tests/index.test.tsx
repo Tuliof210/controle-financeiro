@@ -11,7 +11,14 @@ const point = (month: number, cumulative: number) =>
 const data = {
   points: [point(202_601, 100), point(202_603, 500)],
   range: { start: 202_601, end: 202_603, current: 202_601 },
-  ceiling: { monthly: 250, weekly: 62, daily: 8, tightest: null, firstRed: null, months: [] },
+  ceiling: {
+    monthly: 250,
+    weekly: 62,
+    daily: 8,
+    tightest: null,
+    firstRed: null,
+    months: [],
+  },
 } as unknown as BoardData;
 
 const TETO = /Teto em/;
