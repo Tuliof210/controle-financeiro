@@ -1,6 +1,6 @@
-// Tooltip copy for the dashboard cards. Kept out of index.tsx so the render
-// stays readable and the wording is reviewable in one place; tasks 05 and 06
-// add their own entries here.
+// The dashboard's copy, kept out of index.tsx so the render stays readable and
+// the wording is reviewable in one place: HINTS is the per-card tooltip text,
+// COPY the sentences the whole-screen states render.
 //
 // Every card repeats the reconciliation rule in its own words, because it is
 // the least obvious thing on the screen: each month counts the LARGER of what
@@ -28,4 +28,14 @@ export const HINTS = {
 
   goals:
     "25% da média mensal do Teto de Gastos no período. DEDICADO usa a capacidade só nele; EM PARALELO divide entre todos; UM DE CADA VEZ vai do mais barato ao mais caro.",
+} as const;
+
+export const COPY = {
+  loading: "Somando lançamentos e compromissos do período…",
+  noRange:
+    "Nenhum lançamento ainda. Registre uma movimentação ou previsão para o período aparecer aqui.",
+  outOfRangeLead: "O período global",
+  outOfRangeMid: "não cobre o mês atual",
+  outOfRangeTail:
+    ". Registre uma movimentação ou previsão nesse mês para incluí-lo.",
 } as const;

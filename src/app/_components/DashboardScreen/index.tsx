@@ -9,7 +9,7 @@ import { Board } from "./components/Board/index.tsx";
 import { HeroBand } from "./components/HeroBand/index.tsx";
 import { Notice } from "./components/Notice/index.tsx";
 import { SimulationSelect } from "./components/SimulationSelect/index.tsx";
-import { COPY } from "./copy.ts";
+import { COPY } from "./hints.ts";
 import { useDashboardScreen } from "./hook.ts";
 import styles from "./style.module.scss";
 
