@@ -1,3 +1,4 @@
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import type { OfxReport } from "@/app/api/ofx/types.ts";
 import { useProfile } from "@/components/ProfileProvider/hook.ts";
@@ -21,6 +22,7 @@ export function useImportAction({ report }: ImportActionProps) {
   // people comes from the provider, which already fetched /api/people for the
   // header's profile switcher — no second request for the same list.
   const { profile, people } = useProfile();
+  const router = useRouter();
   const [open, setOpen] = useState(false);
   const [identifier, setIdentifier] = useState("");
   const [ownerId, setOwnerId] = useState("");
@@ -71,10 +73,7 @@ export function useImportAction({ report }: ImportActionProps) {
       return setError(result.error ?? "Erro inesperado");
     }
     setOpen(false);
-    // Local clock, and only for the tooltip's date — the row the server wrote
-    // is the record, and a refetch to read its timestamp back would buy a
-    // rendered date nobody compares against anything.
-    setRecord({ imported: true, importedAt: new Date().toISOString() });
+    router.push("/");
   };
 
   return {
