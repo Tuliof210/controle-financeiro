@@ -54,7 +54,10 @@ describe("DashboardScreen seen line", () => {
   // cap's figures and quoted them back next visit.
   it("keeps a goal-seeded visit under its own cap", async () => {
     jest.mocked(apiGet).mockImplementation((path: string) => {
-      const monthly = path.includes("cap=meta") ? 100 : 250;
+      let monthly = 250;
+      if (path.includes("cap=meta")) {
+        monthly = 100;
+      }
       return Promise.resolve({
         data: { ...okPayload, meta: 700, ceiling: { monthly } },
       }) as never;

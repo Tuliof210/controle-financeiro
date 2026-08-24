@@ -1,9 +1,5 @@
 import type { DashboardData } from "@/app/api/dashboard/types.ts";
-import {
-  CEILING_CAPS,
-  type CeilingCap,
-  META_CAP,
-} from "@/lib/ceiling-caps.ts";
+import { CEILING_CAPS, type CeilingCap, META_CAP } from "@/lib/ceiling-caps.ts";
 import { formatMoney } from "@/lib/money.ts";
 import {
   DEFAULT_SIMULATION_VIEW,
