@@ -11,13 +11,12 @@ export const NAV: NavEntry[] = [
   { href: "/movimentacoes", label: "Movimentações", icon: "arrowLeftRight" },
   { href: "/previsoes", label: "Previsões", icon: "trendingUp" },
   { href: "/leitor-ofx", label: "Leitor OFX", icon: "fileUp" },
-  { href: "/ofx-decoder", label: "OFX Decoder", icon: "listTree" },
   { href: "/configuracoes", label: "Configurações", icon: "settings" },
 ];
 
 // Exact equality, never prefix matching: no destination here is nested under
 // another, and "/" is a prefix of every path — startsWith would light up the
-// Dashboard item on all six screens.
+// Dashboard item on all five screens.
 export function isActiveNav(pathname: string, href: string): boolean {
   return pathname === href;
 }

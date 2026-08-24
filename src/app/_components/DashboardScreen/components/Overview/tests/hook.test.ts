@@ -11,10 +11,10 @@ const data = {
 } as BoardData;
 
 describe("useOverview", () => {
-  it("builds the period facts from the month points", () => {
+  it("passes the board data through for the charts", () => {
     const { result } = renderHook(() => useOverview({ data }));
 
-    expect(result.current.facts).toHaveLength(3);
-    expect(result.current.facts[0]).toMatchObject({ key: "income" });
+    expect(result.current.data).toBe(data);
+    expect(result.current).not.toHaveProperty("facts");
   });
 });

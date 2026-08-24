@@ -35,6 +35,9 @@ const report = {
   months: [],
   totals: { incomeCents: 0, expenseCents: 0, balanceCents: 0, count: 0 },
 };
+const CORRECTS_PROJECTION =
+  /totais do extrato viram movimentações e corrigem a projeção/i;
+const LOCAL_ONLY = /sem subir nada/;
 
 beforeEach(() => {
   jest.clearAllMocks();
@@ -52,10 +55,11 @@ beforeEach(() => {
 describe("OfxScreen", () => {
   it("opens on the upload card", async () => {
     render(<OfxScreen />);
-
     expect(
       screen.getByRole("heading", { level: 1, name: "Leitor OFX" }),
     ).toBeInTheDocument();
+    expect(screen.getByText(CORRECTS_PROJECTION)).toBeInTheDocument();
+    expect(screen.queryByText(LOCAL_ONLY)).not.toBeInTheDocument();
     await waitFor(() =>
       expect(
         screen.getByRole("heading", { name: "Enviar extrato OFX" }),
