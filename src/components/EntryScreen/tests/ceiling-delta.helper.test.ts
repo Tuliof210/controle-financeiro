@@ -49,11 +49,13 @@ describe("dashboardPath", () => {
     );
   });
 
-  it("falls back to the dashboard defaults", () => {
+  // Meta, because that is what the dashboard seeds when nothing is stored and
+  // a goal exists; the route downgrades it to "50" when there is no goal.
+  it("falls back to the cap the dashboard would seed", () => {
     localStorage.clear();
 
     expect(dashboardPath("p1")).toBe(
-      "/api/dashboard?owner=p1&cap=50&simulation=real",
+      "/api/dashboard?owner=p1&cap=meta&simulation=real",
     );
   });
 });

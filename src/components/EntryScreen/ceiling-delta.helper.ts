@@ -2,7 +2,7 @@ import type { DashboardData } from "@/app/api/dashboard/types.ts";
 import {
   CEILING_CAPS,
   type CeilingCap,
-  DEFAULT_CEILING_CAP,
+  META_CAP,
 } from "@/lib/ceiling-caps.ts";
 import { formatMoney } from "@/lib/money.ts";
 import {
@@ -14,8 +14,13 @@ import {
 const CAP_KEY = "ceiling-cap";
 const SIMULATION_KEY = "simulation";
 
+// META, not the "50" default: useCeilingCap seeds Meta whenever nothing is
+// stored and the payload carries a saved goal, and it never writes that seed
+// back. Falling back to "50" here made the notice quote a ceiling 3.4x the one
+// on the card. Asking for Meta without a goal is safe — the route's targetCap
+// downgrades it to the default, which is the same rule the hook resolves by.
 function storedCap(): CeilingCap {
-  return readStored(CAP_KEY, CEILING_CAPS, DEFAULT_CEILING_CAP);
+  return readStored(CAP_KEY, CEILING_CAPS, META_CAP);
 }
 
 function storedSimulation(): SimulationView {
