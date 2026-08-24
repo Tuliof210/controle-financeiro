@@ -14,32 +14,6 @@ import {
 const CAP_KEY = "ceiling-cap";
 const SIMULATION_KEY = "simulation";
 
-export function monthlyFrom(
-  data: DashboardData | undefined,
-): number | undefined {
-  if (data?.status === "ok") {
-    return data.ceiling.monthly;
-  }
-}
-
-export function formatCeilingDelta(
-  before: number | undefined,
-  after: number | undefined,
-): string | undefined {
-  if (after === undefined) {
-    return;
-  }
-  const afterMoney = formatMoney(after);
-  if (before === undefined) {
-    return `Teto deste mês: ${afterMoney}.`;
-  }
-  return `Teto deste mês: ${formatMoney(before)} → ${afterMoney}.`;
-}
-
-export function dashboardPath(owner: string): string {
-  return `/api/dashboard?owner=${encodeURIComponent(owner)}&cap=${storedCap()}&simulation=${storedSimulation()}`;
-}
-
 function storedCap(): CeilingCap {
   return readStored(CAP_KEY, CEILING_CAPS, DEFAULT_CEILING_CAP);
 }
@@ -62,4 +36,32 @@ function readStored<T extends string>(
     // Storage blocked: same default the dashboard itself would use.
   }
   return fallback;
+}
+
+export function monthlyFrom(
+  data: DashboardData | undefined,
+): number | undefined {
+  if (data?.status === "ok") {
+    return data.ceiling.monthly;
+  }
+}
+
+export function formatCeilingDelta(
+  before: number | undefined,
+  after: number | undefined,
+): string | undefined {
+  if (after === undefined) {
+    return;
+  }
+  const afterMoney = formatMoney(after);
+  if (before === undefined) {
+    return `Teto deste mês: ${afterMoney}.`;
+  }
+  return `Teto deste mês: ${formatMoney(before)} → ${afterMoney}.`;
+}
+
+// The dashboard read has to match what the dashboard itself would ask for, or
+// the delta compares two different caps.
+export function dashboardPath(owner: string): string {
+  return `/api/dashboard?owner=${encodeURIComponent(owner)}&cap=${storedCap()}&simulation=${storedSimulation()}`;
 }

@@ -1,6 +1,6 @@
 import "@testing-library/jest-dom/jest-globals";
 import { beforeAll, beforeEach, describe, expect, it } from "@jest/globals";
-import { render, screen, waitFor } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { EntryScreen } from "@/components/EntryScreen/index.tsx";
 import type {
@@ -21,26 +21,29 @@ jest.mock("@/lib/api.ts", () => ({
   apiPut: jest.fn(),
   apiDelete: jest.fn(),
 }));
-
 interface Values {
   type: EntryType;
 }
+// A module-level handler keeps the stub button's prop identity stable.
+let submitLatest: (values: Values) => void = () => undefined;
+const clickSubmit = () => submitLatest({ type: "income" });
 const config: EntryScreenConfig<Entry, Values> = {
   resource: "forecasts",
   labels: {
     header: { title: "Previsões", subtitle: "O plano" },
     addTitle: "Nova previsão",
-    editTitle: "Editar previsão",
-    deleteTitle: "Excluir previsão",
     income: { add: "Nova entrada", emptyTitle: "Sem entradas", emptyHint: "a" },
     expense: { add: "Nova saída", emptyTitle: "Sem saídas", emptyHint: "b" },
   } as EntryScreenLabels,
   renderPeriod: () => null,
-  form: ({ onSubmit }) => (
-    <button type="button" onClick={() => onSubmit({ type: "income" })}>
-      Confirmar
-    </button>
-  ),
+  form: ({ onSubmit }) => {
+    submitLatest = onSubmit;
+    return (
+      <button type="button" onClick={clickSubmit}>
+        Confirmar
+      </button>
+    );
+  },
   list: { getInitialDate: () => 0, getCreatedAt: () => "" },
 };
 const entries = [
@@ -66,23 +69,28 @@ beforeEach(() => {
   let monthly = 250;
   jest.mocked(apiGet).mockImplementation((path: string) => {
     if (path.startsWith("/api/dashboard")) {
-      return Promise.resolve({ data: { status: "ok", ceiling: { monthly } } }) as never;
+      return Promise.resolve({
+        data: { status: "ok", ceiling: { monthly } },
+      }) as never;
     }
     if (path.startsWith("/api/people")) {
       return Promise.resolve({ data: people }) as never;
     }
-    return Promise.resolve({ data: path.startsWith("/api/period") ? null : entries }) as never;
+    if (path.startsWith("/api/period")) {
+      return Promise.resolve({ data: null }) as never;
+    }
+    return Promise.resolve({ data: entries }) as never;
   });
-  jest.mocked(apiPost).mockImplementation(async () => {
+  jest.mocked(apiPost).mockImplementation(() => {
     monthly = 100;
-    return { data: null };
+    return Promise.resolve({ data: null });
   });
 });
 
 describe("EntryScreen ceiling delta", () => {
   it("shows both monthly ceilings after a successful save", async () => {
     render(<EntryScreen<Entry, Values> {...config} />);
-    await waitFor(() => expect(screen.getByText("Salário")).toBeInTheDocument());
+    expect(await screen.findByText("Salário")).toBeInTheDocument();
     await userEvent.click(screen.getByRole("button", { name: "Nova entrada" }));
     await userEvent.click(screen.getByRole("button", { name: "Confirmar" }));
     expect(await screen.findByRole("status")).toHaveTextContent(

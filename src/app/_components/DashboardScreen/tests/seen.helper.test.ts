@@ -1,11 +1,11 @@
 import { describe, expect, it } from "@jest/globals";
-import type { DashboardData } from "@/app/api/dashboard/types.ts";
 import {
   formatSeenLine,
   parseSeen,
   type SeenSnapshot,
   snapshotFrom,
 } from "@/app/_components/DashboardScreen/seen.helper.ts";
+import type { DashboardData } from "@/app/api/dashboard/types.ts";
 
 const snap = (over: Partial<SeenSnapshot> = {}): SeenSnapshot => ({
   owner: "familia",

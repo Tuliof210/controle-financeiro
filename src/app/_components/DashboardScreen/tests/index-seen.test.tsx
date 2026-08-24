@@ -38,12 +38,14 @@ beforeEach(() => {
   jest.mocked(apiGet).mockResolvedValue({ data: okPayload } as never);
 });
 
+const SEEN_LINE = /Teto do mês:/;
+
 describe("DashboardScreen seen line", () => {
   it("says nothing on the first visit and writes the snapshot", async () => {
     render(<DashboardScreen />);
 
     expect(await screen.findByLabelText("Valor")).toBeInTheDocument();
-    expect(screen.queryByText(/Teto do mês:/)).not.toBeInTheDocument();
+    expect(screen.queryByText(SEEN_LINE)).not.toBeInTheDocument();
     expect(localStorage.getItem(SEEN_KEY)).toContain('"monthlyCents":250');
   });
 

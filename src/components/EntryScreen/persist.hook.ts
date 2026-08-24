@@ -4,14 +4,19 @@ import type { Entry, EntryType } from "@/lib/entry-types.ts";
 import { persistWithDelta } from "./persist.helper.ts";
 import type { ModalState } from "./types.ts";
 
-export function usePersistEntry<T extends Entry, V extends { type: EntryType }>(
-  path: string,
-  owner: string,
-  modal: ModalState<T>,
-  close: () => void,
-  refetch: () => void,
-  setError: (error: string | undefined) => void,
-) {
+interface PersistArgs<T extends Entry> {
+  path: string;
+  owner: string;
+  modal: ModalState<T>;
+  close: () => void;
+  refetch: () => void;
+  setError: (error: string | undefined) => void;
+}
+
+export function usePersistEntry<
+  T extends Entry,
+  V extends { type: EntryType },
+>({ path, owner, modal, close, refetch, setError }: PersistArgs<T>) {
   const [ceilingNotice, setCeilingNotice] = useState<string>();
 
   const persist = async (write: () => ReturnType<typeof apiPost>) => {

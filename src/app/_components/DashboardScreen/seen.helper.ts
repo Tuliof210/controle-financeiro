@@ -16,7 +16,10 @@ export function snapshotFrom(
   if (data.status !== "ok") {
     return;
   }
-  const last = data.points?.at(-1);
+  // An `ok` payload always types `points`, but an empty one still has no last
+  // month to snapshot.
+  const { points = [] } = data;
+  const last = points.at(-1);
   if (!last) {
     return;
   }

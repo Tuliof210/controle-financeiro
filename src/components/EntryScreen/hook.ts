@@ -57,14 +57,10 @@ export function useEntryScreen<T extends Entry, V extends { type: EntryType }>({
   const openAdd = (kind: EntryType) => openModal({ type: "add", kind });
   const openEdit = (entry: T) => openModal({ type: "edit", entry });
   const openDelete = (entry: T) => openModal({ type: "delete", entry });
-  const { ceilingNotice, onAdd, onUpdate, onConfirmDelete } = usePersistEntry(
-    path,
-    profile,
-    modal,
-    close,
-    refetch,
-    setError,
-  );
+  const { ceilingNotice, onAdd, onUpdate, onConfirmDelete } = usePersistEntry<
+    T,
+    V
+  >({ path, owner: profile, modal, close, refetch, setError });
 
   return {
     labels,

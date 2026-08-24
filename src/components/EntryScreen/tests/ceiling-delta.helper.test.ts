@@ -1,10 +1,10 @@
 import { beforeEach, describe, expect, it } from "@jest/globals";
+import type { DashboardData } from "@/app/api/dashboard/types.ts";
 import {
   dashboardPath,
   formatCeilingDelta,
   monthlyFrom,
 } from "@/components/EntryScreen/ceiling-delta.helper.ts";
-import type { DashboardData } from "@/app/api/dashboard/types.ts";
 
 const ok = (monthly: number): DashboardData =>
   ({ status: "ok", ceiling: { monthly } }) as DashboardData;

@@ -6,19 +6,10 @@ import { PageHeader } from "@/components/PageHeader/index.tsx";
 import type { Entry, EntryType } from "@/lib/entry-types.ts";
 import { Modals } from "./components/Modals/index.tsx";
 import { Sections } from "./components/Sections/index.tsx";
+import { deleteTitle } from "./delete-title.helper.ts";
 import { useEntryScreen } from "./hook.ts";
 import styles from "./style.module.scss";
 import type { EntryScreenConfig } from "./types.ts";
-
-// The dialog keeps its DOM while closing, so the title has to survive a modal
-// state that no longer names an entry.
-const deleteTitle = (modal: {
-  type: string;
-  entry?: { name: string };
-}): string =>
-  modal.type === "delete" && modal.entry
-    ? `Excluir "${modal.entry.name}"?`
-    : "";
 
 export function EntryScreen<T extends Entry, V extends { type: EntryType }>(
   config: EntryScreenConfig<T, V>,

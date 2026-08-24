@@ -37,12 +37,14 @@ beforeEach(() => {
   jest.mocked(apiGet).mockResolvedValue({ data: okPayload } as never);
 });
 
+const ANSWER = /Cabe\.|Não cabe\./;
+
 describe("DashboardScreen afford ask", () => {
   it("answers against the loaded monthly ceiling once a value is typed", async () => {
     render(<DashboardScreen />);
 
     expect(await screen.findByLabelText("Valor")).toBeInTheDocument();
-    expect(screen.queryByText(/Cabe\.|Não cabe\./)).not.toBeInTheDocument();
+    expect(screen.queryByText(ANSWER)).not.toBeInTheDocument();
 
     fireEvent.change(screen.getByLabelText("Valor"), {
       target: { value: "100" },

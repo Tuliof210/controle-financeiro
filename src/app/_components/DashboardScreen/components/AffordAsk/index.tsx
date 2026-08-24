@@ -12,23 +12,21 @@ const COPY = {
 } as const;
 
 export function AffordAsk(props: AffordAskProps) {
-  const { amountCents, setAmountCents, answer, fits } = useAffordAsk(props);
+  const { amountCents, setAmountCents, answer, tone, fieldId } =
+    useAffordAsk(props);
 
   return (
     <SectionCard title={COPY.title} icon="banknote" hint={HINTS.afford}>
       <div className={styles.body}>
         <Field
-          id="afford-amount"
+          id={fieldId}
           label={COPY.label}
           money={true}
           value={amountCents}
           onChange={setAmountCents}
         />
         {Boolean(answer) && (
-          <p
-            className={fits === true ? styles.fits : styles.short}
-            role="status"
-          >
+          <p className={styles[tone ?? "fits"]} role="status">
             {answer}
           </p>
         )}
