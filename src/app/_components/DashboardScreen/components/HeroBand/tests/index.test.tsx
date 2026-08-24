@@ -21,6 +21,7 @@ const data = {
   },
 } as unknown as BoardData;
 
+const LEDE = /Quanto ainda dá para gastar agora/;
 const TETO = /Gasto possível agora/;
 const PROJECTED = /Saldo projetado/;
 const ENTRADAS = /Entradas/;
@@ -31,12 +32,15 @@ const band = (container: HTMLElement) =>
   within(container.querySelector("section") as HTMLElement);
 
 describe("HeroBand", () => {
-  it("titles the screen even before a payload lands", () => {
-    render(<HeroBand />);
+  it("titles the screen in prose, with no figure and no extra chrome", () => {
+    const { container } = render(<HeroBand />);
 
     expect(
       screen.getByRole("heading", { level: 1, name: "Dashboard" }),
     ).toBeInTheDocument();
+    // The lede is the whole opening — no greeting, no avatar, no second nav.
+    expect(container.querySelector(".lede")).toHaveTextContent(LEDE);
+    expect(container.querySelector("img")).toBeNull();
     expect(screen.queryByText(TETO)).not.toBeInTheDocument();
     expect(screen.queryByText(PROJECTED)).not.toBeInTheDocument();
   });
@@ -85,15 +89,11 @@ describe("HeroBand", () => {
     expect(section()).toHaveClass("waiting");
   });
 
-  it("marks the band when figures include simulations", () => {
-    render(<HeroBand data={data} simulation="all" />);
-
+  it("marks the band for simulations and for the saved monthly goal", () => {
+    const { rerender } = render(<HeroBand data={data} simulation="all" />);
     expect(screen.getByText("Inclui simulações")).toBeInTheDocument();
-  });
 
-  it("marks the band when the cap is the saved monthly goal", () => {
-    render(<HeroBand data={data} cap="meta" />);
-
+    rerender(<HeroBand data={data} cap="meta" />);
     expect(screen.getByText("Limitado pela meta")).toBeInTheDocument();
   });
 });
