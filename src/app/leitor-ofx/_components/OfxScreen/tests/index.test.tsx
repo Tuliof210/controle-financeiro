@@ -56,6 +56,12 @@ describe("OfxScreen", () => {
     expect(
       screen.getByRole("heading", { level: 1, name: "Leitor OFX" }),
     ).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        /totais do extrato viram movimentações e corrigem a projeção/i,
+      ),
+    ).toBeInTheDocument();
+    expect(screen.queryByText(/sem subir nada/)).not.toBeInTheDocument();
     await waitFor(() =>
       expect(
         screen.getByRole("heading", { name: "Enviar extrato OFX" }),

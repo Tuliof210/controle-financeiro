@@ -15,7 +15,7 @@ export function OfxScreen() {
     <div className={styles.screen}>
       <PageHeader
         title="Leitor OFX"
-        subtitle="Leia o extrato do banco direto no navegador, sem subir nada."
+        subtitle="Os totais do extrato viram movimentações e corrigem a projeção; o teto passa a usar esses fatos."
       />
       {/* `loaded` gates all three: `report` starts null and only the
           sessionStorage effect knows whether one exists, so rendering the
