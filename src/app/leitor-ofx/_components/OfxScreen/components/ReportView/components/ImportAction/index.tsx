@@ -6,6 +6,7 @@ import { Tooltip } from "@/components/Tooltip/index.tsx";
 import { onSubmitForm } from "@/lib/form.helper.ts";
 import { ERROR_GLYPH } from "@/lib/glyphs.ts";
 import { type ImportActionProps, useImportAction } from "./hook.ts";
+import { irreversibleNotice } from "./import-copy.helper.ts";
 import styles from "./style.module.scss";
 
 const COPY = {
@@ -80,6 +81,7 @@ export function ImportAction(props: ImportActionProps) {
               options={view.options}
             />
             <p className={styles.summary}>{view.summary}</p>
+            <p className={styles.notice}>{irreversibleNotice}</p>
             {Boolean(view.error) && (
               <p className={styles.error} role="alert">
                 <span aria-hidden={true}>{ERROR_GLYPH}</span> {view.error}
