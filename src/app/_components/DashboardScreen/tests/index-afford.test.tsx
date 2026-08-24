@@ -40,6 +40,14 @@ beforeEach(() => {
 const ANSWER = /Cabe\.|Não cabe\./;
 
 describe("DashboardScreen afford ask", () => {
+  // The ok branch stacks three blocks now; without the layout class they touch.
+  it("spaces the ok branch's blocks", async () => {
+    render(<DashboardScreen />);
+
+    const field = await screen.findByLabelText("Valor");
+    expect(field.closest("[aria-busy]")).toHaveClass("ok");
+  });
+
   it("answers against the loaded monthly ceiling once a value is typed", async () => {
     render(<DashboardScreen />);
 

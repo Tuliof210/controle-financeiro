@@ -80,7 +80,7 @@ export function DashboardScreen() {
           same statement. */}
       {data?.status === "ok" && (
         <div
-          className={cx(refreshing && styles.refreshing)}
+          className={cx(styles.ok, refreshing && styles.refreshing)}
           aria-busy={refreshing}
         >
           {Boolean(seenLine) && (
