@@ -39,4 +39,12 @@ describe("SettingsScreen", () => {
       expect(screen.getByRole("heading", { name: title })).toBeInTheDocument();
     }
   });
+
+  it("names the monthly goal in the subtitle, not just people and objetivos", () => {
+    render(<SettingsScreen />);
+
+    expect(
+      screen.getByText("Pessoas, objetivos e a meta mensal da família."),
+    ).toBeInTheDocument();
+  });
 });

@@ -36,6 +36,15 @@ describe("SavingsSection", () => {
     expect(screen.getByText("Casa")).toBeInTheDocument();
   });
 
+  it("heads the goal column Objetivo — Meta is the monthly ceiling", () => {
+    render(<SavingsSection data={data([goal])} />);
+
+    expect(screen.getByText("Objetivo")).toBeInTheDocument();
+    expect(screen.getByText("Total em objetivos")).toBeInTheDocument();
+    expect(screen.queryByText("Meta")).not.toBeInTheDocument();
+    expect(screen.queryByText("Total em metas")).not.toBeInTheDocument();
+  });
+
   it("points at Configurações when there is no goal yet", () => {
     render(<SavingsSection data={data([])} />);
 

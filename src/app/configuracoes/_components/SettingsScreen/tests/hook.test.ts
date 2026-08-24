@@ -8,7 +8,7 @@ describe("useSettingsScreen", () => {
 
     expect(result.current).toEqual({
       title: "Configurações",
-      subtitle: "Pessoas e objetivos da família.",
+      subtitle: "Pessoas, objetivos e a meta mensal da família.",
     });
   });
 });

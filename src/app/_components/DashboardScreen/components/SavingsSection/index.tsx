@@ -7,14 +7,16 @@ import { GoalRow } from "../GoalRow/index.tsx";
 import { type SavingsSectionProps, useSavingsSection } from "./hook.ts";
 import styles from "./style.module.scss";
 
+// "Meta" is the monthly spending ceiling (Configurações, and the cap segment
+// that honours it). A savings target is an "objetivo" — never the same word.
 const COPY = {
   capacidadeDePoupanca: "Capacidade de poupança",
   mes: "/mês",
   objetivos: "Objetivos",
-  totalEmMetas: "Total em metas",
+  totalEmObjetivos: "Total em objetivos",
   configuracoes: "Configurações",
   fullStop: ".",
-  meta: "Meta",
+  objetivo: "Objetivo",
   dedicado: "Dedicado",
   emParalelo: "Em paralelo",
   umDeCadaVez: "Um de cada vez",
@@ -49,7 +51,7 @@ export function SavingsSection(props: SavingsSectionProps) {
             <dd className={styles.factValue}>{goalCount}</dd>
           </div>
           <div>
-            <dt className={styles.factLabel}>{COPY.totalEmMetas}</dt>
+            <dt className={styles.factLabel}>{COPY.totalEmObjetivos}</dt>
             <dd className={styles.factValue}>{total}</dd>
           </div>
         </dl>
@@ -65,7 +67,7 @@ export function SavingsSection(props: SavingsSectionProps) {
       {!empty && (
         <>
           <div className={styles.columns}>
-            <span>{COPY.meta}</span>
+            <span>{COPY.objetivo}</span>
             <span>{COPY.dedicado}</span>
             <span>{COPY.emParalelo}</span>
             <span>{COPY.umDeCadaVez}</span>
