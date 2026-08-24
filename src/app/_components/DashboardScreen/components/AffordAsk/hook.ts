@@ -1,6 +1,7 @@
 import { useId, useState } from "react";
 import { formatMoney } from "@/lib/money.ts";
 import { canAfford } from "./can-afford.helper.ts";
+import styles from "./style.module.scss";
 
 const COPY = {
   cabe: (remaining: string) => `Cabe. Sobram ${remaining} neste mês.`,
@@ -11,6 +12,8 @@ interface AffordAskProps {
   monthlyCents: number;
 }
 
+// The class comes out of here, not out of index.tsx: a folder's index renders
+// what its hook returns and decides nothing.
 function answerFor(amountCents: number, monthlyCents: number) {
   // An empty or zero field is not a question, so it gets no answer.
   if (amountCents <= 0) {
@@ -20,13 +23,13 @@ function answerFor(amountCents: number, monthlyCents: number) {
   if (result.ok) {
     return {
       answer: COPY.cabe(formatMoney(result.remainingCents)),
-      tone: "fits",
-    } as const;
+      answerClass: styles.fits,
+    };
   }
   return {
     answer: COPY.naoCabe(formatMoney(result.shortfallCents)),
-    tone: "short",
-  } as const;
+    answerClass: styles.short,
+  };
 }
 
 export function useAffordAsk({ monthlyCents }: AffordAskProps) {
@@ -37,6 +40,7 @@ export function useAffordAsk({ monthlyCents }: AffordAskProps) {
     amountCents,
     setAmountCents,
     fieldId,
+    answerId: `${fieldId}-answer`,
     ...answerFor(amountCents, monthlyCents),
   };
 }

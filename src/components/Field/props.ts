@@ -6,6 +6,9 @@ interface FieldBase {
   placeholder?: string;
   hint?: string;
   error?: string;
+  // An element OUTSIDE the field that describes it — AffordAsk's answer sits
+  // in the card, not in the field, and still has to be the input's description.
+  describedBy?: string;
   disabled?: boolean;
   required?: boolean;
   iconLeft?: MvIconName;

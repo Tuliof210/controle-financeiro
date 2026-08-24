@@ -4,6 +4,7 @@ import { fireEvent, render, screen } from "@testing-library/react";
 import { AffordAsk } from "@/app/_components/DashboardScreen/components/AffordAsk/index.tsx";
 
 const CEILING = 250;
+const ANSWER = /Cabe\.|Não cabe\./;
 const CABE = /Cabe\. Sobram R\$ 1,50 neste mês\./;
 const NAO_CABE = /Não cabe\. Faltam R\$ 1,50 neste mês\./;
 
@@ -12,7 +13,7 @@ describe("AffordAsk", () => {
     render(<AffordAsk monthlyCents={CEILING} />);
 
     expect(screen.getByLabelText("Valor")).toHaveValue("0,00");
-    expect(screen.queryByRole("status")).not.toBeInTheDocument();
+    expect(screen.queryByText(ANSWER)).not.toBeInTheDocument();
   });
 
   it("says how much remains when the amount fits the ceiling", () => {
@@ -22,7 +23,13 @@ describe("AffordAsk", () => {
       target: { value: "100" },
     });
 
-    expect(screen.getByRole("status")).toHaveTextContent(CABE);
+    // Read through the field's description, which is how the answer is exposed
+    // now that it is not a live region.
+    const answer = screen.getByText(CABE);
+    expect(screen.getByLabelText("Valor")).toHaveAttribute(
+      "aria-describedby",
+      answer.id,
+    );
   });
 
   it("says how much is missing when the amount does not fit", () => {
@@ -32,6 +39,6 @@ describe("AffordAsk", () => {
       target: { value: "400" },
     });
 
-    expect(screen.getByRole("status")).toHaveTextContent(NAO_CABE);
+    expect(screen.getByText(NAO_CABE)).toBeInTheDocument();
   });
 });

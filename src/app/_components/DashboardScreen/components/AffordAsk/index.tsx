@@ -12,8 +12,14 @@ const COPY = {
 } as const;
 
 export function AffordAsk(props: AffordAskProps) {
-  const { amountCents, setAmountCents, answer, tone, fieldId } =
-    useAffordAsk(props);
+  const {
+    amountCents,
+    setAmountCents,
+    answer,
+    answerClass,
+    fieldId,
+    answerId,
+  } = useAffordAsk(props);
 
   return (
     <SectionCard title={COPY.title} icon="banknote" hint={HINTS.afford}>
@@ -24,9 +30,13 @@ export function AffordAsk(props: AffordAskProps) {
           money={true}
           value={amountCents}
           onChange={setAmountCents}
+          describedBy={answerId}
         />
+        {/* The field's description, not a live region: it changes on every
+            keystroke, and announcing each intermediate figure buries the one
+            the reader stopped on. The page already has HeroBand's status. */}
         {Boolean(answer) && (
-          <p className={styles[tone ?? "fits"]} role="status">
+          <p id={answerId} className={answerClass}>
             {answer}
           </p>
         )}
