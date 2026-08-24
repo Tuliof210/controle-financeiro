@@ -15,14 +15,14 @@ jest.mock("@/lib/api.ts", () => ({
   apiPost: jest.fn(),
   apiUpload: jest.fn(),
 }));
+jest.mock("next/navigation", () => ({
+  useRouter: () => ({ push: jest.fn() }),
+}));
 
 beforeAll(() => {
-  HTMLDialogElement.prototype.showModal = function showModal() {
-    // jsdom has no top layer; the import dialog only needs this not to throw.
-  };
-  HTMLDialogElement.prototype.close = function close() {
-    // Same: nothing to tear down without a top layer.
-  };
+  // jsdom has no top layer; the import dialog only needs these not to throw.
+  HTMLDialogElement.prototype.showModal = function showModal() {};
+  HTMLDialogElement.prototype.close = function close() {};
 });
 
 const report = {
