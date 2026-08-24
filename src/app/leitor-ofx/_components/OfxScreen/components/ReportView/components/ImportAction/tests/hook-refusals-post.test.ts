@@ -1,5 +1,6 @@
 import { beforeEach, describe, expect, it } from "@jest/globals";
 import { act, renderHook, waitFor } from "@testing-library/react";
+import { useRouter } from "next/navigation";
 import type { OfxReport } from "@/app/api/ofx/types.ts";
 import { useImportAction } from "@/app/leitor-ofx/_components/OfxScreen/components/ReportView/components/ImportAction/hook.ts";
 import { useProfile } from "@/components/ProfileProvider/hook.ts";
@@ -16,7 +17,9 @@ const report = {
 } as unknown as OfxReport;
 
 const people = [{ id: "p1", name: "Ana", color: "violet" }];
+const push = jest.fn();
 
+jest.mock("next/navigation", () => ({ useRouter: jest.fn() }));
 jest.mock("@/components/ProfileProvider/hook.ts", () => ({
   useProfile: jest.fn(),
 }));
@@ -36,6 +39,7 @@ const open = async () => {
 
 beforeEach(() => {
   jest.clearAllMocks();
+  jest.mocked(useRouter).mockReturnValue({ push } as never);
   jest
     .mocked(useProfile)
     .mockReturnValue({ profile: "familia", people } as never);
@@ -56,6 +60,7 @@ describe("useImportAction refusals on submit", () => {
     expect(result.current.open).toBe(true);
     expect(result.current.error).toBe("Dados inválidos");
     expect(result.current.imported).toBe(false);
+    expect(push).not.toHaveBeenCalled();
   });
 
   it("reports a 2xx that carried no payload", async () => {

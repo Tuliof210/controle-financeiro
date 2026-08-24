@@ -1,12 +1,11 @@
 import { beforeEach, describe, expect, it } from "@jest/globals";
 import { act, renderHook, waitFor } from "@testing-library/react";
+import { useRouter } from "next/navigation";
 import type { OfxReport } from "@/app/api/ofx/types.ts";
 import { useImportAction } from "@/app/leitor-ofx/_components/OfxScreen/components/ReportView/components/ImportAction/hook.ts";
 import { useProfile } from "@/components/ProfileProvider/hook.ts";
 import { apiGet, apiPost } from "@/lib/api.ts";
 
-// Only what useImportAction reads: the digest, the name, the accounts behind
-// the identifier prefill, and the months the rows are built from.
 const report = {
   fileName: "extrato.ofx",
   fileHash: "a".repeat(64),
@@ -16,7 +15,9 @@ const report = {
 } as unknown as OfxReport;
 
 const people = [{ id: "p1", name: "Ana", color: "violet" }];
+const push = jest.fn();
 
+jest.mock("next/navigation", () => ({ useRouter: jest.fn() }));
 jest.mock("@/components/ProfileProvider/hook.ts", () => ({
   useProfile: jest.fn(),
 }));
@@ -33,6 +34,7 @@ const mount = async () => {
 
 beforeEach(() => {
   jest.clearAllMocks();
+  jest.mocked(useRouter).mockReturnValue({ push } as never);
   jest
     .mocked(useProfile)
     .mockReturnValue({ profile: "familia", people } as never);
@@ -57,12 +59,13 @@ describe("useImportAction submit", () => {
     });
 
     expect(apiPost).not.toHaveBeenCalled();
+    expect(push).not.toHaveBeenCalled();
     expect(result.current.error).toBe(
       "Preencha o identificador e o responsável",
     );
   });
 
-  it("posts the whole batch and closes on success", async () => {
+  it("posts the batch and navigates home on success", async () => {
     const { result } = await mount();
     act(() => {
       result.current.openDialog();
@@ -79,6 +82,6 @@ describe("useImportAction submit", () => {
       movements: expect.any(Array),
     });
     expect(result.current.open).toBe(false);
-    expect(result.current.imported).toBe(true);
+    expect(push).toHaveBeenCalledWith("/");
   });
 });

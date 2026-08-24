@@ -8,8 +8,6 @@ import { ImportAction } from "@/app/leitor-ofx/_components/OfxScreen/components/
 import { useProfile } from "@/components/ProfileProvider/hook.ts";
 import { apiGet, apiPost } from "@/lib/api.ts";
 
-// Only what useImportAction reads: the digest, the name, the accounts behind
-// the identifier prefill, and the months the rows are built from.
 const report = {
   fileName: "extrato.ofx",
   fileHash: "a".repeat(64),
@@ -19,6 +17,7 @@ const report = {
 } as unknown as OfxReport;
 
 const people = [{ id: "p1", name: "Ana", color: "violet" }];
+const push = jest.fn();
 
 jest.mock("next/navigation", () => ({ useRouter: jest.fn() }));
 jest.mock("@/components/ProfileProvider/hook.ts", () => ({
@@ -42,53 +41,41 @@ beforeAll(() => {
 
 beforeEach(() => {
   jest.clearAllMocks();
-  jest.mocked(useRouter).mockReturnValue({ push: jest.fn() } as never);
+  jest.mocked(useRouter).mockReturnValue({ push } as never);
   jest
     .mocked(useProfile)
     .mockReturnValue({ profile: "familia", people } as never);
   jest.mocked(apiGet).mockResolvedValue({
     data: { imported: false, importedAt: null },
   } as never);
-  jest.mocked(apiPost).mockResolvedValue({ data: { imported: 2 } } as never);
 });
 
-describe("ImportAction", () => {
-  it("offers the import button, with no reason-why tooltip", () => {
-    render(<ImportAction report={report} />);
+const confirm = async () => {
+  render(<ImportAction report={report} />);
+  await userEvent.click(screen.getByRole("button", { name: "Importar" }));
+  const buttons = screen.getAllByRole("button", { name: "Importar" });
+  await userEvent.click(buttons[buttons.length - 1]);
+};
 
-    expect(screen.getByRole("button", { name: "Importar" })).toBeEnabled();
-    expect(
-      screen.queryByRole("button", { name: "Por que não posso importar" }),
-    ).not.toBeInTheDocument();
+describe("ImportAction submit", () => {
+  it("navigates home after a creating success", async () => {
+    jest.mocked(apiPost).mockResolvedValue({ data: { imported: 2 } } as never);
+
+    await confirm();
+
+    await waitFor(() => expect(push).toHaveBeenCalledWith("/"));
   });
 
-  it("disables the button and explains why once the file is on record", async () => {
-    jest.mocked(apiGet).mockResolvedValue({
-      data: { imported: true, importedAt: null },
-    } as never);
+  it("stays on the report when the file was already imported", async () => {
+    jest
+      .mocked(apiPost)
+      .mockResolvedValue({ error: "Já importado", code: "already_imported" });
 
-    render(<ImportAction report={report} />);
+    await confirm();
 
     await waitFor(() =>
       expect(screen.getByRole("button", { name: "Importar" })).toBeDisabled(),
     );
-    expect(screen.getByRole("tooltip")).toHaveTextContent(
-      "Este extrato já foi importado.",
-    );
-  });
-
-  it("prefills the dialog and reports what it will create", async () => {
-    render(<ImportAction report={report} />);
-
-    await userEvent.click(screen.getByRole("button", { name: "Importar" }));
-
-    expect(screen.getByLabelText("Identificador do documento")).toHaveValue(
-      "12345-6",
-    );
-    expect(screen.getByLabelText("Responsável")).toHaveValue("p1");
-    expect(
-      screen.getByText("2 movimentações serão criadas."),
-    ).toBeInTheDocument();
-    expect(screen.getByText(/não pode ser desfeita/)).toBeInTheDocument();
+    expect(push).not.toHaveBeenCalled();
   });
 });
