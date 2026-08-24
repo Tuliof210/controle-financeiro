@@ -86,9 +86,11 @@ describe("DashboardScreen", () => {
 
     const { container } = render(<DashboardScreen />);
 
-    await waitFor(() => expect(screen.getByText("Board")).toBeInTheDocument());
+    await waitFor(() => {
+      expect(screen.getByText("Board")).toBeInTheDocument();
+      expect(container.querySelector(".value")).toHaveTextContent("R$ 2,50");
+    });
     expect(screen.getByText("Teto em Ago/26.")).toBeInTheDocument();
-    expect(container.querySelector(".value")).toHaveTextContent("R$ 2,50");
     expect(screen.getByText("Saldo projetado em Dez/26.")).toBeInTheDocument();
     expect(container.querySelector(".evidence")).toHaveTextContent("R$ 6,00");
   });

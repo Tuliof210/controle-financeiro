@@ -19,7 +19,7 @@ const data = (points: MonthPoint[], current = 202_601) =>
       firstRed: null,
       months: [],
     },
-  }) as BoardData;
+  }) as unknown as BoardData;
 
 const band = (payload?: BoardData, refreshing?: boolean) =>
   renderHook(() => useHeroBand({ data: payload, refreshing })).result.current;
