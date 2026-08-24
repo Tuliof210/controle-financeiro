@@ -11,8 +11,10 @@ const point = (month: number, cumulative: number) =>
 const data = {
   points: [point(202_601, 100), point(202_603, 500)],
   range: { start: 202_601, end: 202_603, current: 202_601 },
+  ceiling: { monthly: 250, weekly: 62, daily: 8, tightest: null, firstRed: null, months: [] },
 } as BoardData;
 
+const TETO = /Teto em/;
 const PROJECTED = /Saldo projetado/;
 const ENTRADAS = /Entradas/;
 const RED_MONTHS = /Meses no vermelho/;
@@ -28,16 +30,23 @@ describe("HeroBand", () => {
     expect(
       screen.getByRole("heading", { level: 1, name: "Dashboard" }),
     ).toBeInTheDocument();
+    expect(screen.queryByText(TETO)).not.toBeInTheDocument();
     expect(screen.queryByText(PROJECTED)).not.toBeInTheDocument();
   });
 
-  it("shows the projected balance against the current one", () => {
+  it("shows the monthly ceiling as the hero and the projected end as evidence", () => {
     const { container } = render(<HeroBand data={data} />);
 
+    expect(band(container).getByText("Teto em Jan/26.")).toBeInTheDocument();
+    expect(container.querySelector(".value")).toHaveTextContent("R$ 2,50");
+    expect(container.querySelector(".weekly")).toHaveTextContent(
+      "R$ 0,62 por semana",
+    );
     expect(
       band(container).getByText("Saldo projetado em Mar/26."),
     ).toBeInTheDocument();
-    expect(container.querySelector(".value")).toHaveTextContent("R$ 5,00");
+    expect(container.querySelector(".evidence")).toHaveTextContent("R$ 5,00");
+    expect(container.querySelector(".value")).not.toHaveTextContent("R$ 5,00");
     expect(band(container).getByText(VS_NOW)).toBeInTheDocument();
   });
 

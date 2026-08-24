@@ -22,6 +22,7 @@ const okPayload = {
   status: "ok",
   range,
   points: [{ month: 202_608, income: 1000, expense: 400, cumulative: 600 }],
+  ceiling: { monthly: 250, weekly: 62, daily: 8, tightest: null, firstRed: null, months: [] },
 };
 
 beforeEach(() => {
@@ -32,6 +33,7 @@ beforeEach(() => {
 
 const NO_ENTRIES = /Nenhum lançamento ainda/;
 const OUT_OF_RANGE = /\(Jan\/26–Dez\/26\) não cobre o mês atual/;
+const TETO = /Teto em/;
 
 describe("DashboardScreen", () => {
   it("titles the screen and offers the simulation view in every state", () => {
@@ -45,6 +47,7 @@ describe("DashboardScreen", () => {
       screen.getByRole("heading", { level: 1, name: "Dashboard" }),
     ).toBeInTheDocument();
     expect(screen.getByLabelText("Dados do dashboard")).toBeInTheDocument();
+    expect(screen.queryByText(TETO)).not.toBeInTheDocument();
   });
 
   it("says the database is empty on no_range", async () => {
@@ -55,6 +58,7 @@ describe("DashboardScreen", () => {
     render(<DashboardScreen />);
 
     expect(await screen.findByText(NO_ENTRIES)).toBeInTheDocument();
+    expect(screen.queryByText(TETO)).not.toBeInTheDocument();
   });
 
   it("names both ends of the span on out_of_range", async () => {
@@ -65,6 +69,7 @@ describe("DashboardScreen", () => {
     render(<DashboardScreen />);
 
     expect(await screen.findByText(OUT_OF_RANGE)).toBeInTheDocument();
+    expect(screen.queryByText(TETO)).not.toBeInTheDocument();
   });
 
   it("reports a refused load rather than an empty board", async () => {
@@ -73,13 +78,18 @@ describe("DashboardScreen", () => {
     render(<DashboardScreen />);
 
     expect(await screen.findByText("Erro ao carregar")).toBeInTheDocument();
+    expect(screen.queryByText(TETO)).not.toBeInTheDocument();
   });
 
   it("renders the board once the payload is ok", async () => {
     jest.mocked(apiGet).mockResolvedValue({ data: okPayload } as never);
 
-    render(<DashboardScreen />);
+    const { container } = render(<DashboardScreen />);
 
     await waitFor(() => expect(screen.getByText("Board")).toBeInTheDocument());
+    expect(screen.getByText("Teto em Ago/26.")).toBeInTheDocument();
+    expect(container.querySelector(".value")).toHaveTextContent("R$ 2,50");
+    expect(screen.getByText("Saldo projetado em Dez/26.")).toBeInTheDocument();
+    expect(container.querySelector(".evidence")).toHaveTextContent("R$ 6,00");
   });
 });

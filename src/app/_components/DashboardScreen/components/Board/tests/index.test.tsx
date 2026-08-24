@@ -36,10 +36,15 @@ describe("Board", () => {
   it("lays the three sections out in reading order", () => {
     render(<Board data={data} cap="50" onCapChange={jest.fn()} />);
 
-    expect(screen.getByTestId(OVERVIEW)).toBeInTheDocument();
-    expect(
-      screen.getByRole("heading", { name: "Teto de Gastos" }),
-    ).toBeInTheDocument();
-    expect(screen.getByTestId(SAVINGS)).toBeInTheDocument();
+    const ceiling = screen.getByRole("heading", { name: "Teto de Gastos" });
+    const overview = screen.getByTestId(OVERVIEW);
+    const savings = screen.getByTestId(SAVINGS);
+
+    expect(ceiling.compareDocumentPosition(overview)).toBe(
+      Node.DOCUMENT_POSITION_FOLLOWING,
+    );
+    expect(overview.compareDocumentPosition(savings)).toBe(
+      Node.DOCUMENT_POSITION_FOLLOWING,
+    );
   });
 });
