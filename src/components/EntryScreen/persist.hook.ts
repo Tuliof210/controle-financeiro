@@ -20,13 +20,14 @@ export function usePersistEntry<
   const [ceilingNotice, setCeilingNotice] = useState<string>();
 
   const persist = async (write: () => ReturnType<typeof apiPost>) => {
-    const measured = await persistWithDelta(owner, write);
+    const measured = await persistWithDelta(owner, write, () => {
+      close();
+      refetch();
+    });
     if (measured.error) {
       setError(measured.error);
       return;
     }
-    close();
-    refetch();
     setCeilingNotice(measured.notice);
   };
 
