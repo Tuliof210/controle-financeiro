@@ -59,6 +59,12 @@ export function formatCeilingDelta(
   if (after === undefined) {
     return;
   }
+  // Silent when the write moved nothing. Under cap=meta the ceiling is pinned
+  // to the goal, so without this EVERY save printed "X → X" — a sentence that
+  // costs the reader a glance and tells them nothing.
+  if (before === after) {
+    return;
+  }
   const afterMoney = formatMoney(after);
   if (before === undefined) {
     return `Teto deste mês: ${afterMoney}.`;

@@ -33,6 +33,11 @@ describe("formatCeilingDelta", () => {
   it("shows nothing when the later read failed", () => {
     expect(formatCeilingDelta(250, undefined)).toBeUndefined();
   });
+
+  // cap=meta pins the ceiling to the goal, so every save would say "X → X".
+  it("stays silent when the write moved nothing", () => {
+    expect(formatCeilingDelta(250, 250)).toBeUndefined();
+  });
 });
 
 describe("dashboardPath", () => {
