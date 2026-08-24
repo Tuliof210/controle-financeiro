@@ -1,6 +1,7 @@
 "use client";
 
 import type { DashboardData } from "@/app/api/dashboard/types.ts";
+import { StatusLine } from "@/components/StatusLine/index.tsx";
 import { cx } from "@/lib/cx.ts";
 import { formatYyyymm } from "@/lib/months.ts";
 import { AffordAsk } from "./components/AffordAsk/index.tsx";
@@ -83,11 +84,7 @@ export function DashboardScreen() {
           className={cx(styles.ok, refreshing && styles.refreshing)}
           aria-busy={refreshing}
         >
-          {Boolean(seenLine) && (
-            <p className={styles.seen} role="status">
-              {seenLine}
-            </p>
-          )}
+          {Boolean(seenLine) && <StatusLine>{seenLine}</StatusLine>}
           <AffordAsk monthlyCents={data.ceiling.monthly} />
           <Board data={data} cap={cap} onCapChange={setCap} />
         </div>
