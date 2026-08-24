@@ -22,6 +22,7 @@ export function useDashboardScreen() {
   // new payload lands, unlabelled. Tagging lets one flag answer both.
   const [held, setHeld] = useState<{
     owner: string;
+    cap: string;
     payload: DashboardData;
   } | null>(null);
   const [error, setError] = useState<string>();
@@ -40,7 +41,10 @@ export function useDashboardScreen() {
   const data = heldFor(held, profile);
   const hasMeta = data?.status === "ok" && typeof data.meta === "number";
   const { cap, choose: setCap } = useCeilingCap(hasMeta);
-  const seenLine = useDashboardSeen(data, profile);
+  // The cap the PAYLOAD was fetched under, not the live one: the board is kept
+  // on screen through a cap change, so the live `cap` flips a render before the
+  // figures do and would file this payload under the next cap's key.
+  const seenLine = useDashboardSeen(data, profile, held?.cap ?? cap);
 
   useEffect(() => {
     let current = true;
@@ -65,7 +69,7 @@ export function useDashboardScreen() {
       if (result.error || !result.data) {
         return setError(result.error ?? "Erro inesperado");
       }
-      setHeld({ owner: profile, payload: result.data });
+      setHeld({ owner: profile, cap, payload: result.data });
     });
 
     return () => {

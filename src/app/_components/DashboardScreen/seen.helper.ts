@@ -1,7 +1,11 @@
 import type { DashboardData } from "@/app/api/dashboard/types.ts";
 import { formatMoney } from "@/lib/money.ts";
 
-export const SEEN_KEY = "dashboard-seen";
+// Keyed by cap, not one key for all of them. The cap is a lens on the same
+// money, so two visits are only comparable under the same lens — and the
+// dashboard's first `ok` payload arrives under the default cap even when it is
+// about to seed Meta, which would otherwise stamp figures the card never shows.
+export const seenKey = (cap: string) => `dashboard-seen:${cap}`;
 
 export interface SeenSnapshot {
   owner: string;
