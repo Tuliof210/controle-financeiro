@@ -2,13 +2,12 @@ import { describe, expect, it } from "@jest/globals";
 import { isActiveNav, NAV } from "@/components/AppShell/nav.ts";
 
 describe("NAV", () => {
-  it("lists the six screens in reading order", () => {
+  it("lists the five screens in reading order", () => {
     expect(NAV.map((entry) => entry.href)).toEqual([
       "/",
       "/movimentacoes",
       "/previsoes",
       "/leitor-ofx",
-      "/ofx-decoder",
       "/configuracoes",
     ]);
   });
