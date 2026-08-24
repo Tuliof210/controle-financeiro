@@ -1,0 +1,59 @@
+import { beforeEach, describe, expect, it } from "@jest/globals";
+import {
+  dashboardPath,
+  formatCeilingDelta,
+  monthlyFrom,
+} from "@/components/EntryScreen/ceiling-delta.helper.ts";
+import type { DashboardData } from "@/app/api/dashboard/types.ts";
+
+const ok = (monthly: number): DashboardData =>
+  ({ status: "ok", ceiling: { monthly } }) as DashboardData;
+
+describe("monthlyFrom", () => {
+  it("reads the monthly ceiling from an ok payload", () => {
+    expect(monthlyFrom(ok(250))).toBe(250);
+  });
+
+  it("returns nothing when the dashboard has no range", () => {
+    expect(monthlyFrom({ status: "no_range" })).toBeUndefined();
+  });
+});
+
+describe("formatCeilingDelta", () => {
+  it("joins both figures when the prior read landed", () => {
+    expect(formatCeilingDelta(250, 100)).toBe(
+      "Teto deste mês: R$ 2,50 → R$ 1,00.",
+    );
+  });
+
+  it("shows only the new figure when there was no prior read", () => {
+    expect(formatCeilingDelta(undefined, 100)).toBe("Teto deste mês: R$ 1,00.");
+  });
+
+  it("shows nothing when the later read failed", () => {
+    expect(formatCeilingDelta(250, undefined)).toBeUndefined();
+  });
+});
+
+describe("dashboardPath", () => {
+  beforeEach(() => {
+    localStorage.clear();
+  });
+
+  it("uses the stored cap and simulation view", () => {
+    localStorage.setItem("ceiling-cap", "75");
+    localStorage.setItem("simulation", "all");
+
+    expect(dashboardPath("familia")).toBe(
+      "/api/dashboard?owner=familia&cap=75&simulation=all",
+    );
+  });
+
+  it("falls back to the dashboard defaults", () => {
+    localStorage.clear();
+
+    expect(dashboardPath("p1")).toBe(
+      "/api/dashboard?owner=p1&cap=50&simulation=real",
+    );
+  });
+});

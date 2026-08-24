@@ -15,12 +15,10 @@ import type { EntryScreenConfig } from "./types.ts";
 const deleteTitle = (modal: {
   type: string;
   entry?: { name: string };
-}): string => {
-  if (modal.type !== "delete" || !modal.entry) {
-    return "";
-  }
-  return `Excluir "${modal.entry.name}"?`;
-};
+}): string =>
+  modal.type === "delete" && modal.entry
+    ? `Excluir "${modal.entry.name}"?`
+    : "";
 
 export function EntryScreen<T extends Entry, V extends { type: EntryType }>(
   config: EntryScreenConfig<T, V>,
@@ -43,11 +41,17 @@ export function EntryScreen<T extends Entry, V extends { type: EntryType }>(
     onConfirmDelete,
     query,
     onQueryChange,
+    ceilingNotice,
   } = useEntryScreen(config);
 
   return (
     <div className={styles.screen}>
       <PageHeader {...labels.header} />
+      {Boolean(ceilingNotice) && (
+        <p className={styles.status} role="status">
+          {ceilingNotice}
+        </p>
+      )}
 
       <EntryListControls
         query={query}

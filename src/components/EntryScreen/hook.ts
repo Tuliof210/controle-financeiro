@@ -2,9 +2,10 @@ import { useCallback, useEffect, useState } from "react";
 import { useProfile } from "@/components/ProfileProvider/hook.ts";
 import type { Person } from "@/core/entities/person.entity.ts";
 import type { Period } from "@/core/use-cases/period.service.ts";
-import { apiDelete, apiGet, apiPost, apiPut } from "@/lib/api.ts";
+import { apiGet } from "@/lib/api.ts";
 import type { Entry, EntryType } from "@/lib/entry-types.ts";
 import { useEntryList } from "./list.hook.ts";
+import { usePersistEntry } from "./persist.hook.ts";
 import type { EntryScreenConfig, ModalState } from "./types.ts";
 
 export function useEntryScreen<T extends Entry, V extends { type: EntryType }>({
@@ -56,29 +57,14 @@ export function useEntryScreen<T extends Entry, V extends { type: EntryType }>({
   const openAdd = (kind: EntryType) => openModal({ type: "add", kind });
   const openEdit = (entry: T) => openModal({ type: "edit", entry });
   const openDelete = (entry: T) => openModal({ type: "delete", entry });
-
-  const persist = (result: Awaited<ReturnType<typeof apiPost>>) => {
-    if (result.error) {
-      setError(result.error);
-      return;
-    }
-    close();
-    refetch();
-  };
-
-  const onAdd = (values: V) => apiPost(path, values).then(persist);
-
-  const onUpdate = (values: V) => {
-    if (modal.type === "edit") {
-      apiPut(path, { id: modal.entry.id, ...values }).then(persist);
-    }
-  };
-
-  const onConfirmDelete = () => {
-    if (modal.type === "delete") {
-      apiDelete(`${path}?id=${modal.entry.id}`).then(persist);
-    }
-  };
+  const { ceilingNotice, onAdd, onUpdate, onConfirmDelete } = usePersistEntry(
+    path,
+    profile,
+    modal,
+    close,
+    refetch,
+    setError,
+  );
 
   return {
     labels,
@@ -87,6 +73,7 @@ export function useEntryScreen<T extends Entry, V extends { type: EntryType }>({
     period,
     modal,
     error,
+    ceilingNotice,
     openAdd,
     openEdit,
     openDelete,
