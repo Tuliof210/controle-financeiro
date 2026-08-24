@@ -4,6 +4,7 @@ import { useProfile } from "@/components/ProfileProvider/hook.ts";
 import { apiGet } from "@/lib/api.ts";
 import { useCeilingCap } from "./ceiling-cap.hook.ts";
 import { heldFor } from "./dashboard-held.helper.ts";
+import { useDashboardSeen } from "./seen.hook.ts";
 import { useSimulationView } from "./simulation.hook.ts";
 
 export function useDashboardScreen() {
@@ -39,6 +40,7 @@ export function useDashboardScreen() {
   const data = heldFor(held, profile);
   const hasMeta = data?.status === "ok" && typeof data.meta === "number";
   const { cap, choose: setCap } = useCeilingCap(hasMeta);
+  const seenLine = useDashboardSeen(data, profile);
 
   useEffect(() => {
     let current = true;
@@ -86,5 +88,6 @@ export function useDashboardScreen() {
     setCap,
     simulation,
     setSimulation,
+    seenLine,
   };
 }

@@ -8,6 +8,7 @@ import { Board } from "./components/Board/index.tsx";
 import { HeroBand } from "./components/HeroBand/index.tsx";
 import { Notice } from "./components/Notice/index.tsx";
 import { SimulationSelect } from "./components/SimulationSelect/index.tsx";
+import { COPY } from "./copy.ts";
 import { useDashboardScreen } from "./hook.ts";
 import styles from "./style.module.scss";
 
@@ -16,16 +17,6 @@ const boardData = (data: DashboardData | null) => {
     return data;
   }
 };
-
-const COPY = {
-  loading: "Somando lançamentos e compromissos do período…",
-  noRange:
-    "Nenhum lançamento ainda. Registre uma movimentação ou previsão para o período aparecer aqui.",
-  outOfRangeLead: "O período global",
-  outOfRangeMid: "não cobre o mês atual",
-  outOfRangeTail:
-    ". Registre uma movimentação ou previsão nesse mês para incluí-lo.",
-} as const;
 
 export function DashboardScreen() {
   const {
@@ -37,6 +28,7 @@ export function DashboardScreen() {
     setCap,
     simulation,
     setSimulation,
+    seenLine,
   } = useDashboardScreen();
   // HeroBand takes the payload only when it is the 'ok' shape; every other
   // status leaves it undefined and the band renders its static half.
@@ -91,6 +83,11 @@ export function DashboardScreen() {
           className={cx(refreshing && styles.refreshing)}
           aria-busy={refreshing}
         >
+          {Boolean(seenLine) && (
+            <p className={styles.seen} role="status">
+              {seenLine}
+            </p>
+          )}
           <AffordAsk monthlyCents={data.ceiling.monthly} />
           <Board data={data} cap={cap} onCapChange={setCap} />
         </div>
