@@ -9,7 +9,8 @@ import { formatMoney } from "@/lib/money.ts";
 export interface EntrySectionProps<T extends Entry> {
   title: string;
   icon: MvIconName;
-  tone: "positive" | "negative";
+  // Only the inflow section is tinted; expense passes nothing.
+  tone?: "positive";
   items: T[];
   people: Person[];
   period: Period | null;

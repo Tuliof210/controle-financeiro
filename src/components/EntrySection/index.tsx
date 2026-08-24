@@ -2,6 +2,7 @@ import { Button } from "@/components/Button/index.tsx";
 import { EntryRow } from "@/components/EntryRow/index.tsx";
 import { RowGrid } from "@/components/RowGrid/index.tsx";
 import { SectionCard } from "@/components/SectionCard/index.tsx";
+import { cx } from "@/lib/cx.ts";
 import type { Entry } from "@/lib/entry-types.ts";
 import { EmptyState } from "./components/EmptyState/index.tsx";
 import { type EntrySectionProps, useEntrySection } from "./hook.ts";
@@ -16,7 +17,7 @@ export function EntrySection<T extends Entry>(props: EntrySectionProps<T>) {
       {/* SectionCard takes no header slot, so the total is the body's first
           element with its own bottom rule — same reading, one fewer shared
           component touched. */}
-      <p className={`${styles.total} ${styles[tone]}`}>{total}</p>
+      <p className={cx(styles.total, tone && styles[tone])}>{total}</p>
       {rows.length === 0 && (
         <EmptyState
           icon={icon}
@@ -42,12 +43,7 @@ export function EntrySection<T extends Entry>(props: EntrySectionProps<T>) {
           )}
         </RowGrid>
       )}
-      <Button
-        variant="dashed"
-        className={`${styles.add} ${styles[tone]}`}
-        iconLeft="plus"
-        onClick={onAdd}
-      >
+      <Button variant="dashed" iconLeft="plus" onClick={onAdd}>
         {labels.add}
       </Button>
     </SectionCard>

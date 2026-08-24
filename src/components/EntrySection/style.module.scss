@@ -1,8 +1,7 @@
-@use "theme" as t;
-
-// `.positive`/`.negative` are reached by a CSS-Modules string lookup
-// (`styles[tone]` in index.tsx) — renaming either kills the tint and the
-// Saídas hover with no compile error and no test failure.
+// `.positive` is reached by a CSS-Modules string lookup (`styles[tone]` in
+// index.tsx) — renaming it kills the tint with no compile error and no test
+// failure. There is no `.negative` counterpart on purpose: a routine outflow
+// is not an alarm, so Saídas carries no `--color-negative` here.
 .total {
   margin: 0;
   padding-bottom: var(--space-3);
@@ -15,29 +14,12 @@
   text-align: right;
 }
 
-// Redundant reinforcement only: the card's own eyebrow already says ENTRADAS
-// or SAÍDAS, so the tint is never the sole carrier of the meaning.
+// Redundant reinforcement only: the card's own eyebrow already says ENTRADAS,
+// so the tint is never the sole carrier of the meaning.
 .total.positive {
   color: var(--color-positive);
 }
 
-.total.negative {
-  color: var(--color-negative);
-}
-
-// The Saídas add button fills negative instead of brand on hover. Composed at
-// the call site on the shared `dashed` variant rather than a new variant, per
-// the note in Button/style.module.scss.
-//
-// Same gate as the variant it composes over, and the `color` is NOT optional:
-// this rule used to inherit it from `.dashed:hover` firing alongside, so when
-// that one moved behind the gate and this one did not, a tap on a touch screen
-// latched --color-text on --color-negative — 2.23:1 dark, 3.31:1 light. With
-// the ink declared here it is 8.21:1 dark, 5.15:1 light, gate or no gate.
-@include t.on-hover {
-  .add.negative:hover:not(:disabled) {
-    background: var(--color-negative);
-    border-color: var(--color-negative);
-    color: var(--color-bg);
-  }
-}
+// No `.add` rule any more: the Saídas override that filled the dashed button
+// with --color-negative on hover went with the tone. The shared variant's own
+// brand hover is the whole skin now, and the label says "Nova saída".

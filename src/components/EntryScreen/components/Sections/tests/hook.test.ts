@@ -49,9 +49,10 @@ describe("useSections", () => {
     });
     expect(second).toMatchObject({
       items: expense,
-      tone: "negative",
       labels: labels.expense,
     });
+    // Red is for a month in the red, not for every outflow.
+    expect(second.tone).toBeUndefined();
   });
 
   it("threads the shared props to both", () => {

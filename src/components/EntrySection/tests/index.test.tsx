@@ -19,7 +19,6 @@ const items = [
 const props = {
   title: "Saídas",
   icon: "wallet" as const,
-  tone: "negative" as const,
   items,
   people: [{ id: "p1", name: "Ana" }] as Person[],
   period: null,
@@ -49,6 +48,23 @@ describe("EntrySection", () => {
 
     expect(screen.getByText("Nenhuma saída")).toBeInTheDocument();
     expect(screen.queryByRole("list")).not.toBeInTheDocument();
+  });
+
+  it("paints no negative tint on a routine outflow", () => {
+    const { container } = render(<EntrySection {...props} />);
+
+    expect(container.querySelector(".negative")).toBeNull();
+    expect(container.querySelector(".total")).not.toHaveClass("negative");
+    // Still told apart by the eyebrow and the icon, not by colour.
+    expect(screen.getByRole("heading", { name: "Saídas" })).toBeInTheDocument();
+  });
+
+  it("tints the total only when the caller asks for the positive tone", () => {
+    const { container } = render(
+      <EntrySection {...props} tone="positive" title="Entradas" />,
+    );
+
+    expect(container.querySelector(".total")).toHaveClass("positive");
   });
 
   it("offers the add action, named by the section's own label", async () => {

@@ -32,6 +32,12 @@ describe("Sections", () => {
     expect(screen.getByRole("heading", { name: "Saídas" })).toBeInTheDocument();
   });
 
+  it("leaves the Saídas card without a negative tint", () => {
+    const { container } = render(<Sections {...props} />);
+
+    expect(container.querySelector(".negative")).toBeNull();
+  });
+
   it("gives each its own empty copy", () => {
     render(<Sections {...props} />);
 

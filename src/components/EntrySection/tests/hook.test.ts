@@ -20,7 +20,6 @@ const people = [{ id: "p1", name: "Ana" }] as Person[];
 const props = {
   title: "Saídas",
   icon: "wallet" as const,
-  tone: "negative" as const,
   items,
   people,
   period: { start: 202_601, end: 202_612 },

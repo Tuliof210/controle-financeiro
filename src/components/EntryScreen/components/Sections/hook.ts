@@ -59,7 +59,10 @@ export function useSections<T extends Entry>({
         key: "expense",
         title: "Saídas",
         icon: "arrowUpCircle" as const,
-        tone: "negative" as const,
+        // No tone: a routine outflow is not an alarm. Red is reserved for a
+        // month in the red, a zeroed ceiling and a destructive confirm. The
+        // eyebrow "Saídas" and the arrow icon already tell the two apart.
+        tone: undefined,
         items: expense,
         labels: labels.expense,
         onAdd: () => onAdd("expense"),
