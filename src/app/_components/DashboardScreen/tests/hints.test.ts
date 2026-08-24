@@ -9,6 +9,7 @@ describe("HINTS", () => {
       "balance",
       "bars",
       "cumulative",
+      "afford",
       "ceiling",
       "goals",
     ]);

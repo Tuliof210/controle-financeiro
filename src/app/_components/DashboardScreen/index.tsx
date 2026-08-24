@@ -3,6 +3,7 @@
 import type { DashboardData } from "@/app/api/dashboard/types.ts";
 import { cx } from "@/lib/cx.ts";
 import { formatYyyymm } from "@/lib/months.ts";
+import { AffordAsk } from "./components/AffordAsk/index.tsx";
 import { Board } from "./components/Board/index.tsx";
 import { HeroBand } from "./components/HeroBand/index.tsx";
 import { Notice } from "./components/Notice/index.tsx";
@@ -90,6 +91,7 @@ export function DashboardScreen() {
           className={cx(refreshing && styles.refreshing)}
           aria-busy={refreshing}
         >
+          <AffordAsk monthlyCents={data.ceiling.monthly} />
           <Board data={data} cap={cap} onCapChange={setCap} />
         </div>
       )}
