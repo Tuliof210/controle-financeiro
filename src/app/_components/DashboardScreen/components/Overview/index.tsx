@@ -3,7 +3,6 @@ import { BalanceLineChart } from "../BalanceLineChart/index.tsx";
 import { ChartCard } from "../ChartCard/index.tsx";
 import { ChartLegend } from "../ChartLegend/index.tsx";
 import { MonthlyBarChart } from "../MonthlyBarChart/index.tsx";
-import { PeriodFacts } from "./components/PeriodFacts/index.tsx";
 import { type OverviewProps, useOverview } from "./hook.ts";
 
 const BAR_LEGEND = [
@@ -12,12 +11,10 @@ const BAR_LEGEND = [
 ];
 
 export function Overview(props: OverviewProps) {
-  const { data, facts } = useOverview(props);
+  const { data } = useOverview(props);
 
   return (
     <>
-      <PeriodFacts facts={facts} />
-
       <ChartCard
         title="Evolução mensal"
         icon="chartColumn"

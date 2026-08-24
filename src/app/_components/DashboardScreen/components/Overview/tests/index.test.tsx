@@ -45,15 +45,11 @@ const data = {
 } as BoardData;
 
 describe("Overview", () => {
-  it("renders one period panel, not three KPI cards", () => {
+  it("does not render the period facts card as a KPI row", () => {
     render(<Overview data={data} />);
 
     expect(
-      screen.getByRole("heading", { name: "No período" }),
-    ).toBeInTheDocument();
-    expect(screen.getByText("Entradas · 1 mês")).toBeInTheDocument();
-    expect(
-      screen.queryByRole("heading", { name: "Entradas" }),
+      screen.queryByRole("heading", { name: "No período" }),
     ).not.toBeInTheDocument();
   });
 
