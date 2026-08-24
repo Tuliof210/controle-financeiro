@@ -14,7 +14,9 @@ interface HeroBandProps {
 // independently nullable fields.
 function useHeroBand({ data, refreshing }: HeroBandProps) {
   const figures = buildFigures(data);
-  const value = useRollingCents(figures?.valueCents);
+  const monthly = useRollingCents(figures?.monthlyCents);
+  const weekly = useRollingCents(figures?.weeklyCents);
+  const projectedEnd = useRollingCents(figures?.projectedEndCents);
   const now = useRollingCents(figures?.nowCents);
   const delta = useRollingCents(figures?.deltaCents);
 
@@ -25,8 +27,11 @@ function useHeroBand({ data, refreshing }: HeroBandProps) {
   return {
     live: !refreshing,
     figures: {
+      monthLabel: figures.monthLabel,
+      monthly,
+      weekly: formatMoney(weekly),
       endLabel: figures.endLabel,
-      value,
+      projectedEnd,
       now: formatMoney(now),
       delta,
     },

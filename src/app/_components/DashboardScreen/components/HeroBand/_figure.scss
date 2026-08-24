@@ -1,8 +1,9 @@
 @use "theme" as t;
 
 @mixin figure {
-  // The answer, as type: a claim, then the figure, then the delta as a line of
-  // copy — not a captioned tile with a supporting stats row.
+  // The answer, as type: a claim, then the ceiling as the hero figure, the
+  // weekly rate, then the projected end as labelled evidence — not a captioned
+  // tile with a supporting stats row.
   .answer {
     display: flex;
     flex-direction: column;
@@ -34,15 +35,24 @@
     }
   }
 
-  .deltaLine {
+  .weekly,
+  .evidence {
     display: flex;
     flex-wrap: wrap;
     align-items: baseline;
     gap: var(--space-2);
-    margin: var(--space-1) 0 0;
+    margin: 0;
     font-family: var(--font-sans);
     font-size: var(--text-sm);
     font-variant-numeric: tabular-nums;
+  }
+
+  .weekly {
+    opacity: var(--opacity-muted);
+  }
+
+  .evidence {
+    margin: var(--space-1) 0 0;
   }
 
   .vs {

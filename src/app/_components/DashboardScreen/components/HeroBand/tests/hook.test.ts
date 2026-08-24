@@ -11,7 +11,15 @@ const data = (points: MonthPoint[], current = 202_601) =>
   ({
     points,
     range: { start: 202_601, end: 202_603, current },
-  }) as BoardData;
+    ceiling: {
+      monthly: 250,
+      weekly: 62,
+      daily: 8,
+      tightest: null,
+      firstRed: null,
+      months: [],
+    },
+  }) as unknown as BoardData;
 
 const band = (payload?: BoardData, refreshing?: boolean) =>
   renderHook(() => useHeroBand({ data: payload, refreshing })).result.current;
@@ -25,12 +33,15 @@ describe("useHeroBand", () => {
     expect(band(data([])).figures).toBeNull();
   });
 
-  it("reads the projection's end against the current month", () => {
+  it("reads the ceiling against the projection's end", () => {
     const { figures } = band(data([point(202_601, 100), point(202_603, 500)]));
 
     expect(figures).toMatchObject({
+      monthLabel: "Jan/26",
+      monthly: 250,
+      weekly: "R$ 0,62",
       endLabel: "Mar/26",
-      value: 500,
+      projectedEnd: 500,
       now: "R$ 1,00",
       delta: 400,
     });

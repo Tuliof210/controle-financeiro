@@ -6,13 +6,16 @@ import styles from "./style.module.scss";
 
 const COPY = {
   dashboard: "Dashboard",
-  lede: "Onde o dinheiro da família está hoje e para onde ele vai.",
+  lede: "Quanto ainda dá para gastar agora sem comprometer os meses seguintes.",
+  tetoEm: "Teto em",
+  porSemana: "por semana",
   saldoProjetado: "Saldo projetado em",
   vsSaldoAtual: "vs. saldo atual de",
 } as const;
 
-// Editorial, not a metric tile: the page title, a lede, then the projected
-// balance as type. Image-direction was skipped — `/ps-run` has no image gate.
+// Editorial, not a metric tile: the page title, a lede that asks how much is
+// still spendable, then the monthly ceiling as the hero figure and the
+// projected end-of-period balance as labelled evidence underneath.
 export function HeroBand(props: HeroBandProps) {
   const { figures, live } = useHeroBand(props);
 
@@ -31,12 +34,19 @@ export function HeroBand(props: HeroBandProps) {
         {figures !== null && (
           <div className={styles.answer}>
             <p className={styles.claim}>
-              {`${COPY.saldoProjetado} ${figures.endLabel}.`}
+              {`${COPY.tetoEm} ${figures.monthLabel}.`}
             </p>
             <p className={styles.value}>
-              <MoneyDisplay value={figures.value} variant="hero" />
+              <MoneyDisplay value={figures.monthly} variant="hero" />
             </p>
-            <p className={styles.deltaLine}>
+            <p className={styles.weekly}>
+              {`${figures.weekly} ${COPY.porSemana}`}
+            </p>
+            <p className={styles.evidence}>
+              <MoneyDisplay value={figures.projectedEnd} variant="large" />
+              <span className={styles.vs}>
+                {`${COPY.saldoProjetado} ${figures.endLabel}.`}
+              </span>
               <Delta value={figures.delta} money={true} />
               <span className={styles.vs}>
                 {`${COPY.vsSaldoAtual} ${figures.now}.`}
