@@ -31,7 +31,7 @@ export function Field(props: FieldProps) {
           maxLength={view.maxLength}
           inputMode={view.inputMode}
           aria-invalid={view.invalid || undefined}
-          aria-describedby={view.describedBy}
+          aria-describedby={view.ariaDescribedBy}
           aria-label={view.ariaLabel}
           onChange={view.onChange}
           onFocus={view.onFocus}

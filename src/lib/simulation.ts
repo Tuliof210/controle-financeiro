@@ -12,3 +12,12 @@ export const SIMULATION_VIEWS = ["real", "all"] as const;
 export type SimulationView = (typeof SIMULATION_VIEWS)[number];
 
 export const DEFAULT_SIMULATION_VIEW: SimulationView = "real";
+
+// Key and guard live beside the default, the way CEILING_CAP_KEY does: two
+// screens read this choice and neither should spell it a second time.
+export const SIMULATION_KEY = "simulation";
+
+export const isSimulationView = (
+  value: string | null,
+): value is SimulationView =>
+  SIMULATION_VIEWS.includes(value as SimulationView);

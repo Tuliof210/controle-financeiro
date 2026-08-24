@@ -20,3 +20,13 @@
   cursor: progress;
   transition: opacity var(--duration-base) var(--ease-snappy);
 }
+
+// The `ok` branch went from one child to three (the change line, "Posso
+// gastar?" and the board). Neither SectionCard nor Card carries an outer
+// margin, so without this the three sat flush against each other while every
+// other gap on the screen is --space-6.
+.ok {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}

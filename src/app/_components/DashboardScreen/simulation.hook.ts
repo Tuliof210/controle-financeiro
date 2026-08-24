@@ -1,17 +1,10 @@
 import { useCallback, useEffect, useState } from "react";
 import {
   DEFAULT_SIMULATION_VIEW,
-  SIMULATION_VIEWS,
+  isSimulationView,
+  SIMULATION_KEY,
   type SimulationView,
 } from "@/lib/simulation.ts";
-
-const KEY = "simulation";
-
-// A stored value can be anything — an older build's vocabulary, a hand-edited
-// key — and an unknown one must read as the default rather than reach the URL.
-function isView(value: string | null): value is SimulationView {
-  return SIMULATION_VIEWS.includes(value as SimulationView);
-}
 
 // Role-suffixed rather than hook.ts, the way show-all.hook.ts is: a folder's
 // hook.ts is called by its OWN index.tsx, and this one is called by another
@@ -26,8 +19,8 @@ export function useSimulationView() {
 
   useEffect(() => {
     try {
-      const stored = localStorage.getItem(KEY);
-      if (isView(stored)) {
+      const stored = localStorage.getItem(SIMULATION_KEY);
+      if (isSimulationView(stored)) {
         setView(stored);
       }
     } catch {
@@ -37,12 +30,12 @@ export function useSimulationView() {
 
   const choose = useCallback((next: string) => {
     let value: SimulationView = DEFAULT_SIMULATION_VIEW;
-    if (isView(next)) {
+    if (isSimulationView(next)) {
       value = next;
     }
     setView(value);
     try {
-      localStorage.setItem(KEY, value);
+      localStorage.setItem(SIMULATION_KEY, value);
     } catch {
       // Storage blocked: the choice still applies to this session.
     }

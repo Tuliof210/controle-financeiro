@@ -64,6 +64,13 @@ export function useField(props: FieldProps) {
     display,
     inputRef,
     describedBy: helpId(props.id, props.hint, props.error),
+    // The field's own hint/error id wins as the <p> anchor; `ariaDescribedBy`
+    // is what the input actually points at, so an external description is not
+    // dropped when there is no hint of its own.
+    ariaDescribedBy:
+      [helpId(props.id, props.hint, props.error), props.describedBy]
+        .filter(Boolean)
+        .join(" ") || undefined,
     invalid: Boolean(props.error),
     controlClass: [
       styles.control,

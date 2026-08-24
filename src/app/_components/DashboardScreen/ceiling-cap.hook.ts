@@ -1,16 +1,11 @@
 import { useCallback, useEffect, useState } from "react";
 import {
-  CEILING_CAPS,
+  CEILING_CAP_KEY,
   type CeilingCap,
   DEFAULT_CEILING_CAP,
+  isCeilingCap,
   META_CAP,
 } from "@/lib/ceiling-caps.ts";
-
-const KEY = "ceiling-cap";
-
-function isCap(value: string | null): value is CeilingCap {
-  return CEILING_CAPS.includes(value as CeilingCap);
-}
 
 // Role-suffixed rather than hook.ts: a folder's hook.ts is called by its OWN
 // index.tsx, and this one is called by the screen hook, the way
@@ -30,8 +25,8 @@ export function useCeilingCap(hasMeta: boolean) {
 
   useEffect(() => {
     try {
-      const stored = localStorage.getItem(KEY);
-      if (isCap(stored)) {
+      const stored = localStorage.getItem(CEILING_CAP_KEY);
+      if (isCeilingCap(stored)) {
         setCap(stored);
         setSeed("stored");
         return;
@@ -51,13 +46,13 @@ export function useCeilingCap(hasMeta: boolean) {
 
   const choose = useCallback((next: string) => {
     let value: CeilingCap = DEFAULT_CEILING_CAP;
-    if (isCap(next)) {
+    if (isCeilingCap(next)) {
       value = next;
     }
     setCap(value);
     setSeed("stored");
     try {
-      localStorage.setItem(KEY, value);
+      localStorage.setItem(CEILING_CAP_KEY, value);
     } catch {
       // Storage blocked: the choice still applies to this session.
     }
