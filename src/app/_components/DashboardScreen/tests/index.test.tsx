@@ -17,7 +17,6 @@ jest.mock(
 );
 
 const range = { start: 202_601, end: 202_612, current: 202_608 };
-
 const okPayload = {
   status: "ok",
   range,
@@ -31,7 +30,6 @@ const okPayload = {
     months: [],
   },
 };
-
 beforeEach(() => {
   jest.clearAllMocks();
   localStorage.clear();
@@ -40,7 +38,7 @@ beforeEach(() => {
 
 const NO_ENTRIES = /Nenhum lançamento ainda/;
 const OUT_OF_RANGE = /\(Jan\/26–Dez\/26\) não cobre o mês atual/;
-const TETO = /Teto em/;
+const TETO = /Gasto possível agora/;
 
 describe("DashboardScreen", () => {
   it("titles the screen and offers the simulation view in every state", () => {
@@ -93,7 +91,9 @@ describe("DashboardScreen", () => {
     await waitFor(() =>
       expect(container.querySelector(".value")).toHaveTextContent("R$ 2,50"),
     );
-    expect(screen.getByText("Teto em Ago/26.")).toBeInTheDocument();
+    expect(
+      screen.getByText("Gasto possível agora em Ago/26."),
+    ).toBeInTheDocument();
     expect(screen.getByText("Saldo projetado em Dez/26.")).toBeInTheDocument();
     expect(container.querySelector(".evidence")).toHaveTextContent("R$ 6,00");
   });

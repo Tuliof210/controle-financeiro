@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import type { DashboardData } from "@/app/api/dashboard/types.ts";
 import { useProfile } from "@/components/ProfileProvider/hook.ts";
 import { apiGet } from "@/lib/api.ts";
-import { type CeilingCap, DEFAULT_CEILING_CAP } from "@/lib/ceiling-caps.ts";
+import { useCeilingCap } from "./ceiling-cap.hook.ts";
 import { heldFor } from "./dashboard-held.helper.ts";
 import { useSimulationView } from "./simulation.hook.ts";
 
@@ -24,11 +24,6 @@ export function useDashboardScreen() {
     payload: DashboardData;
   } | null>(null);
   const [error, setError] = useState<string>();
-  // Deliberately not persisted (owner's decision, 2026-07-30): every reload
-  // starts on the default. It lives up here rather than in CeilingCard because
-  // `pace` and the goal projections move with it, and those render in
-  // SavingsSection.
-  const [cap, setCap] = useState<CeilingCap>(DEFAULT_CEILING_CAP);
   // Persisted, and so held in its own hook — see simulation.hook.ts.
   const { view: simulation, choose: setSimulation } = useSimulationView();
   // Two questions `data === null` used to answer at once: "nothing to show" and
@@ -37,6 +32,13 @@ export function useDashboardScreen() {
   // charts, the goal rows, an expanded month table, and the very button that
   // had just been clicked.
   const [pending, setPending] = useState(true);
+
+  // Nothing held for the profile on screen means nothing honest to show, so the
+  // board goes and the notice takes over. Read before the cap hook: seeding
+  // Meta needs to know whether this payload carries a saved goal.
+  const data = heldFor(held, profile);
+  const hasMeta = data?.status === "ok" && typeof data.meta === "number";
+  const { cap, choose: setCap } = useCeilingCap(hasMeta);
 
   useEffect(() => {
     let current = true;
@@ -68,10 +70,6 @@ export function useDashboardScreen() {
       current = false;
     };
   }, [profile, cap, simulation]);
-
-  // Nothing held for the profile on screen means nothing honest to show, so the
-  // board goes and the notice takes over.
-  const data = heldFor(held, profile);
 
   return {
     data,

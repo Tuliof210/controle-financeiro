@@ -17,9 +17,8 @@ function isView(value: string | null): value is SimulationView {
 // hook.ts is called by its OWN index.tsx, and this one is called by another
 // hook.
 //
-// Persisted, unlike `cap` (owner's decision, 2026-07-31): someone exploring a
-// scenario keeps exploring it across reloads, where a cap is a setting you read
-// once. Read in an effect rather than in the useState initialiser, so the first
+// Persisted: someone exploring a scenario keeps exploring it across reloads.
+// Read in an effect rather than in the useState initialiser, so the first
 // client render matches the server's — ProfileProvider does the same, and the
 // bare try/catch is that file's too, for a localStorage a browser can refuse.
 export function useSimulationView() {

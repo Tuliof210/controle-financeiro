@@ -7,17 +7,20 @@ import styles from "./style.module.scss";
 const COPY = {
   dashboard: "Dashboard",
   lede: "Quanto ainda dá para gastar agora sem comprometer os meses seguintes.",
-  tetoEm: "Teto em",
+  gastoPossivelAgora: "Gasto possível agora em",
   porSemana: "por semana",
   saldoProjetado: "Saldo projetado em",
   vsSaldoAtual: "vs. saldo atual de",
+  incluiSimulacoes: "Inclui simulações",
+  limitadoPelaMeta: "Limitado pela meta",
 } as const;
 
 // Editorial, not a metric tile: the page title, a lede that asks how much is
 // still spendable, then the monthly ceiling as the hero figure and the
 // projected end-of-period balance as labelled evidence underneath.
 export function HeroBand(props: HeroBandProps) {
-  const { figures, live } = useHeroBand(props);
+  const { figures, live, includesSimulations, limitedByMeta } =
+    useHeroBand(props);
 
   return (
     <section className={cx(styles.band, !live && styles.waiting)}>
@@ -30,11 +33,17 @@ export function HeroBand(props: HeroBandProps) {
           <span className={styles.cursor} aria-hidden={true} />
         </h1>
         <p className={styles.lede}>{COPY.lede}</p>
+        {Boolean(includesSimulations) && (
+          <p className={styles.mark}>{COPY.incluiSimulacoes}</p>
+        )}
+        {Boolean(limitedByMeta) && (
+          <p className={styles.mark}>{COPY.limitadoPelaMeta}</p>
+        )}
 
         {figures !== null && (
           <div className={styles.answer}>
             <p className={styles.claim}>
-              {`${COPY.tetoEm} ${figures.monthLabel}.`}
+              {`${COPY.gastoPossivelAgora} ${figures.monthLabel}.`}
             </p>
             <p className={styles.value}>
               <MoneyDisplay value={figures.monthly} variant="hero" />

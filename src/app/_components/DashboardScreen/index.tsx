@@ -43,18 +43,18 @@ export function DashboardScreen() {
 
   return (
     <div className={styles.screen}>
-      {/* PageHeader's job on this route only. `data` only when the payload is
-          ok — the title half renders in every state, so the page never opens on
-          a bare notice. `refreshing` because the band sits OUTSIDE the wrapper
-          that dims the board, and alone still claimed to be current. */}
-      <HeroBand data={heroData} refreshing={refreshing} />
+      {/* Title half always renders, so the page never opens on a bare notice.
+          `refreshing` because the band sits outside the wrapper that dims. */}
+      <HeroBand
+        data={heroData}
+        refreshing={refreshing}
+        simulation={simulation}
+        cap={cap}
+      />
 
-      {/* Under the band, not over it: the band is full-bleed and cancels
-          <main>'s padding with a negative margin on all four sides, so anything
-          placed above it gets overlapped by 16px (40px from `md` up). Here it
-          sits where the figures it governs begin. Outside every status branch
-          below, because reaching a range at all can be the reason someone turns
-          simulations on — it must still be there on no_range/out_of_range. */}
+      {/* Under the band: it is full-bleed and would overlap anything above.
+          Outside every status branch — reaching a range can be why someone
+          turns simulations on, so it stays on no_range/out_of_range. */}
       <SimulationSelect value={simulation} onChange={setSimulation} />
 
       {Boolean(loading) && (

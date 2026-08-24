@@ -42,12 +42,11 @@ describe("CeilingCard", () => {
     expect(
       screen.getByRole("heading", { name: "Teto de Gastos" }),
     ).toBeInTheDocument();
-    // The headline, and the current month's row. The headline is two text nodes
-    // now — its cents are their own dimmed span — and getByText reads only an
-    // element's DIRECT text children, so that one goes through the element.
     expect(container.querySelector(".total")).toHaveTextContent("R$ 2,50");
     expect(screen.getByText("R$ 2,50")).toBeInTheDocument();
     expect(screen.getByText("Por semana")).toBeInTheDocument();
+    expect(screen.getByText("Gasto extra este mês")).toBeInTheDocument();
+    expect(container.querySelector(".total .large")).not.toBeNull();
   });
 
   it("names the bottleneck month and the month in view", () => {
@@ -82,5 +81,19 @@ describe("CeilingCard", () => {
     expect(
       screen.queryByRole("button", { name: SHOW_ALL }),
     ).not.toBeInTheDocument();
+  });
+
+  it("names the ceiling as limited by the saved goal", () => {
+    render(
+      <CeilingCard
+        ceiling={ceiling()}
+        meta={250}
+        current={202_608}
+        cap="meta"
+        onCapChange={jest.fn()}
+      />,
+    );
+
+    expect(screen.getByText("Limitado pela meta")).toBeInTheDocument();
   });
 });

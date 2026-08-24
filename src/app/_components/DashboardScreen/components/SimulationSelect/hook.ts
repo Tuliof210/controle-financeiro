@@ -1,4 +1,4 @@
-import type { ChangeEvent } from "react";
+import { type ChangeEvent, useId } from "react";
 import type { SimulationView } from "@/lib/simulation.ts";
 
 export interface SimulationSelectProps {
@@ -12,6 +12,7 @@ export function useSimulationSelect({
   onChange,
 }: Pick<SimulationSelectProps, "onChange">) {
   return {
+    id: useId(),
     handleChange: (event: ChangeEvent<HTMLSelectElement>) =>
       onChange(event.target.value),
   };
