@@ -49,6 +49,7 @@ export function DashboardScreen() {
         data={heroData}
         refreshing={refreshing}
         simulation={simulation}
+        cap={cap}
       />
 
       {/* Under the band: it is full-bleed and would overlap anything above.

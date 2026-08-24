@@ -63,8 +63,12 @@ export function useCeilingCap(hasMeta: boolean) {
     }
   }, []);
 
+  let resolved = cap;
+  if (cap === META_CAP && !hasMeta) {
+    resolved = DEFAULT_CEILING_CAP;
+  }
   return {
-    cap: cap === META_CAP && !hasMeta ? DEFAULT_CEILING_CAP : cap,
+    cap: resolved,
     choose,
   };
 }

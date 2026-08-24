@@ -21,7 +21,7 @@ const data = {
   },
 } as unknown as BoardData;
 
-const TETO = /Teto em/;
+const TETO = /Gasto possível agora/;
 const PROJECTED = /Saldo projetado/;
 const ENTRADAS = /Entradas/;
 const RED_MONTHS = /Meses no vermelho/;
@@ -44,8 +44,11 @@ describe("HeroBand", () => {
   it("shows the monthly ceiling as the hero and the projected end as evidence", () => {
     const { container } = render(<HeroBand data={data} />);
 
-    expect(band(container).getByText("Teto em Jan/26.")).toBeInTheDocument();
+    expect(
+      band(container).getByText("Gasto possível agora em Jan/26."),
+    ).toBeInTheDocument();
     expect(container.querySelector(".value")).toHaveTextContent("R$ 2,50");
+    expect(container.querySelector(".value .hero")).not.toBeNull();
     expect(container.querySelector(".weekly")).toHaveTextContent(
       "R$ 0,62 por semana",
     );
@@ -53,8 +56,11 @@ describe("HeroBand", () => {
       band(container).getByText("Saldo projetado em Mar/26."),
     ).toBeInTheDocument();
     expect(container.querySelector(".evidence")).toHaveTextContent("R$ 5,00");
+    expect(container.querySelector(".evidence .large")).not.toBeNull();
     expect(container.querySelector(".value")).not.toHaveTextContent("R$ 5,00");
     expect(band(container).getByText(VS_NOW)).toBeInTheDocument();
+    expect(screen.queryByText("Inclui simulações")).not.toBeInTheDocument();
+    expect(screen.queryByText("Limitado pela meta")).not.toBeInTheDocument();
   });
 
   it("does not carry a supporting stats row under the figure", () => {
@@ -85,9 +91,9 @@ describe("HeroBand", () => {
     expect(screen.getByText("Inclui simulações")).toBeInTheDocument();
   });
 
-  it("does not mark the band on real figures only", () => {
-    render(<HeroBand data={data} />);
+  it("marks the band when the cap is the saved monthly goal", () => {
+    render(<HeroBand data={data} cap="meta" />);
 
-    expect(screen.queryByText("Inclui simulações")).not.toBeInTheDocument();
+    expect(screen.getByText("Limitado pela meta")).toBeInTheDocument();
   });
 });

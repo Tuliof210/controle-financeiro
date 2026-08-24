@@ -37,7 +37,7 @@ export function useDashboardScreen() {
   // board goes and the notice takes over. Read before the cap hook: seeding
   // Meta needs to know whether this payload carries a saved goal.
   const data = heldFor(held, profile);
-  const hasMeta = data?.status === "ok" && data.meta != null;
+  const hasMeta = data?.status === "ok" && typeof data.meta === "number";
   const { cap, choose: setCap } = useCeilingCap(hasMeta);
 
   useEffect(() => {
