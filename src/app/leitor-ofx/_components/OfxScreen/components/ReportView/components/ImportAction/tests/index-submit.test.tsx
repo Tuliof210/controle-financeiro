@@ -53,8 +53,8 @@ beforeEach(() => {
 const confirm = async () => {
   render(<ImportAction report={report} />);
   await userEvent.click(screen.getByRole("button", { name: "Importar" }));
-  const buttons = screen.getAllByRole("button", { name: "Importar" });
-  await userEvent.click(buttons[buttons.length - 1]);
+  const [, submit] = screen.getAllByRole("button", { name: "Importar" });
+  await userEvent.click(submit);
 };
 
 describe("ImportAction submit", () => {

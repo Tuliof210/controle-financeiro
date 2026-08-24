@@ -4,6 +4,7 @@ import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { useRouter } from "next/navigation";
 import type { OfxReport } from "@/app/api/ofx/types.ts";
+import { irreversibleNotice } from "@/app/leitor-ofx/_components/OfxScreen/components/ReportView/components/ImportAction/import-copy.helper.ts";
 import { ImportAction } from "@/app/leitor-ofx/_components/OfxScreen/components/ReportView/components/ImportAction/index.tsx";
 import { useProfile } from "@/components/ProfileProvider/hook.ts";
 import { apiGet, apiPost } from "@/lib/api.ts";
@@ -89,6 +90,6 @@ describe("ImportAction", () => {
     expect(
       screen.getByText("2 movimentações serão criadas."),
     ).toBeInTheDocument();
-    expect(screen.getByText(/não pode ser desfeita/)).toBeInTheDocument();
+    expect(screen.getByText(irreversibleNotice)).toBeInTheDocument();
   });
 });
