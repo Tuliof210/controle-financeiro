@@ -78,4 +78,16 @@ describe("HeroBand", () => {
     rerender(<HeroBand />);
     expect(section()).toHaveClass("waiting");
   });
+
+  it("marks the band when figures include simulations", () => {
+    render(<HeroBand data={data} simulation="all" />);
+
+    expect(screen.getByText("Inclui simulações")).toBeInTheDocument();
+  });
+
+  it("does not mark the band on real figures only", () => {
+    render(<HeroBand data={data} />);
+
+    expect(screen.queryByText("Inclui simulações")).not.toBeInTheDocument();
+  });
 });

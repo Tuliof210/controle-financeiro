@@ -11,13 +11,14 @@ const COPY = {
   porSemana: "por semana",
   saldoProjetado: "Saldo projetado em",
   vsSaldoAtual: "vs. saldo atual de",
+  incluiSimulacoes: "Inclui simulações",
 } as const;
 
 // Editorial, not a metric tile: the page title, a lede that asks how much is
 // still spendable, then the monthly ceiling as the hero figure and the
 // projected end-of-period balance as labelled evidence underneath.
 export function HeroBand(props: HeroBandProps) {
-  const { figures, live } = useHeroBand(props);
+  const { figures, live, includesSimulations } = useHeroBand(props);
 
   return (
     <section className={cx(styles.band, !live && styles.waiting)}>
@@ -30,6 +31,9 @@ export function HeroBand(props: HeroBandProps) {
           <span className={styles.cursor} aria-hidden={true} />
         </h1>
         <p className={styles.lede}>{COPY.lede}</p>
+        {Boolean(includesSimulations) && (
+          <p className={styles.mark}>{COPY.incluiSimulacoes}</p>
+        )}
 
         {figures !== null && (
           <div className={styles.answer}>

@@ -26,4 +26,10 @@ describe("SimulationSelect", () => {
 
     expect(onChange).toHaveBeenCalledWith("all");
   });
+
+  it("shows a visible label", () => {
+    render(<SimulationSelect value="real" onChange={jest.fn()} />);
+
+    expect(screen.getByText("Dados do dashboard")).toBeVisible();
+  });
 });

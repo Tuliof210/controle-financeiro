@@ -23,4 +23,12 @@
     text-wrap: pretty;
     opacity: var(--opacity-muted);
   }
+
+  .mark {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    line-height: var(--leading-normal);
+    opacity: var(--opacity-muted);
+  }
 }
