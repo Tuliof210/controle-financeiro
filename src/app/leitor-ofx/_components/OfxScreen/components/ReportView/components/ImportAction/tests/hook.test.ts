@@ -1,5 +1,6 @@
 import { beforeEach, describe, expect, it } from "@jest/globals";
 import { act, renderHook, waitFor } from "@testing-library/react";
+import { useRouter } from "next/navigation";
 import type { OfxReport } from "@/app/api/ofx/types.ts";
 import { useImportAction } from "@/app/leitor-ofx/_components/OfxScreen/components/ReportView/components/ImportAction/hook.ts";
 import { useProfile } from "@/components/ProfileProvider/hook.ts";
@@ -24,6 +25,7 @@ jest.mock("@/lib/api.ts", () => ({
   apiGet: jest.fn(),
   apiPost: jest.fn(),
 }));
+jest.mock("next/navigation", () => ({ useRouter: jest.fn() }));
 
 const mount = async () => {
   const rendered = renderHook(() => useImportAction({ report }));
@@ -40,6 +42,7 @@ beforeEach(() => {
     data: { imported: false, importedAt: null },
   } as never);
   jest.mocked(apiPost).mockResolvedValue({ data: { imported: 2 } } as never);
+  jest.mocked(useRouter).mockReturnValue({ push: jest.fn() } as never);
 });
 
 describe("useImportAction", () => {

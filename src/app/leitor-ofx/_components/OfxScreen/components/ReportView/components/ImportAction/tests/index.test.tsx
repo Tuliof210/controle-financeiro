@@ -2,7 +2,9 @@ import "@testing-library/jest-dom/jest-globals";
 import { beforeAll, beforeEach, describe, expect, it } from "@jest/globals";
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import { useRouter } from "next/navigation";
 import type { OfxReport } from "@/app/api/ofx/types.ts";
+import { irreversibleNotice } from "@/app/leitor-ofx/_components/OfxScreen/components/ReportView/components/ImportAction/import-copy.helper.ts";
 import { ImportAction } from "@/app/leitor-ofx/_components/OfxScreen/components/ReportView/components/ImportAction/index.tsx";
 import { useProfile } from "@/components/ProfileProvider/hook.ts";
 import { apiGet, apiPost } from "@/lib/api.ts";
@@ -19,6 +21,7 @@ const report = {
 
 const people = [{ id: "p1", name: "Ana", color: "violet" }];
 
+jest.mock("next/navigation", () => ({ useRouter: jest.fn() }));
 jest.mock("@/components/ProfileProvider/hook.ts", () => ({
   useProfile: jest.fn(),
 }));
@@ -40,6 +43,7 @@ beforeAll(() => {
 
 beforeEach(() => {
   jest.clearAllMocks();
+  jest.mocked(useRouter).mockReturnValue({ push: jest.fn() } as never);
   jest
     .mocked(useProfile)
     .mockReturnValue({ profile: "familia", people } as never);
@@ -86,5 +90,6 @@ describe("ImportAction", () => {
     expect(
       screen.getByText("2 movimentações serão criadas."),
     ).toBeInTheDocument();
+    expect(screen.getByText(irreversibleNotice)).toBeInTheDocument();
   });
 });

@@ -15,6 +15,9 @@ jest.mock("@/lib/api.ts", () => ({
   apiPost: jest.fn(),
   apiUpload: jest.fn(),
 }));
+jest.mock("next/navigation", () => ({
+  useRouter: () => ({ push: jest.fn() }),
+}));
 
 beforeAll(() => {
   HTMLDialogElement.prototype.showModal = function showModal() {
@@ -42,10 +45,9 @@ const LOCAL_ONLY = /sem subir nada/;
 beforeEach(() => {
   jest.clearAllMocks();
   sessionStorage.clear();
-  jest.mocked(useProfile).mockReturnValue({
-    profile: "familia",
-    people: [],
-  } as never);
+  jest
+    .mocked(useProfile)
+    .mockReturnValue({ profile: "familia", people: [] } as never);
   jest.mocked(apiGet).mockResolvedValue({
     data: { imported: false, importedAt: null },
   } as never);
@@ -69,9 +71,7 @@ describe("OfxScreen", () => {
 
   it("shows the cached report instead, without flashing the upload card", async () => {
     sessionStorage.setItem(SESSION_KEY, JSON.stringify(report));
-
     render(<OfxScreen />);
-
     expect(
       screen.queryByRole("heading", { name: "Enviar extrato OFX" }),
     ).not.toBeInTheDocument();
@@ -87,12 +87,10 @@ describe("OfxScreen", () => {
     await waitFor(() =>
       expect(container.querySelector("input[type=file]")).not.toBeNull(),
     );
-
     await userEvent.upload(
       container.querySelector("input[type=file]") as HTMLInputElement,
       new File(["<OFX>"], "extrato.ofx"),
     );
-
     expect(
       await screen.findByRole("heading", { name: "Relatório OFX" }),
     ).toBeInTheDocument();

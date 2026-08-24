@@ -2,6 +2,7 @@ import { describe, expect, it } from "@jest/globals";
 import type { OfxAccount, OfxReport } from "@/app/api/ofx/types.ts";
 import {
   importedHint,
+  irreversibleNotice,
   ownerOptions,
   prefillIdentifier,
   submitLabelFor,
@@ -17,6 +18,12 @@ describe("summaryOf", () => {
   it("agrees with the count", () => {
     expect(summaryOf(1)).toBe("1 movimentação será criada.");
     expect(summaryOf(4)).toBe("4 movimentações serão criadas.");
+  });
+});
+
+describe("irreversibleNotice", () => {
+  it("uses the same gravity as deleting a person", () => {
+    expect(irreversibleNotice).toContain("não pode ser desfeita");
   });
 });
 

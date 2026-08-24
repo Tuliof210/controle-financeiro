@@ -14,6 +14,9 @@ jest.mock("@/lib/api.ts", () => ({
   apiGet: jest.fn(),
   apiPost: jest.fn(),
 }));
+jest.mock("next/navigation", () => ({
+  useRouter: () => ({ push: jest.fn() }),
+}));
 
 beforeAll(() => {
   HTMLDialogElement.prototype.showModal = function showModal() {

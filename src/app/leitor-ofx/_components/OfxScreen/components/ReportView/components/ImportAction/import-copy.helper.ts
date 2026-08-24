@@ -13,6 +13,11 @@ export const summaryOf = (count: number): string => {
   return `${count} movimentações serão criadas.`;
 };
 
+// Same gravity as deleting a person ("Esta ação não pode ser desfeita"):
+// the schema has no undo, so the warning has to land before confirm.
+export const irreversibleNotice =
+  "As movimentações entram no banco. Esta ação não pode ser desfeita, e o mesmo arquivo não volta atrás.";
+
 export const importedHint = (at: string | null): string => {
   if (at === null) {
     return "Este extrato já foi importado.";
