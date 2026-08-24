@@ -19,6 +19,16 @@ type CeilingCap = (typeof CEILING_CAPS)[number];
 
 const DEFAULT_CEILING_CAP: CeilingCap = "50";
 
+// The localStorage key and the guard live here for the same reason the default
+// does: the screen that writes the choice and the entry screen that has to
+// reproduce it must not spell either one twice. A stored value can be anything
+// — an older build's vocabulary, a hand-edited key — and an unknown one must
+// read as a fallback rather than reach the URL.
+const CEILING_CAP_KEY = "ceiling-cap";
+
+const isCeilingCap = (value: string | null): value is CeilingCap =>
+  CEILING_CAPS.includes(value as CeilingCap);
+
 // The share of the headroom a target releases. `Number(cap)` alone used to live
 // inline in the route as `.transform(Number)`, and adding a non-numeric member
 // to the tuple is exactly what turns that into NaN in every budget, every pace
@@ -33,4 +43,11 @@ const capPercent = (cap: CeilingCap): number => {
 };
 
 export type { CeilingCap };
-export { CEILING_CAPS, capPercent, DEFAULT_CEILING_CAP, META_CAP };
+export {
+  CEILING_CAP_KEY,
+  CEILING_CAPS,
+  capPercent,
+  DEFAULT_CEILING_CAP,
+  isCeilingCap,
+  META_CAP,
+};
