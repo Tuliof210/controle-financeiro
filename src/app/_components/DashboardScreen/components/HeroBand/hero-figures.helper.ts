@@ -11,7 +11,7 @@ function buildFigures(data?: BoardData) {
     return null;
   }
 
-  const { points, range } = data;
+  const { points, range, ceiling } = data;
   const last = points.at(-1);
   if (!last) {
     return null;
@@ -24,8 +24,11 @@ function buildFigures(data?: BoardData) {
     points.find((point) => point.month === range.current) ?? points[0];
 
   return {
+    monthLabel: formatYyyymm(range.current),
+    monthlyCents: ceiling.monthly,
+    weeklyCents: ceiling.weekly,
     endLabel: formatYyyymm(range.end),
-    valueCents: last.cumulative,
+    projectedEndCents: last.cumulative,
     nowCents: current.cumulative,
     deltaCents: last.cumulative - current.cumulative,
   };
