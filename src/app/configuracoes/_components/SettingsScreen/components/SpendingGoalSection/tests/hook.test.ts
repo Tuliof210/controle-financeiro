@@ -2,15 +2,26 @@ import { beforeEach, describe, expect, it } from "@jest/globals";
 import { act, renderHook, waitFor } from "@testing-library/react";
 import { useSpendingGoalSection } from "@/app/configuracoes/_components/SettingsScreen/components/SpendingGoalSection/hook.ts";
 import { apiGet, apiPut } from "@/lib/api.ts";
+import { DEFAULT_SETTINGS } from "@/lib/settings-defaults.ts";
 
 jest.mock("@/lib/api.ts", () => ({
   apiGet: jest.fn(),
   apiPut: jest.fn(),
 }));
 
+// The six fields this card does not edit, plus the one it does. The PUT is
+// all-or-nothing, so the card has to hand every one of them back.
+const saved = {
+  ...DEFAULT_SETTINGS,
+  ceilingCents: 700,
+  goalsMode: "fixed" as const,
+  goalsCents: 5000,
+  showSimulated: true,
+};
+
 beforeEach(() => {
   jest.clearAllMocks();
-  jest.mocked(apiGet).mockResolvedValue({ data: { monthlyGoalCents: 700 } });
+  jest.mocked(apiGet).mockResolvedValue({ data: saved });
   jest.mocked(apiPut).mockResolvedValue({ data: null });
 });
 
@@ -47,9 +58,7 @@ describe("useSpendingGoalSection", () => {
       await result.current.onSave();
     });
 
-    expect(apiPut).toHaveBeenCalledWith("/api/settings", {
-      monthlyGoalCents: 700,
-    });
+    expect(apiPut).toHaveBeenCalledWith("/api/settings", saved);
     expect(result.current.savedMessage).toBe("Meta salva.");
   });
 
