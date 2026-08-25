@@ -1,6 +1,7 @@
 import type { Ceiling, CeilingMonth } from "./ceiling.types.ts";
 import {
   firstRedOf,
+  headroomOf,
   rates,
   suffixMinimum,
   tightestOf,
@@ -94,7 +95,6 @@ export function buildCeiling(
     tightest: tightestOf(monthly, ahead, worst),
     firstRed: firstRedOf(red),
     months,
-    // The same two ingredients, read once more — see ceiling.types.ts.
-    headroomCents: red === undefined ? worst[0] : 0,
+    headroomCents: headroomOf(red, worst),
   };
 }

@@ -1,7 +1,4 @@
-import type {
-  SettingMode,
-  Settings,
-} from "@/core/entities/settings.entity.ts";
+import type { SettingMode, Settings } from "@/core/entities/settings.entity.ts";
 import type { SettingsRepository } from "@/core/repositories/settings.repository.ts";
 import { prisma } from "@/infra/db/client.ts";
 

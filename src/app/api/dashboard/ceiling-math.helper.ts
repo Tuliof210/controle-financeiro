@@ -54,6 +54,19 @@ export function tightestOf(
   return tightestMonth(ahead, worst[0]);
 }
 
+// The largest monthly ceiling that still leaves no month ahead in the red: the
+// whole of the current month's worst balance, before any target or limit
+// declined part of it — and nothing at all once the period already has a hole.
+export function headroomOf(
+  red: MonthPoint | undefined,
+  worst: number[],
+): number {
+  if (red !== undefined) {
+    return 0;
+  }
+  return worst[0];
+}
+
 export function firstRedOf(red: MonthPoint | undefined) {
   if (red === undefined) {
     return null;
