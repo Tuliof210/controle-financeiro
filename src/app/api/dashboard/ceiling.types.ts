@@ -43,13 +43,13 @@ export type Ceiling = CeilingRates & {
   // A fixed target is the exception: it hands out its amount over a red period
   // too, so `firstRed` can be non-null beside a non-zero `monthly`.
   firstRed: { month: number; shortfall: number } | null;
-  // Current month .. range end, never empty — it is also savingPace's divisor.
+  // Current month .. range end, never empty.
   months: CeilingMonth[];
   // The largest monthly ceiling that still leaves no month ahead in the red:
   // the budget the current month would be offered at a 100% target, and 0 once
   // any month ahead is already underwater. Independent of the target the
   // payload was built with — it is the same number at every target, which is
-  // what lets the Perfil screen clamp a fixed-amount input against it.
+  // what lets the Perfil screen clamp a fixed ceiling input against it.
   headroomCents: number; // cents, >= 0
   // This ceiling came from a fixed amount, not from a share of the balance.
   // The card reads it to label what bound the figure: under a percentage the

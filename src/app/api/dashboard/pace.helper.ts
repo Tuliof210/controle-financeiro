@@ -7,25 +7,17 @@ type GoalsTarget = CeilingTarget;
 
 const PERCENT = 100;
 
-// A share of the MEAN of the figures the Teto de Gastos card displays — every
-// month from the current one to the range end, zeros included. Averaging is what
-// makes a front-loaded column usable as a rate: the early months sit far above
-// what repeats and the late ones far below, and only their mean is a number that
-// can be committed to every month.
-//
-// `total * percent / (100 * n)` floored, in that order — the same rule
-// buildCeiling's accumulator follows. Flooring a share of an already-floored
-// mean would round twice, and a saving rate always rounds DOWN. Never
-// Math.trunc: it differs on negatives.
+// A share of THIS MONTH's teto — the figure the Teto de Gastos card displays —
+// so the two cards compose: 50% of a R$40 teto is R$20. Flooring a share always
+// rounds DOWN. Never Math.trunc: it differs on negatives.
 //
 // A fixed amount is returned as it stands, with no clamp against the ceiling it
 // is meant to come out of. An unreachable rate is the family's own figure read
-// back to them, and the dashboard's alert is what says so — silently lowering it
-// would leave the goal dates looking affordable.
+// back to them; silently lowering it would leave the goal dates looking
+// affordable. The Perfil input is what caps a typed amount at this month's teto.
 //
-// `ceiling.months` is never empty (see its declaration in ceiling.types.ts), so
-// there is no divisor guard here. A period with no room at all makes every
-// budget 0 and so the pace 0, which goals.helper already treats as "no rate".
+// A period with no room at all makes monthly 0 and so the pace 0, which
+// goals.helper already treats as "no rate".
 //
 // Its own file rather than ceiling.helper's: this is what the ceiling BUYS, not
 // how it is computed, and folding it back in puts that file over the 100-line
@@ -34,10 +26,7 @@ function savingPace(ceiling: Ceiling, target: GoalsTarget): number {
   if (target.mode === "fixed") {
     return target.cents;
   }
-  const total = ceiling.months.reduce((sum, month) => sum + month.budget, 0);
-  return Math.floor(
-    (total * target.percent) / (PERCENT * ceiling.months.length),
-  );
+  return Math.floor((ceiling.monthly * target.percent) / PERCENT);
 }
 
 export type { GoalsTarget };

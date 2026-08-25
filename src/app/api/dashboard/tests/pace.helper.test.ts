@@ -10,23 +10,22 @@ import { savingPace } from "@/app/api/dashboard/pace.helper.ts";
 
 const ceilingOf = (budgets: number[]) =>
   ({
+    monthly: budgets[0],
     months: budgets.map((budget) => ({ budget }) as CeilingMonth),
   }) as Ceiling;
 
-// 25% is the share the board used to hardcode as `PACE_DIVISOR = 4`, so every
-// percentage case below expects the number that divisor gave.
 const QUARTER = { mode: "percent", percent: 25 } as const;
 
 describe("savingPace", () => {
-  it("is the saved share of the mean monthly ceiling", () => {
+  it("is the saved share of this month's teto", () => {
     expect(savingPace(ceilingOf([1000, 1000]), QUARTER)).toBe(250);
   });
 
-  it("averages a front-loaded column instead of following its first month", () => {
-    expect(savingPace(ceilingOf([4000, 0, 0, 0]), QUARTER)).toBe(250);
+  it("follows this month's teto, not the mean of the column", () => {
+    expect(savingPace(ceilingOf([4000, 0, 0, 0]), QUARTER)).toBe(1000);
   });
 
-  it("floors once, on the share of the raw mean", () => {
+  it("floors the share of this month's teto once", () => {
     expect(savingPace(ceilingOf([100, 101]), QUARTER)).toBe(25);
   });
 
