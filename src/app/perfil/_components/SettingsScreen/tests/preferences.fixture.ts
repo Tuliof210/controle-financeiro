@@ -17,7 +17,7 @@ export const HEADROOM = 50_000;
 
 export const okDashboard = {
   status: "ok",
-  ceiling: { headroomCents: HEADROOM },
+  ceiling: { headroomCents: HEADROOM, monthly: 12_000 },
 } as unknown as DashboardData;
 
 export const emptyDashboard: DashboardData = { status: "no_range" };

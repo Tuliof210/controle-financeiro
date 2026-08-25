@@ -7,11 +7,14 @@ import { SimulatedSection } from "@/app/perfil/_components/SettingsScreen/compon
 const LABEL = "Contar previsões simuladas no dashboard";
 
 describe("SimulatedSection", () => {
-  it("explains what a simulated forecast is and shows the current state", () => {
+  it("keeps the essay in the hint and shows the current state", () => {
     render(<SimulatedSection value={true} onChange={jest.fn()} />);
 
     expect(
       screen.getByRole("heading", { name: "Dados simulados" }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: "Como Dados simulados é calculado" }),
     ).toBeInTheDocument();
     expect(screen.getByLabelText(LABEL)).toBeChecked();
   });

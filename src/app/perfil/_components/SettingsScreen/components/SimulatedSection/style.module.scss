@@ -1,20 +1,11 @@
 @use "theme" as t;
 
-.help {
-  margin: 0;
-  color: var(--color-text-muted);
-  font-family: var(--font-sans);
-  font-size: var(--text-sm);
-}
-
 .row {
   display: flex;
   gap: var(--space-2);
   align-items: center;
 }
 
-// The native checkbox, only re-tinted: it carries the role, the checked state
-// and the space-bar toggle, and the box is already the affordance.
 .checkbox {
   flex: none;
   width: var(--space-5);

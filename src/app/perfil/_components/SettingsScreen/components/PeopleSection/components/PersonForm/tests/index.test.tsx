@@ -16,7 +16,7 @@ describe("PersonForm", () => {
     render(<PersonForm submitLabel="Adicionar" onSubmit={onSubmit} />);
 
     await userEvent.type(screen.getByLabelText("Nome"), "Ana");
-    await userEvent.click(screen.getByRole("radio", { name: "cyan" }));
+    await userEvent.click(screen.getByRole("radio", { name: "Ciano" }));
     await userEvent.click(screen.getByRole("button", { name: "Adicionar" }));
 
     expect(onSubmit).toHaveBeenCalledWith({ name: "Ana", color: "cyan" });

@@ -1,35 +1,24 @@
 import type { SettingMode } from "@/core/entities/settings.entity.ts";
-import { formatMoney } from "@/lib/money.ts";
+import type { HeadroomKind } from "../../headroom.helper.ts";
+import { maxHint } from "../../max-hint.helper.ts";
 
 interface GoalsLimitSectionProps {
   mode: SettingMode;
-  percent: number; // 0..100
+  percent: number;
   cents: number;
-  maxCents: number | null; // null = sem período; sem máximo a anunciar
+  headroomKind: HeadroomKind;
+  maxCents: number | null;
   onModeChange: (mode: SettingMode) => void;
   onPercentChange: (raw: string) => void;
   onCentsChange: (cents: number) => void;
 }
 
-// The maximum a fixed goals limit may name, as the field's own hint. The input
-// saturates there rather than refusing (the owner's call), so the number has to
-// be on screen or the reader only learns the limit by hitting it.
-const maxHint = (maxCents: number | null): string => {
-  if (maxCents === null) {
-    return "Sem previsões nem movimentações ainda, não há máximo a respeitar.";
-  }
-  return `No máximo ${formatMoney(maxCents)} — acima disso algum mês futuro fecharia no vermelho.`;
-};
-
 function useGoalsLimitSection(props: GoalsLimitSectionProps) {
   return {
     ...props,
     isPercent: props.mode === "percent",
-    // The percent input rides Field's text arm: FieldProps has no percent arm,
-    // and adding one for two call sites is not the trade. The parse is
-    // clampPercent, one layer up.
     percentValue: String(props.percent),
-    maxHint: maxHint(props.maxCents),
+    maxHint: maxHint(props.headroomKind, props.maxCents),
   };
 }
 

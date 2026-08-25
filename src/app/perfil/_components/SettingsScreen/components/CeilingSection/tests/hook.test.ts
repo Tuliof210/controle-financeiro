@@ -6,7 +6,9 @@ const base = {
   mode: "percent" as const,
   percent: 50,
   cents: 700,
+  headroomKind: "ok" as const,
   maxCents: 50_000,
+  monthlyCents: 12_000,
   onModeChange: jest.fn(),
   onPercentChange: jest.fn(),
   onCentsChange: jest.fn(),
@@ -18,6 +20,7 @@ describe("useCeilingSection", () => {
 
     expect(result.current.isPercent).toBe(true);
     expect(result.current.percentValue).toBe("50");
+    expect(result.current.showFigure).toBe(true);
   });
 
   it("names the maximum a fixed ceiling may reach", () => {
@@ -31,9 +34,15 @@ describe("useCeilingSection", () => {
 
   it("says there is nothing to respect when there is no period", () => {
     const { result } = renderHook(() =>
-      useCeilingSection({ ...base, maxCents: null }),
+      useCeilingSection({
+        ...base,
+        maxCents: null,
+        monthlyCents: null,
+        headroomKind: "empty",
+      }),
     );
 
     expect(result.current.maxHint).toContain("não há máximo");
+    expect(result.current.showFigure).toBe(false);
   });
 });

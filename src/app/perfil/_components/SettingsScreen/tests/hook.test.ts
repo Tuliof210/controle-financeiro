@@ -17,7 +17,7 @@ describe("useSettingsScreen", () => {
     const { result } = renderHook(() => useSettingsScreen());
 
     expect(result.current.header).toEqual({
-      title: "Perfil",
+      title: "Ajustes",
       subtitle: "Pessoas, objetivos e como o dashboard exibe seus números.",
     });
   });
@@ -35,10 +35,11 @@ describe("useSettingsScreen", () => {
     const { result } = renderHook(() => useSettingsScreen());
     await waitFor(() => expect(result.current.ceiling.cents).toBe(700));
 
-    act(() => result.current.goalsLimit.onPercentChange("40"));
+    act(() => {
+      result.current.goalsLimit.onPercentChange("40");
+    });
 
     expect(result.current.goalsLimit.percent).toBe(40);
     expect(result.current.ceiling.percent).toBe(STORED.ceilingPercent);
-    expect(result.current.dirty).toBe(true);
   });
 });

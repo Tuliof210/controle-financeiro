@@ -22,6 +22,7 @@ export function GoalForm({
     targetCents,
     setTargetCents,
     localError,
+    canSubmit,
     handleSubmit,
   } = useGoalForm({ initial, onSubmit });
   const shownError = localError ?? error;
@@ -41,7 +42,9 @@ export function GoalForm({
           <span aria-hidden={true}>{ERROR_GLYPH}</span> {shownError}
         </p>
       )}
-      <Button type="submit">{submitLabel}</Button>
+      <Button type="submit" disabled={!canSubmit}>
+        {submitLabel}
+      </Button>
     </form>
   );
 }

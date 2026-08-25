@@ -40,7 +40,7 @@ describe("SavingsSection", () => {
     render(<SavingsSection data={data([])} />);
 
     expect(screen.queryByRole("list")).not.toBeInTheDocument();
-    expect(screen.getByRole("link", { name: "Perfil" })).toHaveAttribute(
+    expect(screen.getByRole("link", { name: "Ajustes" })).toHaveAttribute(
       "href",
       "/perfil",
     );

@@ -26,7 +26,7 @@ const okPayload = {
 };
 
 const OVER_HEADROOM = /passou do máximo que o período aguenta/;
-const PERFIL = "Perfil";
+const PERFIL = "Ajustes";
 
 const mount = (overHeadroom: boolean) => {
   jest

@@ -53,31 +53,31 @@ export function PeopleSection() {
         {COPY.adicionarPessoa}
       </Button>
 
-      <Modal open={modal === "add"} onClose={close} title="Adicionar pessoa">
-        {modal === "add" && (
+      {modal === "add" && (
+        <Modal open={true} onClose={close} title="Adicionar pessoa">
           <PersonForm error={error} onSubmit={onAdd} submitLabel="Adicionar" />
-        )}
-      </Modal>
-
-      <Modal open={modal === "edit"} onClose={close} title="Editar pessoa">
-        {modal === "edit" && target && (
+        </Modal>
+      )}
+      {modal === "edit" && target !== undefined && (
+        <Modal open={true} onClose={close} title="Editar pessoa">
           <PersonForm
             initial={{ name: target.name, color: target.color }}
             error={error}
             onSubmit={onUpdate}
             submitLabel="Salvar"
           />
-        )}
-      </Modal>
-
-      <ConfirmDialog
-        open={modal === "delete"}
-        onClose={close}
-        onConfirm={onConfirmDelete}
-        error={error}
-        title="Excluir pessoa"
-        message={`Excluir ${target?.name}? Esta ação não pode ser desfeita.`}
-      />
+        </Modal>
+      )}
+      {modal === "delete" && target !== undefined && (
+        <ConfirmDialog
+          open={true}
+          onClose={close}
+          onConfirm={onConfirmDelete}
+          error={error}
+          title="Excluir pessoa"
+          message={`Excluir ${target.name}? Esta ação não pode ser desfeita.`}
+        />
+      )}
     </SectionCard>
   );
 }

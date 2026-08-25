@@ -22,6 +22,10 @@ export function useGoalForm({
   const [localError, setLocalError] = useState<string>();
 
   const handleSubmit = () => {
+    if (!name.trim()) {
+      setLocalError("Informe um nome");
+      return;
+    }
     if (targetCents < 1) {
       setLocalError("Informe um valor maior que zero");
       return;
@@ -36,6 +40,7 @@ export function useGoalForm({
     targetCents,
     setTargetCents,
     localError,
+    canSubmit: name.trim().length > 0,
     handleSubmit,
   };
 }

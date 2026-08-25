@@ -53,22 +53,13 @@ export function GoalsSection() {
         {COPY.adicionarObjetivo}
       </Button>
 
-      <Modal
-        open={modal.type === "add"}
-        onClose={close}
-        title="Adicionar objetivo"
-      >
-        {modal.type === "add" && (
+      {modal.type === "add" && (
+        <Modal open={true} onClose={close} title="Adicionar objetivo">
           <GoalForm submitLabel="Adicionar" error={error} onSubmit={onAdd} />
-        )}
-      </Modal>
-
-      <Modal
-        open={modal.type === "edit"}
-        onClose={close}
-        title="Editar objetivo"
-      >
-        {modal.type === "edit" && (
+        </Modal>
+      )}
+      {modal.type === "edit" && (
+        <Modal open={true} onClose={close} title="Editar objetivo">
           <GoalForm
             submitLabel="Salvar"
             error={error}
@@ -78,17 +69,18 @@ export function GoalsSection() {
             }}
             onSubmit={onUpdate}
           />
-        )}
-      </Modal>
-
-      <ConfirmDialog
-        open={modal.type === "delete"}
-        onClose={close}
-        onConfirm={onConfirmDelete}
-        error={error}
-        title="Excluir objetivo"
-        message={deleteTitle(modal)}
-      />
+        </Modal>
+      )}
+      {modal.type === "delete" && (
+        <ConfirmDialog
+          open={true}
+          onClose={close}
+          onConfirm={onConfirmDelete}
+          error={error}
+          title="Excluir objetivo"
+          message={deleteTitle(modal)}
+        />
+      )}
     </SectionCard>
   );
 }

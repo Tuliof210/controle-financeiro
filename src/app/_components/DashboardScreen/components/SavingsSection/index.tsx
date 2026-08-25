@@ -12,7 +12,7 @@ const COPY = {
   mes: "/mês",
   objetivos: "Objetivos",
   totalEmMetas: "Total em metas",
-  perfil: "Perfil",
+  perfil: "Ajustes",
   fullStop: ".",
   meta: "Meta",
   dedicado: "Dedicado",

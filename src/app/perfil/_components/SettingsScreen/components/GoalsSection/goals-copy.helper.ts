@@ -7,7 +7,7 @@ const deleteTitle = (modal: {
   if (modal.type !== "delete" || !modal.goal) {
     return "";
   }
-  return `Excluir o objetivo "${modal.goal.name}"?`;
+  return `Excluir o objetivo "${modal.goal.name}"? Esta ação não pode ser desfeita.`;
 };
 
 export { deleteTitle };

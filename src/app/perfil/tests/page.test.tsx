@@ -9,7 +9,7 @@ jest.mock("@/app/perfil/_components/SettingsScreen/index.tsx", () => ({
 
 describe("perfil page", () => {
   it("titles the tab", () => {
-    expect(metadata.title).toBe("Perfil");
+    expect(metadata.title).toBe("Ajustes");
   });
 
   it("renders nothing but its screen", () => {

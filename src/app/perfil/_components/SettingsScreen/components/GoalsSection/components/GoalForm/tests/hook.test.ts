@@ -8,7 +8,11 @@ describe("useGoalForm", () => {
       useGoalForm({ initial: undefined, onSubmit: jest.fn() }),
     );
 
-    expect(result.current).toMatchObject({ name: "", targetCents: 0 });
+    expect(result.current).toMatchObject({
+      name: "",
+      targetCents: 0,
+      canSubmit: false,
+    });
   });
 
   it("seeds from the goal being edited", () => {
@@ -22,12 +26,29 @@ describe("useGoalForm", () => {
     expect(result.current).toMatchObject({ name: "Casa", targetCents: 5000 });
   });
 
+  it("refuses a blank name first", () => {
+    const onSubmit = jest.fn();
+    const { result } = renderHook(() =>
+      useGoalForm({ initial: undefined, onSubmit }),
+    );
+
+    act(() => {
+      result.current.handleSubmit();
+    });
+
+    expect(onSubmit).not.toHaveBeenCalled();
+    expect(result.current.localError).toBe("Informe um nome");
+  });
+
   it("refuses a target of nothing, and says why", () => {
     const onSubmit = jest.fn();
     const { result } = renderHook(() =>
       useGoalForm({ initial: undefined, onSubmit }),
     );
 
+    act(() => {
+      result.current.setName("Casa");
+    });
     act(() => {
       result.current.handleSubmit();
     });

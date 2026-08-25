@@ -9,7 +9,7 @@ import styles from "./style.module.scss";
 const COPY = {
   simulacao: "Simulação",
   oDashboardSo:
-    "O dashboard só soma simulações quando o ajuste do Perfil pedir.",
+    "O dashboard só soma simulações quando isso estiver ligado em Ajustes.",
 } as const;
 
 const SIMULATED_ID = "forecast-simulated";

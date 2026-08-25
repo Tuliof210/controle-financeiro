@@ -4,27 +4,35 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { CeilingSection } from "@/app/perfil/_components/SettingsScreen/components/CeilingSection/index.tsx";
 
-const SEM_VERMELHO = /nenhum mês futuro fechar no vermelho/;
+const HINT = /Quanto ainda dá para gastar neste mês/;
 const MAXIMO = /No máximo R\$ 500,00/;
-const SEM_MAXIMO = /não há máximo a respeitar/;
+const MAX_FAIL = /Não foi possível calcular o máximo/;
 
 const base = {
   percent: 50,
   cents: 700,
+  headroomKind: "ok" as const,
   maxCents: 50_000,
+  monthlyCents: 12_000,
   onModeChange: jest.fn(),
   onPercentChange: jest.fn(),
   onCentsChange: jest.fn(),
 };
 
 describe("CeilingSection", () => {
-  it("explains the ceiling and offers both modes", () => {
+  it("leads with this month's teto and keeps the essay in the hint", () => {
     render(<CeilingSection {...base} mode="percent" />);
 
     expect(
-      screen.getByRole("heading", { name: "Teto de Gastos" }),
+      screen.getByRole("heading", { name: "Teto de gastos" }),
     ).toBeInTheDocument();
-    expect(screen.getByText(SEM_VERMELHO)).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: "Como Teto de gastos é calculado" }),
+    ).toBeInTheDocument();
+    expect(screen.getByText(HINT)).toBeInTheDocument();
+    expect(screen.getByText("este mês").parentElement).toHaveTextContent(
+      "R$ 120,00",
+    );
     expect(screen.getByRole("radio", { name: "Porcentagem" })).toBeChecked();
   });
 
@@ -47,10 +55,21 @@ describe("CeilingSection", () => {
     ).not.toBeInTheDocument();
   });
 
-  it("says there is no maximum when the period is empty", () => {
-    render(<CeilingSection {...base} mode="fixed" maxCents={null} />);
+  it("does not claim an empty period when the dashboard failed", () => {
+    render(
+      <CeilingSection
+        {...base}
+        mode="fixed"
+        headroomKind="error"
+        maxCents={null}
+        monthlyCents={null}
+      />,
+    );
 
-    expect(screen.getByText(SEM_MAXIMO)).toBeInTheDocument();
+    expect(
+      screen.getByText("Não foi possível calcular o teto agora."),
+    ).toBeInTheDocument();
+    expect(screen.getByText(MAX_FAIL)).toBeInTheDocument();
   });
 
   it("reports what the reader typed and picked", async () => {

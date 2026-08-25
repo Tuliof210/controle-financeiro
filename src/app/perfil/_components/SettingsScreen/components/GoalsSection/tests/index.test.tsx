@@ -70,6 +70,10 @@ describe("GoalsSection", () => {
 
     await userEvent.click(screen.getByRole("button", { name: "Excluir Casa" }));
 
-    expect(screen.getByText('Excluir o objetivo "Casa"?')).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        'Excluir o objetivo "Casa"? Esta ação não pode ser desfeita.',
+      ),
+    ).toBeInTheDocument();
   });
 });

@@ -7,8 +7,8 @@ import styles from "./style.module.scss";
 const CHECKBOX_ID = "show-simulated";
 
 const COPY = {
-  ajuda:
-    "Uma previsão marcada como simulada é um e-se: fica registrada como qualquer outra, mas o dashboard a ignora. Ligue aqui para que ela passe a contar nos números — saldo, teto e objetivos.",
+  title: "Dados simulados",
+  hint: "Uma previsão simulada é um e-se: fica registrada, mas o dashboard a ignora até você ligar isto.",
   rotulo: "Contar previsões simuladas no dashboard",
 } as const;
 
@@ -16,8 +16,7 @@ export function SimulatedSection(props: SimulatedSectionProps) {
   const { value, handleChange } = useSimulatedSection(props);
 
   return (
-    <SectionCard title="Dados simulados">
-      <p className={styles.help}>{COPY.ajuda}</p>
+    <SectionCard title={COPY.title} hint={COPY.hint}>
       <div className={styles.row}>
         <input
           id={CHECKBOX_ID}

@@ -44,7 +44,7 @@ describe("ForecastForm", () => {
 
     expect(
       screen.getByText(
-        "O dashboard só soma simulações quando o ajuste do Perfil pedir.",
+        "O dashboard só soma simulações quando isso estiver ligado em Ajustes.",
       ),
     ).toBeInTheDocument();
   });

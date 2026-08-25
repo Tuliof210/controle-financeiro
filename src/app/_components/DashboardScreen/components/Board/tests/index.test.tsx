@@ -38,7 +38,7 @@ describe("Board", () => {
 
     expect(screen.getByTestId(OVERVIEW)).toBeInTheDocument();
     expect(
-      screen.getByRole("heading", { name: "Teto de Gastos" }),
+      screen.getByRole("heading", { name: "Teto de gastos" }),
     ).toBeInTheDocument();
     expect(screen.getByTestId(SAVINGS)).toBeInTheDocument();
   });

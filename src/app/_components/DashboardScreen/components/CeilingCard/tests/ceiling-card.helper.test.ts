@@ -23,7 +23,7 @@ describe("shareOf", () => {
 
 describe("limitLabel", () => {
   it("points at the Perfil setting when the ceiling is a fixed amount", () => {
-    expect(limitLabel(true, 202_612)).toBe("Limitado pelo teto do Perfil");
+    expect(limitLabel(true, 202_612)).toBe("Limitado pelo teto em Ajustes");
   });
 
   it("names the bottleneck month otherwise", () => {

@@ -27,7 +27,7 @@ export function CeilingCard(props: CeilingCardProps) {
 
   return (
     <SectionCard
-      title="Teto de Gastos"
+      title="Teto de gastos"
       icon="wallet"
       hint={HINTS.ceiling}
       band="ink"

@@ -52,7 +52,7 @@ describe("useCeilingCard", () => {
 
   it("names the Perfil setting instead once the ceiling is fixed", () => {
     expect(card({ fixed: true }).limitedBy).toBe(
-      "Limitado pelo teto do Perfil",
+      "Limitado pelo teto em Ajustes",
     );
   });
 

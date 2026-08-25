@@ -16,15 +16,15 @@ describe("ColorPicker", () => {
   it("checks only the active colour", () => {
     render(<ColorPicker value="lime" onChange={jest.fn()} />);
 
-    expect(screen.getByRole("radio", { name: "lime" })).toBeChecked();
-    expect(screen.getByRole("radio", { name: "violet" })).not.toBeChecked();
+    expect(screen.getByRole("radio", { name: "Lima" })).toBeChecked();
+    expect(screen.getByRole("radio", { name: "Violeta" })).not.toBeChecked();
   });
 
   it("reports the colour that was picked", async () => {
     const onChange = jest.fn();
     render(<ColorPicker value="violet" onChange={onChange} />);
 
-    await userEvent.click(screen.getByRole("radio", { name: "cyan" }));
+    await userEvent.click(screen.getByRole("radio", { name: "Ciano" }));
 
     expect(onChange).toHaveBeenCalledWith("cyan");
   });

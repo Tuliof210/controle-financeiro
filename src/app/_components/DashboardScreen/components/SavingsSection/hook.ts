@@ -10,7 +10,7 @@ interface SavingsSectionProps {
 // family changes it — which this one already did twice.
 const captionFor = (pace: number): string => {
   if (pace) {
-    return "conforme o ajuste de objetivos no Perfil";
+    return "conforme o ajuste de objetivos em Ajustes";
   }
   return "sem teto de gastos no período";
 };

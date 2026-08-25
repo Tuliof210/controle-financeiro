@@ -2,7 +2,6 @@
 
 import { Button } from "@/components/Button/index.tsx";
 import { PageHeader } from "@/components/PageHeader/index.tsx";
-import { onSubmitForm } from "@/lib/form.helper.ts";
 import { ERROR_GLYPH } from "@/lib/glyphs.ts";
 import { CeilingSection } from "./components/CeilingSection/index.tsx";
 import { GoalsLimitSection } from "./components/GoalsLimitSection/index.tsx";
@@ -10,11 +9,8 @@ import { GoalsSection } from "./components/GoalsSection/index.tsx";
 import { PeopleSection } from "./components/PeopleSection/index.tsx";
 import { SimulatedSection } from "./components/SimulatedSection/index.tsx";
 import { useSettingsScreen } from "./hook.ts";
+import { PREFS_COPY } from "./preferences-copy.ts";
 import styles from "./style.module.scss";
-
-const COPY = {
-  salvar: "Salvar",
-} as const;
 
 export function SettingsScreen() {
   const view = useSettingsScreen();
@@ -23,28 +19,36 @@ export function SettingsScreen() {
     <div className={styles.screen}>
       <PageHeader {...view.header} />
       <div className={styles.stack}>
-        {/* These two talk to their own endpoints, so they still fetch and save
-            themselves. The three below share one all-or-nothing PUT. */}
         <PeopleSection />
         <GoalsSection />
-        <form className={styles.form} onSubmit={onSubmitForm(view.onSave)}>
-          <CeilingSection {...view.ceiling} />
-          <GoalsLimitSection {...view.goalsLimit} />
-          <SimulatedSection {...view.simulated} />
-          {Boolean(view.error) && (
+        {Boolean(view.loading) && (
+          <p className={styles.loading}>{PREFS_COPY.loading}</p>
+        )}
+        {Boolean(view.ready) && (
+          <>
+            <CeilingSection {...view.ceiling} />
+            <GoalsLimitSection {...view.goalsLimit} />
+            <SimulatedSection {...view.simulated} />
+          </>
+        )}
+        {Boolean(view.error) && (
+          <div className={styles.fail}>
             <p className={styles.error} role="alert">
               <span aria-hidden={true}>{ERROR_GLYPH}</span> {view.error}
             </p>
-          )}
-          <Button type="submit" disabled={!view.dirty}>
-            {COPY.salvar}
-          </Button>
-          {/* Always rendered, empty until a save lands: a live region announces
-              a text change, not its own insertion. */}
-          <p className={styles.saved} role="status">
-            {view.savedMessage}
-          </p>
-        </form>
+            <Button
+              variant="ghost"
+              type="button"
+              onClick={view.onRetry}
+              loading={view.saving}
+            >
+              {PREFS_COPY.retry}
+            </Button>
+          </div>
+        )}
+        <p className={styles[view.statusClass]} role="status">
+          {view.statusMessage}
+        </p>
       </div>
     </div>
   );

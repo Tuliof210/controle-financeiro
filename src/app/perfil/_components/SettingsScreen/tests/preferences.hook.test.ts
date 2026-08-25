@@ -1,8 +1,8 @@
 import { beforeEach, describe, expect, it } from "@jest/globals";
-import { act, renderHook, waitFor } from "@testing-library/react";
+import { renderHook, waitFor } from "@testing-library/react";
 import { usePreferences } from "@/app/perfil/_components/SettingsScreen/preferences.hook.ts";
-import { apiGet } from "@/lib/api.ts";
-import { MAX_CENTS } from "@/lib/money.ts";
+import { PREFS_COPY } from "@/app/perfil/_components/SettingsScreen/preferences-copy.ts";
+import { apiGet, apiPut } from "@/lib/api.ts";
 import { DEFAULT_SETTINGS } from "@/lib/settings-defaults.ts";
 import {
   emptyDashboard,
@@ -16,6 +16,7 @@ jest.mock("@/lib/api.ts", () => ({ apiGet: jest.fn(), apiPut: jest.fn() }));
 beforeEach(() => {
   jest.clearAllMocks();
   mockLoad();
+  jest.mocked(apiPut).mockResolvedValue({ data: null });
 });
 
 describe("usePreferences load", () => {
@@ -23,16 +24,21 @@ describe("usePreferences load", () => {
     const { result } = renderHook(() => usePreferences());
 
     await waitFor(() => expect(result.current.settings).toEqual(STORED));
-    expect(result.current.maxCents).toBe(HEADROOM);
-    expect(result.current.dirty).toBe(false);
+    expect(result.current.preview.maxCents).toBe(HEADROOM);
+    expect(result.current.ready).toBe(true);
   });
 
   it("reads a never-saved singleton as the defaults", async () => {
-    jest.mocked(apiGet).mockResolvedValue({ data: null } as never);
+    jest.mocked(apiGet).mockImplementation((url: string) => {
+      if (url.startsWith("/api/settings")) {
+        return Promise.resolve({ data: null }) as never;
+      }
+      return Promise.resolve({ data: emptyDashboard }) as never;
+    });
 
     const { result } = renderHook(() => usePreferences());
 
-    await waitFor(() => expect(apiGet).toHaveBeenCalled());
+    await waitFor(() => expect(result.current.ready).toBe(true));
     expect(result.current.settings).toEqual(DEFAULT_SETTINGS);
   });
 
@@ -41,47 +47,22 @@ describe("usePreferences load", () => {
 
     const { result } = renderHook(() => usePreferences());
 
-    await waitFor(() => expect(result.current.settings).toEqual(STORED));
-    expect(result.current.maxCents).toBeNull();
+    await waitFor(() => expect(result.current.ready).toBe(true));
+    expect(result.current.preview.kind).toBe("empty");
+    expect(result.current.preview.maxCents).toBeNull();
   });
 
-  it("reports a failed settings load", async () => {
+  it("does not bind stored values after a failed settings load", async () => {
     jest
       .mocked(apiGet)
       .mockResolvedValue({ error: "Erro ao carregar" } as never);
 
     const { result } = renderHook(() => usePreferences());
 
-    await waitFor(() => expect(result.current.error).toBe("Erro ao carregar"));
-  });
-});
-
-describe("usePreferences clamps", () => {
-  it("saturates a percentage at one hundred", async () => {
-    const { result } = renderHook(() => usePreferences());
-    await waitFor(() => expect(result.current.settings).toEqual(STORED));
-
-    act(() => result.current.onPercentChange("ceilingPercent", "250"));
-
-    expect(result.current.settings.ceilingPercent).toBe(100);
-  });
-
-  it("saturates a fixed amount at the headroom", async () => {
-    const { result } = renderHook(() => usePreferences());
-    await waitFor(() => expect(result.current.maxCents).toBe(HEADROOM));
-
-    act(() => result.current.onCentsChange("ceilingCents", HEADROOM + 1));
-
-    expect(result.current.settings.ceilingCents).toBe(HEADROOM);
-  });
-
-  it("falls back to the money guard when there is no headroom", async () => {
-    mockLoad(emptyDashboard);
-    const { result } = renderHook(() => usePreferences());
-    await waitFor(() => expect(result.current.settings).toEqual(STORED));
-
-    act(() => result.current.onCentsChange("goalsCents", MAX_CENTS + 1));
-
-    expect(result.current.settings.goalsCents).toBe(MAX_CENTS);
+    await waitFor(() =>
+      expect(result.current.error).toBe(PREFS_COPY.loadError),
+    );
+    expect(result.current.ready).toBe(false);
+    expect(result.current.loading).toBe(false);
   });
 });

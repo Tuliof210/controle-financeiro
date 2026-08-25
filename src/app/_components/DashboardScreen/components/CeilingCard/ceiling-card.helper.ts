@@ -19,7 +19,7 @@ function shareOf(budget: number, ceilingBalance: number): number {
 // The label points at where the figure was decided instead.
 function limitLabel(fixed: boolean, tightest: number | null): string | null {
   if (fixed) {
-    return "Limitado pelo teto do Perfil";
+    return "Limitado pelo teto em Ajustes";
   }
   if (tightest === null) {
     return null;

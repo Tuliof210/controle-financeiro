@@ -4,12 +4,12 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { GoalsLimitSection } from "@/app/perfil/_components/SettingsScreen/components/GoalsLimitSection/index.tsx";
 
-const RITMO = /define o ritmo com que o dashboard projeta cada objetivo/;
 const MAXIMO = /No máximo R\$ 500,00/;
 
 const base = {
   percent: 25,
   cents: 700,
+  headroomKind: "ok" as const,
   maxCents: 50_000,
   onModeChange: jest.fn(),
   onPercentChange: jest.fn(),
@@ -17,13 +17,17 @@ const base = {
 };
 
 describe("GoalsLimitSection", () => {
-  it("explains what the limit does and offers both modes", () => {
+  it("keeps the essay in the hint and offers both modes", () => {
     render(<GoalsLimitSection {...base} mode="percent" />);
 
     expect(
       screen.getByRole("heading", { name: "Limite em objetivos" }),
     ).toBeInTheDocument();
-    expect(screen.getByText(RITMO)).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", {
+        name: "Como Limite em objetivos é calculado",
+      }),
+    ).toBeInTheDocument();
     expect(screen.getByLabelText("Porcentagem do teto")).toHaveValue("25");
   });
 

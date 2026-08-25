@@ -5,11 +5,10 @@ import userEvent from "@testing-library/user-event";
 import { GoalForm } from "@/app/perfil/_components/SettingsScreen/components/GoalsSection/components/GoalForm/index.tsx";
 
 describe("GoalForm", () => {
-  it("offers a name and a target", () => {
+  it("cannot be submitted with a blank name", () => {
     render(<GoalForm submitLabel="Adicionar" onSubmit={jest.fn()} />);
 
-    expect(screen.getByLabelText("Nome")).toHaveValue("");
-    expect(screen.getByLabelText("Valor alvo")).toHaveValue("0,00");
+    expect(screen.getByRole("button", { name: "Adicionar" })).toBeDisabled();
   });
 
   it("seeds from the goal being edited", () => {
@@ -34,6 +33,7 @@ describe("GoalForm", () => {
       />,
     );
 
+    await userEvent.type(screen.getByLabelText("Nome"), "Casa");
     await userEvent.click(screen.getByRole("button", { name: "Adicionar" }));
 
     expect(

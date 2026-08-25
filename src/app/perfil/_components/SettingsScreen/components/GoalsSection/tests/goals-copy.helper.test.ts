@@ -4,7 +4,7 @@ import { deleteTitle } from "@/app/perfil/_components/SettingsScreen/components/
 describe("deleteTitle", () => {
   it("names the goal being deleted", () => {
     expect(deleteTitle({ type: "delete", goal: { name: "Casa" } })).toBe(
-      'Excluir o objetivo "Casa"?',
+      'Excluir o objetivo "Casa"? Esta ação não pode ser desfeita.',
     );
   });
 

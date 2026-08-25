@@ -33,7 +33,7 @@ describe("CeilingCard", () => {
     const { container } = card();
 
     expect(
-      screen.getByRole("heading", { name: "Teto de Gastos" }),
+      screen.getByRole("heading", { name: "Teto de gastos" }),
     ).toBeInTheDocument();
     // The headline, and the current month's row. The headline is two text nodes
     // now — its cents are their own dimmed span — and getByText reads only an

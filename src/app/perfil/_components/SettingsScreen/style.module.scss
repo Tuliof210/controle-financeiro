@@ -1,34 +1,32 @@
 .screen {
-  // Query container kept so nested lists still size against the column, not
-  // the window — same reason EntryScreen does.
   container-type: inline-size;
   display: flex;
   flex-direction: column;
   gap: var(--space-6);
 }
 
-// One column: people, goals and the monthly cap are different jobs, not three
-// interchangeable tiles. A 2-col grid of identical SectionCards was the clone.
 .stack {
   display: flex;
   flex-direction: column;
   gap: var(--space-8);
-  // minmax(0) via the children: a name or amount must shrink, not widen
-  // the page at 375px.
   min-width: 0;
 }
 
-// The three preference cards under one Salvar. Same rhythm as the stack above
-// it, so the form reads as three more cards rather than a nested region.
-.form {
+.loading {
+  min-height: var(--space-5);
+  margin: 0;
+  color: var(--color-text-muted);
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+}
+
+.fail {
   display: flex;
-  flex-direction: column;
-  gap: var(--space-8);
-  min-width: 0;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  align-items: center;
 }
 
-// The line holds its height while empty, so a save does not push the button
-// out from under the cursor that just pressed it.
 .saved {
   min-height: var(--space-5);
   margin: 0;

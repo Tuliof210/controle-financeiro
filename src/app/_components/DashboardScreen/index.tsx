@@ -26,7 +26,7 @@ const COPY = {
     ". Registre uma movimentação ou previsão nesse mês para incluí-lo.",
   overHeadroom:
     "Um valor fixo salvo passou do máximo que o período aguenta, então a tabela abaixo tem meses no vermelho. Ajuste o teto ou os objetivos em",
-  perfil: "Perfil",
+  perfil: "Ajustes",
   fullStop: ".",
 } as const;
 

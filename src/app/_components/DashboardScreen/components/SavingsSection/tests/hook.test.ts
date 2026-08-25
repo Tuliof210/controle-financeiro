@@ -27,7 +27,7 @@ describe("useSavingsSection", () => {
     );
 
     expect(result.current.caption).toBe(
-      "conforme o ajuste de objetivos no Perfil",
+      "conforme o ajuste de objetivos em Ajustes",
     );
     expect(result.current.capacity).toBe(250);
   });
