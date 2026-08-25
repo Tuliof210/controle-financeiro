@@ -24,5 +24,7 @@ describe("HINTS", () => {
       expect(hint.length).toBeGreaterThan(0);
     }
     expect(HINTS.ceiling).toContain("teto");
+    expect(HINTS.cumulative).toContain("teto");
+    expect(HINTS.cumulative).toContain("linha atual");
   });
 });

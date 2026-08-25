@@ -15,6 +15,7 @@ const chart = (dashedFrom: number | null, tightest: number | null) =>
       points={points}
       dashedFrom={dashedFrom}
       tightest={tightest}
+      ceilingMonths={[]}
       width={884}
       height={240}
     />,
@@ -22,6 +23,8 @@ const chart = (dashedFrom: number | null, tightest: number | null) =>
 
 const JAN = /Jan\/26 · acumulado/;
 const FEB = /Fev\/26 · acumulado/;
+const FEB_TETO = /Fev\/26 · se gastar o teto/;
+const JAN_TETO = /Jan\/26 · se gastar o teto/;
 
 describe("BalanceLineChart", () => {
   it("names its own plot region and draws one dot per month", () => {
@@ -45,5 +48,30 @@ describe("BalanceLineChart", () => {
     chart(null, 202_602);
 
     expect(screen.getByText("MÊS MAIS APERTADO")).toBeInTheDocument();
+  });
+
+  it("labels the teto series only on months that have a ceiling", () => {
+    render(
+      <BalanceLineChart
+        points={points}
+        dashedFrom={null}
+        tightest={null}
+        ceilingMonths={[
+          {
+            month: 202_602,
+            budget: 50,
+            ceilingBalance: 200,
+            ceilingLeft: 150,
+          },
+        ]}
+        width={884}
+        height={240}
+      />,
+    );
+
+    expect(screen.getByLabelText(JAN)).toBeInTheDocument();
+    expect(screen.getByLabelText(FEB)).toBeInTheDocument();
+    expect(screen.getByLabelText(FEB_TETO)).toBeInTheDocument();
+    expect(screen.queryByLabelText(JAN_TETO)).not.toBeInTheDocument();
   });
 });

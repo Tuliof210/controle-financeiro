@@ -1,14 +1,10 @@
-import { AreaClosed, LinePath } from "@visx/shape";
-import {
-  areaWashProps,
-  crosshairProps,
-  LINE_PROPS,
-  PROJECTED_LINE_DASHARRAY,
-} from "../../chart-line.config.ts";
+import { AreaClosed } from "@visx/shape";
+import { areaWashProps, crosshairProps } from "../../chart-line.config.ts";
 import { ChartFrame } from "../ChartFrame/index.tsx";
 import { useChartTooltip } from "../ChartTooltip/hook.ts";
 import { ChartTooltip } from "../ChartTooltip/index.tsx";
 import { DotMark } from "./components/DotMark/index.tsx";
+import { PlotLines } from "./components/PlotLines/index.tsx";
 import { TightestMark } from "./components/TightestMark/index.tsx";
 import { type BalanceLineChartProps, useBalanceLineChart } from "./hook.ts";
 
@@ -17,9 +13,12 @@ export function BalanceLineChart(props: BalanceLineChartProps) {
     frame,
     solid,
     dashed,
+    teto,
     curve,
     x,
     y,
+    xTeto,
+    yTeto,
     dots,
     zeroY,
     tightestMark,
@@ -68,14 +67,14 @@ export function BalanceLineChart(props: BalanceLineChartProps) {
             {...crosshairProps}
           />
         )}
-        <LinePath data={solid} x={x} y={y} {...LINE_PROPS} />
-        {/* Shares its first point with the solid path, so the seam connects. */}
-        <LinePath
-          data={dashed}
+        <PlotLines
+          teto={teto}
+          solid={solid}
+          dashed={dashed}
           x={x}
           y={y}
-          {...LINE_PROPS}
-          strokeDasharray={PROJECTED_LINE_DASHARRAY}
+          xTeto={xTeto}
+          yTeto={yTeto}
         />
         {/* Over the line, under the dots: that month's dot stays hittable. */}
         {tightestMark !== null && (
@@ -88,6 +87,7 @@ export function BalanceLineChart(props: BalanceLineChartProps) {
             cy={dot.cy}
             title={dot.title}
             projected={dot.projected}
+            stroke={dot.stroke}
             tip={dot.tip}
             showTooltip={showTooltip}
             hideTooltip={hideTooltip}

@@ -18,7 +18,7 @@ export const HINTS = {
   bars: "Cada barra usa o maior valor entre lançado e previsto; as mais claras são projeção, não histórico.",
 
   cumulative:
-    "Saldo acumulado mês a mês. Tracejado é projeção; a linha horizontal marca o zero.",
+    "Saldo acumulado mês a mês, e o que sobraria se cada mês a partir de agora gastasse o teto. Tracejado é projeção na linha atual; a linha horizontal marca o zero.",
 
   ceiling:
     "Quanto dá para gastar a mais por mês sem nenhum mês futuro ficar no vermelho. Semanal e diário dividem esse valor por 4 e por 30. A tabela mostra, mês a mês, o saldo que chega, o teto daquele mês e o que sobra depois de gastá-lo — a coluna inteira pode ser gasta em ordem. O ajuste de teto em Ajustes escolhe entre uma porcentagem do saldo disponível e um valor fixo: subir a porcentagem aumenta o teto DESTE mês, e como o cálculo é acumulado, sobra menos para os meses seguintes — alguns deles caem. Um valor fixo é liberado como está, mesmo quando isso deixa meses no vermelho.",
