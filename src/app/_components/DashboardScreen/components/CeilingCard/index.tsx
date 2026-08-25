@@ -4,7 +4,6 @@ import { cx } from "@/lib/cx.ts";
 import { HINTS } from "../../hints.ts";
 import { Headline } from "../Headline/index.tsx";
 import { ShowAllToggle } from "../ShowAllToggle/index.tsx";
-import { CapSelector } from "./components/CapSelector/index.tsx";
 import { MonthTable } from "./components/MonthTable/index.tsx";
 import { type CeilingCardProps, useCeilingCard } from "./hook.ts";
 import styles from "./style.module.scss";
@@ -24,9 +23,6 @@ export function CeilingCard(props: CeilingCardProps) {
     monthly,
     rates,
     monthsLeft,
-    cap,
-    hasMeta,
-    onCapChange,
   } = useCeilingCard(props);
 
   return (
@@ -35,17 +31,14 @@ export function CeilingCard(props: CeilingCardProps) {
       icon="wallet"
       hint={HINTS.ceiling}
       band="ink"
-      headerEnd={
-        <CapSelector value={cap} hasMeta={hasMeta} onChange={onCapChange} />
-      }
     >
       <div className={cx(styles.split, empty && styles.alone)}>
         <div className={styles.summary}>
           {/* The badges read as a caption on the card, so they head the summary
-              pane rather than the title row — that slot holds the one control,
-              and four elements on it wrap into an unreadable stack at 375px.
-              Above the empty-state branch, because the month in view is worth
-              saying even when there is no ceiling to show. */}
+              pane rather than the title row — four elements on that row wrap
+              into an unreadable stack at 375px. Above the empty-state branch,
+              because the month in view is worth saying even when there is no
+              ceiling to show. */}
           <div className={styles.badges}>
             {Boolean(limitedBy) && (
               <span className={styles.limit} title={`${limitedBy}.`}>

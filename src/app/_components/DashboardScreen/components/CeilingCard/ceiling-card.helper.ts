@@ -14,11 +14,12 @@ function shareOf(budget: number, ceilingBalance: number): number {
   return Math.min(1, Math.max(0, budget / ceilingBalance));
 }
 
-// The goal wins the label when both it and a month are the limit: the reader
-// just chose it.
-function limitLabel(byMeta: boolean, tightest: number | null): string | null {
-  if (byMeta) {
-    return "Limitado pela meta";
+// A fixed ceiling was not bound by any month — it is the saved amount, handed
+// out as it stands — so naming a month would be wrong even when one is tighter.
+// The label points at where the figure was decided instead.
+function limitLabel(fixed: boolean, tightest: number | null): string | null {
+  if (fixed) {
+    return "Limitado pelo teto do Perfil";
   }
   if (tightest === null) {
     return null;
