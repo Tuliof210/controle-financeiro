@@ -95,6 +95,14 @@ model OfxImport {
 // mirrored once more in src/lib/settings-defaults.ts, which is what a reader
 // applies when get() answers null.
 //
+// `ceilingCents` carries no @default, and cannot: RENAME COLUMN does not take
+// one along, and SQLite has no way to add it afterwards short of the table
+// rebuild this migration exists to avoid. Declaring one here would leave the
+// schema and the migration history out of step, and the next `prisma migrate
+// dev` — on any unrelated model — would emit that rebuild to close the gap.
+// Nothing reads it: the repository writes all seven fields on create, and
+// "0 = not configured" lives in DEFAULT_SETTINGS.
+//
 // A singleton. `rangeStart`/`rangeEnd` stay dead: the period is derived from the
 // entries, never configured. The row is pinned to id 1 and only ever written by
 // upsert (settings.prisma.repository), so there is no code path that creates a
@@ -102,7 +110,7 @@ model OfxImport {
 // ownerId.
 model Settings {
   id             Int     @id @default(1)
-  ceilingCents   Int     @default(0)
+  ceilingCents   Int
   ceilingMode    String  @default("percent")
   ceilingPercent Int     @default(50)
   goalsMode      String  @default("percent")
