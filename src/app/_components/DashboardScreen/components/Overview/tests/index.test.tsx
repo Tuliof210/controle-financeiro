@@ -41,7 +41,7 @@ const data = {
   income: stats,
   expense: stats,
   balance: stats,
-  ceiling: { tightest: null },
+  ceiling: { tightest: null, months: [] },
 } as BoardData;
 
 describe("Overview", () => {

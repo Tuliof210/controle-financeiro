@@ -15,6 +15,7 @@ const chart = (dashedFrom: number | null, tightest: number | null) =>
       points={points}
       dashedFrom={dashedFrom}
       tightest={tightest}
+      ceilingMonths={[]}
       width={884}
       height={240}
     />,

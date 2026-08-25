@@ -46,6 +46,7 @@ export function Overview(props: OverviewProps) {
             points={data.points}
             dashedFrom={data.dashedFrom}
             tightest={data.ceiling.tightest}
+            ceilingMonths={data.ceiling.months}
             {...size}
           />
         )}

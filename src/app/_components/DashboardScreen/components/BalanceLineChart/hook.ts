@@ -1,7 +1,8 @@
+import type { CeilingMonth } from "@/app/api/dashboard/ceiling.types.ts";
 import type { MonthPoint } from "@/app/api/dashboard/types.ts";
 import { dashSplit } from "../../chart.helper.ts";
 import { buildFrame } from "../../chart-frame.helper.ts";
-import { dotFor } from "./line-dot.helper.ts";
+import { dotsFor, seriesValues } from "./line-series.helper.ts";
 
 // The tag would run off the trailing edge in the last third of the plot; past
 // the midpoint it hangs to the left of its rule instead.
@@ -25,6 +26,7 @@ interface BalanceLineChartProps {
   // different series, and two marks naming two different months on one screen
   // is the thing to avoid. Null when there is no ceiling at all.
   tightest: number | null;
+  ceilingMonths: CeilingMonth[];
   width: number;
   height: number;
 }
@@ -45,20 +47,24 @@ function useBalanceLineChart({
   points,
   dashedFrom,
   tightest,
+  ceilingMonths,
   width,
   height,
 }: BalanceLineChartProps) {
   const frame = buildFrame(
     points,
-    points.map((point) => point.cumulative),
+    seriesValues(points, ceilingMonths),
     width,
     height,
   );
 
   // Centred in each month's band, so the dots sit above the bar chart's groups.
-  const x = (point: MonthPoint) =>
-    (frame.monthScale(point.month) ?? 0) + frame.monthScale.bandwidth() / 2;
+  const xAt = (month: number) =>
+    (frame.monthScale(month) ?? 0) + frame.monthScale.bandwidth() / 2;
+  const x = (point: MonthPoint) => xAt(point.month);
   const y = (point: MonthPoint) => frame.valueScale(point.cumulative);
+  const xTeto = (month: CeilingMonth) => xAt(month.month);
+  const yTeto = (month: CeilingMonth) => frame.valueScale(month.ceilingLeft);
 
   const projectedFrom = dashedFrom ?? Number.POSITIVE_INFINITY;
 
@@ -75,16 +81,12 @@ function useBalanceLineChart({
     height,
     x,
     y,
-    // The whole series in one array, for the area wash under it: the two
-    // LinePaths deliberately SHARE their boundary point, so concatenating them
-    // raw would close the polygon on a duplicated x and leave a hairline seam.
+    xTeto,
+    yTeto,
+    teto: ceilingMonths,
     curve: points,
     ...dashSplit(points, dashedFrom),
-    dots: points.map((point) =>
-      dotFor(point, point.month >= projectedFrom, x(point), y(point)),
-    ),
-    // Only worth drawing when the series actually crosses zero; otherwise the
-    // baseline coincides with the axis.
+    dots: dotsFor(points, ceilingMonths, projectedFrom, xAt, frame.valueScale),
     zeroY: zeroLine(frame.valueScale),
     tightestMark: markFor(tightestPoint, x, y, frame.innerWidth),
   };
