@@ -81,17 +81,40 @@ model OfxImport {
   importedAt DateTime @default(now())
 }
 
-// The monthly spending goal, back after 20260730120000_drop_settings removed it:
-// that drop was right at the time — the field had no consumer — and this is what
-// gives it one. The "Meta" target of the Teto de Gastos caps each month's budget
-// at this value.
+// Every adjustment the family makes to how the board reads itself: the ceiling
+// (teto), the savings objectives, and whether simulated forecasts count.
 //
-// A singleton, and only `monthlyGoalCents` this time. `rangeStart`/`rangeEnd`
-// stay dead: the period is derived from the entries, never configured. The row
-// is pinned to id 1 and only ever written by upsert (settings.prisma.repository),
-// so there is no code path that creates a second one; the goal is family-wide,
-// which is why it carries no ownerId.
+// `monthlyGoalCents` was renamed to `ceilingCents` — the old name started to
+// collide head-on with `goalsCents`, and what the column always held is the
+// monthly ceiling in cents. The rename is an `ALTER TABLE … RENAME COLUMN` in
+// 20260825112300_settings_ceiling_goals_simulated, never a table rebuild: a
+// rebuild is what loses the row already saved in the owner's dev.db.
+//
+// The defaults reproduce today's behaviour exactly — 50 is DEFAULT_CEILING_CAP,
+// 25 is the pace divisor, false is DEFAULT_SIMULATION_VIEW = "real". They are
+// mirrored once more in src/lib/settings-defaults.ts, which is what a reader
+// applies when get() answers null.
+//
+// `ceilingCents` carries no @default, and cannot: RENAME COLUMN does not take
+// one along, and SQLite has no way to add it afterwards short of the table
+// rebuild this migration exists to avoid. Declaring one here would leave the
+// schema and the migration history out of step, and the next `prisma migrate
+// dev` — on any unrelated model — would emit that rebuild to close the gap.
+// Nothing reads it: the repository writes all seven fields on create, and
+// "0 = not configured" lives in DEFAULT_SETTINGS.
+//
+// A singleton. `rangeStart`/`rangeEnd` stay dead: the period is derived from the
+// entries, never configured. The row is pinned to id 1 and only ever written by
+// upsert (settings.prisma.repository), so there is no code path that creates a
+// second one; the adjustments are family-wide, which is why the row carries no
+// ownerId.
 model Settings {
-  id               Int @id @default(1)
-  monthlyGoalCents Int
+  id             Int     @id @default(1)
+  ceilingCents   Int
+  ceilingMode    String  @default("percent")
+  ceilingPercent Int     @default(50)
+  goalsMode      String  @default("percent")
+  goalsPercent   Int     @default(25)
+  goalsCents     Int     @default(0)
+  showSimulated  Boolean @default(false)
 }

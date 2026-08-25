@@ -5,7 +5,7 @@ import { beforeEach, describe, expect, it } from "@jest/globals";
 import type { NextRequest } from "next/server";
 import { GET, PUT } from "@/app/api/settings/route.ts";
 import { getSettings, saveSettings } from "@/app/api/settings/service.ts";
-import { MAX_CENTS } from "@/lib/money.ts";
+import { DEFAULT_SETTINGS } from "@/lib/settings-defaults.ts";
 
 jest.mock("@/app/api/settings/service.ts", () => ({
   getSettings: jest.fn(),
@@ -14,6 +14,8 @@ jest.mock("@/app/api/settings/service.ts", () => ({
 
 const read = jest.mocked(getSettings);
 const save = jest.mocked(saveSettings);
+
+const saved = { ...DEFAULT_SETTINGS, ceilingCents: 700 };
 
 const put = (body: unknown) =>
   PUT(
@@ -29,11 +31,9 @@ beforeEach(() => {
 
 describe("GET", () => {
   it("answers the saved singleton", async () => {
-    read.mockResolvedValue({ monthlyGoalCents: 700 });
+    read.mockResolvedValue(saved);
 
-    expect(await (await GET()).json()).toEqual({
-      data: { monthlyGoalCents: 700 },
-    });
+    expect(await (await GET()).json()).toEqual({ data: saved });
   });
 
   it("answers null rather than 404 when nothing was ever saved", async () => {
@@ -52,29 +52,17 @@ describe("GET", () => {
 });
 
 describe("PUT", () => {
-  it("saves a goal", async () => {
-    save.mockResolvedValue({ monthlyGoalCents: 700 });
-    const res = await put({ monthlyGoalCents: 700 });
+  it("saves the whole object", async () => {
+    save.mockResolvedValue(saved);
+    const res = await put(saved);
 
     expect(res.status).toBe(200);
-    expect(save).toHaveBeenCalledWith({ monthlyGoalCents: 700 });
-  });
-
-  it("accepts zero, which is how the goal is cleared", async () => {
-    save.mockResolvedValue({ monthlyGoalCents: 0 });
-
-    expect((await put({ monthlyGoalCents: 0 })).status).toBe(200);
-  });
-
-  it("answers 422 on a negative or oversized goal", async () => {
-    expect((await put({ monthlyGoalCents: -1 })).status).toBe(422);
-    expect((await put({ monthlyGoalCents: MAX_CENTS + 1 })).status).toBe(422);
-    expect(save).not.toHaveBeenCalled();
+    expect(save).toHaveBeenCalledWith(saved);
   });
 
   it("answers 500 when the service throws", async () => {
     save.mockRejectedValue(new Error("db"));
 
-    expect((await put({ monthlyGoalCents: 1 })).status).toBe(500);
+    expect((await put(saved)).status).toBe(500);
   });
 });

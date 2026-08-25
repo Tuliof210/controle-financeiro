@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import type { Settings } from "@/core/entities/settings.entity.ts";
 import { apiGet, apiPut } from "@/lib/api.ts";
+import { DEFAULT_SETTINGS } from "@/lib/settings-defaults.ts";
 
 // The save is reported beside the button, not on it. It used to swap the label
 // to "Salvo" and the variant to `success`, which spent the semantic green on a
@@ -17,6 +18,10 @@ const savedMessageFor = (saved: boolean): string => {
 // that always exists, so there is nothing to open and nothing to re-list. The
 // PUT's own response is the saved state.
 export function useSpendingGoalSection() {
+  // The PUT is all-or-nothing — one row, seven fields, no PATCH — so the card
+  // has to hold the other six to be able to save the one it edits. They start
+  // at DEFAULT_SETTINGS and are replaced by whatever the GET brought.
+  const [settings, setSettings] = useState<Settings>(DEFAULT_SETTINGS);
   const [cents, setCents] = useState(0);
   const [error, setError] = useState<string>();
   const [saved, setSaved] = useState(false);
@@ -29,7 +34,10 @@ export function useSpendingGoalSection() {
       }
       // `null` is the never-saved state, and zero is how it reads: the Meta
       // target is off either way, so the field starts empty in both.
-      setCents(result.data?.monthlyGoalCents ?? 0);
+      if (result.data) {
+        setSettings(result.data);
+      }
+      setCents(result.data?.ceilingCents ?? 0);
     });
   }, []);
 
@@ -41,7 +49,10 @@ export function useSpendingGoalSection() {
   };
 
   const onSave = async () => {
-    const result = await apiPut("/api/settings", { monthlyGoalCents: cents });
+    const result = await apiPut("/api/settings", {
+      ...settings,
+      ceilingCents: cents,
+    });
     setError(result.error);
     setSaved(!result.error);
   };

@@ -8,6 +8,7 @@ import { goalRepository } from "@/infra/repositories/goal.prisma.repository.ts";
 import { movementRepository } from "@/infra/repositories/movement.prisma.repository.ts";
 import { settingsRepository } from "@/infra/repositories/settings.prisma.repository.ts";
 import { currentYyyymm } from "@/lib/months.ts";
+import { DEFAULT_SETTINGS } from "@/lib/settings-defaults.ts";
 
 jest.mock("@/infra/repositories/movement.prisma.repository.ts", () => ({
   movementRepository: { list: jest.fn() },
@@ -81,7 +82,7 @@ describe("getDashboard", () => {
 
   it("echoes a saved monthly goal as the Meta target", async () => {
     seed();
-    settings.get.mockResolvedValue({ monthlyGoalCents: 700 });
+    settings.get.mockResolvedValue({ ...DEFAULT_SETTINGS, ceilingCents: 700 });
 
     const data = await getDashboard("familia", "meta", "real");
 

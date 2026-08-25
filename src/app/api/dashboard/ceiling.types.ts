@@ -32,4 +32,11 @@ export type Ceiling = CeilingRates & {
   firstRed: { month: number; shortfall: number } | null;
   // Current month .. range end, never empty — it is also savingPace's divisor.
   months: CeilingMonth[];
+  // The largest monthly ceiling that still leaves no month ahead in the red:
+  // the budget the current month would be offered at a 100% target with no
+  // limit, and 0 once any month ahead is already underwater. Independent of the
+  // `cap` and `limit` the payload was built with — it is the same number at
+  // every target, which is what lets the Perfil screen clamp a fixed-amount
+  // input against it.
+  headroomCents: number; // cents, >= 0
 };

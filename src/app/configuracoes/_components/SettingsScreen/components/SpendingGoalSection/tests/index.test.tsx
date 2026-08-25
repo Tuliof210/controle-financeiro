@@ -4,6 +4,7 @@ import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { SpendingGoalSection } from "@/app/configuracoes/_components/SettingsScreen/components/SpendingGoalSection/index.tsx";
 import { apiGet, apiPut } from "@/lib/api.ts";
+import { DEFAULT_SETTINGS } from "@/lib/settings-defaults.ts";
 
 jest.mock("@/lib/api.ts", () => ({
   apiGet: jest.fn(),
@@ -12,7 +13,9 @@ jest.mock("@/lib/api.ts", () => ({
 
 beforeEach(() => {
   jest.clearAllMocks();
-  jest.mocked(apiGet).mockResolvedValue({ data: { monthlyGoalCents: 700 } });
+  jest
+    .mocked(apiGet)
+    .mockResolvedValue({ data: { ...DEFAULT_SETTINGS, ceilingCents: 700 } });
   jest.mocked(apiPut).mockResolvedValue({ data: null });
 });
 

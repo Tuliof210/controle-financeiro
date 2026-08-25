@@ -1,6 +1,7 @@
 import type { Ceiling, CeilingMonth } from "./ceiling.types.ts";
 import {
   firstRedOf,
+  headroomOf,
   rates,
   suffixMinimum,
   tightestOf,
@@ -36,9 +37,8 @@ import type { MonthPoint } from "./types.ts";
 // percentage targets, which have no such ceiling. It changes no rule above —
 // the suffix minimum, the accumulator and the `red ? 0` all still decide what
 // is available; the limit only declines part of what was offered, and what it
-// declines stays in `worst` for the months that follow. That is the whole
-// "sobra para o mês seguinte" behaviour, and it is the accumulator's, not new
-// arithmetic here.
+// declines stays in `worst` for the months that follow — the whole "sobra para
+// o mês seguinte" behaviour, and it is the accumulator's, not new arithmetic.
 const PERCENT = 100;
 
 export function buildCeiling(
@@ -95,5 +95,6 @@ export function buildCeiling(
     tightest: tightestOf(monthly, ahead, worst),
     firstRed: firstRedOf(red),
     months,
+    headroomCents: headroomOf(red, worst),
   };
 }
