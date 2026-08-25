@@ -9,11 +9,16 @@ import {
 
 // Zero reads as unset, exactly as it does on the settings screen: clearing the
 // field is how the goal is removed, there being no DELETE for it.
-function metaOf(monthlyGoalCents: number | undefined): number | null {
-  if (!monthlyGoalCents) {
+//
+// The column behind this is `Settings.ceilingCents` — renamed from
+// `monthlyGoalCents`, which had started to collide with the new `goalsCents`.
+// Only the name moved: this is the same monthly ceiling in cents the Meta
+// target has always been limited by.
+function metaOf(ceilingCents: number | undefined): number | null {
+  if (!ceilingCents) {
     return null;
   }
-  return monthlyGoalCents;
+  return ceilingCents;
 }
 
 // Asking for Meta without one falls back to the default target — the same

@@ -28,7 +28,7 @@ export async function getDashboard(
     settingsRepository.get(),
   ]);
 
-  const meta = metaOf(settings?.monthlyGoalCents);
+  const meta = metaOf(settings?.ceilingCents);
   const target = targetCap(cap, meta);
 
   const forecasts = forecastsFor(simulation, all);
