@@ -7,6 +7,7 @@ const props = {
   cx: 10,
   cy: 20,
   title: "Ago/26 · acumulado R$ 10,00",
+  stroke: "var(--color-brand)",
   projected: false,
   tip: {
     title: "Ago/26",

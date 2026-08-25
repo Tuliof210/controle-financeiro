@@ -73,10 +73,18 @@ describe("dotFor", () => {
 
 describe("tetoDotFor", () => {
   it("names its own series and shares the two-row tip", () => {
-    const { key, title, tip } = tetoDotFor(202_608, 3000, false, 8, 16, 5000);
+    const { key, title, tip, stroke } = tetoDotFor(
+      202_608,
+      3000,
+      false,
+      8,
+      16,
+      5000,
+    );
 
     expect(key).toBe("202608-teto");
     expect(title).toBe("Ago/26 · se gastar o teto R$ 30,00");
+    expect(stroke).toBe("var(--color-text-secondary)");
     expect(tip.rows).toHaveLength(2);
     expect(tip.plotX).toBe(8);
   });

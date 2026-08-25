@@ -3,9 +3,7 @@ import { formatMoney } from "@/lib/money.ts";
 import { formatYyyymm } from "@/lib/months.ts";
 import type { TooltipContent } from "../ChartTooltip/hook.ts";
 
-// One point of the curve, with the caption the bubble prints for it. Its own
-// file so `hook.ts` stays under the 100-line cap — the chart's scales and its
-// dash split are already all that file has room for.
+// One point of the curve, with the caption the bubble prints for it.
 
 // The only channel that still says "projection" once the chart is read in
 // greyscale, alongside the path's own stroke-dasharray. The half-opacity dot is
@@ -68,9 +66,7 @@ function dotFor(
     cx,
     cy,
     projected,
-    // `plotX` is the dot's own x in PLOT coordinates, so the chart drops its
-    // crosshair from the hover the bubble is already tracking rather than
-    // holding a second piece of state that could disagree with it.
+    stroke: "var(--color-brand)",
     tip: tipFor(point.month, projected, cx, point.cumulative, ceilingLeft),
     title: `${label} · acumulado ${value}`,
   };
@@ -92,6 +88,7 @@ function tetoDotFor(
     cx,
     cy,
     projected,
+    stroke: "var(--color-text-secondary)",
     tip: tipFor(month, projected, cx, cumulative, ceilingLeft),
     title: `${label} · se gastar o teto ${value}`,
   };

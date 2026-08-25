@@ -47,4 +47,33 @@ describe("BalanceLineChart", () => {
 
     expect(screen.getByText("MÊS MAIS APERTADO")).toBeInTheDocument();
   });
+
+  it("labels the teto series only on months that have a ceiling", () => {
+    render(
+      <BalanceLineChart
+        points={points}
+        dashedFrom={null}
+        tightest={null}
+        ceilingMonths={[
+          {
+            month: 202_602,
+            budget: 50,
+            ceilingBalance: 200,
+            ceilingLeft: 150,
+          },
+        ]}
+        width={884}
+        height={240}
+      />,
+    );
+
+    expect(screen.getByLabelText(JAN)).toBeInTheDocument();
+    expect(screen.getByLabelText(FEB)).toBeInTheDocument();
+    expect(
+      screen.getByLabelText(/Fev\/26 · se gastar o teto/),
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByLabelText(/Jan\/26 · se gastar o teto/),
+    ).not.toBeInTheDocument();
+  });
 });

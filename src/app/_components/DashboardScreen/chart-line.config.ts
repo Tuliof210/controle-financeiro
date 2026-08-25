@@ -7,6 +7,10 @@
 // is why nothing here reads getComputedStyle.
 
 const LINE_PROPS = { stroke: "var(--color-brand)", strokeWidth: 2 } as const;
+const TETO_LINE_PROPS = {
+  stroke: "var(--color-text-secondary)",
+  strokeWidth: 2,
+} as const;
 
 // Shape, not opacity: the dash IS what says "projection" once the chart is read
 // in greyscale. Much heavier than the crosshair's below, so the two never blur
@@ -30,4 +34,10 @@ const crosshairProps = {
   strokeOpacity: 0.5,
 } as const;
 
-export { areaWashProps, crosshairProps, LINE_PROPS, PROJECTED_LINE_DASHARRAY };
+export {
+  areaWashProps,
+  crosshairProps,
+  LINE_PROPS,
+  PROJECTED_LINE_DASHARRAY,
+  TETO_LINE_PROPS,
+};

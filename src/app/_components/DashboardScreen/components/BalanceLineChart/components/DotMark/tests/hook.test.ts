@@ -21,6 +21,7 @@ const props = {
   cy: 20,
   title: "Ago/26 · acumulado R$ 10,00",
   projected: false,
+  stroke: "var(--color-brand)",
   tip,
   showTooltip: jest.fn(),
   hideTooltip: jest.fn(),

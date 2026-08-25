@@ -69,5 +69,7 @@ describe("Overview", () => {
     expect(
       screen.getByText("sólida = realizado · tracejada = projeção"),
     ).toBeInTheDocument();
+    expect(screen.getByText("Atual")).toBeInTheDocument();
+    expect(screen.getByText("Se gastar o teto")).toBeInTheDocument();
   });
 });

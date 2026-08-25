@@ -11,6 +11,15 @@ const BAR_LEGEND = [
   { key: "expense", label: "Saídas", color: "var(--color-text-secondary)" },
 ];
 
+const LINE_LEGEND = [
+  { key: "current", label: "Atual", color: "var(--color-brand)" },
+  {
+    key: "teto",
+    label: "Se gastar o teto",
+    color: "var(--color-text-secondary)",
+  },
+];
+
 export function Overview(props: OverviewProps) {
   const { data, facts } = useOverview(props);
 
@@ -38,7 +47,10 @@ export function Overview(props: OverviewProps) {
         icon="trendingUp"
         hint={HINTS.cumulative}
         legend={
-          <ChartLegend note="sólida = realizado · tracejada = projeção" />
+          <ChartLegend
+            items={LINE_LEGEND}
+            note="sólida = realizado · tracejada = projeção"
+          />
         }
       >
         {(size) => (

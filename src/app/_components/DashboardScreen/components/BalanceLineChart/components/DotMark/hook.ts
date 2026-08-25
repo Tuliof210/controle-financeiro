@@ -22,6 +22,7 @@ interface DotMarkProps {
   cy: number;
   title: string;
   projected: boolean;
+  stroke: string;
   tip: TooltipContent;
   showTooltip: (event: PointerLocation, content: TooltipContent) => void;
   hideTooltip: () => void;
@@ -34,6 +35,7 @@ function useDotMark({
   cy,
   title,
   projected,
+  stroke,
   tip,
   showTooltip,
   hideTooltip,
@@ -42,6 +44,7 @@ function useDotMark({
     cx,
     cy,
     title,
+    stroke,
     opacity: dotOpacity(projected),
     show: (event: PointerLocation) => showTooltip(event, tip),
     hide: hideTooltip,

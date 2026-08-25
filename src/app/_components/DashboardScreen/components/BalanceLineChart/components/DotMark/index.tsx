@@ -6,7 +6,7 @@ const DOT_RADIUS = 4;
 const HIT_RADIUS = 10;
 
 export function DotMark(props: DotMarkProps) {
-  const { cx, cy, title, opacity, show, hide } = useDotMark(props);
+  const { cx, cy, title, stroke, opacity, show, hide } = useDotMark(props);
 
   return (
     <g>
@@ -18,7 +18,7 @@ export function DotMark(props: DotMarkProps) {
         cy={cy}
         r={DOT_RADIUS}
         fill="var(--color-surface)"
-        stroke="var(--color-brand)"
+        stroke={stroke}
         strokeWidth={2}
         strokeOpacity={opacity}
       />
