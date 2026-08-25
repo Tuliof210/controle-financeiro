@@ -35,22 +35,16 @@ describe("GET", () => {
     expect(dashboard).not.toHaveBeenCalled();
   });
 
-  it("passes owner, cap and simulation to the service", async () => {
-    await get({ owner: "p1", cap: "75", simulation: "all" });
+  it("passes the owner and nothing else to the service", async () => {
+    await get({ owner: "p1" });
 
-    expect(dashboard).toHaveBeenCalledWith("p1", "75", "all");
+    expect(dashboard).toHaveBeenCalledWith("p1");
   });
 
-  it("defaults both closed-set parameters when they are absent", async () => {
-    await get({ owner: "familia" });
+  it("ignores the cap and simulation params it used to accept", async () => {
+    await get({ owner: "familia", cap: "75", simulation: "all" });
 
-    expect(dashboard).toHaveBeenCalledWith("familia", "50", "real");
-  });
-
-  it("falls back rather than erroring on an unusable cap or view", async () => {
-    await get({ owner: "familia", cap: "abc", simulation: "nope" });
-
-    expect(dashboard).toHaveBeenCalledWith("familia", "50", "real");
+    expect(dashboard).toHaveBeenCalledWith("familia");
   });
 
   it("wraps the payload in the data envelope", async () => {

@@ -3,57 +3,77 @@
  */
 import { describe, expect, it } from "@jest/globals";
 import {
+  ceilingTargetOf,
   forecastsFor,
-  limitFor,
-  metaOf,
-  targetCap,
+  goalsTargetOf,
+  overHeadroomOf,
 } from "@/app/api/dashboard/dashboard-inputs.helper.ts";
 import type { Forecast } from "@/core/entities/forecast.entity.ts";
+import { DEFAULT_SETTINGS } from "@/lib/settings-defaults.ts";
 
 const real = { id: "f1", simulated: false } as Forecast;
 const simulated = { id: "f2", simulated: true } as Forecast;
 
-describe("metaOf", () => {
-  it("reads a saved goal as the Meta target", () => {
-    expect(metaOf(50_000)).toBe(50_000);
+const saved = (over: Partial<typeof DEFAULT_SETTINGS> = {}) => ({
+  ...DEFAULT_SETTINGS,
+  ...over,
+});
+
+describe("ceilingTargetOf", () => {
+  it("reads the saved percentage while the mode is percent", () => {
+    expect(ceilingTargetOf(saved({ ceilingPercent: 75 }))).toEqual({
+      mode: "percent",
+      percent: 75,
+    });
   });
 
-  it("reads zero and absent alike as unset", () => {
-    expect(metaOf(0)).toBeNull();
-    expect(metaOf(undefined)).toBeNull();
+  it("reads the saved amount once the mode is fixed", () => {
+    expect(
+      ceilingTargetOf(saved({ ceilingMode: "fixed", ceilingCents: 40_000 })),
+    ).toEqual({ mode: "fixed", cents: 40_000 });
   });
 });
 
-describe("targetCap", () => {
-  it("falls back to the default when Meta is asked for without one", () => {
-    expect(targetCap("meta", null)).toBe("50");
+describe("goalsTargetOf", () => {
+  it("reads the goals adjustment, not the ceiling's", () => {
+    expect(
+      goalsTargetOf(saved({ ceilingPercent: 75, goalsPercent: 10 })),
+    ).toEqual({ mode: "percent", percent: 10 });
   });
 
-  it("keeps Meta when there is a goal", () => {
-    expect(targetCap("meta", 50_000)).toBe("meta");
-  });
-
-  it("leaves a percentage target alone", () => {
-    expect(targetCap("75", null)).toBe("75");
+  it("reads the saved amount once the mode is fixed", () => {
+    expect(
+      goalsTargetOf(saved({ goalsMode: "fixed", goalsCents: 20_000 })),
+    ).toEqual({ mode: "fixed", cents: 20_000 });
   });
 });
 
 describe("forecastsFor", () => {
-  it("counts simulations under the all view", () => {
-    expect(forecastsFor("all", [real, simulated])).toEqual([real, simulated]);
+  it("counts simulations once the Perfil asks for them", () => {
+    expect(forecastsFor(true, [real, simulated])).toEqual([real, simulated]);
   });
 
-  it("drops them entirely under the real view", () => {
-    expect(forecastsFor("real", [real, simulated])).toEqual([real]);
+  it("drops them entirely while it does not", () => {
+    expect(forecastsFor(false, [real, simulated])).toEqual([real]);
   });
 });
 
-describe("limitFor", () => {
-  it("caps only the Meta target", () => {
-    expect(limitFor("meta", 50_000)).toBe(50_000);
+describe("overHeadroomOf", () => {
+  it("says nothing while both adjustments are percentages", () => {
+    expect(overHeadroomOf(saved({ ceilingPercent: 100 }), 0)).toBe(false);
   });
 
-  it("leaves the percentage targets uncapped", () => {
-    expect(limitFor("25", 50_000)).toBeNull();
+  it("catches a fixed ceiling above what the period carries", () => {
+    const settings = saved({ ceilingMode: "fixed", ceilingCents: 1001 });
+
+    expect(overHeadroomOf(settings, 1000)).toBe(true);
+    expect(overHeadroomOf(settings, 1001)).toBe(false);
+  });
+
+  it("catches a fixed goals amount above it too", () => {
+    const settings = saved({ goalsMode: "fixed", goalsCents: 1001 });
+
+    expect(overHeadroomOf(settings, 1000)).toBe(true);
+    expect(overHeadroomOf(settings, 1001)).toBe(false);
   });
 });

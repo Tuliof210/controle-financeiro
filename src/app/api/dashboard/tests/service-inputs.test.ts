@@ -31,7 +31,8 @@ const settings = jest.mocked(settingsRepository);
 const NOW = currentYyyymm();
 
 // Every repository armed at once: the service pulls all four in one
-// Promise.all, so leaving any unset rejects before the assertion runs.
+// Promise.all, so leaving any unset rejects before the assertion runs. `get`
+// answering null is the untouched install, which must read as DEFAULT_SETTINGS.
 const seed = (forecastList: unknown[] = []) => {
   jest
     .mocked(movementRepository)
@@ -48,18 +49,22 @@ beforeEach(() => {
 });
 
 describe("getDashboard", () => {
-  it("leaves simulated forecasts out of the real view, range included", async () => {
+  it("leaves simulated forecasts out by default, range included", async () => {
     seed(simulation);
 
-    const data = await getDashboard("familia", "50", "real");
+    const data = await getDashboard("familia");
 
     expect(data.status === "ok" && data.range.end).toBe(NOW);
   });
 
-  it("counts them under the all view", async () => {
+  it("counts them once the Perfil saved showSimulated", async () => {
     seed(simulation);
+    settings.get.mockResolvedValue({
+      ...DEFAULT_SETTINGS,
+      showSimulated: true,
+    });
 
-    const data = await getDashboard("familia", "50", "all");
+    const data = await getDashboard("familia");
 
     expect(data.status === "ok" && data.range.end).toBe(209_912);
   });
@@ -67,7 +72,7 @@ describe("getDashboard", () => {
   it("filters entries by the active profile", async () => {
     seed();
 
-    const data = await getDashboard("p2", "50", "real");
+    const data = await getDashboard("p2");
 
     expect(data.status === "ok" && data.income.total).toBe(0);
   });
@@ -75,25 +80,21 @@ describe("getDashboard", () => {
   it("keeps every entry under the family sentinel", async () => {
     seed();
 
-    const data = await getDashboard("familia", "50", "real");
+    const data = await getDashboard("familia");
 
     expect(data.status === "ok" && data.income.total).toBe(1000);
   });
 
-  it("echoes a saved monthly goal as the Meta target", async () => {
+  it("builds the ceiling from the saved target", async () => {
     seed();
-    settings.get.mockResolvedValue({ ...DEFAULT_SETTINGS, ceilingCents: 700 });
+    settings.get.mockResolvedValue({
+      ...DEFAULT_SETTINGS,
+      ceilingMode: "fixed",
+      ceilingCents: 400,
+    });
 
-    const data = await getDashboard("familia", "meta", "real");
+    const data = await getDashboard("familia");
 
-    expect(data.status === "ok" && data.meta).toBe(700);
-  });
-
-  it("reports no Meta target when nothing is saved", async () => {
-    seed();
-
-    const data = await getDashboard("familia", "meta", "real");
-
-    expect(data.status === "ok" && data.meta).toBeNull();
+    expect(data.status === "ok" && data.ceiling.monthly).toBe(400);
   });
 });

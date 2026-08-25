@@ -2,9 +2,7 @@ import { useEffect, useState } from "react";
 import type { DashboardData } from "@/app/api/dashboard/types.ts";
 import { useProfile } from "@/components/ProfileProvider/hook.ts";
 import { apiGet } from "@/lib/api.ts";
-import { type CeilingCap, DEFAULT_CEILING_CAP } from "@/lib/ceiling-caps.ts";
 import { heldFor } from "./dashboard-held.helper.ts";
-import { useSimulationView } from "./simulation.hook.ts";
 
 export function useDashboardScreen() {
   // AppShell mounts ProfileProvider globally, so the context is already there.
@@ -14,28 +12,18 @@ export function useDashboardScreen() {
   // once /api/people resolves. Keying on it covers both — the corrected value
   // simply triggers another fetch.
   const { profile } = useProfile();
-  // Tagged with the owner it was fetched for, and that tag is load-bearing.
-  // Keeping the board mounted through a CAP change is the point — same money,
-  // different setting. Keeping it through a PROFILE change is not: it would
-  // leave one person's figures on screen under another person's name until the
-  // new payload lands, unlabelled. Tagging lets one flag answer both.
+  // Tagged with the owner it was fetched for, and that tag is load-bearing:
+  // keeping one person's figures on screen under another person's name until
+  // the new payload lands, unlabelled, is what it prevents.
   const [held, setHeld] = useState<{
     owner: string;
     payload: DashboardData;
   } | null>(null);
   const [error, setError] = useState<string>();
-  // Deliberately not persisted (owner's decision, 2026-07-30): every reload
-  // starts on the default. It lives up here rather than in CeilingCard because
-  // `pace` and the goal projections move with it, and those render in
-  // SavingsSection.
-  const [cap, setCap] = useState<CeilingCap>(DEFAULT_CEILING_CAP);
-  // Persisted, and so held in its own hook — see simulation.hook.ts.
-  const { view: simulation, choose: setSimulation } = useSimulationView();
   // Two questions `data === null` used to answer at once: "nothing to show" and
-  // "a request is in flight". Only the first belongs to the data. Every cap
-  // change re-runs this effect, and blanking unmounted the whole board — both
-  // charts, the goal rows, an expanded month table, and the very button that
-  // had just been clicked.
+  // "a request is in flight". Only the first belongs to the data — blanking on
+  // every refetch unmounted the whole board, both charts, the goal rows and an
+  // expanded month table.
   const [pending, setPending] = useState(true);
 
   useEffect(() => {
@@ -44,11 +32,11 @@ export function useDashboardScreen() {
     setError(undefined);
 
     apiGet<DashboardData>(
-      `/api/dashboard?owner=${encodeURIComponent(profile)}&cap=${cap}&simulation=${simulation}`,
+      `/api/dashboard?owner=${encodeURIComponent(profile)}`,
     ).then((result) => {
-      // A response for a profile or cap we have already moved on from must not
-      // land. This is also what makes serving the last-good `data` while a
-      // request is in flight safe: an out-of-order response still cannot win.
+      // A response for a profile we have already moved on from must not land.
+      // This is also what makes serving the last-good `data` while a request is
+      // in flight safe: an out-of-order response still cannot win.
       if (!current) {
         return;
       }
@@ -67,7 +55,7 @@ export function useDashboardScreen() {
     return () => {
       current = false;
     };
-  }, [profile, cap, simulation]);
+  }, [profile]);
 
   // Nothing held for the profile on screen means nothing honest to show, so the
   // board goes and the notice takes over.
@@ -80,13 +68,9 @@ export function useDashboardScreen() {
     // (EntrySection seeds its list to [] and flashes its empty state on every
     // load; PeopleSection and GoalsSection use null to avoid exactly that.)
     loading: pending && data === null && error === undefined,
-    // A cap change revalidates in place instead: what is on screen is still an
-    // honest read of the same person's money, and replacing it with a spinner
-    // loses the reader's scroll position and the card's expanded state.
+    // A profile change revalidates in place instead of blanking: replacing the
+    // board with a spinner loses the reader's scroll position and the card's
+    // expanded state.
     refreshing: pending && data !== null,
-    cap,
-    setCap,
-    simulation,
-    setSimulation,
   };
 }

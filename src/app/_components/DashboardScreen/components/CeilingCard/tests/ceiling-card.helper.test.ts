@@ -22,8 +22,8 @@ describe("shareOf", () => {
 });
 
 describe("limitLabel", () => {
-  it("gives the goal the label when the reader just chose it", () => {
-    expect(limitLabel(true, 202_612)).toBe("Limitado pela meta");
+  it("points at the Perfil setting when the ceiling is a fixed amount", () => {
+    expect(limitLabel(true, 202_612)).toBe("Limitado pelo teto do Perfil");
   });
 
   it("names the bottleneck month otherwise", () => {

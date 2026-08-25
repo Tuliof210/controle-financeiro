@@ -26,7 +26,9 @@ describe("useSavingsSection", () => {
       useSavingsSection({ data: data([goal(1000)], 250) }),
     );
 
-    expect(result.current.caption).toBe("25% da média dos tetos do período");
+    expect(result.current.caption).toBe(
+      "conforme o ajuste de objetivos no Perfil",
+    );
     expect(result.current.capacity).toBe(250);
   });
 

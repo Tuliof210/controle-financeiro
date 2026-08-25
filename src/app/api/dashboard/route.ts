@@ -1,49 +1,26 @@
 import type { NextRequest } from "next/server";
-import { z } from "zod";
-import { CEILING_CAPS, DEFAULT_CEILING_CAP } from "@/lib/ceiling-caps.ts";
 import { fail, INTERNAL, ok, UNPROCESSABLE } from "@/lib/http.ts";
-import { DEFAULT_SIMULATION_VIEW, SIMULATION_VIEWS } from "@/lib/simulation.ts";
 import { getDashboard } from "./service.ts";
 
-// `cap` is validated and `owner` is not, and the asymmetry is the point. `owner`
-// is a single free-form string (a person id or the "familia" sentinel) that
-// visibleFor already reads as "matches nobody" when unknown, so there is no
-// shape to check beyond non-empty. `cap` is a closed set feeding integer
-// arithmetic: `?cap=abc` would put NaN through every budget, every pace and
-// every goal date in the payload.
+// `owner` is the only input, and it is not validated: it is a single free-form
+// string (a person id or the "familia" sentinel) that visibleFor already reads
+// as "matches nobody" when unknown, so there is no shape to check beyond
+// non-empty.
 //
-// `.catch` and not `safeParse` + 422: this value is set by our own selector, and
-// `src/lib/api.ts` renders any error envelope as the screen's red notice — a
-// typo in a hand-edited URL would look exactly like an outage. An unusable cap
-// falls back to the default the selector itself starts on.
-//
-// No `.transform(Number)` any more: the tuple now holds a target that is not a
-// percentage, and Number("meta") is NaN. The string reaches the service, which
-// is also what lets it tell the Meta target apart from a plain 100.
-const capSchema = z.enum(CEILING_CAPS).catch(DEFAULT_CEILING_CAP);
-
-// Same closed set, same selector, so the same `.catch` reasoning applies —
-// including the absent case, which is every caller written before simulations
-// existed and must keep meaning "real only".
-const simulationSchema = z
-  .enum(SIMULATION_VIEWS)
-  .catch(DEFAULT_SIMULATION_VIEW);
-
+// Nothing else is read off the query string any more. The board has no controls
+// of its own — the ceiling target, the goals target and whether simulations
+// count all come off the saved `Settings` row — so `?cap=` and `?simulation=`
+// are gone rather than tolerated: the app is local, there is no other client,
+// and an accepted-but-ignored parameter is a lie the next reader has to
+// disprove.
 export async function GET(request: NextRequest) {
-  const params = request.nextUrl.searchParams;
-  const owner = params.get("owner");
+  const owner = request.nextUrl.searchParams.get("owner");
   if (!owner) {
     return fail("Dados inválidos", "validation", UNPROCESSABLE);
   }
 
   try {
-    return ok(
-      await getDashboard(
-        owner,
-        capSchema.parse(params.get("cap")),
-        simulationSchema.parse(params.get("simulation")),
-      ),
-    );
+    return ok(await getDashboard(owner));
   } catch {
     return fail("Erro ao carregar dashboard", "internal", INTERNAL);
   }

@@ -1,54 +1,55 @@
-// The four choices the dashboard makes about its own inputs before any
-// arithmetic runs. Split off service.ts for the 100-line cap.
+// The choices the dashboard makes about its own inputs before any arithmetic
+// runs. Every one of them now reads the saved `Settings` row: the board has no
+// controls of its own, so nothing here comes off the query string. Split off
+// service.ts for the 100-line cap.
 import type { Forecast } from "@/core/entities/forecast.entity.ts";
-import {
-  type CeilingCap,
-  DEFAULT_CEILING_CAP,
-  META_CAP,
-} from "@/lib/ceiling-caps.ts";
+import type { Settings } from "@/core/entities/settings.entity.ts";
+import type { CeilingTarget } from "./ceiling.types.ts";
+import type { GoalsTarget } from "./pace.helper.ts";
 
-// Zero reads as unset, exactly as it does on the settings screen: clearing the
-// field is how the goal is removed, there being no DELETE for it.
-//
-// The column behind this is `Settings.ceilingCents` — renamed from
-// `monthlyGoalCents`, which had started to collide with the new `goalsCents`.
-// Only the name moved: this is the same monthly ceiling in cents the Meta
-// target has always been limited by.
-function metaOf(ceilingCents: number | undefined): number | null {
-  if (!ceilingCents) {
-    return null;
+// The mode picks which of the two saved figures is the answer; the other one
+// stays on the row untouched, so switching back does not lose it.
+export function ceilingTargetOf(settings: Settings): CeilingTarget {
+  if (settings.ceilingMode === "fixed") {
+    return { mode: "fixed", cents: settings.ceilingCents };
   }
-  return ceilingCents;
+  return { mode: "percent", percent: settings.ceilingPercent };
 }
 
-// Asking for Meta without one falls back to the default target — the same
-// doctrine as route.ts's `.catch`, one step later: an unusable value on this
-// parameter must never turn into an error notice over an honest board.
-function targetCap(cap: CeilingCap, meta: number | null): CeilingCap {
-  if (cap === META_CAP && meta === null) {
-    return DEFAULT_CEILING_CAP;
+export function goalsTargetOf(settings: Settings): GoalsTarget {
+  if (settings.goalsMode === "fixed") {
+    return { mode: "fixed", cents: settings.goalsCents };
   }
-  return cap;
+  return { mode: "percent", percent: settings.goalsPercent };
 }
 
-// Filtered here rather than beside visibleFor below, because "as if they had
-// never been registered" has to include the range: derivePeriod reads this list
-// too. The consequence is deliberate — a board whose only reach into the
-// current month is a simulation answers no_range/out_of_range on "real", and
-// the screen already has a notice for each.
-function forecastsFor(simulation: string, all: Forecast[]): Forecast[] {
-  if (simulation === "all") {
+// Filtered here rather than beside visibleFor in service.ts, because "as if they
+// had never been registered" has to include the range: derivePeriod reads this
+// list too. The consequence is deliberate — a board whose only reach into the
+// current month is a simulation answers no_range/out_of_range while simulations
+// are off, and the screen already has a notice for each.
+export function forecastsFor(
+  showSimulated: boolean,
+  all: Forecast[],
+): Forecast[] {
+  if (showSimulated) {
     return all;
   }
   return all.filter((forecast) => !forecast.simulated);
 }
 
-// Only the Meta target is capped by the goal; the percentage targets are not.
-function limitFor(target: CeilingCap, meta: number | null): number | null {
-  if (target === META_CAP) {
-    return meta;
-  }
-  return null;
+// A saved fixed amount that the period can no longer carry. Both adjustments are
+// measured against the same ruler — `headroomCents`, the most any month may hand
+// out without sinking a later one — because both are spent out of the same
+// balance. A percentage cannot overflow it by construction, so only the fixed
+// modes are asked.
+export function overHeadroomOf(
+  settings: Settings,
+  headroomCents: number,
+): boolean {
+  const ceilingOver =
+    settings.ceilingMode === "fixed" && settings.ceilingCents > headroomCents;
+  const goalsOver =
+    settings.goalsMode === "fixed" && settings.goalsCents > headroomCents;
+  return ceilingOver || goalsOver;
 }
-
-export { forecastsFor, limitFor, metaOf, targetCap };

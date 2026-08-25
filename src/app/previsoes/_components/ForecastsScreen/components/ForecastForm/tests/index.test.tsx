@@ -43,7 +43,9 @@ describe("ForecastForm", () => {
     render(<ForecastForm {...props} />);
 
     expect(
-      screen.getByText("O dashboard só soma simulações quando você pedir."),
+      screen.getByText(
+        "O dashboard só soma simulações quando o ajuste do Perfil pedir.",
+      ),
     ).toBeInTheDocument();
   });
 

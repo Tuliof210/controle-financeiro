@@ -1,8 +1,7 @@
 // How a value is expressed: a share of what is available, or an amount in
 // cents. Lives here and not in `src/lib/` because it is the domain of the
-// adjustment itself, not a detail of transport — the route's
-// `z.enum(SETTING_MODES)` reads from here, the way the dashboard route already
-// reads `z.enum(SIMULATION_VIEWS)`.
+// adjustment itself, not a detail of transport — the settings route's
+// `z.enum(SETTING_MODES)` reads from here.
 export const SETTING_MODES = ["percent", "fixed"] as const;
 
 export type SettingMode = (typeof SETTING_MODES)[number];

@@ -18,6 +18,8 @@ jest.mock(
 
 const range = { start: 202_601, end: 202_612, current: 202_608 };
 
+const noRange = { status: "no_range" };
+
 const okPayload = {
   status: "ok",
   range,
@@ -34,23 +36,20 @@ const NO_ENTRIES = /Nenhum lançamento ainda/;
 const OUT_OF_RANGE = /\(Jan\/26–Dez\/26\) não cobre o mês atual/;
 
 describe("DashboardScreen", () => {
-  it("titles the screen and offers the simulation view in every state", () => {
-    jest
-      .mocked(apiGet)
-      .mockResolvedValue({ data: { status: "no_range" } } as never);
+  it("titles the screen and carries no control of its own", () => {
+    jest.mocked(apiGet).mockResolvedValue({ data: noRange } as never);
 
     render(<DashboardScreen />);
 
     expect(
       screen.getByRole("heading", { level: 1, name: "Dashboard" }),
     ).toBeInTheDocument();
-    expect(screen.getByLabelText("Dados do dashboard")).toBeInTheDocument();
+    expect(screen.queryAllByRole("radio")).toHaveLength(0);
+    expect(screen.queryByRole("combobox")).not.toBeInTheDocument();
   });
 
   it("says the database is empty on no_range", async () => {
-    jest
-      .mocked(apiGet)
-      .mockResolvedValue({ data: { status: "no_range" } } as never);
+    jest.mocked(apiGet).mockResolvedValue({ data: noRange } as never);
 
     render(<DashboardScreen />);
 

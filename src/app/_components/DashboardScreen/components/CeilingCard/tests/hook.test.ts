@@ -1,4 +1,4 @@
-import { describe, expect, it, jest } from "@jest/globals";
+import { describe, expect, it } from "@jest/globals";
 import { renderHook } from "@testing-library/react";
 import { useCeilingCard } from "@/app/_components/DashboardScreen/components/CeilingCard/hook.ts";
 import type { Ceiling } from "@/app/api/dashboard/ceiling.types.ts";
@@ -17,24 +17,14 @@ const ceiling = (over: Partial<Ceiling> = {}): Ceiling =>
     daily: 8,
     tightest: 202_612,
     firstRed: null,
+    fixed: false,
     months: [month(202_608, 250), month(202_609, 100)],
     ...over,
   }) as Ceiling;
 
-const card = (
-  over: Partial<Ceiling> = {},
-  meta: number | null = null,
-  cap = "50",
-) =>
-  renderHook(() =>
-    useCeilingCard({
-      ceiling: ceiling(over),
-      meta,
-      current: 202_608,
-      cap: cap as never,
-      onCapChange: jest.fn(),
-    }),
-  ).result.current;
+const card = (over: Partial<Ceiling> = {}) =>
+  renderHook(() => useCeilingCard({ ceiling: ceiling(over), current: 202_608 }))
+    .result.current;
 
 describe("useCeilingCard", () => {
   it("formats the headline and its two cadences", () => {
@@ -56,13 +46,13 @@ describe("useCeilingCard", () => {
     expect(currentLabel).toBe("Ago/26");
   });
 
-  it("names the bottleneck month while the headroom binds", () => {
+  it("names the bottleneck month while the projection binds", () => {
     expect(card().limitedBy).toBe("Limitado por Dez/26");
   });
 
-  it("names the goal instead once it is what bound the figure", () => {
-    expect(card({ monthly: 250 }, 250, "meta").limitedBy).toBe(
-      "Limitado pela meta",
+  it("names the Perfil setting instead once the ceiling is fixed", () => {
+    expect(card({ fixed: true }).limitedBy).toBe(
+      "Limitado pelo teto do Perfil",
     );
   });
 
@@ -87,10 +77,5 @@ describe("useCeilingCard", () => {
 
   it("reports how much of the list is on screen", () => {
     expect(card().count).toBe("2 de 2 meses");
-  });
-
-  it("offers the Meta segment only once a goal is saved", () => {
-    expect(card().hasMeta).toBe(false);
-    expect(card({}, 700).hasMeta).toBe(true);
   });
 });
