@@ -70,11 +70,12 @@ export type DashboardData =
       expense: Stats;
       balance: Stats;
       ceiling: Ceiling;
-      // The monthly spending goal saved in /configuracoes, or null when there
-      // is none. A setting and not a ceiling output, which is why it rides on
-      // the payload rather than inside `ceiling`: the cap selector needs it to
-      // decide whether to offer the Meta segment, whatever target is active.
-      meta: number | null;
+      // A fixed amount saved in /perfil has outgrown what the period can carry
+      // — the ceiling's, the goals', or both. Decided on the server because
+      // that is the one place holding the saved row and the ceiling it produced
+      // at the same time; a second fetch from the screen to find out whether to
+      // warn would be a race for nothing.
+      overHeadroom: boolean;
       pace: number;
       goals: GoalProjection[];
     };
