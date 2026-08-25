@@ -12,7 +12,7 @@ const COPY = {
   mes: "/mês",
   objetivos: "Objetivos",
   totalEmMetas: "Total em metas",
-  configuracoes: "Configurações",
+  perfil: "Perfil",
   fullStop: ".",
   meta: "Meta",
   dedicado: "Dedicado",
@@ -58,7 +58,7 @@ export function SavingsSection(props: SavingsSectionProps) {
       {Boolean(empty) && (
         <p className={styles.empty}>
           {COPY.nenhumObjetivoCadastrado}{" "}
-          <Link href="/configuracoes">{COPY.configuracoes}</Link>
+          <Link href="/perfil">{COPY.perfil}</Link>
           {COPY.fullStop}
         </p>
       )}

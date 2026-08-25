@@ -12,7 +12,7 @@ export const NAV: NavEntry[] = [
   { href: "/previsoes", label: "Previsões", icon: "trendingUp" },
   { href: "/leitor-ofx", label: "Leitor OFX", icon: "fileUp" },
   { href: "/ofx-decoder", label: "OFX Decoder", icon: "listTree" },
-  { href: "/configuracoes", label: "Configurações", icon: "settings" },
+  { href: "/perfil", label: "Perfil", icon: "settings" },
 ];
 
 // Exact equality, never prefix matching: no destination here is nested under

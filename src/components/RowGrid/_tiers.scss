@@ -4,7 +4,7 @@
 // $row-one-line-floor, reached with a viewport media query; both halves of
 // that are wrong here. The viewport lies about a row's width in this shell,
 // and one threshold cannot serve both a row that still has room for its
-// amount and the 148px a Configurações row gets at a 768px viewport.
+// amount and the 148px a Perfil row gets at a 768px viewport.
 //
 // Both numbers are measured, not designed — swept by setting the list's width
 // and reading the name cell back. The fixed cost of a one-line entry row is
