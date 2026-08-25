@@ -6,6 +6,7 @@ import { MAX_CENTS } from "@/lib/money.ts";
 import {
   emptyDashboard,
   HEADROOM,
+  MONTHLY,
   mockLoad,
   STORED,
 } from "./preferences.fixture.ts";
@@ -35,6 +36,17 @@ describe("usePreferences clamps", () => {
     act(() => result.current.onCentsChange("ceilingCents", HEADROOM + 1));
 
     expect(result.current.settings.ceilingCents).toBe(HEADROOM);
+  });
+
+  it("saturates a fixed goals amount at this month's teto", async () => {
+    const { result } = renderHook(() => usePreferences());
+    await waitFor(() =>
+      expect(result.current.preview.monthlyCents).toBe(MONTHLY),
+    );
+
+    act(() => result.current.onCentsChange("goalsCents", MONTHLY + 1));
+
+    expect(result.current.settings.goalsCents).toBe(MONTHLY);
   });
 
   it("falls back to the money guard when there is no headroom", async () => {

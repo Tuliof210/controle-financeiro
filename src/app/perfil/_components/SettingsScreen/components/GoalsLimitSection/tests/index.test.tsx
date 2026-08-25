@@ -4,21 +4,23 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { GoalsLimitSection } from "@/app/perfil/_components/SettingsScreen/components/GoalsLimitSection/index.tsx";
 
-const MAXIMO = /No máximo R\$ 500,00/;
+const MAXIMO = /No máximo R\$ 120,00/;
+const TETO = /teto de gastos deste mês/;
+const VERMELHO = /vermelho/;
 
 const base = {
   percent: 25,
   cents: 700,
   headroomKind: "ok" as const,
-  maxCents: 50_000,
+  maxCents: 12_000,
   onModeChange: jest.fn(),
   onPercentChange: jest.fn(),
   onCentsChange: jest.fn(),
 };
 
 describe("GoalsLimitSection", () => {
-  it("keeps the essay in the hint and offers both modes", () => {
-    render(<GoalsLimitSection {...base} mode="percent" />);
+  it("leads with this month's share of the teto", () => {
+    render(<GoalsLimitSection {...base} mode="percent" percent={50} />);
 
     expect(
       screen.getByRole("heading", { name: "Limite em objetivos" }),
@@ -28,14 +30,19 @@ describe("GoalsLimitSection", () => {
         name: "Como Limite em objetivos é calculado",
       }),
     ).toBeInTheDocument();
-    expect(screen.getByLabelText("Porcentagem do teto")).toHaveValue("25");
+    expect(screen.getByText("este mês").parentElement).toHaveTextContent(
+      "R$ 60,00",
+    );
+    expect(screen.getByLabelText("Porcentagem do teto")).toHaveValue("50");
   });
 
-  it("swaps to the amount and its maximum in fixed mode", () => {
+  it("swaps to the amount and its teto maximum in fixed mode", () => {
     render(<GoalsLimitSection {...base} mode="fixed" />);
 
     expect(screen.getByLabelText("Limite mensal")).toHaveValue("7,00");
     expect(screen.getByText(MAXIMO)).toBeInTheDocument();
+    expect(screen.getByText(TETO)).toBeInTheDocument();
+    expect(screen.queryByText(VERMELHO)).not.toBeInTheDocument();
     expect(
       screen.queryByLabelText("Porcentagem do teto"),
     ).not.toBeInTheDocument();

@@ -38,18 +38,14 @@ export function forecastsFor(
   return all.filter((forecast) => !forecast.simulated);
 }
 
-// A saved fixed amount that the period can no longer carry. Both adjustments are
-// measured against the same ruler — `headroomCents`, the most any month may hand
-// out without sinking a later one — because both are spent out of the same
-// balance. A percentage cannot overflow it by construction, so only the fixed
-// modes are asked.
+// A saved fixed ceiling that the period can no longer carry. Only the ceiling
+// paints months red (`ceilingLeft` negative); a goals amount does not, so it is
+// not asked. A percentage cannot overflow headroom by construction.
 export function overHeadroomOf(
   settings: Settings,
   headroomCents: number,
 ): boolean {
-  const ceilingOver =
-    settings.ceilingMode === "fixed" && settings.ceilingCents > headroomCents;
-  const goalsOver =
-    settings.goalsMode === "fixed" && settings.goalsCents > headroomCents;
-  return ceilingOver || goalsOver;
+  return (
+    settings.ceilingMode === "fixed" && settings.ceilingCents > headroomCents
+  );
 }

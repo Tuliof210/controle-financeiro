@@ -4,15 +4,22 @@ import { clampPercent } from "./percent.helper.ts";
 
 export function prefsEdits(
   edit: (patch: Partial<Settings>) => void,
-  maxCents: number | null,
+  caps: { ceiling: number | null; goals: number | null },
 ) {
+  const capOf = (field: "ceilingCents" | "goalsCents") => {
+    if (field === "goalsCents") {
+      return caps.goals ?? MAX_CENTS;
+    }
+    return caps.ceiling ?? MAX_CENTS;
+  };
+
   return {
     onModeChange: (field: "ceilingMode" | "goalsMode", mode: SettingMode) =>
       edit({ [field]: mode }),
     onPercentChange: (field: "ceilingPercent" | "goalsPercent", raw: string) =>
       edit({ [field]: clampPercent(raw) }),
     onCentsChange: (field: "ceilingCents" | "goalsCents", cents: number) =>
-      edit({ [field]: Math.min(cents, maxCents ?? MAX_CENTS) }),
+      edit({ [field]: Math.min(cents, capOf(field)) }),
     onSimulatedChange: (value: boolean) => edit({ showSimulated: value }),
   };
 }

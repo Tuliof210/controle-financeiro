@@ -27,9 +27,9 @@ function useSavingsSection({ data }: SavingsSectionProps) {
     horizon: ceiling.months.length,
     empty: goals.length === 0,
     capacity: pace,
-    // `pace` comes off the goals adjustment saved in /perfil — a share of the
-    // MEAN of the Teto de Gastos figures, or a flat amount — so the caption
-    // points at where it was decided rather than restating the number.
+    // `pace` comes off the goals adjustment saved in /perfil — a share of this
+    // month's teto, or a flat amount — so the caption points at where it was
+    // decided rather than restating the number.
     caption: captionFor(pace),
     // The divisor of metric B on every card below, so it is worth its own slot:
     // a reader comparing "EM PARALELO" against "DEDICADO" is looking for it.

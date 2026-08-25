@@ -14,10 +14,11 @@ export const STORED = {
 };
 
 export const HEADROOM = 50_000;
+export const MONTHLY = 12_000;
 
 export const okDashboard = {
   status: "ok",
-  ceiling: { headroomCents: HEADROOM, monthly: 12_000 },
+  ceiling: { headroomCents: HEADROOM, monthly: MONTHLY },
 } as unknown as DashboardData;
 
 export const emptyDashboard: DashboardData = { status: "no_range" };
