@@ -6,8 +6,12 @@ export function prefsEdits(
   edit: (patch: Partial<Settings>) => void,
   caps: { ceiling: number | null; goals: number | null },
 ) {
-  const capOf = (field: "ceilingCents" | "goalsCents") =>
-    (field === "goalsCents" ? caps.goals : caps.ceiling) ?? MAX_CENTS;
+  const capOf = (field: "ceilingCents" | "goalsCents") => {
+    if (field === "goalsCents") {
+      return caps.goals ?? MAX_CENTS;
+    }
+    return caps.ceiling ?? MAX_CENTS;
+  };
 
   return {
     onModeChange: (field: "ceilingMode" | "goalsMode", mode: SettingMode) =>

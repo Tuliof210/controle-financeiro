@@ -20,7 +20,7 @@ describe("useGoalsLimitSection", () => {
     expect(result.current.isPercent).toBe(true);
     expect(result.current.percentValue).toBe("50");
     expect(result.current.showFigure).toBe(true);
-    expect(result.current.figureCents).toBe(6_000);
+    expect(result.current.figureCents).toBe(6000);
   });
 
   it("names this month's teto as the maximum a fixed limit may reach", () => {

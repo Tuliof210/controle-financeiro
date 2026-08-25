@@ -6,6 +6,7 @@ import { GoalsLimitSection } from "@/app/perfil/_components/SettingsScreen/compo
 
 const MAXIMO = /No máximo R\$ 120,00/;
 const TETO = /teto de gastos deste mês/;
+const VERMELHO = /vermelho/;
 
 const base = {
   percent: 25,
@@ -41,7 +42,7 @@ describe("GoalsLimitSection", () => {
     expect(screen.getByLabelText("Limite mensal")).toHaveValue("7,00");
     expect(screen.getByText(MAXIMO)).toBeInTheDocument();
     expect(screen.getByText(TETO)).toBeInTheDocument();
-    expect(screen.queryByText(/vermelho/)).not.toBeInTheDocument();
+    expect(screen.queryByText(VERMELHO)).not.toBeInTheDocument();
     expect(
       screen.queryByLabelText("Porcentagem do teto"),
     ).not.toBeInTheDocument();

@@ -45,7 +45,9 @@ describe("DashboardScreen overHeadroom notice", () => {
     mount(true);
 
     expect(await screen.findByText(OVER_HEADROOM)).toBeInTheDocument();
-    expect(screen.getByText(OVER_HEADROOM)).toHaveTextContent("Ajuste o teto em");
+    expect(screen.getByText(OVER_HEADROOM)).toHaveTextContent(
+      "Ajuste o teto em",
+    );
     expect(screen.getByText(OVER_HEADROOM)).not.toHaveTextContent("objetivos");
     // The board stays: the negative months it now shows are the point.
     expect(screen.getByText("Board")).toBeInTheDocument();

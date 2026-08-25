@@ -19,8 +19,14 @@ interface GoalsLimitSectionProps {
 
 function useGoalsLimitSection(props: GoalsLimitSectionProps) {
   const { headroomKind, mode, percent, cents, maxCents } = props;
-  const share =
-    maxCents === null ? 0 : Math.floor((maxCents * percent) / PERCENT);
+  let share = 0;
+  if (maxCents !== null) {
+    share = Math.floor((maxCents * percent) / PERCENT);
+  }
+  let figureCents = cents;
+  if (mode === "percent") {
+    figureCents = share;
+  }
 
   return {
     ...props,
@@ -29,7 +35,7 @@ function useGoalsLimitSection(props: GoalsLimitSectionProps) {
     maxHint: maxHint(headroomKind, maxCents, TETO_CAP),
     lede: goalsLede(headroomKind, mode, percent),
     showFigure: headroomKind === "ok" && maxCents !== null,
-    figureCents: mode === "percent" ? share : cents,
+    figureCents,
   };
 }
 
