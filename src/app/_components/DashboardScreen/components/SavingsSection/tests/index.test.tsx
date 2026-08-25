@@ -36,13 +36,13 @@ describe("SavingsSection", () => {
     expect(screen.getByText("Casa")).toBeInTheDocument();
   });
 
-  it("points at Configurações when there is no goal yet", () => {
+  it("points at Perfil when there is no goal yet", () => {
     render(<SavingsSection data={data([])} />);
 
     expect(screen.queryByRole("list")).not.toBeInTheDocument();
-    expect(screen.getByRole("link", { name: "Configurações" })).toHaveAttribute(
+    expect(screen.getByRole("link", { name: "Perfil" })).toHaveAttribute(
       "href",
-      "/configuracoes",
+      "/perfil",
     );
   });
 });

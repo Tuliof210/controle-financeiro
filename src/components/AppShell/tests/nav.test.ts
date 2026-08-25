@@ -9,7 +9,7 @@ describe("NAV", () => {
       "/previsoes",
       "/leitor-ofx",
       "/ofx-decoder",
-      "/configuracoes",
+      "/perfil",
     ]);
   });
 
