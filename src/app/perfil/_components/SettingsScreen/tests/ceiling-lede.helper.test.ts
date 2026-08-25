@@ -23,6 +23,15 @@ describe("maxHint", () => {
     expect(maxHint("ok", 50_000)).toContain("R$ 500,00");
   });
 
+  it("names the teto when a caller passes that cap", () => {
+    expect(maxHint("ok", 12_000, "o teto de gastos deste mês.")).toContain(
+      "teto de gastos deste mês",
+    );
+    expect(maxHint("ok", 12_000, "o teto de gastos deste mês.")).not.toContain(
+      "vermelho",
+    );
+  });
+
   it("does not claim an empty period when the dashboard failed", () => {
     expect(maxHint("error", null)).toContain("Não foi possível calcular");
     expect(maxHint("error", null)).not.toContain("Sem previsões");

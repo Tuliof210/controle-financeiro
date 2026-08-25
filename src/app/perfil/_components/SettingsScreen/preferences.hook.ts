@@ -83,6 +83,9 @@ export function usePreferences() {
     statusMessage: prefsStatus(saving, saved),
     statusClass: prefsStatusClass(saving),
     onRetry,
-    ...prefsEdits(edit, preview.maxCents),
+    ...prefsEdits(edit, {
+      ceiling: preview.maxCents,
+      goals: preview.monthlyCents,
+    }),
   };
 }

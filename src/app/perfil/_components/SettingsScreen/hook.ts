@@ -29,7 +29,7 @@ function useSettingsScreen() {
     percent: settings.goalsPercent,
     cents: settings.goalsCents,
     headroomKind: preview.kind,
-    maxCents: preview.maxCents,
+    maxCents: preview.monthlyCents,
     onModeChange: (mode) => prefs.onModeChange("goalsMode", mode),
     onPercentChange: (raw) => prefs.onPercentChange("goalsPercent", raw),
     onCentsChange: (cents) => prefs.onCentsChange("goalsCents", cents),
