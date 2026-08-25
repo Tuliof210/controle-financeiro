@@ -1,16 +1,28 @@
 import { describe, expect, it } from "@jest/globals";
 import { renderHook } from "@testing-library/react";
-import type { CeilingMonth } from "@/app/api/dashboard/ceiling.types.ts";
 import { useBalanceLineChart } from "@/app/_components/DashboardScreen/components/BalanceLineChart/hook.ts";
+import type { CeilingMonth } from "@/app/api/dashboard/ceiling.types.ts";
 import type { MonthPoint } from "@/app/api/dashboard/types.ts";
 
 const point = (month: number, cumulative: number) =>
   ({ month, income: 1000, expense: 400, cumulative }) as MonthPoint;
 
-const teto = (month: number, ceilingLeft: number, budget = 100): CeilingMonth =>
-  ({ month, budget, ceilingBalance: ceilingLeft + budget, ceilingLeft });
+const teto = (
+  month: number,
+  ceilingLeft: number,
+  budget = 100,
+): CeilingMonth => ({
+  month,
+  budget,
+  ceilingBalance: ceilingLeft + budget,
+  ceilingLeft,
+});
 
-const points = [point(202_601, 1000), point(202_602, 1000), point(202_603, 1000)];
+const points = [
+  point(202_601, 1000),
+  point(202_602, 1000),
+  point(202_603, 1000),
+];
 
 const chart = (ceilingMonths: CeilingMonth[]) =>
   renderHook(() =>

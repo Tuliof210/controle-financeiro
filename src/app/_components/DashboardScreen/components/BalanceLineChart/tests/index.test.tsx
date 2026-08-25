@@ -23,6 +23,8 @@ const chart = (dashedFrom: number | null, tightest: number | null) =>
 
 const JAN = /Jan\/26 · acumulado/;
 const FEB = /Fev\/26 · acumulado/;
+const FEB_TETO = /Fev\/26 · se gastar o teto/;
+const JAN_TETO = /Jan\/26 · se gastar o teto/;
 
 describe("BalanceLineChart", () => {
   it("names its own plot region and draws one dot per month", () => {
@@ -69,11 +71,7 @@ describe("BalanceLineChart", () => {
 
     expect(screen.getByLabelText(JAN)).toBeInTheDocument();
     expect(screen.getByLabelText(FEB)).toBeInTheDocument();
-    expect(
-      screen.getByLabelText(/Fev\/26 · se gastar o teto/),
-    ).toBeInTheDocument();
-    expect(
-      screen.queryByLabelText(/Jan\/26 · se gastar o teto/),
-    ).not.toBeInTheDocument();
+    expect(screen.getByLabelText(FEB_TETO)).toBeInTheDocument();
+    expect(screen.queryByLabelText(JAN_TETO)).not.toBeInTheDocument();
   });
 });

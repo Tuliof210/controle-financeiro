@@ -12,19 +12,20 @@ const teto = {
   ceilingBalance: 0,
   ceilingLeft: 10,
 } as CeilingMonth;
+const origin = () => 0;
 
 describe("PlotLines", () => {
   it("paints the teto path first, without a dash", () => {
     const { container } = render(
-      <svg>
+      <svg aria-hidden="true">
         <PlotLines
           teto={[teto]}
           solid={[month]}
           dashed={[]}
-          x={() => 0}
-          y={() => 0}
-          xTeto={() => 0}
-          yTeto={() => 0}
+          x={origin}
+          y={origin}
+          xTeto={origin}
+          yTeto={origin}
         />
       </svg>,
     );

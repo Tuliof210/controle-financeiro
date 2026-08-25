@@ -18,8 +18,7 @@ export function dotsFor(
   points: MonthPoint[],
   ceilingMonths: CeilingMonth[],
   projectedFrom: number,
-  xOf: (month: number) => number,
-  yOf: (value: number) => number,
+  scale: { xOf: (month: number) => number; yOf: (value: number) => number },
 ) {
   const leftOf = new Map(
     ceilingMonths.map((month) => [month.month, month.ceilingLeft]),
@@ -29,8 +28,7 @@ export function dotsFor(
     dotFor(
       point,
       point.month >= projectedFrom,
-      xOf(point.month),
-      yOf(point.cumulative),
+      { cx: scale.xOf(point.month), cy: scale.yOf(point.cumulative) },
       leftOf.get(point.month),
     ),
   );
@@ -41,11 +39,9 @@ export function dotsFor(
     }
     return [
       tetoDotFor(
-        row.month,
-        row.ceilingLeft,
+        row,
         row.month >= projectedFrom,
-        xOf(row.month),
-        yOf(row.ceilingLeft),
+        { cx: scale.xOf(row.month), cy: scale.yOf(row.ceilingLeft) },
         point.cumulative,
       ),
     ];

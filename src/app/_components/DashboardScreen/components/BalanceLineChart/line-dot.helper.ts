@@ -1,13 +1,11 @@
+import type { CeilingMonth } from "@/app/api/dashboard/ceiling.types.ts";
 import type { MonthPoint } from "@/app/api/dashboard/types.ts";
 import { formatMoney } from "@/lib/money.ts";
 import { formatYyyymm } from "@/lib/months.ts";
-import type { TooltipContent } from "../ChartTooltip/hook.ts";
+import { tipFor } from "./line-tip.helper.ts";
 
 // One point of the curve, with the caption the bubble prints for it.
-
-// The only channel that still says "projection" once the chart is read in
-// greyscale, alongside the path's own stroke-dasharray. The half-opacity dot is
-// reinforcement, never the signal.
+// Greyscale: the dash and the ESTIMADO word carry "projection"; opacity is extra.
 const tagFor = (projected: boolean): string => {
   if (projected) {
     return "estimado";
@@ -15,47 +13,15 @@ const tagFor = (projected: boolean): string => {
   return "real";
 };
 
-function rowsFor(cumulative: number, ceilingLeft: number | undefined) {
-  const cumulativeRow = {
-    key: "cumulative",
-    label: "acumulado",
-    value: formatMoney(cumulative),
-    tone: "brand" as const,
-  };
-  if (ceilingLeft === undefined) {
-    return [cumulativeRow];
-  }
-  return [
-    cumulativeRow,
-    {
-      key: "teto",
-      label: "se gastar o teto",
-      value: formatMoney(ceilingLeft),
-      tone: "neutral" as const,
-    },
-  ];
-}
-
-function tipFor(
-  month: number,
-  projected: boolean,
-  plotX: number,
-  cumulative: number,
-  ceilingLeft: number | undefined,
-): TooltipContent {
-  return {
-    title: formatYyyymm(month),
-    tag: tagFor(projected),
-    plotX,
-    rows: rowsFor(cumulative, ceilingLeft),
-  };
+interface At {
+  cx: number;
+  cy: number;
 }
 
 function dotFor(
   point: MonthPoint,
   projected: boolean,
-  cx: number,
-  cy: number,
+  at: At,
   ceilingLeft?: number,
 ) {
   const label = formatYyyymm(point.month);
@@ -63,33 +29,35 @@ function dotFor(
 
   return {
     key: `${point.month}-cumulative`,
-    cx,
-    cy,
+    ...at,
     projected,
     stroke: "var(--color-brand)",
-    tip: tipFor(point.month, projected, cx, point.cumulative, ceilingLeft),
+    tip: tipFor(point.month, at.cx, tagFor(projected), {
+      cumulative: point.cumulative,
+      ceilingLeft,
+    }),
     title: `${label} · acumulado ${value}`,
   };
 }
 
 function tetoDotFor(
-  month: number,
-  ceilingLeft: number,
+  row: CeilingMonth,
   projected: boolean,
-  cx: number,
-  cy: number,
+  at: At,
   cumulative: number,
 ) {
-  const label = formatYyyymm(month);
-  const value = formatMoney(ceilingLeft);
+  const label = formatYyyymm(row.month);
+  const value = formatMoney(row.ceilingLeft);
 
   return {
-    key: `${month}-teto`,
-    cx,
-    cy,
+    key: `${row.month}-teto`,
+    ...at,
     projected,
     stroke: "var(--color-text-secondary)",
-    tip: tipFor(month, projected, cx, cumulative, ceilingLeft),
+    tip: tipFor(row.month, at.cx, tagFor(projected), {
+      cumulative,
+      ceilingLeft: row.ceilingLeft,
+    }),
     title: `${label} · se gastar o teto ${value}`,
   };
 }

@@ -86,7 +86,10 @@ function useBalanceLineChart({
     teto: ceilingMonths,
     curve: points,
     ...dashSplit(points, dashedFrom),
-    dots: dotsFor(points, ceilingMonths, projectedFrom, xAt, frame.valueScale),
+    dots: dotsFor(points, ceilingMonths, projectedFrom, {
+      xOf: xAt,
+      yOf: frame.valueScale,
+    }),
     zeroY: zeroLine(frame.valueScale),
     tightestMark: markFor(tightestPoint, x, y, frame.innerWidth),
   };

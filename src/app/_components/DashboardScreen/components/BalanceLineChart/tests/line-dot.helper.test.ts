@@ -15,6 +15,8 @@ const point = {
   expenseEstimated: false,
 };
 
+const at = { cx: 12, cy: 34 };
+
 describe("tagFor", () => {
   it("says the projection in words, both ways", () => {
     expect(tagFor(false)).toBe("real");
@@ -24,7 +26,7 @@ describe("tagFor", () => {
 
 describe("dotFor", () => {
   it("keys the dot on its month and series and keeps the coordinates", () => {
-    const dot = dotFor(point, false, 12, 34);
+    const dot = dotFor(point, false, at);
 
     expect(dot.key).toBe("202608-cumulative");
     expect(dot.cx).toBe(12);
@@ -32,11 +34,11 @@ describe("dotFor", () => {
   });
 
   it("carries the plot x, so the crosshair rides the bubble's own hover", () => {
-    expect(dotFor(point, false, 12, 34).tip.plotX).toBe(12);
+    expect(dotFor(point, false, at).tip.plotX).toBe(12);
   });
 
   it("captions the point with its month and cumulative", () => {
-    const { tip, title } = dotFor(point, true, 0, 0);
+    const { tip, title } = dotFor(point, true, { cx: 0, cy: 0 });
 
     expect(tip.title).toBe("Ago/26");
     expect(tip.tag).toBe("estimado");
@@ -52,7 +54,7 @@ describe("dotFor", () => {
   });
 
   it("adds the teto row when that month has a ceilingLeft", () => {
-    const { tip } = dotFor(point, false, 0, 0, 3000);
+    const { tip } = dotFor(point, false, { cx: 0, cy: 0 }, 3000);
 
     expect(tip.rows).toEqual([
       {
@@ -73,12 +75,16 @@ describe("dotFor", () => {
 
 describe("tetoDotFor", () => {
   it("names its own series and shares the two-row tip", () => {
+    const row = {
+      month: 202_608,
+      budget: 0,
+      ceilingBalance: 0,
+      ceilingLeft: 3000,
+    };
     const { key, title, tip, stroke } = tetoDotFor(
-      202_608,
-      3000,
+      row,
       false,
-      8,
-      16,
+      { cx: 8, cy: 16 },
       5000,
     );
 

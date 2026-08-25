@@ -3,6 +3,7 @@ import { beforeAll, describe, expect, it } from "@jest/globals";
 import { render, screen } from "@testing-library/react";
 import type { BoardData } from "@/app/_components/DashboardScreen/components/Board/hook.ts";
 import { Overview } from "@/app/_components/DashboardScreen/components/Overview/index.tsx";
+import type { CeilingMonth } from "@/app/api/dashboard/ceiling.types.ts";
 
 beforeAll(() => {
   globalThis.ResizeObserver = class {
@@ -41,7 +42,7 @@ const data = {
   income: stats,
   expense: stats,
   balance: stats,
-  ceiling: { tightest: null, months: [] },
+  ceiling: { tightest: null, months: [] as CeilingMonth[] },
 } as BoardData;
 
 describe("Overview", () => {
