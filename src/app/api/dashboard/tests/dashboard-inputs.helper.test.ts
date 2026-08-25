@@ -70,10 +70,9 @@ describe("overHeadroomOf", () => {
     expect(overHeadroomOf(settings, 1001)).toBe(false);
   });
 
-  it("catches a fixed goals amount above it too", () => {
+  it("ignores a fixed goals amount above the headroom", () => {
     const settings = saved({ goalsMode: "fixed", goalsCents: 1001 });
 
-    expect(overHeadroomOf(settings, 1000)).toBe(true);
-    expect(overHeadroomOf(settings, 1001)).toBe(false);
+    expect(overHeadroomOf(settings, 1000)).toBe(false);
   });
 });

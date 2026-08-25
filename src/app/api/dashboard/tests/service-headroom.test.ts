@@ -27,8 +27,8 @@ const settings = jest.mocked(settingsRepository);
 const NOW = currentYyyymm();
 
 // One income of 1000 in the current month and nothing else, so the whole period
-// is one month and its headroom is exactly 1000 — the ruler both fixed amounts
-// are measured against.
+// is one month and its headroom is exactly 1000 — the ruler a fixed ceiling is
+// measured against.
 const HEADROOM = 1000;
 
 const seed = () => {
@@ -69,15 +69,9 @@ describe("getDashboard overHeadroom", () => {
     ).resolves.toBe(false);
   });
 
-  it("is on when the fixed goals amount passed it", async () => {
+  it("stays off when a fixed goals amount passed the headroom", async () => {
     await expect(
       overHeadroom({ goalsMode: "fixed", goalsCents: HEADROOM + 1 }),
-    ).resolves.toBe(true);
-  });
-
-  it("is off when the fixed goals amount still fits", async () => {
-    await expect(
-      overHeadroom({ goalsMode: "fixed", goalsCents: HEADROOM }),
     ).resolves.toBe(false);
   });
 });

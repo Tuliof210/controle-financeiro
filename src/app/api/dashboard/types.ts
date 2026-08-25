@@ -70,11 +70,10 @@ export type DashboardData =
       expense: Stats;
       balance: Stats;
       ceiling: Ceiling;
-      // A fixed amount saved in /perfil has outgrown what the period can carry
-      // — the ceiling's, the goals', or both. Decided on the server because
-      // that is the one place holding the saved row and the ceiling it produced
-      // at the same time; a second fetch from the screen to find out whether to
-      // warn would be a race for nothing.
+      // A fixed ceiling saved in /perfil has outgrown what the period can
+      // carry. Decided on the server because that is the one place holding the
+      // saved row and the ceiling it produced at the same time; a second fetch
+      // from the screen to find out whether to warn would be a race for nothing.
       overHeadroom: boolean;
       pace: number;
       goals: GoalProjection[];

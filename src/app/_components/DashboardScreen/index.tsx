@@ -25,7 +25,7 @@ const COPY = {
   outOfRangeTail:
     ". Registre uma movimentação ou previsão nesse mês para incluí-lo.",
   overHeadroom:
-    "Um valor fixo salvo passou do máximo que o período aguenta, então a tabela abaixo tem meses no vermelho. Ajuste o teto ou os objetivos em",
+    "Um valor fixo salvo passou do máximo que o período aguenta, então a tabela abaixo tem meses no vermelho. Ajuste o teto em",
   perfil: "Ajustes",
   fullStop: ".",
 } as const;
