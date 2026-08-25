@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import type { DashboardData } from "@/app/api/dashboard/types.ts";
 import { cx } from "@/lib/cx.ts";
 import { formatYyyymm } from "@/lib/months.ts";
@@ -23,6 +24,10 @@ const COPY = {
   outOfRangeMid: "não cobre o mês atual",
   outOfRangeTail:
     ". Registre uma movimentação ou previsão nesse mês para incluí-lo.",
+  overHeadroom:
+    "Um valor fixo salvo passou do máximo que o período aguenta, então a tabela abaixo tem meses no vermelho. Ajuste o teto ou os objetivos em",
+  perfil: "Perfil",
+  fullStop: ".",
 } as const;
 
 export function DashboardScreen() {
@@ -60,6 +65,16 @@ export function DashboardScreen() {
       {data?.status === "out_of_range" && (
         <Notice title="Período global" icon="calendar">
           {`${COPY.outOfRangeLead} (${formatYyyymm(data.range.start)}–${formatYyyymm(data.range.end)}) ${COPY.outOfRangeMid} (${formatYyyymm(data.range.current)})${COPY.outOfRangeTail}`}
+        </Notice>
+      )}
+
+      {/* Above the board, not instead of it: the board keeps showing the
+          figures the fixed amount produces, negative months included, and this
+          says where they came from. */}
+      {data?.status === "ok" && data.overHeadroom && (
+        <Notice title="Teto acima do máximo" icon="alertTriangle">
+          {COPY.overHeadroom} <Link href="/perfil">{COPY.perfil}</Link>
+          {COPY.fullStop}
         </Notice>
       )}
 
