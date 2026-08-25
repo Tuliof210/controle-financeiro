@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it } from "@jest/globals";
-import { act, renderHook, waitFor } from "@testing-library/react";
+import { renderHook, waitFor } from "@testing-library/react";
 import { useDashboardScreen } from "@/app/_components/DashboardScreen/hook.ts";
 import { useProfile } from "@/components/ProfileProvider/hook.ts";
 import { apiGet } from "@/lib/api.ts";
@@ -25,14 +25,11 @@ beforeEach(() => {
 });
 
 describe("useDashboardScreen", () => {
-  it("asks for the active profile on the default cap and view", async () => {
+  it("asks for the active profile and nothing else", async () => {
     const { result } = await mount();
 
-    expect(apiGet).toHaveBeenCalledWith(
-      "/api/dashboard?owner=familia&cap=50&simulation=real",
-    );
+    expect(apiGet).toHaveBeenCalledWith("/api/dashboard?owner=familia");
     expect(result.current.data).toEqual(payload);
-    expect(result.current.cap).toBe("50");
   });
 
   it("reports a refused load instead of an empty board", async () => {
@@ -50,35 +47,5 @@ describe("useDashboardScreen", () => {
     const { result } = await mount();
 
     expect(result.current.error).toBe("Erro inesperado");
-  });
-
-  it("refetches on a cap change, keeping the board on screen", async () => {
-    const { result } = await mount();
-
-    act(() => {
-      result.current.setCap("75");
-    });
-
-    expect(result.current.refreshing).toBe(true);
-    expect(result.current.data).toEqual(payload);
-    await waitFor(() =>
-      expect(apiGet).toHaveBeenCalledWith(
-        "/api/dashboard?owner=familia&cap=75&simulation=real",
-      ),
-    );
-  });
-
-  it("refetches on a simulation change", async () => {
-    const { result } = await mount();
-
-    act(() => {
-      result.current.setSimulation("all");
-    });
-
-    await waitFor(() =>
-      expect(apiGet).toHaveBeenCalledWith(
-        "/api/dashboard?owner=familia&cap=50&simulation=all",
-      ),
-    );
   });
 });

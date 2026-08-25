@@ -3,9 +3,7 @@
  */
 import { describe, expect, it } from "@jest/globals";
 import { SETTING_MODES } from "@/core/entities/settings.entity.ts";
-import { DEFAULT_CEILING_CAP } from "@/lib/ceiling-caps.ts";
 import { DEFAULT_SETTINGS } from "@/lib/settings-defaults.ts";
-import { DEFAULT_SIMULATION_VIEW } from "@/lib/simulation.ts";
 
 describe("DEFAULT_SETTINGS", () => {
   it("starts both adjustments on a mode the route accepts", () => {
@@ -13,14 +11,15 @@ describe("DEFAULT_SETTINGS", () => {
     expect(SETTING_MODES).toContain(DEFAULT_SETTINGS.goalsMode);
   });
 
-  it("reproduces the ceiling target the dashboard already defaults to", () => {
-    expect(String(DEFAULT_SETTINGS.ceilingPercent)).toBe(DEFAULT_CEILING_CAP);
+  // The two tuples these used to be checked against are gone with the selectors
+  // that travelled on them: the saved row is now the only place either figure
+  // lives, so the values are pinned here directly.
+  it("reproduces the ceiling target the dashboard defaulted to", () => {
+    expect(DEFAULT_SETTINGS.ceilingPercent).toBe(50);
   });
 
-  it("leaves simulated forecasts out, like the default dashboard view", () => {
-    expect(DEFAULT_SETTINGS.showSimulated).toBe(
-      DEFAULT_SIMULATION_VIEW === "all",
-    );
+  it("leaves simulated forecasts out, as the board always did", () => {
+    expect(DEFAULT_SETTINGS.showSimulated).toBe(false);
   });
 
   it("reads both fixed amounts as unset", () => {

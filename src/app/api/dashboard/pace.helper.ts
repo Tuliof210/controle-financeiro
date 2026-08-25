@@ -3,7 +3,7 @@ import type { Ceiling, CeilingTarget } from "./ceiling.types.ts";
 // The same union the Teto uses, under its own name: the two adjustments are
 // saved separately on the `Settings` row and read the same two ways, and a
 // shared alias is what keeps a caller from handing one to the other.
-export type GoalsTarget = CeilingTarget;
+type GoalsTarget = CeilingTarget;
 
 const PERCENT = 100;
 
@@ -30,7 +30,7 @@ const PERCENT = 100;
 // Its own file rather than ceiling.helper's: this is what the ceiling BUYS, not
 // how it is computed, and folding it back in puts that file over the 100-line
 // cap.
-export function savingPace(ceiling: Ceiling, target: GoalsTarget): number {
+function savingPace(ceiling: Ceiling, target: GoalsTarget): number {
   if (target.mode === "fixed") {
     return target.cents;
   }
@@ -39,3 +39,6 @@ export function savingPace(ceiling: Ceiling, target: GoalsTarget): number {
     (total * target.percent) / (PERCENT * ceiling.months.length),
   );
 }
+
+export type { GoalsTarget };
+export { savingPace };

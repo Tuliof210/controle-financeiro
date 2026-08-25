@@ -36,9 +36,7 @@ describe("useDashboardScreen on a profile switch", () => {
     renderHook(() => useDashboardScreen());
 
     await waitFor(() =>
-      expect(apiGet).toHaveBeenCalledWith(
-        "/api/dashboard?owner=a%20b&cap=50&simulation=real",
-      ),
+      expect(apiGet).toHaveBeenCalledWith("/api/dashboard?owner=a%20b"),
     );
   });
 });

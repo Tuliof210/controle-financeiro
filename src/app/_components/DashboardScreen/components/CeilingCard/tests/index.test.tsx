@@ -1,5 +1,5 @@
 import "@testing-library/jest-dom/jest-globals";
-import { describe, expect, it, jest } from "@jest/globals";
+import { describe, expect, it } from "@jest/globals";
 import { render, screen } from "@testing-library/react";
 import { CeilingCard } from "@/app/_components/DashboardScreen/components/CeilingCard/index.tsx";
 import type { Ceiling } from "@/app/api/dashboard/ceiling.types.ts";
@@ -18,20 +18,13 @@ const ceiling = (over: Partial<Ceiling> = {}) =>
     daily: 8,
     tightest: 202_612,
     firstRed: null,
+    fixed: false,
     months: [month(202_608, 250), month(202_609, 100)],
     ...over,
   }) as Ceiling;
 
 const card = (over: Partial<Ceiling> = {}) =>
-  render(
-    <CeilingCard
-      ceiling={ceiling(over)}
-      meta={null}
-      current={202_608}
-      cap="50"
-      onCapChange={jest.fn()}
-    />,
-  );
+  render(<CeilingCard ceiling={ceiling(over)} current={202_608} />);
 
 const SHOW_ALL = /Ver todos/;
 
@@ -57,10 +50,10 @@ describe("CeilingCard", () => {
     expect(screen.getByTitle("Mês em curso")).toHaveTextContent("Ago/26");
   });
 
-  it("carries the cap selector in the header band", () => {
+  it("carries no control of its own any more", () => {
     card();
 
-    expect(screen.getAllByRole("radio")).toHaveLength(3);
+    expect(screen.queryAllByRole("radio")).toHaveLength(0);
   });
 
   it("replaces the table with a note when there is no ceiling at all", () => {

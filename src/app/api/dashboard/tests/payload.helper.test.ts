@@ -19,16 +19,15 @@ const input = {
   forecasts: [
     { months: [202_602], type: "expense", valueCents: 500 } as Forecast,
   ],
-  cap: 50,
-  limit: null,
-  meta: null,
+  ceilingTarget: { mode: "percent", percent: 50 } as const,
+  goalsTarget: { mode: "percent", percent: 25 } as const,
 };
 
 describe("buildPayload", () => {
   it("assembles an ok payload around the given range", () => {
     const payload = buildPayload(input);
 
-    expect(payload).toMatchObject({ status: "ok", range, meta: null });
+    expect(payload).toMatchObject({ status: "ok", range });
   });
 
   it("carries one point per month of the range", () => {
@@ -60,6 +59,25 @@ describe("buildPayload", () => {
     expect(payload.status === "ok" && payload.ceiling.months).toHaveLength(2);
   });
 
+  it("takes the goals share from its own target, not the ceiling's", () => {
+    // Not a doubling: each share floors once, so the two are not multiples.
+    const half = buildPayload({
+      ...input,
+      goalsTarget: { mode: "percent", percent: 50 },
+    });
+
+    expect(half.pace).toBeGreaterThan(buildPayload(input).pace);
+  });
+
+  it("returns a fixed goals amount as the pace, uncapped", () => {
+    const payload = buildPayload({
+      ...input,
+      goalsTarget: { mode: "fixed", cents: 99_999 },
+    });
+
+    expect(payload.pace).toBe(99_999);
+  });
+
   it("projects the goals against that pace", () => {
     const payload = buildPayload({
       ...input,
@@ -72,7 +90,11 @@ describe("buildPayload", () => {
     });
   });
 
-  it("echoes the Meta target it was handed", () => {
-    expect(buildPayload({ ...input, meta: 700 })).toMatchObject({ meta: 700 });
+  it("marks the ceiling as fixed when that is the target handed in", () => {
+    const fixed = { mode: "fixed", cents: 300 } as const;
+    const { ceiling } = buildPayload({ ...input, ceilingTarget: fixed });
+
+    expect(ceiling.fixed).toBe(true);
+    expect(ceiling.months[0].budget).toBe(300);
   });
 });

@@ -50,7 +50,7 @@ describe("getDashboard", () => {
   it("answers no_range on an empty database", async () => {
     seed({ movements: [] });
 
-    await expect(getDashboard("familia", "50", "real")).resolves.toEqual({
+    await expect(getDashboard("familia")).resolves.toEqual({
       status: "no_range",
     });
   });
@@ -58,7 +58,7 @@ describe("getDashboard", () => {
   it("answers out_of_range when today falls outside the derived span", async () => {
     seed({ month: 200_001 });
 
-    const data = await getDashboard("familia", "50", "real");
+    const data = await getDashboard("familia");
 
     expect(data.status).toBe("out_of_range");
     expect(data.status === "out_of_range" && data.range.current).toBe(
@@ -69,7 +69,7 @@ describe("getDashboard", () => {
   it("answers ok when today is inside the span", async () => {
     seed();
 
-    const data = await getDashboard("familia", "50", "real");
+    const data = await getDashboard("familia");
 
     expect(data.status).toBe("ok");
     expect(data.status === "ok" && data.range).toEqual({

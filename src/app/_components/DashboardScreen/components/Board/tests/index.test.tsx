@@ -19,13 +19,13 @@ jest.mock(
 const data = {
   status: "ok",
   range: { start: 202_608, end: 202_609, current: 202_608 },
-  meta: null,
   ceiling: {
     monthly: 250,
     weekly: 62,
     daily: 8,
     tightest: 202_609,
     firstRed: null,
+    fixed: false,
     months: [
       { month: 202_608, budget: 250, ceilingBalance: 1000, ceilingLeft: 750 },
     ],
@@ -34,7 +34,7 @@ const data = {
 
 describe("Board", () => {
   it("lays the three sections out in reading order", () => {
-    render(<Board data={data} cap="50" onCapChange={jest.fn()} />);
+    render(<Board data={data} />);
 
     expect(screen.getByTestId(OVERVIEW)).toBeInTheDocument();
     expect(
