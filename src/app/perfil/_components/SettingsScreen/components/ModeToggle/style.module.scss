@@ -1,0 +1,82 @@
+@use "theme" as t;
+
+// The segmented pill, copied from EntryForm's TypeToggle rather than promoted:
+// three private copies already exist, one of them dies with the dashboard cap
+// selector, and promoting would owe a Foundations story. A fourth local use
+// serves the two cards on this screen.
+.toggle {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  // The <fieldset> reset: its default min-inline-size is min-content, which
+  // stops the pill shrinking inside the card at 375px.
+  min-inline-size: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.legend {
+  padding: 0;
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  color: var(--color-text);
+}
+
+.segments {
+  display: flex;
+  gap: var(--space-1);
+  padding: var(--space-1);
+  background: var(--color-surface-raised);
+  border: var(--border-1) solid var(--color-border);
+  border-radius: var(--radius-full);
+}
+
+.segment {
+  position: relative;
+  display: flex;
+  flex: 1;
+}
+
+// The native radio is kept and made transparent: it carries the role, the
+// checked state and the arrow-key navigation for free. Only its dot is dropped
+// — inside a segmented pill the pill IS the affordance.
+.input {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.option {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--size-tap);
+  padding: 0 var(--space-3);
+  border-radius: var(--radius-full);
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  color: var(--color-text);
+  transition: background var(--duration-fast) var(--ease-snappy);
+}
+
+// The rail's active-item recipe: a 12% cobalt wash, brand-tone text and
+// semibold — the state is never carried by colour alone.
+.input:checked + .option {
+  background: color-mix(in srgb, var(--color-brand) 12%, var(--color-surface));
+  color: var(--color-brand-text);
+  font-weight: var(--weight-semibold);
+}
+
+.input:focus-visible + .option {
+  @include t.focus-ring;
+}
+
+@include t.on-hover {
+  .input:not(:checked):hover + .option {
+    background: var(--color-hover-wash);
+  }
+}
