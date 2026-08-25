@@ -17,3 +17,29 @@
   // the page at 375px.
   min-width: 0;
 }
+
+// The three preference cards under one Salvar. Same rhythm as the stack above
+// it, so the form reads as three more cards rather than a nested region.
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+  min-width: 0;
+}
+
+// The line holds its height while empty, so a save does not push the button
+// out from under the cursor that just pressed it.
+.saved {
+  min-height: var(--space-5);
+  margin: 0;
+  color: var(--color-positive);
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+}
+
+.error {
+  margin: 0;
+  color: var(--color-negative);
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+}
