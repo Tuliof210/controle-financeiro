@@ -53,6 +53,6 @@ next-env.d.ts
 /dev.db-journal
 
 # pocket-squad task worktrees
-/.claude/worktrees/
+/.squad/worktrees/
 ds-bundle/
 .design-sync/.cache/
