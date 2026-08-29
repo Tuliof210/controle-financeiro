@@ -1,37 +1,19 @@
-// The card's two-pane layout, split off `style.module.scss` under the exception
+// The card's stacked layout, split off `style.module.scss` under the exception
 // ARCHITECTURE.md grants `RowGrid/_tiers.scss`: a mixin that emits nothing on
 // its own, included once by the stylesheet beside it, so neither file crosses
 // the 100-line cap. Not a component — its markup is this folder's `index.tsx`.
-@use "theme" as t;
 
 @mixin split {
-  // Reaches the card's inner edges, the same way SectionCard's own band does: by
-  // cancelling what the card put between them. Two different tokens, because two
-  // different things are in the way — `.card`'s `padding: var(--space-6)` on the
-  // sides and bottom, and its `gap: var(--space-4)` between the band and the body
-  // above. Resolved edge-to-edge on purpose: the summary pane is a filled surface,
-  // and a 16px moat of card background above it reads as a mistake, not a margin.
+  // Reaches the card's inner edges, the same way SectionCard's own band does:
+  // by cancelling what the card put between them. Two different tokens,
+  // because two different things are in the way — `.card`'s
+  // `padding: var(--space-6)` on the sides and bottom, and its
+  // `gap: var(--space-4)` between the band and the body above.
   .split {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
     margin: calc(var(--space-4) * -1) calc(var(--space-6) * -1)
       calc(var(--space-6) * -1);
-
-    // The design splits at 1320px into a 380px pane plus the rest; `xl` is the
-    // nearest stop in this repo's closed breakpoint map.
-    @include t.bp("xl") {
-      // ponytail: raw track width, the same exception `.page`'s max-width takes —
-      // the DS has no size scale and one pane does not earn a token family.
-      grid-template-columns: 380px minmax(0, 1fr);
-    }
-  }
-
-  // The empty state has no table pane, so the fixed track would leave the summary
-  // stranded at 380px beside nothing.
-  .alone {
-    @include t.bp("xl") {
-      grid-template-columns: minmax(0, 1fr);
-    }
   }
 
   .summary {
@@ -41,10 +23,6 @@
     padding: var(--space-6);
     background: transparent;
     border-bottom: var(--border-1) solid var(--color-border);
-
-    @include t.bp("xl") {
-      border-right: var(--border-1) solid var(--color-border);
-    }
   }
 
   .pane {

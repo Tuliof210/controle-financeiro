@@ -1,11 +1,54 @@
-// Every card of the dashboard, stacked. A flex column rather than a grid: the
-// `grid-template-columns: 1fr` that used to live here is exactly what pushed the
-// page past 375px, because `1fr` is minmax(auto, 1fr) and the track never shrank
-// below the cards' min-content width. The two inner grids that survive —
-// Overview's `.kpis` and SavingsSection's `--goal-cols` — both use
-// minmax(0, 1fr) for every track that has to be able to shrink.
+@use "theme" as t;
+
+// Flex column below xl: `1fr` tracks already overflowed 375px once
+// (`minmax(auto, 1fr)` would not shrink). Wrappers use minmax(0, Nfr).
 .board {
   display: flex;
   flex-direction: column;
-  gap: var(--space-6);
+  gap: var(--space-8);
+
+  @include t.bp("xl") {
+    display: grid;
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    grid-template-areas:
+      "hero facts"
+      "bars teto"
+      "line teto"
+      "goals goals";
+  }
+}
+
+.hero,
+.facts,
+.bars,
+.line,
+.teto,
+.goals {
+  min-width: 0;
+}
+
+@include t.bp("xl") {
+  .hero {
+    grid-area: hero;
+  }
+
+  .facts {
+    grid-area: facts;
+  }
+
+  .bars {
+    grid-area: bars;
+  }
+
+  .line {
+    grid-area: line;
+  }
+
+  .teto {
+    grid-area: teto;
+  }
+
+  .goals {
+    grid-area: goals;
+  }
 }

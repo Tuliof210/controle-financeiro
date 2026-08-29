@@ -1,6 +1,5 @@
 import { MoneyDisplay } from "@/components/MoneyDisplay/index.tsx";
 import { SectionCard } from "@/components/SectionCard/index.tsx";
-import { cx } from "@/lib/cx.ts";
 import { HINTS } from "../../hints.ts";
 import { Headline } from "../Headline/index.tsx";
 import { ShowAllToggle } from "../ShowAllToggle/index.tsx";
@@ -32,7 +31,7 @@ export function CeilingCard(props: CeilingCardProps) {
       hint={HINTS.ceiling}
       band="ink"
     >
-      <div className={cx(styles.split, empty && styles.alone)}>
+      <div className={styles.split}>
         <div className={styles.summary}>
           {/* The badges read as a caption on the card, so they head the summary
               pane rather than the title row — four elements on that row wrap

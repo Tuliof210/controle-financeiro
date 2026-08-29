@@ -14,25 +14,25 @@ import { formatMoneyShort, formatMoneyShortK } from "@/lib/money.ts";
 
 describe("isDesktopWidth", () => {
   it("switches on the measured plot width, not the viewport", () => {
-    expect(isDesktopWidth(768)).toBe(true);
-    expect(isDesktopWidth(767)).toBe(false);
+    expect(isDesktopWidth(384)).toBe(true);
+    expect(isDesktopWidth(383)).toBe(false);
   });
 });
 
 describe("monthWindowSize", () => {
   it("windows twelve months on the wide plot and six on the narrow one", () => {
-    expect(monthWindowSize(884)).toBe(MONTHS_DESKTOP);
-    expect(monthWindowSize(291)).toBe(MONTHS_MOBILE);
+    expect(monthWindowSize(477)).toBe(MONTHS_DESKTOP);
+    expect(monthWindowSize(293)).toBe(MONTHS_MOBILE);
   });
 });
 
 describe("tickFormatterFor", () => {
   it("uses the full label where the gutter has room", () => {
-    expect(tickFormatterFor(884)).toBe(formatMoneyShort);
+    expect(tickFormatterFor(477)).toBe(formatMoneyShort);
   });
 
   it("drops to the compact K label on the narrow plot", () => {
-    expect(tickFormatterFor(291)).toBe(formatMoneyShortK);
+    expect(tickFormatterFor(293)).toBe(formatMoneyShortK);
   });
 });
 

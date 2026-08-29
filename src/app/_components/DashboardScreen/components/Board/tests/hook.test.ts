@@ -13,10 +13,13 @@ describe("useBoard", () => {
   it("lifts the ceiling and the current month out of the payload", () => {
     const { result } = renderHook(() => useBoard({ data }));
 
-    expect(result.current).toEqual({
-      data,
-      ceiling: data.ceiling,
-      current: 202_608,
+    expect(result.current.data).toBe(data);
+    expect(result.current.ceiling).toBe(data.ceiling);
+    expect(result.current.current).toBe(202_608);
+    expect(result.current.areas).toEqual({
+      facts: expect.any(String),
+      bars: expect.any(String),
+      line: expect.any(String),
     });
   });
 });

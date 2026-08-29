@@ -14,12 +14,11 @@ const BAND_PADDING = 0.25;
 // Below this measured plot width (ChartCard's own box, not the viewport —
 // see chart-frame.helper.ts) the chart windows to 6 months and switches the Y
 // axis to compact "K" labels; at or above it, 12 months and the full
-// formatter. Measured (not assumed): ChartCard's box is 291px at a 375px
-// viewport and 884px at 1280px, so 768px — $breakpoints.md in
-// src/styles/_theme.scss — sits comfortably between the two with room either
-// side. Re-measure both before moving this number; it is not the viewport
-// width.
-const DESKTOP_PLOT_WIDTH = 768;
+// formatter. Measured after the xl 7/5 board grid (rail expanded 264px):
+// ChartCard's .plot is 293px at a 375px viewport and 477px at 1280px, so
+// 384 sits between them. Re-measure both before moving this number; it is
+// not the viewport width.
+const DESKTOP_PLOT_WIDTH = 384;
 const MONTHS_DESKTOP = 12;
 const MONTHS_MOBILE = 6;
 

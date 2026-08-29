@@ -21,48 +21,54 @@ const LINE_LEGEND = [
 ];
 
 export function Overview(props: OverviewProps) {
-  const { data, facts } = useOverview(props);
+  const { data, facts, areas } = useOverview(props);
 
   return (
     <>
-      <PeriodFacts facts={facts} />
+      <div className={areas.facts}>
+        <PeriodFacts facts={facts} />
+      </div>
 
-      <ChartCard
-        title="Evolução mensal"
-        icon="chartColumn"
-        hint={HINTS.bars}
-        legend={<ChartLegend items={BAR_LEGEND} />}
-      >
-        {(size) => (
-          <MonthlyBarChart
-            points={data.points}
-            dashedFrom={data.dashedFrom}
-            {...size}
-          />
-        )}
-      </ChartCard>
+      <div className={areas.bars}>
+        <ChartCard
+          title="Evolução mensal"
+          icon="chartColumn"
+          hint={HINTS.bars}
+          legend={<ChartLegend items={BAR_LEGEND} />}
+        >
+          {(size) => (
+            <MonthlyBarChart
+              points={data.points}
+              dashedFrom={data.dashedFrom}
+              {...size}
+            />
+          )}
+        </ChartCard>
+      </div>
 
-      <ChartCard
-        title="Saldo acumulado"
-        icon="trendingUp"
-        hint={HINTS.cumulative}
-        legend={
-          <ChartLegend
-            items={LINE_LEGEND}
-            note="sólida = realizado · tracejada = projeção"
-          />
-        }
-      >
-        {(size) => (
-          <BalanceLineChart
-            points={data.points}
-            dashedFrom={data.dashedFrom}
-            tightest={data.ceiling.tightest}
-            ceilingMonths={data.ceiling.months}
-            {...size}
-          />
-        )}
-      </ChartCard>
+      <div className={areas.line}>
+        <ChartCard
+          title="Saldo acumulado"
+          icon="trendingUp"
+          hint={HINTS.cumulative}
+          legend={
+            <ChartLegend
+              items={LINE_LEGEND}
+              note="sólida = realizado · tracejada = projeção"
+            />
+          }
+        >
+          {(size) => (
+            <BalanceLineChart
+              points={data.points}
+              dashedFrom={data.dashedFrom}
+              tightest={data.ceiling.tightest}
+              ceilingMonths={data.ceiling.months}
+              {...size}
+            />
+          )}
+        </ChartCard>
+      </div>
     </>
   );
 }
