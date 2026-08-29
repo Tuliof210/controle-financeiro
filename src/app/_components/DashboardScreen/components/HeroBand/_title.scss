@@ -1,16 +1,13 @@
-// The band's title column, split off `style.module.scss` so the stylesheet
-// stays under the 100-line cap. Markup lives in this folder's `index.tsx`.
+// The title column, split off `style.module.scss` so the stylesheet stays
+// under the 100-line cap. Markup lives in this folder's `index.tsx`.
 
 @mixin title {
-  // h1 inherits --font-display from _base.scss — but also `color: var(--color-
-  // text)`, which on this fill is near-black on near-black. `inherit` puts it
-  // back. --text-xl: wayfinding, not the message; the projected balance below
-  // it is the answer.
+  // h1 inherits --font-display from _base.scss. --text-xl: wayfinding, not
+  // the message; the projected balance on the board is the answer.
   .title {
     display: flex;
     align-items: center;
     gap: var(--space-4);
-    color: inherit;
     font-size: var(--text-xl);
   }
 

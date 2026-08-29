@@ -7,7 +7,7 @@ import {
   jest,
 } from "@jest/globals";
 import { act, renderHook } from "@testing-library/react";
-import { useRollingCents } from "@/app/_components/DashboardScreen/components/HeroBand/rolling-cents.hook.ts";
+import { useRollingCents } from "@/app/_components/DashboardScreen/components/Board/components/ProjectedBalance/rolling-cents.hook.ts";
 
 // rAF and performance.now are driven by hand: the point of these tests is what
 // the reader sees MID-flight, and a real clock cannot be asked about that.

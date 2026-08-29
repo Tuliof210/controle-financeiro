@@ -1,11 +1,11 @@
 import { formatYyyymm } from "@/lib/months.ts";
-import type { BoardData } from "../Board/hook.ts";
+import type { BoardData } from "../../hook.ts";
 
-// The band's numbers in CENTS, split off `hook.ts` so the derivation stays pure
-// while the hook beside it owns the React part. It returns raw values rather
-// than formatted strings because every money figure on the band is walked
-// between payloads (`rolling-cents.hook.ts`) — a pre-formatted string has
-// nothing to interpolate.
+// The card's numbers in CENTS, split off `hook.ts` so the derivation stays
+// pure while the hook beside it owns the React part. It returns raw values
+// rather than formatted strings because every money figure is walked between
+// payloads (`rolling-cents.hook.ts`) — a pre-formatted string has nothing
+// to interpolate.
 function buildFigures(data?: BoardData) {
   if (!data) {
     return null;

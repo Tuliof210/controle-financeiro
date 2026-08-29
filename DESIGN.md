@@ -327,7 +327,7 @@ Contained and unfussy: hairline frames, soft corners, nothing extruded. A contro
 - A native `<dialog>`: sunken panel, 14px corners, 480px cap, sticky header on the panel's own surface, footer actions right-aligned. The backdrop is one flat ink at 55% and does **not** flip with the theme — a light scrim brightens the page it is meant to push back. Title is sans, sentence case; there is no kicker above it.
 
 ### Hero Band (signature)
-The one surface on the dashboard that inverts: near-black in light, near-white in dark, full-bleed to the content column. A 4px cobalt rule runs across its top and a single cobalt radial glow sits off its top-right corner — the only gradient the system permits, and it works in both themes because the band flips underneath it. Composition is editorial: page title, a lede, then the projected balance as type (MoneyDisplay + Delta). Never the metric-tile template of giant number + caption + supporting stats. Never more than one per page.
+A quiet page header — title and lede on the same surface as the rest of the screen — plus one elevated card for the projected balance (claim, MoneyDisplay, Delta). Never inverted, never full-bleed, never a cobalt edge or glow on this route. Never the metric-tile template of giant number + caption + supporting stats. Never more than one projected-balance card per page.
 
 ### Money Figure (signature)
 Whole number at full strength, cents at 70% opacity, as a fragment rather than a wrapper so a screen reader still announces one uninterrupted figure and a copy/paste yields one number. Reserved for the few figures the reader is meant to land on first — spend it everywhere and it marks nothing.

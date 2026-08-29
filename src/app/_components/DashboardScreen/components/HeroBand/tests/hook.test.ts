@@ -17,43 +17,11 @@ const band = (payload?: BoardData, refreshing?: boolean) =>
   renderHook(() => useHeroBand({ data: payload, refreshing })).result.current;
 
 describe("useHeroBand", () => {
-  it("renders no figure while the payload has not landed", () => {
-    expect(band().figures).toBeNull();
-  });
-
-  it("renders no figure for a payload with no month in it", () => {
-    expect(band(data([])).figures).toBeNull();
-  });
-
-  it("reads the projection's end against the current month", () => {
-    const { figures } = band(data([point(202_601, 100), point(202_603, 500)]));
-
-    expect(figures).toMatchObject({
-      endLabel: "Mar/26",
-      value: 500,
-      now: "R$ 1,00",
-      delta: 400,
-    });
-  });
-
-  it("points the glyph down when the projection loses ground", () => {
-    const { figures } = band(data([point(202_601, 500), point(202_603, 100)]));
-
-    expect(figures).toMatchObject({ delta: -400 });
-  });
-
-  it("falls back to the first point when the clock is outside the range", () => {
-    const { figures } = band(
-      data([point(202_601, 100), point(202_603, 500)], 209_912),
-    );
-
-    expect(figures?.now).toBe("R$ 1,00");
-  });
-
   it("is not live until a payload lands, and not while one is in flight", () => {
     const points = [point(202_601, 100), point(202_603, 500)];
 
     expect(band().live).toBe(false);
+    expect(band(data([])).live).toBe(false);
     expect(band(data(points), true).live).toBe(false);
     expect(band(data(points)).live).toBe(true);
   });

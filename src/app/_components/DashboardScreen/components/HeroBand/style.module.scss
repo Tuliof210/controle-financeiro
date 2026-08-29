@@ -1,65 +1,14 @@
-@use "theme" as t;
 @use "./caret" as *;
-@use "./figure" as *;
 @use "./title" as *;
 
-// Inverted on purpose: near-black in the light theme, near-white in the dark
-// one. It is the only surface on the dashboard that flips, which is what makes
-// it read as the headline rather than a fourth card.
-//
-// Full-bleed: the negative margins cancel AppShell's <main> padding — --space-4,
-// and --space-10 from `md` up — and the padding pays the horizontal half back so
-// the content still lines up with the cards below. It bleeds to the CONTENT
-// COLUMN, not the viewport: once `.page` hits its max-width (~1904px with the
-// rail expanded, ~1720px collapsed) that column centres.
+// Quiet page header: same surface as the rest of the screen. No inverted
+// fill, no full-bleed, no cobalt edge or glow — those belonged to the band
+// this replaced. AppShell's <main> already pads the column.
 .band {
-  position: relative;
-  overflow: hidden;
-  margin: calc(var(--space-4) * -1);
-  margin-bottom: var(--space-2);
-  padding: var(--space-8) var(--space-4);
-  background: var(--color-text);
-  color: var(--color-bg);
-
-  @include t.bp("md") {
-    margin: calc(var(--space-10) * -1);
-    margin-bottom: var(--space-2);
-    padding: var(--space-12) var(--space-10);
-  }
-}
-
-// A flat cobalt rule across the top. --space-1, not the design's off-scale 6px.
-.edge {
-  position: absolute;
-  inset: 0 0 auto;
-  height: var(--space-1);
-  background: var(--color-brand);
-}
-
-// The cobalt glow off the top-right corner — the one gradient the constitution
-// allows (rule 8, --glow-brand). It is an accent above the content, never a
-// wash across the figure. `.band` clips it.
-.glow {
-  position: absolute;
-  inset: calc(var(--space-24) * -2) calc(var(--space-24) * -1) auto auto;
-  width: calc(var(--space-24) * 3);
-  aspect-ratio: 1;
-  background: var(--glow-brand);
-  pointer-events: none;
-
-  @include t.bp("md") {
-    inset: calc(var(--space-24) * -3) calc(var(--space-24) * -2) auto auto;
-    width: calc(var(--space-24) * 5);
-  }
-}
-
-.inner {
-  position: relative;
   display: flex;
   flex-direction: column;
   gap: var(--space-2);
 }
 
 @include title;
-@include figure;
 @include caret;

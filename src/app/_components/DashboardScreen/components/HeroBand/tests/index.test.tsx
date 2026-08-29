@@ -1,6 +1,6 @@
 import "@testing-library/jest-dom/jest-globals";
 import { describe, expect, it } from "@jest/globals";
-import { render, screen, within } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import type { BoardData } from "@/app/_components/DashboardScreen/components/Board/hook.ts";
 import { HeroBand } from "@/app/_components/DashboardScreen/components/HeroBand/index.tsx";
 import type { MonthPoint } from "@/app/api/dashboard/types.ts";
@@ -16,10 +16,6 @@ const data = {
 const PROJECTED = /Saldo projetado/;
 const ENTRADAS = /Entradas/;
 const RED_MONTHS = /Meses no vermelho/;
-const VS_NOW = /vs\. saldo atual de R\$ 1,00/;
-
-const band = (container: HTMLElement) =>
-  within(container.querySelector("section") as HTMLElement);
 
 describe("HeroBand", () => {
   it("titles the screen even before a payload lands", () => {
@@ -31,21 +27,14 @@ describe("HeroBand", () => {
     expect(screen.queryByText(PROJECTED)).not.toBeInTheDocument();
   });
 
-  it("shows the projected balance against the current one", () => {
+  it("does not carry the projected balance or a stats row", () => {
     const { container } = render(<HeroBand data={data} />);
 
-    expect(
-      band(container).getByText("Saldo projetado em Mar/26."),
-    ).toBeInTheDocument();
-    expect(container.querySelector(".value")).toHaveTextContent("R$ 5,00");
-    expect(band(container).getByText(VS_NOW)).toBeInTheDocument();
-  });
-
-  it("does not carry a supporting stats row under the figure", () => {
-    render(<HeroBand data={data} />);
-
+    expect(screen.queryByText(PROJECTED)).not.toBeInTheDocument();
     expect(screen.queryByText(ENTRADAS)).not.toBeInTheDocument();
     expect(screen.queryByText(RED_MONTHS)).not.toBeInTheDocument();
+    expect(container.querySelector(".edge")).toBeNull();
+    expect(container.querySelector(".glow")).toBeNull();
   });
 
   it("marks the band as waiting until its figures are the current ones", () => {

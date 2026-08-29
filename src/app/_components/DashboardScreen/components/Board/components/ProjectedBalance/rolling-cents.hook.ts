@@ -12,20 +12,20 @@ const easeOut = (progress: number): number => 1 - (1 - progress) ** EASE_QUART;
 
 // `globalThis.matchMedia?.` rather than `window.matchMedia`: this file is
 // imported by a jsdom test that does not always install the API, and a throw
-// here would take the whole band down for a preference lookup.
+// here would take the whole card down for a preference lookup.
 const prefersReducedMotion = (): boolean =>
   globalThis.matchMedia?.("(prefers-reduced-motion: reduce)").matches === true;
 
-// Interpolates a money value between two payloads, so a control's effect on the
-// answer is SEEN rather than inferred: switching the simulation on walks the
-// projected balance to its new figure instead of blinking it.
+// Interpolates a money value between two payloads, so a control's effect on
+// the answer is SEEN rather than inferred: switching the simulation on walks
+// the projected balance to its new figure instead of blinking it.
 //
 // `undefined` means "no figure yet". The first real value is ADOPTED, never
 // walked to — a page whose numbers count up on load is the orchestrated load
 // sequence the product register bans, and it would also claim a change that
 // never happened. Only a payload REPLACING a payload animates.
 //
-// Every figure on the band runs through this one hook with one curve and one
+// Every figure on the card runs through this one hook with one curve and one
 // duration, which is what keeps the arithmetic honest mid-flight: lerp(a) −
 // lerp(b) is lerp(a − b), so `saldo − atual = delta` holds on every frame
 // rather than only at the ends.

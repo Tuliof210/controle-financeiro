@@ -19,6 +19,7 @@ jest.mock(
 const data = {
   status: "ok",
   range: { start: 202_608, end: 202_609, current: 202_608 },
+  points: [{ month: 202_608, income: 1000, expense: 400, cumulative: 600 }],
   ceiling: {
     monthly: 250,
     weekly: 62,
@@ -33,9 +34,10 @@ const data = {
 } as BoardData;
 
 describe("Board", () => {
-  it("lays the three sections out in reading order", () => {
+  it("lays the sections out in reading order", () => {
     render(<Board data={data} />);
 
+    expect(screen.getByText(/Saldo projetado em/)).toBeInTheDocument();
     expect(screen.getByTestId(OVERVIEW)).toBeInTheDocument();
     expect(
       screen.getByRole("heading", { name: "Teto de gastos" }),

@@ -1,7 +1,6 @@
 @mixin caret {
-  // The caret after the h1. --color-brand is the one accent visible on both
-  // inverted fills (3.59:1 light, 3.19:1 dark — decorative, so the bar is 3:1
-  // for non-text, not 4.5:1).
+  // The caret after the h1. --color-brand on the page surface (decorative,
+  // so the bar is 3:1 for non-text, not 4.5:1).
   //
   // Never blinking: anything blinking for more than five seconds has to be
   // stoppable (WCAG 2.2.2). It moves once per state change instead.
@@ -14,15 +13,16 @@
   }
 
   // While a request is in flight the board below dims and takes `aria-busy`;
-  // the band sits OUTSIDE that wrapper. The caret folds to a seam while the
-  // desk recomputes and stands back up as the new figure lands.
+  // this header sits OUTSIDE that wrapper. The caret folds to a seam while
+  // the desk recomputes and stands back up as the new figure lands.
   //
   // scaleY, not `height` — the fold must not resize the h1's line box.
-  // --duration-slow is `rolling-cents.hook.ts`'s own duration, so the caret
+  // --duration-slow is rolling-cents.hook.ts's own duration, so the caret
   // finishes standing up on the frame the figures stop moving.
   //
-  // A state, not decoration, so it survives prefers-reduced-motion — the token
-  // collapses the 320ms to 0ms and the caret simply arrives folded or upright.
+  // A state, not decoration, so it survives prefers-reduced-motion — the
+  // token collapses the 320ms to 0ms and the caret simply arrives folded
+  // or upright.
   .waiting .cursor {
     transform: scaleY(0.15);
   }

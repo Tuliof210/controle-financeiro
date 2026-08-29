@@ -1,36 +1,18 @@
-import { formatMoney } from "@/lib/money.ts";
 import type { BoardData } from "../Board/hook.ts";
-import { buildFigures } from "./hero-figures.helper.ts";
-import { useRollingCents } from "./rolling-cents.hook.ts";
 
 interface HeroBandProps {
   data?: BoardData;
   refreshing?: boolean;
 }
 
-// `figures` is null in every state but `ok`. The band's title half is static
-// copy and renders while the payload is loading, missing or in error — only the
-// numbers wait for it, which is why they are one nullable object rather than
-// independently nullable fields.
+// `live` is the caret's state. The title block sits outside the board's
+// `aria-busy` wrapper, so it has to know on its own whether a payload has
+// landed and whether a refetch is still in flight. Figures live on
+// ProjectedBalance, which only mounts inside the board.
 function useHeroBand({ data, refreshing }: HeroBandProps) {
-  const figures = buildFigures(data);
-  const value = useRollingCents(figures?.valueCents);
-  const now = useRollingCents(figures?.nowCents);
-  const delta = useRollingCents(figures?.deltaCents);
+  const ready = data !== undefined && data.points.at(-1) !== undefined;
 
-  if (!figures) {
-    return { figures: null, live: false };
-  }
-
-  return {
-    live: !refreshing,
-    figures: {
-      endLabel: figures.endLabel,
-      value,
-      now: formatMoney(now),
-      delta,
-    },
-  };
+  return { live: ready && !refreshing };
 }
 
 export type { HeroBandProps };

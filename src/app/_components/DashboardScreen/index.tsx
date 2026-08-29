@@ -33,14 +33,15 @@ const COPY = {
 export function DashboardScreen() {
   const { data, error, loading, refreshing } = useDashboardScreen();
   // HeroBand takes the payload only when it is the 'ok' shape; every other
-  // status leaves it undefined and the band renders its static half.
+  // status leaves it undefined and the title still renders. Figures live on
+  // the board (ProjectedBalance), mounted only for `ok`.
   const heroData = boardData(data);
 
   return (
     <div className={styles.screen}>
-      {/* PageHeader's job on this route only. `data` only when the payload is
-          ok — the title half renders in every state, so the page never opens on
-          a bare notice. `refreshing` because the band sits OUTSIDE the wrapper
+      {/* Page title on this route. `data` only when the payload is ok — the
+          title renders in every state, so the page never opens on a bare
+          notice. `refreshing` because the header sits OUTSIDE the wrapper
           that dims the board, and alone still claimed to be current. */}
       <HeroBand data={heroData} refreshing={refreshing} />
 
